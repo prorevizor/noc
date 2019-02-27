@@ -1,11 +1,13 @@
+# -*- coding: utf-8 -*-
 # ---------------------------------------------------------------------
 # Periodic Discovery Job
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2018 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
 # Python modules
+from __future__ import absolute_import
 import random
 
 # NOC modules
@@ -60,7 +62,7 @@ class PeriodicDiscoveryJob(MODiscoveryJob):
 
     def can_run(self):
         return (
-            super().can_run()
+            super(PeriodicDiscoveryJob, self).can_run()
             and self.object.object_profile.enable_periodic_discovery
             and self.object.object_profile.periodic_discovery_interval
         )
