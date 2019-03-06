@@ -1,20 +1,18 @@
 #!./bin/python
+# -*- coding: utf-8 -*-
 # ---------------------------------------------------------------------
 # Box Discovery Job
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2019 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
 # Python modules
+from __future__ import absolute_import
 import random
 
 # NOC modules
 from noc.services.discovery.jobs.base import MODiscoveryJob
-from noc.services.discovery.jobs.periodic.mac import MACCheck
-from noc.services.discovery.jobs.periodic.metrics import MetricsCheck
-from noc.core.span import Span
-from noc.core.datastream.change import bulk_datastream_changes
 from .resolver import ResolverCheck
 from .suggestsnmp import SuggestSNMPCheck
 from .profile import ProfileCheck
@@ -49,7 +47,10 @@ from .prefix import PrefixCheck
 from .address import AddressCheck
 from .segmentation import SegmentationCheck
 from ..periodic.cpestatus import CPEStatusCheck
-from .ifdesc import IfDescCheck
+from noc.services.discovery.jobs.periodic.mac import MACCheck
+from noc.services.discovery.jobs.periodic.metrics import MetricsCheck
+from noc.core.span import Span
+from noc.core.datastream.change import bulk_datastream_changes
 
 
 class BoxDiscoveryJob(MODiscoveryJob):
@@ -59,8 +60,8 @@ class BoxDiscoveryJob(MODiscoveryJob):
     # Store context
     context_version = 1
 
-    TOPOLOGY_METHODS = {
-        m.name: m
+    TOPOLOGY_METHODS = dict(
+        (m.name, m)
         for m in [
             OAMCheck,
             LACPCheck,
@@ -73,9 +74,8 @@ class BoxDiscoveryJob(MODiscoveryJob):
             REPCheck,
             STPCheck,
             XMACCheck,
-            IfDescCheck,
         ]
-    }
+    )
 
     is_box = True
 
@@ -159,7 +159,10 @@ class BoxDiscoveryJob(MODiscoveryJob):
         return self.object.get_effective_box_discovery_running_policy()
 
     def can_run(self):
-        return super().can_run() and self.object.object_profile.enable_box_discovery
+        return (
+            super(BoxDiscoveryJob, self).can_run()
+            and self.object.object_profile.enable_box_discovery
+        )
 
     def get_interval(self):
         if self.object:
