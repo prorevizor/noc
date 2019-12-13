@@ -104,7 +104,17 @@ prettier:
         true;
       fi
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.js"
+      - "*.json"
+      - "*.css"
+      - "*.yml"
+      - "**/*.js"
+      - "**/*.json"
+      - "**/*.css"
+      - "**/*.yml"
   tags:
     - docker
   allow_failure: true
@@ -225,7 +235,11 @@ futurize:
     - FLIST=$(git --no-pager diff --name-only $(git merge-base origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME $CI_COMMIT_SHA) $CI_COMMIT_SHA | egrep ".py$" | grep -v ".docker/"|| true)
     - /bin/future.sh "$FLIST"
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.py"
+      - "**/*.py"
   tags:
     - docker
 
@@ -236,7 +250,11 @@ futurize stage2:
     - FLIST=$(git --no-pager diff --name-only $(git merge-base origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME $CI_COMMIT_SHA) $CI_COMMIT_SHA | egrep ".py$" | grep -v ".docker/"|| true)
     - /bin/future2.sh "$FLIST"
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.py"
+      - "**/*.py"
   tags:
     - docker
   allow_failure: true
