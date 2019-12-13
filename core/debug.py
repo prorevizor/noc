@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------
 # Various debugging and error logging utilities
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2017 The NOC Project
+# Copyright (C) 2007-2019 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -27,6 +27,7 @@ from noc.config import config
 from noc.core.version import version
 from noc.core.fileutils import safe_rewrite
 from noc.core.perf import metrics
+from noc.core.comp import smart_bytes
 
 logger = logging.getLogger(__name__)
 if not logger.handlers:
@@ -355,8 +356,8 @@ def error_fingerprint():
         tb_function,
         str(tb_lineno),  # Absolute code point
     ]
-    hash = hashlib.sha1("|".join(p if p else "" for p in parts)).digest()
-    return str(uuid.UUID(bytes=hash[:16], version=5))
+    eh = hashlib.sha1(b"|".join(smart_bytes(p) if p else "" for p in parts)).digest()
+    return str(uuid.UUID(bytes=eh[:16], version=5))
 
 
 def dump_stacks(thread_id=None):
