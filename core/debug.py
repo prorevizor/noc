@@ -75,14 +75,6 @@ def get_lines_from_file(filename, lineno, context_lines, loader=None, module_nam
             pass
     if source is None:
         return None, [], None, []
-    encoding = "ascii"
-    for line in source[:2]:
-        # File coding may be specified. Match pattern from PEP-263
-        # (http://www.python.org/dev/peps/pep-0263/)
-        match = rx_coding.search(line)
-        if match:
-            encoding = match.group(1)
-            break
     source = [smart_text(sline) for sline in source]
     lower_bound = max(0, lineno - context_lines)
     upper_bound = lineno + context_lines

@@ -213,7 +213,7 @@ futurize stage2:
     - docker
   allow_failure: true
 
-Test migrate:
+py2:migrate:
   stage: test
   before_script:
     - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}
@@ -247,7 +247,7 @@ Test migrate:
     - shell
   allow_failure: false
 
-Test code:
+py2:test:
   stage: test
   before_script:
     - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}
@@ -293,7 +293,7 @@ Test code:
       - collections/
     expire_in: 1 day
 
-Test python 3:
+py3:test:
   stage: test
   before_script:
     - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}
@@ -331,7 +331,7 @@ Test python 3:
     - shell
   allow_failure: true
 
-Build docs:
+build:Docs:
   stage: Build docs
   environment: docs
   image: registry.getnoc.com/infrastructure/docs:master
@@ -359,7 +359,7 @@ Build docs:
   only:
     - merge_requests
 
-Build Master Docs:
+build:Master Docs:
   stage: Build docs
   environment: docs
   image: registry.getnoc.com/infrastructure/docs:master
@@ -381,7 +381,7 @@ Build Master Docs:
       - master
       - /^release-\d+\.\d+/
 
-Build release image:
+build:Release Image:
   stage: Build release container
   before_script:
   script:
