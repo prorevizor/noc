@@ -36,11 +36,13 @@ ALLOW_XFAIL = {
 def get_files():
     def _get_files():
         try:
-            data = subprocess.check_output(["git", "ls-tree", "HEAD", "-r", "--name-only"])
+            data = subprocess.check_output(
+                ["git", "ls-tree", "HEAD", "-r", "--name-only"], encoding="utf-8"
+            )
             return data.splitlines()
         except (OSError, subprocess.CalledProcessError):
             # No git, emulate
-            data = subprocess.check_output(["find", ".", "-type", "f", "-print"])
+            data = subprocess.check_output(["find", ".", "-type", "f", "-print"], encoding="utf-8")
             return [p[2:] for p in data.splitlines()]
 
     return [x for x in _get_files() if not x.startswith("docs")]
