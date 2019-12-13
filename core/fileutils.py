@@ -141,7 +141,7 @@ def urlopen(url, auto_deflate=False):
     """
     urlopen wrapper
     """
-    from future.moves.urllib.request import urlopen, Request
+    from six.moves.urllib.request import urlopen, Request
     from noc.core.http.proxy import setup_urllib_proxies
 
     setup_urllib_proxies()
