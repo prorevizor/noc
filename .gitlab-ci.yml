@@ -33,7 +33,11 @@ flake8:
         true;
       fi
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.py"
+      - "**/*.py"
   tags:
     - docker
 
@@ -52,7 +56,11 @@ black:
         true;
       fi
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.py"
+      - "**/*.py"
   tags:
     - docker
   allow_failure: false
@@ -72,7 +80,11 @@ mypy:
         true;
       fi
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.py"
+      - "**/*.py"
   tags:
     - docker
   allow_failure: true
@@ -115,7 +127,11 @@ xenon:
       fi
     - if [ "$x" -gt 0 ] ; then exit 1; fi
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.py"
+      - "**/*.py"
   tags:
     - docker
   allow_failure: true
@@ -135,7 +151,11 @@ pylint:
         true;
       fi
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.py"
+      - "**/*.py"
   tags:
     - docker
 
@@ -154,7 +174,11 @@ pylint3k:
         true;
       fi
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.py"
+      - "**/*.py"
   tags:
     - docker
 
@@ -173,7 +197,11 @@ bandit:
         true;
       fi
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.py"
+      - "**/*.py"
   tags:
     - docker
   allow_failure: true

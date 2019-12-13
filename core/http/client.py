@@ -273,7 +273,7 @@ def fetch(
         # Process request
         body = body or ""
         content_type = "application/binary"
-        if not isinstance(body, six.string_types):
+        if not isinstance(body, (six.string_types, six.binary_type)):
             body = ujson.dumps(body)
             content_type = "text/json"
         body = smart_bytes(body)
