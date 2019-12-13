@@ -27,7 +27,7 @@ from noc.config import config
 from noc.core.version import version
 from noc.core.fileutils import safe_rewrite
 from noc.core.perf import metrics
-from noc.core.comp import smart_bytes
+from noc.core.comp import smart_bytes, smart_text
 
 logger = logging.getLogger(__name__)
 if not logger.handlers:
@@ -83,7 +83,7 @@ def get_lines_from_file(filename, lineno, context_lines, loader=None, module_nam
         if match:
             encoding = match.group(1)
             break
-    source = [unicode(sline, encoding, "replace") for sline in source]
+    source = [smart_text(sline) for sline in source]
     lower_bound = max(0, lineno - context_lines)
     upper_bound = lineno + context_lines
     pre_context = [line.strip("\n") for line in source[lower_bound:lineno]]
@@ -190,7 +190,7 @@ def format_frames(frames, reverse=config.traceback.reverse):
             r += ["Variables:"]
             for n, v in f["vars"]:
                 try:
-                    pv = unicode(repr(v), "utf-8")
+                    pv = smart_text(repr(v))
                     if len(pv) > 72:
                         pv = "\n" + pprint.pformat(v)
                 except:  # noqa
@@ -372,23 +372,6 @@ def dump_stacks(thread_id=None):
             print("File: '%s', line %d, in %s" % (filename, lineno, name))
             if line:
                 print("    %s" % line.strip())
-
-
-def BQ(s):
-    """
-    Pretty-format binary string
-    :param s: String to format
-    :return: Formatted string
-
-    >>> BQ("test")
-    u'test'
-    >>> BQ("\\xa8\\xf9\\x80")
-    '(A8 F9 80)'
-    """
-    try:
-        return unicode(s)
-    except UnicodeDecodeError:
-        return "(%s)" % " ".join(["%02X" % ord(c) for c in s])
 
 
 class ErrorReport(object):
