@@ -12,11 +12,9 @@ import argparse
 import datetime
 import os
 import re
-from collections import defaultdict
 import codecs
 
 # Third-party modules
-import six
 import ujson
 import yaml
 
@@ -24,8 +22,6 @@ import yaml
 from noc.core.mongo.connection import connect
 from noc.core.management.base import BaseCommand
 from noc.core.script.beef import Beef
-from noc.sa.models.managedobjectselector import ManagedObjectSelector
-from noc.dev.models.spec import Spec
 from noc.main.models.extstorage import ExtStorage
 from noc.core.comp import smart_text
 
@@ -46,13 +42,13 @@ class Command(BaseCommand):
             default=False,
             help="Ignore beef policy setings in ManagedObject",
         )
-        collect_parser.add_argument("--storage", help="External storage name")
-        collect_parser.add_argument("--path", help="Path name")
+        collect_parser.add_argument("--storage", help="External storage name or url")
+        collect_parser.add_argument("--path", help="Beef UUID or path name")
         collect_parser.add_argument("objects", nargs=argparse.REMAINDER, help="Object names or ids")
         # view command
         view_parser = subparsers.add_parser("view")
-        view_parser.add_argument("--storage", help="External storage name")
-        view_parser.add_argument("--path", help="Path name")
+        view_parser.add_argument("--storage", help="External storage name or url")
+        view_parser.add_argument("--path", help="Beef UUID or path name")
         # edit command
         export_parser = subparsers.add_parser("export")
         export_parser.add_argument("--storage", help="External storage name")
@@ -104,10 +100,13 @@ class Command(BaseCommand):
         build_test_case_parser.add_argument("--test-path", type=smart_text, help="Path name")
 
     def handle(self, cmd, *args, **options):
-        connect()
         return getattr(self, "handle_%s" % cmd.replace("-", "_"))(*args, **options)
 
     def handle_collect(self, storage, path, spec, force, objects, *args, **options):
+        connect()
+        from noc.sa.models.managedobjectselector import ManagedObjectSelector
+        from noc.dev.models.spec import Spec
+
         # Get spec data
         sp = Spec.get_by_name(spec)
         if not sp:
@@ -227,20 +226,33 @@ class Command(BaseCommand):
                 c["reply"] = [codecs.encode(reply, self.CLI_ENCODING) for reply in c["reply"]]
             for m in data["mib"]:
                 m["value"] = codecs.encode(m["value"], self.CLI_ENCODING)
-            beef = Beef.from_json(data)
+            try:
+                beef = Beef.from_json(data)
+            except ValueError:
+                self.print("Error when importing beef file %s" % import_path)
+                continue
             st = self.get_storage(storage, beef=True)
             beef.save(st, smart_text(path))
 
     def handle_list(self, storage=None, *args, **options):
         r = ["GUID,Profile,Vendor,Platform,Version,SpecUUID,Changed,Path"]
-        for storage in self.iter_storage(name=storage, beef=True):
+        if storage:
+            storages = [self.get_storage(name=storage)]
+        else:
+            connect()
+            storages = ExtStorage.objects.filter(type="beef")
+        for storage in storages:
             self.print("\n%sStorage: %s%s\n" % ("=" * 20, storage.name, "=" * 20))
             st_fs = storage.open_fs()
-            for step in st_fs.walk(""):
+            for step in st_fs.walk("", exclude=["*.yml"]):
                 if not step.files:
                     continue
                 for file in step.files:
-                    beef = Beef.load(storage, file.make_path(step.path))
+                    try:
+                        beef = Beef.load(storage, file.make_path(step.path))
+                    except ValueError:
+                        self.print("Error when loading beef file %s" % file.make_path(step.path))
+                        continue
                     r += [
                         ",".join(
                             [
@@ -334,15 +346,20 @@ class Command(BaseCommand):
         *args,
         **options
     ):
+        beef_storage = self.get_storage(storage)
         # Load beef
-        beefs = self.get_beefs(storage=storage, path=path)
+        beefs = self.get_beefs(storage=beef_storage, path=path, with_tests=True)
         # Load config
-        cfg = self.get_config(config_storage, config_path)
+        cfg = None
+        if config_storage and config_path:
+            cfg = self.get_config(config_storage, config_path)
         # Create test
-        test_storage = next(self.iter_storage(test_storage, beef_test=True))
+        test_storage = self.get_storage(test_storage, beef_test=True)
         with test_storage.open_fs() as fs:
             # Load beef
-            for (storage, path), beef in six.iteritems(beefs):
+            for storage, path in beefs:
+                beef, t_config = beefs[(storage, path)]
+                config = cfg or t_config
                 # Create test directory
                 save_path = test_path or path
                 if fs.exists(save_path):
@@ -351,7 +368,7 @@ class Command(BaseCommand):
                 self.print("Creating %s:%s" % (test_storage, save_path))
                 fs.makedirs(smart_text(save_path))
                 # Write config
-                config = cfg[beef.uuid][0] if beef.uuid in cfg else cfg[""][0]
+                # config = cfg[beef.uuid][0] if beef.uuid in cfg else cfg[""][0]
                 config["beef"] = str(beef.uuid)
                 self.print("Writing %s:%s/test-config.yml" % (test_storage, save_path))
                 fs.writebytes(
@@ -435,20 +452,33 @@ class Command(BaseCommand):
         """
         Get beef storage by name
         :param name:
+        :type name: str
         :param beef:
+        :type beef: bool
         :param beef_test:
+        :type beef_test: bool
         :param beef_test_config:
+        :type beef_test_config: bool
         :return:
+        :rtype: ExtStorage
         """
-        st = ExtStorage.get_by_name(name)
+        beef_type = "beef"
+        if beef_test:
+            beef_type = "beef_test"
+        elif beef_test_config:
+            beef_type = "beef_test_config"
+        if ":" in name:
+            # URL
+            st = ExtStorage.from_json(
+                '{"name": "local", "url": "%s", "type": "%s"}' % (name, beef_type)
+            )
+        else:
+            connect()
+            st = ExtStorage.get_by_name(name)
         if not st:
             self.die("Invalid storage '%s'" % name)
-        if beef and st.type != "beef":
-            self.die("Storage is not configured for beef")
-        if beef_test and st.type != "beef_test":
-            self.die("Storage is not configured for beef_test")
-        if beef_test_config and st.type != "beef_test_config":
-            self.die("Storage is not configured for beef_test_config")
+        if st.type != beef_type:
+            self.die("Storage is not configured for %s" % beef_type)
         return st
 
     def get_beef(self, storage, path):
@@ -464,59 +494,63 @@ class Command(BaseCommand):
             self.die("Failed to load beef: %s" % e)
 
     def get_config(self, storage=None, path=None):
-        r = defaultdict(list)
-        # if path:
-        #     path += "*"
-        for config_st in self.iter_storage(name=storage, beef_test_config=True):
-            with config_st.open_fs() as fs:
-                for config_path in fs.walk.files(path=path):
-                    cfg = fs.readbytes(smart_text(config_path))
-                    data = yaml.safe_load(cfg)
-                    r[data.get("beef", "")] += [data]
-        return r
+        config_st = self.get_storage(storage, beef_test_config=True)
+        with config_st.open_fs() as fs:
+            cfg = fs.readbytes(smart_text(path))
+            data = yaml.safe_load(cfg)
+        return data
 
-    @staticmethod
-    def iter_storage(name, beef=False, beef_test=False, beef_test_config=False):
-        """
-        Get beef storage by name
-        :param name:
-        :param beef:
-        :param beef_test:
-        :param beef_test_config:
-        :return:
-        """
-        st = ExtStorage.objects.filter()
-        if name:
-            st = st.filter(name=name)
-        else:
-            if beef:
-                st = st.filter(type="beef")
-            elif beef_test:
-                st = st.filter(type="beef_test")
-            elif beef_test_config:
-                st = st.filter(type="beef_test_config")
-        for s in st:
-            yield s
-
-    def get_beefs(self, storage=None, path=None, uuids=None):
+    def get_beefs(self, storage=None, path=None, uuids=None, with_tests=False):
         """
         Get beef storage by name
         :param storage:
         :param path:
         :param uuids:
+        :param with_tests:
         :return:
         """
+        test_config = {}
+        if with_tests:
+            test_config = self.get_test_configs(storage)
         r = {}
-        # if path:
-        #     path += "*"
-        for storage in self.iter_storage(name=storage, beef=True):
-            # self.print("\n%sStorage: %s%s\n" % ("=" * 20, storage.name, "=" * 20))
-            st_fs = storage.open_fs()
-            for beef_path in st_fs.walk.files(path=path):
+        st_fs = storage.open_fs()
+        for beef_path in st_fs.walk.files(path=path, exclude=["*.yml"]):
+            try:
                 beef = self.get_beef(storage, beef_path)
-                if uuids and beef.uuid not in uuids:
-                    continue
-                r[(st_fs, beef_path)] = beef
+            except ValueError:
+                continue
+            if uuids and beef.uuid not in uuids:
+                continue
+            if test_config and beef.uuid in test_config:
+                tc = test_config[beef.uuid]
+            elif test_config and os.path.dirname(beef_path) in test_config:
+                tc = test_config[os.path.dirname(beef_path)]
+            else:
+                tc = None
+            r[(st_fs, beef_path)] = (beef, tc)
+        return r
+
+    def get_test_configs(self, storage):
+        """
+        Getting test config from beef folder
+        * base config - first yaml
+        * if config has beef uuid - config for beef
+
+        """
+        r = {}
+        with storage.open_fs() as fs:
+            r["/"] = yaml.safe_load(fs.readbytes(u"test-config.yml"))
+            for step in fs.walk.walk(filter=["*.yml"]):
+                for f in step.files:
+                    data = yaml.safe_load(fs.readbytes(os.path.join(step.path, f.name)))
+                    r[data.get("beef", step.path)] = data
+                if not step.files:
+                    base_path = list(os.path.split(step.path))
+                    while base_path:
+                        path = os.path.join(*base_path)
+                        if path in r:
+                            r[step.path] = r[path]
+                        base_path.pop()
         return r
 
     rx_arg = re.compile(r"^(?P<name>[a-zA-Z][a-zA-Z0-9_]*)(?P<op>:?=@?)(?P<value>.*)$")
