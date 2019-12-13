@@ -356,7 +356,7 @@ def error_fingerprint():
         tb_function,
         str(tb_lineno),  # Absolute code point
     ]
-    eh = hashlib.sha1(b"|".join(smart_bytes(p) if p else "" for p in parts)).digest()
+    eh = hashlib.sha1(smart_bytes(b"|".join(smart_bytes(p if p else "") for p in parts))).digest()
     return str(uuid.UUID(bytes=eh[:16], version=5))
 
 
