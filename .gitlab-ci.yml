@@ -322,6 +322,11 @@ Test python 3:
       -f .docker/docker-compose.yml
       -p "${DOCKER_COMPOSE_PROJECT}-py3"
       down -v
+  only:
+    refs:
+      - merge_requests
+      - master
+      - /^release-\d+\.\d+/
   tags:
     - shell
   allow_failure: true
