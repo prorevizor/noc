@@ -262,27 +262,27 @@ futurize stage2:
 py2:migrate:
   stage: test
   before_script:
-    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}
+    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py2migrate
   script:
     # see docker/docker-compose.yml for complete list of migrations
     - >
      docker-compose
      -f .docker/docker-compose.yml
-     -p "${DOCKER_COMPOSE_PROJECT}-migrate"
-     build migrate
+     -p "${DOCKER_COMPOSE_PROJECT}"
+     build py2migrate
     - >
       docker-compose
       -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}-migrate"
+      -p "${DOCKER_COMPOSE_PROJECT}"
       up
-      --exit-code-from migrate
-      migrate
+      --exit-code-from py2migrate
+      py2migrate
   after_script:
-    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}
+    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py2migrate
     - >
       docker-compose
       -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}-migrate"
+      -p "${DOCKER_COMPOSE_PROJECT}"
       down -v
   only:
     refs:
@@ -293,10 +293,44 @@ py2:migrate:
     - shell
   allow_failure: false
 
+py3:migrate:
+  stage: test
+  before_script:
+    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py3migrate
+  script:
+    # see docker/docker-compose.yml for complete list of migrations
+    - >
+     docker-compose
+     -f .docker/docker-compose.yml
+     -p "${DOCKER_COMPOSE_PROJECT}"
+     build py3migrate
+    - >
+      docker-compose
+      -f .docker/docker-compose.yml
+      -p "${DOCKER_COMPOSE_PROJECT}"
+      up
+      --exit-code-from py3migrate
+      py3migrate
+  after_script:
+    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py3migrate
+    - >
+      docker-compose
+      -f .docker/docker-compose.yml
+      -p "${DOCKER_COMPOSE_PROJECT}"
+      down -v
+  only:
+    refs:
+      - merge_requests
+      - master
+      - /^release-\d+\.\d+/
+  tags:
+    - shell
+  allow_failure: true
+
 py2:test:
   stage: test
   before_script:
-    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}
+    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py2tests
     - mv .dockerignore .dockerignore.prod
     - cp .dockerignore.tests .dockerignore
   script:
@@ -309,22 +343,22 @@ py2:test:
     - >
       docker-compose
       -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}-tests"
-      build tests
+      -p "${DOCKER_COMPOSE_PROJECT}"
+      build py2tests
     - >
       docker-compose
       -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}-tests"
+      -p "${DOCKER_COMPOSE_PROJECT}"
       up
-      --exit-code-from tests
-      tests
+      --exit-code-from py2tests
+      py2tests
   after_script:
-    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}
+    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py2tests
     - mv .dockerignore.prod .dockerignore
     - >
       docker-compose
       -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}-tests"
+      -p "${DOCKER_COMPOSE_PROJECT}"
       down -v
   only:
     refs:
@@ -342,7 +376,7 @@ py2:test:
 py3:test:
   stage: test
   before_script:
-    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}
+    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py3tests
     - mv .dockerignore .dockerignore.prod
     - cp .dockerignore.tests .dockerignore
   script:
@@ -351,22 +385,22 @@ py3:test:
     - >
       docker-compose
       -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}-py3"
-      build python3
+      -p "${DOCKER_COMPOSE_PROJECT}"
+      build py3tests
     - >
       docker-compose
       -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}-py3"
+      -p "${DOCKER_COMPOSE_PROJECT}"
       up
-      --exit-code-from python3
-      python3
+      --exit-code-from py3tests
+      py3tests
   after_script:
-    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}
+    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py3tests
     - mv .dockerignore.prod .dockerignore
     - >
       docker-compose
       -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}-py3"
+      -p "${DOCKER_COMPOSE_PROJECT}"
       down -v
   only:
     refs:
