@@ -15,6 +15,7 @@ import logging
 import zlib
 import time
 import struct
+import codecs
 
 # Third-party modules
 import six
@@ -30,7 +31,7 @@ from noc.core.perf import metrics
 from noc.core.validators import is_ipv4
 from .proxy import SYSTEM_PROXIES
 from noc.config import config
-from noc.core.comp import smart_bytes
+from noc.core.comp import smart_bytes, smart_text
 
 if config.features.pypy:
     from http_parser.pyparser import HttpParser
@@ -309,7 +310,8 @@ def fetch(
             h["Content-Type"] = content_type
         if user and password:
             # Include basic auth header
-            h["Authorization"] = b"Basic %s" % smart_bytes("%s:%s" % (user, password)).strip()
+            uh = smart_text("%s:%s" % (user, password))
+            h["Authorization"] = b"Basic %s" % codecs.encode(uh.encode("utf-8"), "base64").strip()
         if headers:
             h.update(headers)
         path = u.path
