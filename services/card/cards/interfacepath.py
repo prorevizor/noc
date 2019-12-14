@@ -109,7 +109,7 @@ class InterfacePathCard(BaseCard):
         :param data: Input data
         :return: Tamper-protection signature
         """
-        return codecs.encode(ujson.dumps(hash_str(config.secret_key + data)), "base64")[: cls.SIG_LEN]
+        return codecs.encode(hash_str(config.secret_key + data), "base64")[: cls.SIG_LEN]
 
     @classmethod
     def encode_query(cls, to_collect):
