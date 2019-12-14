@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # ----------------------------------------------------------------------
-# Compatilibity routines
+# Compatibility routines
 # ----------------------------------------------------------------------
 # Copyright (C) 2007-2019 The NOC Project
 # See LICENSE for details
@@ -16,15 +16,19 @@ def smart_bytes(s):
     """
     Convert strings to bytes when necessary
     """
+    if isinstance(s, six.binary_type):
+        return s
     if isinstance(s, six.text_type):
         return s.encode(DEFAULT_ENCODING)
-    return s
+    return six.binary_type(s)
 
 
-def smart_text(s):
+def smart_text(s, errors="strict"):
     """
     Convert bytes to string when necessary
     """
+    if isinstance(s, six.text_type):
+        return s
     if isinstance(s, six.binary_type):
-        return s.decode(DEFAULT_ENCODING)
-    return s
+        return s.decode(DEFAULT_ENCODING, errors=errors)
+    return six.text_type(s, encoding=DEFAULT_ENCODING, errors=errors)
