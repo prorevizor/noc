@@ -66,9 +66,9 @@ services:
         condition: service_started
     command: >
       sh -c "set -xe
-      && /usr/bin/python ./commands/migrate.py
+      && ./noc migrate
       && ./noc ensure-indexes
-      && /usr/bin/python ./commands/migrate-ch.py
+      && ./noc migrate-ch
       && /usr/bin/python ./scripts/deploy/install-packages requirements/collections.json
       && ./noc collection sync
       && ./noc sync-perm
@@ -133,16 +133,10 @@ services:
       snmpd:
         condition: service_started
     command: >
-      sh -c "
-      for i in services/*; do
-        echo $$i;
-        timeout -t 10 -s 9 /usr/bin/python3 $$i/service.py;
-      done;
-      echo 'Trying to compile' &&
-      find /opt/noc/ -type f -name '*.py' -print0 | xargs -0 python3 -m py_compile
-      && /usr/bin/python3 ./commands/migrate.py
+      sh -c "set -xe
+      && ./noc migrate
       && ./noc ensure-indexes
-      && /usr/bin/python3 ./commands/migrate-ch.py
+      && ./noc migrate-ch
       && /usr/bin/python3 ./scripts/deploy/install-packages requirements/collections.json
       && ./noc collection sync
       && ./noc sync-perm
