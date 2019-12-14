@@ -20,7 +20,7 @@ def smart_bytes(s):
         return s
     if isinstance(s, six.text_type):
         return s.encode(DEFAULT_ENCODING)
-    return six.binary_type(s)
+    return six.text_type(s).encode(DEFAULT_ENCODING)
 
 
 def smart_text(s, errors="strict"):
@@ -31,4 +31,4 @@ def smart_text(s, errors="strict"):
         return s
     if isinstance(s, six.binary_type):
         return s.decode(DEFAULT_ENCODING, errors=errors)
-    return six.text_type(s, encoding=DEFAULT_ENCODING, errors=errors)
+    return six.text_type(s)
