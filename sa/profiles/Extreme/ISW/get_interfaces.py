@@ -85,7 +85,7 @@ class Script(BaseScript):
         switchports = self.get_switchport()
 
         v = self.cli("show interface * status")
-        v = parse_table(v, strip_line=True)
+        v = parse_table(v)
 
         for row in v:
             ifname = row[0]
