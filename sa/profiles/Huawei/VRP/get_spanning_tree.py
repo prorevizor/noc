@@ -148,10 +148,10 @@ class Script(BaseScript):
             if instance_id not in ports:
                 continue
             try:
-                instance_list = self.cli("display stp instance %s" % instance_id).split("-------\[")
+                instance_list = self.cli("display stp instance %s" % instance_id).split(r"-------\[")
             except self.CLISyntaxError:
                 # Not support command "display stp instance NUM"
-                instance_list = self.cli("display stp").split("-------\[")
+                instance_list = self.cli("display stp").split(r"-------\[")
             for I in instance_list[0:]:
                 # instance_id = int(instance_id)
                 if instance_id == 0:
