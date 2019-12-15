@@ -71,7 +71,7 @@ class Script(BaseScript):
             }
         return ports
 
-    rx_stp_disabled = re.compile("Protocol Status\s+:\s*Disabled", re.MULTILINE)
+    rx_stp_disabled = re.compile(r"Protocol Status\s+:\s*Disabled", re.MULTILINE)
 
     rx_mstp_region = re.compile(
         r"Region name\s+:(?P<region>\S+).+Revision level\s+:(?P<revision>\d+)",
@@ -116,7 +116,7 @@ class Script(BaseScript):
     )
 
     def process_mstp(self, ports=None):
-        check_d = re.compile("\s*\d+\s*")
+        check_d = re.compile(r"\s*\d+\s*")
         #
         v = self.cli("display stp region-configuration")
         match = self.rx_mstp_region.search(v)
