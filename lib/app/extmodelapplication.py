@@ -63,8 +63,8 @@ class ExtModelApplication(ExtApplication):
     # m2m fields
     custom_m2m_fields = {}  # Name -> Model
     secret_fields = (
-        None
-    )  # Set of sensitive fields. "secret" permission is required to show of modify
+        None  # Set of sensitive fields. "secret" permission is required to show of modify
+    )
     order_map = {}  # field name -> SQL query for ordering
     lookup_default = [{"id": "Leave unchanged", "label": "Leave unchanged"}]
     ignored_fields = {"id", "bi_id"}

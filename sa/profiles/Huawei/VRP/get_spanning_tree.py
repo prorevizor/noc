@@ -141,14 +141,15 @@ class Script(BaseScript):
                 iv[int(instance)] += row[14:]
         for x in iv:
             iv[x] = iv[x].replace(" to ", "-")
-
         #
         interfaces = {}
         for instance_id in iv:
             if instance_id not in ports:
                 continue
             try:
-                instance_list = self.cli("display stp instance %s" % instance_id).split(r"-------\[")
+                instance_list = self.cli("display stp instance %s" % instance_id).split(
+                    r"-------\["
+                )
             except self.CLISyntaxError:
                 # Not support command "display stp instance NUM"
                 instance_list = self.cli("display stp").split(r"-------\[")
