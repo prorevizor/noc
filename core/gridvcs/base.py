@@ -22,7 +22,7 @@ from bson import ObjectId
 
 # NOC modules
 from noc.core.mongo.connection import get_db
-from noc.core.comp import smart_bytes, smart_text
+from noc.core.comp import smart_bytes
 from .revision import Revision
 
 
@@ -121,7 +121,7 @@ class GridVCS(object):
 
     @staticmethod
     def decompress_z(data):
-        return smart_text(zlib.decompress(smart_bytes(data)))
+        return zlib.decompress(smart_bytes(data))
 
     def put(self, object, data, ts=None):
         """
