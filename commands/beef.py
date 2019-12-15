@@ -56,24 +56,24 @@ class Command(BaseCommand):
         # edit command
         export_parser = subparsers.add_parser("export")
         export_parser.add_argument("--storage", help="External storage name")
-        export_parser.add_argument("--path", type=six.text_type, help="Path name")
+        export_parser.add_argument("--path", type=smart_text, help="Path name")
         export_parser.add_argument("--export-path", help="Path file for export")
         # edit command
         import_parser = subparsers.add_parser("import")
         import_parser.add_argument("--storage", help="External storage name")
-        import_parser.add_argument("--path", type=six.text_type, help="Path name")
+        import_parser.add_argument("--path", type=smart_text, help="Path name")
         import_parser.add_argument("paths", nargs=argparse.REMAINDER, help="Path to imported beef")
         # list command
         list_parser = subparsers.add_parser("list")  # noqa
         list_parser.add_argument("--storage", help="External storage name")
-        list_parser.add_argument("--path", type=six.text_type, help="Path name")
+        list_parser.add_argument("--path", type=smart_text, help="Path name")
         # test command
         run_parser = subparsers.add_parser("run")
         run_parser.add_argument(
             "--script", action="append", help="Script name for runs. Default (get_version)"
         )
         run_parser.add_argument("--storage", help="External storage name")
-        run_parser.add_argument("--path", type=six.text_type, help="Path name")
+        run_parser.add_argument("--path", type=smart_text, help="Path name")
         run_parser.add_argument("--access-preference", default="SC", help="Access preference")
         out_group = run_parser.add_mutually_exclusive_group()
         out_group.add_argument(
@@ -90,9 +90,9 @@ class Command(BaseCommand):
         # create-test-case
         create_test_case_parser = subparsers.add_parser("create-test-case")
         create_test_case_parser.add_argument("--storage", help="External storage name")
-        create_test_case_parser.add_argument("--path", type=six.text_type, help="Path name")
+        create_test_case_parser.add_argument("--path", type=smart_text, help="Path name")
         create_test_case_parser.add_argument("--test-storage", help="External storage name")
-        create_test_case_parser.add_argument("--test-path", type=six.text_type, help="Path name")
+        create_test_case_parser.add_argument("--test-path", type=smart_text, help="Path name")
         create_test_case_parser.add_argument("--config-storage", help="External storage name")
         create_test_case_parser.add_argument("--config-path", default="/", help="Path name")
         create_test_case_parser.add_argument(
@@ -101,7 +101,7 @@ class Command(BaseCommand):
         # build-test-case
         build_test_case_parser = subparsers.add_parser("build-test-case")
         build_test_case_parser.add_argument("--test-storage", help="External storage name")
-        build_test_case_parser.add_argument("--test-path", type=six.text_type, help="Path name")
+        build_test_case_parser.add_argument("--test-path", type=smart_text, help="Path name")
 
     def handle(self, cmd, *args, **options):
         connect()

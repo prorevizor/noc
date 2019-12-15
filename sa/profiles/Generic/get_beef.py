@@ -107,7 +107,7 @@ class Script(BaseScript):
                 yield {"oid": str(ans["value"]), "value": self.encode_mib(value).strip()}
             elif ans["type"] == "snmp-getnext":
                 for oid, value in self.snmp.getnext(ans["value"], raw_varbinds=True):
-                    yield {"oid": str(oid), "value": self.encode_mib(value.encode).strip()}
+                    yield {"oid": str(oid), "value": self.encode_mib(value).strip()}
 
     def get_snmp_results(self, spec):
         r = []
