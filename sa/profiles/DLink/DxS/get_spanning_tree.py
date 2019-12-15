@@ -25,7 +25,7 @@ class Script(BaseScript):
         r"^\s*STP Version\s+: (?P<mode>STP|RSTP)\s*\n",
         re.MULTILINE,
     )
-    rx_instance = re.compile("^\s*(?P<key>STP Instance Settings)\n", re.MULTILINE)
+    rx_instance = re.compile(r"^\s*(?P<key>STP Instance Settings)\n", re.MULTILINE)
     rx_ins = re.compile(
         r"^\s*STP Instance Settings\n"
         r"^\s*\-+\n"
