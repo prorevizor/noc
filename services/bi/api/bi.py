@@ -31,7 +31,7 @@ from noc.pm.models.metrictype import MetricType
 from noc.bi.models.dashboard import Dashboard, DashboardAccess, DAL_ADMIN, DAL_RO
 from noc.sa.interfaces.base import DictListParameter, DictParameter, IntParameter, StringParameter
 from noc.core.perf import metrics
-from noc.core.comp import smart_bytes, smart_text
+from noc.core.comp import smart_bytes
 from noc.core.translation import ugettext as _
 
 # Access items validations
