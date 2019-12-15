@@ -43,7 +43,7 @@ class Command(BaseCommand):
             help="Ignore beef policy setings in ManagedObject",
         )
         collect_parser.add_argument("--storage", help="External storage name or url")
-        collect_parser.add_argument("--path", help="Beef UUID or path name")
+        collect_parser.add_argument("--path", type=smart_text, help="Beef UUID or path name")
         collect_parser.add_argument("objects", nargs=argparse.REMAINDER, help="Object names or ids")
         # view command
         view_parser = subparsers.add_parser("view")
@@ -51,18 +51,18 @@ class Command(BaseCommand):
         view_parser.add_argument("--path", help="Beef UUID or path name")
         # edit command
         export_parser = subparsers.add_parser("export")
-        export_parser.add_argument("--storage", help="External storage name")
-        export_parser.add_argument("--path", type=smart_text, help="Path name")
+        export_parser.add_argument("--storage", help="External storage name or url")
+        export_parser.add_argument("--path", type=smart_text, help="Beef UUID or path name")
         export_parser.add_argument("--export-path", help="Path file for export")
         # edit command
         import_parser = subparsers.add_parser("import")
-        import_parser.add_argument("--storage", help="External storage name")
+        import_parser.add_argument("--storage", help="External storage name or url")
         import_parser.add_argument("--path", type=smart_text, help="Path name")
         import_parser.add_argument("paths", nargs=argparse.REMAINDER, help="Path to imported beef")
         # list command
         list_parser = subparsers.add_parser("list")  # noqa
-        list_parser.add_argument("--storage", help="External storage name")
-        list_parser.add_argument("--path", type=smart_text, help="Path name")
+        list_parser.add_argument("--storage", help="External storage name or url")
+        list_parser.add_argument("--path", type=smart_text, help="Beef UUID or path name")
         # test command
         run_parser = subparsers.add_parser("run")
         run_parser.add_argument(
@@ -135,11 +135,11 @@ class Command(BaseCommand):
                 continue
             elif not mo.object_profile.beef_path_template and force:
                 self.print("  Beef path template is not configured. But force set. Generate path")
-                path = self.DEFAULT_BEEF_PATH_TEMPLATE.format(mo)
+                path = smart_text(self.DEFAULT_BEEF_PATH_TEMPLATE.format(mo))
             else:
-                path = mo.object_profile.beef_path_template.render_subject(
+                path = smart_text(mo.object_profile.beef_path_template.render_subject(
                     object=mo, spec=sp, datetime=datetime
-                )
+                ))
             storage = mo.object_profile.beef_storage or self.get_storage(storage, beef=True)
             if not path:
                 self.print("  Beef path is empty. Skipping")
@@ -500,7 +500,7 @@ class Command(BaseCommand):
             data = yaml.safe_load(cfg)
         return data
 
-    def get_beefs(self, storage=None, path=None, uuids=None, with_tests=False):
+    def get_beefs(self, storage=None, path="/", uuids=None, with_tests=False, only_first=True):
         """
         Get beef storage by name
         :param storage:
@@ -512,9 +512,10 @@ class Command(BaseCommand):
         test_config = {}
         if with_tests:
             test_config = self.get_test_configs(storage)
+            self.print("Configs for tests %s", test_config)
         r = {}
         st_fs = storage.open_fs()
-        for beef_path in st_fs.walk.files(path=path, exclude=["*.yml"]):
+        for beef_path in st_fs.walk.files(path=smart_text(path), exclude=["*.yml"]):
             try:
                 beef = self.get_beef(storage, beef_path)
             except ValueError:
@@ -527,6 +528,8 @@ class Command(BaseCommand):
                 tc = test_config[os.path.dirname(beef_path)]
             else:
                 tc = None
+            if only_first:
+                return beef
             r[(st_fs, beef_path)] = (beef, tc)
         return r
 
@@ -550,7 +553,11 @@ class Command(BaseCommand):
                         path = os.path.join(*base_path)
                         if path in r:
                             r[step.path] = r[path]
+                            break
                         base_path.pop()
+                    if step.path not in r:
+                        # default
+                        r[step.path] = r["/"]
         return r
 
     rx_arg = re.compile(r"^(?P<name>[a-zA-Z][a-zA-Z0-9_]*)(?P<op>:?=@?)(?P<value>.*)$")
