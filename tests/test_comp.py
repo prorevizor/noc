@@ -61,6 +61,6 @@ def test_smart_bytes(input, expected):
     assert v == expected
 
 
-@pytest.mark.parametrize("input,expected", [(b"\x00", 0), (b"\x01", 1), (b"\x10", 16),])
+@pytest.mark.parametrize("input,expected", [(b"\x00", 0), (b"\x01", 1), (b"\x10", 16)])
 def test_bord(input, expected):
     assert bord(input[0]) == expected
