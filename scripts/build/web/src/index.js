@@ -17,7 +17,7 @@ const queue = [
 ];
 
 const themeTemplate = '{% if setup.theme == "{theme}" %}\n' +
-    `<link rel="stylesheet" type="text/css" href="${packageDir}/app.{app_hash}.{theme}.css " />\n` +
+    `<link rel="stylesheet" type="text/css" href="${packageDir}/app.{app_hash}.{theme}.css" />\n` +
     `<script type="text/javascript" src="${packageDir}/vendor.{vendor_hash}.{theme}.js"></script>\n` +
     '{% endif %}';
 
