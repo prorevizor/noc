@@ -17,10 +17,9 @@ class Script(BaseScript):
 
     def execute_snmp(self):
         v = self.scripts.get_version()
-        try:
+        if "attributes" in v and v["attributes"]["Serial Number"]:
             serial = v["attributes"]["Serial Number"]
-        except (self.CLISyntaxError, self.NotSupportedError):
-            serial = None
+
         return [
             {
                 "type": "CHASSIS",
