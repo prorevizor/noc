@@ -15,7 +15,7 @@ class Script(BaseScript):
     name = "Generic.get_inventory"
     interface = IGetInventory
 
-    def execute(self):
+    def get_inv_from_version(self):
         v = self.scripts.get_version()
         serial = None
         if "attributes" in v and v["attributes"]["Serial Number"]:
@@ -29,3 +29,9 @@ class Script(BaseScript):
                 "serial": serial,
             }
         ]
+
+    def execute_snmp(self):
+        return self.get_inv_from_version()
+
+    def execute_cli(self):
+        return self.get_inv_from_version()
