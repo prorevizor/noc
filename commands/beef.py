@@ -45,7 +45,10 @@ class Command(BaseCommand):
         )
         collect_parser.add_argument("--storage", help="External storage name or url")
         collect_parser.add_argument("--path", type=smart_text, help="Path name")
-        collect_parser.add_argument("objects", nargs=argparse.REMAINDER, help="Object names or ids")
+        collect_parser.add_argument(
+            "objects",
+            nargs=argparse.REMAINDER,
+            help="Object names or ids")
         # view command
         view_parser = subparsers.add_parser("view")
         view_parser.add_argument("--storage", help="External storage name or url")
@@ -59,7 +62,10 @@ class Command(BaseCommand):
         import_parser = subparsers.add_parser("import")
         import_parser.add_argument("--storage", help="External storage name or url")
         import_parser.add_argument("--path", type=smart_text, help="Path name")
-        import_parser.add_argument("paths", nargs=argparse.REMAINDER, help="Path to imported beef")
+        import_parser.add_argument(
+            "paths", nargs=argparse.REMAINDER,
+            help="Path to imported beef"
+        )
         # list command
         list_parser = subparsers.add_parser("list")  # noqa
         list_parser.add_argument("--storage", help="External storage name or url")
@@ -175,7 +181,9 @@ class Command(BaseCommand):
         r = [
             "UUID     : %s" % beef.uuid,
             "Profile  : %s" % beef.box.profile,
-            "Platform : %s %s Version: %s" % (beef.box.vendor, beef.box.platform, beef.box.version),
+            "Platform : %s %s Version: %s" % (
+                beef.box.vendor, beef.box.platform, beef.box.version
+            ),
             "Spec     : %s" % beef.spec,
             "Changed  : %s" % beef.changed,
         ]
