@@ -172,7 +172,7 @@ class ReportAvailabilityApplication(SimpleReport):
         mo_hostname = ReportObjectsHostname1(sync_ids=mos_id)
         mo_hostname = mo_hostname.get_dictionary()
         for mo_id, mo_name, address, profile, ad_name in mos.values_list(
-                "id", "name", "address", "profile", "administrative_domain__name"
+            "id", "name", "address", "profile", "administrative_domain__name"
         ):
             s = [
                 ad_name,
