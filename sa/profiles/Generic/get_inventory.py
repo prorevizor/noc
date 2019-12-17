@@ -19,7 +19,7 @@ class Script(BaseScript):
         v = self.scripts.get_version()
         try:
             serial = v["attributes"]["Serial Number"]
-        except:
+        except (self.CLISyntaxError, self.NotSupportedError):
             serial = None
         return [
             {
