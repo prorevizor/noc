@@ -15,8 +15,9 @@ import re
 import codecs
 
 # Third-party modules
-import ujson
+import uuid
 import yaml
+import ujson
 
 # NOC modules
 from noc.core.mongo.connection import connect
@@ -43,7 +44,7 @@ class Command(BaseCommand):
             help="Ignore beef policy setings in ManagedObject",
         )
         collect_parser.add_argument("--storage", help="External storage name or url")
-        collect_parser.add_argument("--path", type=smart_text, help="Beef UUID or path name")
+        collect_parser.add_argument("--path", type=smart_text, help="Path name")
         collect_parser.add_argument("objects", nargs=argparse.REMAINDER, help="Object names or ids")
         # view command
         view_parser = subparsers.add_parser("view")
@@ -69,7 +70,7 @@ class Command(BaseCommand):
             "--script", action="append", help="Script name for runs. Default (get_version)"
         )
         run_parser.add_argument("--storage", help="External storage name")
-        run_parser.add_argument("--path", type=smart_text, help="Path name")
+        run_parser.add_argument("--path", type=smart_text, help="Beef UUID or path name")
         run_parser.add_argument("--access-preference", default="SC", help="Access preference")
         out_group = run_parser.add_mutually_exclusive_group()
         out_group.add_argument(
@@ -164,9 +165,13 @@ class Command(BaseCommand):
                 self.print("  Failed to save: %s" % e)
             self.print("  Done")
 
-    def handle_view(self, storage, path, *args, **options):
+    def handle_view(self, storage, path=None, *args, **options):
         st = self.get_storage(storage, beef=True)
-        beef = self.get_beef(st, path)
+        beef = self.beef_filter(st, path)
+        if beef:
+            beef, _ = beef[0]
+        else:
+            self.die("Beef not found" % path)
         r = [
             "UUID     : %s" % beef.uuid,
             "Profile  : %s" % beef.box.profile,
@@ -200,7 +205,12 @@ class Command(BaseCommand):
         :return:
         """
         st = self.get_storage(storage, beef=True)
-        beef = self.get_beef(st, path)
+        beef = self.beef_filter(st, path)
+        if beef:
+            beef, _ = beef[0]
+        else:
+            self.die("Beef not found" % path)
+        # beef = self.get_beef(st, path)
         data = beef.get_data(decode=True)
         if not export_path:
             self.print(yaml.dump(data))
@@ -272,27 +282,32 @@ class Command(BaseCommand):
         return
 
     def handle_run(
-        self,
-        path,
-        storage,
-        script,
-        pretty=False,
-        yaml=False,
-        access_preference="SC",
-        arguments=None,
-        *args,
-        **options
+            self,
+            path,
+            storage,
+            script,
+            pretty=False,
+            yaml=False,
+            access_preference="SC",
+            arguments=None,
+            *args,
+            **options
     ):
         from noc.core.script.loader import loader
 
         st = self.get_storage(storage, beef=True)
-        beef = self.get_beef(st, path)
+        # beef = self.get_beef(st, path)
+        beef = self.beef_filter(st, path)
+        if beef:
+            beef, _ = beef[0]
+        else:
+            self.die("Beef not found" % path)
         # Build credentials
         credentials = {
             "address": beef.uuid,
             "cli_protocol": "beef",
             "beef_storage_url": st.url,
-            "beef_path": path,
+            "beef_path": beef._path,
             "access_preference": access_preference,
             "snmp_ro": "public",
         }
@@ -335,20 +350,20 @@ class Command(BaseCommand):
                 self.stdout.write("%s\n" % result)
 
     def handle_create_test_case(
-        self,
-        storage=None,
-        path=None,
-        config_storage=None,
-        config_path=None,
-        test_storage=None,
-        test_path=None,
-        build=False,
-        *args,
-        **options
+            self,
+            storage=None,
+            path=None,
+            config_storage=None,
+            config_path=None,
+            test_storage=None,
+            test_path=None,
+            build=False,
+            *args,
+            **options
     ):
         beef_storage = self.get_storage(storage)
         # Load beef
-        beefs = self.get_beefs(storage=beef_storage, path=path, with_tests=True)
+        beefs = self.beef_filter(storage=beef_storage, path=path, with_tests=True)
         # Load config
         cfg = None
         if config_storage and config_path:
@@ -357,8 +372,8 @@ class Command(BaseCommand):
         test_storage = self.get_storage(test_storage, beef_test=True)
         with test_storage.open_fs() as fs:
             # Load beef
-            for storage, path in beefs:
-                beef, t_config = beefs[(storage, path)]
+            for beef, t_config in beefs:
+                # beef, t_config = beefs[(storage, path)]
                 config = cfg or t_config
                 # Create test directory
                 save_path = test_path or path
@@ -500,27 +515,37 @@ class Command(BaseCommand):
             data = yaml.safe_load(cfg)
         return data
 
-    def get_beefs(self, storage=None, path="/", uuids=None, with_tests=False, only_first=True):
+    def beef_filter(self, storage=None, path="/", uuids=None, profile=None, with_tests=False):
         """
         Get beef storage by name
         :param storage:
         :param path:
         :param uuids:
+        :param profile:
         :param with_tests:
         :return:
+        :rtype: list
         """
         test_config = {}
+        try:
+            uuids = [str(uuid.UUID(path))]
+            path = "/"
+        except ValueError:
+            pass
         if with_tests:
             test_config = self.get_test_configs(storage)
             self.print("Configs for tests %s", test_config)
-        r = {}
+        r = []
         st_fs = storage.open_fs()
         for beef_path in st_fs.walk.files(path=smart_text(path), exclude=["*.yml"]):
             try:
                 beef = self.get_beef(storage, beef_path)
             except ValueError:
+                self.print("Bad beef on path", )
                 continue
             if uuids and beef.uuid not in uuids:
+                continue
+            if profile and beef.profile != "profile":
                 continue
             if test_config and beef.uuid in test_config:
                 tc = test_config[beef.uuid]
@@ -528,9 +553,9 @@ class Command(BaseCommand):
                 tc = test_config[os.path.dirname(beef_path)]
             else:
                 tc = None
-            if only_first:
-                return beef
-            r[(st_fs, beef_path)] = (beef, tc)
+            # r[(st_fs, beef_path)] = (beef, tc)
+            beef._path = beef_path
+            r += [(beef, tc)]
         return r
 
     def get_test_configs(self, storage):
