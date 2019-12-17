@@ -17,6 +17,7 @@ class Script(BaseScript):
 
     def execute_snmp(self):
         v = self.scripts.get_version()
+        serial = None
         if "attributes" in v and v["attributes"]["Serial Number"]:
             serial = v["attributes"]["Serial Number"]
 
