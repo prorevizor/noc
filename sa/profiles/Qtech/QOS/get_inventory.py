@@ -13,5 +13,4 @@ from noc.sa.interfaces.igetinventory import IGetInventory
 
 class Script(BaseScript):
     name = "Qtech.QOS.get_inventory"
-    cache = True
     interface = IGetInventory
