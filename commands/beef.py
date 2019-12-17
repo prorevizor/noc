@@ -45,10 +45,7 @@ class Command(BaseCommand):
         )
         collect_parser.add_argument("--storage", help="External storage name or url")
         collect_parser.add_argument("--path", type=smart_text, help="Path name")
-        collect_parser.add_argument(
-            "objects",
-            nargs=argparse.REMAINDER,
-            help="Object names or ids")
+        collect_parser.add_argument("objects", nargs=argparse.REMAINDER, help="Object names or ids")
         # view command
         view_parser = subparsers.add_parser("view")
         view_parser.add_argument("--storage", help="External storage name or url")
@@ -62,10 +59,7 @@ class Command(BaseCommand):
         import_parser = subparsers.add_parser("import")
         import_parser.add_argument("--storage", help="External storage name or url")
         import_parser.add_argument("--path", type=smart_text, help="Path name")
-        import_parser.add_argument(
-            "paths", nargs=argparse.REMAINDER,
-            help="Path to imported beef"
-        )
+        import_parser.add_argument("paths", nargs=argparse.REMAINDER, help="Path to imported beef")
         # list command
         list_parser = subparsers.add_parser("list")  # noqa
         list_parser.add_argument("--storage", help="External storage name or url")
@@ -144,9 +138,11 @@ class Command(BaseCommand):
                 self.print("  Beef path template is not configured. But force set. Generate path")
                 path = smart_text(self.DEFAULT_BEEF_PATH_TEMPLATE.format(mo))
             else:
-                path = smart_text(mo.object_profile.beef_path_template.render_subject(
-                    object=mo, spec=sp, datetime=datetime
-                ))
+                path = smart_text(
+                    mo.object_profile.beef_path_template.render_subject(
+                        object=mo, spec=sp, datetime=datetime
+                    )
+                )
             storage = mo.object_profile.beef_storage or self.get_storage(storage, beef=True)
             if not path:
                 self.print("  Beef path is empty. Skipping")
@@ -181,9 +177,7 @@ class Command(BaseCommand):
         r = [
             "UUID     : %s" % beef.uuid,
             "Profile  : %s" % beef.box.profile,
-            "Platform : %s %s Version: %s" % (
-                beef.box.vendor, beef.box.platform, beef.box.version
-            ),
+            "Platform : %s %s Version: %s" % (beef.box.vendor, beef.box.platform, beef.box.version),
             "Spec     : %s" % beef.spec,
             "Changed  : %s" % beef.changed,
         ]
@@ -290,16 +284,16 @@ class Command(BaseCommand):
         return
 
     def handle_run(
-            self,
-            path,
-            storage,
-            script,
-            pretty=False,
-            yaml=False,
-            access_preference="SC",
-            arguments=None,
-            *args,
-            **options
+        self,
+        path,
+        storage,
+        script,
+        pretty=False,
+        yaml=False,
+        access_preference="SC",
+        arguments=None,
+        *args,
+        **options
     ):
         from noc.core.script.loader import loader
 
@@ -358,16 +352,16 @@ class Command(BaseCommand):
                 self.stdout.write("%s\n" % result)
 
     def handle_create_test_case(
-            self,
-            storage=None,
-            path=None,
-            config_storage=None,
-            config_path=None,
-            test_storage=None,
-            test_path=None,
-            build=False,
-            *args,
-            **options
+        self,
+        storage=None,
+        path=None,
+        config_storage=None,
+        config_path=None,
+        test_storage=None,
+        test_path=None,
+        build=False,
+        *args,
+        **options
     ):
         beef_storage = self.get_storage(storage)
         # Load beef
@@ -549,7 +543,7 @@ class Command(BaseCommand):
             try:
                 beef = self.get_beef(storage, beef_path)
             except ValueError:
-                self.print("Bad beef on path", )
+                self.print("Bad beef on path %s" % beef_path)
                 continue
             if uuids and beef.uuid not in uuids:
                 continue
@@ -575,7 +569,7 @@ class Command(BaseCommand):
         """
         r = {}
         with storage.open_fs() as fs:
-            r["/"] = yaml.safe_load(fs.readbytes(u"test-config.yml"))
+            r["/"] = yaml.safe_load(fs.readbytes("test-config.yml"))
             for step in fs.walk.walk(filter=["*.yml"]):
                 for f in step.files:
                     data = yaml.safe_load(fs.readbytes(os.path.join(step.path, f.name)))
