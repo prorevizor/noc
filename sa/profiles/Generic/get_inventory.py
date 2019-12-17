@@ -24,7 +24,7 @@ class Script(BaseScript):
         return [
             {
                 "type": "CHASSIS",
-                "vendor": [v["vendor"]],
+                "vendor": v["vendor"],
                 "part_no": [v["platform"]],
                 "serial": serial,
             }
