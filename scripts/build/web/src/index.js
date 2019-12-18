@@ -1,4 +1,4 @@
-const version = '0.0.3';
+const version = '0.1.0';
 const build_css = require('./build_css');
 const build_js = require('./build_js');
 const fs = require('fs');
