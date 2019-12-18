@@ -1,7 +1,7 @@
 var httpRequest = new XMLHttpRequest();
 httpRequest.open("GET", "/main/desktop/settings/", false);
 httpRequest.send();
-if (httpRequest.status === 200) {
+if(httpRequest.status === 200) {
     var setup = JSON.parse(httpRequest.responseText);
     console.log("!!!");
     console.log("!!! Running NOC desktop");
@@ -43,4 +43,14 @@ if (httpRequest.status === 200) {
         enableHelp: setup.helpUrl && setup.helpUrl !== "",
     };
     NOC.templates = {};
+    // Change title
+    document.title = setup.brand + "|" + setup.installation_name;
+    // Add favicon
+    if(setup.favicon_mime) {
+        var link = document.createElement('link');
+        link.rel = 'icon';
+        link.type = setup.favicon_mime;
+        link.href = setup.favicon_url;
+        document.head.appendChild(link);
+    }
 }
