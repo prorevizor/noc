@@ -48,7 +48,7 @@ function assets(dest, theme) {
 }
 
 function writeBundle(name, data) {
-    const dest = `${distDir}/indexes`;
+    const dest = `${distDir}/ui/web`;
     fs.mkdirSync(dest, {recursive: true});
     fs.writeFileSync(`${dest}/${name}.html`, data);
 }
@@ -79,13 +79,11 @@ Promise.all(queue).then(values => {
                         content = content.replace(/{language}/g, lang);
                         content = content.replace(/{theme}/g, theme);
                         content = content.replace(/{packageDir}/g, packageDir);
-                        let themeSpecific = [];
                         values.filter(value => value.hash | value.theme === '')
                         .forEach(value => {
                             const file = value.name.replace(/{hash}/, value.hash);
                             content = content.replace(value.name, file);
                         });
-                        // add hash to theme specific files
                         const appHash = hash(values, 'app.{hash}', theme);
                         const vendorHash = hash(values, 'vendor.{hash}', theme);
                         content = content.replace(/{theme}/g, theme);
@@ -94,6 +92,7 @@ Promise.all(queue).then(values => {
                         writeBundle(`index.${theme}.${lang}`, content);
                     });
                 });
+                fs.copyFileSync(`${distDir}/ui/web/index.gray.ru.html`, `${distDir}/ui/web/index.html`);
                 tar.pack(distDir).pipe(zlib.createGzip()).pipe(output);
                 console.log('Done');
             },
