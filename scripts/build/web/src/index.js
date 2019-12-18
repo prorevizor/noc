@@ -6,11 +6,12 @@ const load_packages = require('./load_packages');
 const tar = require('tar-fs');
 const zlib = require("zlib");
 
-const distDir = '../../../dist';
+const distDir = 'dist';
 let packageDir = `/ui/pkg/web`;
 const destDir = `${distDir}${packageDir}`;
 // const args = process.argv.slice(2);
 const themes = ['gray', 'noc'];
+const langs = ['ru', 'en'];
 const queue = [
     ...load_packages('../../../requirements/web.json'),
     ...load_packages('../../../requirements/theme-noc.json')
@@ -47,7 +48,7 @@ function assets(dest, theme) {
 }
 
 function writeBundle(name, data) {
-    const dest = `${distDir}/templates`;
+    const dest = `${distDir}/indexes`;
     fs.mkdirSync(dest, {recursive: true});
     fs.writeFileSync(`${dest}/${name}.html`, data);
 }
@@ -69,29 +70,30 @@ Promise.all(queue).then(values => {
             ...build_js.vendor('vendor', destDir, themes),
             ...build_js.boot('boot', destDir, themes),
         ];
+        // make index.html add hash
         Promise.all(stages).then(values => {
                 const output = fs.createWriteStream(`ui-web.tgz`);
-                // let content = fs.readFileSync('src/desktop.html').toString();
-                let content = bundleTemplate;
-                let themeSpecific = [];
-                // make desktop.html add hash
-                values.filter(value => value.hash | value.theme === '')
-                .forEach(value => {
-                    const file = value.name.replace(/{hash}/, value.hash);
-                    content = content.replace(value.name, file);
+                langs.forEach(lang => {
+                    themes.forEach(theme => {
+                        let content = fs.readFileSync('src/desktop.html').toString();
+                        content = content.replace(/{language}/g, lang);
+                        content = content.replace(/{theme}/g, theme);
+                        content = content.replace(/{packageDir}/g, packageDir);
+                        let themeSpecific = [];
+                        values.filter(value => value.hash | value.theme === '')
+                        .forEach(value => {
+                            const file = value.name.replace(/{hash}/, value.hash);
+                            content = content.replace(value.name, file);
+                        });
+                        // add hash to theme specific files
+                        const appHash = hash(values, 'app.{hash}', theme);
+                        const vendorHash = hash(values, 'vendor.{hash}', theme);
+                        content = content.replace(/{theme}/g, theme);
+                        content = content.replace(/{app_hash}/, appHash);
+                        content = content.replace(/{vendor_hash}/, vendorHash);
+                        writeBundle(`index.${theme}.${lang}`, content);
+                    });
                 });
-                writeBundle('bundle', content);
-                // add hash to theme specific files
-                themes.forEach(theme => {
-                    const appHash = hash(values,'app.{hash}', theme);
-                    const vendorHash = hash(values, 'vendor.{hash}', theme);
-                    let body;
-                    body = themeTemplate.replace(/{theme}/g, theme);
-                    body = body.replace(/{app_hash}/, appHash);
-                    themeSpecific.push(body.replace(/{vendor_hash}/, vendorHash));
-                });
-                // content = content.replace(/{theme_specific}/, themeSpecific.join('\n'));
-                writeBundle('theme', themeSpecific.join('\n'));
                 tar.pack(distDir).pipe(zlib.createGzip()).pipe(output);
                 console.log('Done');
             },

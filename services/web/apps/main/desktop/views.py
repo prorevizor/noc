@@ -129,7 +129,7 @@ class DesktopApplication(ExtApplication):
             enable_search = False
         language = self.get_language(request)
         return {
-            "systemId": cp.system_uuid or None,
+            "system_uuid": cp.system_uuid or None,
             "brand": version.brand,
             "installation_name": config.installation_name,
             "preview_theme": config.customization.preview_theme,
@@ -160,6 +160,7 @@ class DesktopApplication(ExtApplication):
             "helpLanguage": config.help.language,
             "timezone": config.timezone,
             "enable_remote_system_last_extract_info": config.web.enable_remote_system_last_extract_info,
+            "theme": config.web.theme,
         }
 
     @view(method=["GET"], url="^version/$", access=True, api=True)

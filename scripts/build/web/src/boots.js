@@ -1,4 +1,5 @@
 const files = [
+    '../../../ui/web/js/boot.js',
     '../../../ui/common/gettext.js',
     '../../../ui/web/js/jsloader.js',
     '../../../ui/web/js/colors.js',
