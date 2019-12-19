@@ -20,7 +20,6 @@ from noc.core.http.client import fetch_sync
 from noc.core.comp import smart_text
 
 
-@six.python_2_unicode_compatible
 class Downloader(DownloaderBase):
     """
     Download reference book from CSV file
