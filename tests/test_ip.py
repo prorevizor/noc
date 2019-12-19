@@ -11,6 +11,7 @@ import pytest
 
 # NOC modules
 from noc.core.ip import IP, IPv4, IPv6, PrefixDB
+from noc.core.comp import smart_text
 
 
 @pytest.mark.parametrize(
@@ -66,7 +67,7 @@ def test_ipv4_str(p1, p2):
     ],
 )
 def test_ipv4_unicode(p1, p2):
-    assert unicode(p1) == p2
+    assert smart_text(p1) == p2
 
 
 @pytest.mark.parametrize("p1,p2", [(IPv4("192.168.0.0/24"), "<IPv4 192.168.0.0/24>")])
@@ -612,7 +613,7 @@ def test_ipv4_special_addresses(prefix, special):
     ],
 )
 def test_ipv6_unicode(p1, p2):
-    assert unicode(IPv6(p1)) == p2
+    assert smart_text(IPv6(p1)) == p2
 
 
 @pytest.mark.parametrize("p1,p2", [("::", "<IPv6 ::/128>")])
