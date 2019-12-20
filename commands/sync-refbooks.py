@@ -55,7 +55,7 @@ class Command(BaseCommand):
         for rb in RB.objects.filter(is_builtin=True):
             loaded_refbooks[rb.name] = rb
         for r in self.search(RefBook, "main/refbooks/refbooks"):
-            name = smart_text(r.name, "utf-8")
+            name = smart_text(r.name, encoding="utf-8")
             r.sync()
             if name in loaded_refbooks:
                 del loaded_refbooks[name]
