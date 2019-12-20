@@ -138,7 +138,7 @@ class DigestAuthMiddeware(BaseMiddleware):
             code,
             resp_headers,
             url,
-            body
+            body,
         )
         if "WWW-Authenticate" in resp_headers and resp_headers["WWW-Authenticate"].startswith(
             "Digest"
