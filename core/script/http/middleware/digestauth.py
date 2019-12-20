@@ -65,7 +65,9 @@ class DigestAuthMiddeware(BaseMiddleware):
         :type digest_response: dict
         :return:
         """
-        self.logger.debug("[%s] Build digest for %s, on response %s", self.name, url, digest_response)
+        self.logger.debug(
+            "[%s] Build digest for %s, on response %s", self.name, url, digest_response
+        )
         p_parsed = urlparse(url)
         uri = p_parsed.path or "/"
         qop = digest_response["qop"]
@@ -132,7 +134,11 @@ class DigestAuthMiddeware(BaseMiddleware):
         )
         self.logger.debug(
             "[%s] Response code %s, headers %s on: %s, body: %s",
-            self.name, code, resp_headers, url, body
+            self.name,
+            code,
+            resp_headers,
+            url,
+            body
         )
         if "WWW-Authenticate" in resp_headers and resp_headers["WWW-Authenticate"].startswith(
             "Digest"
