@@ -63,6 +63,11 @@ class Script(BaseScript):
         re.MULTILINE | re.IGNORECASE | re.DOTALL,
     )
 
+    def get_aggregated_ifaces(self):
+        portchannel_members = {}
+        aggregated = []
+        return aggregated, portchannel_members
+        
     def execute_cli(self):
         ifaces = {}
         current = None
