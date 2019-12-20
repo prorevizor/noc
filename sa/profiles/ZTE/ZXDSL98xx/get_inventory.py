@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # ---------------------------------------------------------------------
-# Nateks.FlexGainACE16.get_inventory
+# ZTE.ZXDSL98xx.get_inventory
 # ---------------------------------------------------------------------
 # Copyright (C) 2007-2019 The NOC Project
 # See LICENSE for details
@@ -12,5 +12,5 @@ from noc.sa.interfaces.igetinventory import IGetInventory
 
 
 class Script(BaseScript):
-    name = "Nateks.FlexGainACE16.get_inventory"
+    name = "ZTE.ZXDSL98xx.get_inventory"
     interface = IGetInventory

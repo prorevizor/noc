@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # ---------------------------------------------------------------------
-# Nateks.FlexGainACE16.get_inventory
+# Nateks.FlexGainACE24.get_inventory
 # ---------------------------------------------------------------------
 # Copyright (C) 2007-2019 The NOC Project
 # See LICENSE for details
@@ -12,5 +12,5 @@ from noc.sa.interfaces.igetinventory import IGetInventory
 
 
 class Script(BaseScript):
-    name = "Nateks.FlexGainACE16.get_inventory"
+    name = "Nateks.FlexGainACE24.get_inventory"
     interface = IGetInventory
