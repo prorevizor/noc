@@ -178,16 +178,6 @@ def test_encode_octet_string(raw, value):
     assert encoder.encode_octet_string(raw) == value
 
 
-@pytest.mark.xfail()
-def test_encode_sequence():
-    raise NotImplementedError()
-
-
-@pytest.mark.xfail()
-def test_encode_choice():
-    raise NotImplementedError()
-
-
 @pytest.mark.parametrize(
     "value,raw",
     [
