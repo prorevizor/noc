@@ -67,7 +67,7 @@ class Script(BaseScript):
         portchannel_members = {}
         aggregated = []
         return aggregated, portchannel_members
-        
+
     def execute_cli(self):
         ifaces = {}
         current = None
