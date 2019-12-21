@@ -31,7 +31,9 @@ def check_query(query, args, expected):
     :return:
     """
     e = Engine()
-    left = {dict_hash_int(ctx): ctx for ctx in expected}  # type: Dict[int, Dict[six.text_type, Any]
+    left = {
+        dict_hash_int(ctx): ctx for ctx in expected
+    }  # type: Dict[int, Dict[six.text_type, Any]]
     not_found = set()  # type: Set[Dict[six.text_type, Any]]
     for ctx in e.query(query, **args):
         ctx_hash = dict_hash_int(ctx)
