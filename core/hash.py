@@ -11,6 +11,8 @@ import struct
 
 # Third-party modules
 from csiphash import siphash24
+from typing import Dict, Any
+import six
 
 # NOC modules
 from noc.core.comp import smart_text, smart_bytes
