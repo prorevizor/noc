@@ -14,20 +14,20 @@ import pytest
 import six
 
 # NOC modules
-from noc.core.comp import smart_text
+from noc.core.comp import smart_text, smart_bytes
 from .util import get_models, get_documents
 
 
 @pytest.mark.parametrize("model", get_models())
 def test_model_str(model):
     for o in model.objects.all():
-        assert str(o)
+        assert six.binary_type(o)
 
 
 @pytest.mark.parametrize("model", get_documents())
 def test_document_str(model):
     for o in model.objects.all():
-        assert isinstance(str(o), six.string_types)
+        assert isinstance(six.binary_type(o), six.binary_type)
 
 
 @pytest.mark.parametrize("model", get_models())
@@ -39,16 +39,16 @@ def test_model_unicode(model):
 @pytest.mark.parametrize("model", get_documents())
 def test_document_unicode(model):
     for o in model.objects.all():
-        assert isinstance(unicode(o), six.string_types)
+        assert isinstance(six.text_type(o), six.text_type)
 
 
 @pytest.mark.parametrize("model", get_models())
 def test_model_str_unicode(model):
     for o in model.objects.all():
-        assert str(o) == smart_text(o).encode("utf-8")
+        assert six.binary_type(o) == smart_bytes(smart_text(o))
 
 
 @pytest.mark.parametrize("model", get_documents())
 def test_document_str_unicode(model):
     for o in model.objects.all():
-        assert str(o) == smart_text(o).encode("utf-8")
+        assert six.binary_type(o) == smart_bytes(smart_text(o))
