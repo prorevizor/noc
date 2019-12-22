@@ -45,10 +45,10 @@ def test_document_unicode(model):
 @pytest.mark.parametrize("model", get_models())
 def test_model_str_unicode(model):
     for o in model.objects.all():
-        assert six.binary_type(o) == smart_bytes(smart_text(o))
+        assert six.text_type(o) == smart_text(o)
 
 
 @pytest.mark.parametrize("model", get_documents())
 def test_document_str_unicode(model):
     for o in model.objects.all():
-        assert six.binary_type(o) == smart_bytes(smart_text(o))
+        assert six.text_type(o) == smart_text(o)
