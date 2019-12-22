@@ -184,7 +184,6 @@ class TelnetParser(object):
                 break
         if self.out_iac_seq:
             out_seq = b"".join(self.out_iac_seq)
-            print("WRITE=%r" % out_seq)
             self.writer(out_seq)
             self.out_iac_seq = []
         return b"".join(r)
