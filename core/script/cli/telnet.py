@@ -20,7 +20,7 @@ import six
 
 # NOC modules
 from noc.core.perf import metrics
-from noc.core.comp import bord, bchr
+from noc.core.comp import bord
 from .base import CLI
 
 _logger = logging.getLogger(__name__)
