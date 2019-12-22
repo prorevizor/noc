@@ -14,7 +14,7 @@ import pytest
 import six
 
 # NOC modules
-from noc.core.comp import smart_text, smart_bytes
+from noc.core.comp import smart_text
 from .util import get_models, get_documents
 
 
