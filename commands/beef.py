@@ -557,7 +557,7 @@ class Command(BaseCommand):
             file_filter = [os.path.basename(path)]
             path = os.path.dirname(path)
         for beef_path in st_fs.walk.files(
-                path=smart_text(path), exclude=["*.yml"], filter=file_filter
+            path=smart_text(path), exclude=["*.yml"], filter=file_filter
         ):
             try:
                 beef = self.get_beef(storage, beef_path)
