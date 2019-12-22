@@ -21,13 +21,13 @@ from .util import get_models, get_documents
 @pytest.mark.parametrize("model", get_models())
 def test_model_str(model):
     for o in model.objects.all():
-        assert six.binary_type(o)
+        assert six.text_type(o)
 
 
 @pytest.mark.parametrize("model", get_documents())
 def test_document_str(model):
     for o in model.objects.all():
-        assert isinstance(six.binary_type(o), six.binary_type)
+        assert isinstance(six.text_type(o), six.string_types)
 
 
 @pytest.mark.parametrize("model", get_models())
