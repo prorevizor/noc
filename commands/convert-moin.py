@@ -25,7 +25,7 @@ from noc.main.models.language import Language
 from noc.main.models.databasestorage import database_storage
 from noc.kb.models.kbentry import KBEntry
 from noc.kb.models.kbentryattachment import KBEntryAttachment
-from noc.core.comp import smart_text
+from noc.core.comp import smart_text, smart_bytes
 
 #
 rx_hexseq = re.compile(r"\(((?:[0-9a-f][0-9a-f])+)\)")
@@ -65,7 +65,7 @@ class Command(BaseCommand):
         if isinstance(s, unicode):
             sys.stdout.write(s.encode("utf-8"))
         else:
-            sys.stdout.write(smart_text(s, encoding=self.encoding).encode("utf-8"))
+            sys.stdout.write(smart_bytes(smart_text(s, encoding=self.encoding)))
         sys.stdout.flush()
 
     #
