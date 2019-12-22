@@ -314,7 +314,7 @@ class Command(BaseCommand):
         if beef:
             beef, _ = beef[0]
         else:
-            self.die("Beef not found" % path)
+            self.die("Beef path %s not found" % path)
         # Build credentials
         credentials = {
             "address": beef.uuid,
@@ -495,6 +495,8 @@ class Command(BaseCommand):
             beef_type = "beef_test"
         elif beef_test_config:
             beef_type = "beef_test_config"
+        if not name:
+            self.die("Unknown storage: %s" % name)
         if ":" in name:
             # URL
             st = ExtStorage.from_json(
@@ -550,7 +552,13 @@ class Command(BaseCommand):
             self.print("Configs for tests %s", test_config)
         r = []
         st_fs = storage.open_fs()
-        for beef_path in st_fs.walk.files(path=smart_text(path), exclude=["*.yml"]):
+        file_filter = []
+        if st_fs.isfile(path):
+            file_filter = [os.path.basename(path)]
+            path = os.path.dirname(path)
+        for beef_path in st_fs.walk.files(
+                path=smart_text(path), exclude=["*.yml"], filter=file_filter
+        ):
             try:
                 beef = self.get_beef(storage, beef_path)
             except ValueError:
