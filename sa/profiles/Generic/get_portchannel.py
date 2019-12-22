@@ -33,8 +33,6 @@ class Script(BaseScript):
             ]
         ):
             if att_pc:
-                if att_pc == 0 or sel_pc == 0:
-                    continue
-                else:
+                if sel_pc > 0:
                     r[names[int(att_pc)]] += [names[int(ifindex)]]
         return [{"interface": pc, "type": "L", "members": r[pc]} for pc in r]
