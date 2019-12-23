@@ -81,8 +81,8 @@ class MACCheck(DiscoveryCheck):
         result = self.object.scripts.get_mac_address_table()
         for v in result:
             total_macs += 1
-            if v["type"] != self.XMAC_FILTER_TYPE or not v["interfaces"]:
-                self.logger.debug("Ignored not dynamic MAC: %s" % v["mac"])
+            if v["type"] not in self.XMAC_FILTER_TYPE or not v["interfaces"]:
+                self.logger.debug("Ignored not dynamic or static MAC: %s" % v["mac"])
                 continue
             ifname = str(v["interfaces"][0])
             iface = self.get_interface_by_name(ifname)
