@@ -6,10 +6,6 @@
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
-# Python modules
-import re
-import datetime
-
 # NOC modules
 from noc.core.script.base import BaseScript
 from noc.sa.interfaces.igetinventory import IGetInventory
