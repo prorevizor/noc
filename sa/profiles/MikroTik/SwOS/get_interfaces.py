@@ -9,6 +9,8 @@
 # NOC modules
 from noc.core.script.base import BaseScript
 from noc.sa.interfaces.igetinterfaces import IGetInterfaces
+from noc.core.ip import IPv4
+from noc.core.script.http.base import HTTPError
 
 
 class Script(BaseScript):
@@ -21,10 +23,20 @@ class Script(BaseScript):
         interfaces = []
         links = self.profile.parseBrokenJson(self.http.get("/link.b", cached=True, eof_mark="}"))
         vlans = self.profile.parseBrokenJson(self.http.get("/vlan.b", cached=True, eof_mark="}"))
-        fwds = self.profile.parseBrokenJson(self.http.get("/fwd.b", cached=True, eof_mark="}"))
-        prt = int(links["prt"], 16)
-        sfp = int(links.get("sfp", "0x0"), 16)
-        sfpo = int(links.get("sfpo", "0x0"), 16)
+        try:
+            fwds = self.profile.parseBrokenJson(self.http.get("/fwd.b", cached=True, eof_mark="}"))
+        except HTTPError:
+            fwds = links
+        sys_info = self.profile.parseBrokenJson(self.http.get("/sys.b", cached=True, eof_mark="}"))
+        if links.get("prt"):
+            prt = int(links["prt"], 16)
+            sfp = int(links.get("sfp", "0x0"), 16)
+            sfpo = int(links.get("sfpo", "0x0"), 16)
+        else:
+            if self.is_platform_rb260gs:
+                prt = 6
+                sfp = 1
+                sfpo = 5
         if sfpo + sfp != prt:
             raise self.UnexpectedResultError("prt=%d sfp=%d sfpo=%d" % (prt, sfp, sfpo))
 
@@ -40,27 +52,43 @@ class Script(BaseScript):
             if port <= sfpo:
                 ifname = "Port%d" % int(port)
             else:
-                ifname = "SFP%d" % (int(port) - sfpo)
+                if sfp > 1:
+                    ifname = "SFP%d" % (int(port) - sfpo)
+                else:
+                    ifname = "SFP"
+            if links.get("nm"):
+                descr = links["nm"][port - 1].decode("hex")
+            elif links.get("nm%d" % (port - 1)):
+                descr = links["nm%d" % (port - 1)].decode("hex")
+            else:
+                descr = None
             iface = {
                 "name": ifname,
-                "description": links["nm"][port - 1].decode("hex"),
                 "type": "physical",
                 "oper_status": oper_statuses[port - 1],
                 "admin_status": admin_statuses[port - 1],
             }
             sub = {
                 "name": ifname,
-                "description": links["nm"][port - 1].decode("hex"),
                 "enabled_afi": ["BRIDGE"],
                 "oper_status": oper_statuses[port - 1],
                 "admin_status": admin_statuses[port - 1],
             }
+            if descr:
+                iface["description"] = descr
+                sub["description"] = descr
             tagged_vlans = []
             for vlan in vlans:
                 vid = int(vlan["vid"], 16)
-                ports = dict(
-                    (i, bool(int(vlan["mbr"], 16) & BITS[i])) for i in range(self.PORT_RANGE)
-                )
+                if vlan.get("mbr"):
+                    ports = dict(
+                        (i, bool(int(vlan["mbr"], 16) & BITS[i])) for i in range(self.PORT_RANGE)
+                    )
+                else:
+                    ports = dict(
+                        (i, bool(int(vlan["prt"][i], 16) & BITS[i]))
+                        for i in xrange(len(vlan["prt"]))
+                    )
                 if ports[port - 1]:
                     tagged_vlans += [vid]
             untagged = int(fwds["dvid"][port - 1], 16)
@@ -70,5 +98,24 @@ class Script(BaseScript):
                 sub["tagged_vlans"] = tagged_vlans
             iface["subinterfaces"] = [sub]
             interfaces += [iface]
+
+        ip = self.profile.swap32(int(sys_info["ip"], 16))
+        iface = {
+            "name": "mgmt",
+            "type": "SVI",
+            "oper_status": True,
+            "admin_status": True,
+            "subinterfaces": [
+                {
+                    "name": "mgmt",
+                    "enabled_afi": ["IPv4"],
+                    "ipv4_addresses": [IPv4._to_prefix(ip, 32)],
+                    "oper_status": True,
+                    "admin_status": True,
+                    "vlan_ids": int(sys_info["avln"], 16),
+                }
+            ],
+        }
+        interfaces += [iface]
 
         return [{"interfaces": interfaces}]
