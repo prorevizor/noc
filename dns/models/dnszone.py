@@ -35,7 +35,6 @@ from noc.core.gridvcs.manager import GridVCSField
 from noc.core.datastream.decorator import datastream
 from noc.core.model.decorator import on_delete_check
 from .dnszoneprofile import DNSZoneProfile
-from noc.core.comp import smart_text
 
 logger = logging.getLogger(__name__)
 id_lock = Lock()
