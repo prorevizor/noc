@@ -9,11 +9,7 @@
 # Python modules
 from __future__ import absolute_import
 
-# Third-party modules
-import six
-
 # NOC modules
-from noc.core.comp import smart_text
 from .encoding import to_idna
 
 TYPE_PREF = {"NS": 0, "MX": 10}
