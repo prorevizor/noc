@@ -347,15 +347,6 @@ class DNSZone(NOCModel):
         s = ["domain: %s" % self.name] + ["nserver: %s" % ns for ns in self.ns_list]
         return rpsl_format("\n".join(s))
 
-    @staticmethod
-    def to_idna(n):
-        if isinstance(n, six.text_type):
-            return n.lower().encode("idna")
-        elif isinstance(n, six.string_types):
-            return smart_text(n).lower().encode("idna")
-        else:
-            return n
-
     @classmethod
     def get_zone(cls, name):
         """
