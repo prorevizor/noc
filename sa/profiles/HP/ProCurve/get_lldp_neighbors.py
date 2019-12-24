@@ -97,6 +97,7 @@ class Script(BaseScript):
                 "mac-address": LLDP_PORT_SUBTYPE_MAC,
                 "network-address": LLDP_PORT_SUBTYPE_NETWORK_ADDRESS,
                 "interface-name": LLDP_PORT_SUBTYPE_NAME,
+                "inte...": LLDP_PORT_SUBTYPE_NAME,  # Found in 2910al ver. W.14.38
                 "local": LLDP_PORT_SUBTYPE_LOCAL,
             }[match.group(1)]
             remote_port = match.group(2).strip().replace(" ", "")
@@ -113,15 +114,15 @@ class Script(BaseScript):
             # Get remote system name
             match = self.rx_sys_name.search(v)
             if match:
-                n["remote_system_name"] = match.group("sys_name")
+                n["remote_system_name"] = match.group("sys_name").strip()
             # Get remote system description
             match = self.rx_sys_descr.search(v)
             if match:
-                n["remote_system_description"] = match.group("sys_descr")
+                n["remote_system_description"] = match.group("sys_descr").strip()
             # Get remote port description
             match = self.rx_port_descr.search(v)
             if match:
-                n["remote_port_description"] = match.group("port_descr")
+                n["remote_port_description"] = match.group("port_descr").strip()
             # Get capabilities
             caps = 0
             match = self.rx_cap.search(v)
