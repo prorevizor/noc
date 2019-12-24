@@ -774,6 +774,8 @@ class BaseProfile(six.with_metaclass(BaseProfileMetaclass, object)):
             def _inner(x):
                 return s.sub(b"", x)
 
+            return _inner
+
         chain = []
         if cls.rogue_chars:
             for rc in cls.rogue_chars:
