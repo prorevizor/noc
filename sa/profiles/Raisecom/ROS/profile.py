@@ -23,9 +23,7 @@ class Profile(BaseProfile):
     pattern_prompt = r"^\S+?#"
     command_more = " "
     command_exit = "exit"
-    pattern_syntax_error = (
-        r"(% \".+\"  (?:Unknown command.)|Error input in the position marke[dt] by|%\s+Incomplete command\.)"
-    )
+    pattern_syntax_error = r"(% \".+\"  (?:Unknown command.)|Error input in the position marke[dt] by|%\s+Incomplete command\.)"
     pattern_operation_error = r"% You Need higher priority!"
     rogue_chars = [re.compile(r"\x08+\s+\x08+"), "\r"]
     config_volatile = [
