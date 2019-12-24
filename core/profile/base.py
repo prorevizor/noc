@@ -760,7 +760,6 @@ class BaseProfile(six.with_metaclass(BaseProfileMetaclass, object)):
         patterns["more_patterns_commands"] = list(
             zip(patterns["more_patterns"], patterns["more_commands"])
         )
-        print("PATTERNS: %r" % patterns)
         return patterns
 
     @classmethod
