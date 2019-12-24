@@ -33,7 +33,7 @@ class Script(BaseScript):
             sfp = int(links.get("sfp", "0x0"), 16)
             sfpo = int(links.get("sfpo", "0x0"), 16)
         else:
-            if self.is_platform_rb260gs:
+            if self.is_platform_6port1sfp:
                 prt = 6
                 sfp = 1
                 sfpo = 5
@@ -100,6 +100,9 @@ class Script(BaseScript):
             interfaces += [iface]
 
         ip = self.profile.swap32(int(sys_info["ip"], 16))
+        vlan_id = int(sys_info["avln"], 16)
+        if vlan_id == 0:
+            vlan_id = 1
         iface = {
             "name": "mgmt",
             "type": "SVI",
@@ -112,7 +115,7 @@ class Script(BaseScript):
                     "ipv4_addresses": [IPv4._to_prefix(ip, 32)],
                     "oper_status": True,
                     "admin_status": True,
-                    "vlan_ids": int(sys_info["avln"], 16),
+                    "vlan_ids": vlan_id,
                 }
             ],
         }

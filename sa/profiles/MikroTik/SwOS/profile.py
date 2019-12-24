@@ -16,9 +16,13 @@ from noc.core.profile.base import BaseProfile
 
 class Profile(BaseProfile):
     name = "MikroTik.SwOS"
-    http_request_middleware = ["digestauth"]
+    http_request_middleware = [("digestauth", {"eof_mark": "</h1>"})]
 
-    matchers = {"is_platform_rb260gs": {"platform": {"$regex": r"^RB260GS$"}}}
+    matchers = {
+        "is_platform_6port1sfp": {
+            "platform": {"$regex": r"^(RB260GS|CSS106-5G-1S)$"}
+        },
+    }
 
     rx_pass1 = re.compile(r"([{,])([a-zA-Z][a-zA-Z0-9]+)")
     rx_pass2 = re.compile(r"'")

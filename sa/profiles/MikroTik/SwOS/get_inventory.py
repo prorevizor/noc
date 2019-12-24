@@ -53,7 +53,7 @@ class Script(BaseScript):
                         "mfg_date": mfd,
                     }
                 ]
-        else:
+        elif sfps.get("vndr"):
             vendor = sfps["vndr"].decode("hex").strip()
             part_no = sfps["ptnr"].decode("hex").strip()
             revision = sfps["rev"].decode("hex").strip()
