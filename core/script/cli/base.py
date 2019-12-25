@@ -632,7 +632,10 @@ class CLI(object):
     def on_super_username(self, data, match):
         self.set_state("super_username")
         self.send(
-            (self.script.credentials.get("user", "") or "") + (self.profile.username_submit or "\n")
+            smart_bytes(
+                self.script.credentials.get("user", "") or "", encoding=self.native_encoding
+            )
+            + (self.profile.username_submit or "\n")
         )
         self.expect(
             {
@@ -649,7 +652,10 @@ class CLI(object):
     def on_super_password(self, data, match):
         self.set_state("super_password")
         self.send(
-            (self.script.credentials.get("super_password", "") or "")
+            smart_bytes(
+                self.script.credentials.get("super_password", "") or "",
+                encoding=self.native_encoding,
+            )
             + (self.profile.username_submit or "\n")
         )
         if self.super_password_retries > 1:
