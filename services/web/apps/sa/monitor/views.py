@@ -31,6 +31,7 @@ class MonitorApplication(ObjectListApplication):
     """
     sa.monitor application
     """
+
     title = _("Monitor")
     menu = _("Monitor")
     icon = "icon_monitor"
@@ -79,18 +80,16 @@ class MonitorApplication(ObjectListApplication):
         return self.model.objects.filter(id__in=res)
 
     def get_data(self, job, job_key, prefix, mo_id):
-        time = '--'
-        last_success = humanize_distance(job["last"]) if "last" in job else '--'
+        time = "--"
+        last_success = humanize_distance(job["last"]) if "last" in job else "--"
         last_status = job.get(Job.ATTR_LAST_STATUS)
         time_start = job.get(Job.ATTR_TS)
-        status = job["s"] if "s" in job else '--'
+        status = job["s"] if "s" in job else "--"
         if status == Job.S_WAIT:
             key = "discovery-%s-%s" % (job_key, mo_id)
             joblog = get_db()["noc.joblog"].find_one({"_id": key})
             if joblog and joblog.get("log"):
-                res = ExtModelApplication.render_plain_text(
-                    zlib.decompress(str(joblog.get("log")))
-                )
+                res = ExtModelApplication.render_plain_text(zlib.decompress(str(joblog.get("log"))))
                 match = self.rx_time.search(str(res))
                 if match:
                     s = match.group("time").split(".")[0]
@@ -99,26 +98,26 @@ class MonitorApplication(ObjectListApplication):
                     else:
                         time = "%s mc" % s
         return {
-            '%s_time_start' % prefix: datetime.datetime.strftime(time_start, "%d.%m.%Y %H:%M"),
-            '%s_last_success' % prefix: last_success,
-            '%s_status' % prefix: status,
-            '%s_time' % prefix: time,
-            '%s_duration' % prefix: humanize_distance(time_start),
-            '%s_last_status' % prefix: last_status,
+            "%s_time_start" % prefix: datetime.datetime.strftime(time_start, "%d.%m.%Y %H:%M"),
+            "%s_last_success" % prefix: last_success,
+            "%s_status" % prefix: status,
+            "%s_time" % prefix: time,
+            "%s_duration" % prefix: humanize_distance(time_start),
+            "%s_last_status" % prefix: last_status,
         }
 
     def instance_to_dict(self, mo, fields=None):
         result = {
-            'id': str(mo.id),
-            'name': mo.name,
-            'address': mo.address,
-            'profile_name': mo.profile.name
+            "id": str(mo.id),
+            "name": mo.name,
+            "address": mo.address,
+            "profile_name": mo.profile.name,
         }
         box_jcls = "noc.services.discovery.jobs.box.job.BoxDiscoveryJob"
         periodic_jcls = "noc.services.discovery.jobs.periodic.job.PeriodicDiscoveryJob"
         box_job = Job.get_job_data("discovery", jcls=box_jcls, key=mo.id, pool=mo.pool.name)
         periodic_job = Job.get_job_data(
-            "discovery", jcls=periodic_jcls,key=mo.id,pool=mo.pool.name
+            "discovery", jcls=periodic_jcls, key=mo.id, pool=mo.pool.name
         )
         if box_job:
             res = self.get_data(box_job, box_jcls, "b", mo.id)
