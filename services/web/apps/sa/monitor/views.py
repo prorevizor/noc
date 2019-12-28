@@ -39,9 +39,7 @@ class MonitorApplication(ObjectListApplication):
     def extra_data(self, data, ordering=None, start=None, limit=None):
         # print(ordering, start, limit)
         scheduler = Scheduler("discovery", pool="KAMCHATKA").get_collection()
-        pipeline = [
-            {"$match": {Job.ATTR_KEY: {"$in": list(data.values_list("id", flat=True))}}}
-        ]
+        pipeline = [{"$match": {Job.ATTR_KEY: {"$in": list(data.values_list("id", flat=True))}}}]
         pipeline += [
             {
                 "$group": {
