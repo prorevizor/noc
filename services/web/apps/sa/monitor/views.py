@@ -39,10 +39,7 @@ class MonitorApplication(ObjectListApplication):
 
     def get_job_data(self, scheduler, pool=None, status=None, key=None, jcls=None):
         result = []
-        scheduler = Scheduler(
-            name=scheduler,
-            pool=pool,
-        )
+        scheduler = Scheduler(name=scheduler, pool=pool)
         q = {}
         if status:
             q["s"] = status
