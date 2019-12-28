@@ -54,7 +54,7 @@ class Profile(BaseProfile):
     command_leave_config = "quit"
     command_save_config = "save\ny\n"
     command_exit = "quit\ny\n"
-    rogue_chars = ["\xff", "\r"]
+    rogue_chars = ["\\xff", "\r"]
     config_tokenizer = "indent"
     config_tokenizer_settings = {"line_comment": "#"}
 

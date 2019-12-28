@@ -92,7 +92,7 @@ class Script(BaseScript):
                     neigh = dict(zip(neighb, v[2:]))
                     # cleaning
                     neigh["remote_port"] = neigh["remote_port"].strip(
-                        " \x00"
+                        " \\x00"
                     )  # \x00 Found on some devices
                     if neigh["remote_chassis_id_subtype"] == 4:
                         neigh["remote_chassis_id"] = MAC(neigh["remote_chassis_id"])
