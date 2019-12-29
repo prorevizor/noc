@@ -30,6 +30,7 @@ def parse_table(
     footer=None,
     n_row_delim="",
     expand_tabs=True,
+    strip_rows=False,
 ):
     """
     Parse string containing table an return a list of table rows.
@@ -59,6 +60,8 @@ def parse_table(
     :type n_row_delim: string
     :param expand_tabs: Apply expandtabs() to each line
     :type expand_tabs: bool
+    :param strip_rows: Apply strip() to rest rows in column, if allow_wrap set to True
+    :type strip_rows: bool
     """
     r = []
     columns = []
@@ -115,9 +118,15 @@ def parse_table(
                             and not r[-1][i].endswith(n_row_delim)
                             and not x.startswith(n_row_delim)
                         ):
-                            r[-1][i] += "%s%s" % (n_row_delim, x)
+                            if strip_rows:
+                                r[-1][i] += "%s%s" % (n_row_delim, x.strip())
+                            else:
+                                r[-1][i] += "%s%s" % (n_row_delim, x)
                         else:
-                            r[-1][i] += x
+                            if strip_rows:
+                                r[-1][i] += x.strip()
+                            else:
+                                r[-1][i] += x
                 else:
                     r += [row]
             else:
