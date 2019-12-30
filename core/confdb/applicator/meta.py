@@ -83,7 +83,7 @@ class MetaApplicator(BaseApplicator):
             if iface.profile:
                 yield "interfaces", iface.name, "meta", "profile", "id", str(iface.profile.id)
                 yield "interfaces", iface.name, "meta", "profile", "name", iface.profile.name
-            if iface.ifindex:
+            if iface.ifindex is not None:
                 yield "interfaces", iface.name, "meta", "ifindex", int(iface.ifindex)
             if iface.mac:
                 yield "interfaces", iface.name, "meta", "mac", str(iface.mac)
