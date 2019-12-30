@@ -97,7 +97,7 @@ class Script(BaseScript):
                     if x["order_num"]
                     else [x["hw_descr"]],
                     "serial": serial,
-                    "revision": x["rev"].strip("\\xe0"),
+                    "revision": x["rev"].strip(u"\xe0"),
                     "description": "",
                 }
             ]
