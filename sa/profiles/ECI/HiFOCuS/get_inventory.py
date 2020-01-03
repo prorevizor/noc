@@ -14,6 +14,7 @@ from noc.sa.interfaces.igetinventory import IGetInventory
 from noc.core.text import parse_kv
 from noc.core.comp import smart_text, smart_bytes
 
+
 class Script(BaseScript):
     name = "ECI.HiFOCuS.get_inventory"
     interface = IGetInventory
