@@ -8,7 +8,6 @@
 
 # Python modules
 import re
-import string
 
 # Third-party modules
 import six
@@ -22,6 +21,10 @@ rx_header_start = re.compile(r"^\s*[-=]+[\s\+]+[-=]+")
 rx_col = re.compile(r"^([\s\+]*)([\-]+|[=]+)")
 
 
+def default_line_wrapper(p_line):
+    return p_line.expandtabs()
+
+
 def parse_table(
     s,
     allow_wrap=False,
@@ -30,7 +33,7 @@ def parse_table(
     max_width=0,
     footer=None,
     n_row_delim="",
-    line_wrapper=string.expandtabs,
+    line_wrapper=default_line_wrapper,
     row_wrapper=None,
 ):
     """
