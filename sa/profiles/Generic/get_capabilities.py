@@ -282,6 +282,11 @@ class Script(BaseScript):
         )
 
     def get_enterprise_id(self, version=None):
+        """
+        Returns EnterpriseID number from sysObjectID
+        :param version:
+        :return:
+        """
         if self.credentials.get("snmp_ro"):
             try:
                 r = self.snmp.get(mib["SNMPv2-MIB::sysObjectID", 0], version=version)
