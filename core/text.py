@@ -8,6 +8,7 @@
 
 # Python modules
 import re
+import string
 
 # Third-party modules
 import six
@@ -29,8 +30,8 @@ def parse_table(
     max_width=0,
     footer=None,
     n_row_delim="",
-    expand_tabs=True,
-    strip_rows=False,
+    line_wrapper=string.expandtabs,
+    row_wrapper=None,
 ):
     """
     Parse string containing table an return a list of table rows.
@@ -58,19 +59,23 @@ def parse_table(
     :type footer: string
     :param n_row_delim: Append delimiter to next cell line
     :type n_row_delim: string
-    :param expand_tabs: Apply expandtabs() to each line
-    :type expand_tabs: bool
-    :param strip_rows: Apply strip() to rest rows in column, if allow_wrap set to True
-    :type strip_rows: bool
+    :param line_wrapper: Call line_wrapper with line argument
+    :type line_wrapper: callable
+    :param row_wrapper: Call row_wrapper with row argument
+    :type row_wrapper: callable
     """
     r = []
     columns = []
     if footer is not None:
         rx_footer = re.compile(footer)
+    if line_wrapper and not callable(line_wrapper):
+        line_wrapper = None
+    if row_wrapper and not callable(line_wrapper):
+        row_wrapper = None
     for line in s.splitlines():
-        if expand_tabs:
+        if line_wrapper:
             # Replace tabs with spaces with step 8
-            line = line.expandtabs()
+            line = line_wrapper(line)
         if not line.strip() and footer is None:
             columns = []
             continue
@@ -113,20 +118,16 @@ def parse_table(
                 if r and not row[0].strip():
                     # first column is empty
                     for i, x in enumerate(row):
+                        if row_wrapper:
+                            x = row_wrapper(x)
                         if (
                             x.strip()
                             and not r[-1][i].endswith(n_row_delim)
                             and not x.startswith(n_row_delim)
                         ):
-                            if strip_rows:
-                                r[-1][i] += "%s%s" % (n_row_delim, x.strip())
-                            else:
-                                r[-1][i] += "%s%s" % (n_row_delim, x)
+                            r[-1][i] += "%s%s" % (n_row_delim, x)
                         else:
-                            if strip_rows:
-                                r[-1][i] += x.strip()
-                            else:
-                                r[-1][i] += x
+                            r[-1][i] += x
                 else:
                     r += [row]
             else:

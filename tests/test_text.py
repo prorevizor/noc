@@ -256,7 +256,7 @@ g2      00:11:22:33:44:55 GigabitEthernet SS555_XXXX_Skeeee     B, R      109
 te1/0/3        (1RY\t#       GigabitEthernet1/  MBH_75_00020_1       B, R      106
                             3/0
 """,
-            {"allow_extend": True, "allow_wrap": True, "expand_tabs": False},
+            {"allow_extend": True, "allow_wrap": True, "line_wrapper": None},
             [["te1/0/3", "(1RY\t#", "GigabitEthernet1/3/0", "MBH_75_00020_1", "B, R", "106"]],
         ),
         (
@@ -266,7 +266,7 @@ te1/0/3        (1RY\t#       GigabitEthernet1/  MBH_75_00020_1       B, R      1
 gi1/0/1   00:11:22:33:44:55 gigaethernet1 Internacional'nyy     B, r      100
                                 /1/28         -13_2pod
 """,
-            {"allow_wrap": True, "strip_rows": True},
+            {"allow_wrap": True, "row_wrapper": lambda x: x.strip()},
             [
                 [
                     "gi1/0/1",
