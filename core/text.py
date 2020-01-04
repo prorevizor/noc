@@ -118,20 +118,23 @@ def parse_table(
                 if r and not row[0].strip():
                     # first column is empty
                     for i, x in enumerate(row):
-                        if row_wrapper:
-                            x = row_wrapper(x)
                         if (
                             x.strip()
                             and not r[-1][i].endswith(n_row_delim)
                             and not x.startswith(n_row_delim)
                         ):
-                            r[-1][i] += "%s%s" % (n_row_delim, x)
+                            r[-1][i] += "%s%s" % (n_row_delim, row_wrapper(x) if row_wrapper else x)
                         else:
-                            r[-1][i] += x
+                            r[-1][i] += row_wrapper(x) if row_wrapper else x
                 else:
                     r += [row]
             else:
-                r += [[line[f:t].strip() for f, t in columns]]
+                r += [
+                    [
+                        row_wrapper(line[f:t]).strip() if row_wrapper else line[f:t].strip()
+                        for f, t in columns
+                    ]
+                ]
     if allow_wrap:
         return [[x.strip() for x in rr] for rr in r]
     else:

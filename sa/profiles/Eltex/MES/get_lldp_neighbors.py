@@ -147,7 +147,7 @@ class Script(BaseScript):
         # Fallback to CLI
         lldp = self.cli("show lldp neighbors")
         for link in parse_table(
-                lldp, allow_wrap=True, line_wrapper=None, row_wrapper=lambda x: x.strip()
+            lldp, allow_wrap=True, line_wrapper=None, row_wrapper=lambda x: x.strip()
         ):
             local_interface = link[0]
             remote_chassis_id = link[1]
@@ -178,7 +178,6 @@ class Script(BaseScript):
                 remote_chassis_id_subtype = LLDP_CHASSIS_SUBTYPE_MAC
             else:
                 remote_chassis_id_subtype = LLDP_CHASSIS_SUBTYPE_LOCAL
-
             # Get remote port subtype
             remote_port_subtype = LLDP_PORT_SUBTYPE_ALIAS
             if is_ipv4(remote_port):
