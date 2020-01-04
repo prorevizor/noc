@@ -331,10 +331,7 @@ class SNMP(object):
 
         Yield records of (<index>, <value1>, ..., <valueN>)
         """
-        tables = [
-            self.get_table(o, community_suffix=community_suffix, cached=cached)
-            for o in oids
-        ]
+        tables = [self.get_table(o, community_suffix=community_suffix, cached=cached) for o in oids]
         if join == "left":
             lt = tables[1:]
             for k in sorted(tables[0]):
