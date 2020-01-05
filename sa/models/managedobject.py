@@ -82,6 +82,7 @@ from noc.core.datastream.decorator import datastream
 from noc.core.resourcegroup.decorator import resourcegroup
 from noc.core.confdb.tokenizer.loader import loader as tokenizer_loader
 from noc.core.confdb.engine.base import Engine
+from noc.core.comp import smart_text
 from .administrativedomain import AdministrativeDomain
 from .authprofile import AuthProfile
 from .managedobjectprofile import ManagedObjectProfile
@@ -686,7 +687,7 @@ class ManagedObject(NOCModel):
             self.event(self.EV_NEW, {"object": self})
         # Remove discovery jobs from old pool
         if "pool" in self.changed_fields and self.initial_data["id"]:
-            pool_name = Pool.get_by_id(self.initial_data["pool"]).name
+            pool_name = Pool.get_by_id(self.initial_data["pool"].id).name
             Job.remove("discovery", self.BOX_DISCOVERY_JOB, key=self.id, pool=pool_name)
             Job.remove("discovery", self.PERIODIC_DISCOVERY_JOB, key=self.id, pool=pool_name)
         # Reset matchers
@@ -704,6 +705,7 @@ class ManagedObject(NOCModel):
             or "address" in self.changed_fields
             or "port" in self.changed_fields
             or "auth_profile" in self.changed_fields
+            or "object_profile" in self.changed_fields
             or "user" in self.changed_fields
             or "password" in self.changed_fields
             or "super_password" in self.changed_fields
@@ -798,7 +800,7 @@ class ManagedObject(NOCModel):
             content += [self.trap_source_ip]
         platform = self.platform
         if platform:
-            content += [unicode(platform.name)]
+            content += [smart_text(platform.name)]
             card += " [%s]" % platform.name
         version = self.get_attr("version")
         if version:
@@ -877,7 +879,7 @@ class ManagedObject(NOCModel):
         :param value:
         :return:
         """
-        value = unicode(value)
+        value = smart_text(value)
         try:
             v = self.managedobjectattribute_set.get(key=name)
             v.value = value

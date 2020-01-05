@@ -36,7 +36,7 @@ class WorkflowApplication(ExtDocApplication):
 
     NEW_ID = "000000000000000000000000"
 
-    @view("^(?P<id>[0-9a-f]{24})/config/", method=["GET"], access="write", api=True)
+    @view(r"^(?P<id>[0-9a-f]{24})/config/", method=["GET"], access="write", api=True)
     def api_get_config(self, request, id):
         wf = self.get_object_or_404(Workflow, id=id)
         r = {
@@ -83,7 +83,7 @@ class WorkflowApplication(ExtDocApplication):
         return r
 
     @view(
-        "^(?P<id>[0-9a-f]{24})/config/",
+        r"^(?P<id>[0-9a-f]{24})/config/",
         method=["POST"],
         access="write",
         api=True,
@@ -203,13 +203,13 @@ class WorkflowApplication(ExtDocApplication):
 
     rx_clone_name = re.compile(r"\(Copy #(\d+)\)$")
 
-    @view("^(?P<id>[0-9a-f]{24})/clone/", method=["POST"], access="write", api=True)
+    @view(r"^(?P<id>[0-9a-f]{24})/clone/", method=["POST"], access="write", api=True)
     def api_clone(self, request, id):
         wf = self.get_object_or_404(Workflow, id=id)
         # Get all clone names
         m = 0
         for d in Workflow._get_collection().find(
-            {"name": {"$regex": re.compile("^%s\(Copy #\d+\)$" % re.escape(wf.name))}},
+            {"name": {"$regex": re.compile(r"^%s\(Copy #\d+\)$" % re.escape(wf.name))}},
             {"_id": 0, "name": 1},
         ):
             match = self.rx_clone_name.search(d["name"])

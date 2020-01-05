@@ -11,10 +11,14 @@ import os
 from collections import namedtuple
 import bisect
 import itertools
+import codecs
 
 # Third-party modules
 import ujson
 import six
+
+# NOC modules
+from noc.core.comp import smart_text
 
 Box = namedtuple("Box", ["profile", "vendor", "platform", "version"])
 CLIFSM = namedtuple("CLIFSM", ["state", "reply"])
@@ -205,21 +209,21 @@ class Beef(object):
 
             try:
                 with open_fs(storage) as fs:
-                    data = fs.readbytes(unicode(path))
+                    data = fs.readbytes(smart_text(path))
             except FSError as e:
                 raise IOError(str(e))
         else:
             # Load from external storage
             try:
                 with storage.open_fs() as fs:
-                    data = fs.readbytes(unicode(path))
+                    data = fs.readbytes(smart_text(path))
             except storage.Error as e:
                 raise IOError(str(e))
         if path.endswith(".gz"):
             data = cls.decompress_gzip(data)
         elif path.endswith(".json.bz2"):
             data = cls.decompress_bz2(data)
-        return Beef.from_json(data)
+        return Beef.from_json(smart_text(data))
 
     def iter_fsm_state_reply(self, state):
         """
@@ -257,7 +261,7 @@ class Beef(object):
         :param value:
         :return:
         """
-        return value.decode("base64")
+        return codecs.decode(value, "base64")
 
     @staticmethod
     def mib_decode_hex(value):

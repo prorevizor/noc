@@ -18,6 +18,7 @@ from bson import ObjectId
 # NOC Modules
 from noc.core.ip import IP
 from noc.sa.interfaces.base import MACAddressParameter
+from noc.core.comp import smart_text
 
 
 class CIDRField(models.Field):
@@ -92,10 +93,10 @@ class TextArrayField(models.Field):
 
     def from_db_value(self, value, expression, connection, context):
         def to_unicode(s):
-            if isinstance(s, unicode):
+            if isinstance(s, six.text_type):
                 return s
             else:
-                return unicode(s, "utf-8")
+                return smart_text(s)
 
         if value is None:
             return None
@@ -168,9 +169,9 @@ class TagsField(models.Field):
 
     def from_db_value(self, value, expression, connection, context):
         def to_unicode(s):
-            if isinstance(s, unicode):
+            if isinstance(s, six.text_type):
                 return s
-            return unicode(s, "utf-8")
+            return smart_text(s)
 
         if value is None:
             return None

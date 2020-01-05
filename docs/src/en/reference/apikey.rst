@@ -48,6 +48,12 @@ Access to :ref:`api-datastream`
 +-----------------------------------+------------------------------------------------------------------------------------+
 | `datastream:cfgtrap`              | ref:`cfgtrap datastream <api-datastream-cfgtrap>` access                           |
 +-----------------------------------+------------------------------------------------------------------------------------+
+| `datastream:vrf`                  | ref:`vrf datastream <api-datastream-vrf>` access                                   |
++-----------------------------------+------------------------------------------------------------------------------------+
+| `datastream:prefix`               | ref:`prefix datastream <api-datastream-prefix>` access                             |
++-----------------------------------+------------------------------------------------------------------------------------+
+| `datastream:address`              | ref:`address datastream <api-datastream-address>` access                           |
++-----------------------------------+------------------------------------------------------------------------------------+
 
 .. _reference-apikey-roles-nbi:
 
@@ -63,10 +69,14 @@ NBI API
 +-----------------------+----------------------------------------------------------------+
 | `nbi:objectmetrics`   | ref:`NBI objectmetrics API <api-nbi-objectmetrics>` access     |
 +-----------------------+----------------------------------------------------------------+
+| `nbi:objectstatus`    | ref:`NBI objectstatus API <api-nbi-objectstatus>` access       |
++-----------------------+----------------------------------------------------------------+
 | `nbi:path`            | ref:`NBI path API <api-nbi-path>` access                       |
 +-----------------------+----------------------------------------------------------------+
 | `nbi:telemetry`       | ref:`NBI telemetry API <api-nbi-telemetry>` access             |
 +-----------------------+----------------------------------------------------------------+
+
+.. _reference-apikey-best-practices:
 
 Best Practices
 --------------

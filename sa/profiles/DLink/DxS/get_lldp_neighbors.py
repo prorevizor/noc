@@ -19,6 +19,7 @@ from noc.sa.interfaces.igetlldpneighbors import IGetLLDPNeighbors
 from noc.sa.interfaces.base import MACAddressParameter
 from noc.sa.interfaces.base import IPv4Parameter
 from noc.core.mac import MAC
+from noc.core.comp import smart_text
 
 
 class Script(BaseScript):
@@ -89,7 +90,7 @@ class Script(BaseScript):
                 neigh["remote_port"] = MAC(neigh["remote_port"])
             for i in neigh:
                 if isinstance(neigh[i], six.string_types):
-                    neigh[i] = neigh[i].rstrip("\x00")
+                    neigh[i] = neigh[i].rstrip(smart_text("\x00"))
             if neigh["remote_capabilities"]:
                 neigh["remote_capabilities"] = int(
                     "".join(
@@ -158,16 +159,16 @@ class Script(BaseScript):
 
                 if m.group("port_description").strip():
                     p = m.group("port_description").strip()
-                    n["remote_port_description"] = re.sub("\n\s{49}", "", p)
+                    n["remote_port_description"] = re.sub(r"\n\s{49}", "", p)
                 if m.group("system_name").strip():
                     p = m.group("system_name").strip()
-                    n["remote_system_name"] = re.sub("\n\s{49}", "", p)
+                    n["remote_system_name"] = re.sub(r"\n\s{49}", "", p)
                 if m.group("system_description").strip():
                     p = m.group("system_description").strip()
-                    n["remote_system_description"] = re.sub("\n\s{49}", "", p)
+                    n["remote_system_description"] = re.sub(r"\n\s{49}", "", p)
                 caps = 0
                 for c in m.group("system_capabilities").split(","):
-                    c = re.sub("\s{49,50}", "", c)
+                    c = re.sub(r"\s{49,50}", "", c)
                     c = c.strip()
                     if not c:
                         break

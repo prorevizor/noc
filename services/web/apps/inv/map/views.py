@@ -64,7 +64,7 @@ class MapApplication(ExtApplication):
     # Maximum object to be shown
     MAX_OBJECTS = 300
 
-    @view("^(?P<id>[0-9a-f]{24})/data/$", method=["GET"], access="read", api=True)
+    @view(r"^(?P<id>[0-9a-f]{24})/data/$", method=["GET"], access="read", api=True)
     def api_data(self, request, id):
         def q_mo(d):
             x = d.copy()
@@ -142,7 +142,7 @@ class MapApplication(ExtApplication):
             )
         return r
 
-    @view("^(?P<id>[0-9a-f]{24})/data/$", method=["POST"], access="write", api=True)
+    @view(r"^(?P<id>[0-9a-f]{24})/data/$", method=["POST"], access="write", api=True)
     def api_save(self, request, id):
         self.get_object_or_404(NetworkSegment, id=id)
         data = self.deserialize(request.body)
@@ -150,7 +150,7 @@ class MapApplication(ExtApplication):
         MapSettings.load_json(data, request.user.username)
         return {"status": True}
 
-    @view(url="^(?P<id>[0-9a-f]{24})/info/segment/$", method=["GET"], access="read", api=True)
+    @view(url=r"^(?P<id>[0-9a-f]{24})/info/segment/$", method=["GET"], access="read", api=True)
     def api_info_segment(self, request, id):
         segment = self.get_object_or_404(NetworkSegment, id=id)
         r = {
@@ -161,7 +161,7 @@ class MapApplication(ExtApplication):
         return r
 
     @view(
-        url="^(?P<id>[0-9a-f]{24})/info/managedobject/(?P<mo_id>\d+)/$",
+        url=r"^(?P<id>[0-9a-f]{24})/info/managedobject/(?P<mo_id>\d+)/$",
         method=["GET"],
         access="read",
         api=True,
@@ -185,14 +185,14 @@ class MapApplication(ExtApplication):
         return r
 
     @view(
-        url="^(?P<id>[0-9a-f]{24})/info/link/(?P<link_id>[0-9a-f]{24})/$",
+        url=r"^(?P<id>[0-9a-f]{24})/info/link/(?P<link_id>[0-9a-f]{24})/$",
         method=["GET"],
         access="read",
         api=True,
     )
     def api_info_link(self, request, id, link_id):
         def q(s):
-            if isinstance(s, unicode):
+            if isinstance(s, six.text_type):
                 s = s.encode("utf-8")
             return s
 
@@ -247,14 +247,14 @@ class MapApplication(ExtApplication):
         return r
 
     @view(
-        url="^(?P<id>[0-9a-f]{24})/info/cloud/(?P<link_id>[0-9a-f]{24})/$",
+        url=r"^(?P<id>[0-9a-f]{24})/info/cloud/(?P<link_id>[0-9a-f]{24})/$",
         method=["GET"],
         access="read",
         api=True,
     )
     def api_info_cloud(self, request, id, link_id):
         def q(s):
-            if isinstance(s, unicode):
+            if isinstance(s, six.text_type):
                 s = s.encode("utf-8")
             return s
 
@@ -284,7 +284,7 @@ class MapApplication(ExtApplication):
         return r
 
     @view(
-        url="^objects_statuses/$",
+        url=r"^objects_statuses/$",
         method=["POST"],
         access="read",
         api=True,
@@ -362,7 +362,7 @@ class MapApplication(ExtApplication):
             return None
 
     @view(
-        url="^metrics/$",
+        url=r"^metrics/$",
         method=["POST"],
         access="read",
         api=True,
@@ -378,7 +378,7 @@ class MapApplication(ExtApplication):
     )
     def api_metrics(self, request, metrics):
         def q(s):
-            if isinstance(s, unicode):
+            if isinstance(s, six.text_type):
                 s = s.encode("utf-8")
             return s
 
@@ -432,14 +432,14 @@ class MapApplication(ExtApplication):
 
         return r
 
-    @view("^(?P<id>[0-9a-f]{24})/data/$", method=["DELETE"], access="write", api=True)
+    @view(r"^(?P<id>[0-9a-f]{24})/data/$", method=["DELETE"], access="write", api=True)
     def api_reset(self, request, id):
         self.get_object_or_404(NetworkSegment, id=id)
         MapSettings.objects.filter(segment=id).delete()
         return {"status": True}
 
     @view(
-        url="^stp/status/$",
+        url=r"^stp/status/$",
         method=["POST"],
         access="read",
         api=True,

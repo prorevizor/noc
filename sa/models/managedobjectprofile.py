@@ -13,7 +13,7 @@ from threading import Lock
 
 # Third-party modules
 import six
-from django.utils.translation import ugettext_lazy as _
+from noc.core.translation import ugettext as _
 from django.db import models
 import cachetools
 
@@ -223,6 +223,8 @@ class ManagedObjectProfile(NOCModel):
     enable_box_discovery_cpe = models.BooleanField(default=False)
     # Enable MAC discovery
     enable_box_discovery_mac = models.BooleanField(default=False)
+    # Enable extended MAC discovery
+    enable_box_discovery_xmac = models.BooleanField(default=False)
     # Enable metrics
     enable_box_discovery_metrics = models.BooleanField(default=False)
     # Enable Housekeeping

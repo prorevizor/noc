@@ -19,6 +19,7 @@ from noc.core.text import parse_table
 from noc.core.mac import MAC
 from noc.core.mib import mib
 from noc.core.ip import IPv4
+from noc.core.comp import smart_text, smart_bytes
 
 
 class Script(BaseScript):
@@ -66,7 +67,7 @@ class Script(BaseScript):
         re.MULTILINE | re.DOTALL,
     )
     rx_sh_int_des = rx_in = re.compile(
-        r"^(?P<ifname>\S+)\s+(?:(?:General|Trunk|Access \(\d+\))\s+)?(?P<oper_status>Up|Down)\s+"
+        r"^(?P<ifname>\S+)\s+(?:(?:General|Trunk|Access|Customer)(?: \(\d+\))?\s+)?(?P<oper_status>Up|Down)\s+"
         r"(?P<admin_status>Up|Down|Not Present)\s(?:(?P<descr>.*?)\n)?",
         re.MULTILINE,
     )
@@ -98,9 +99,8 @@ class Script(BaseScript):
     # if ascii or rus text in description
     def convert_description(self, desc):
         if desc:
-            return unicode(desc, "utf8", "replace").encode("utf8")
-        else:
-            return desc
+            return smart_bytes(smart_text(desc, errors="replace"))
+        return desc
 
     def get_bulk(self):
         return self.BULK

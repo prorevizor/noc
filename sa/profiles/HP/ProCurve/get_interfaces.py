@@ -38,8 +38,8 @@ class Script(BaseScript):
 
     rx_ip = re.compile(
         r"\s+(?P<name>\S+)\s+\|\s+(Manual|Disabled)\s"
-        "+(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s"
-        "+(?P<mask>\d{1,3}.\d{1,3}\.\d{1,3}\.\d{1,3})"
+        r"+(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s"
+        r"+(?P<mask>\d{1,3}.\d{1,3}\.\d{1,3}\.\d{1,3})"
     )
 
     def execute(self):
@@ -89,6 +89,7 @@ class Script(BaseScript):
             ifname = iface["name"]
             sub = iface.copy()
             ifindex = str.split("=")[0].split(".")[1].rstrip()
+            iface["snmp_ifindex"] = int(ifindex)
             sub["snmp_ifindex"] = int(ifindex)
             sub["enabled_afi"] = []
             del sub["type"]

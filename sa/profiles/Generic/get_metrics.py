@@ -157,7 +157,7 @@ class MetricScriptBase(BaseScriptMetaclass):
         def sort_path_key(s):
             """
             M - Main, C - Custom, G - Generic, P - profile
-            \|G|P
+            \\|G|P
             -+-+-
             M|3|1
             C|2|0
@@ -228,7 +228,11 @@ class MetricScriptBase(BaseScriptMetaclass):
         f.mt_volatile = False
         setattr(script, fn, six.create_unbound_method(f, script))
         ff = getattr(script, fn)
-        ff.__func__.__name__ = fn
+        if six.PY3:
+            ff.__name__ = fn
+            ff.__qualname__ = "%s.%s" % (script.__name__, fn)
+        else:
+            ff.__func__.__name__ = fn
         return ff
 
     rx_mt_name = re.compile("[^a-z0-9]+")

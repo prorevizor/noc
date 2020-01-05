@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # rack macro
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2018 The NOC Project
+# Copyright (C) 2007-2019 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -10,11 +10,13 @@
 from __future__ import absolute_import
 import re
 import xml.parsers.expat
+import operator
 
 # Third-party modules
 from django.utils.html import escape
 
 # NOC modules
+from noc.core.comp import smart_text
 from .base import BaseMacro
 
 rx_link = re.compile(r"^(.*)\|(https?://.+)$")
@@ -27,8 +29,7 @@ def unroll_link(s):
             match.group(2),
             escape(match.group(1)).replace(r"\n", "<br/>"),
         )
-    else:
-        return s
+    return s
 
 
 class RackSet(object):
@@ -47,7 +48,9 @@ class RackSet(object):
     # allocation is a tuple of: top position, height, is empty space, allocation
     #
     def compile_allocations(self, rack):
-        allocations = sorted(rack.allocations, lambda x, y: -cmp(x.position, y.position))
+        allocations = list(
+            sorted(rack.allocations, key=operator.attrgetter("position"), reverse=True)
+        )
         sp = []
         if len(allocations) == 0:
             sp += [(rack.height, rack.height, True, None)]
@@ -294,7 +297,7 @@ class XMLParser(object):
         self.last_allocation = None
         if not text.startswith("<?"):
             text = "<?xml version='1.0' encoding='utf-8' ?>\n" + text  # Add missed XML prolog
-        self.parser.Parse(unicode(text).encode("utf-8"))
+        self.parser.Parse(smart_text(text).encode("utf-8"))
 
     #
     # Called on tag opening
@@ -354,4 +357,4 @@ class RackMacro(BaseMacro):
     @classmethod
     def handle(cls, args, text):
         parser = XMLParser(text)
-        return unicode(parser.rackset.render_html())
+        return smart_text(parser.rackset.render_html())

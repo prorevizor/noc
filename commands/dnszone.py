@@ -24,8 +24,9 @@ from noc.ip.models.vrf import VRF
 from noc.ip.models.addressprofile import AddressProfile
 from noc.ip.models.address import Address
 from noc.core.validators import is_int
-from noc.dns.utils.rr import RR
+from noc.core.dns.rr import RR
 from noc.core.text import split_alnum
+from noc.core.comp import smart_text
 
 
 class Command(BaseCommand):
@@ -292,7 +293,7 @@ class Command(BaseCommand):
     def has_unquoted(item, v):
         return not item.startswith('"') and v in item
 
-    rx_mq = re.compile('"\s+"')
+    rx_mq = re.compile(r'"\s+"')
 
     @classmethod
     def merge_mq(cls, value):
@@ -425,7 +426,7 @@ class Command(BaseCommand):
         """
         if not s:
             return
-        return ".".join(unicode(x, "idna") for x in s.split("."))
+        return ".".join(smart_text(x, encoding="idna") for x in s.split("."))
 
     @classmethod
     def parse_ttl(cls, line):

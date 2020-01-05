@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # Geocoding cache
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2016 The NOC Project
+# Copyright (C) 2007-2019 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -11,17 +11,19 @@
 import re
 import logging
 import hashlib
-import base64
 import datetime
+import codecs
 
 # Third-party modules
 from mongoengine.document import Document
 from mongoengine.fields import StringField, FloatField, ListField, DateTimeField
 
 # NOC modules
-from noc.core.geocoding.base import GeoCoderError, GeoCoderResult
+from noc.core.geocoder.base import GeoCoderResult
+from noc.core.geocoder.errors import GeoCoderError
 from noc.config import config
-from noc.core.handler import get_handler
+from noc.core.geocoder.loader import loader
+from noc.core.comp import smart_bytes, smart_text
 
 logger = logging.getLogger(__name__)
 
@@ -53,32 +55,25 @@ class GeocoderCache(Document):
     rx_slash = re.compile(r"\s+/")
     rx_dots = re.compile(r"\.\.+")
     rx_sep = re.compile(r"[ \t;:!]+")
-    rx_comma = re.compile("(\s*,)+")
+    rx_comma = re.compile(r"(\s*,)+")
     rx_dotcomma = re.compile(r",\s*\.,")
 
     geocoders = []
-
-    gcls = {
-        "yandex": "noc.core.geocoding.yandex.YandexGeocoder",
-        "google": "noc.core.geocoding.google.GoogleGeocoder",
-    }
 
     @classmethod
     def iter_geocoders(cls):
         if not cls.geocoders:
             for gc in config.geocoding.order.split(","):
                 gc = gc.strip()
-                if gc in cls.gcls:
-                    h = get_handler(cls.gcls[gc])
-                    if h:
-                        cls.geocoders += [h]
+                h = loader[gc]
+                if h:
+                    cls.geocoders += [h]
         for h in cls.geocoders:
             yield h
 
     @classmethod
     def clean_query(cls, query):
-        if isinstance(query, str):
-            query = unicode(query, "utf-8")
+        query = smart_text(query)
         query = query.upper().encode("utf-8")
         query = cls.rx_slash.sub("/", query)
         query = cls.rx_dots.sub(" ", query)
@@ -89,7 +84,7 @@ class GeocoderCache(Document):
 
     @classmethod
     def get_hash(cls, query):
-        return base64.b64encode(hashlib.sha256(query).digest())[:12]
+        return codecs.encode(hashlib.sha256(smart_bytes(query)).digest(), "base64")[:12]
 
     @classmethod
     def forward(cls, query, bounds=None):

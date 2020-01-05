@@ -13,7 +13,7 @@ COPY . /opt/noc
 
 RUN apk add --update --no-cache \
     ca-certificates \
-    libpq libssh2 \
+    libpq \
     py-cffi \
     py-numpy \
     py-pip \
@@ -22,6 +22,8 @@ RUN apk add --update --no-cache \
     libmemcached \
     curl \
    && apk add --no-cache --virtual .build-deps \
+        git \
+        build-base \
         cyrus-sasl-dev \
         cython \
         cython-dev \
@@ -29,12 +31,12 @@ RUN apk add --update --no-cache \
         libffi-dev \
         libmemcached-dev \
         libressl-dev \
-        libssh2-dev \
         musl-dev \
         postgresql-dev \
         python-dev \
         zlib-dev \
-    && pip install --no-cache --trusted-host cdn.getnoc.com --find-links https://cdn.getnoc.com/npkg/ --upgrade -r /opt/noc/requirements/docker.txt \
+        cmake \
+    && pip install --src=/tmp/src --no-cache --trusted-host cdn.getnoc.com --find-links https://cdn.getnoc.com/npkg/ --upgrade -r /opt/noc/requirements/docker.txt \
     && python ./scripts/deploy/install-packages requirements/web.json \
     && python ./scripts/deploy/install-packages requirements/card.json \
     && python ./scripts/deploy/install-packages requirements/bi.json \
@@ -42,7 +44,8 @@ RUN apk add --update --no-cache \
     && /usr/bin/cythonize -i speedup/*.pyx \
     && apk del -r .build-deps \
     && adduser -h /opt/noc -s /bin/sh -S -D -H -u 1200 noc \
-    && chown noc /opt/noc
+    && chown noc /opt/noc \
+    && sed -i 's/g = \"ascii"/g = \"utf-8\"/g' /usr/lib/python2.7/site.py
 
 EXPOSE 1200
 

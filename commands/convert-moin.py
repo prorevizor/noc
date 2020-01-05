@@ -18,6 +18,9 @@ import datetime
 import sys
 import gc
 
+# Third-party modules
+import six
+
 # NOC modules
 from noc.aaa.models.user import User
 from noc.core.management.base import BaseCommand
@@ -25,6 +28,7 @@ from noc.main.models.language import Language
 from noc.main.models.databasestorage import database_storage
 from noc.kb.models.kbentry import KBEntry
 from noc.kb.models.kbentryattachment import KBEntryAttachment
+from noc.core.comp import smart_text, smart_bytes
 
 #
 rx_hexseq = re.compile(r"\(((?:[0-9a-f][0-9a-f])+)\)")
@@ -61,10 +65,10 @@ class Command(BaseCommand):
     #
 
     def out(self, s):
-        if isinstance(s, unicode):
+        if isinstance(s, six.text_type):
             sys.stdout.write(s.encode("utf-8"))
         else:
-            sys.stdout.write(unicode(s, self.encoding).encode("utf-8"))
+            sys.stdout.write(smart_bytes(smart_text(s, encoding=self.encoding)))
         sys.stdout.flush()
 
     #
@@ -81,7 +85,7 @@ class Command(BaseCommand):
                 seq = seq[2:]
                 r += chr(int(c, 16))
             r = "".join(r)
-            return unicode(r, self.encoding)
+            return smart_text(r, encoding=self.encoding)
 
         root = os.path.join(self.pages, page)
         name = rx_hexseq.sub(convert_hexseq, page)
@@ -98,7 +102,7 @@ class Command(BaseCommand):
         for rev in revisions:
             rev_path = os.path.join(root, "revisions", rev)
             with open(rev_path) as f:
-                body = self.convert_body(unicode(f.read(), self.encoding))
+                body = self.convert_body(smart_text(f.read(), encoding=self.encoding))
             mtime = datetime.datetime.fromtimestamp(
                 os.stat(rev_path)[stat.ST_MTIME]
             )  # Revision time

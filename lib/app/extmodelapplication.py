@@ -47,6 +47,7 @@ from noc.main.models.tag import Tag
 from noc.core.stencil import stencil_registry
 from noc.aaa.models.permission import Permission
 from noc.core.middleware.tls import get_user
+from noc.core.comp import smart_text
 from .extapplication import ExtApplication, view
 from .interfaces import DateParameter, DateTimeParameter
 
@@ -63,8 +64,8 @@ class ExtModelApplication(ExtApplication):
     # m2m fields
     custom_m2m_fields = {}  # Name -> Model
     secret_fields = (
-        None
-    )  # Set of sensitive fields. "secret" permission is required to show of modify
+        None  # Set of sensitive fields. "secret" permission is required to show of modify
+    )
     order_map = {}  # field name -> SQL query for ordering
     lookup_default = [{"id": "Leave unchanged", "label": "Leave unchanged"}]
     ignored_fields = {"id", "bi_id"}
@@ -343,13 +344,13 @@ class ExtModelApplication(ExtApplication):
                 if o.shape:
                     v = stencil_registry.get(o.shape)
                     r[f.name] = v.id
-                    r["%s__label" % f.name] = unicode(v.title)
+                    r["%s__label" % f.name] = smart_text(v.title)
             elif hasattr(f, "document"):
                 # DocumentReferenceField
                 v = getattr(o, f.name)
                 if v:
                     r[f.name] = str(v.pk)
-                    r["%s__label" % f.name] = unicode(v)
+                    r["%s__label" % f.name] = smart_text(v)
                 else:
                     r[f.name] = None
                     r["%s__label" % f.name] = ""
@@ -364,19 +365,19 @@ class ExtModelApplication(ExtApplication):
                     if isinstance(v, datetime.datetime):
                         v = v.isoformat()
                     else:
-                        v = unicode(v)
+                        v = smart_text(v)
                 r[f.name] = v
             else:
                 v = getattr(o, f.name)
                 if v:
                     r[f.name] = v._get_pk_val()
-                    r["%s__label" % f.name] = unicode(v)
+                    r["%s__label" % f.name] = smart_text(v)
                 else:
                     r[f.name] = None
                     r["%s__label" % f.name] = ""
         # Add m2m fields
         for n in self.m2m_fields:
-            r[n] = [{"id": str(mmo.pk), "label": unicode(mmo)} for mmo in getattr(o, n).all()]
+            r[n] = [{"id": str(mmo.pk), "label": smart_text(mmo)} for mmo in getattr(o, n).all()]
             # r[n] = list(getattr(o, n).values_list("id", flat=True))
         # Add custom fields
         for f in self.custom_fields:
@@ -386,7 +387,7 @@ class ExtModelApplication(ExtApplication):
         return r
 
     def instance_to_lookup(self, o, fields=None):
-        return {"id": o.id, "label": unicode(o)}
+        return {"id": o.id, "label": smart_text(o)}
 
     def lookup_tags(self, q, name, value):
         if not value:
@@ -511,7 +512,7 @@ class ExtModelApplication(ExtApplication):
         """
         return True
 
-    @view(method=["GET"], url="^$", access="read", api=True)
+    @view(method=["GET"], url=r"^$", access="read", api=True)
     def api_list(self, request):
         return self.list_data(request, self.instance_to_dict)
 
@@ -522,7 +523,7 @@ class ExtModelApplication(ExtApplication):
         except ValueError:
             return self.response(self.lookup_default, status=self.OK)
 
-    @view(method=["POST"], url="^$", access="create", api=True)
+    @view(method=["POST"], url=r"^$", access="create", api=True)
     def api_create(self, request):
         if request.META.get("CONTENT_TYPE") == "application/json":
             attrs, m2m_attrs = self.split_mtm(self.deserialize(request.body))
@@ -590,7 +591,7 @@ class ExtModelApplication(ExtApplication):
                 rs = self.instance_to_dict(o)
             return self.response(rs, status=self.CREATED)
 
-    @view(method=["GET"], url="^(?P<id>\d+)/?$", access="read", api=True)
+    @view(method=["GET"], url=r"^(?P<id>\d+)/?$", access="read", api=True)
     def api_read(self, request, id):
         """
         Returns dict with object's fields and values
@@ -604,7 +605,7 @@ class ExtModelApplication(ExtApplication):
             only = only.split(",")
         return self.response(self.instance_to_dict(o, fields=only), status=self.OK)
 
-    @view(method=["PUT"], url="^(?P<id>\d+)/?$", access="update", api=True)
+    @view(method=["PUT"], url=r"^(?P<id>\d+)/?$", access="update", api=True)
     def api_update(self, request, id):
         if request.META.get("CONTENT_TYPE") == "application/json":
             attrs, m2m_attrs = self.split_mtm(self.deserialize(request.body))
@@ -680,7 +681,7 @@ class ExtModelApplication(ExtApplication):
             r = self.instance_to_dict(o)
         return self.response(r, status=self.OK)
 
-    @view(method=["DELETE"], url="^(?P<id>\d+)/?$", access="delete", api=True)
+    @view(method=["DELETE"], url=r"^(?P<id>\d+)/?$", access="delete", api=True)
     def api_delete(self, request, id):
         try:
             o = self.queryset(request).get(**{self.pk: int(id)})
@@ -701,7 +702,7 @@ class ExtModelApplication(ExtApplication):
             )
         return HttpResponse(status=self.DELETED)
 
-    @view(url="^actions/group_edit/$", method=["POST"], access="update", api=True)
+    @view(url=r"^actions/group_edit/$", method=["POST"], access="update", api=True)
     def api_action_group_edit(self, request):
         validator = DictParameter(
             attrs={"ids": ListOfParameter(element=ModelParameter(self.model), convert=True)}

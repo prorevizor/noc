@@ -25,8 +25,8 @@ class Script(BaseScript):
         r"^\s*Description\s*:(?P<descr>[^\n]*)\n",
         re.MULTILINE | re.IGNORECASE | re.DOTALL,
     )
-    rx_mtu = re.compile("The Maximum Frame Length is (?P<mtu>\d+)")
-    rx_port_type = re.compile("Port link-type: (?P<port_type>hybrid|access|trunk)")
+    rx_mtu = re.compile(r"The Maximum Frame Length is (?P<mtu>\d+)")
+    rx_port_type = re.compile(r"Port link-type: (?P<port_type>hybrid|access|trunk)")
     rx_port_other = re.compile(
         r"^\s*Tagged   VLAN ID : (?P<tagged>[^\n]+)\n"
         r"^\s*Untagged VLAN ID : (?P<untagged>[^\n]+)\n",
@@ -86,7 +86,7 @@ class Script(BaseScript):
             else:
                 iftype = "physical"
             o_stat = match.group("oper_status").lower() == "up"
-            if match.group("oper_status") == "DOWN ( Administratively\)":
+            if match.group("oper_status") == r"DOWN ( Administratively\)":
                 a_stat = False
             else:
                 a_stat = True
@@ -147,7 +147,7 @@ class Script(BaseScript):
                 continue
             ifname = match.group("interface")
             o_stat = match.group("oper_status").lower() == "up"
-            if match.group("oper_status") == "DOWN ( Administratively\)":
+            if match.group("oper_status") == r"DOWN ( Administratively\)":
                 a_stat = False
             else:
                 a_stat = True
@@ -187,7 +187,7 @@ class Script(BaseScript):
                 continue
             ifname = match.group("interface")
             o_stat = match.group("oper_status").lower() == "up (spoofing)"
-            if match.group("oper_status") == "DOWN ( Administratively\)":
+            if match.group("oper_status") == r"DOWN ( Administratively\)":
                 a_stat = False
             else:
                 a_stat = True

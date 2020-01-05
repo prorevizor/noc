@@ -83,6 +83,14 @@ class MetaApplicator(BaseApplicator):
             if iface.profile:
                 yield "interfaces", iface.name, "meta", "profile", "id", str(iface.profile.id)
                 yield "interfaces", iface.name, "meta", "profile", "name", iface.profile.name
+            if iface.ifindex is not None:
+                yield "interfaces", iface.name, "meta", "ifindex", int(iface.ifindex)
+            if iface.mac:
+                yield "interfaces", iface.name, "meta", "mac", str(iface.mac)
+            # interfaces X meta hints
+            if iface.hints:
+                for hint in iface.hints:
+                    yield "interfaces", iface.name, "meta", "hints", hint
             # interfaces X meta link
             if iface.name in links:
                 for n, ro in enumerate(sorted(links[iface.name])):

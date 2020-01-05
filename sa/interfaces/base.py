@@ -21,6 +21,7 @@ from noc.core.validators import is_ipv6
 from noc.core.interface.error import InterfaceTypeError
 from noc.core.interface.parameter import BaseParameter as Parameter
 from noc.core.interface.parameter import ORParameter  # noqa
+from noc.core.comp import smart_text
 
 
 class NoneParameter(Parameter):
@@ -71,7 +72,7 @@ class UnicodeParameter(StringParameter):
         if value is None and self.default is not None:
             return self.default
         try:
-            value = unicode(value)
+            value = smart_text(value)
         except Exception:
             self.raise_error(value)
         if self.choices and value not in self.choices:
@@ -913,10 +914,10 @@ class TagsParameter(Parameter):
 
     def clean(self, value):
         if type(value) in (list, tuple):
-            v = [unicode(v).strip() for v in value]
+            v = [smart_text(v).strip() for v in value]
             return [x for x in v if x]
         elif isinstance(value, six.string_types):
-            v = [unicode(x.strip()) for x in value.split(",")]
+            v = [smart_text(x.strip()) for x in value.split(",")]
             return [x for x in v if x]
         else:
             self.raise_error("Invalid tags: %s" % value)

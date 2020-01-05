@@ -5,8 +5,7 @@
 # Copyright (C) 2007-2017 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
-"""
-"""
+
 # Python modules
 import re
 
@@ -19,19 +18,19 @@ class Script(BaseScript):
     name = "Raisecom.ROS.get_inventory"
     interface = IGetInventory
 
-    rx_iface = re.compile("^(?P<ifname>\S+)\s+(?:UP|DOWN)\s+(?:UP|DOWN)", re.MULTILINE)
-    rx_ifunit = re.compile("(?P<iftype>\D+)(?P<ifunit>\d+\S*)")
-    rx_portnum = re.compile("^\S*?(?P<portnum>\d+)$")
+    rx_iface = re.compile(r"^(?P<ifname>\S+)\s+(?:UP|DOWN)\s+(?:UP|DOWN)", re.MULTILINE)
+    rx_ifunit = re.compile(r"(?P<iftype>\D+)(?P<ifunit>\d+\S*)")
+    rx_portnum = re.compile(r"^\S*?(?P<portnum>\d+)$")
 
     def execute_iscom2624g(self):
-        v = self.profile.get_version(self)
+        v = self.scripts.get_version()
         r = [
             {
                 "type": "CHASSIS",
                 "vendor": "RAISECOM",
                 "part_no": v["platform"],
-                "revision": v["hw_rev"],
-                "serial": v["serial"],
+                "revision": v["attributes"]["HW version"],
+                "serial": v["attributes"]["Serial Number"],
             }
         ]
         v = self.cli("show interface brief")
@@ -70,23 +69,25 @@ class Script(BaseScript):
     def execute_cli(self):
         if self.is_iscom2624g:
             return self.execute_iscom2624g()
-        v = self.profile.get_version(self)
+        v = self.scripts.get_version()
         r = [
             {
                 "type": "CHASSIS",
                 "vendor": "RAISECOM",
                 "part_no": v["platform"],
-                "revision": v["hw_rev"],
-                "serial": v["serial"],
+                "revision": v["attributes"]["HW version"],
+                "serial": v["attributes"]["Serial Number"],
             }
         ]
+        if self.is_rotek:
+            return r
         v = self.cli("show interface port transceiver information")
         for port in v.split("Port "):
             if not port or "Wait" in port or "Error" in port:
                 # Wait message after commands
                 continue
             num = int(port.splitlines()[0].strip(":"))
-            d = dict([e.split(":") for e in port.splitlines() if e and len(e.split(":")) == 2])
+            d = dict(e.split(":") for e in port.splitlines() if e and len(e.split(":")) == 2)
             # 1300Mb/sec-1310nm-LC-20.0km(0.009mm)
             description = "-".join(
                 [

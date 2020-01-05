@@ -13,6 +13,7 @@ from collections import defaultdict
 
 # Third-party modules
 import six
+from typing import Tuple, List, DefaultDict
 
 # NOC modules
 from noc.services.discovery.jobs.base import DiscoveryCheck
@@ -28,6 +29,8 @@ class MACCheck(DiscoveryCheck):
 
     name = "mac"
     required_script = "get_mac_address_table"
+    XMAC_POLICIES = ("i", "c", "C")
+    XMAC_FILTER_TYPE = {"D", "S"}  # Only Dynamic and Static MAC collected
 
     def handler(self):
         # Build filter policy
@@ -71,17 +74,25 @@ class MACCheck(DiscoveryCheck):
         collect_if_objects = self.object.enable_autosegmentation
         if_mac = defaultdict(set)  # interface -> [macs]
         # Collect and process MACs
+        mac_direct_downlink = defaultdict(list)  # type: DefaultDict[str, List[MAC]]
+        mac_downlink_policy = tuple()  # type: Tuple[str, ...]
+        if self.object.object_profile.enable_box_discovery_xmac:
+            mac_downlink_policy = self.XMAC_POLICIES
         result = self.object.scripts.get_mac_address_table()
         for v in result:
             total_macs += 1
-            if v["type"] != "D" or not v["interfaces"]:
-                self.logger.debug("Ignored not dynamic MAC: %s" % v["mac"])
+            if v["type"] not in self.XMAC_FILTER_TYPE or not v["interfaces"]:
+                self.logger.debug("Ignored not dynamic or static MAC: %s" % v["mac"])
                 continue
             ifname = str(v["interfaces"][0])
             iface = self.get_interface_by_name(ifname)
             if not iface:
                 unknown_interfaces.add(ifname)
                 continue  # Interface not found
+            ifprofile = iface.get_profile()
+            mac = MAC(v["mac"])
+            if mac_downlink_policy and ifprofile.mac_discovery_policy in mac_downlink_policy:
+                mac_direct_downlink[ifname] += [mac]
             if collect_if_objects:
                 if_mac[iface].add(v["mac"])
             if not mf(iface, v["vlan_id"], v["mac"]):
@@ -89,13 +100,12 @@ class MACCheck(DiscoveryCheck):
                     "Filtered: Iface: %s, Vlan: %s, MAC: %s" % (iface, v["vlan_id"], v["mac"])
                 )
                 continue
-            ifprofile = iface.get_profile()
             data += [
                 {
                     "date": date,
                     "ts": ts,
                     "managed_object": mo_bi_id,
-                    "mac": int(MAC(v["mac"])),
+                    "mac": int(mac),
                     "interface": ifname,
                     "interface_profile": ifprofile.bi_id,
                     "segment": seg_bi_id,
@@ -116,6 +126,8 @@ class MACCheck(DiscoveryCheck):
                 self.build_seen_objects(if_mac)
         else:
             self.logger.info("No MAC addresses collected")
+        if mac_direct_downlink:
+            self.job.set_artefact("mac_direct_downlink", mac_direct_downlink)
 
     def filter_all(self, interface, vlan, mac):
         return True

@@ -13,7 +13,7 @@ from threading import Lock
 
 # Third-party modules
 import six
-from django.utils.translation import ugettext_lazy as _
+from noc.core.translation import ugettext as _
 from django.db import models
 from django.db.models import Q
 import cachetools
@@ -35,6 +35,7 @@ from noc.core.model.decorator import on_delete, on_save, on_delete_check
 from noc.core.model.fields import DocumentReferenceField
 from noc.ip.models.vrf import VRF
 from noc.vc.models.vcdomain import VCDomain
+from noc.core.comp import smart_text
 from .profile import Profile
 from .administrativedomain import AdministrativeDomain
 from .managedobjectprofile import ManagedObjectProfile
@@ -325,7 +326,7 @@ class ManagedObjectSelector(NOCModel):
                 s = [q(x) for x in s]
                 return "[%s]" % ", ".join(s)
             else:
-                return '"%s"' % unicode(s).replace("\\", "\\\\").replace("'", "\\'")
+                return '"%s"' % smart_text(s).replace("\\", "\\\\").replace("'", "\\'")
 
         expr = []
         # Filter by is_managed

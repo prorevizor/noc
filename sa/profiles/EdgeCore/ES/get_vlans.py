@@ -8,10 +8,12 @@
 
 # Python modules
 import re
+import operator
 
 # NOC Modules
 from noc.core.script.base import BaseScript
 from noc.sa.interfaces.igetvlans import IGetVlans
+from noc.core.comp import smart_text
 
 
 class Script(BaseScript):
@@ -37,8 +39,8 @@ class Script(BaseScript):
             "1.3.6.1.2.1.17.7.1.4.3.1.1", bulk=True
         ):  # dot1qVlanStaticName
             o = oid.split(".")[-1]
-            result += [{"vlan_id": int(o), "name": v.strip().rstrip("\x00")}]
-        return sorted(result, lambda x, y: cmp(x["vlan_id"], y["vlan_id"]))
+            result += [{"vlan_id": int(o), "name": v.strip().rstrip(smart_text("\x00"))}]
+        return list(sorted(result, key=operator.itemgetter("vlan_id")))
 
     def execute_cli(self):
         r = []

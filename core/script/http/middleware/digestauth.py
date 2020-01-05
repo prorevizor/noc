@@ -18,6 +18,7 @@ from six.moves.urllib.request import parse_http_list, parse_keqv_list
 # NOC modules
 from .base import BaseMiddleware
 from noc.core.http.client import fetch_sync
+from noc.core.comp import smart_bytes
 
 
 class DigestAuthMiddeware(BaseMiddleware):
@@ -27,8 +28,10 @@ class DigestAuthMiddeware(BaseMiddleware):
 
     name = "digestauth"
 
-    def __init__(self, http):
+    def __init__(self, http, eof_mark=None):
         super(DigestAuthMiddeware, self).__init__(http)
+        self.logger = http.logger
+        self.eof_mark = eof_mark
         self.user = self.http.script.credentials.get("user")
         self.password = self.http.script.credentials.get("password")
         self.method = "GET"
@@ -48,8 +51,8 @@ class DigestAuthMiddeware(BaseMiddleware):
         A1 = "%s:%s:%s" % (self.user, realm, self.password)
         A2 = "%s:%s" % (self.method, uri)
 
-        HA1 = hashlib.md5(A1).hexdigest()
-        HA2 = hashlib.md5(A2).hexdigest()
+        HA1 = hashlib.md5(smart_bytes(A1)).hexdigest()
+        HA2 = hashlib.md5(smart_bytes(A2)).hexdigest()
 
         return HA1, HA2
 
@@ -62,6 +65,9 @@ class DigestAuthMiddeware(BaseMiddleware):
         :type digest_response: dict
         :return:
         """
+        self.logger.debug(
+            "[%s] Build digest for %s, on response %s", self.name, url, digest_response
+        )
         p_parsed = urlparse(url)
         uri = p_parsed.path or "/"
         qop = digest_response["qop"]
@@ -81,13 +87,13 @@ class DigestAuthMiddeware(BaseMiddleware):
         s = nonce.encode("utf-8")
         # s += time.ctime().encode('utf-8')
         s += os.urandom(8)
-        cnonce = hashlib.sha1(s).hexdigest()[:16]
+        cnonce = hashlib.sha1(smart_bytes(s)).hexdigest()[:16]
 
         if not qop:
-            respdig = hashlib.md5("%s:%s:%s" % (HA1, nonce, HA2)).hexdigest()
+            respdig = hashlib.md5(smart_bytes("%s:%s:%s" % (HA1, nonce, HA2))).hexdigest()
         elif qop == "auth" or "auth" in qop.split(","):
             noncebit = "%s:%s:%s:%s:%s" % (nonce, ncvalue, cnonce, "auth", HA2)
-            respdig = hashlib.md5("%s:%s" % (HA1, noncebit)).hexdigest()
+            respdig = hashlib.md5(smart_bytes("%s:%s" % (HA1, noncebit))).hexdigest()
         else:
             respdig = None
 
@@ -110,12 +116,12 @@ class DigestAuthMiddeware(BaseMiddleware):
         self.last_nonce = nonce
         self.last_realm = realm
         self.last_opaque = opaque
-
         return "Digest %s" % (str(base))
 
     def process_request(self, url, body, headers):
         if not headers:
             headers = {}
+        self.logger.debug("[%s] Process middleware on: %s", self.name, url)
         # First query - 401
         code, resp_headers, result = fetch_sync(
             url,
@@ -124,6 +130,15 @@ class DigestAuthMiddeware(BaseMiddleware):
             follow_redirects=True,
             allow_proxy=False,
             validate_cert=False,
+            eof_mark=self.eof_mark,
+        )
+        self.logger.debug(
+            "[%s] Response code %s, headers %s on: %s, body: %s",
+            self.name,
+            code,
+            resp_headers,
+            url,
+            body,
         )
         if "WWW-Authenticate" in resp_headers and resp_headers["WWW-Authenticate"].startswith(
             "Digest"
@@ -131,4 +146,5 @@ class DigestAuthMiddeware(BaseMiddleware):
             items = parse_http_list(resp_headers["WWW-Authenticate"][7:])
             digest_response = parse_keqv_list(items)
             headers["Authorization"] = self.build_digest_header(url, self.method, digest_response)
+        self.logger.debug("[%s] Set headers, %s", self.name, headers)
         return url, body, headers

@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # ip.prefix application
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2018 The NOC Project
+# Copyright (C) 2007-2019 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -21,6 +21,7 @@ from noc.core.translation import ugettext as _
 from noc.sa.interfaces.base import ModelParameter, PrefixParameter
 from noc.core.ip import IP
 from noc.lib.app.decorators.state import state_handler
+from noc.core.comp import smart_text
 
 
 @state_handler
@@ -49,7 +50,7 @@ class PrefixApplication(ExtModelApplication):
         return qs.filter(PrefixAccess.read_Q(request.user))
 
     @view(
-        url="^(?P<prefix_id>\d+)/rebase/$",
+        url=r"^(?P<prefix_id>\d+)/rebase/$",
         method=["POST"],
         access="rebase",
         api=True,
@@ -63,7 +64,7 @@ class PrefixApplication(ExtModelApplication):
         except ValueError as e:
             return self.response_bad_request(str(e))
 
-    @view(url="^(?P<prefix_id>\d+)/suggest_free/$", method=["GET"], access="read", api=True)
+    @view(url=r"^(?P<prefix_id>\d+)/suggest_free/$", method=["GET"], access="read", api=True)
     def api_suggest_free(self, request, prefix_id):
         """
         Suggest free blocks of different sizes
@@ -93,7 +94,7 @@ class PrefixApplication(ExtModelApplication):
                     break
         return suggestions
 
-    @view(method=["DELETE"], url="^(?P<id>\d+)/recursive/$", access="delete", api=True)
+    @view(method=["DELETE"], url=r"^(?P<id>\d+)/recursive/$", access="delete", api=True)
     def api_delete_recursive(self, request, id):
         try:
             o = self.queryset(request).get(**{self.pk: int(id)})
@@ -120,7 +121,7 @@ class PrefixApplication(ExtModelApplication):
         try:
             path = [Prefix.objects.get(id=ns) for ns in o.get_path()]
             return {
-                "data": [{"id": str(p.id), "name": unicode(p.name), "afi": p.afi} for p in path]
+                "data": [{"id": str(p.id), "name": smart_text(p.name), "afi": p.afi} for p in path]
             }
         except ValueError as e:
             return self.response_bad_request(str(e))

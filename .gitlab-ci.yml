@@ -389,7 +389,7 @@ build:Docs:
     - merge_requests
 
 build:Master Docs:
-  stage: Build docs
+  stage: Build
   environment: docs
   image: registry.getnoc.com/infrastructure/docs:master
   script:

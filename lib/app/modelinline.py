@@ -27,6 +27,7 @@ from noc.sa.interfaces.base import (
 )
 from noc.core.validators import is_int
 from noc.core.model.fields import TextArrayField
+from noc.core.comp import smart_text
 
 
 class ModelInline(object):
@@ -101,7 +102,7 @@ class ModelInline(object):
             "api_%s_list" % name,
             self.api_list,
             method=["GET"],
-            url="^(?P<parent>[^/]+)/%s/$" % name,
+            url=r"^(?P<parent>[^/]+)/%s/$" % name,
             access="read",
             api=True,
         )
@@ -110,7 +111,7 @@ class ModelInline(object):
             "api_%s_create" % name,
             self.api_create,
             method=["POST"],
-            url="^(?P<parent>[^/]+)/%s/$" % name,
+            url=r"^(?P<parent>[^/]+)/%s/$" % name,
             access="create",
             api=True,
         )
@@ -119,7 +120,7 @@ class ModelInline(object):
             "api_%s_read" % name,
             self.api_read,
             method=["GET"],
-            url="^(?P<parent>[^/]+)/%s/(?P<id>\d+)/?$" % name,
+            url=r"^(?P<parent>[^/]+)/%s/(?P<id>\d+)/?$" % name,
             access="read",
             api=True,
         )
@@ -128,7 +129,7 @@ class ModelInline(object):
             "api_%s_update" % name,
             self.api_update,
             method=["PUT"],
-            url="^(?P<parent>[^/]+)/%s/(?P<id>\d+)/?$" % name,
+            url=r"^(?P<parent>[^/]+)/%s/(?P<id>\d+)/?$" % name,
             access="update",
             api=True,
         )
@@ -137,7 +138,7 @@ class ModelInline(object):
             "api_%s_delete" % name,
             self.api_delete,
             method=["DELETE"],
-            url="^(?P<parent>[^/]+)/%s/(?P<id>\d+)/?$" % name,
+            url=r"^(?P<parent>[^/]+)/%s/(?P<id>\d+)/?$" % name,
             access="delete",
             api=True,
         )
@@ -321,13 +322,13 @@ class ModelInline(object):
                     and not isinstance(v, six.integer_types)
                     and not isinstance(v, (bool, list))
                 ):
-                    v = unicode(v)
+                    v = smart_text(v)
                 r[f.name] = v
             else:
                 v = getattr(o, f.name)
                 if v:
                     r[f.name] = v._get_pk_val()
-                    r["%s__label" % f.name] = unicode(v)
+                    r["%s__label" % f.name] = smart_text(v)
                 else:
                     r[f.name] = None
                     r["%s__label" % f.name] = ""

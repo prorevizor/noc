@@ -23,6 +23,7 @@ from noc.inv.models.unknownmodel import UnknownModel
 from noc.inv.models.modelmapping import ModelMapping
 from noc.inv.models.error import ConnectionError
 from noc.core.text import str_dict
+from noc.core.comp import smart_bytes
 
 
 class AssetCheck(DiscoveryCheck):
@@ -39,6 +40,9 @@ class AssetCheck(DiscoveryCheck):
         self.pn_description = {}  # part_no -> Description
         self.vendors = {}  # code -> Vendor instance
         self.objects = []  # [(type, object, context, serial)]
+        self.to_disconnect = (
+            set()
+        )  # Save processed connection. [(in_connection, object, out_connection), ... ]
         self.rule = defaultdict(list)  # Connection rule. type -> [rule1, ruleN]
         self.rule_context = {}
         self.ctx = {}
@@ -71,6 +75,8 @@ class AssetCheck(DiscoveryCheck):
         self.submit_connections()
         #
         self.check_management()
+        #
+        self.disconnect_connections()
 
     def submit(
         self,
@@ -189,6 +195,11 @@ class AssetCheck(DiscoveryCheck):
                 system="DISCOVERY",
                 managed_object=self.object,
                 op="CREATE",
+            )
+        else:
+            # Add all connection to disconnect list
+            self.to_disconnect.update(
+                set((o, c[0], c[1], c[2]) for c in o.iter_inner_connections())
             )
         # Check revision
         if o.get_data("asset", "revision") != revision:
@@ -376,6 +387,9 @@ class AssetCheck(DiscoveryCheck):
                     managed_object=self.object,
                     op="CONNECT",
                 )
+            if (o2, c2, o1, c1) in self.to_disconnect:
+                # Rmove if connection on system
+                self.to_disconnect.remove((o2, c2, o1, c1))
         except ConnectionError as e:
             self.logger.error("Failed to connect: %s", e)
 
@@ -642,7 +656,7 @@ class AssetCheck(DiscoveryCheck):
         seed = [str(self.object.id), str(model.uuid), str(number)]
         for k in sorted(x for x in self.ctx if not x.startswith("N")):
             seed += [k, str(self.ctx[k])]
-        h = hashlib.sha256(":".join(seed))
+        h = hashlib.sha256(smart_bytes(":".join(seed)))
         return "NOC%s" % base64.b32encode(h.digest())[:7]
 
     @staticmethod
@@ -658,3 +672,31 @@ class AssetCheck(DiscoveryCheck):
                 # Stack member
                 name += "#%s" % sm
         return name
+
+    def disconnect_connections(self):
+        for o1, c1, o2, c2 in self.to_disconnect:
+            self.logger.info("Disconnect: %s:%s ->X<- %s:%s", o1, c1, c2, o2)
+            self.disconnect_p2p(o1, c1, c2, o2)
+
+    def disconnect_p2p(self, o1, c1, c2, o2):
+        """
+        Disconnect P2P connection o1:c1 - o2:c2
+        """
+        try:
+            cn = o1.get_p2p_connection(c1)[0]
+            if cn:
+                o1.log(
+                    "Disconnect %s -> %s:%s" % (c1, o2, c2),
+                    system="DISCOVERY",
+                    managed_object=self.object,
+                    op="DISCONNECT",
+                )
+                o2.log(
+                    "Disconnect %s -> %s:%s" % (c2, o1, c1),
+                    system="DISCOVERY",
+                    managed_object=self.object,
+                    op="DISCONNECT",
+                )
+                cn.delete()
+        except ConnectionError as e:
+            self.logger.error("Failed to disconnect: %s", e)

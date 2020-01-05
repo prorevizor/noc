@@ -45,13 +45,13 @@ from noc.sa.interfaces.base import (
     BooleanParameter,
 )
 from noc.cm.models.objectfact import ObjectFact
-from noc.cm.engine import Engine
 from noc.sa.models.action import Action
 from noc.core.scheduler.job import Job
 from noc.core.script.loader import loader as script_loader
 from noc.core.mongo.connection import get_db
 from noc.core.defer import call_later
 from noc.core.translation import ugettext as _
+from noc.core.comp import smart_text
 
 
 class ManagedObjectApplication(ExtModelApplication):
@@ -187,7 +187,7 @@ class ManagedObjectApplication(ExtModelApplication):
     def instance_to_dict(self, o, fields=None):
         def sg_to_list(items):
             return [
-                {"group": x, "group__label": unicode(ResourceGroup.get_by_id(x))} for x in items
+                {"group": x, "group__label": smart_text(ResourceGroup.get_by_id(x))} for x in items
             ]
 
         data = super(ManagedObjectApplication, self).instance_to_dict(o, fields)
@@ -442,14 +442,14 @@ class ManagedObjectApplication(ExtModelApplication):
                 "lag": (i.aggregated_interface.name if i.aggregated_interface else ""),
                 "link": get_link(i),
                 "profile": str(i.profile.id) if i.profile else None,
-                "profile__label": unicode(i.profile) if i.profile else None,
+                "profile__label": smart_text(i.profile) if i.profile else None,
                 "enabled_protocols": i.enabled_protocols,
                 "project": i.project.id if i.project else None,
-                "project__label": unicode(i.project) if i.project else None,
+                "project__label": smart_text(i.project) if i.project else None,
                 "state": i.state.id if i.state else default_state.id,
-                "state__label": unicode(i.state if i.state else default_state),
+                "state__label": smart_text(i.state if i.state else default_state),
                 "vc_domain": i.vc_domain.id if i.vc_domain else None,
-                "vc_domain__label": unicode(i.vc_domain) if i.vc_domain else None,
+                "vc_domain__label": smart_text(i.vc_domain) if i.vc_domain else None,
                 "row_class": get_style(i),
             }
             for i in Interface.objects.filter(managed_object=o.id, type="physical")
@@ -461,7 +461,7 @@ class ManagedObjectApplication(ExtModelApplication):
                 "name": i.name,
                 "description": i.description,
                 "profile": str(i.profile.id) if i.profile else None,
-                "profile__label": unicode(i.profile) if i.profile else None,
+                "profile__label": smart_text(i.profile) if i.profile else None,
                 "members": [
                     j.name
                     for j in Interface.objects.filter(
@@ -791,6 +791,8 @@ class ManagedObjectApplication(ExtModelApplication):
 
     @view(url=r"(?P<id>\d+)/revalidate/$", method=["POST"], access="read", api=True)
     def api_revalidate(self, request, id):
+        from noc.cm.engine import Engine
+
         def revalidate(o):
             engine = Engine(o)
             engine.check()

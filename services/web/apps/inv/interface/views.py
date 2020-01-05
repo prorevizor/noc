@@ -27,6 +27,7 @@ from noc.vc.models.vcdomain import VCDomain
 from noc.core.text import split_alnum
 from noc.core.translation import ugettext as _
 from noc.config import config
+from noc.core.comp import smart_text
 
 
 class InterfaceAppplication(ExtApplication):
@@ -45,7 +46,7 @@ class InterfaceAppplication(ExtApplication):
         }
     }
 
-    @view(url="^(?P<managed_object>\d+)/$", method=["GET"], access="view", api=True)
+    @view(url=r"^(?P<managed_object>\d+)/$", method=["GET"], access="view", api=True)
     def api_get_interfaces(self, request, managed_object):
         """
         GET interfaces
@@ -109,14 +110,14 @@ class InterfaceAppplication(ExtApplication):
                 "lag": (i.aggregated_interface.name if i.aggregated_interface else ""),
                 "link": get_link(i),
                 "profile": str(i.profile.id) if i.profile else None,
-                "profile__label": unicode(i.profile) if i.profile else None,
+                "profile__label": smart_text(i.profile) if i.profile else None,
                 "enabled_protocols": i.enabled_protocols,
                 "project": i.project.id if i.project else None,
-                "project__label": unicode(i.project) if i.project else None,
+                "project__label": smart_text(i.project) if i.project else None,
                 "state": i.state.id if i.state else default_state.id,
-                "state__label": unicode(i.state if i.state else default_state),
+                "state__label": smart_text(i.state if i.state else default_state),
                 "vc_domain": i.vc_domain.id if i.vc_domain else None,
-                "vc_domain__label": unicode(i.vc_domain) if i.vc_domain else None,
+                "vc_domain__label": smart_text(i.vc_domain) if i.vc_domain else None,
                 "row_class": get_style(i),
             }
             for i in Interface.objects.filter(managed_object=o.id, type="physical")
@@ -134,14 +135,14 @@ class InterfaceAppplication(ExtApplication):
                     )
                 ],
                 "profile": str(i.profile.id) if i.profile else None,
-                "profile__label": unicode(i.profile) if i.profile else None,
+                "profile__label": smart_text(i.profile) if i.profile else None,
                 "enabled_protocols": i.enabled_protocols,
                 "project": i.project.id if i.project else None,
-                "project__label": unicode(i.project) if i.project else None,
+                "project__label": smart_text(i.project) if i.project else None,
                 "state": i.state.id if i.state else default_state.id,
-                "state__label": unicode(i.state if i.state else default_state),
+                "state__label": smart_text(i.state if i.state else default_state),
                 "vc_domain": i.vc_domain.id if i.vc_domain else None,
-                "vc_domain__label": unicode(i.vc_domain) if i.vc_domain else None,
+                "vc_domain__label": smart_text(i.vc_domain) if i.vc_domain else None,
                 "row_class": get_style(i),
             }
             for i in Interface.objects.filter(managed_object=o.id, type="aggregated")
@@ -178,7 +179,7 @@ class InterfaceAppplication(ExtApplication):
         }
 
     @view(
-        url="^link/$",
+        url=r"^link/$",
         method=["POST"],
         validate={
             "type": StringParameter(choices=["ptp"]),
@@ -196,7 +197,7 @@ class InterfaceAppplication(ExtApplication):
                 raise ValueError("Invalid interfaces length")
         return {"status": False}
 
-    @view(url="^unlink/(?P<iface_id>[0-9a-f]{24})/$", method=["POST"], access="link", api=True)
+    @view(url=r"^unlink/(?P<iface_id>[0-9a-f]{24})/$", method=["POST"], access="link", api=True)
     def api_unlink(self, request, iface_id):
         i = Interface.objects.filter(id=iface_id).first()
         if not i:
@@ -207,7 +208,7 @@ class InterfaceAppplication(ExtApplication):
         except ValueError as why:
             return {"status": False, "msg": str(why)}
 
-    @view(url="^unlinked/(?P<object_id>\d+)/$", method=["GET"], access="link", api=True)
+    @view(url=r"^unlinked/(?P<object_id>\d+)/$", method=["GET"], access="link", api=True)
     def api_unlinked(self, request, object_id):
         def get_label(i):
             if i.description:
@@ -224,7 +225,7 @@ class InterfaceAppplication(ExtApplication):
         return sorted(r, key=lambda x: split_alnum(x["label"]))
 
     @view(
-        url="^l1/(?P<iface_id>[0-9a-f]{24})/change_profile/$",
+        url=r"^l1/(?P<iface_id>[0-9a-f]{24})/change_profile/$",
         validate={"profile": DocumentParameter(InterfaceProfile)},
         method=["POST"],
         access="profile",
@@ -241,7 +242,7 @@ class InterfaceAppplication(ExtApplication):
         return True
 
     @view(
-        url="^l1/(?P<iface_id>[0-9a-f]{24})/change_state/$",
+        url=r"^l1/(?P<iface_id>[0-9a-f]{24})/change_state/$",
         validate={"state": ModelParameter(ResourceState)},
         method=["POST"],
         access="profile",
@@ -257,7 +258,7 @@ class InterfaceAppplication(ExtApplication):
         return True
 
     @view(
-        url="^l1/(?P<iface_id>[0-9a-f]{24})/change_project/$",
+        url=r"^l1/(?P<iface_id>[0-9a-f]{24})/change_project/$",
         validate={"project": ModelParameter(Project, required=False)},
         method=["POST"],
         access="profile",
@@ -273,7 +274,7 @@ class InterfaceAppplication(ExtApplication):
         return True
 
     @view(
-        url="^l1/(?P<iface_id>[0-9a-f]{24})/change_vc_domain/$",
+        url=r"^l1/(?P<iface_id>[0-9a-f]{24})/change_vc_domain/$",
         validate={"vc_domain": ModelParameter(VCDomain, required=False)},
         method=["POST"],
         access="profile",

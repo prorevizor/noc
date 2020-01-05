@@ -15,7 +15,7 @@ from threading import Lock
 import operator
 
 # Third-party modules
-from django.utils.translation import ugettext_lazy as _
+from noc.core.translation import ugettext as _
 from django.db import models
 import cachetools
 import six
@@ -345,15 +345,6 @@ class DNSZone(NOCModel):
             return ""
         s = ["domain: %s" % self.name] + ["nserver: %s" % ns for ns in self.ns_list]
         return rpsl_format("\n".join(s))
-
-    @staticmethod
-    def to_idna(n):
-        if isinstance(n, unicode):
-            return n.lower().encode("idna")
-        elif isinstance(n, six.string_types):
-            return unicode(n, "utf-8").lower().encode("idna")
-        else:
-            return n
 
     @classmethod
     def get_zone(cls, name):

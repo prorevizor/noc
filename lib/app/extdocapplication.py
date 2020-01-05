@@ -48,6 +48,7 @@ from noc.core.middleware.tls import get_user
 from noc.main.models.doccategory import DocCategory
 from noc.main.models.tag import Tag
 from noc.core.collection.base import Collection
+from noc.core.comp import smart_bytes, smart_text
 from .extapplication import ExtApplication, view
 
 
@@ -61,13 +62,13 @@ class ExtDocApplication(ExtApplication):
     parent_field = None  # Tree lookup
     parent_model = None
     secret_fields = (
-        None
-    )  # Set of sensitive fields. "secret" permission is required to show of modify
+        None  # Set of sensitive fields. "secret" permission is required to show of modify
+    )
     lookup_default = [{"id": "Leave unchanged", "label": "Leave unchanged"}]
     ignored_fields = {"id", "bi_id"}
     SECRET_MASK = "********"
 
-    rx_oper_splitter = re.compile("^(?P<field>\S+)(?P<f_num>\d+)__in")
+    rx_oper_splitter = re.compile(r"^(?P<field>\S+)(?P<f_num>\d+)__in")
 
     def __init__(self, *args, **kwargs):
         super(ExtDocApplication, self).__init__(*args, **kwargs)
@@ -115,7 +116,7 @@ class ExtDocApplication(ExtApplication):
             self.add_view(
                 "api_json",
                 self._api_to_json,
-                url="^(?P<id>[0-9a-f]{24})/json/$",
+                url=r"^(?P<id>[0-9a-f]{24})/json/$",
                 method=["GET"],
                 access="read",
                 api=True,
@@ -123,7 +124,7 @@ class ExtDocApplication(ExtApplication):
             self.add_view(
                 "api_share_info",
                 self._api_share_info,
-                url="^(?P<id>[0-9a-f]{24})/share_info/$",
+                url=r"^(?P<id>[0-9a-f]{24})/share_info/$",
                 method=["GET"],
                 access="read",
                 api=True,
@@ -286,16 +287,16 @@ class ExtDocApplication(ExtApplication):
                 elif isinstance(f, GeoPointField):
                     pass
                 elif isinstance(f, ForeignKeyField):
-                    r["%s__label" % f.name] = unicode(v)
+                    r["%s__label" % f.name] = smart_text(v)
                     v = v.id
                 elif isinstance(f, PlainReferenceField):
-                    r["%s__label" % f.name] = unicode(v)
+                    r["%s__label" % f.name] = smart_text(v)
                     if hasattr(v, "id"):
                         v = str(v.id)
                     else:
                         v = str(v)
                 elif isinstance(f, ReferenceField):
-                    r["%s__label" % f.name] = unicode(v)
+                    r["%s__label" % f.name] = smart_text(v)
                     if hasattr(v, "id"):
                         v = str(v.id)
                     else:
@@ -318,7 +319,7 @@ class ExtDocApplication(ExtApplication):
                     if hasattr(v, "id"):
                         v = v.id
                     else:
-                        v = unicode(v)
+                        v = smart_text(v)
             r[n] = v
         # Add custom fields
         if not nocustom:
@@ -327,9 +328,9 @@ class ExtDocApplication(ExtApplication):
         return r
 
     def instance_to_lookup(self, o, fields=None):
-        return {"id": str(o.id), "label": unicode(o)}
+        return {"id": str(o.id), "label": smart_text(o)}
 
-    @view(method=["GET"], url="^$", access="read", api=True)
+    @view(method=["GET"], url=r"^$", access="read", api=True)
     def api_list(self, request):
         return self.list_data(request, self.instance_to_dict)
 
@@ -343,7 +344,7 @@ class ExtDocApplication(ExtApplication):
     @view(method=["GET"], url=r"^tree_lookup/$", access="lookup", api=True)
     def api_lookup_tree(self, request):
         def trim(s):
-            return unicode(o).rsplit(" | ")[-1]
+            return smart_text(o).rsplit(" | ")[-1]
 
         if not self.parent_field:
             return None
@@ -400,7 +401,7 @@ class ExtDocApplication(ExtApplication):
 
     @view(
         method=["GET"],
-        url="^(?P<id>[0-9a-f]{24}|\d+|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/?$",
+        url=r"^(?P<id>[0-9a-f]{24}|\d+|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/?$",
         access="read",
         api=True,
     )
@@ -419,7 +420,7 @@ class ExtDocApplication(ExtApplication):
 
     @view(
         method=["PUT"],
-        url="^(?P<id>[0-9a-f]{24}|\d+|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/?$",
+        url=r"^(?P<id>[0-9a-f]{24}|\d+|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/?$",
         access="update",
         api=True,
     )
@@ -462,7 +463,7 @@ class ExtDocApplication(ExtApplication):
 
     @view(
         method=["DELETE"],
-        url="^(?P<id>[0-9a-f]{24}|\d+|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/?$",
+        url=r"^(?P<id>[0-9a-f]{24}|\d+|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/?$",
         access="delete",
         api=True,
     )
@@ -495,7 +496,7 @@ class ExtDocApplication(ExtApplication):
         """
         o = self.get_object_or_404(self.model, id=id)
         content = o.to_json()
-        hash = hashlib.sha256(content).hexdigest()[:8]
+        hash = hashlib.sha256(smart_bytes(content)).hexdigest()[:8]
         return {
             "file_path": os.path.join(
                 "src", self.model._meta["json_collection"], o.get_json_path()
@@ -516,7 +517,7 @@ class ExtDocApplication(ExtApplication):
             x["is_builtin"] = u and u in builtins
         return data
 
-    @view(url="^actions/group_edit/$", method=["POST"], access="update", api=True)
+    @view(url=r"^actions/group_edit/$", method=["POST"], access="update", api=True)
     def api_action_group_edit(self, request):
         validator = DictParameter(
             attrs={"ids": ListOfParameter(element=DocumentParameter(self.model), convert=True)}
