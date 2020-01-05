@@ -31,7 +31,7 @@ def set_translation(service, lang):
         mo_path = "services/%s/translations/%s/LC_MESSAGES/messages.mo" % (service, lang)
         if os.path.exists(mo_path):
             logger.info("Setting '%s' translation", mo_path)
-            with open(mo_path, mode='rb') as f:
+            with open(mo_path, mode="rb") as f:
                 if six.PY3:
                     _ugettext = gettext.GNUTranslations(f).lgettext
                 else:
