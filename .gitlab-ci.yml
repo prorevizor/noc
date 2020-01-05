@@ -31,7 +31,11 @@ flake8:
         true;
       fi
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.py"
+      - "**/*.py"
   tags:
     - docker
 
@@ -50,7 +54,11 @@ black:
         true;
       fi
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.py"
+      - "**/*.py"
   tags:
     - docker
   allow_failure: false
@@ -70,7 +78,11 @@ mypy:
         true;
       fi
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.py"
+      - "**/*.py"
   tags:
     - docker
   allow_failure: true
@@ -90,7 +102,17 @@ prettier:
         true;
       fi
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.js"
+      - "*.json"
+      - "*.css"
+      - "*.yml"
+      - "**/*.js"
+      - "**/*.json"
+      - "**/*.css"
+      - "**/*.yml"
   tags:
     - docker
   allow_failure: true
@@ -113,7 +135,11 @@ xenon:
       fi
     - if [ "$x" -gt 0 ] ; then exit 1; fi
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.py"
+      - "**/*.py"
   tags:
     - docker
   allow_failure: true
@@ -133,7 +159,11 @@ pylint:
         true;
       fi
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.py"
+      - "**/*.py"
   tags:
     - docker
 
@@ -152,41 +182,13 @@ pylint3k:
         true;
       fi
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.py"
+      - "**/*.py"
   tags:
     - docker
-
-bandit:
-  stage: Lint
-  image: registry.getnoc.com/infrastructure/noc-lint:master
-  script:
-    - set -x
-    - FLIST=$(git --no-pager diff --name-only $(git merge-base origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME $CI_COMMIT_SHA) $CI_COMMIT_SHA | egrep ".py$" | grep -v ".docker/"|| true)
-    - >
-      if [ ! -z "$FLIST" ];
-      then
-        bandit "$FLIST";
-      else
-        echo "No files to lint"
-        true;
-      fi
-  only:
-    - merge_requests
-  tags:
-    - docker
-  allow_failure: true
-
-caniusepython3:
-  stage: Lint
-  image: registry.getnoc.com/infrastructure/noc-lint:master
-  script:
-    - caniusepython3 -r requirements/*.txt
-  only:
-    - merge_requests
-  tags:
-    - docker
-  allow_failure: true
-  when: manual
 
 futurize:
   stage: Lint
@@ -195,61 +197,39 @@ futurize:
     - FLIST=$(git --no-pager diff --name-only $(git merge-base origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME $CI_COMMIT_SHA) $CI_COMMIT_SHA | egrep ".py$" | grep -v ".docker/"|| true)
     - /bin/future.sh "$FLIST"
   only:
-    - merge_requests
+    refs:
+      - merge_requests
+    changes:
+      - "*.py"
+      - "**/*.py"
   tags:
     - docker
 
-futurize stage2:
-  stage: Lint
-  image: registry.getnoc.com/infrastructure/noc-lint:master
-  script:
-    - FLIST=$(git --no-pager diff --name-only $(git merge-base origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME $CI_COMMIT_SHA) $CI_COMMIT_SHA | egrep ".py$" | grep -v ".docker/"|| true)
-    - /bin/future2.sh "$FLIST"
-  only:
-    - merge_requests
-  tags:
-    - docker
-  allow_failure: true
-
-Build web:
-  stage: Build
-  image: node:12
-  script:
-    - cd scripts/build/web
-    - npm install
-    - node src/index.js
-  tags:
-    - docker
-  artifacts:
-    untracked: true
-    paths:
-      - dist/ui/pkg/web
-      - dist/ui/pkg/web.debug
-
-Test migrate:
+py2:migrate:
   stage: Test
   before_script:
-    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}
+    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py2migrate
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
   script:
     # see docker/docker-compose.yml for complete list of migrations
     - >
      docker-compose
      -f .docker/docker-compose.yml
-     -p "${DOCKER_COMPOSE_PROJECT}-migrate"
-     build migrate
+     -p "${DOCKER_COMPOSE_PROJECT}"
+     build py2migrate
     - >
       docker-compose
       -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}-migrate"
+      -p "${DOCKER_COMPOSE_PROJECT}"
       up
-      --exit-code-from migrate
-      migrate
+      --exit-code-from py2migrate
+      py2migrate
   after_script:
-    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}
+    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py2migrate
     - >
       docker-compose
       -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}-migrate"
+      -p "${DOCKER_COMPOSE_PROJECT}"
       down -v
   only:
     refs:
@@ -260,33 +240,74 @@ Test migrate:
     - shell
   allow_failure: false
 
-Test code:
+py3:migrate:
   stage: Test
   before_script:
-    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}
+    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py3migrate
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+  script:
+    # see docker/docker-compose.yml for complete list of migrations
+    - >
+     docker-compose
+     -f .docker/docker-compose.yml
+     -p "${DOCKER_COMPOSE_PROJECT}"
+     build py3migrate
+    - >
+      docker-compose
+      -f .docker/docker-compose.yml
+      -p "${DOCKER_COMPOSE_PROJECT}"
+      up
+      --exit-code-from py3migrate
+      py3migrate
+  after_script:
+    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py3migrate
+    - >
+      docker-compose
+      -f .docker/docker-compose.yml
+      -p "${DOCKER_COMPOSE_PROJECT}"
+      down -v
+  only:
+    refs:
+      - merge_requests
+      - master
+      - /^release-\d+\.\d+/
+  tags:
+    - shell
+  allow_failure: false
+
+py2:test:
+  stage: Test
+  before_script:
+    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py2tests
     - mv .dockerignore .dockerignore.prod
     - cp .dockerignore.tests .dockerignore
-  script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+  script:
+    - >
+     docker
+     login
+     -u gitlab-ci-token
+     -p ${CI_BUILD_TOKEN}
+     ${CI_REGISTRY}
     - >
       docker-compose
       -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}-tests"
-      build tests
+      -p "${DOCKER_COMPOSE_PROJECT}"
+      build py2tests
     - >
       docker-compose
       -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}-tests"
+      -p "${DOCKER_COMPOSE_PROJECT}"
       up
-      --exit-code-from tests
-      tests
+      --exit-code-from py2tests
+      py2tests
   after_script:
-    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}
+    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py2tests
     - mv .dockerignore.prod .dockerignore
     - >
       docker-compose
       -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}-tests"
+      -p "${DOCKER_COMPOSE_PROJECT}"
       down -v
   only:
     refs:
@@ -301,41 +322,45 @@ Test code:
       - collections/
     expire_in: 1 day
 
-Test python 3:
+py3:test:
   stage: Test
   before_script:
-    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}
+    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py3tests
     - mv .dockerignore .dockerignore.prod
     - cp .dockerignore.tests .dockerignore
-  script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+  script:
     # see docker/docker-compose.yml for complete list of migrations
     - >
       docker-compose
       -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}-py3"
-      build python3
+      -p "${DOCKER_COMPOSE_PROJECT}"
+      build py3tests
     - >
       docker-compose
       -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}-py3"
+      -p "${DOCKER_COMPOSE_PROJECT}"
       up
-      --exit-code-from python3
-      python3
+      --exit-code-from py3tests
+      py3tests
   after_script:
-    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}
+    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py3tests
     - mv .dockerignore.prod .dockerignore
     - >
       docker-compose
       -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}-py3"
+      -p "${DOCKER_COMPOSE_PROJECT}"
       down -v
+  only:
+    refs:
+      - merge_requests
+      - master
+      - /^release-\d+\.\d+/
   tags:
     - shell
-  allow_failure: true
-  when: manual
+  allow_failure: false
 
-Build Docs:
+build:Docs:
   stage: Build
   environment: docs
   image: registry.getnoc.com/infrastructure/docs:master
@@ -363,8 +388,8 @@ Build Docs:
   only:
     - merge_requests
 
-Build Master Docs:
-  stage: Build
+build:Master Docs:
+  stage: Build docs
   environment: docs
   image: registry.getnoc.com/infrastructure/docs:master
   script:
@@ -385,7 +410,7 @@ Build Master Docs:
       - master
       - /^release-\d+\.\d+/
 
-Build Release Image:
+build:Release Image:
   stage: Build
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
@@ -395,8 +420,8 @@ Build Release Image:
     - docker build --target dev -t $CI_REGISTRY_IMAGE/dev:$CI_COMMIT_TAG -f .docker/Dockerfile .
     # registry.getnoc.com/noc/noc/static:stable
     - docker build --target static -t $CI_REGISTRY_IMAGE/static:$CI_COMMIT_TAG -f .docker/Dockerfile .
-    - docker push $CI_REGISTRY_IMAGE/code:$CI_COMMIT_TAG
-    - docker push $CI_REGISTRY_IMAGE/dev:$CI_COMMIT_TAG
+    - docker push $CI_REGISTRY_IMAGE/code:$CI_COMMIT_TAG 
+    - docker push $CI_REGISTRY_IMAGE/dev:$CI_COMMIT_TAG 
     - docker push $CI_REGISTRY_IMAGE/static:$CI_COMMIT_TAG
     - docker rmi $CI_REGISTRY_IMAGE/code:$CI_COMMIT_TAG $CI_REGISTRY_IMAGE/dev:$CI_COMMIT_TAG $CI_REGISTRY_IMAGE/static:$CI_COMMIT_TAG
   tags:
@@ -404,7 +429,29 @@ Build Release Image:
   only:
     - tags
 
-Upload Docs:
+build:web:
+  stage: Build
+  image: node:12
+  script:
+    - cd scripts/build/web
+    - npm install
+    - node src/index.js
+  tags:
+    - docker
+  only:
+    refs:
+      - merge_requests
+    changes:
+      - "ui/web/**.js"
+      - "ui/web/**.css"
+      - "scripts/build/web/**"
+  artifacts:
+    untracked: true
+    paths:
+      - dist/ui/pkg/web
+      - dist/ui/pkg/web.debug
+
+upload docs:
   stage: Upload
   environment: docs
   image: registry.getnoc.com/infrastructure/s3helper:master
