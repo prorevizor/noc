@@ -53,7 +53,8 @@ class Script(BaseScript):
                 "1.3.6.1.4.1.1286.1.3.3.1.1.17",
                 "1.3.6.1.4.1.1286.1.3.3.1.1.29",
                 "1.3.6.1.4.1.1286.1.3.3.1.1.30",
-            ], max_retries=2
+            ],
+            max_retries=2,
         ):
             if not serial or not serial.strip(smart_text("\x00")):
                 continue
