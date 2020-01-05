@@ -58,10 +58,11 @@ class StringParameter(BaseParameter):
         super(StringParameter, self).__init__(default=default, help=help)
 
     def clean(self, v):
+        v = smart_text(v)
         if self.choices:
             if v not in self.choices:
                 raise ValueError("Invalid value: %s" % v)
-        return smart_text(v)
+        return v
 
 
 class SecretParameter(BaseParameter):
