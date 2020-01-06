@@ -6,7 +6,7 @@ const load_packages = require('./load_packages');
 const tar = require('tar-fs');
 const zlib = require("zlib");
 
-const distDir = 'dist';
+const distDir = '../../dist';
 let packageDir = `/ui/pkg/web`;
 const destDir = `${distDir}${packageDir}`;
 // const args = process.argv.slice(2);
@@ -48,9 +48,7 @@ function assets(dest, theme) {
 }
 
 function writeBundle(name, data) {
-    const dest = `${distDir}/ui/web`;
-    fs.mkdirSync(dest, {recursive: true});
-    fs.writeFileSync(`${dest}/${name}.html`, data);
+    fs.writeFileSync(`${destDir}/${name}.html`, data);
 }
 
 function hash(values, file, theme) {
@@ -92,8 +90,8 @@ Promise.all(queue).then(values => {
                         writeBundle(`index.${theme}.${lang}`, content);
                     });
                 });
-                fs.copyFileSync(`${distDir}/ui/web/index.gray.ru.html`, `${distDir}/ui/web/index.html`);
-                tar.pack(distDir).pipe(zlib.createGzip()).pipe(output);
+                fs.copyFileSync(`${destDir}/index.gray.ru.html`, `${destDir}/index.html`);
+                // tar.pack(distDir).pipe(zlib.createGzip()).pipe(output);
                 console.log('Done');
             },
             error => {
