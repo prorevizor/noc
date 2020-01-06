@@ -302,8 +302,7 @@ class Beef(object):
         v = self.get_mib_oid_values().get(oid)
         if v is None:
             return None
-        r = self._mib_decoder(v)
-        return r
+        return self._mib_decoder(v)
 
     def get_mib_oids(self):
         """
