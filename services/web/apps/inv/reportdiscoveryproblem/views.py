@@ -55,10 +55,8 @@ class ReportDiscoveryTopologyProblemApplication(SimpleReport):
             # Get all managed objects
             mos = mos.filter(object_profile=obj_profile)
         mos = {
-            mo[0]: (mo[1], mo[2],
-                    Profile.get_by_id(mo[3]),
-                    mo[4],
-                    mo[5]) for mo in mos.values_list("id", "name", "address", "profile", "platform", "segment")
+            mo[0]: (mo[1], mo[2], Profile.get_by_id(mo[3]), mo[4], mo[5])
+            for mo in mos.values_list("id", "name", "address", "profile", "platform", "segment")
         }
         mos_set = set(mos)
         # Get all managed objects with generic profile
