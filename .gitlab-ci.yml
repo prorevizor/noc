@@ -446,7 +446,6 @@ build:web:
       - "ui/web/**.css"
       - "scripts/build/web/**"
   artifacts:
-    untracked: true
     paths:
       - dist/ui/pkg/web
       - dist/ui/pkg/web.debug

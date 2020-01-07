@@ -6,7 +6,7 @@ const load_packages = require('./load_packages');
 const tar = require('tar-fs');
 const zlib = require("zlib");
 
-const distDir = '../../dist';
+const distDir = '../../../dist';
 let packageDir = `/ui/pkg/web`;
 const destDir = `${distDir}${packageDir}`;
 // const args = process.argv.slice(2);
