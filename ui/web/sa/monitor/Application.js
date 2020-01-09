@@ -9,7 +9,6 @@ Ext.define('NOC.sa.monitor.Application', {
     requires: [
         'NOC.sa.monitor.Controller',
         'NOC.sa.monitor.ViewModel',
-        'NOC.core.filter.Filter',
         'NOC.sa.monitor.SelectionGrid',
         'NOC.sa.monitor.Filter'
     ],

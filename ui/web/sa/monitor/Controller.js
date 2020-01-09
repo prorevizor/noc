@@ -68,11 +68,12 @@ Ext.define('NOC.sa.monitor.Controller', {
     },
 
     pollingTask: function(){
-        // console.log('polling task!');
+        console.log('polling task!');
         this.getViewModel().getStore('objectsStore').reload();
     },
 
     startPolling: function() {
+        console.log("start polling");
         if(this.pollingTaskId) {
             this.pollingTask();
         } else {

@@ -9,6 +9,7 @@ Ext.define('NOC.sa.monitor.Filter', {
     alias: 'widget.monitor.Filter',
     controller: 'monitor.filter',
     requires: [
+        'NOC.core.filter.Filter',
         'NOC.sa.monitor.FilterController'
     ],
     initComponent: function() {
