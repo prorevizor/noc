@@ -34,7 +34,9 @@ Ext.define('NOC.sa.monitor.Controller', {
     },
 
     onRowDblClick: function(grid, record) {
-        this.lookupReference('repoPreview').preview(record);
+        var panel = this.getView().lookupReference('logPanel');
+        panel.load(panel, record);
+        // .preview(record);
     },
 
     onRenderStatus: function(value) {

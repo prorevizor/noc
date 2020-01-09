@@ -10,7 +10,8 @@ Ext.define('NOC.sa.monitor.Application', {
         'NOC.sa.monitor.Controller',
         'NOC.sa.monitor.ViewModel',
         'NOC.sa.monitor.SelectionGrid',
-        'NOC.sa.monitor.Filter'
+        'NOC.sa.monitor.Filter',
+        'NOC.sa.monitor.JobLogPanel'
     ],
 
     alias: 'widget.monitor',
@@ -22,12 +23,21 @@ Ext.define('NOC.sa.monitor.Application', {
     stateful: true,
     stateId: 'monitor.appPanel',
 
+    defaults: {
+        resizable: true,
+        animCollapse: false,
+        collapseMode: 'mini',
+        hideCollapseTool: true,
+        collapsed: true,
+        border: false,
+        split: true,
+        stateful: true
+    },
     items: [
         {
             xtype: 'sa.selectionGrid',
             region: 'center',
-            resizable: true,
-            border: false,
+            collapsed: false,
             split: true
         },
         {
@@ -36,17 +46,17 @@ Ext.define('NOC.sa.monitor.Application', {
             reference: 'filterPanel',
             region: 'east',
             width: 300,
-            collapsed: true,
-            border: false,
-            animCollapse: false,
-            collapseMode: 'mini',
-            hideCollapseTool: true,
-            split: true,
-            resizable: true,
-            stateful: true,
             stateId: 'monitor.filterPanel',
             selectionStore: 'monitor.objectsStore',
             treeAlign: 'right'
+        },
+        {
+            xtype: 'monitor.JobLogPanel',
+            region: 'south',
+            reference: 'logPanel',
+            collapsed: true,
+            title: __('Discovery Job Log'),
+            height: '50%'
         }
     ],
     listeners: {

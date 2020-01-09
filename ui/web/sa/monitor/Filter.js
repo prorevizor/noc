@@ -34,8 +34,40 @@ Ext.define('NOC.sa.monitor.Filter', {
                             value: 'W',
                             reference: 'W-btn',
                             handler: 'setFilter'
+                        },
+                        {
+                            xtype: 'button',
+                            toggleGroup: 'status',
+                            text: __('Run'),
+                            value: 'R',
+                            reference: 'R-btn',
+                            handler: 'setFilter'
+                        },
+                        {
+                            xtype: 'button',
+                            toggleGroup: 'status',
+                            text: __('Disabled'),
+                            value: 'D',
+                            reference: 'D-btn',
+                            handler: 'setFilter'
                         }
                     ]
+                },
+                {
+                    xtype: 'numberfield',
+                    itemId: 'ldur',
+                    isLookupField: true,
+                    fieldLabel: __('Min Duration'),
+                    minValue: 0,
+                    triggers: {
+                        clear: {
+                            cls: 'x-form-clear-trigger',
+                            handler: 'cleanFilter'
+                        }
+                    },
+                    listeners: {
+                        change: 'setFilter'
+                    }
                 }
             ].concat(this.items)
         });
