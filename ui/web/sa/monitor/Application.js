@@ -36,6 +36,7 @@ Ext.define('NOC.sa.monitor.Application', {
     items: [
         {
             xtype: 'sa.selectionGrid',
+            reference: 'grid',
             region: 'center',
             collapsed: false,
             split: true

@@ -34,9 +34,7 @@ Ext.define('NOC.sa.monitor.Controller', {
     },
 
     onRowDblClick: function(grid, record) {
-        var panel = this.getView().lookupReference('logPanel');
-        panel.load(panel, record);
-        // .preview(record);
+        this.getView().lookupReference('logPanel').load(record);
     },
 
     onRenderStatus: function(value) {
@@ -69,19 +67,28 @@ Ext.define('NOC.sa.monitor.Controller', {
         }
     },
 
-    pollingTask: function(){
-        console.log('polling task!');
-        this.getViewModel().getStore('objectsStore').reload();
+    pollingTask: function() {
+        var logPanel = this.getView().lookupReference('logPanel'),
+            grid = this.getView().lookupReference('grid');
+        grid.mask(__('Loading...'));
+        this.getViewModel().getStore('objectsStore').load(
+            function() {
+                grid.unmask();
+            }
+        );
+        if(!logPanel.collapsed) {
+            logPanel.load();
+        }
     },
 
     startPolling: function() {
-        console.log("start polling");
         if(this.pollingTaskId) {
             this.pollingTask();
         } else {
             this.pollingTaskId = Ext.TaskManager.start({
                 run: this.pollingTask,
-                interval: this.pollingInterval
+                interval: this.pollingInterval,
+                scope: this
             });
         }
     },
