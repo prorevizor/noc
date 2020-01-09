@@ -14,7 +14,7 @@ In accordance to our :ref:`Release Policy <releases-policy>`
 `we're <https://getnoc.com/devteam/>`_ proudly present release `19.4 <https://code.getnoc.com/noc/noc/tags/19.4>`_.
 
 19.4 release contains
-`387 <https://code.getnoc.com/noc/noc/merge_requests?scope=all&state=merged&milestone_title=19.4>`_
+`386 <https://code.getnoc.com/noc/noc/merge_requests?scope=all&state=merged&milestone_title=19.4>`_
 bugfixes, optimisations and improvements.
 
 .. _release-19.4-highlights:
@@ -164,8 +164,6 @@ Improvements
 | :mr:`1787` | Add full address on map                                                                               |
 +------------+-------------------------------------------------------------------------------------------------------+
 | :mr:`1990` | Replace pylibssh2 with ssh2-python                                                                    |
-+------------+-------------------------------------------------------------------------------------------------------+
-| :mr:`2328` | 19.1.2 and 19.2.1 release notes                                                                       |
 +------------+-------------------------------------------------------------------------------------------------------+
 | :mr:`2408` | docs: Fix profile anchors                                                                             |
 +------------+-------------------------------------------------------------------------------------------------------+
