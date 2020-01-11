@@ -52,7 +52,6 @@ class ExtApplication(Application):
     in_param = "__in"
     fav_status = "fav_status"
     default_ordering = []
-    enable_paging = True
 
     def __init__(self, *args, **kwargs):
         super(ExtApplication, self).__init__(*args, **kwargs)
@@ -134,9 +133,6 @@ class ExtApplication(Application):
 
     def queryset(self, request, query=None):
         raise NotImplementedError
-
-    def extra_data(self, data, ordering=None, start=None, limit=None):
-        return data
 
     def instance_to_dict(self, o):
         raise NotImplementedError
@@ -228,9 +224,8 @@ class ExtApplication(Application):
         if self.row_limit:
             limit = min(limit or self.row_limit, self.row_limit + 1)
         # Apply paging
-        if limit and self.enable_paging:
+        if limit:
             data = data[start : start + limit]
-        data = self.extra_data(data, ordering, start=start, limit=limit)
         # Fetch and format data
         out = [formatter(o, fields=only) for o in data]
         if self.row_limit and len(out) > self.row_limit + 1:
