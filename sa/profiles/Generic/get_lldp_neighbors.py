@@ -65,10 +65,7 @@ class Script(BaseScript):
             else:
                 # Iface local
                 iface_name = port_id
-            r[port_num] = {
-                "local_interface": iface_name,
-                "local_interface_subtype": port_subtype,
-            }
+            r[port_num] = {"local_interface": iface_name, "local_interface_subtype": port_subtype}
         if not r:
             self.logger.warning(
                 "Not getting local LLDP port mappings. Check 1.0.8802.1.1.2.1.3.7 table"
@@ -106,9 +103,7 @@ class Script(BaseScript):
                     # cleaning
                     if neigh["remote_port_subtype"] == LLDP_PORT_SUBTYPE_COMPONENT:
                         neigh["remote_port_subtype"] = LLDP_PORT_SUBTYPE_ALIAS
-                    neigh["remote_port"] = smart_bytes(neigh["remote_port"]).replace(
-                        b" \x00", b""
-                    )
+                    neigh["remote_port"] = smart_bytes(neigh["remote_port"]).replace(b" \x00", b"")
                     if neigh["remote_chassis_id_subtype"] == LLDP_CHASSIS_SUBTYPE_MAC:
                         neigh["remote_chassis_id"] = MAC(neigh["remote_chassis_id"])
                     if neigh["remote_port_subtype"] == LLDP_PORT_SUBTYPE_MAC:
@@ -116,26 +111,19 @@ class Script(BaseScript):
                             neigh["remote_port"] = MAC(neigh["remote_port"])
                         except ValueError:
                             self.logger.warning(
-                                "Bad MAC address on Remote Neighbor: %s",
-                                neigh["remote_port"],
+                                "Bad MAC address on Remote Neighbor: %s", neigh["remote_port"]
                             )
                     else:
-                        neigh["remote_port"] = neigh["remote_port"].replace(
-                            b"\x00", b""
-                        )
+                        neigh["remote_port"] = neigh["remote_port"].replace(b"\x00", b"")
                     if "remote_system_name" in neigh:
-                        neigh["remote_system_name"] = neigh[
-                            "remote_system_name"
-                        ].rstrip(b"\x00")
+                        neigh["remote_system_name"] = neigh["remote_system_name"].rstrip(b"\x00")
                     if "remote_port_description" in neigh:
-                        neigh["remote_port_description"] = neigh[
-                            "remote_port_description"
-                        ].rstrip(b"\x00")
+                        neigh["remote_port_description"] = neigh["remote_port_description"].rstrip(
+                            b"\x00"
+                        )
                     r += [
                         {
-                            "local_interface": local_ports[v[0].split(".")[1]][
-                                "local_interface"
-                            ],
+                            "local_interface": local_ports[v[0].split(".")[1]]["local_interface"],
                             # @todo if local interface subtype != 5
                             # "local_interface_id": 5,
                             "neighbors": [neigh],
