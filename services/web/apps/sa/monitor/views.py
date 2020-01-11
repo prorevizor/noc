@@ -36,40 +36,17 @@ class MonitorApplication(ObjectListApplication):
     }
 
     def extra_query(self, q, order):
-        return {}, []
+        extra = {}
+        if "status" in q:
+            extra["s"] = q["status"]
+        if "ldur" in q:
+            extra["ldur"] = {"$gte": int(q["ldur"])}
+        return extra, []
 
     def queryset(self, request, query=None):
         r = JobF(pool="MO")
         r.mos_filter = super(MonitorApplication, self).queryset(request, query)
         return r
-
-    def extra_data(self, data, ordering=None, start=None, limit=None):
-        scheduler = Scheduler("discovery", pool="MO").get_collection()
-        pipeline = [{"$match": {Job.ATTR_KEY: {"$in": list(data.values_list("id", flat=True))}}}]
-        # if ordering:
-        #     pipeline += [{"$sort": {self.sort_map[f]: 1 for f in ordering if f in self.sort_map}}]
-        pipeline += [
-            {
-                "$group": {
-                    "_id": "$key",
-                    "jobs": {
-                        "$push": {
-                            "jcls": "$jcls",
-                            "s": "$s",
-                            "ts": "$ts",
-                            "last": "$last",
-                            "ldur": "$ldur",
-                            "ls": "$ls",
-                        }
-                    },
-                }
-            }
-        ]
-        if start:
-            pipeline += [{"$skip": start}]
-        if limit:
-            pipeline += [{"$limit": limit}]
-        return scheduler.aggregate(pipeline)
 
     def bulk_field_managed_object(self, data):
         """
@@ -137,6 +114,11 @@ class JobF(object):
 
     def filter(self, *args, **kwargs):
         self.mos_filter = self.mos_filter.filter(**kwargs)
+        return self
+
+    def extra(self, *args, **kwargs):
+        if kwargs:
+            self.pipeline = [{"$match": kwargs}] + self.pipeline
         return self
 
     def __getitem__(self, k):
