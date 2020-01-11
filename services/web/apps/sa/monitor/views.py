@@ -14,9 +14,10 @@ from noc.services.web.apps.sa.objectlist.views import ObjectListApplication
 
 # from noc.core.dateutils import humanize_distance
 from noc.core.scheduler.scheduler import Scheduler
-from noc.sa.models.managedobject import ManagedObject
 from noc.core.scheduler.job import Job
+from noc.sa.models.managedobject import ManagedObject
 from noc.sa.models.profile import Profile
+from noc.main.models.pool import Pool
 from noc.core.translation import ugettext as _
 
 
@@ -41,10 +42,12 @@ class MonitorApplication(ObjectListApplication):
             extra["s"] = q["status"]
         if "ldur" in q:
             extra["ldur"] = {"$gte": int(q["ldur"])}
+        if "pool" in q:
+            extra["pool"] = Pool.get_by_id(q["pool"]).name
         return extra, []
 
     def queryset(self, request, query=None):
-        r = JobF(pool="MO")
+        r = JobF(pool="default")
         r.mos_filter = super(MonitorApplication, self).queryset(request, query)
         return r
 
@@ -91,7 +94,8 @@ class MonitorApplication(ObjectListApplication):
 
 class JobF(object):
     def __init__(self, scheduler="discovery", pool="default"):
-        self.scheduler = Scheduler(scheduler, pool=pool).get_collection()
+        self.scheduler = scheduler
+        self.pool = pool
         self.mos_filter = None
         self.pipeline = [
             {
@@ -117,6 +121,9 @@ class JobF(object):
         return self
 
     def extra(self, *args, **kwargs):
+        if "pool" in kwargs:
+            self.pool = kwargs["pool"]
+            del kwargs["pool"]
         if kwargs:
             self.pipeline = [{"$match": kwargs}] + self.pipeline
         return self
@@ -130,5 +137,6 @@ class JobF(object):
     def __iter__(self):
         mos_ids = list(self.mos_filter.values_list("id", flat=True))
         self.pipeline = [{"$match": {Job.ATTR_KEY: {"$in": mos_ids}}}] + self.pipeline
-        for r in self.scheduler.aggregate(self.pipeline):
+        scheduler = Scheduler(self.scheduler, pool=self.pool).get_collection()
+        for r in scheduler.aggregate(self.pipeline):
             yield r
