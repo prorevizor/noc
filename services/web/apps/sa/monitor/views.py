@@ -146,7 +146,6 @@ class JobF(object):
         return self
 
     def __iter__(self):
-        print("Pipeline", self.pipeline)
         mos_ids = list(self.mos_filter.values_list("id", flat=True))
         self.pipeline = [{"$match": {Job.ATTR_KEY: {"$in": mos_ids}}}] + self.pipeline
         for r in self.scheduler.aggregate(self.pipeline):
