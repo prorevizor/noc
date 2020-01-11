@@ -8,11 +8,11 @@
 
 # Python module
 import re
-import datetime
 
 # NOC modules
 from noc.services.web.apps.sa.objectlist.views import ObjectListApplication
-from noc.core.dateutils import humanize_distance
+
+# from noc.core.dateutils import humanize_distance
 from noc.core.scheduler.scheduler import Scheduler
 from noc.sa.models.managedobject import ManagedObject
 from noc.core.scheduler.job import Job
@@ -28,7 +28,6 @@ class MonitorApplication(ObjectListApplication):
     title = _("Monitor")
     menu = _("Monitor")
     icon = "icon_monitor"
-    enable_paging = False
 
     rx_time = re.compile(r"Completed. Status: SUCCESS\s\((?P<time>\S+)\)", re.MULTILINE)
     job_map = {
@@ -36,10 +35,19 @@ class MonitorApplication(ObjectListApplication):
         "noc.services.discovery.jobs.box.job.BoxDiscoveryJob": "b",
     }
 
+    def extra_query(self, q, order):
+        return {}, []
+
+    def queryset(self, request, query=None):
+        r = JobF(pool="MO")
+        r.mos_filter = super(MonitorApplication, self).queryset(request, query)
+        return r
+
     def extra_data(self, data, ordering=None, start=None, limit=None):
-        # print(ordering, start, limit)
-        scheduler = Scheduler("discovery", pool="KAMCHATKA").get_collection()
+        scheduler = Scheduler("discovery", pool="MO").get_collection()
         pipeline = [{"$match": {Job.ATTR_KEY: {"$in": list(data.values_list("id", flat=True))}}}]
+        # if ordering:
+        #     pipeline += [{"$sort": {self.sort_map[f]: 1 for f in ordering if f in self.sort_map}}]
         pipeline += [
             {
                 "$group": {
@@ -93,14 +101,53 @@ class MonitorApplication(ObjectListApplication):
             prefix = self.job_map[job["jcls"]]
             result.update(
                 {
-                    "%s_time_start"
-                    % prefix: datetime.datetime.strftime(job[Job.ATTR_TS], "%d.%m.%Y %H:%M"),
-                    "%s_last_success" % prefix: job.get(Job.ATTR_LAST),
+                    "%s_time_start" % prefix: self.to_json(job[Job.ATTR_TS]),
+                    "%s_last_success" % prefix: self.to_json(job.get(Job.ATTR_LAST)),
                     "%s_status" % prefix: job[Job.ATTR_STATUS] if Job.ATTR_STATUS in job else "--",
                     "%s_time" % prefix: job[Job.ATTR_LAST_DURATION],
-                    "%s_duration" % prefix: humanize_distance(job[Job.ATTR_TS]),
+                    "%s_duration" % prefix: job[Job.ATTR_LAST_DURATION],
                     "%s_last_status" % prefix: job.get(Job.ATTR_LAST_STATUS),
                 }
             )
-
         return result
+
+
+class JobF(object):
+    def __init__(self, scheduler="discovery", pool="default"):
+        self.scheduler = Scheduler(scheduler, pool=pool).get_collection()
+        self.mos_filter = None
+        self.pipeline = [
+            {
+                "$group": {
+                    "_id": "$key",
+                    "jobs": {
+                        "$push": {
+                            "jcls": "$jcls",
+                            "s": "$s",
+                            "ts": "$ts",
+                            "last": "$last",
+                            "ldur": "$ldur",
+                            "ls": "$ls",
+                        }
+                    },
+                }
+            }
+        ]
+        pass
+
+    def filter(self, *args, **kwargs):
+        self.mos_filter = self.mos_filter.filter(**kwargs)
+        return self
+
+    def __getitem__(self, k):
+        if isinstance(k, slice):
+            self.pipeline += [{"$skip": k.start}]
+            self.pipeline += [{"$limit": k.stop - k.start}]
+        return self
+
+    def __iter__(self):
+        print("Pipeline", self.pipeline)
+        mos_ids = list(self.mos_filter.values_list("id", flat=True))
+        self.pipeline = [{"$match": {Job.ATTR_KEY: {"$in": mos_ids}}}] + self.pipeline
+        for r in self.scheduler.aggregate(self.pipeline):
+            yield r
