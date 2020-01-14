@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------
 # HTTP Client
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -351,7 +351,7 @@ def fetch(
                     break
                 if eof_mark and response_body:
                     # Check if EOF mark is in received data
-                    response_body = ["".join(response_body)]
+                    response_body = [b"".join(response_body)]
                     if isinstance(eof_mark, six.string_types):
                         if eof_mark in response_body[0]:
                             break
