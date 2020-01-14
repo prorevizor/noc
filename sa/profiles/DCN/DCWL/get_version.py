@@ -17,9 +17,11 @@ class Script(BaseScript):
     interface = IGetVersion
 
     def execute_snmp(self, **kwargs):
-        oids = {"serial": "1.3.6.1.4.1.6339.100.1.1.1.0",
-                "platform": "1.3.6.1.4.1.6339.100.1.1.2.0",
-                "version": "1.3.6.1.4.1.6339.100.1.1.4.0"}
+        oids = {
+            "serial": "1.3.6.1.4.1.6339.100.1.1.1.0",
+            "platform": "1.3.6.1.4.1.6339.100.1.1.2.0",
+            "version": "1.3.6.1.4.1.6339.100.1.1.4.0",
+        }
         try:
             r = self.snmp.get(oids)
         except Exception:
