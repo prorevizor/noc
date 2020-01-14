@@ -47,7 +47,7 @@ class SyslogCollectorService(Service):
     def on_activate(self):
         # Listen sockets
         server = SyslogServer(service=self)
-        for addr, port in server.iter_listen(config.trapcollector.listen):
+        for addr, port in server.iter_listen(config.syslogcollector.listen):
             self.logger.info("Starting syslog server at %s:%s", addr, port)
             try:
                 server.listen(port, addr)
