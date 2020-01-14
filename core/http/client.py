@@ -138,6 +138,9 @@ def fetch(
 
     logger.debug("HTTP %s %s", method, url)
     metrics["httpclient_requests", ("method", method.lower())] += 1
+    #
+    if eof_mark:
+        eof_mark = smart_bytes(eof_mark)
     # Detect proxy when necessary
     io_loop = io_loop or tornado.ioloop.IOLoop.current()
     u = urlparse(str(url))
