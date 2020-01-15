@@ -22,7 +22,8 @@ from noc.config import config
 logger = logging.getLogger(__name__)
 
 if six.PY3:
-    MissedModuleError = ModuleNotFoundError  # noqa: Py3, not present in Py2
+    # Py3, not present in Py2
+    MissedModuleError = ModuleNotFoundError  # noqa: F821
 else:
     MissedModuleError = ImportError
 
