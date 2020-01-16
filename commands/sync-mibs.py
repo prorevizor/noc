@@ -83,7 +83,7 @@ class Command(BaseCommand):
                         version = int(match.group(1))
                     else:
                         # Read rest
-                        data += f.read()
+                        data += smart_text(f.read())
                         match = self.rx_version.search(data)
                         if match:
                             version = int(match.group(1))
@@ -91,7 +91,7 @@ class Command(BaseCommand):
                             version = 0
                     if version > mib.version:
                         self.print("    updating %s" % mib_name)
-                        self.update_mib(mib, data + f.read(), version=version)
+                        self.update_mib(mib, data + smart_text(f.read()), version=version)
             else:
                 self.print("    creating %s" % mib_name)
                 self.create_mib(f.read())
