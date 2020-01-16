@@ -158,7 +158,7 @@ class MIBAPI(API):
                             "name": "%s::%s" % (mib_name, node),
                             "oid": v["oid"],
                             "description": v.get("description"),
-                            "syntax": MIB.parse_syntax(v["syntax"]) or None
+                            "syntax": MIB.parse_syntax(v["syntax"]["type"]) or None
                             if "syntax" in v
                             else None,
                         }
