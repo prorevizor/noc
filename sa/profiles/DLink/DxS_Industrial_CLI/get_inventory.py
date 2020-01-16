@@ -14,4 +14,3 @@ from noc.sa.interfaces.igetinventory import IGetInventory
 class Script(BaseScript):
     name = "DLink.DxS_Industrial_CLI.get_inventory"
     interface = IGetInventory
-
