@@ -75,5 +75,4 @@ class ServiceLoader(BaseLoader):
             }
         if v["remote_id"] in self._service_remote_ids:
             return Service.objects.get(id=self._service_remote_ids[v["remote_id"]])
-        else:
-            return None
+        return None
