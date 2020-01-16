@@ -254,9 +254,13 @@ class Command(BaseCommand):
             with open(import_path, "r") as f:
                 data = yaml.safe_load(f)
             for c in data["cli_fsm"]:
-                c["reply"] = [codecs.encode(smart_bytes(reply), self.CLI_ENCODING) for reply in c["reply"]]
+                c["reply"] = [
+                    codecs.encode(smart_bytes(reply), self.CLI_ENCODING) for reply in c["reply"]
+                ]
             for c in data["cli"]:
-                c["reply"] = [codecs.encode(smart_bytes(reply), self.CLI_ENCODING) for reply in c["reply"]]
+                c["reply"] = [
+                    codecs.encode(smart_bytes(reply), self.CLI_ENCODING) for reply in c["reply"]
+                ]
             for m in data["mib"]:
                 m["value"] = codecs.encode(smart_bytes(m["value"]), self.CLI_ENCODING)
             try:
