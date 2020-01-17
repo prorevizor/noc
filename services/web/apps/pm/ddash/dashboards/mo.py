@@ -72,7 +72,6 @@ class MODashboard(BaseDashboard):
         lags = []
         subif = []
         radio_types = []
-
         # Get all interface profiles with configurable metrics
         all_ifaces = list(Interface.objects.filter(managed_object=self.object.id))
         iprof = set(i.profile for i in all_ifaces)
@@ -181,6 +180,8 @@ class MODashboard(BaseDashboard):
             "bi_id": self.object.bi_id,
             "pool": self.object.pool.name,
             "extra_template": self.extra_template,
+            "extra_vars": self.extra_vars,
+            "selected_ifaces": self.extra_vars.get("var_ifaces", "").split(","),
             "ping_interval": self.object.object_profile.ping_interval,
             "discovery_interval": self.object.object_profile.periodic_discovery_interval,
         }
