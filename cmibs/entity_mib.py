@@ -81,7 +81,10 @@ DISPLAY_HINTS = {
     "1.3.6.1.2.1.47.1.1.1.1.10": ("OctetString", "255t"),  # ENTITY-MIB::entPhysicalSoftwareRev
     "1.3.6.1.2.1.47.1.1.1.1.12": ("OctetString", "255t"),  # ENTITY-MIB::entPhysicalMfgName
     "1.3.6.1.2.1.47.1.1.1.1.13": ("OctetString", "255t"),  # ENTITY-MIB::entPhysicalModelName
-    "1.3.6.1.2.1.47.1.1.1.1.17": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # ENTITY-MIB::entPhysicalMfgDate
+    "1.3.6.1.2.1.47.1.1.1.1.17": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # ENTITY-MIB::entPhysicalMfgDate
     "1.3.6.1.2.1.47.1.2.1.1.2": ("OctetString", "255t"),  # ENTITY-MIB::entLogicalDescr
     "1.3.6.1.2.1.47.1.2.1.1.8": ("OctetString", "255t"),  # ENTITY-MIB::entLogicalContextName
 }

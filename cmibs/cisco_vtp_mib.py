@@ -202,6 +202,12 @@ MIB = {
 }
 
 DISPLAY_HINTS = {
-    "1.3.6.1.4.1.9.9.46.1.2.1.1.6": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # CISCO-VTP-MIB::managementDomainLastChange
-    "1.3.6.1.4.1.9.9.46.1.3.2.2.1.1": ("OctetString", "255t"),  # CISCO-VTP-MIB::vtpInternalVlanOwner
+    "1.3.6.1.4.1.9.9.46.1.2.1.1.6": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # CISCO-VTP-MIB::managementDomainLastChange
+    "1.3.6.1.4.1.9.9.46.1.3.2.2.1.1": (
+        "OctetString",
+        "255t",
+    ),  # CISCO-VTP-MIB::vtpInternalVlanOwner
 }

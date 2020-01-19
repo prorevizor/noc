@@ -1222,42 +1222,156 @@ MIB = {
 }
 
 DISPLAY_HINTS = {
-    "1.3.6.1.4.1.14179.2.1.4.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnMobileStationMacAddress
-    "1.3.6.1.4.1.14179.2.1.4.1.4": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnMobileStationAPMacAddr
-    "1.3.6.1.4.1.14179.2.1.5.1.20": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnMobileStationMacAddr
-    "1.3.6.1.4.1.14179.2.1.7.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnRogueAPDot11MacAddress
-    "1.3.6.1.4.1.14179.2.1.7.1.13": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnRogueAPDetectingAPMacAddress
-    "1.3.6.1.4.1.14179.2.1.8.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnRogueAPAirespaceAPMacAddress
-    "1.3.6.1.4.1.14179.2.1.9.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnThirdPartyAPMacAddress
-    "1.3.6.1.4.1.14179.2.1.10.1.2": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnMobileStationByIpMacAddress
-    "1.3.6.1.4.1.14179.2.1.11.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnMobileStationRssiDataApMacAddress
-    "1.3.6.1.4.1.14179.2.1.13.1.2": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnMobileStationByUserMacAddress
-    "1.3.6.1.4.1.14179.2.1.14.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnRogueClientDot11MacAddress
-    "1.3.6.1.4.1.14179.2.1.14.1.5": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnRogueClientBSSID
-    "1.3.6.1.4.1.14179.2.1.15.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnRogueClientAirespaceAPMacAddress
-    "1.3.6.1.4.1.14179.2.1.16.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnRogueAPDot11MacAddr
-    "1.3.6.1.4.1.14179.2.1.16.1.20": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnRogueClientDot11MacAddr
-    "1.3.6.1.4.1.14179.2.1.18.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnTagDot11MacAddress
-    "1.3.6.1.4.1.14179.2.1.19.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnTagRssiDataApMacAddress
-    "1.3.6.1.4.1.14179.2.2.1.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnAPDot3MacAddress
-    "1.3.6.1.4.1.14179.2.2.1.1.33": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnAPEthernetMacAddress
-    "1.3.6.1.4.1.14179.2.2.3.1.30": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnAPIfDot11BSSID
-    "1.3.6.1.4.1.14179.2.2.17.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnAPIfRxNeighborMacAddress
-    "1.3.6.1.4.1.14179.2.2.22.1.19": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnMeshNodeParentMacAddress
-    "1.3.6.1.4.1.14179.2.2.23.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnMeshNeighMacAddress
-    "1.3.6.1.4.1.14179.2.4.1.1.2": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnRrmDot11aGroupLeaderMacAddr
-    "1.3.6.1.4.1.14179.2.4.1.1.9.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnWrasDot11aPeerMacAddress
-    "1.3.6.1.4.1.14179.2.4.2.1.2": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnRrmDot11bGroupLeaderMacAddr
-    "1.3.6.1.4.1.14179.2.4.2.1.9.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnWrasDot11bPeerMacAddress
-    "1.3.6.1.4.1.14179.2.6.2.20": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnAPMacAddrTrapVariable
-    "1.3.6.1.4.1.14179.2.6.2.27": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnClientMacAddr
-    "1.3.6.1.4.1.14179.2.6.2.34": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnStationMacAddress
-    "1.3.6.1.4.1.14179.2.6.2.35": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnStationAPMacAddr
-    "1.3.6.1.4.1.14179.2.6.2.41": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnNavDosAttackSourceMacAddr
-    "1.3.6.1.4.1.14179.2.6.2.58": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnImpersonatedAPMacAddr
-    "1.3.6.1.4.1.14179.2.6.2.64": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnSignatureAttackerMacAddress
-    "1.3.6.1.4.1.14179.2.6.2.74": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnImpersonatingSourceMacAddr
-    "1.3.6.1.4.1.14179.2.7.3.1.1.2": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnLinkTestMacAddress
-    "1.3.6.1.4.1.14179.2.8.1.10.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnMobilityGroupMemberMacAddress
-    "1.3.6.1.4.1.14179.2.8.2.9.1.2": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnGroupDirectoryMemberMacAddress
+    "1.3.6.1.4.1.14179.2.1.4.1.1": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnMobileStationMacAddress
+    "1.3.6.1.4.1.14179.2.1.4.1.4": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnMobileStationAPMacAddr
+    "1.3.6.1.4.1.14179.2.1.5.1.20": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnMobileStationMacAddr
+    "1.3.6.1.4.1.14179.2.1.7.1.1": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnRogueAPDot11MacAddress
+    "1.3.6.1.4.1.14179.2.1.7.1.13": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnRogueAPDetectingAPMacAddress
+    "1.3.6.1.4.1.14179.2.1.8.1.1": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnRogueAPAirespaceAPMacAddress
+    "1.3.6.1.4.1.14179.2.1.9.1.1": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnThirdPartyAPMacAddress
+    "1.3.6.1.4.1.14179.2.1.10.1.2": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnMobileStationByIpMacAddress
+    "1.3.6.1.4.1.14179.2.1.11.1.1": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnMobileStationRssiDataApMacAddress
+    "1.3.6.1.4.1.14179.2.1.13.1.2": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnMobileStationByUserMacAddress
+    "1.3.6.1.4.1.14179.2.1.14.1.1": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnRogueClientDot11MacAddress
+    "1.3.6.1.4.1.14179.2.1.14.1.5": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnRogueClientBSSID
+    "1.3.6.1.4.1.14179.2.1.15.1.1": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnRogueClientAirespaceAPMacAddress
+    "1.3.6.1.4.1.14179.2.1.16.1.1": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnRogueAPDot11MacAddr
+    "1.3.6.1.4.1.14179.2.1.16.1.20": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnRogueClientDot11MacAddr
+    "1.3.6.1.4.1.14179.2.1.18.1.1": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnTagDot11MacAddress
+    "1.3.6.1.4.1.14179.2.1.19.1.1": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnTagRssiDataApMacAddress
+    "1.3.6.1.4.1.14179.2.2.1.1.1": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnAPDot3MacAddress
+    "1.3.6.1.4.1.14179.2.2.1.1.33": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnAPEthernetMacAddress
+    "1.3.6.1.4.1.14179.2.2.3.1.30": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnAPIfDot11BSSID
+    "1.3.6.1.4.1.14179.2.2.17.1.1": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnAPIfRxNeighborMacAddress
+    "1.3.6.1.4.1.14179.2.2.22.1.19": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnMeshNodeParentMacAddress
+    "1.3.6.1.4.1.14179.2.2.23.1.1": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnMeshNeighMacAddress
+    "1.3.6.1.4.1.14179.2.4.1.1.2": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnRrmDot11aGroupLeaderMacAddr
+    "1.3.6.1.4.1.14179.2.4.1.1.9.1.1": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnWrasDot11aPeerMacAddress
+    "1.3.6.1.4.1.14179.2.4.2.1.2": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnRrmDot11bGroupLeaderMacAddr
+    "1.3.6.1.4.1.14179.2.4.2.1.9.1.1": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnWrasDot11bPeerMacAddress
+    "1.3.6.1.4.1.14179.2.6.2.20": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnAPMacAddrTrapVariable
+    "1.3.6.1.4.1.14179.2.6.2.27": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnClientMacAddr
+    "1.3.6.1.4.1.14179.2.6.2.34": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnStationMacAddress
+    "1.3.6.1.4.1.14179.2.6.2.35": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnStationAPMacAddr
+    "1.3.6.1.4.1.14179.2.6.2.41": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnNavDosAttackSourceMacAddr
+    "1.3.6.1.4.1.14179.2.6.2.58": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnImpersonatedAPMacAddr
+    "1.3.6.1.4.1.14179.2.6.2.64": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnSignatureAttackerMacAddress
+    "1.3.6.1.4.1.14179.2.6.2.74": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnImpersonatingSourceMacAddr
+    "1.3.6.1.4.1.14179.2.7.3.1.1.2": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnLinkTestMacAddress
+    "1.3.6.1.4.1.14179.2.8.1.10.1.1": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnMobilityGroupMemberMacAddress
+    "1.3.6.1.4.1.14179.2.8.2.9.1.2": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-WIRELESS-MIB::bsnGroupDirectoryMemberMacAddress
 }
