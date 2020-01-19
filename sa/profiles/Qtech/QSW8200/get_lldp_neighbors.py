@@ -12,6 +12,13 @@ import re
 # NOC modules
 from noc.core.script.base import BaseScript
 from noc.sa.interfaces.igetlldpneighbors import IGetLLDPNeighbors
+from noc.core.lldp import (
+    LLDP_PORT_SUBTYPE_ALIAS,
+    LLDP_PORT_SUBTYPE_COMPONENT,
+    LLDP_PORT_SUBTYPE_LOCAL,
+    LLDP_PORT_SUBTYPE_MAC,
+    LLDP_PORT_SUBTYPE_NAME
+)
 
 
 class Script(BaseScript):
@@ -35,11 +42,12 @@ class Script(BaseScript):
     )
     CHASSIS_TYPE = {"macAddress": 4, "networkAddress": 5}
     PORT_TYPE = {
-        "interfaceAlias": 1,
-        "portComponent": 2,
-        "macAddress": 3,
-        "nterfaceName": 5,
-        "local": 7,
+        "interfaceAlias": LLDP_PORT_SUBTYPE_ALIAS,
+        "portComponent": LLDP_PORT_SUBTYPE_COMPONENT,
+        "macAddress": LLDP_PORT_SUBTYPE_MAC,
+        "nterfaceName": LLDP_PORT_SUBTYPE_NAME,
+        "local": LLDP_PORT_SUBTYPE_LOCAL,
+        "ifName": LLDP_PORT_SUBTYPE_NAME,
     }
 
     def execute(self):
