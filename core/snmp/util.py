@@ -11,7 +11,7 @@ import re
 
 # Third-party modules
 import six
-from typing import Any, Optional
+from typing import Any, Optional, Union
 
 # NOC modules
 from noc.core.comp import smart_text, bord
