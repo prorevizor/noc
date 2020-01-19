@@ -103,3 +103,27 @@ def test_invalid_name(clean_mib, name):
     mib = clean_mib
     with pytest.raises(KeyError):
         assert mib[name]
+
+
+@pytest.mark.parametrize(
+    "mib_name,oid,value,expected",
+    [
+        ("IF-MIB", "1.3.6.1.2.1.2.2.1.2.1", b"description", "description"),
+        (
+            "IF-MIB",
+            "1.3.6.1.2.1.2.2.1.6.3",
+            b"\x00\x01\x02\x03\x04\x05\x06",
+            "00:01:02:03:04:05:06",
+        ),
+        (
+            "IF-MIB",
+            "1.3.6.1.2.1.2.2.1.6.3",
+            b"\x00\x01\x02\x03\x04\x0a\x0b",
+            "00:01:02:03:04:0a:0b",
+        ),
+    ],
+)
+def test_mib_render(clean_mib, mib_name, oid, value, expected):
+    mib = clean_mib
+    mib.load_mib(mib_name)
+    assert mib.render(oid, value) == expected

@@ -12,7 +12,7 @@ import random
 from collections import namedtuple
 
 # NOC modules
-from .ber import parse_p_oid, decoder, encoder
+from .ber import parse_p_oid, BERDecoder, encoder
 from .consts import PDU_GET_REQUEST, PDU_GETNEXT_REQUEST, PDU_RESPONSE, PDU_GETBULK_REQUEST
 from .version import SNMP_v1, SNMP_v2c
 
@@ -111,6 +111,7 @@ GetResponse = namedtuple(
 
 
 def parse_get_response(pdu):
+    decoder = BERDecoder()
     data = decoder.parse_sequence(pdu)[0]
     pdu = data[2]
     if pdu[0] != PDU_RESPONSE:
@@ -125,6 +126,7 @@ def parse_get_response(pdu):
 
 
 def parse_get_response_raw(pdu):
+    decoder = BERDecoder()
     # Strip outer sequence
     msg, _ = decoder.split_tlv(pdu)
     # Strip proto version
