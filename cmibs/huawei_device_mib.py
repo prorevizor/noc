@@ -173,7 +173,16 @@ MIB = {
 }
 
 DISPLAY_HINTS = {
-    "1.3.6.1.4.1.2011.6.3.1.4": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-DEVICE-MIB::hwSysTime
-    "1.3.6.1.4.1.2011.6.3.7.1.1.3": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-DEVICE-MIB::hwAlarmOcurTime
-    "1.3.6.1.4.1.2011.6.3.10.2.1.5": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-DEVICE-MIB::hwCliClientLoginTime
+    "1.3.6.1.4.1.2011.6.3.1.4": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-DEVICE-MIB::hwSysTime
+    "1.3.6.1.4.1.2011.6.3.7.1.1.3": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-DEVICE-MIB::hwAlarmOcurTime
+    "1.3.6.1.4.1.2011.6.3.10.2.1.5": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-DEVICE-MIB::hwCliClientLoginTime
 }

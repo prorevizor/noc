@@ -37,5 +37,8 @@ MIB = {
 }
 
 DISPLAY_HINTS = {
-    "1.3.6.1.2.1.131.1.1.1.1": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # ENTITY-STATE-MIB::entStateLastChanged
+    "1.3.6.1.2.1.131.1.1.1.1": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # ENTITY-STATE-MIB::entStateLastChanged
 }

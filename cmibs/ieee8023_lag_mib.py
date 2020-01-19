@@ -95,10 +95,28 @@ MIB = {
 }
 
 DISPLAY_HINTS = {
-    "1.2.840.10006.300.43.1.1.1.1.2": ("OctetString", "1x:"),  # IEEE8023-LAG-MIB::dot3adAggMACAddress
-    "1.2.840.10006.300.43.1.1.1.1.4": ("OctetString", "1x:"),  # IEEE8023-LAG-MIB::dot3adAggActorSystemID
-    "1.2.840.10006.300.43.1.1.1.1.8": ("OctetString", "1x:"),  # IEEE8023-LAG-MIB::dot3adAggPartnerSystemID
-    "1.2.840.10006.300.43.1.2.1.1.3": ("OctetString", "1x:"),  # IEEE8023-LAG-MIB::dot3adAggPortActorSystemID
-    "1.2.840.10006.300.43.1.2.1.1.8": ("OctetString", "1x:"),  # IEEE8023-LAG-MIB::dot3adAggPortPartnerAdminSystemID
-    "1.2.840.10006.300.43.1.2.1.1.9": ("OctetString", "1x:"),  # IEEE8023-LAG-MIB::dot3adAggPortPartnerOperSystemID
+    "1.2.840.10006.300.43.1.1.1.1.2": (
+        "OctetString",
+        "1x:",
+    ),  # IEEE8023-LAG-MIB::dot3adAggMACAddress
+    "1.2.840.10006.300.43.1.1.1.1.4": (
+        "OctetString",
+        "1x:",
+    ),  # IEEE8023-LAG-MIB::dot3adAggActorSystemID
+    "1.2.840.10006.300.43.1.1.1.1.8": (
+        "OctetString",
+        "1x:",
+    ),  # IEEE8023-LAG-MIB::dot3adAggPartnerSystemID
+    "1.2.840.10006.300.43.1.2.1.1.3": (
+        "OctetString",
+        "1x:",
+    ),  # IEEE8023-LAG-MIB::dot3adAggPortActorSystemID
+    "1.2.840.10006.300.43.1.2.1.1.8": (
+        "OctetString",
+        "1x:",
+    ),  # IEEE8023-LAG-MIB::dot3adAggPortPartnerAdminSystemID
+    "1.2.840.10006.300.43.1.2.1.1.9": (
+        "OctetString",
+        "1x:",
+    ),  # IEEE8023-LAG-MIB::dot3adAggPortPartnerOperSystemID
 }

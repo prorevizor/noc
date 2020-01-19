@@ -54,5 +54,8 @@ MIB = {
 }
 
 DISPLAY_HINTS = {
-    "1.3.6.1.4.1.9.9.285.1.1.1.1.7": ("OctetString", "255t"),  # CISCO-PORT-CHANNEL-MIB::portChannelLastActionStatusCause
+    "1.3.6.1.4.1.9.9.285.1.1.1.1.7": (
+        "OctetString",
+        "255t",
+    ),  # CISCO-PORT-CHANNEL-MIB::portChannelLastActionStatusCause
 }

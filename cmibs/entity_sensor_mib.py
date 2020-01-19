@@ -36,5 +36,8 @@ MIB = {
 }
 
 DISPLAY_HINTS = {
-    "1.3.6.1.2.1.99.1.1.1.6": ("OctetString", "255t"),  # ENTITY-SENSOR-MIB::entPhySensorUnitsDisplay
+    "1.3.6.1.2.1.99.1.1.1.6": (
+        "OctetString",
+        "255t",
+    ),  # ENTITY-SENSOR-MIB::entPhySensorUnitsDisplay
 }

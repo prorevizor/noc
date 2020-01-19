@@ -80,7 +80,13 @@ MIB = {
 
 DISPLAY_HINTS = {
     "1.3.6.1.4.1.9.9.23.1.2.1.1.4": ("OctetString", "1x:"),  # CISCO-CDP-MIB::cdpCacheAddress
-    "1.3.6.1.4.1.9.9.23.1.2.1.1.20": ("OctetString", "1x:"),  # CISCO-CDP-MIB::cdpCachePrimaryMgmtAddr
-    "1.3.6.1.4.1.9.9.23.1.2.1.1.22": ("OctetString", "1x:"),  # CISCO-CDP-MIB::cdpCacheSecondaryMgmtAddr
+    "1.3.6.1.4.1.9.9.23.1.2.1.1.20": (
+        "OctetString",
+        "1x:",
+    ),  # CISCO-CDP-MIB::cdpCachePrimaryMgmtAddr
+    "1.3.6.1.4.1.9.9.23.1.2.1.1.22": (
+        "OctetString",
+        "1x:",
+    ),  # CISCO-CDP-MIB::cdpCacheSecondaryMgmtAddr
     "1.3.6.1.4.1.9.9.23.1.2.2.1.5": ("OctetString", "1x:"),  # CISCO-CDP-MIB::cdpCtAddress
 }

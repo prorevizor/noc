@@ -82,6 +82,12 @@ MIB = {
 }
 
 DISPLAY_HINTS = {
-    "1.3.6.1.4.1.9.9.194.1.5.1": ("OctetString", "1x:"),  # CISCO-PPPOE-MIB::cPppoeSystemSessionClientMacAddress
-    "1.3.6.1.4.1.9.9.194.1.5.3": ("Unsigned32", "d"),  # CISCO-PPPOE-MIB::cPppoeSystemSessionInnerVlanID
+    "1.3.6.1.4.1.9.9.194.1.5.1": (
+        "OctetString",
+        "1x:",
+    ),  # CISCO-PPPOE-MIB::cPppoeSystemSessionClientMacAddress
+    "1.3.6.1.4.1.9.9.194.1.5.3": (
+        "Unsigned32",
+        "d",
+    ),  # CISCO-PPPOE-MIB::cPppoeSystemSessionInnerVlanID
 }

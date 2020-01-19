@@ -13,7 +13,7 @@
 NAME = "ENTITY-MIB"
 
 # Metadata
-LAST_UPDATED = "1999-12-07"
+LAST_UPDATED = "2005-08-10"
 COMPILED = "2020-01-19"
 
 # MIB Data: name -> oid
@@ -39,6 +39,8 @@ MIB = {
     "ENTITY-MIB::entPhysicalAlias": "1.3.6.1.2.1.47.1.1.1.1.14",
     "ENTITY-MIB::entPhysicalAssetID": "1.3.6.1.2.1.47.1.1.1.1.15",
     "ENTITY-MIB::entPhysicalIsFRU": "1.3.6.1.2.1.47.1.1.1.1.16",
+    "ENTITY-MIB::entPhysicalMfgDate": "1.3.6.1.2.1.47.1.1.1.1.17",
+    "ENTITY-MIB::entPhysicalUris": "1.3.6.1.2.1.47.1.1.1.1.18",
     "ENTITY-MIB::entityLogical": "1.3.6.1.2.1.47.1.2",
     "ENTITY-MIB::entLogicalTable": "1.3.6.1.2.1.47.1.2.1",
     "ENTITY-MIB::entLogicalEntry": "1.3.6.1.2.1.47.1.2.1.1",
@@ -79,6 +81,7 @@ DISPLAY_HINTS = {
     "1.3.6.1.2.1.47.1.1.1.1.10": ("OctetString", "255t"),  # ENTITY-MIB::entPhysicalSoftwareRev
     "1.3.6.1.2.1.47.1.1.1.1.12": ("OctetString", "255t"),  # ENTITY-MIB::entPhysicalMfgName
     "1.3.6.1.2.1.47.1.1.1.1.13": ("OctetString", "255t"),  # ENTITY-MIB::entPhysicalModelName
+    "1.3.6.1.2.1.47.1.1.1.1.17": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # ENTITY-MIB::entPhysicalMfgDate
     "1.3.6.1.2.1.47.1.2.1.1.2": ("OctetString", "255t"),  # ENTITY-MIB::entLogicalDescr
     "1.3.6.1.2.1.47.1.2.1.1.8": ("OctetString", "255t"),  # ENTITY-MIB::entLogicalContextName
 }

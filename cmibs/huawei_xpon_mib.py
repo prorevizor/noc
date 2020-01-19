@@ -1278,21 +1278,72 @@ MIB = {
 }
 
 DISPLAY_HINTS = {
-    "1.3.6.1.4.1.2011.6.128.1.1.2.21.1.17": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-XPON-MIB::hwGponDeviceOltLastUpTime
-    "1.3.6.1.4.1.2011.6.128.1.1.2.21.1.18": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-XPON-MIB::hwGponDeviceOltLastDownTime
-    "1.3.6.1.4.1.2011.6.128.1.1.2.31.1.14": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-XPON-MIB::hwEponDeviceOltLastUpTime
-    "1.3.6.1.4.1.2011.6.128.1.1.2.31.1.15": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-XPON-MIB::hwEponDeviceOltLastDownTime
-    "1.3.6.1.4.1.2011.6.128.1.1.2.46.1.22": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-XPON-MIB::hwGponDeviceOntControlLastUpTime
-    "1.3.6.1.4.1.2011.6.128.1.1.2.46.1.23": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-XPON-MIB::hwGponDeviceOntControlLastDownTime
-    "1.3.6.1.4.1.2011.6.128.1.1.2.46.1.25": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-XPON-MIB::hwGponDeviceOntControlLastDyingGaspTime
-    "1.3.6.1.4.1.2011.6.128.1.1.2.48.1.8": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-XPON-MIB::hwGponDeviceAutoFindOntInfoOntAutoFindTime
-    "1.3.6.1.4.1.2011.6.128.1.1.2.49.1.4": ("OctetString", "1x:"),  # HUAWEI-XPON-MIB::hwGponDeviceOntPhyAddress
-    "1.3.6.1.4.1.2011.6.128.1.1.2.52.1.4": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-XPON-MIB::hwGponDeviceOntRegisterTime
-    "1.3.6.1.4.1.2011.6.128.1.1.2.53.1.3": ("OctetString", "1x:"),  # HUAWEI-XPON-MIB::hwEponDeviceOntMacAddress
-    "1.3.6.1.4.1.2011.6.128.1.1.2.57.1.23": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-XPON-MIB::hwEponDeviceOntLastUpTime
-    "1.3.6.1.4.1.2011.6.128.1.1.2.57.1.24": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-XPON-MIB::hwEponDeviceOntLastDownTime
-    "1.3.6.1.4.1.2011.6.128.1.1.2.57.1.26": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-XPON-MIB::hwEponDeviceOntLastDyingGaspTime
-    "1.3.6.1.4.1.2011.6.128.1.1.2.58.1.2": ("OctetString", "1x:"),  # HUAWEI-XPON-MIB::hwEponDeviceAutoFindOntInfoMacAddress
-    "1.3.6.1.4.1.2011.6.128.1.1.2.58.1.7": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-XPON-MIB::hwEponDeviceAutoFindOntInfoAutoFindTime
-    "1.3.6.1.4.1.2011.6.128.1.1.2.61.1.4": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-XPON-MIB::hwEponDeviceRegOntTime
+    "1.3.6.1.4.1.2011.6.128.1.1.2.21.1.17": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-XPON-MIB::hwGponDeviceOltLastUpTime
+    "1.3.6.1.4.1.2011.6.128.1.1.2.21.1.18": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-XPON-MIB::hwGponDeviceOltLastDownTime
+    "1.3.6.1.4.1.2011.6.128.1.1.2.31.1.14": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-XPON-MIB::hwEponDeviceOltLastUpTime
+    "1.3.6.1.4.1.2011.6.128.1.1.2.31.1.15": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-XPON-MIB::hwEponDeviceOltLastDownTime
+    "1.3.6.1.4.1.2011.6.128.1.1.2.46.1.22": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-XPON-MIB::hwGponDeviceOntControlLastUpTime
+    "1.3.6.1.4.1.2011.6.128.1.1.2.46.1.23": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-XPON-MIB::hwGponDeviceOntControlLastDownTime
+    "1.3.6.1.4.1.2011.6.128.1.1.2.46.1.25": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-XPON-MIB::hwGponDeviceOntControlLastDyingGaspTime
+    "1.3.6.1.4.1.2011.6.128.1.1.2.48.1.8": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-XPON-MIB::hwGponDeviceAutoFindOntInfoOntAutoFindTime
+    "1.3.6.1.4.1.2011.6.128.1.1.2.49.1.4": (
+        "OctetString",
+        "1x:",
+    ),  # HUAWEI-XPON-MIB::hwGponDeviceOntPhyAddress
+    "1.3.6.1.4.1.2011.6.128.1.1.2.52.1.4": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-XPON-MIB::hwGponDeviceOntRegisterTime
+    "1.3.6.1.4.1.2011.6.128.1.1.2.53.1.3": (
+        "OctetString",
+        "1x:",
+    ),  # HUAWEI-XPON-MIB::hwEponDeviceOntMacAddress
+    "1.3.6.1.4.1.2011.6.128.1.1.2.57.1.23": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-XPON-MIB::hwEponDeviceOntLastUpTime
+    "1.3.6.1.4.1.2011.6.128.1.1.2.57.1.24": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-XPON-MIB::hwEponDeviceOntLastDownTime
+    "1.3.6.1.4.1.2011.6.128.1.1.2.57.1.26": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-XPON-MIB::hwEponDeviceOntLastDyingGaspTime
+    "1.3.6.1.4.1.2011.6.128.1.1.2.58.1.2": (
+        "OctetString",
+        "1x:",
+    ),  # HUAWEI-XPON-MIB::hwEponDeviceAutoFindOntInfoMacAddress
+    "1.3.6.1.4.1.2011.6.128.1.1.2.58.1.7": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-XPON-MIB::hwEponDeviceAutoFindOntInfoAutoFindTime
+    "1.3.6.1.4.1.2011.6.128.1.1.2.61.1.4": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-XPON-MIB::hwEponDeviceRegOntTime
 }

@@ -62,6 +62,4 @@ MIB = {
     "CISCO-VRF-MIB::cvMIBCompliances": "1.3.6.1.4.1.9.9.711.2.2",
 }
 
-DISPLAY_HINTS = {
-
-}
+DISPLAY_HINTS = {}

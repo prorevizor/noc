@@ -76,6 +76,4 @@ MIB = {
     "CISCO-VLAN-MEMBERSHIP-MIB::vmMIBGroups": "1.3.6.1.4.1.9.9.68.3.2",
 }
 
-DISPLAY_HINTS = {
-
-}
+DISPLAY_HINTS = {}

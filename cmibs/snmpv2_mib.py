@@ -80,6 +80,4 @@ MIB = {
     "SNMPv2-MIB::snmpMIBGroups": "1.3.6.1.6.3.1.2.2",
 }
 
-DISPLAY_HINTS = {
-
-}
+DISPLAY_HINTS = {}

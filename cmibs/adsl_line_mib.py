@@ -269,6 +269,4 @@ MIB = {
     "ADSL-LINE-MIB::adslCompliances": "1.3.6.1.2.1.10.94.1.3.2",
 }
 
-DISPLAY_HINTS = {
-
-}
+DISPLAY_HINTS = {}

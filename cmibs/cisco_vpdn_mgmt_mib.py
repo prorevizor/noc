@@ -176,6 +176,4 @@ MIB = {
     "CISCO-VPDN-MGMT-MIB::ciscoVpdnMgmtMIBGroups": "1.3.6.1.4.1.9.10.24.3.2",
 }
 
-DISPLAY_HINTS = {
-
-}
+DISPLAY_HINTS = {}

@@ -107,7 +107,16 @@ MIB = {
 }
 
 DISPLAY_HINTS = {
-    "1.3.6.1.2.1.10.166.11.1.2.2.1.3": ("OctetString", "255t"),  # MPLS-L3VPN-STD-MIB::mplsL3VpnVrfDescription
-    "1.3.6.1.2.1.10.166.11.1.2.3.1.5": ("OctetString", "255t"),  # MPLS-L3VPN-STD-MIB::mplsL3VpnVrfRTDescr
-    "1.3.6.1.2.1.10.166.11.1.4.1.1.11": ("Unsigned32", "d"),  # MPLS-L3VPN-STD-MIB::mplsL3VpnVrfRteInetCidrNextHopAS
+    "1.3.6.1.2.1.10.166.11.1.2.2.1.3": (
+        "OctetString",
+        "255t",
+    ),  # MPLS-L3VPN-STD-MIB::mplsL3VpnVrfDescription
+    "1.3.6.1.2.1.10.166.11.1.2.3.1.5": (
+        "OctetString",
+        "255t",
+    ),  # MPLS-L3VPN-STD-MIB::mplsL3VpnVrfRTDescr
+    "1.3.6.1.2.1.10.166.11.1.4.1.1.11": (
+        "Unsigned32",
+        "d",
+    ),  # MPLS-L3VPN-STD-MIB::mplsL3VpnVrfRteInetCidrNextHopAS
 }

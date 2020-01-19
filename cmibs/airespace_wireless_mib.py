@@ -13,7 +13,7 @@
 NAME = "AIRESPACE-WIRELESS-MIB"
 
 # Metadata
-LAST_UPDATED = "2006-04-10"
+LAST_UPDATED = "2010-02-09"
 COMPILED = "2020-01-19"
 
 # MIB Data: name -> oid
@@ -152,7 +152,13 @@ MIB = {
     "AIRESPACE-WIRELESS-MIB::bsnRogueAPRowStatus": "1.3.6.1.4.1.14179.2.1.7.1.9",
     "AIRESPACE-WIRELESS-MIB::bsnRogueAPMaxDetectedRSSI": "1.3.6.1.4.1.14179.2.1.7.1.10",
     "AIRESPACE-WIRELESS-MIB::bsnRogueAPSSID": "1.3.6.1.4.1.14179.2.1.7.1.11",
+    "AIRESPACE-WIRELESS-MIB::bsnRogueAPDetectingAPRadioType": "1.3.6.1.4.1.14179.2.1.7.1.12",
+    "AIRESPACE-WIRELESS-MIB::bsnRogueAPDetectingAPMacAddress": "1.3.6.1.4.1.14179.2.1.7.1.13",
+    "AIRESPACE-WIRELESS-MIB::bsnRogueAPMaxRssiRadioType": "1.3.6.1.4.1.14179.2.1.7.1.14",
     "AIRESPACE-WIRELESS-MIB::bsnRogueAPState": "1.3.6.1.4.1.14179.2.1.7.1.24",
+    "AIRESPACE-WIRELESS-MIB::bsnRogueAPClassType": "1.3.6.1.4.1.14179.2.1.7.1.25",
+    "AIRESPACE-WIRELESS-MIB::bsnRogueAPChannel": "1.3.6.1.4.1.14179.2.1.7.1.26",
+    "AIRESPACE-WIRELESS-MIB::bsnRogueAPDetectingAPName": "1.3.6.1.4.1.14179.2.1.7.1.27",
     "AIRESPACE-WIRELESS-MIB::bsnRogueAPAirespaceAPTable": "1.3.6.1.4.1.14179.2.1.8",
     "AIRESPACE-WIRELESS-MIB::bsnRogueAPAirespaceAPEntry": "1.3.6.1.4.1.14179.2.1.8.1",
     "AIRESPACE-WIRELESS-MIB::bsnRogueAPAirespaceAPMacAddress": "1.3.6.1.4.1.14179.2.1.8.1.1",
@@ -170,6 +176,7 @@ MIB = {
     "AIRESPACE-WIRELESS-MIB::bsnRogueAPAirespaceAPPreamble": "1.3.6.1.4.1.14179.2.1.8.1.13",
     "AIRESPACE-WIRELESS-MIB::bsnRogueAPAirespaceAPWpaMode": "1.3.6.1.4.1.14179.2.1.8.1.14",
     "AIRESPACE-WIRELESS-MIB::bsnRogueAPAirespaceAPSNR": "1.3.6.1.4.1.14179.2.1.8.1.27",
+    "AIRESPACE-WIRELESS-MIB::bsnRogueAPChannelWidth": "1.3.6.1.4.1.14179.2.1.8.1.28",
     "AIRESPACE-WIRELESS-MIB::bsnThirdPartyAPTable": "1.3.6.1.4.1.14179.2.1.9",
     "AIRESPACE-WIRELESS-MIB::bsnThirdPartyAPEntry": "1.3.6.1.4.1.14179.2.1.9.1",
     "AIRESPACE-WIRELESS-MIB::bsnThirdPartyAPMacAddress": "1.3.6.1.4.1.14179.2.1.9.1.1",
@@ -421,6 +428,8 @@ MIB = {
     "AIRESPACE-WIRELESS-MIB::bsnAPIfRxNeighborIpAddress": "1.3.6.1.4.1.14179.2.2.17.1.2",
     "AIRESPACE-WIRELESS-MIB::bsnAPIfRxNeighborRSSI": "1.3.6.1.4.1.14179.2.2.17.1.3",
     "AIRESPACE-WIRELESS-MIB::bsnAPIfRxNeighborSlot": "1.3.6.1.4.1.14179.2.2.17.1.24",
+    "AIRESPACE-WIRELESS-MIB::bsnAPIfRxNeighborChannel": "1.3.6.1.4.1.14179.2.2.17.1.26",
+    "AIRESPACE-WIRELESS-MIB::bsnAPIfRxNeighborChannelWidth": "1.3.6.1.4.1.14179.2.2.17.1.27",
     "AIRESPACE-WIRELESS-MIB::bsnAPIfStationRSSICoverageInfoTable": "1.3.6.1.4.1.14179.2.2.18",
     "AIRESPACE-WIRELESS-MIB::bsnAPIfStationRSSICoverageInfoEntry": "1.3.6.1.4.1.14179.2.2.18.1",
     "AIRESPACE-WIRELESS-MIB::bsnAPIfStationRSSICoverageIndex": "1.3.6.1.4.1.14179.2.2.18.1.1",
@@ -554,6 +563,7 @@ MIB = {
     "AIRESPACE-WIRELESS-MIB::bsnStandardSignatureMacInfo": "1.3.6.1.4.1.14179.2.3.1.42.1.1.12",
     "AIRESPACE-WIRELESS-MIB::bsnStandardSignatureMacFreq": "1.3.6.1.4.1.14179.2.3.1.42.1.1.13",
     "AIRESPACE-WIRELESS-MIB::bsnStandardSignatureRowStatus": "1.3.6.1.4.1.14179.2.3.1.42.1.1.20",
+    "AIRESPACE-WIRELESS-MIB::bsnStandardSignatureInterval": "1.3.6.1.4.1.14179.2.3.1.42.1.1.21",
     "AIRESPACE-WIRELESS-MIB::bsnStandardSignaturePatternTable": "1.3.6.1.4.1.14179.2.3.1.42.2",
     "AIRESPACE-WIRELESS-MIB::bsnStandardSignaturePatternEntry": "1.3.6.1.4.1.14179.2.3.1.42.2.1",
     "AIRESPACE-WIRELESS-MIB::bsnStandardSignaturePatternIndex": "1.3.6.1.4.1.14179.2.3.1.42.2.1.1",
@@ -578,6 +588,7 @@ MIB = {
     "AIRESPACE-WIRELESS-MIB::bsnCustomSignatureMacInfo": "1.3.6.1.4.1.14179.2.3.1.42.3.1.12",
     "AIRESPACE-WIRELESS-MIB::bsnCustomSignatureMacFreq": "1.3.6.1.4.1.14179.2.3.1.42.3.1.13",
     "AIRESPACE-WIRELESS-MIB::bsnCustomSignatureRowStatus": "1.3.6.1.4.1.14179.2.3.1.42.3.1.20",
+    "AIRESPACE-WIRELESS-MIB::bsnCustomSignatureInterval": "1.3.6.1.4.1.14179.2.3.1.42.3.1.21",
     "AIRESPACE-WIRELESS-MIB::bsnCustomSignaturePatternTable": "1.3.6.1.4.1.14179.2.3.1.42.4",
     "AIRESPACE-WIRELESS-MIB::bsnCustomSignaturePatternEntry": "1.3.6.1.4.1.14179.2.3.1.42.4.1",
     "AIRESPACE-WIRELESS-MIB::bsnCustomSignaturePatternIndex": "1.3.6.1.4.1.14179.2.3.1.42.4.1.1",
@@ -1001,6 +1012,13 @@ MIB = {
     "AIRESPACE-WIRELESS-MIB::bsnAPInvalidRadioType": "1.3.6.1.4.1.14179.2.6.2.71",
     "AIRESPACE-WIRELESS-MIB::locationNotifyContent": "1.3.6.1.4.1.14179.2.6.2.72",
     "AIRESPACE-WIRELESS-MIB::bsnSignatureMacInfo": "1.3.6.1.4.1.14179.2.6.2.73",
+    "AIRESPACE-WIRELESS-MIB::bsnImpersonatingSourceMacAddr": "1.3.6.1.4.1.14179.2.6.2.74",
+    "AIRESPACE-WIRELESS-MIB::bsnAPPreviousChannelNumberTrapVariable": "1.3.6.1.4.1.14179.2.6.2.83",
+    "AIRESPACE-WIRELESS-MIB::bsnAPReasonCodeTrapVariable": "1.3.6.1.4.1.14179.2.6.2.84",
+    "AIRESPACE-WIRELESS-MIB::bsnNoiseBeforeChannelUpdate": "1.3.6.1.4.1.14179.2.6.2.85",
+    "AIRESPACE-WIRELESS-MIB::bsnNoiseAfterChannelUpdate": "1.3.6.1.4.1.14179.2.6.2.86",
+    "AIRESPACE-WIRELESS-MIB::bsnInterferenceBeforeChannelUpdate": "1.3.6.1.4.1.14179.2.6.2.87",
+    "AIRESPACE-WIRELESS-MIB::bsnInterferenceAfterChannelUpdate": "1.3.6.1.4.1.14179.2.6.2.88",
     "AIRESPACE-WIRELESS-MIB::bsnTraps": "1.3.6.1.4.1.14179.2.6.3",
     "AIRESPACE-WIRELESS-MIB::bsnDot11StationDisassociate": "1.3.6.1.4.1.14179.2.6.3.1",
     "AIRESPACE-WIRELESS-MIB::bsnDot11StationDeauthenticate": "1.3.6.1.4.1.14179.2.6.3.2",
@@ -1096,6 +1114,9 @@ MIB = {
     "AIRESPACE-WIRELESS-MIB::bsnPingTestSendCount": "1.3.6.1.4.1.14179.2.7.2.1.1.3",
     "AIRESPACE-WIRELESS-MIB::bsnPingTestReceivedCount": "1.3.6.1.4.1.14179.2.7.2.1.1.4",
     "AIRESPACE-WIRELESS-MIB::bsnPingTestStatus": "1.3.6.1.4.1.14179.2.7.2.1.1.5",
+    "AIRESPACE-WIRELESS-MIB::bsnPingTestMaxTimeInterval": "1.3.6.1.4.1.14179.2.7.2.1.1.6",
+    "AIRESPACE-WIRELESS-MIB::bsnPingTestMinTimeInterval": "1.3.6.1.4.1.14179.2.7.2.1.1.7",
+    "AIRESPACE-WIRELESS-MIB::bsnPingTestAvgTimeInterval": "1.3.6.1.4.1.14179.2.7.2.1.1.8",
     "AIRESPACE-WIRELESS-MIB::bsnPingTestRowStatus": "1.3.6.1.4.1.14179.2.7.2.1.1.25",
     "AIRESPACE-WIRELESS-MIB::bsnLinkTest": "1.3.6.1.4.1.14179.2.7.3",
     "AIRESPACE-WIRELESS-MIB::bsnLinkTestTable": "1.3.6.1.4.1.14179.2.7.3.1",
@@ -1205,6 +1226,7 @@ DISPLAY_HINTS = {
     "1.3.6.1.4.1.14179.2.1.4.1.4": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnMobileStationAPMacAddr
     "1.3.6.1.4.1.14179.2.1.5.1.20": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnMobileStationMacAddr
     "1.3.6.1.4.1.14179.2.1.7.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnRogueAPDot11MacAddress
+    "1.3.6.1.4.1.14179.2.1.7.1.13": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnRogueAPDetectingAPMacAddress
     "1.3.6.1.4.1.14179.2.1.8.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnRogueAPAirespaceAPMacAddress
     "1.3.6.1.4.1.14179.2.1.9.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnThirdPartyAPMacAddress
     "1.3.6.1.4.1.14179.2.1.10.1.2": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnMobileStationByIpMacAddress
@@ -1234,6 +1256,7 @@ DISPLAY_HINTS = {
     "1.3.6.1.4.1.14179.2.6.2.41": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnNavDosAttackSourceMacAddr
     "1.3.6.1.4.1.14179.2.6.2.58": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnImpersonatedAPMacAddr
     "1.3.6.1.4.1.14179.2.6.2.64": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnSignatureAttackerMacAddress
+    "1.3.6.1.4.1.14179.2.6.2.74": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnImpersonatingSourceMacAddr
     "1.3.6.1.4.1.14179.2.7.3.1.1.2": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnLinkTestMacAddress
     "1.3.6.1.4.1.14179.2.8.1.10.1.1": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnMobilityGroupMemberMacAddress
     "1.3.6.1.4.1.14179.2.8.2.9.1.2": ("OctetString", "1x:"),  # AIRESPACE-WIRELESS-MIB::bsnGroupDirectoryMemberMacAddress

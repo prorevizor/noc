@@ -299,6 +299,4 @@ MIB = {
     "RMON2-MIB::rmon2MIBGroups": "1.3.6.1.2.1.16.20.2",
 }
 
-DISPLAY_HINTS = {
-
-}
+DISPLAY_HINTS = {}

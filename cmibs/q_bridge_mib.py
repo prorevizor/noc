@@ -135,9 +135,15 @@ DISPLAY_HINTS = {
     "1.3.6.1.2.1.17.7.1.2.2.1.1": ("OctetString", "1x:"),  # Q-BRIDGE-MIB::dot1qTpFdbAddress
     "1.3.6.1.2.1.17.7.1.2.3.1.1": ("OctetString", "1x:"),  # Q-BRIDGE-MIB::dot1qTpGroupAddress
     "1.3.6.1.2.1.17.7.1.3.1.1.1": ("OctetString", "1x:"),  # Q-BRIDGE-MIB::dot1qStaticUnicastAddress
-    "1.3.6.1.2.1.17.7.1.3.2.1.1": ("OctetString", "1x:"),  # Q-BRIDGE-MIB::dot1qStaticMulticastAddress
+    "1.3.6.1.2.1.17.7.1.3.2.1.1": (
+        "OctetString",
+        "1x:",
+    ),  # Q-BRIDGE-MIB::dot1qStaticMulticastAddress
     "1.3.6.1.2.1.17.7.1.4.2.1.2": ("Unsigned32", "d"),  # Q-BRIDGE-MIB::dot1qVlanIndex
     "1.3.6.1.2.1.17.7.1.4.5.1.1": ("Unsigned32", "d"),  # Q-BRIDGE-MIB::dot1qPvid
-    "1.3.6.1.2.1.17.7.1.4.5.1.6": ("OctetString", "1x:"),  # Q-BRIDGE-MIB::dot1qPortGvrpLastPduOrigin
+    "1.3.6.1.2.1.17.7.1.4.5.1.6": (
+        "OctetString",
+        "1x:",
+    ),  # Q-BRIDGE-MIB::dot1qPortGvrpLastPduOrigin
     "1.3.6.1.2.1.17.7.1.4.8.1.1": ("Unsigned32", "d"),  # Q-BRIDGE-MIB::dot1qConstraintVlan
 }

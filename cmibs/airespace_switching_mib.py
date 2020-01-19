@@ -338,8 +338,20 @@ MIB = {
 }
 
 DISPLAY_HINTS = {
-    "1.3.6.1.4.1.14179.1.1.1.9": ("OctetString", "1x:"),  # AIRESPACE-SWITCHING-MIB::agentInventoryBurnedInMacAddress
-    "1.3.6.1.4.1.14179.1.2.3.4": ("OctetString", "1x:"),  # AIRESPACE-SWITCHING-MIB::agentNetworkBurnedInMacAddress
-    "1.3.6.1.4.1.14179.1.2.4.4": ("OctetString", "1x:"),  # AIRESPACE-SWITCHING-MIB::agentServicePortBurnedInMacAddress
-    "1.3.6.1.4.1.14179.1.2.13.1.4": ("OctetString", "1x:"),  # AIRESPACE-SWITCHING-MIB::agentInterfaceMacAddress
+    "1.3.6.1.4.1.14179.1.1.1.9": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-SWITCHING-MIB::agentInventoryBurnedInMacAddress
+    "1.3.6.1.4.1.14179.1.2.3.4": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-SWITCHING-MIB::agentNetworkBurnedInMacAddress
+    "1.3.6.1.4.1.14179.1.2.4.4": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-SWITCHING-MIB::agentServicePortBurnedInMacAddress
+    "1.3.6.1.4.1.14179.1.2.13.1.4": (
+        "OctetString",
+        "1x:",
+    ),  # AIRESPACE-SWITCHING-MIB::agentInterfaceMacAddress
 }

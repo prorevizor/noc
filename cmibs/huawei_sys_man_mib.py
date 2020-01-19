@@ -263,9 +263,24 @@ MIB = {
 }
 
 DISPLAY_HINTS = {
-    "1.3.6.1.4.1.2011.5.25.19.1.1.1": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-SYS-MAN-MIB::hwSysLocalClock
-    "1.3.6.1.4.1.2011.5.25.19.1.8.5.1.1.11": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-SYS-MAN-MIB::hwPatchBuildTime
-    "1.3.6.1.4.1.2011.5.25.19.1.8.5.1.1.12": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-SYS-MAN-MIB::hwPatchActiveTime
-    "1.3.6.1.4.1.2011.5.25.19.1.8.5.3.1.8": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-SYS-MAN-MIB::hwPatchHistoryBeginTime
-    "1.3.6.1.4.1.2011.5.25.19.1.8.5.3.1.9": ("OctetString", "2d-1d-1d,1d:1d:1d.1d,1a1d:1d"),  # HUAWEI-SYS-MAN-MIB::hwPatchHistoryEndTime
+    "1.3.6.1.4.1.2011.5.25.19.1.1.1": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-SYS-MAN-MIB::hwSysLocalClock
+    "1.3.6.1.4.1.2011.5.25.19.1.8.5.1.1.11": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-SYS-MAN-MIB::hwPatchBuildTime
+    "1.3.6.1.4.1.2011.5.25.19.1.8.5.1.1.12": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-SYS-MAN-MIB::hwPatchActiveTime
+    "1.3.6.1.4.1.2011.5.25.19.1.8.5.3.1.8": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-SYS-MAN-MIB::hwPatchHistoryBeginTime
+    "1.3.6.1.4.1.2011.5.25.19.1.8.5.3.1.9": (
+        "OctetString",
+        "2d-1d-1d,1d:1d:1d.1d,1a1d:1d",
+    ),  # HUAWEI-SYS-MAN-MIB::hwPatchHistoryEndTime
 }

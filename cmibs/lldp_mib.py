@@ -116,6 +116,4 @@ MIB = {
     "LLDP-MIB::lldpGroups": "1.0.8802.1.1.2.2.2",
 }
 
-DISPLAY_HINTS = {
-
-}
+DISPLAY_HINTS = {}

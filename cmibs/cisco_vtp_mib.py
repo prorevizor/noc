@@ -13,7 +13,7 @@
 NAME = "CISCO-VTP-MIB"
 
 # Metadata
-LAST_UPDATED = "2004-02-11"
+LAST_UPDATED = "2010-05-12"
 COMPILED = "2020-01-19"
 
 # MIB Data: name -> oid
@@ -40,6 +40,7 @@ MIB = {
     "CISCO-VTP-MIB::managementDomainTftpPathname": "1.3.6.1.4.1.9.9.46.1.2.1.1.9",
     "CISCO-VTP-MIB::managementDomainPruningState": "1.3.6.1.4.1.9.9.46.1.2.1.1.10",
     "CISCO-VTP-MIB::managementDomainVersionInUse": "1.3.6.1.4.1.9.9.46.1.2.1.1.11",
+    "CISCO-VTP-MIB::managementDomainPruningStateOper": "1.3.6.1.4.1.9.9.46.1.2.1.1.12",
     "CISCO-VTP-MIB::vlanInfo": "1.3.6.1.4.1.9.9.46.1.3",
     "CISCO-VTP-MIB::vtpVlanTable": "1.3.6.1.4.1.9.9.46.1.3.1",
     "CISCO-VTP-MIB::vtpVlanEntry": "1.3.6.1.4.1.9.9.46.1.3.1.1",
@@ -138,6 +139,8 @@ MIB = {
     "CISCO-VTP-MIB::vlanTrunkPortVlansRcvJoined3k": "1.3.6.1.4.1.9.9.46.1.6.1.1.27",
     "CISCO-VTP-MIB::vlanTrunkPortVlansRcvJoined4k": "1.3.6.1.4.1.9.9.46.1.6.1.1.28",
     "CISCO-VTP-MIB::vlanTrunkPortDot1qTunnel": "1.3.6.1.4.1.9.9.46.1.6.1.1.29",
+    "CISCO-VTP-MIB::vlanTrunkPortVlansActiveFirst2k": "1.3.6.1.4.1.9.9.46.1.6.1.1.30",
+    "CISCO-VTP-MIB::vlanTrunkPortVlansActiveSecond2k": "1.3.6.1.4.1.9.9.46.1.6.1.1.31",
     "CISCO-VTP-MIB::vlanTrunkPortSetSerialNo": "1.3.6.1.4.1.9.9.46.1.6.2",
     "CISCO-VTP-MIB::vlanTrunkPortsDot1qTag": "1.3.6.1.4.1.9.9.46.1.6.3",
     "CISCO-VTP-MIB::vtpDiscover": "1.3.6.1.4.1.9.9.46.1.7",
@@ -172,6 +175,11 @@ MIB = {
     "CISCO-VTP-MIB::vtpAuthPassword": "1.3.6.1.4.1.9.9.46.1.9.1.1.1",
     "CISCO-VTP-MIB::vtpAuthPasswordType": "1.3.6.1.4.1.9.9.46.1.9.1.1.2",
     "CISCO-VTP-MIB::vtpAuthSecretKey": "1.3.6.1.4.1.9.9.46.1.9.1.1.3",
+    "CISCO-VTP-MIB::vlanStatistics": "1.3.6.1.4.1.9.9.46.1.10",
+    "CISCO-VTP-MIB::vlanStatsVlans": "1.3.6.1.4.1.9.9.46.1.10.1",
+    "CISCO-VTP-MIB::vlanStatsExtendedVlans": "1.3.6.1.4.1.9.9.46.1.10.2",
+    "CISCO-VTP-MIB::vlanStatsInternalVlans": "1.3.6.1.4.1.9.9.46.1.10.3",
+    "CISCO-VTP-MIB::vlanStatsFreeVlans": "1.3.6.1.4.1.9.9.46.1.10.4",
     "CISCO-VTP-MIB::vtpNotifications": "1.3.6.1.4.1.9.9.46.2",
     "CISCO-VTP-MIB::vtpNotificationsPrefix": "1.3.6.1.4.1.9.9.46.2.0",
     "CISCO-VTP-MIB::vtpConfigRevNumberError": "1.3.6.1.4.1.9.9.46.2.0.1",
@@ -185,6 +193,7 @@ MIB = {
     "CISCO-VTP-MIB::vtpVlanCreated": "1.3.6.1.4.1.9.9.46.2.0.10",
     "CISCO-VTP-MIB::vtpVlanDeleted": "1.3.6.1.4.1.9.9.46.2.0.11",
     "CISCO-VTP-MIB::vtpVlanRingNumberConflict": "1.3.6.1.4.1.9.9.46.2.0.12",
+    "CISCO-VTP-MIB::vtpPruningStateOperChange": "1.3.6.1.4.1.9.9.46.2.0.13",
     "CISCO-VTP-MIB::vtpNotificationsObjects": "1.3.6.1.4.1.9.9.46.2.1",
     "CISCO-VTP-MIB::vtpVlanPortLocalSegment": "1.3.6.1.4.1.9.9.46.2.1.1",
     "CISCO-VTP-MIB::vtpMIBConformance": "1.3.6.1.4.1.9.9.46.3",

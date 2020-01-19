@@ -136,6 +136,4 @@ MIB = {
     "HUAWEI-L2IF-MIB::hwL2IfGroups": "1.3.6.1.4.1.2011.5.25.42.1.2.2",
 }
 
-DISPLAY_HINTS = {
-
-}
+DISPLAY_HINTS = {}

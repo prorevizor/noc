@@ -415,6 +415,4 @@ MIB = {
     "VDSL2-LINE-MIB::xdsl2Compliances": "1.3.6.1.2.1.10.251.2.2",
 }
 
-DISPLAY_HINTS = {
-
-}
+DISPLAY_HINTS = {}
