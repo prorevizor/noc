@@ -830,6 +830,8 @@ class MetricsCheck(DiscoveryCheck):
             self.logger.error("Exception when send message %s", e)
         if result:
             return [raw_vars]
+        else:
+            return []
 
     def raise_event(self, event_class, raw_vars=None):
         if not raw_vars:
@@ -837,4 +839,4 @@ class MetricsCheck(DiscoveryCheck):
         data = {"$event": {"class": event_class, "vars": raw_vars}}
         msg = {"ts": time.time(), "object": self.object.id, "data": data}
         self.logger.info("Pub Event: %s", msg)
-        self.job.service.pub("events.%s" % self.object.pool.name, msg)
+        self.service.pub("events.%s" % self.object.pool.name, msg)
