@@ -237,7 +237,11 @@ Ext.define("NOC.inv.objectmodel.Application", {
                             text: __("Composite pins"),
                             dataIndex: "composite_pins",
                             width: 50,
-                            editor: "textfield"
+                            editor: {
+                                xtype: "textfield",
+                                regex: /^\d+-\d+$/,
+                                regexText: __("Regex error!")
+                            }
                         },
                         {
                             text: __("Cross"),
