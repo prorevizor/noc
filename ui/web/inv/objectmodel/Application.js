@@ -228,6 +228,18 @@ Ext.define("NOC.inv.objectmodel.Application", {
                             width: 50
                         },
                         {
+                            text: __("Composite"),
+                            dataIndex: "composite",
+                            width: 100,
+                            editor: "textfield"
+                        },
+                        {
+                            text: __("Composite pins"),
+                            dataIndex: "composite_pins",
+                            width: 50,
+                            editor: "textfield"
+                        },
+                        {
                             text: __("Cross"),
                             dataIndex: "cross",
                             width: 100,
