@@ -324,13 +324,15 @@ Ext.define("NOC.inv.objectmodel.Application", {
         for(i in v.connections) {
             c = v.connections[i];
             if(!Ext.isArray(c.protocols)) {
-                x = c.protocols.trim();
-                if(x === "" || x === undefined || x === null) {
-                    c.protocols = [];
-                } else {
-                    c.protocols = c.protocols.split(",").map(function(v) {
-                        return v.trim();
-                    });
+                if(!Ext.isEmpty(c.protocols)) {
+                    x = c.protocols.trim();
+                    if(x === "" || x === undefined || x === null) {
+                        c.protocols = [];
+                    } else {
+                        c.protocols = c.protocols.split(",").map(function(v) {
+                            return v.trim();
+                        });
+                    }
                 }
             }
         }
