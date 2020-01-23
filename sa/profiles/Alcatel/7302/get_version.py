@@ -23,7 +23,12 @@ class Script(BaseScript):
     rx_slots = re.compile(r"slot count\s*:\s*(?P<slot_count>\d+)")
     rx_ver = re.compile(r".+?\/*(?P<version>[A-Za-z0-9.]+?)\s+\S+\s+active.*$", re.MULTILINE)
 
-    port_map = {7: "7330", 18: "7302", 19: "7302", 21: "7302"}  # 16, 2  # 8, 2  # 24, 2
+    port_map = {
+        7: "7330",
+        18: "7302",
+        19: "7302",
+        21: "7302",
+    }  # show equipment slot for devices with one control plate return 19 slots
 
     def execute_cli(self, **kwargs):
         self.cli("environment inhibit-alarms mode batch", ignore_errors=True)
