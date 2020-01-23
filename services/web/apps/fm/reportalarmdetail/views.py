@@ -287,7 +287,8 @@ class ReportAlarmDetailApplication(ExtApplication):
                     ads = list(set(ads) & set(user_ads))
                     if not ads:
                         return HttpResponse(
-                            "<html><body>Permission denied: Invalid Administrative Domain</html></body>")
+                            "<html><body>Permission denied: Invalid Administrative Domain</html></body>"
+                        )
             else:
                 ads = user_ads
         if ads:
