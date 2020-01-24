@@ -13,7 +13,7 @@ from threading import Lock
 
 # Third-party modules
 import six
-from typing import Union, Tuple, Dict, Optional
+from typing import Union, Tuple, Dict, Optional, Any, Callable
 
 # NOC modules
 from noc.config import config
@@ -131,22 +131,32 @@ class MIBRegistry(object):
             self.mib = {}
             self.loaded_mibs = set()
 
-    def render(self, oid, value):
-        # type: (six.text_type, six.binary_type) -> six.text_type
+    @staticmethod
+    def longest_match(d, k):
+        # type: (Dict[six.text_type, Any], six.text_type) -> Optional[Any]
+        """
+        Returns longest match of key `k` in dict `d`
+        :param d:
+        :param k:
+        :return:
+        """
+        v = d.get(k)
+        if v is not None:
+            return v
+        parent = ".".join(k.split(".")[:-1])
+        return d.get(parent)
+
+    def render(self, oid, value, display_hints=None):
+        # type: (six.text_type, six.binary_type, Dict[six.text_type, Callable[[six.text_type, six.binary_type], Union[six.text_type, six.binary_type]]]) -> six.text_type
         """
         Apply display-hint
         :return:
         """
-
-        def get_hint(k):
-            # type: (six.text_type) -> Optional[Tuple[six.text_type, six.text_type]]
-            h = mib.hints.get(k)
-            if h:
-                return h
-            parent = ".".join(k.split(".")[:-1])
-            return mib.hints.get(parent)
-
-        hint = get_hint(oid)
+        if display_hints:
+            hint = self.longest_match(display_hints, oid)
+            if hint:
+                return hint(oid, value)
+        hint = self.longest_match(self.hints, oid)
         if hint:
             return render_tc(value, hint[0], hint[1])
         return smart_text(value, errors="ignore")

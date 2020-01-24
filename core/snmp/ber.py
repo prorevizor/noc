@@ -36,8 +36,9 @@ def did(tag_class, is_constructed, tag_id):
 
 
 class BERDecoder(object):
-    def __init__(self):
+    def __init__(self, display_hints=None):
         self.last_oid = None  # type: Optional[six.text_type]
+        self.display_hints = None
 
     @staticmethod
     def split_tlv(msg):
@@ -166,7 +167,7 @@ class BERDecoder(object):
     def parse_p_octetstring(self, msg):
         # type: (bytes) -> six.text_type
         if self.last_oid:
-            return mib.render(self.last_oid, msg)
+            return mib.render(self.last_oid, msg, self.display_hints)
         return msg
 
     def parse_p_t61_string(self, msg):

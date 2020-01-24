@@ -110,8 +110,8 @@ GetResponse = namedtuple(
 )
 
 
-def parse_get_response(pdu):
-    decoder = BERDecoder()
+def parse_get_response(pdu, display_hints=None):
+    decoder = BERDecoder(display_hints=display_hints)
     data = decoder.parse_sequence(pdu)[0]
     pdu = data[2]
     if pdu[0] != PDU_RESPONSE:
