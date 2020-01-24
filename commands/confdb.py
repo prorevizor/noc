@@ -88,7 +88,6 @@ class Command(BaseCommand):
             n_handler, n_config = p.get_config_normalizer(self)
             n_cls = get_handler("noc.sa.profiles.%s.confdb.normalizer.%s" % (p.name, n_handler))
             s = n_cls.SYNTAX
-
         root = find_root(s, path)
         if not root:
             return
@@ -105,6 +104,7 @@ class Command(BaseCommand):
         if object:
             connect()
             from noc.sa.models.managedobject import ManagedObject
+
             mo = ManagedObject.objects.get(name=object)
             if not mo:
                 self.die("Managed Object not found")
@@ -117,6 +117,7 @@ class Command(BaseCommand):
             # Mock up tokenizer
             connect()
             from noc.sa.models.managedobject import ManagedObject
+
             mo = ManagedObject.mock_object(profile=profile)
         else:
             self.die("Eigther object or profile must be set")
@@ -133,6 +134,7 @@ class Command(BaseCommand):
                 cfg = f.read()
         if object:
             from noc.sa.models.managedobject import ManagedObject
+
             connect()
             mo = ManagedObject.objects.get(name=object)
             if not mo:
@@ -146,6 +148,7 @@ class Command(BaseCommand):
             # Mock up tokenizer
             connect()
             from noc.sa.models.managedobject import ManagedObject
+
             mo = ManagedObject.mock_object(profile=profile)
         else:
             self.die("Eigther object or profile must be set")
@@ -176,10 +179,10 @@ class Command(BaseCommand):
             # Mock up tokenizer
             connect()
             from noc.sa.models.managedobject import ManagedObject
+
             mo = ManagedObject.mock_object(profile=profile)
         else:
             self.die("Eigther object or profile must be set")
-
         confdb = mo.get_confdb()
         headers = []
         table = []
