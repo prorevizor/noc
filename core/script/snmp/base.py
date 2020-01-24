@@ -300,6 +300,7 @@ class SNMP(object):
         max_index=None,
         cached=False,
         max_retries=0,
+        display_hints=None,
     ):
         """
         Query list of SNMP tables referenced by oids and yields
@@ -312,6 +313,7 @@ class SNMP(object):
         :param max_index:
         :param cached:
         :param max_retries:
+        :param display_hints:
         :return:
         """
 
@@ -323,6 +325,7 @@ class SNMP(object):
                 cached=cached,
                 bulk=bulk,
                 max_retries=max_retries,
+                display_hints=display_hints,
             ):
                 yield tuple([int(x) for x in o[line:].split(".")]), v
 

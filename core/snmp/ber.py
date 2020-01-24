@@ -38,7 +38,7 @@ def did(tag_class, is_constructed, tag_id):
 class BERDecoder(object):
     def __init__(self, display_hints=None):
         self.last_oid = None  # type: Optional[six.text_type]
-        self.display_hints = None
+        self.display_hints = display_hints
 
     @staticmethod
     def split_tlv(msg):
