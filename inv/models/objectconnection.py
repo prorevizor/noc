@@ -66,7 +66,6 @@ class ObjectConnection(Document):
         return "<%s>" % ", ".join(smart_text(c) for c in self.connection)
 
     def iter_changed_datastream(self, changed_fields=None):
-        print("Iter datastream")
         if config.datastream.enable_managedobject:
             for c in self.connection:
                 for _, mo_id in c.object.iter_changed_datastream():
