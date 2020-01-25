@@ -15,7 +15,6 @@ from binascii import hexlify
 from noc.core.script.base import BaseScript
 from noc.sa.interfaces.igetswitchport import IGetSwitchport
 from noc.core.mib import mib
-from noc.core.comp import smart_bytes, smart_text
 from noc.core.snmp.render import render_bin
 
 
@@ -60,9 +59,9 @@ class Script(BaseScript):
             display_hints={mib["Q-BRIDGE-MIB::dot1qVlanCurrentEgressPorts"]: render_bin},
         ):
             vlan_num = int(oid.split(".")[-1])
-            ports_list = hexlify(smart_bytes(ports_list))
+            ports_list = hexlify(ports_list)
             if ports_list not in decode_ports_list:
-                ports_list_mask = ["{0:04b}".format(int(smart_text(x), 16)) for x in ports_list]
+                ports_list_mask = ["{0:04b}".format(int(x, 16)) for x in ports_list]
                 decode_ports_list[ports_list] = list(
                     compress(iface_list, [int(x) for x in "".join(ports_list_mask)])
                 )
