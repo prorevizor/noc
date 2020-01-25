@@ -140,11 +140,10 @@ class MIBRegistry(object):
         :param k:
         :return:
         """
-        v = d.get(k)
-        if v is not None:
-            return v
-        parent = ".".join(k.split(".")[:-1])
-        return d.get(parent)
+        for prefix in d:
+            if prefix == k or k.startswith(prefix + "."):
+                return d.get(prefix)
+        return None
 
     def render(self, oid, value, display_hints=None):
         # type: (six.text_type, six.binary_type, Dict[six.text_type, Callable[[six.text_type, six.binary_type], Union[six.text_type, six.binary_type]]]) -> six.text_type
