@@ -95,9 +95,9 @@ class MAC(str):
                 (mac >> 8) & 0xFF,
                 mac & 0xFF,
             )
-        if len(mac) == 6 and isinstance(mac, six.binary_type) and six.PY3:
-            return ":".join(["%02X" % c for c in mac])
-        elif len(mac) == 6:
+        if len(mac) == 6:
+            if six.PY3 and isinstance(mac, six.binary_type):
+                return ":".join(["%02X" % c for c in mac])
             return ":".join(["%02X" % ord(c) for c in mac])
 
         value = smart_text(mac).upper()
