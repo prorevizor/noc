@@ -441,7 +441,6 @@ class Script(BaseScript):
         if self.is_s85xx:
             return self.part_parse_s8500()
         slot_num, device_slots = self.get_device_inventory()
-        print(slot_num, device_slots)
         cmd = "display elabel"
         if self.is_cloud_engine:
             cmd = "display device elabel"
