@@ -20,8 +20,6 @@ from .base import BaseDashboard
 from noc.config import config
 from noc.inv.models.interface import Interface
 from noc.inv.models.subinterface import SubInterface
-from noc.lib.text import split_alnum
-from noc.pm.models.metrictype import MetricType
 from noc.sa.models.managedobject import ManagedObject
 
 TITLE_BAD_CHARS = '"\\\n\r'
@@ -66,11 +64,12 @@ class MOCardDashboard(BaseDashboard):
             if metric.name.startswith("Check"):
                 return True
             return False
+
         object_metrics = []
         port_types = []
         subif = []
         radio_types = []
-        extra_template = self.extra_template.replace("\'", "\"")
+        extra_template = self.extra_template.replace("'", '"')
         result = json.loads(extra_template)
         if result["type"] == "iface":
             radio = []
@@ -80,13 +79,13 @@ class MOCardDashboard(BaseDashboard):
                 metrics = [str(m.metric_type.field_name) for m in iface.profile.metrics]
                 if interface_radio_metrics(iface.profile):
                     radio = {
-                            "name": iface.name,
-                            "descr": self.str_cleanup(
-                                iface.description, remove_letters=TITLE_BAD_CHARS
-                            ),
-                            "status": iface.status,
-                            "metrics": interface_radio_metrics(iface.profile)
-                        }
+                        "name": iface.name,
+                        "descr": self.str_cleanup(
+                            iface.description, remove_letters=TITLE_BAD_CHARS
+                        ),
+                        "status": iface.status,
+                        "metrics": interface_radio_metrics(iface.profile),
+                    }
                 if iface.profile.allow_subinterface_metrics:
                     subif += [
                         {
@@ -99,12 +98,12 @@ class MOCardDashboard(BaseDashboard):
                     ]
                 if iface.type == "physical":
                     port = {
-                            "name": iface.name,
-                            "descr": self.str_cleanup(
-                                iface.description, remove_letters=TITLE_BAD_CHARS
-                            ),
-                            "status": iface.status,
-                        }
+                        "name": iface.name,
+                        "descr": self.str_cleanup(
+                            iface.description, remove_letters=TITLE_BAD_CHARS
+                        ),
+                        "status": iface.status,
+                    }
                 if port:
                     port_types = {"name": iface.profile.name, "port": port, "metrics": metrics}
                 if radio:
@@ -114,7 +113,7 @@ class MOCardDashboard(BaseDashboard):
                 "object_metrics": object_metrics,
                 "port_types": port_types,
                 "subifaces": subif,
-                "radio_types": radio_types
+                "radio_types": radio_types,
             }
 
     def render(self):
