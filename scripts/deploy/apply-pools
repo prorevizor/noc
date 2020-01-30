@@ -47,9 +47,9 @@ def main():
             ).save()
             changed = True
     if changed:
-        print "CHANGED"
+        print ("CHANGED")
     else:
-        print "OK"
+        print ("OK")
 
 
 if __name__ == "__main__":
