@@ -45,7 +45,7 @@
                 {{interface(port_types)}},
                 {% endif %}
                 {%if "multicast_in" in port_types.metrics or "multicast_out" in port_types.metrics  %}
-                  {% from "graph_interface_card_multi.j2" import interface -%}
+                  {% from "graph_interface_card_multicast.j2" import interface -%}
                 {{interface(port_types)}},
                 {% endif %}
                 {%if "broadcast_in" in port_types.metrics or "broadcast_out" in port_types.metrics  %}
