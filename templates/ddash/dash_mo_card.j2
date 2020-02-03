@@ -49,7 +49,7 @@
                 {{interface(port_types)}},
                 {% endif %}
                 {%if "broadcast_in" in port_types.metrics or "broadcast_out" in port_types.metrics  %}
-                  {% from "graph_interface_card_bro.j2" import interface -%}
+                  {% from "graph_interface_card_broadcast.j2" import interface -%}
                 {{interface(port_types)}},
                 {% endif %}
                 {%if "errors_out" in port_types.metrics or "errors_in" in port_types.metrics %}
@@ -57,7 +57,7 @@
                 {{interface(port_types)}},
                 {% endif %}
                 {%if "discards_in" in port_types.metrics or "discards_out" in port_types.metrics %}
-                  {% from "graph_interface_card_dis.j2" import interface -%}
+                  {% from "graph_interface_card_discards.j2" import interface -%}
                 {{interface(port_types)}},
                 {% endif %}
               ]

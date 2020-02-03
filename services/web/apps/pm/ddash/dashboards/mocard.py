@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # ManagedObject's dynamic dashboard
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -122,17 +122,10 @@ class MOCardDashboard(BaseDashboard):
             "port_types": self.object_data["port_types"],
             "object_metrics": self.object_data["object_metrics"],
             "device": self.object.name.replace('"', ""),
-            "ip": self.object.address,
-            "platform": self.object.platform.name if self.object.platform else "Unknown platform",
-            "device_id": self.object.id,
-            "firmare_version": self.object.version.version if self.object.version else None,
-            "segment": self.object.segment.id,
-            "vendor": self.object.vendor or "Unknown version",
             "subifaces": self.object_data["subifaces"],
             "radio_types": self.object_data["radio_types"],
             "bi_id": self.object.bi_id,
             "pool": self.object.pool.name,
-            "extra_template": self.extra_template,
             "ping_interval": self.object.object_profile.ping_interval,
             "discovery_interval": self.object.object_profile.periodic_discovery_interval,
         }
