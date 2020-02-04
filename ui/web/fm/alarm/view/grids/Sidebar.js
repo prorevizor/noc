@@ -234,7 +234,7 @@ Ext.define("NOC.fm.alarm.view.grids.Sidebar", {
                     }
                 },
                 {
-                    xtype: "fm.alarm.lookup",
+                    xtype: "fm.alarm.tagfield",
                     url: "/fm/alarmclass/lookup/",
                     fieldLabel: __("Class"),
                     name: "alarm_class",
