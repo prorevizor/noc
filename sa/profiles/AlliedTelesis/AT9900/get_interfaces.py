@@ -70,7 +70,6 @@ class Script(BaseScript):
                 continue
             vlan_id = int(match.group("vlan_id"))
             tagged = self.expand_rangelist(tagged)
-            print tagged, vlan_id
             for ifname in tagged:
                 for iface in ifaces:
                     if iface["name"] == str(ifname):
