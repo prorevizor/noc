@@ -19,7 +19,7 @@ class Script(BaseScript):
     cache = True
     interface = IGetVersion
     rx_ver = re.compile(
-        r"^Allied Telesis (?P<platform>AT[/\w-]+) version " r"(?P<version>[\d.]+-[\d]+)",
+        r"^(Allied Telesis|x900-24XS) (?P<platform>AT[/\w-]+)(, | )version (?P<version>[\d.]+-[\d]+)",
         re.MULTILINE | re.DOTALL,
     )
 
@@ -29,7 +29,11 @@ class Script(BaseScript):
                 pl = self.snmp.get("1.3.6.1.4.1.207.8.17.1.3.1.6.1")
                 ver = self.snmp.get("1.3.6.1.4.1.207.8.17.1.3.1.5.1")
                 if pl and ver:
-                    return {"vendor": "Allied Telesis", "platform": pl, "version": ver.lstrip("v")}
+                    return {
+                        "vendor": "Allied Telesis",
+                        "platform": pl,
+                        "version": ver.lstrip("v"),
+                    }
             except self.snmp.TimeOutError:
                 pass
         v = self.cli("show system")
