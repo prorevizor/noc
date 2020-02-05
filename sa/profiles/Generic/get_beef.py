@@ -107,9 +107,14 @@ class Script(BaseScript):
             try:
                 if ans["type"] == "snmp-get":
                     value = self.snmp.get(ans["value"], raw_varbinds=True)
-                    yield {"oid": str(ans["value"]), "value": self.encode_mib(value).strip()}
+                    yield {
+                        "oid": str(ans["value"]),
+                        "value": self.encode_mib(value).strip(),
+                    }
                 elif ans["type"] == "snmp-getnext":
-                    for oid, value in self.snmp.getnext(ans["value"], raw_varbinds=True, max_retries=2):
+                    for oid, value in self.snmp.getnext(
+                        ans["value"], raw_varbinds=True, max_retries=2
+                    ):
                         yield {"oid": str(oid), "value": self.encode_mib(value).strip()}
             except SNMPError:
                 continue
