@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # AlliedTelesis.AT9900.get_version
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2011 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -28,7 +28,8 @@ class Script(BaseScript):
             try:
                 pl = self.snmp.get("1.3.6.1.4.1.207.8.17.1.3.1.6.1")
                 ver = self.snmp.get("1.3.6.1.4.1.207.8.17.1.3.1.5.1")
-                return {"vendor": "Allied Telesis", "platform": pl, "version": ver.lstrip("v")}
+                if pl and ver:
+                    return {"vendor": "Allied Telesis", "platform": pl, "version": ver.lstrip("v")}
             except self.snmp.TimeOutError:
                 pass
         v = self.cli("show system")
