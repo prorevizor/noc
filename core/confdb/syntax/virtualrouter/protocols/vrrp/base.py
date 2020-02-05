@@ -22,7 +22,10 @@ VRRP_SYNTAX = DEF(
                 DEF(
                     INTEGER,
                     [
-                        DEF("description", [DEF(ANY, name="description", gen="make_vrrp_group_description")]),
+                        DEF(
+                            "description",
+                            [DEF(ANY, name="description", gen="make_vrrp_group_description")],
+                        ),
                         DEF(
                             "virtual-address",
                             [
