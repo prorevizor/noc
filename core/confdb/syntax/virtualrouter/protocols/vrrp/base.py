@@ -20,12 +20,9 @@ VRRP_SYNTAX = DEF(
             "group",
             [
                 DEF(
-                    INTEGER,
+                    ANY,
                     [
-                        DEF(
-                            "description",
-                            [DEF(ANY, name="description", gen="make_vrrp_group_description")],
-                        ),
+                        DEF("description", [DEF(ANY, name="description", gen="make_vrrp_group")]),
                         DEF(
                             "virtual-address",
                             [
@@ -35,7 +32,7 @@ VRRP_SYNTAX = DEF(
                                 ),
                                 DEF(
                                     "inet6",
-                                    [DEF(IP_ADDRESS, name="address6", gen="make_vrrp_address6")],
+                                    [DEF(IP_ADDRESS, name="address", gen="make_vrrp_address6")],
                                 ),
                             ],
                         ),
@@ -73,11 +70,12 @@ VRRP_SYNTAX = DEF(
                         ),
                         DEF("preempt", [DEF(CHOICES("yes", "no"), name="preempt")]),
                     ],
-                    multi=True,
                     name="group",
-                    gen="make_vrrp_group",
+                    multi=True,
+                    required=True,
                 )
             ],
+            required=True,
         )
     ],
 )
