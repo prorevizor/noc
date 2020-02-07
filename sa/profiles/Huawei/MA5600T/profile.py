@@ -34,6 +34,7 @@ class Profile(BaseProfile):
         (r"\{ <cr>\|backplane\<K\>\|frameid\/slotid\<S\>\<Length \d+\-15\>(\|\|\<K\>|) \}", "\n"),
         (r"\{ <cr>(\|\S+\<K\>)+ \}", "\n"),
         (r"\{ groupindex\<K\>\|<cr> \}\:", "\n"),
+        (r"\{ \<cr\>\|instance\<K\>\|port\<K\> \}\:", "\n"),
         (r"\{ <cr>\|vlanattr\<K\>\|vlantype\<E\>\<\S+\> \}\:", "\n"),
         # The ONT automatic loading policy will be deleted
         (r"\s*Are you sure to proceed\(y/n\)\[[yn]\]", "y\n"),
@@ -45,7 +46,9 @@ class Profile(BaseProfile):
     )
     pattern_syntax_error = r"(% Unknown command|  Incorrect command:)"
     pattern_operation_error = r"(Configuration console time out, please retry to log on|" \
-                              r"It will take several minutes to save configuration file, please wait)"
+                              r"\s*Failure:\s*System is busy, please retry after a while|" \
+                              r"It will take several minutes to save configuration file, please wait|" \
+                              r"Failure:\s*System is reading or writing flash, please retry after a while)"
     # Found on MA5616, V800R015C10
     send_on_syntax_error = BaseProfile.send_backspaces
     command_more = " "
@@ -74,6 +77,24 @@ class Profile(BaseProfile):
         re.MULTILINE,
     )
     rx_splitter = re.compile(r"\s*\-+\n")
+
+    rx_log_clean = re.compile(
+        b"!\s+SECURITY MINOR.+\n"
+        b"\s+EVENT NAME\s*:\s*.+\n"
+        b"\s+PARAMETERS\s*:\s*.+\n"
+        b"\s+State\s*:\s*.+\n", re.MULTILINE
+    )
+
+    def cleaned_input(self, input):
+        # type: (six.binary_type) -> six.binary_type
+        """
+        Preprocessor to clean up and normalize input from device.
+        Delete ASCII sequences by default.
+        Can be overriden to achieve desired behavior
+        """
+        r = super(Profile, self).cleaned_input(input)
+        self.rx_log_clean.sub(r, b"")
+        return r
 
     @staticmethod
     def get_board_type(name):
