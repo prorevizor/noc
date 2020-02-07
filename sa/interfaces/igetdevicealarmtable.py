@@ -8,6 +8,7 @@
 
 # Python modules
 from __future__ import absolute_import
+from datetime import datetime
 
 # NOC modules
 from noc.core.interface.base import BaseInterface
@@ -33,7 +34,7 @@ class IGetDeviceAlarmTable(BaseInterface):
     returns = DictListParameter(
         attrs={
             # Time message created
-            "create_ts": DateTimeParameter(),
+            "create_ts": DateTimeParameter(default=datetime.now()),
             # Message id
             "id": StringParameter(),
             # Component path to generated message (ex. chassis, slot, interface)
