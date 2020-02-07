@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # ---------------------------------------------------------------------
-# IGetAlarm - interface to query alarm device table
+# IGetAlarms - interface to query alarm device table
 # ---------------------------------------------------------------------
 # Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
@@ -21,7 +21,7 @@ from .base import (
 )
 
 
-class IGetAlarm(BaseInterface):
+class IGetAlarms(BaseInterface):
     """
     * create_ts -
     * id - local device alarm id, if empty - generate by hash on timestamp and path and vendor_code
