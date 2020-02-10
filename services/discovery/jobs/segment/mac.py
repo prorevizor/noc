@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------
 # Segment MAC discovery
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2017 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -69,15 +69,19 @@ class MACDiscoveryCheck(TopologyDiscoveryCheck):
         if not macs:
             self.logger.info("No MAC addresses collected. Stopping")
             return
-        object_macs = DiscoveryID.find_objects(macs)
-        if not object_macs:
+        discovery_macs = DiscoveryID.find_objects(macs)
+        if not discovery_macs:
             self.logger.info("Cannot resolve any MAC addresses. Stopping")
             return
+        object_macs = {}
+        for key, value in discovery_macs.items():
+            if value not in object_macs.values():
+                object_macs[key] = value
         # Build FIB
         fib = {}  # object -> interface -> {seen objects}
         for mo, mac, iface, ts in mtable:
             ro = object_macs.get(mac)
-            if not ro:
+            if not ro or ro == mo:
                 continue
             if mo not in fib:
                 fib[mo] = {}
