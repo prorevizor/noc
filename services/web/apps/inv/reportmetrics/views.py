@@ -289,7 +289,7 @@ class ReportMetricsDetailApplication(ExtApplication):
                 "flap_count",
                 "countEqual(arrayMap((a,p) -> a + p, arrayPushFront(groupArray(status_oper),"
                 "groupArray(status_oper)[1]), arrayPushBack(groupArray(status_oper),"
-                "groupArray(status_oper)[-1])), 1)"
+                "groupArray(status_oper)[-1])), 1)",
             ),
             "cpu_usage": ("usage", "cpu_usage", "quantile(0.90)(usage)"),
             "ping_rtt": ("rtt", "ping_rtt", "round(quantile(0.90)(rtt) / 1000, 2)"),
