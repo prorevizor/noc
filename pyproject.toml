@@ -4,4 +4,4 @@ target-version = ['py33']
 [tool.coverage.run]
 omit = "*tests*"
 [tool.coverage.report]
-ignore_errors = True
+ignore_errors = "True"
