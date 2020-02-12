@@ -25,7 +25,7 @@ class ConfigValidationCheck(DiscoveryCheck):
     @staticmethod
     @cachetools.cached({})
     def get_ac_pm_thresholds():
-        return AlarmClass.get_by_name("Config | Policy Violation")
+        return AlarmClass.get_by_name("Config | Object Policy Violation")
 
     def handler(self):
         self.logger.info("Running config validation")
