@@ -210,7 +210,11 @@ def escalate(alarm_id, escalation_id, escalation_delay, login="correlator", *arg
                                     for ao in alarm.iter_affected():
                                         if ao.can_escalate(True):
                                             if ao.tt_system == mo.tt_system:
-                                                log("Appending object %s to group tt %s", ao.name, gtt)
+                                                log(
+                                                    "Appending object %s to group tt %s",
+                                                    ao.name,
+                                                    gtt,
+                                                )
                                                 try:
                                                     tts.add_to_group_tt(gtt, ao.tt_system_id)
                                                 except TTError as e:
