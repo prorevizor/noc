@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------
 # Eltex.MES24xx.get_chassis_id
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -19,8 +19,8 @@ class Script(BaseScript):
     interface = IGetChassisID
     cache = True
 
-    rx_mac = re.compile(r"^\s+Address\s+(?P<mac>\S+)\s*\n", re.MULTILINE)
+    rx_mac = re.compile(r"^Chassis Id\s+:\s+(?P<mac>\S+)", re.MULTILINE)
 
     def execute_cli(self, **kwargs):
-        match = self.rx_mac.search(self.cli("show spanning-tree switch default"))
+        match = self.rx_mac.search(self.cli("show lldp local"))
         return {"first_chassis_mac": match.group("mac"), "last_chassis_mac": match.group("mac")}
