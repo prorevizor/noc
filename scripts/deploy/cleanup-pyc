@@ -10,6 +10,7 @@
 # Python modules
 import os
 import sys
+from __future__ import print_function
 # NOC modules
 from noc.settings import INSTALLED_APPS
 
