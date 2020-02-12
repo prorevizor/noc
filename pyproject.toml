@@ -2,6 +2,6 @@
 line-length = 100
 target-version = ['py33']
 [tool.coverage.run]
-omit = *tests*
+omit = "*tests*"
 [tool.coverage.report]
 ignore_errors = True
