@@ -50,7 +50,7 @@ class Cleanup(object):
         if self.errors:
             print("ERROR")
             for e in self.errors:
-                print (e)
+                print(e)
             return 1
         elif self.changed:
             print("CHANGED")
