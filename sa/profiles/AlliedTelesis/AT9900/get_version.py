@@ -44,7 +44,7 @@ class Script(BaseScript):
                     "vendor": "Allied Telesis",
                     "platform": board_name[board_name.find("AT-") :],
                     "version": version,
-                    "attributes": {"HW version": board_hw.strip(), "Serial Number": board_serial,}
+                    "attributes": {"HW version": board_hw.strip(), "Serial Number": board_serial},
                 }
 
     def execute_cli(self):
@@ -71,5 +71,5 @@ class Script(BaseScript):
             "vendor": "Allied Telesis",
             "platform": platform,
             "version": version,
-            "attributes": {"HW version": hardware, "Serial Number": serial}
+            "attributes": {"HW version": hardware, "Serial Number": serial},
         }
