@@ -69,14 +69,10 @@ class MACDiscoveryCheck(TopologyDiscoveryCheck):
         if not macs:
             self.logger.info("No MAC addresses collected. Stopping")
             return
-        discovery_macs = DiscoveryID.find_objects(macs)
-        if not discovery_macs:
+        object_macs = DiscoveryID.find_objects(macs)
+        if not object_macs:
             self.logger.info("Cannot resolve any MAC addresses. Stopping")
             return
-        object_macs = {}
-        for key, value in discovery_macs.items():
-            if value not in object_macs.values():
-                object_macs[key] = value
         # Build FIB
         fib = {}  # object -> interface -> {seen objects}
         for mo, mac, iface, ts in mtable:
