@@ -24,8 +24,8 @@ class ConfigValidationCheck(DiscoveryCheck):
 
     @staticmethod
     @cachetools.cached({})
-    def get_ac_pm_thresholds():
-        return AlarmClass.get_by_name("Config | Object Policy Violation")
+    def get_ac_cm_violations():
+        return AlarmClass.get_by_name("Config | Policy Violations")
 
     def handler(self):
         self.logger.info("Running config validation")
@@ -41,7 +41,7 @@ class ConfigValidationCheck(DiscoveryCheck):
             self.logger.info("%d problem(s) detected", len(alarms))
         else:
             self.logger.info("No problems detected")
-        self.job.update_umbrella(self.get_ac_pm_thresholds(), alarms)
+        self.job.update_umbrella(self.get_ac_cm_violations(), alarms)
 
     def is_enabled(self):
         checks = self.job.attrs.get("_checks", set())
@@ -51,7 +51,7 @@ class ConfigValidationCheck(DiscoveryCheck):
         self, alarm_class=None, path=None, message=None, fatal=False, **kwargs
     ):
         """
-        Getting Umbreall Alarm Cfg
+        Getting Umbrella Alarm Cfg
         :param alarm_class: Alarm class instance or name
         :param path: Additional path
         :param message: Text message
