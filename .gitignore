@@ -49,9 +49,9 @@ lib_pypy/
 site-packages/
 lib/tcl/
 lib/tk/
+rust/Cargo.lock
 docs/src/en/src/
 docs/src/en/include/auto
 docs/src/en/platforms/
 scripts/build/web/node_modules
-rust/Cargo.lock
-rust/target/
+README.creole
