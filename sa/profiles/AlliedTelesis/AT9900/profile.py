@@ -25,3 +25,15 @@ class Profile(BaseProfile):
         if s.startswith("Port "):
             return s[5:]
         return s
+
+    INTERFACE_TYPES = {
+        "eth": "physical",
+        "por": "physical",
+        "loo": "loopback",  # Loopback
+        "vla": "SVI",  # vlan
+        "un": "unknown",
+    }
+
+    @classmethod
+    def get_interface_type(cls, name):
+        return cls.INTERFACE_TYPES.get(name[:3].lower())
