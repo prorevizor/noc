@@ -74,7 +74,6 @@ class Script(BaseScript):
                         }
                     ]
 
-            pass
             """
             for port in self.split_port_re.split(block):
                 port_info = self.split_info_re.match(port)
