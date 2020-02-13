@@ -63,6 +63,8 @@ black:
     - docker
   allow_failure: false
 
+# @todo: Rust fmt
+
 mypy:
   stage: Lint
   image: registry.getnoc.com/infrastructure/mypy:master
@@ -449,6 +451,25 @@ build:web:
     paths:
       - dist/ui/pkg/web
       - dist/ui/pkg/web.debug
+
+build:rust:
+  stage: Build
+  image:
+  before_script:
+    - export CARGO_TARGET_DIR=../build/rust
+  script:
+    - set -x
+    - cd rust/
+    - cargo build --release
+  only:
+    refs:
+      - merge_requests
+      - master
+    changes:
+      - "rust/**"
+  artifacts:
+    paths:
+      - build/rust/release/
 
 upload docs:
   stage: Upload
