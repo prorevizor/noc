@@ -76,10 +76,10 @@ class Script(BaseScript):
                 n["remote_system_name"] = system_name
             system_description = match.group("system_description").strip()
             if system_description and system_description != "-":
-                n["remote_system_description"] = re.sub(r'\s+', ' ', system_description)
+                n["remote_system_description"] = re.sub(r"\s+", " ", system_description)
             port_description = match.group("port_description").strip()
             if port_description and port_description != "-":
-                n["remote_port_description"] = re.sub(r'\s+', ' ', port_description)
+                n["remote_port_description"] = re.sub(r"\s+", " ", port_description)
             iface["neighbors"] += [n]
             r += [iface]
         return r
