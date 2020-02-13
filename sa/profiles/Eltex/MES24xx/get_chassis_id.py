@@ -23,4 +23,5 @@ class Script(BaseScript):
 
     def execute_cli(self, **kwargs):
         match = self.rx_mac.search(self.cli("show lldp local"))
+        # do not use show spanning-tree switch default - if stp disabled output 00:00:00:00:00:00 mac
         return {"first_chassis_mac": match.group("mac"), "last_chassis_mac": match.group("mac")}
