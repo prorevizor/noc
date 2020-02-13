@@ -454,7 +454,7 @@ build:web:
 
 build:rust:
   stage: Build
-  image:
+  image: rust:1.41
   before_script:
     - export CARGO_TARGET_DIR=../build/rust
   script:
