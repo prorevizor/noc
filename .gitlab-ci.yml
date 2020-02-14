@@ -460,6 +460,8 @@ build:rust:
     - cd rust/
     - export CARGO_TARGET_DIR=../build/rust
     - cargo build --release
+  tags:
+    - docker
   only:
     refs:
       - merge_requests
