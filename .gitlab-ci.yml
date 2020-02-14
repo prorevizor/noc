@@ -455,11 +455,10 @@ build:web:
 build:rust:
   stage: Build
   image: rust:1.41
-  before_script:
-    - export CARGO_TARGET_DIR=../build/rust
   script:
     - set -x
     - cd rust/
+    - export CARGO_TARGET_DIR=../build/rust
     - cargo build --release
   only:
     refs:
