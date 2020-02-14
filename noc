@@ -54,4 +54,3 @@ if [ -f "./commands/$CMD.py" ]; then
 fi
 
 error_exit "Invalid command $1"
-
