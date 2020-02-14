@@ -321,7 +321,6 @@ class DiscoveryID(Document):
         for d in DiscoveryID._get_collection().find(
             {"macs": int(MAC(mac))}, {"_id": 0, "object": 1, "chassis_mac": 1}
         ):
-            print(d["object"])
             mo = ManagedObject.get_by_id(d["object"])
             if mo:
                 r.append(mo.id)
