@@ -122,6 +122,7 @@ class Command(BaseCommand):
         from noc.tests.conftest import _stats as stats
 
         self.print("---[ Test session statistics ]------")
+        stats = stats or {}
         cov.get_data()
         reporter = Reporter(cov, cov.config)
         totals = Numbers()
