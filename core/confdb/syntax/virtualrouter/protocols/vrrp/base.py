@@ -64,7 +64,13 @@ VRRP_SYNTAX = DEF(
                             [
                                 DEF(
                                     "advertise-interval",
-                                    [DEF(INTEGER, name="interval", gen="make_vrrp_advertise_interval")],
+                                    [
+                                        DEF(
+                                            INTEGER,
+                                            name="interval",
+                                            gen="make_vrrp_advertise_interval",
+                                        )
+                                    ],
                                 )
                             ],
                         ),
