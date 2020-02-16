@@ -11,7 +11,7 @@ from __future__ import absolute_import
 
 # NOC modules
 from ....defs import DEF
-from ....patterns import ANY, INTEGER, IP_ADDRESS, UNIT_NAME, CHOICES
+from ....patterns import ANY, INTEGER, IP_ADDRESS, UNIT_NAME, BOOL
 
 VRRP_SYNTAX = DEF(
     "vrrp",
@@ -64,11 +64,11 @@ VRRP_SYNTAX = DEF(
                             [
                                 DEF(
                                     "advertise-interval",
-                                    [DEF(INTEGER, name="interval", gen="make_vrrp_adv_interval")],
+                                    [DEF(INTEGER, name="interval", gen="make_vrrp_advertise_interval")],
                                 )
                             ],
                         ),
-                        DEF("preempt", [DEF(CHOICES("yes", "no"), name="preempt")]),
+                        DEF("preempt", [DEF(BOOL, name="enabled", gen="make_vrrp_preempt")]),
                     ],
                     name="group",
                     multi=True,
