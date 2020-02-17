@@ -23,7 +23,7 @@ from .base import (
 
 class IGetAlarms(BaseInterface):
     """
-    * create_ts -
+    * ts -
     * id - local device alarm id, if empty - generate by hash on timestamp and path and vendor_code
     * path - list component (chassis, interface, board) affected alarm. Example CPE - [<CPE_ID>]
     * vendor_code - local AlarmClass on device
@@ -34,7 +34,7 @@ class IGetAlarms(BaseInterface):
     returns = DictListParameter(
         attrs={
             # Time message created
-            "create_ts": DateTimeParameter(default=datetime.now()),
+            "ts": DateTimeParameter(default=datetime.now()),
             # Message id
             "id": StringParameter(),
             # Component path to generated message (ex. chassis, slot, interface)
