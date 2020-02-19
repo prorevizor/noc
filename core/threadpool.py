@@ -191,13 +191,11 @@ class ThreadPoolExecutor(object):
                     except NOCError as e:
                         exc_info = sys.exc_info()
                         future.set_exception_info(e, exc_info[2])
-                        span.error_code = e.default_code
-                        span.error_text = str(e)
+                        span.set_error_from_exc(e, e.default_code)
                     except BaseException as e:
                         exc_info = sys.exc_info()
                         future.set_exception_info(e, exc_info[2])
-                        span.error_code = ERR_UNKNOWN
-                        span.error_text = str(e)
+                        span.set_error_from_exc(e)
         finally:
             logger.debug("Stopping worker thread %s", t.name)
             with self.mutex:
