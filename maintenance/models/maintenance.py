@@ -2,13 +2,14 @@
 # ---------------------------------------------------------------------
 # Maintenance
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
 # Python
 from __future__ import absolute_import
 import datetime
+import time
 import dateutil.parser
 import operator
 from threading import Lock
@@ -104,9 +105,15 @@ class Maintenance(Document):
         self.update_affected_objects()
         if self.escalate_managed_object:
             if not self.is_completed:
+                date_now = datetime.datetime.now()
+                date_start = dateutil.parser.parse(self.start)
+                if date_start < date_now:
+                    delay = 60
+                else:
+                    delay = time.mktime(date_start.timetuple()) - time.mktime(date_now.timetuple())
                 call_later(
                     "noc.services.escalator.maintenance.start_maintenance",
-                    delay=(dateutil.parser.parse(self.start) - datetime.datetime.now()).seconds,
+                    delay=delay,
                     scheduler="escalator",
                     pool=self.escalate_managed_object.escalator_shard,
                     maintenance_id=self.id,
