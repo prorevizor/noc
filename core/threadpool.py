@@ -23,7 +23,7 @@ from tornado.gen import with_timeout
 # NOC modules
 from noc.config import config
 from noc.core.span import Span, get_current_span
-from noc.core.error import NOCError, ERR_UNKNOWN
+from noc.core.error import NOCError
 from noc.core.backport.time import perf_counter
 
 logger = logging.getLogger(__name__)

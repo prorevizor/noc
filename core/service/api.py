@@ -18,7 +18,6 @@ import ujson
 from noc.core.error import NOCError
 from noc.core.debug import error_report
 from noc.core.span import Span
-from noc.core.error import ERR_UNKNOWN
 from noc.config import config
 
 

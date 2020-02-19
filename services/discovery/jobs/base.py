@@ -44,7 +44,6 @@ from noc.core.error import (
     ERR_CLI_CONNECTION_REFUSED,
 )
 from noc.core.span import Span
-from noc.core.error import ERR_UNKNOWN
 from noc.core.cache.base import cache
 from noc.core.perf import metrics
 from noc.core.backport.time import perf_counter
