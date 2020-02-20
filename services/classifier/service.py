@@ -164,6 +164,7 @@ class ClassifierService(Service):
                                 h = get_handler(h)
                             except ImportError:
                                 self.logger.error("Failed to load handler '%s'. Ignoring", h)
+                                h = None
                         if c_id in self.triggers:
                             self.triggers[c_id] += [Trigger(t, handler=h)]
                         else:
@@ -280,7 +281,6 @@ class ClassifierService(Service):
                     hl += [hh]
                 except ImportError:
                     self.logger.error("Failed to load handler '%s'. Ignoring", h)
-                    continue
             if hl:
                 self.handlers[ec.id] = hl
         self.logger.info("Handlers are loaded")
