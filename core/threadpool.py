@@ -19,6 +19,7 @@ import sys
 from six.moves import _thread
 from concurrent.futures import Future
 from tornado.gen import with_timeout
+import six
 
 # NOC modules
 from noc.config import config
@@ -189,12 +190,18 @@ class ThreadPoolExecutor(object):
                         future.set_result(result)
                         result = None  # Release memory
                     except NOCError as e:
-                        exc_info = sys.exc_info()
-                        future.set_exception_info(e, exc_info[2])
+                        if six.PY2:
+                            exc_info = sys.exc_info()
+                            future.set_exception_info(e, exc_info[2])
+                        else:
+                            future.set_exception(e)
                         span.set_error_from_exc(e, e.default_code)
                     except BaseException as e:
-                        exc_info = sys.exc_info()
-                        future.set_exception_info(e, exc_info[2])
+                        if six.PY2:
+                            exc_info = sys.exc_info()
+                            future.set_exception_info(e, exc_info[2])
+                        else:
+                            future.set_exception(e)
                         span.set_error_from_exc(e)
         finally:
             logger.debug("Stopping worker thread %s", t.name)
