@@ -444,7 +444,7 @@ build:web:
     changes:
       - "ui/web/**/*.js"
       - "ui/web/**/*.css"
-      - "scripts/build/web/**"
+      - "scripts/build/web/**/*"
   artifacts:
     paths:
       - dist/ui/pkg/web
