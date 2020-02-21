@@ -442,8 +442,8 @@ build:web:
     refs:
       - merge_requests
     changes:
-      - "ui/web/**.js"
-      - "ui/web/**.css"
+      - "ui/web/**/*.js"
+      - "ui/web/**/*.css"
       - "scripts/build/web/**"
   artifacts:
     paths:
