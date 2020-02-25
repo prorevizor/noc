@@ -104,15 +104,9 @@ class Maintenance(Document):
         self.update_affected_objects()
         if self.escalate_managed_object:
             if not self.is_completed:
-                if self.start < datetime.datetime.now():
-                    delay = 60
-                else:
-                    delay = (
-                        dateutil.parser.parse(self.start) - datetime.datetime.now()
-                    ).total_seconds()
                 call_later(
                     "noc.services.escalator.maintenance.start_maintenance",
-                    delay=delay,
+                    delay=max((dateutil.parser.parse(self.start) - datetime.datetime.now()).total_seconds(), 60),
                     scheduler="escalator",
                     pool=self.escalate_managed_object.escalator_shard,
                     maintenance_id=self.id,
