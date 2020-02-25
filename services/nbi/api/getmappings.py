@@ -34,7 +34,6 @@ class GetMappingsAPI(NBIAPI):
     @authenticated
     @tornado.gen.coroutine
     def get(self, *args, **kwargs):
-        print(self.request.arguments)
         scope = self.get_argument("scope", None)
         if not scope:
             self.write_result(400, self.error_msg("Missed scope"))
