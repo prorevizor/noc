@@ -9,7 +9,6 @@
 # Python
 from __future__ import absolute_import
 import datetime
-import time
 import dateutil.parser
 import operator
 from threading import Lock
@@ -105,12 +104,12 @@ class Maintenance(Document):
         self.update_affected_objects()
         if self.escalate_managed_object:
             if not self.is_completed:
-                date_now = datetime.datetime.now()
-                date_start = dateutil.parser.parse(self.start)
-                if date_start < date_now:
+                if self.start < datetime.datetime.now():
                     delay = 60
                 else:
-                    delay = time.mktime(date_start.timetuple()) - time.mktime(date_now.timetuple())
+                    delay = (
+                        dateutil.parser.parse(self.start) - datetime.datetime.now()
+                    ).total_seconds()
                 call_later(
                     "noc.services.escalator.maintenance.start_maintenance",
                     delay=delay,
