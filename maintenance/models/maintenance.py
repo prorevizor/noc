@@ -106,7 +106,12 @@ class Maintenance(Document):
             if not self.is_completed:
                 call_later(
                     "noc.services.escalator.maintenance.start_maintenance",
-                    delay=max((dateutil.parser.parse(self.start) - datetime.datetime.now()).total_seconds(), 60),
+                    delay=max(
+                        (
+                            dateutil.parser.parse(self.start) - datetime.datetime.now()
+                        ).total_seconds(),
+                        60,
+                    ),
                     scheduler="escalator",
                     pool=self.escalate_managed_object.escalator_shard,
                     maintenance_id=self.id,
