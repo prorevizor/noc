@@ -77,5 +77,25 @@ META_SYNTAX = DEF(
             ],
         ),
         DEF("tags", [DEF(ANY, name="tag", required=True, multi=True, gen="make_meta_tag")]),
+        DEF(
+            "chassis_id",
+            [
+                DEF(
+                    ANY,
+                    [
+                        DEF(
+                            ANY,
+                            name="mac_range",
+                            required=True,
+                            multi=True,
+                            gen="make_meta_chassis_id_range",
+                        )
+                    ],
+                    name="chassis_id",
+                    multi=True,
+                ),
+            ],
+            required=True,
+        ),
     ],
 )
