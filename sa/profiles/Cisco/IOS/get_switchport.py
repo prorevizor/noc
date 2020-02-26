@@ -115,11 +115,13 @@ class Script(BaseScript):
                 mib["CISCO-VTP-MIB::vlanTrunkPortVlansXmitJoined2k"],
                 mib["CISCO-VTP-MIB::vlanTrunkPortVlansXmitJoined3k"],
                 mib["CISCO-VTP-MIB::vlanTrunkPortVlansXmitJoined4k"],
-            ]
-            , display_hints={mib["CISCO-VTP-MIB::vlanTrunkPortVlansXmitJoined"]: render_bin,
-                             mib["CISCO-VTP-MIB::vlanTrunkPortVlansXmitJoined2k"]: render_bin,
-                             mib["CISCO-VTP-MIB::vlanTrunkPortVlansXmitJoined3k"]: render_bin,
-                             mib["CISCO-VTP-MIB::vlanTrunkPortVlansXmitJoined4k"]: render_bin}
+            ],
+            display_hints={
+                mib["CISCO-VTP-MIB::vlanTrunkPortVlansXmitJoined"]: render_bin,
+                mib["CISCO-VTP-MIB::vlanTrunkPortVlansXmitJoined2k"]: render_bin,
+                mib["CISCO-VTP-MIB::vlanTrunkPortVlansXmitJoined3k"]: render_bin,
+                mib["CISCO-VTP-MIB::vlanTrunkPortVlansXmitJoined4k"]: render_bin,
+            },
         ):
             # print(ifindex, enc_type, vlans_base, vlans_2k, vlans_3k, vlans_4k)
             if int(enc_type) != 4:
