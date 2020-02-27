@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # main.notificationgroup application
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -37,7 +37,7 @@ class NotificationGroupApplication(ExtModelApplication):
         access="update",
         api=True,
         validate={
-            "ids": ListOfParameter(element=ModelParameter(NotificationGroup)),
+            "ids": ListOfParameter(element=ModelParameter(NotificationGroup), convert=True),
             "subject": UnicodeParameter(),
             "body": UnicodeParameter(),
         },
