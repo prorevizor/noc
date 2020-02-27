@@ -35,14 +35,7 @@ class Script(BaseScript):
             slots += 1
             if b_type == "EMPTY":
                 continue
-            r += [
-                {
-                    "num": slots,
-                    "type": "BOARD",
-                    "vendor": "Alcatel",
-                    "part_no": b_type,
-                }
-            ]
+            r += [{"num": slots, "type": "BOARD", "vendor": "Alcatel", "part_no": b_type}]
             if b_serial is not None:
                 sn = b_serial.strip().strip("\x00")
                 r[-1].update({"serial": sn})
@@ -50,11 +43,6 @@ class Script(BaseScript):
                 r[-1].update({"revision": b_revision})
         r.insert(
             0,
-            {
-                "num": "0",
-                "type": "CHASSIS",
-                "vendor": "Alcatel",
-                "part_no": self.port_map[slots],
-            },
+            {"num": "0", "type": "CHASSIS", "vendor": "Alcatel", "part_no": self.port_map[slots]},
         )
         return r
