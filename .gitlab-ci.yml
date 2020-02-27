@@ -322,9 +322,9 @@ py2:test:
   artifacts:
     paths:
       - collections/
-      - ./build/junit-py2.xml
+      - ./build/reports/junit-py2.xml
     reports:
-      junit: ./build/junit-py2.xml
+      junit: ./build/reports/junit-py2.xml
     expire_in: 1 day
 
 py3:test:
@@ -366,9 +366,9 @@ py3:test:
   allow_failure: false
   artifacts:
     paths:
-      - ./build/junit-py3.xml
+      - ./build/reports/junit-py3.xml
     reports:
-      junit: ./build/junit-py3.xml
+      junit: ./build/reports/junit-py3.xml
     expire_in: 1 day
 
 build:Docs:
