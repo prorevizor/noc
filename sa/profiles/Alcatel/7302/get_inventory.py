@@ -38,9 +38,9 @@ class Script(BaseScript):
             r += [{"num": slots, "type": "BOARD", "vendor": "Alcatel", "part_no": b_type}]
             if b_serial is not None:
                 sn = b_serial.strip().strip("\x00")
-                r[-1].update({"serial": sn})
+                r[-1]["serial"] = sn
             if b_revision is not None:
-                r[-1].update({"revision": b_revision})
+                r[-1]["revision"] = b_revision
         r.insert(
             0,
             {"num": "0", "type": "CHASSIS", "vendor": "Alcatel", "part_no": self.port_map[slots]},
