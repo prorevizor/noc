@@ -81,21 +81,33 @@ META_SYNTAX = DEF(
             "chassis_id",
             [
                 DEF(
-                    ANY,
+                    INTEGER,
                     [
                         DEF(
-                            ANY,
-                            name="mac_range",
-                            required=True,
-                            multi=True,
-                            gen="make_meta_chassis_id_range",
-                        )
+                            "range",
+                            [
+                                DEF(
+                                    ANY,
+                                    [
+                                        DEF(
+                                            ANY,
+                                            name="mac2",
+                                            required=True,
+                                            gen="make_meta_chassis_id_mac2",
+                                        )
+                                    ],
+                                    name="mac1",
+                                    required=True,
+                                    gen="make_meta_chassis_id_mac1",
+                                ),
+                            ],
+                        ),
                     ],
-                    name="chassis_id",
+                    name="n",
                     multi=True,
+                    required=True,
                 ),
             ],
-            required=True,
         ),
     ],
 )

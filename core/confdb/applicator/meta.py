@@ -57,11 +57,12 @@ class MetaApplicator(BaseApplicator):
                 yield "meta", "tags", tag
 
     def chassis_mac_meta(self):
-        chmac = DiscoveryID.objects.get(object=self.object.id).chassis_mac
-        chassis_id = [1]
-        for mac in chmac:
-            mac_range = mac.first_mac, mac.last_mac
-            yield "meta", "chassis_id", chassis_id, "mac_range", mac_range
+        ch_id = DiscoveryID.objects.filter(object=self.object.id).first()
+        ch_macs = ch_id.chassis_mac if ch_id else []
+        for n, mac in enumerate(ch_macs):
+            mac1 = mac.first_mac
+            mac2 = mac.last_mac
+            yield "meta", "chassis_id", n, "range", mac1, mac2
 
     def iter_interfaces_meta(self):
         # Get all interfaces
