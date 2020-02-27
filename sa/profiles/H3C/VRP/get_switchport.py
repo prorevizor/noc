@@ -62,9 +62,9 @@ class Script(BaseScript):
 
         # Get ports in vlans
         r = []
-        if self.is_old_version:
+        if self.is_53_version:
             v = self.cli("display port allow-vlan")
-        elif self.is_53_version:
+        elif self.is_310_version:
             rx_line = re.compile(
                 r"""
                (?P<interface>\S+)\scurrent\sstate
