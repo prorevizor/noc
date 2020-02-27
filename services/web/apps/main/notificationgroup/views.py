@@ -37,7 +37,7 @@ class NotificationGroupApplication(ExtModelApplication):
         access="update",
         api=True,
         validate={
-            "ids": ListOfParameter(element=ModelParameter(NotificationGroup), convert=True),
+            "ids": ListOfParameter(element=ModelParameter(NotificationGroup)),
             "subject": UnicodeParameter(),
             "body": UnicodeParameter(),
         },
