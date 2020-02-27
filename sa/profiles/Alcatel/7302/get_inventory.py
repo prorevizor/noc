@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # Alcatel.7302.get_inventory
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -15,11 +15,12 @@ class Script(BaseScript):
     name = "Alcatel.7302.get_inventory"
     interface = IGetInventory
     port_map = {
+        7: "7330",
         14: "7330",
         18: "7302",
         19: "7302",
         21: "7302",
-    }  # show equipment slot for devices with one control plate return 19 slots
+    }  # show equipment slot for 7302 with one control plate return 19 slots
 
     def execute_snmp(self, **kwargs):
         r = []
@@ -40,10 +41,13 @@ class Script(BaseScript):
                     "type": "BOARD",
                     "vendor": "Alcatel",
                     "part_no": b_type,
-                    "revision": b_revision,
-                    "serial": b_serial.strip().strip("\x00"),
                 }
             ]
+            if b_serial is not None:
+                sn = b_serial.strip().strip("\x00")
+                r[-1].update({"serial": sn})
+            if b_revision is not None:
+                r[-1].update({"revision": b_revision})
         r.insert(
             0,
             {
@@ -51,8 +55,6 @@ class Script(BaseScript):
                 "type": "CHASSIS",
                 "vendor": "Alcatel",
                 "part_no": self.port_map[slots],
-                "revision": "",
-                "serial": "",
             },
         )
         return r
