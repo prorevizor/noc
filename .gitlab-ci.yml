@@ -10,11 +10,14 @@ check labels:
   image: registry.getnoc.com/infrastructure/noc-lint:master
   script:
     - FLIST=$(git --no-pager diff --name-only $(git merge-base origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME $CI_COMMIT_SHA) $CI_COMMIT_SHA)
-    - python ./scripts/check-labels.py $FLIST
+    - python ./scripts/check-labels.py --junit-report=build/reports/labels-junit.xml $FLIST
   only:
     - merge_requests
   tags:
     - docker
+  artifacts:
+    reports:
+      junit: ./build/reports/labels-junit.xml
 
 flake8:
   stage: Lint
