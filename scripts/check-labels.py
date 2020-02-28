@@ -74,7 +74,7 @@ class TestCase(object):
             'time="%.3f">' % (JUNIT_CLASS_NAME, JUNIT_FILE, test_name, duration),
         ]
         if self.is_failed:
-            r += ['    <failure message="%s">' % (escape(self.failure)), "</failure>"]
+            r += ['    <failure message="%s"></failure>' % (escape(self.failure))]
         r += [
             "  </testcase>",
         ]
