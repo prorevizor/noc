@@ -106,7 +106,7 @@ services:
       && ./noc test run --junit-report=build/reports/py2-test-junit.xml --statistics
       "
     volumes:
-      - ./build/:/opt/noc/build/
+      - ../build/:/opt/noc/build/
     environment:
       NOC_TEST_DB: noc_tests
     env_file:
@@ -176,7 +176,7 @@ services:
       && ./noc test run --junit-report=build/reports/py3-test-junit.xml --statistics
       "
     volumes:
-      - ./build/:/opt/noc/build/
+      - ../build/:/opt/noc/build/
     environment:
       NOC_TEST_DB: noc_tests
     env_file:
