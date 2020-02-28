@@ -177,6 +177,10 @@ services:
       NOC_TEST_DB: noc_tests
     env_file:
       - noc.conf
+    volumes:
+      - type: volume
+        source: build
+        target: /opt/noc/build
 
   nsqlookupd:
     image: nsqio/nsq:v1.1.0
@@ -223,3 +227,6 @@ services:
   snmpd:
     image: "registry.getnoc.com/infrastructure/tests/testsnmpd:master"
     command: "/usr/sbin/snmpd -f -Lo: -d -a udp:161"
+
+volumes:
+  build:
