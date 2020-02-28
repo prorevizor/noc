@@ -288,6 +288,7 @@ py2:test:
     - cp .dockerignore.tests .dockerignore
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
   script:
+    - mkdir -p build
     - >
      docker
      login
@@ -338,6 +339,7 @@ py3:test:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
   script:
     # see docker/docker-compose.yml for complete list of migrations
+    - mkdir -p build
     - >
       docker-compose
       -f .docker/docker-compose.yml
