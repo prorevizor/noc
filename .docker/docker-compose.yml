@@ -109,6 +109,10 @@ services:
       NOC_TEST_DB: noc_tests
     env_file:
       - noc.conf
+    volumes:
+      - type: volume
+        source: build
+        target: /opt/noc/build
 
   py3migrate:
     build:

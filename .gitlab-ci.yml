@@ -287,6 +287,7 @@ py2:test:
     - mv .dockerignore .dockerignore.prod
     - cp .dockerignore.tests .dockerignore
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - JUNIT_XML_REPORT=build/reports/py2-test-junit.xml
   script:
     - >
      docker
@@ -306,6 +307,11 @@ py2:test:
       up
       --exit-code-from py2tests
       py2tests
+    - mkdir -p build/reports/
+    - >
+      docker cp
+      "${DOCKER_COMPOSE_PROJECT}:/opt/noc/${JUNIT_XML_REPORT}"
+      "${JUNIT_XML_REPORT}"
   after_script:
     - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py2tests
     - mv .dockerignore.prod .dockerignore
@@ -336,6 +342,7 @@ py3:test:
     - mv .dockerignore .dockerignore.prod
     - cp .dockerignore.tests .dockerignore
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - JUNIT_XML_REPORT=build/reports/py3-test-junit.xml
   script:
     # see docker/docker-compose.yml for complete list of migrations
     - >
@@ -350,6 +357,11 @@ py3:test:
       up
       --exit-code-from py3tests
       py3tests
+    - mkdir -p build/reports/
+    - >
+      docker cp
+      "${DOCKER_COMPOSE_PROJECT}:/opt/noc/${JUNIT_XML_REPORT}"
+      "${JUNIT_XML_REPORT}"
   after_script:
     - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py3tests
     - mv .dockerignore.prod .dockerignore
