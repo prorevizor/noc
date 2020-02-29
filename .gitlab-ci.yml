@@ -306,11 +306,6 @@ py2:test:
       up
       --exit-code-from py2tests
       py2tests
-    - mkdir -p build/reports/
-    - >
-      docker cp
-      "${DOCKER_COMPOSE_PROJECT}_py2tests_1:/opt/noc/${JUNIT_XML_REPORT}"
-      "${JUNIT_XML_REPORT}"
   after_script:
     - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-py2tests
     - JUNIT_XML_REPORT=build/reports/py2-test-junit.xml
