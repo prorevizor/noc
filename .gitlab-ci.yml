@@ -18,6 +18,7 @@ check labels:
   artifacts:
     reports:
       junit: ./build/reports/labels-junit.xml
+    expire_in: 7 days
 
 flake8:
   stage: Lint
@@ -329,11 +330,9 @@ py2:test:
     - shell
   allow_failure: false
   artifacts:
-    paths:
-      - collections/
     reports:
       junit: ./build/reports/py2-test-junit.xml
-    expire_in: 1 day
+    expire_in: 7 days
 
 py3:test:
   stage: Test
@@ -381,6 +380,7 @@ py3:test:
   artifacts:
     reports:
       junit: ./build/reports/py3-test-junit.xml
+    expire_in: 7 days
 
 build:Docs:
   stage: Build
