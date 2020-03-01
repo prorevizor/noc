@@ -207,6 +207,8 @@ class TestSuite(object):
                 has_changed = any(1 for p in file_parts if checker(p))
                 if has_changed:
                     assert label in self.labels, "'%s' label is not set." % label
+                else:
+                    assert label not in self.labels, "'%s' label must not be set." % label
 
         file_parts = [f.split(os.sep) for f in self.files]
         test_affected("core", lambda x: x[0] == "core")
