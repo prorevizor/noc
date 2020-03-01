@@ -113,9 +113,12 @@ class TestSuite(object):
 
     def do_check(self):
         self.check_env_labels()
-        self.check_required_scoped_labels()
-        self.check_backport_label()
-        self.check_affected()
+        if self.is_contribution():
+            print("Thank you for contributing to the project!")
+        else:
+            self.check_required_scoped_labels()
+            self.check_backport_label()
+            self.check_affected()
 
     @property
     def is_failed(self):
@@ -152,6 +155,15 @@ class TestSuite(object):
         if self._labels is None:
             self._labels = os.environ.get(ENV_LABELS, "").split(",")
         return self._labels
+
+    def is_contribution(self):
+        """
+        Check if MR is from forked repo
+        :return:
+        """
+        return os.environ.get("CI_MERGE_REQUEST_SOURCE_PROJECT_PATH") != os.environ.get(
+            "CI_MERGE_REQUEST_PROJECT_PATH"
+        )
 
     def check_env_labels(self):
         """
