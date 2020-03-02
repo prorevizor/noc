@@ -78,11 +78,6 @@ class LdapBackend(BaseAuthBackend):
         user_info["domain"] = domain
         user_info["is_active"] = True
         # Default ldap3 convert user_dn:
-        # ('\\', '\\5c')
-        # ('*', '\\2a')
-        # ('(', '\\28')
-        # (')', '\\29')
-        # ('\x00', '\\00')
         user_info["user_dn"] = escape_filter_chars(user_info.get("user_dn"))
         # Get user groups
         user_groups = set(g.lower() for g in self.get_user_groups(connect, ldap_domain, user_info))
@@ -187,10 +182,7 @@ class LdapBackend(BaseAuthBackend):
         user_search_dn = ldap_domain.get_user_search_dn()
         self.logger.debug("User search from %s: %s", user_search_dn, usf)
         connection.search(
-            user_search_dn,
-            ldap_domain.get_user_search_filter() % {"user": user},
-            ldap3.SUBTREE,
-            attributes=ldap_domain.get_user_search_attributes(),
+            user_search_dn, usf, ldap3.SUBTREE, attributes=ldap_domain.get_user_search_attributes(),
         )
         if not connection.entries:
             self.logger.info("Cannot find user %s", user)
