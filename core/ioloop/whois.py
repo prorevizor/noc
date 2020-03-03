@@ -92,5 +92,5 @@ def whois(query, fields=None):
         r.append(result)
 
     r = []
-    IOLoop.current().run_sync(_whois)
+    IOLoop().run_sync(_whois)
     return r[0]
