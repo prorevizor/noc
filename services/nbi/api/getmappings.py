@@ -8,6 +8,7 @@
 
 # Python modules
 from __future__ import absolute_import
+import operator
 
 # Third-party modules
 import tornado.gen
@@ -15,7 +16,6 @@ import ujson
 import six
 
 # NOC modules
-from noc.sa.interfaces.base import StringParameter, DictParameter
 from noc.core.service.apiaccess import authenticated
 from noc.models import get_model
 from noc.main.models.remotesystem import RemoteSystem
@@ -26,35 +26,63 @@ class GetMappingsAPI(NBIAPI):
     name = "getmappings"
     SCOPES = {"managedobject": "sa.ManagedObject"}
 
+    @staticmethod
+    def cleaned_request(scope=None, id=None, remote_system=None, remote_id=None, **kwargs):
+        def to_list(s):
+            if s is None:
+                return None
+            if isinstance(s, list):
+                return [six.text_type(x) for x in s]
+            return [six.text_type(s)]
+
+        if not scope:
+            raise ValueError("scope must be set")
+        if scope not in GetMappingsAPI.SCOPES:
+            raise ValueError("Invalid scope: %s" % scope)
+        if remote_id and not remote_system:
+            raise ValueError("remote_system must be set")
+        if not id and not remote_id:
+            raise ValueError("At least one id or remote_id must be set")
+        return {
+            "scope": scope,
+            "local_ids": to_list(id),
+            "remote_system": remote_system if remote_id else None,
+            "remote_ids": to_list(remote_id),
+        }
+
     @authenticated
     @tornado.gen.coroutine
     def post(self, *args, **kwargs):
         yield self.to_executor(self.do_post)
 
+    def do_post(self):
+        # Decode request
+        try:
+            req = ujson.loads(self.request.body)
+        except ValueError:
+            return 400, self.error_msg("Cannot decode JSON")
+        # Validate
+        try:
+            req = self.cleaned_request(**req)
+        except ValueError as e:
+            return 400, self.error_msg("Bad request: %s" % e)
+
+        return self.do_mapping(**req)
+
     @authenticated
     @tornado.gen.coroutine
     def get(self, *args, **kwargs):
-        scope = self.get_argument("scope", None)
-        if not scope:
-            self.write_result(400, self.error_msg("Missed scope"))
-            raise tornado.gen.Return()
-        id = self.get_argument("id", None)
-        if id:
-            # Search by local_id
-            yield self.to_executor(self.do_mapping, scope=scope, id=id)
-        else:
-            # Search by remote_system
-            remote_system = self.get_argument("remote_system", None)
-            if not remote_system:
-                self.write_result(400, self.error_msg("Either id or remote_system is missed"))
-                raise tornado.gen.Return()
-            remote_id = self.get_argument("remote_id", None)
-            if not remote_system:
-                self.write_result(400, self.error_msg("Either id or remote_id is missed"))
-                raise tornado.gen.Return()
-            yield self.to_executor(
-                self.do_mapping, scope=scope, remote_system=remote_system, remote_id=remote_id
+        try:
+            req = self.cleaned_request(
+                scope=self.get_argument("scope", None),
+                id=self.get_arguments("id"),
+                remote_id=self.get_arguments("remote_id"),
+                remote_system=self.get_argument("remote_system", None),
             )
+        except ValueError as e:
+            self.write_result(400, "Bad request: %s" % e)
+            raise tornado.gen.Return()
+        yield self.to_executor(self.do_mapping, **req)
 
     @tornado.gen.coroutine
     def to_executor(self, handler, *args, **kwargs):
@@ -80,26 +108,13 @@ class GetMappingsAPI(NBIAPI):
     def error_msg(msg):
         return {"status": False, "error": msg}
 
-    def do_post(self):
-        # Decode request
-        try:
-            req = ujson.loads(self.request.body)
-        except ValueError:
-            return 400, self.error_msg("Cannot decode JSON")
-        # Validate
-        try:
-            req = Request.clean(req)
-        except ValueError as e:
-            return 400, self.error_msg("Bad request: %s" % e)
-        return self.do_mapping(**req)
-
-    def do_mapping(self, scope, id=None, remote_system=None, remote_id=None, **kwargs):
+    def do_mapping(self, scope, local_ids=None, remote_system=None, remote_ids=None):
         """
         Perform mapping
         :param scope: scope name
-        :param id: Local id
+        :param local_ids: List of Local id
         :param remote_system: Remote system id
-        :param remote_id: Id from remote system
+        :param remote_ids: List of Id from remote system
         :param kwargs: Ignored args
         :return:
         """
@@ -112,34 +127,32 @@ class GetMappingsAPI(NBIAPI):
                 ]
             return r
 
+        # Get model to query
         model = get_model(self.SCOPES[scope])
         if not model:
             return 400, self.error_msg("Invalid scope")
-        if id is not None:
-            qs = model.objects.filter(id=id)
-        elif remote_system is not None and remote_id is not None:
+        # Query remote objects
+        result = []
+        if remote_system and remote_ids:
             rs = RemoteSystem.get_by_id(remote_system)
             if not rs:
                 return 404, self.error_msg("Remote system not found")
-            qs = model.objects.filter(remote_system=rs.id, remote_id=remote_id)
-        else:
-            return 400, self.error_msg("Bad request")
-        result = [format_obj(o) for o in qs]
+            if len(remote_ids) == 1:
+                qs = model.objects.filter(remote_system=rs.id, remote_id=remote_ids[0])
+            else:
+                qs = model.objects.filter(remote_system=rs.id, remote_id__in=remote_ids)
+            result += [format_obj(o) for o in qs]
+        # Query local objects
+        seen = set(o["id"] for o in result)
+        # Skip already collected objects
+        local_ids = [o for o in local_ids if o not in seen]
+        if local_ids:
+            if len(local_ids) == 1:
+                qs = model.objects.filter(id=local_ids[0])
+            else:
+                qs = model.objects.filter(id__in=local_ids)
+            result += [format_obj(o) for o in qs]
+        # 404 if no objects found
         if not result:
             return 404, self.error_msg("Not found")
-        return 200, result
-
-
-RequestByLocal = DictParameter(
-    attrs={"scope": StringParameter(choices=list(GetMappingsAPI.SCOPES)), "id": StringParameter()}
-)
-
-RequestByRemote = DictParameter(
-    attrs={
-        "scope": StringParameter(choices=list(GetMappingsAPI.SCOPES)),
-        "remote_system": StringParameter(),
-        "remote_id": StringParameter(),
-    }
-)
-
-Request = RequestByLocal | RequestByRemote
+        return 200, list(sorted(result, key=operator.itemgetter("id")))
