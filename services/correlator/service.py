@@ -16,7 +16,6 @@ from threading import Lock
 
 # Third-party modules
 import six
-from mongoengine.queryset import Q
 
 # NOC modules
 from noc.config import config
