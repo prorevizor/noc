@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # Maintenance
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2016, The NOC Project
+# Copyright (C) 2007-2020, The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -48,7 +48,7 @@ def start_maintenance(maintenance_id):
     try:
         logger.info("[%s] Creating TT", maintenance_id)
         tt_id = tts.create_tt(
-            queue=1,
+            queue=m.escalate_managed_object.tt_queue if m.escalate_managed_object.tt_queue else 1,
             obj=tts_id,
             reason=0,
             subject=m.subject,
