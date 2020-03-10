@@ -157,10 +157,7 @@ class CapabilitiesIsolator(IsolatorClass):
             ObjectCapabilities.objects.filter(
                 m_Q(
                     caps__capability__in=[
-                        cp.id
-                        for cp in Capability.objects.filter(
-                            name__startswith="Network |",
-                        )
+                        cp.id for cp in Capability.objects.filter(name__startswith="Network |",)
                     ]
                 )
             )
@@ -242,9 +239,7 @@ class StatusIsolator(IsolatorClass):
     def _3_is(self, index):
         # Status - Is Availability
         return set(
-            ObjectStatus.objects.filter(
-                status=bool(int(index) - 1)
-            )
+            ObjectStatus.objects.filter(status=bool(int(index) - 1))
             .read_preference(ReadPreference.SECONDARY_PREFERRED)
             .values_list("object")
         )
