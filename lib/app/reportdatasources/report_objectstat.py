@@ -114,9 +114,9 @@ class CapabilitiesIsolator(IsolatorClass):
                         "capability": Capability.objects.get(name="SNMP").id,
                         "value": "true" == "true",
                     },
-                    read_preference=ReadPreference.SECONDARY_PREFERRED,
                 )
             )
+            .read_preference(ReadPreference.SECONDARY_PREFERRED)
             .values_list("object")
             .as_pymongo()
         )
@@ -160,11 +160,11 @@ class CapabilitiesIsolator(IsolatorClass):
                         cp.id
                         for cp in Capability.objects.filter(
                             name__startswith="Network |",
-                            read_preference=ReadPreference.SECONDARY_PREFERRED,
                         )
                     ]
                 )
             )
+            .read_preference(ReadPreference.SECONDARY_PREFERRED)
             .values_list("object")
             .as_pymongo()
         )
@@ -243,8 +243,10 @@ class StatusIsolator(IsolatorClass):
         # Status - Is Availability
         return set(
             ObjectStatus.objects.filter(
-                status=bool(int(index) - 1), read_preference=ReadPreference.SECONDARY_PREFERRED
-            ).values_list("object")
+                status=bool(int(index) - 1)
+            )
+            .read_preference(ReadPreference.SECONDARY_PREFERRED)
+            .values_list("object")
         )
 
     def _4_is(self, index):
@@ -338,7 +340,8 @@ class StatusIsolator(IsolatorClass):
         c = set(
             int(r["_id"].rsplit("-")[-1])
             for r in get_db()["noc.joblog"]
-            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+            .with_options()
+            .read_preference(ReadPreference.SECONDARY_PREFERRED)
             .find(match)
         )
         if inverse:
@@ -357,7 +360,8 @@ class ProblemIsolator(IsolatorClass):
         c = set(
             int(r["_id"].rsplit("-")[-1])
             for r in get_db()["noc.joblog"]
-            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+            .with_options()
+            .read_preference(ReadPreference.SECONDARY_PREFERRED)
             .find(match)
         )
         if index == "0":
@@ -381,7 +385,8 @@ class ProblemIsolator(IsolatorClass):
         c = set(
             int(r["_id"].rsplit("-")[-1])
             for r in get_db()["noc.joblog"]
-            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+            .with_options()
+            .read_preference(ReadPreference.SECONDARY_PREFERRED)
             .find(match)
         )
         if index == "0":
@@ -415,7 +420,8 @@ class ProblemIsolator(IsolatorClass):
         c = set(
             int(r["_id"].rsplit("-")[-1])
             for r in get_db()["noc.joblog"]
-            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+            .with_options()
+            .read_preference(ReadPreference.SECONDARY_PREFERRED)
             .find(match)
         )
         if index == "0":
@@ -439,7 +445,8 @@ class ProblemIsolator(IsolatorClass):
         c = set(
             int(r["_id"].rsplit("-")[-1])
             for r in get_db()["noc.joblog"]
-            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+            .with_options()
+            .read_preference(ReadPreference.SECONDARY_PREFERRED)
             .find(match)
         )
         if index == "0":
@@ -452,7 +459,8 @@ class ProblemIsolator(IsolatorClass):
         c = set(
             int(r["_id"].rsplit("-")[-1])
             for r in get_db()["noc.joblog"]
-            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+            .with_options()
+            .read_preference(ReadPreference.SECONDARY_PREFERRED)
             .find(match)
         )
         if index == "0":

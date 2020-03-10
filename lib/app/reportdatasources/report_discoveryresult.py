@@ -119,7 +119,8 @@ class ReportDiscoveryResult(BaseReportColumn):
             pid.update({mo_id: p.name for mo_id in pool_ids})
             r[p.name] = self.convert(
                 get_db()[self.COLL_NAME % p.name]
-                .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+                .with_options()
+                .read_preference(ReadPreference.SECONDARY_PREFERRED)
                 .aggregate(self.pipeline(list(pool_ids)))
             )
             ids.difference_update(pool_ids)

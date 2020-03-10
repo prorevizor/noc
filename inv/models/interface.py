@@ -172,7 +172,8 @@ class Interface(Document):
             q = {"interfaces": self.id}
         return bool(
             Link._get_collection()
-            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+            .with_options()
+            .read_preference(ReadPreference.SECONDARY_PREFERRED)
             .find_one(q)
         )
 

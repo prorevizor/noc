@@ -56,7 +56,8 @@ class ReportPendingLinks(object):
         while mos_job[(0 + n) : (10000 + n)]:
             job_logs = (
                 get_db()["noc.joblog"]
-                .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+                .with_options()
+                .read_preference(ReadPreference.SECONDARY_PREFERRED)
                 .aggregate(
                     [
                         {

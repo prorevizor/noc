@@ -28,7 +28,8 @@ class ReportObjectLinkCount(BaseReportColumn):
         sync_ids_set = set(self.sync_ids)
         value = (
             get_db()["noc.links"]
-            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+            .with_options()
+            .read_preference(ReadPreference.SECONDARY_PREFERRED)
             .aggregate(
                 [
                     {"$unwind": "$interfaces"},

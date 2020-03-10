@@ -224,7 +224,8 @@ class ManagedObjectsExtractor(BaseExtractor):
         ]
         data = (
             Reboot._get_collection()
-            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+            .with_options()
+            .read_preference(ReadPreference.SECONDARY_PREFERRED)
             .aggregate(pipeline)
         )
         # data = data["result"]

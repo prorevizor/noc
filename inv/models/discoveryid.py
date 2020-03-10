@@ -177,7 +177,8 @@ class DiscoveryID(Document):
             o = set(
                 d["managed_object"]
                 for d in SubInterface._get_collection()
-                .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+                .with_options()
+                .read_preference(ReadPreference.SECONDARY_PREFERRED)
                 .find(
                     {"ipv4_addresses": {"$gt": ipv4_address + "/", "$lt": ipv4_address + "/99"}},
                     {"_id": 0, "managed_object": 1, "ipv4_addresses": 1},

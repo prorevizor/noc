@@ -32,7 +32,8 @@ class ReportObjectIfacesTypeStat(BaseReportColumn):
             match = {"type": i_type, "managed_object": {"$in": self.sync_ids}}
         value = (
             get_db()["noc.interfaces"]
-            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+            .with_options()
+            .read_preference(ReadPreference.SECONDARY_PREFERRED)
             .aggregate(
                 [
                     {"$match": match},

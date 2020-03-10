@@ -214,7 +214,8 @@ class MetricsCheck(DiscoveryCheck):
         subs = defaultdict(list)  # interface id -> [{"name":, "ifindex":}]
         for si in (
             SubInterface._get_collection()
-            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+            .with_options()
+            .read_preference(ReadPreference.SECONDARY_PREFERRED)
             .find({"managed_object": self.object.id}, {"name": 1, "interface": 1, "ifindex": 1})
         ):
             subs[si["interface"]] += [{"name": si["name"], "ifindex": si.get("ifindex")}]
@@ -229,7 +230,8 @@ class MetricsCheck(DiscoveryCheck):
         metrics = []
         for i in (
             Interface._get_collection()
-            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+            .with_options()
+            .read_preference(ReadPreference.SECONDARY_PREFERRED)
             .find(
                 {"managed_object": self.object.id, "type": "physical"},
                 {"_id": 1, "name": 1, "ifindex": 1, "profile": 1},
@@ -277,7 +279,8 @@ class MetricsCheck(DiscoveryCheck):
         metrics = []
         for p in (
             SLAProbe._get_collection()
-            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+            .with_options()
+            .read_preference(ReadPreference.SECONDARY_PREFERRED)
             .find(
                 {"managed_object": self.object.id}, {"name": 1, "group": 1, "profile": 1, "type": 1}
             )

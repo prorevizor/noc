@@ -26,9 +26,7 @@ class CHInterfaceAttributesDataSource(BaseDataSource):
             i[0]: (i[1], int(i[2] or 0))
             for i in InterfaceProfile.objects.filter().values_list("id", "name", "is_uni")
         }
-        ifs = Interface._get_collection().with_options(
-            read_preference=ReadPreference.SECONDARY_PREFERRED
-        )
+        ifs = Interface._get_collection().with_options().read_preference(ReadPreference.SECONDARY_PREFERRED)
         for iface in ifs.find(
             {"type": "physical"},
             {

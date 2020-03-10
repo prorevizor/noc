@@ -327,7 +327,8 @@ class ReportAlarmDetailApplication(ExtApplication):
             # Archived Alarms
             for a in (
                 ArchivedAlarm._get_collection()
-                .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+                .with_options()
+                .read_preference(ReadPreference.SECONDARY_PREFERRED)
                 .aggregate(
                     [
                         {"$match": match},
@@ -432,7 +433,8 @@ class ReportAlarmDetailApplication(ExtApplication):
             datenow = datetime.datetime.now()
             for a in (
                 ActiveAlarm._get_collection()
-                .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+                .with_options()
+                .read_preference(ReadPreference.SECONDARY_PREFERRED)
                 .aggregate(
                     [
                         {"$match": match},
