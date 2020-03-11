@@ -34,8 +34,7 @@ class ReportObjectConfig(BaseReportColumn):
             pipeline.insert(0, {"$match": {"object": {"$in": self.sync_ids}}})
         value = (
             get_db()["noc.gridvcs.config.files"]
-            .with_options()
-            .read_preference(ReadPreference.SECONDARY_PREFERRED)
+            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
             .aggregate(pipeline)
         )
         for v in value:

@@ -100,8 +100,7 @@ class ReportAvailabilityApplication(SimpleReport):
         ]
         data = (
             Reboot._get_collection()
-            .with_options()
-            .read_preference(ReadPreference.SECONDARY_PREFERRED)
+            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
             .aggregate(pipeline)
         )
         # data = data["result"]
@@ -164,8 +163,7 @@ class ReportAvailabilityApplication(SimpleReport):
             # data = Interface.objects._get_collection().aggregate(pipeline,
             data = (
                 get_db()["noc.interfaces"]
-                .with_options()
-                .read_preference(ReadPreference.SECONDARY_PREFERRED)
+                .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
                 .aggregate(pipeline)
             )
             data = [d["_id"] for d in data]

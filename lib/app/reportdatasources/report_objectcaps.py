@@ -51,8 +51,7 @@ class ReportObjectCaps(BaseReportColumn):
             match = {"_id": {"$in": chunk}}
             value = (
                 get_db()["noc.sa.objectcapabilities"]
-                .with_options()
-                .read_preference(ReadPreference.SECONDARY_PREFERRED)
+                .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
                 .aggregate(
                     [
                         {"$match": match},

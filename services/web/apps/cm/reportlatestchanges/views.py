@@ -48,7 +48,10 @@ class ReportLatestChangesApplication(SimpleReport):
         self, request, repo="config", days=1, adm_domain=None, managed_object=None, **kwargs
     ):
         baseline = datetime.datetime.now() - datetime.timedelta(days=days)
-        coll = get_db()["noc.gridvcs.%s.files" % repo].with_options().read_preference(ReadPreference.SECONDARY_PREFERRED)
+        coll = (
+            get_db()["noc.gridvcs.%s.files" % repo]
+            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+        )
         pipeline = [
             {"$match": {"ts": {"$gte": baseline}}},
             {"$group": {"_id": "$object", "last_ts": {"$max": "$ts"}}},

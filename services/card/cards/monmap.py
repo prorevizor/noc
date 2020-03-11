@@ -238,7 +238,7 @@ class MonMapCard(BaseCard):
         # If None - all objects
         """
         root = Object.get_by_id(root_id)
-        coll = Object._get_collection().with_options().read_preference(ReadPreference.SECONDARY_PREFERRED)
+        coll = Object._get_collection().with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
         work_set = {root.id}
         os = set()
         kk = None
@@ -258,7 +258,7 @@ class MonMapCard(BaseCard):
         q = {"severity": {"$exists": True}}
         if not alarms_all:
             q["managed_object"] = {"$in": mo_ids}
-        coll = ActiveAlarm._get_collection().with_options().read_preference(ReadPreference.SECONDARY_PREFERRED)
+        coll = ActiveAlarm._get_collection().with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
         r = {}
         for o in coll.find(q, {"managed_object": 1, "severity": 1, "_id": 0}):
             if (
@@ -358,8 +358,7 @@ class MonMapCard(BaseCard):
         pipeline += [{"$unwind": "$%s" % name}, {"$group": group}]
         for ss in (
             ServiceSummary._get_collection()
-            .with_options()
-            .read_preference(ReadPreference.SECONDARY_PREFERRED)
+            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
             .aggregate(pipeline)
         ):
             kk[ss["_id"]["mo"]] = ss["count"]

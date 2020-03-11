@@ -69,8 +69,7 @@ class SelectorCache(Document):
             sid = selector.id
         return bool(
             cls._get_collection()
-            .with_options()
-            .read_preference(ReadPreference.SECONDARY_PREFERRED)
+            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
             .find_one({"object": oid, "selector": sid})
         )
 

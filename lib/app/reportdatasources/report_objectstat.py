@@ -335,8 +335,7 @@ class StatusIsolator(IsolatorClass):
         c = set(
             int(r["_id"].rsplit("-")[-1])
             for r in get_db()["noc.joblog"]
-            .with_options()
-            .read_preference(ReadPreference.SECONDARY_PREFERRED)
+            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
             .find(match)
         )
         if inverse:
@@ -355,8 +354,7 @@ class ProblemIsolator(IsolatorClass):
         c = set(
             int(r["_id"].rsplit("-")[-1])
             for r in get_db()["noc.joblog"]
-            .with_options()
-            .read_preference(ReadPreference.SECONDARY_PREFERRED)
+            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
             .find(match)
         )
         if index == "0":
@@ -380,8 +378,7 @@ class ProblemIsolator(IsolatorClass):
         c = set(
             int(r["_id"].rsplit("-")[-1])
             for r in get_db()["noc.joblog"]
-            .with_options()
-            .read_preference(ReadPreference.SECONDARY_PREFERRED)
+            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
             .find(match)
         )
         if index == "0":
@@ -415,8 +412,7 @@ class ProblemIsolator(IsolatorClass):
         c = set(
             int(r["_id"].rsplit("-")[-1])
             for r in get_db()["noc.joblog"]
-            .with_options()
-            .read_preference(ReadPreference.SECONDARY_PREFERRED)
+            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
             .find(match)
         )
         if index == "0":
@@ -440,8 +436,7 @@ class ProblemIsolator(IsolatorClass):
         c = set(
             int(r["_id"].rsplit("-")[-1])
             for r in get_db()["noc.joblog"]
-            .with_options()
-            .read_preference(ReadPreference.SECONDARY_PREFERRED)
+            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
             .find(match)
         )
         if index == "0":
@@ -454,8 +449,7 @@ class ProblemIsolator(IsolatorClass):
         c = set(
             int(r["_id"].rsplit("-")[-1])
             for r in get_db()["noc.joblog"]
-            .with_options()
-            .read_preference(ReadPreference.SECONDARY_PREFERRED)
+            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
             .find(match)
         )
         if index == "0":

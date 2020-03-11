@@ -85,8 +85,7 @@ class ReportInterfaceStatus(object):
         }
         result = (
             Interface._get_collection()
-            .with_options()
-            .read_preference(ReadPreference.SECONDARY_PREFERRED)
+            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
             .aggregate([{"$match": match}, {"$lookup": lookup}])
         )
         return result

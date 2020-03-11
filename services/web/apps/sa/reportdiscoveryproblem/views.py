@@ -83,8 +83,7 @@ class ReportDiscoveryProblem(object):
         for p in self.mos_pools:
             r = (
                 get_db()[self.coll_name % p.name]
-                .with_options()
-                .read_preference(ReadPreference.SECONDARY_PREFERRED)
+                .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
                 .aggregate(self.pipelines.get(p.name, self.pipeline()))
             )
             for x in r:

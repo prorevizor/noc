@@ -40,8 +40,7 @@ class ReportObjectDetailLinks(BaseReportColumn):
         }
         value = (
             get_db()["noc.links"]
-            .with_options()
-            .read_preference(ReadPreference.SECONDARY_PREFERRED)
+            .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
             .aggregate(
                 [
                     {"$unwind": "$interfaces"},

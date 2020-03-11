@@ -48,8 +48,7 @@ class AuditTrailApplication(ExtDocApplication):
             for model_id in [
                 list(set(a["models"]))
                 for a in self.model._get_collection()
-                .with_options()
-                .read_preference(ReadPreference.SECONDARY_PREFERRED)
+                .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
                 .aggregate(
                     [
                         {"$unwind": "$model_id"},

@@ -20,7 +20,9 @@ class CHContainerDataSource(BaseDataSource):
     name = "ch_container"
 
     def extract(self):
-        o = Object._get_collection().with_options().read_preference(ReadPreference.SECONDARY_PREFERRED)
+        o = Object._get_collection().with_options(
+            read_preference=ReadPreference.SECONDARY_PREFERRED
+        )
         for obj in o.find(
             {},
             {"_id": 1, "bi_id": 1, "name": 1, "container": 1, "data.address.text": 1},
