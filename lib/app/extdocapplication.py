@@ -517,14 +517,12 @@ class ExtDocApplication(ExtApplication):
         :return:
         """
         o = self.get_object_or_404(self.model, id=id)
-        content = o.to_json()
-        hash = hashlib.sha256(smart_bytes(content)).hexdigest()[:8]
+        coll_name = self.model._meta["json_collection"]
         return {
-            "file_path": os.path.join(
-                "src", self.model._meta["json_collection"], o.get_json_path()
-            ),
-            "content": content,
-            "hash": hash,
+            "path": os.path.join("collections", coll_name, o.get_json_path()),
+            "title": "%s: %s" % (coll_name, str(o)),
+            "content": o.to_json(),
+            "description": "",
         }
 
     def _bulk_field_is_builtin(self, data):
