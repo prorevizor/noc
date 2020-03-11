@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # ExtDocApplication implementation
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -12,7 +12,6 @@ import uuid
 from functools import reduce
 import os
 import re
-import hashlib
 
 # Third-party modules
 import six
@@ -54,7 +53,7 @@ from noc.core.middleware.tls import get_user
 from noc.main.models.doccategory import DocCategory
 from noc.main.models.tag import Tag
 from noc.core.collection.base import Collection
-from noc.core.comp import smart_bytes, smart_text
+from noc.core.comp import smart_text
 from noc.models import get_model_id
 from .extapplication import ExtApplication, view
 
