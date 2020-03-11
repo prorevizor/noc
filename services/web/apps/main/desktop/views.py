@@ -141,7 +141,7 @@ class DesktopApplication(ExtApplication):
             "favicon_mime": favicon_mime,
             "favicon_url": favicon_url,
             "enable_search": enable_search,
-            "collections": {"allow_sharing": config.collections.allow_sharing,},
+            "collections": {"allow_sharing": config.collections.allow_sharing},
             "gis": {
                 "base": {
                     "enable_osm": config.gis.enable_osm,
