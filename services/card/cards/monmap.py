@@ -137,10 +137,7 @@ class MonMapCard(BaseCard):
         # Getting containers name and coordinates
         containers = {
             str(o["_id"]): (o["name"], o["data"])
-            for o in Object.objects.filter(
-                data__geopoint__exists=True,
-                id__in=con,
-            )
+            for o in Object.objects.filter(data__geopoint__exists=True, id__in=con,)
             .read_preference(ReadPreference.SECONDARY_PREFERRED)
             .fields(id=1, name=1, data__geopoint__x=1, data__geopoint__y=1, data__address__text=1)
             .as_pymongo()
@@ -238,7 +235,9 @@ class MonMapCard(BaseCard):
         # If None - all objects
         """
         root = Object.get_by_id(root_id)
-        coll = Object._get_collection().with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+        coll = Object._get_collection().with_options(
+            read_preference=ReadPreference.SECONDARY_PREFERRED
+        )
         work_set = {root.id}
         os = set()
         kk = None
@@ -258,7 +257,9 @@ class MonMapCard(BaseCard):
         q = {"severity": {"$exists": True}}
         if not alarms_all:
             q["managed_object"] = {"$in": mo_ids}
-        coll = ActiveAlarm._get_collection().with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+        coll = ActiveAlarm._get_collection().with_options(
+            read_preference=ReadPreference.SECONDARY_PREFERRED
+        )
         r = {}
         for o in coll.find(q, {"managed_object": 1, "severity": 1, "_id": 0}):
             if (

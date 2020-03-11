@@ -65,8 +65,8 @@ class ReportObjectsHostname2(BaseReportColumn):
 #         mos_filter = {"label": "system"}
 #         if mos_ids:
 #             mos_filter["object"] = {"$in": mos_ids}
-#         value = db.with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
-#                                  .find(mos_filter, {"_id": 0, "object": 1, "attrs.hostname": 1})
+#         value = db.with_options(read_preference=ReadPreference.SECONDARY_PREFERRED
+#                                  ).find(mos_filter, {"_id": 0, "object": 1, "attrs.hostname": 1})
 #         return {v["object"]: v["attrs"].get("hostname") for v in value}
 #
 #     @staticmethod
@@ -75,6 +75,6 @@ class ReportObjectsHostname2(BaseReportColumn):
 #         mos_filter = {}
 #         if mos_ids:
 #             mos_filter["object"] = {"$in": mos_ids}
-#         value = db.with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
-#                                  .find(mos_filter, {"_id": 0, "object": 1, "hostname": 1})
+#         value = db.with_options(read_preference=ReadPreference.SECONDARY_PREFERRED
+#                                  ).find(mos_filter, {"_id": 0, "object": 1, "hostname": 1})
 #         return {v["object"]: v.get("hostname") for v in value}
