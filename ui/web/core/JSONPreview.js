@@ -24,6 +24,7 @@ Ext.define("NOC.core.JSONPreview", {
     SS_GET_SHARE_INFO: 3,
     SS_GET_DESCRIPTION: 4,
     SS_CONTRIB: 5,
+    mrWindow: null,
 
     shareState: [
         // SS_START
@@ -218,6 +219,7 @@ Ext.define("NOC.core.JSONPreview", {
     //
     doShare: function() {
         var me = this;
+        me.mrWindow = window.open("", "_blank");
         me.shareProgress.show();
         me.setupAPIToken().then(function(result) {
             return me.getSharedInfo()
@@ -234,6 +236,10 @@ Ext.define("NOC.core.JSONPreview", {
             NOC.error(err);
             me.shareProgress.hide();
             me.sharedInfo = null;
+            if(me.mrWindow !== null) {
+                me.mrWindow.close();
+                me.mrWindow = null
+            }
         });
     },
     // Get or ask API token
@@ -394,15 +400,14 @@ Ext.define("NOC.core.JSONPreview", {
                 success: function(response) {
                     var data = Ext.decode(response.responseText);
                     if(data.status) {
-                        setTimeout(function() {
-                            var w = window.open(data.url, "_blank");
-                            w.focus();
-                        }, 100);
+                        if(me.mrWindow !== null) {
+                            me.mrWindow.location.href = data.url;
+                            me.mrWindow = null
+                        }
                         resolve("OK")
                     } else {
                         reject(data.msg)
                     }
-
                 },
                 failure: function(response) {
                     reject("Failed to contribute")
