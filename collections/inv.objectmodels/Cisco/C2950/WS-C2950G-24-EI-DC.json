@@ -277,7 +277,6 @@
             "description": "Console port",
             "direction": "s",
             "gender": "f",
-            "group": "0",
             "name": "Console",
             "protocols": [">RS232"],
             "type__name": "Electrical | RJ45"
@@ -285,9 +284,7 @@
     ],
     "data": {
         "asset": {
-            "part_no": ["WS-C2950G-24-EI-DC"],
-            "cpe_22": "cpe:/h:cisco:catalyst_2950:-",
-            "cpe_23": "cpe:2.3:h:cisco:catalyst_2950:-:*:*:*:*:*:*:*"
+            "part_no": ["WS-C2950G-24-EI-DC"]
         },
         "management": {
             "managed": true

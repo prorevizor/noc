@@ -58,9 +58,7 @@
     ],
     "data": {
         "asset": {
-            "part_no": ["N6K-C6001-64P"],
-            "cpe_22": "cpe:/h:cisco:nexus_6001:-",
-            "cpe_23": "cpe:2.3:h:cisco:nexus_6001:-:*:*:*:*:*:*:*"
+            "part_no": ["N6K-C6001-64P"]
         },
         "management": {
             "managed": true

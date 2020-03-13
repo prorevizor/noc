@@ -114,7 +114,7 @@
         {
             "description": "Power inlet",
             "direction": "s",
-            "gender": "f",
+            "gender": "m",
             "name": "power",
             "protocols": [">220VAC", ">110VAC"],
             "type__name": "Power | IEC 60320 C14"
@@ -122,9 +122,7 @@
     ],
     "data": {
         "asset": {
-            "part_no": ["CISCO1801"],
-            "cpe_22": "cpe:/h:cisco:1801_integrated_service_router:-",
-            "cpe_23": "cpe:2.3:h:cisco:1801_integrated_service_router:-:*:*:*:*:*:*:*"
+            "part_no": ["CISCO1801"]
         },
         "management": {
             "managed": true

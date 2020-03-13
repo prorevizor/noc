@@ -172,6 +172,7 @@
             "description": "21",
             "direction": "s",
             "gender": "f",
+            "group": "21",
             "name": "21",
             "protocols": ["10BASET", "100BASETX", "1000BASETX"],
             "type__name": "Electrical | RJ45"
@@ -180,6 +181,7 @@
             "description": "21",
             "direction": "i",
             "gender": "f",
+            "group": "21",
             "name": "sfp21",
             "protocols": ["TransEth100M", "TransEth1G"],
             "type__name": "Transceiver | SFP"
@@ -188,6 +190,7 @@
             "description": "22",
             "direction": "s",
             "gender": "f",
+            "group": "22",
             "name": "22",
             "protocols": ["10BASET", "100BASETX", "1000BASETX"],
             "type__name": "Electrical | RJ45"
@@ -196,6 +199,7 @@
             "description": "22",
             "direction": "i",
             "gender": "f",
+            "group": "22",
             "name": "sfp22",
             "protocols": ["TransEth100M", "TransEth1G"],
             "type__name": "Transceiver | SFP"
@@ -204,6 +208,7 @@
             "description": "23",
             "direction": "s",
             "gender": "f",
+            "group": "23",
             "name": "23",
             "protocols": ["10BASET", "100BASETX", "1000BASETX"],
             "type__name": "Electrical | RJ45"
@@ -212,6 +217,7 @@
             "description": "23",
             "direction": "i",
             "gender": "f",
+            "group": "23",
             "name": "sfp23",
             "protocols": ["TransEth100M", "TransEth1G"],
             "type__name": "Transceiver | SFP"
@@ -220,6 +226,7 @@
             "description": "24",
             "direction": "s",
             "gender": "f",
+            "group": "24",
             "name": "24",
             "protocols": ["10BASET", "100BASETX", "1000BASETX"],
             "type__name": "Electrical | RJ45"
@@ -228,6 +235,7 @@
             "description": "24",
             "direction": "i",
             "gender": "f",
+            "group": "24",
             "name": "sfp24",
             "protocols": ["TransEth100M", "TransEth1G"],
             "type__name": "Transceiver | SFP"
@@ -236,7 +244,6 @@
             "description": "Console port",
             "direction": "s",
             "gender": "f",
-            "group": "0",
             "name": "console",
             "protocols": [">RS232"],
             "type__name": "Electrical | DB9"
@@ -244,8 +251,7 @@
         {
             "description": "Power outlet",
             "direction": "s",
-            "gender": "f",
-            "group": "0",
+            "gender": "m",
             "name": "IPWR",
             "protocols": [">220VAC", ">110VAC"],
             "type__name": "Power | IEC 60320 C14"

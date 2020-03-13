@@ -420,7 +420,7 @@
         {
             "description": "Power inlet",
             "direction": "s",
-            "gender": "f",
+            "gender": "m",
             "name": "power",
             "protocols": [">220VAC", ">110VAC"],
             "type__name": "Power | IEC 60320 C14"
@@ -428,9 +428,7 @@
     ],
     "data": {
         "asset": {
-            "part_no": ["WS-C2950G-48-EI", "WS-C2950G-48-SI"],
-            "cpe_22": "cpe:/h:cisco:catalyst_2950:-",
-            "cpe_23": "cpe:2.3:h:cisco:catalyst_2950:-:*:*:*:*:*:*:*"
+            "part_no": ["WS-C2950G-48-EI", "WS-C2950G-48-SI"]
         },
         "management": {
             "managed": true

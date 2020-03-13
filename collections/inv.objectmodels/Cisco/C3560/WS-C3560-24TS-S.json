@@ -226,7 +226,7 @@
         {
             "description": "Power inlet",
             "direction": "s",
-            "gender": "f",
+            "gender": "m",
             "name": "power",
             "protocols": [">220VAC", ">110VAC"],
             "type__name": "Power | IEC 60320 C14"
@@ -234,9 +234,7 @@
     ],
     "data": {
         "asset": {
-            "part_no": ["WS-C3560-24TS", "WS-C3560-24TS-S"],
-            "cpe_22": "cpe:/h:cisco:catalyst_3560:-",
-            "cpe_23": "cpe:2.3:h:cisco:catalyst_3560:-:*:*:*:*:*:*:*"
+            "part_no": ["WS-C3560-24TS", "WS-C3560-24TS-S"]
         },
         "management": {
             "managed": true

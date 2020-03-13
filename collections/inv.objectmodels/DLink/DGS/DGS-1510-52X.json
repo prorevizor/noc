@@ -428,7 +428,6 @@
             "description": "Console port",
             "direction": "s",
             "gender": "f",
-            "group": "0",
             "name": "console",
             "protocols": [">RS232"],
             "type__name": "Electrical | RJ45"
@@ -436,8 +435,7 @@
         {
             "description": "Power outlet",
             "direction": "s",
-            "gender": "f",
-            "group": "0",
+            "gender": "m",
             "name": "IPWR",
             "protocols": [">220VAC", ">110VAC"],
             "type__name": "Power | IEC 60320 C14"
@@ -445,9 +443,7 @@
     ],
     "data": {
         "asset": {
-            "part_no": ["DGS-1510-52X"],
-            "cpe_22": "cpe:/h:dlink:dgs-1510-52x:-",
-            "cpe_23": "cpe:2.3:h:dlink:dgs-1510-52x:-:*:*:*:*:*:*:*"
+            "part_no": ["DGS-1510-52X"]
         },
         "management": {
             "managed": true

@@ -313,8 +313,7 @@
         {
             "description": "Power input AC1",
             "direction": "s",
-            "gender": "f",
-            "group": "0",
+            "gender": "m",
             "name": "Power AC1",
             "protocols": [">220VAC", ">110VAC"],
             "type__name": "Power | IEC 60320 C14"
@@ -322,8 +321,7 @@
         {
             "description": "Power input AC2",
             "direction": "s",
-            "gender": "f",
-            "group": "0",
+            "gender": "m",
             "name": "Power AC2",
             "protocols": [">220VAC", ">110VAC"],
             "type__name": "Power | IEC 60320 C14"

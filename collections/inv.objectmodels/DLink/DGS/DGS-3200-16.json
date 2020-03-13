@@ -124,6 +124,7 @@
             "description": "15",
             "direction": "s",
             "gender": "f",
+            "group": "15",
             "name": "15",
             "protocols": ["10BASET", "100BASETX", "1000BASETX"],
             "type__name": "Electrical | RJ45"
@@ -132,6 +133,7 @@
             "description": "15",
             "direction": "i",
             "gender": "f",
+            "group": "15",
             "name": "sfp15",
             "protocols": ["TransEth100M", "TransEth1G"],
             "type__name": "Transceiver | SFP"
@@ -140,6 +142,7 @@
             "description": "16",
             "direction": "s",
             "gender": "f",
+            "group": "16",
             "name": "16",
             "protocols": ["10BASET", "100BASETX", "1000BASETX"],
             "type__name": "Electrical | RJ45"
@@ -148,6 +151,7 @@
             "description": "16",
             "direction": "i",
             "gender": "f",
+            "group": "16",
             "name": "sfp16",
             "protocols": ["TransEth100M", "TransEth1G"],
             "type__name": "Transceiver | SFP"
@@ -156,7 +160,6 @@
             "description": "Console port",
             "direction": "s",
             "gender": "f",
-            "group": "0",
             "name": "console",
             "protocols": [">RS232"],
             "type__name": "Electrical | DB9"
@@ -164,8 +167,7 @@
         {
             "description": "Power outlet",
             "direction": "s",
-            "gender": "f",
-            "group": "0",
+            "gender": "m",
             "name": "IPWR",
             "protocols": [">220VAC", ">110VAC"],
             "type__name": "Power | IEC 60320 C14"

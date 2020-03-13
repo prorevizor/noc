@@ -42,9 +42,7 @@
     ],
     "data": {
         "asset": {
-            "part_no": ["N2K-C2232PP-10GE"],
-            "cpe_22": "cpe:/h:cisco:nexus_2232pp_fex_switch:-",
-            "cpe_23": "cpe:2.3:h:cisco:nexus_2232pp_fex_switch:-:*:*:*:*:*:*:*"
+            "part_no": ["N2K-C2232PP-10GE"]
         },
         "management": {
             "managed": true

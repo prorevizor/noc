@@ -108,7 +108,6 @@
             "description": "Console port",
             "direction": "s",
             "gender": "f",
-            "group": "0",
             "name": "console",
             "protocols": [">RS232"],
             "type__name": "Electrical | RJ45"
@@ -116,8 +115,7 @@
         {
             "description": "Power outlet",
             "direction": "s",
-            "gender": "f",
-            "group": "0",
+            "gender": "m",
             "name": "IPWR",
             "protocols": [">220VAC", ">110VAC"],
             "type__name": "Power | IEC 60320 C14"

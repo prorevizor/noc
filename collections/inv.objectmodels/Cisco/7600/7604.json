@@ -68,9 +68,7 @@
     ],
     "data": {
         "asset": {
-            "part_no": ["CISCO7604"],
-            "cpe_22": "cpe:/h:cisco:7600_router:-",
-            "cpe_23": "cpe:2.3:h:cisco:7600_router:-:*:*:*:*:*:*:*"
+            "part_no": ["CISCO7604"]
         },
         "dimensions": {
             "depth": 552,

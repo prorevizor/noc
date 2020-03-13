@@ -66,9 +66,7 @@
     ],
     "data": {
         "asset": {
-            "part_no": ["N5K-C5596UP"],
-            "cpe_22": "cpe:/h:cisco:nexus_5596up_switch:-",
-            "cpe_23": "cpe:2.3:h:cisco:nexus_5596up_switch:-:*:*:*:*:*:*:*"
+            "part_no": ["N5K-C5596UP"]
         },
         "management": {
             "managed": true

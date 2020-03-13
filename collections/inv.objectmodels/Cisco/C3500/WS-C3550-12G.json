@@ -127,8 +127,7 @@
         {
             "description": "Power inlet",
             "direction": "s",
-            "gender": "f",
-            "group": "0",
+            "gender": "m",
             "name": "Power",
             "protocols": [">220VAC", ">110VAC"],
             "type__name": "Power | IEC 60320 C14"
@@ -140,9 +139,7 @@
             "intake": "l"
         },
         "asset": {
-            "part_no": ["WS-C3550-12G"],
-            "cpe_22": "cpe:/h:cisco:catalyst_3550:-",
-            "cpe_23": "cpe:2.3:h:cisco:catalyst_3550:-:*:*:*:*:*:*:*"
+            "part_no": ["WS-C3550-12G"]
         },
         "management": {
             "managed": true

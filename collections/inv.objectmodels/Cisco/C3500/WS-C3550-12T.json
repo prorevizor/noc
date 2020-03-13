@@ -10,8 +10,7 @@
         {
             "description": "Power inlet",
             "direction": "s",
-            "gender": "f",
-            "group": "0",
+            "gender": "m",
             "name": "Power",
             "protocols": [">220VAC", ">110VAC"],
             "type__name": "Power | IEC 60320 C14"
@@ -128,7 +127,6 @@
             "description": "Console port",
             "direction": "s",
             "gender": "f",
-            "group": "0",
             "name": "Console",
             "protocols": [">RS232"],
             "type__name": "Electrical | RJ45"
@@ -136,9 +134,7 @@
     ],
     "data": {
         "asset": {
-            "part_no": ["WS-C3550-12T", "WS-C3550-12T-EMI"],
-            "cpe_22": "cpe:/h:cisco:catalyst_3550:-",
-            "cpe_23": "cpe:2.3:h:cisco:catalyst_3550:-:*:*:*:*:*:*:*"
+            "part_no": ["WS-C3550-12T", "WS-C3550-12T-EMI"]
         },
         "management": {
             "managed": true
