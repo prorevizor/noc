@@ -8,7 +8,6 @@
 
 # Python modules
 from __future__ import absolute_import
-from collections import namedtuple
 
 # Third-party modules
 import pytest
@@ -90,7 +89,7 @@ CONNECTION_CHECKLIST = {
             "5GBASET",
             "10GBASET",
             ">RS232",
-            "DryContact",
+            ">DryContact",
         ],
     },
     "Electrical | Power | IEC 60320 C14": {
