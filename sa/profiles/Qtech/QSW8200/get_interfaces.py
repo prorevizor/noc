@@ -82,6 +82,8 @@ class Script(BaseScript):
                 iface["type"] = "loopback"
             elif ifname.startswith("NULL"):  # NULL has iftype `unknown`
                 iface["type"] = "null"
+            elif ifname.startswith("port-channel"):  # port-channel no has iftype 
+                iface["type"] = "aggregated"
             else:
                 iface["type"] = self.profile.get_interface_type(ifname)
                 iface["mac"] = match.group("mac")
