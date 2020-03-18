@@ -66,7 +66,7 @@ class MailSenderService(Service):
         from_address = config.mailsender.from_address
         message = MIMEMultipart()
         message["From"] = from_address
-        message["To"] = ', '.join(address)
+        message["To"] = ", ".join(address)
         message["Date"] = md
         message["Subject"] = Header(subject, "utf-8")
         message.attach(MIMEText(body, _charset="utf-8"))
