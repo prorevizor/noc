@@ -79,7 +79,7 @@ class MailSenderService(Service):
             message.attach(part)
         msg = message.as_string()
         self.logger.debug("Message: %s", msg)
-        # Connect to SMTP server----
+        # Connect to SMTP server
         smtp = smtplib.SMTP()
         self.logger.debug(
             "[%s] Connecting %s:%s",
