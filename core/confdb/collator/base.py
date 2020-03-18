@@ -10,6 +10,9 @@
 import six
 from typing import Dict, Optional
 
+# NOC modules
+from noc.inv.models.interface import Interface
+
 
 class BaseCollator(object):
     def __init__(self):
