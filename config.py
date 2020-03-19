@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------
 # NOC config
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -289,6 +289,7 @@ class Config(BaseConfig):
         admin_email = StringParameter(default="test@example.com")
 
     installation_name = StringParameter(default="Unconfigured installation")
+    installation_id = StringParameter(default="")
 
     instance = IntParameter(default=0)
 
