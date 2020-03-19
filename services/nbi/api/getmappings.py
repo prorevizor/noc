@@ -145,6 +145,7 @@ class GetMappingsAPI(NBIAPI):
         # Query local objects
         seen = set(o["id"] for o in result)
         # Skip already collected objects
+        local_ids = local_ids or []
         local_ids = [o for o in local_ids if o not in seen]
         if local_ids:
             if len(local_ids) == 1:
