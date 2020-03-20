@@ -585,16 +585,38 @@ class InterfaceCheck(PolicyDiscoveryCheck):
         self.logger.info("Starting interface collation")
         mappings = defaultdict(list)  # object -> [(connection_name, if_name), ...]
         seen_objects = set()  # {object}
+        obj_combined = {}  # object -> connection name -> parent name
+        obj_ifnames = {}  # object -> connection name -> interface name
         for path in self.object.iter_scope("physical"):
             if_name = None
             obj = path[-1].object
-            seen_objects.add(obj)
-            for collator in chain:
-                if_name = collator.collate(path, if_map)
+            if obj not in seen_objects:
+                obj_combined[obj] = {c.name: c.combo for c in obj.model.connections if c.combo}
+                obj_ifnames[obj] = {}
+                seen_objects.add(obj)
+            cn = path[-1].connection.name
+            parent = obj_combined[obj].get(cn)
+            if parent:
+                # Combined port, try to resolve against parent
+                if_name = obj_ifnames[obj].get(parent)
                 if if_name:
+                    # Parent is already bound
+                    obj_ifnames[obj][cn] = if_name
                     mappings[obj] += [(path, if_name)]
-                    self.logger.info("%s mapped to interface %s", path_to_str(path), if_name)
-                    break
+                    self.logger.info(
+                        "%s mapped to interface %s via parent %s",
+                        path_to_str(path),
+                        if_name,
+                        parent,
+                    )
+            if not if_name:
+                for collator in chain:
+                    if_name = collator.collate(path, if_map)
+                    if if_name:
+                        obj_ifnames[obj][cn] = if_name
+                        mappings[obj] += [(path, if_name)]
+                        self.logger.info("%s mapped to interface %s", path_to_str(path), if_name)
+                        break
             if not if_name:
                 self.logger.info("Unable to map %s to interface", path_to_str(path))
         # Bulk update data
