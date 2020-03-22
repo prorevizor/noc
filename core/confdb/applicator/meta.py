@@ -67,8 +67,8 @@ class MetaApplicator(BaseApplicator):
             "platform": self.object.platform.name,
             "version": self.object.version.version,
         }
-        for matcher in self.object.profile.matchers:
-            if match(ctx, self.object.profile.matchers[matcher]):
+        for matcher in self.object.get_profile().matchers:
+            if match(ctx, self.object.get_profile().matchers[matcher]):
                 yield "meta", "matchers", matcher
 
     def chassis_mac_meta(self):
