@@ -108,9 +108,6 @@ CONNECTION_CHECKLIST = {
             ">DryContact",
             "G.703",
             "ToD",
-            "T1",  # DS1 proto: T1, E1
-            "E1",  # DS1 proto: T1, E1
-            "ISDN",
             "EM",  # Telephony E&M over PBX
             ">TL1",
             "IEEE1588",

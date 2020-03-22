@@ -58,7 +58,7 @@
             "direction": "s",
             "gender": "f",
             "name": "Sync0",
-            "protocols": ["E1"],
+            "protocols": ["G.703"],
             "type__name": "Electrical | RJ45"
         },
         {
@@ -66,7 +66,7 @@
             "direction": "s",
             "gender": "f",
             "name": "Sync1",
-            "protocols": ["E1"],
+            "protocols": ["G.703"],
             "type__name": "Electrical | RJ45"
         },
         {

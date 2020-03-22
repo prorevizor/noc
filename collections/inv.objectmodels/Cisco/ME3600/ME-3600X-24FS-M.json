@@ -22,7 +22,7 @@
             "gender": "f",
             "group": "0",
             "name": "BITS",
-            "protocols": ["T1", "E1"],
+            "protocols": ["G.703"],
             "type__name": "Electrical | RJ45"
         },
         {

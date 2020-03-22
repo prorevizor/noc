@@ -18,7 +18,7 @@
             "direction": "s",
             "gender": "f",
             "name": "IN0",
-            "protocols": ["T1", "E1"],
+            "protocols": ["G.703"],
             "type__name": "Electrical | RJ45"
         },
         {
@@ -26,7 +26,7 @@
             "direction": "s",
             "gender": "f",
             "name": "IN1",
-            "protocols": ["T1", "E1"],
+            "protocols": ["G.703"],
             "type__name": "Electrical | RJ45"
         },
         {
@@ -34,7 +34,7 @@
             "direction": "s",
             "gender": "f",
             "name": "OUT",
-            "protocols": ["T1", "E1"],
+            "protocols": ["G.703"],
             "type__name": "Electrical | RJ45"
         },
         {
