@@ -25,7 +25,7 @@ from noc.inv.models.platform import Platform
 from noc.inv.models.networksegment import NetworkSegment
 from noc.core.clickhouse.connect import connection as ch_connection
 from noc.core.clickhouse.error import ClickhouseError
-from noc.core.text import alnum_key, list_to_ranges
+from noc.core.text import alnum_key
 from noc.inv.models.interface import Interface
 from noc.inv.models.link import Link
 from noc.sa.models.managedobject import ManagedObject
@@ -84,22 +84,22 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
         },
     )
     def api_report(
-        self,
-        request,
-        reporttype=None,
-        from_date=None,
-        to_date=None,
-        object_profile=None,
-        filter_default=None,
-        exclude_zero=True,
-        interface_profile=None,
-        selector=None,
-        administrative_domain=None,
-        columns=None,
-        description=None,
-        o_format=None,
-        enable_autowidth=False,
-        **kwargs
+            self,
+            request,
+            reporttype=None,
+            from_date=None,
+            to_date=None,
+            object_profile=None,
+            filter_default=None,
+            exclude_zero=True,
+            interface_profile=None,
+            selector=None,
+            administrative_domain=None,
+            columns=None,
+            description=None,
+            o_format=None,
+            enable_autowidth=False,
+            **kwargs
     ):
         # get maximum metrics for the period
         def get_interface_metrics(managed_objects, from_date, to_date):
@@ -109,9 +109,9 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
 
             from_date = from_date.replace(microsecond=0)
             to_date = to_date.replace(microsecond=0)
-            SQL = """SELECT managed_object, path[4] as iface, argMax(ts, ts), divide(max(load_in),1048576) as load_in_max, 
-                             divide(max(load_out),1048576) as load_out_max, argMax(ts,load_in) as max_load_in_time, 
-                             argMax(ts,load_out) as max_load_out_time, divide(avg(load_in),1048576) as avg_load_in, 
+            SQL = """SELECT managed_object, path[4] as iface, argMax(ts, ts), divide(max(load_in),1048576) as load_in_max,
+                             divide(max(load_out),1048576) as load_out_max, argMax(ts,load_in) as max_load_in_time,
+                             argMax(ts,load_out) as max_load_out_time, divide(avg(load_in),1048576) as avg_load_in,
                              divide(avg(load_out),1048576) as avg_load_out
                     FROM interface
                     WHERE
@@ -130,15 +130,15 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
             metric_map = defaultdict(dict)
             try:
                 for (
-                    mo_bi_id,
-                    iface,
-                    ts,
-                    load_in_max,
-                    load_out_max,
-                    max_load_in_time,
-                    max_load_out_time,
-                    avg_load_in,
-                    avg_load_out,
+                        mo_bi_id,
+                        iface,
+                        ts,
+                        load_in_max,
+                        load_out_max,
+                        max_load_in_time,
+                        max_load_out_time,
+                        avg_load_in,
+                        avg_load_out,
                 ) in ch.execute(post=SQL):
                     mo = bi_map.get(mo_bi_id)
                     if mo:
@@ -149,42 +149,6 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
                             "max_load_out_time": max_load_out_time,
                             "avg_load_in": float(avg_load_in),
                             "avg_load_out": float(avg_load_out),
-                        }
-            except ClickhouseError:
-                pass
-            return metric_map
-
-        # get_interface_data for the period
-        def get_uplink_metrics(managed_objects, ifaces, from_date, to_date):
-            if not isinstance(managed_objects, Iterable):
-                managed_objects = [managed_objects]
-            bi_map = {str(getattr(mo, "bi_id", mo)): mo for mo in managed_objects}
-            from_date = from_date.replace(microsecond=0)
-            to_date = to_date.replace(microsecond=0)
-            SQL = """SELECT managed_object, path[4] as iface, ts, divide(load_in,1048576), divide(load_out,1048576) 
-                    FROM interface
-                    WHERE
-                      ts >= toDateTime('%s')
-                      AND ts <= toDateTime('%s')
-                      AND managed_object IN (%s)
-                      AND path[4] IN toString('%s')
-                    """ % (
-                # from_date.date().isoformat(),
-                # to_date.date().isoformat(),
-                from_date.isoformat(sep=" "),
-                to_date.isoformat(sep=" "),
-                ", ".join(bi_map),
-                ", ".join(ifaces),
-            )
-            ch = ch_connection()
-            metric_map = defaultdict(dict)
-            try:
-                for mo_bi_id, iface, ts, load_in, load_out in ch.execute(post=SQL):
-                    mo = bi_map.get(mo_bi_id)
-                    if mo:
-                        metric_map[mo][ts] = {
-                            "load_in": load_in,
-                            "load_out": load_out,
                         }
             except ClickhouseError:
                 pass
@@ -209,8 +173,8 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
 
             result = (
                 Interface._get_collection()
-                .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
-                .aggregate([{"$match": match}])  # , {"$lookup": lookup}])
+                    .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+                    .aggregate([{"$match": match}])  # , {"$lookup": lookup}])
             )
 
             for i in result:
@@ -296,7 +260,6 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
         columns_order = columns.split(",")
         columns_filter = set(columns_order)
         r = [translate_row(header_row, cmap)]
-        object_columns = [c for c in columns_order if c.startswith("object")]
 
         # Date Time Block
         if not from_date:
@@ -307,9 +270,6 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
             to_date = from_date + datetime.timedelta(days=1)
         else:
             to_date = datetime.datetime.strptime(to_date, "%d.%m.%Y") + datetime.timedelta(days=1)
-        # interval = (to_date - from_date).days
-        ts_from_date = time.mktime(from_date.timetuple())
-        ts_to_date = time.mktime(to_date.timetuple())
 
         # Load managed objects
         mos = ManagedObject.objects.filter(is_managed=True)
@@ -334,7 +294,7 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
 
         moss = {}
         for row in mos.values_list(
-            "id", "name", "address", "platform", "administrative_domain__name", "segment", "id"
+                "id", "name", "address", "platform", "administrative_domain__name", "segment", "id"
         ):
             moss[row[0]] = mo_attrs(
                 *[
@@ -456,8 +416,8 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
             for rn, x in enumerate(r):
                 for cn, c in enumerate(x):
                     if rn and (
-                        r[0][cn] not in max_column_data_length
-                        or len(str(c)) > max_column_data_length[r[0][cn]]
+                                    r[0][cn] not in max_column_data_length
+                            or len(str(c)) > max_column_data_length[r[0][cn]]
                     ):
                         max_column_data_length[r[0][cn]] = len(str(c))
                     ws.write(rn, cn, c, cf1)
