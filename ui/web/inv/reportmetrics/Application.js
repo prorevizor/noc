@@ -1,12 +1,12 @@
 //---------------------------------------------------------------------
-// inv.reportmetricdetail application
+// inv.reportmetrics application
 //---------------------------------------------------------------------
-// Copyright (C) 2007-2019 The NOC Project
+// Copyright (C) 2007-2020 The NOC Project
 // See LICENSE for details
 //---------------------------------------------------------------------
-console.debug("Defining NOC.inv.reportmaxmetrics.Application");
+console.debug("Defining NOC.inv.reportmetrics.Application");
 
-Ext.define("NOC.inv.reportmaxmetrics.Application", {
+Ext.define("NOC.inv.reportmetrics.Application", {
     extend: "NOC.core.Application",
     requires: [
         "NOC.core.ReportControl",
@@ -65,7 +65,7 @@ Ext.define("NOC.inv.reportmaxmetrics.Application", {
     defaultListenerScope: true,
     items: {
         xtype: "report.control",
-        url: "/inv/reportmaxmetrics",
+        url: "/inv/reportmetrics",
         controls: [
             {
                 name: "reporttype",
