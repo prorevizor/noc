@@ -8,7 +8,6 @@
 
 # Python modules
 import datetime
-import time
 from collections import defaultdict, Iterable
 from collections import namedtuple
 import csv
@@ -84,22 +83,22 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
         },
     )
     def api_report(
-            self,
-            request,
-            reporttype=None,
-            from_date=None,
-            to_date=None,
-            object_profile=None,
-            filter_default=None,
-            exclude_zero=True,
-            interface_profile=None,
-            selector=None,
-            administrative_domain=None,
-            columns=None,
-            description=None,
-            o_format=None,
-            enable_autowidth=False,
-            **kwargs
+        self,
+        request,
+        reporttype=None,
+        from_date=None,
+        to_date=None,
+        object_profile=None,
+        filter_default=None,
+        exclude_zero=True,
+        interface_profile=None,
+        selector=None,
+        administrative_domain=None,
+        columns=None,
+        description=None,
+        o_format=None,
+        enable_autowidth=False,
+        **kwargs
     ):
         # get maximum metrics for the period
         def get_interface_metrics(managed_objects, from_date, to_date):
@@ -130,15 +129,15 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
             metric_map = defaultdict(dict)
             try:
                 for (
-                        mo_bi_id,
-                        iface,
-                        ts,
-                        load_in_max,
-                        load_out_max,
-                        max_load_in_time,
-                        max_load_out_time,
-                        avg_load_in,
-                        avg_load_out,
+                    mo_bi_id,
+                    iface,
+                    ts,
+                    load_in_max,
+                    load_out_max,
+                    max_load_in_time,
+                    max_load_out_time,
+                    avg_load_in,
+                    avg_load_out,
                 ) in ch.execute(post=SQL):
                     mo = bi_map.get(mo_bi_id)
                     if mo:
@@ -173,8 +172,8 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
 
             result = (
                 Interface._get_collection()
-                    .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
-                    .aggregate([{"$match": match}])  # , {"$lookup": lookup}])
+                .with_options(read_preference=ReadPreference.SECONDARY_PREFERRED)
+                .aggregate([{"$match": match}])  # , {"$lookup": lookup}])
             )
 
             for i in result:
@@ -294,7 +293,7 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
 
         moss = {}
         for row in mos.values_list(
-                "id", "name", "address", "platform", "administrative_domain__name", "segment", "id"
+            "id", "name", "address", "platform", "administrative_domain__name", "segment", "id"
         ):
             moss[row[0]] = mo_attrs(
                 *[
@@ -416,8 +415,8 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
             for rn, x in enumerate(r):
                 for cn, c in enumerate(x):
                     if rn and (
-                                    r[0][cn] not in max_column_data_length
-                            or len(str(c)) > max_column_data_length[r[0][cn]]
+                        r[0][cn] not in max_column_data_length
+                        or len(str(c)) > max_column_data_length[r[0][cn]]
                     ):
                         max_column_data_length[r[0][cn]] = len(str(c))
                     ws.write(rn, cn, c, cf1)
