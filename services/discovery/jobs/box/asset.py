@@ -395,9 +395,10 @@ class AssetCheck(DiscoveryCheck):
                     managed_object=self.object,
                     op="CONNECT",
                 )
-            if (o2, c2, o1, c1) in self.to_disconnect:
-                # Rmove if connection on system
-                self.to_disconnect.remove((o2, c2, o1, c1))
+            c_name = o2.model.get_model_connection(c2)  # If internal_name use
+            if (o2, c_name.name, o1, c1) in self.to_disconnect:
+                # Remove if connection on system
+                self.to_disconnect.remove((o2, c_name.name, o1, c1))
         except ConnectionError as e:
             self.logger.error("Failed to connect: %s", e)
 
