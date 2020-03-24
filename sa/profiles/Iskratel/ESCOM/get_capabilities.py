@@ -37,8 +37,12 @@ class Script(BaseScript):
         """
         Check box has STP enabled
         """
-        cmd = self.cli("show spanning-tree active")
-        return "  enabled  " in cmd
+        if self.is_escom_l:
+            cmd = self.cli("show spanning-tree")
+            return "Spanning tree enabled" in cmd
+        else:
+            cmd = self.cli("show spanning-tree active")
+            return "  enabled  " in cmd
 
     def execute_platform_cli(self, caps):
         try:
