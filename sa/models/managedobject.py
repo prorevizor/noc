@@ -1756,6 +1756,11 @@ class ManagedObject(NOCModel):
             for r in o.iter_scope(scope):
                 yield r
 
+    def get_effective_fm_pool(self):
+        if self.fm_pool:
+            return self.fm_pool
+        return self.pool
+
 
 @on_save
 @six.python_2_unicode_compatible
