@@ -106,7 +106,7 @@ class Script(BaseScript):
             }
             if i[3]:
                 neighbor["remote_system_name"] = i[3]
-            if self.match_version(version__endswith="2.2.0C"):
+            if self.is_escom_l:
                 try:
                     v = self.cli("show lldp neighbors interface %s" % i[0])
                     match = self.rx_port2.search(v)
