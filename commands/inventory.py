@@ -14,7 +14,6 @@ import argparse
 from noc.core.management.base import BaseCommand
 from noc.core.mongo.connection import connect
 from noc.inv.models.object import Object
-from noc.inv.models.objectconnection import ObjectConnection
 
 
 class Command(BaseCommand):
