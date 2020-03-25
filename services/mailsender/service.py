@@ -104,9 +104,7 @@ class MailSenderService(Service):
             smtp.ehlo(config.mailsender.helo_hostname)
         # Authenticate when necessary
         if config.mailsender.smtp_user and config.mailsender.smtp_password:
-            self.logger.debug(
-                "[%s] Authenticating as %s", message_id, config.mailsender.smtp_user
-            )
+            self.logger.debug("[%s] Authenticating as %s", message_id, config.mailsender.smtp_user)
             try:
                 smtp.login(config.mailsender.smtp_user, config.mailsender.smtp_password)
             except smtplib.SMTPAuthenticationError as e:
@@ -125,11 +123,7 @@ class MailSenderService(Service):
             if code != 250:
                 smtp.rset()
                 self.logger.error(
-                    "[%s] MAIL FROM '%s' failed: %s %s",
-                    message_id,
-                    from_address,
-                    code,
-                    resp,
+                    "[%s] MAIL FROM '%s' failed: %s %s", message_id, from_address, code, resp
                 )
                 metrics["smtp_response", ("code", code)] += 1
                 return False
