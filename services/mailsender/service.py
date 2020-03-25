@@ -61,7 +61,7 @@ class MailSenderService(Service):
         self.tz = pytz.timezone(config.timezone)
         now = datetime.datetime.now(self.tz)
         md = now.strftime("%a, %d %b %Y %H:%M:%S %z")
-        if isinstance(address, str):
+        if isinstance(address, str) or isinstance(address, unicode):
             address = [address]
         from_address = config.mailsender.from_address
         message = MIMEMultipart()
