@@ -61,8 +61,7 @@ class Command(BaseCommand):
                 # Try up to container
                 yield obj_str(o)
                 if o.container:
-                    ro = Object.get_by_id(o.container)
-                    for rr in iter_obj(ro):
+                    for rr in iter_obj(o.container):
                         yield rr
 
         for n, sr in enumerate(reversed(list(iter_obj(obj)))):
