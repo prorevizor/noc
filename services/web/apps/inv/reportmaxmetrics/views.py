@@ -24,7 +24,6 @@ from noc.inv.models.platform import Platform
 from noc.inv.models.networksegment import NetworkSegment
 from noc.core.clickhouse.connect import connection as ch_connection
 from noc.core.clickhouse.error import ClickhouseError
-from noc.core.text import alnum_key
 from noc.inv.models.interface import Interface
 from noc.inv.models.link import Link
 from noc.sa.models.managedobject import ManagedObject
@@ -337,13 +336,9 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
                         {
                             "id": l.id,
                             "role": role,
-                            "local_interface": sorted(
-                                local_interfaces, key=lambda x: alnum_key(x.name)
-                            ),
+                            "local_interface": local_interfaces,
                             "remote_object": ro,
-                            "remote_interface": sorted(
-                                remote_interfaces, key=lambda x: alnum_key(x.name)
-                            ),
+                            "remote_interface": remote_interfaces,
                             "remote_status": "up" if ro.get_status() else "down",
                         }
                     ]
