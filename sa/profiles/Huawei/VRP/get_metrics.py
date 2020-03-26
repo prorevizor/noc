@@ -23,19 +23,19 @@ class Script(GetMetricsScript):
 
     OID_RULES = [SlotRule, SSlotRule]
 
-    @metrics(
-        ["Interface | Errors | CRC", "Interface | Errors | Frame"],
-        has_capability="DB | Interfaces",
-        volatile=False,
-        access="C",  # CLI version
-    )
-    def get_vrp_interface_metrics(self, metrics):
-        v = self.cli("display interface")
-        ifdata = self.profile.parse_ifaces(v)
-        for iface, data in six.iteritems(ifdata):
-            iface = self.profile.convert_interface_name(iface)
-            ipath = ["", "", "", iface]
-            if "CRC" in data:
-                self.set_metric(id=("Interface | Errors | CRC", ipath), value=int(data["CRC"]))
-            if "Frames" in data:
-                self.set_metric(id=("Interface | Errors | Frame", ipath), value=int(data["Frames"]))
+    # @metrics(
+    #     ["Interface | Errors | CRC", "Interface | Errors | Frame"],
+    #     has_capability="DB | Interfaces",
+    #     volatile=False,
+    #     access="C",  # CLI version
+    # )
+    # def get_vrp_interface_metrics(self, metrics):
+    #     v = self.cli("display interface")
+    #     ifdata = self.profile.parse_ifaces(v)
+    #     for iface, data in six.iteritems(ifdata):
+    #         iface = self.profile.convert_interface_name(iface)
+    #         ipath = ["", "", "", iface]
+    #         if "CRC" in data:
+    #             self.set_metric(id=("Interface | Errors | CRC", ipath), value=int(data["CRC"]))
+    #         if "Frames" in data:
+    #             self.set_metric(id=("Interface | Errors | Frame", ipath), value=int(data["Frames"]))
