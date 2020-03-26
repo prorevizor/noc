@@ -399,7 +399,9 @@ class ReportAlarmDetailApplication(ExtApplication):
                                 Platform.get_by_id(moss[a["managed_object"]][9])
                                 if moss[a["managed_object"]][9]
                                 else "",
-                                smart_text(Firmware.get_by_id(moss[a["managed_object"]][10]).version)
+                                smart_text(
+                                    Firmware.get_by_id(moss[a["managed_object"]][10]).version
+                                )
                                 if moss[a["managed_object"]][10]
                                 else "",
                                 AlarmClass.get_by_id(a["alarm_class"]).name,
@@ -498,7 +500,9 @@ class ReportAlarmDetailApplication(ExtApplication):
                                 Platform.get_by_id(moss[a["managed_object"]][9])
                                 if moss[a["managed_object"]][9]
                                 else "",
-                                smart_text(Firmware.get_by_id(moss[a["managed_object"]][10]).version)
+                                smart_text(
+                                    Firmware.get_by_id(moss[a["managed_object"]][10]).version
+                                )
                                 if moss[a["managed_object"]][10]
                                 else "",
                                 AlarmClass.get_by_id(a["alarm_class"]).name,
