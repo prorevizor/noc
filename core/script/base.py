@@ -1214,8 +1214,11 @@ class BaseScript(six.with_metaclass(BaseScriptMetaclass, object)):
                 self._beef = None
                 return None
             from .beef import Beef
-
-            beef = Beef.load(beef_storage_url, beef_path)
+            try:
+                beef = Beef.load(beef_storage_url, beef_path)
+            except IOError as e:
+                self.logger.error("Beef load error: %s", e)
+                return None
             self._beef = beef
         return self._beef
 
