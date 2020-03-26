@@ -94,9 +94,9 @@ class Script(BaseScript):
             if pvid:
                 r[port_num]["untagged"] = pvid
 
-        for oid, vlans_bank in self.snmp.get_tables([
-            mib["HUAWEI-L2IF-MIB::hwL2IfTrunkPortTable"]
-        ], display_hints={mib["HUAWEI-L2IF-MIB::hwL2IfTrunkPortTable"]: render_bin}
+        for oid, vlans_bank in self.snmp.get_tables(
+            [mib["HUAWEI-L2IF-MIB::hwL2IfTrunkPortTable"]],
+            display_hints={mib["HUAWEI-L2IF-MIB::hwL2IfTrunkPortTable"]: render_bin},
         ):
             start, end = 0, 2048
             oid, port_num = oid.rsplit(".", 1)
