@@ -9,11 +9,8 @@
 # Python modules
 from __future__ import absolute_import
 
-# Third-party modules
-import six
-
 # NOC modules
-from noc.sa.profiles.Generic.get_metrics import Script as GetMetricsScript, metrics
+from noc.sa.profiles.Generic.get_metrics import Script as GetMetricsScript
 from .oidrules.slot import SlotRule
 from .oidrules.sslot import SSlotRule
 
