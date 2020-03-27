@@ -452,7 +452,7 @@ class CLI(object):
             # Then check for operation error
             if (
                 self.profile.rx_pattern_operation_error_str
-                and self.profile.rx_pattern_operation_error_str.search(self.buffer)
+                and self.profile.rx_pattern_operation_error.search(self.buffer)
             ):
                 self.error = self.script.CLIOperationError(self.buffer)
                 break
