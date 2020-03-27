@@ -80,10 +80,10 @@ class Script(BaseScript):
                 "1.0.8802.1.1.2.1.4.1.1.10",  # LLDP-MIB::lldpRemSysDesc
                 "1.0.8802.1.1.2.1.4.1.1.12",  # LLDP-MIB::lldpRemSysCapEnabled
             ],
-                display_hints={
-                    "1.0.8802.1.1.2.1.4.1.1.7": render_bin,
-                    "1.0.8802.1.1.2.1.4.1.1.5": render_bin,
-                },
+            display_hints={
+                "1.0.8802.1.1.2.1.4.1.1.7": render_bin,
+                "1.0.8802.1.1.2.1.4.1.1.5": render_bin,
+            },
         ):
             neigh = dict(list(zip(neighb, v[1:])))
             if neigh["remote_chassis_id_subtype"] == LLDP_CHASSIS_SUBTYPE_MAC:
