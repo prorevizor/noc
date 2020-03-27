@@ -276,7 +276,7 @@ class SNMP(object):
         """
         r = {}
         for o, v in self.getnext(
-                oid, community_suffix=community_suffix, cached=cached, display_hints=display_hints
+            oid, community_suffix=community_suffix, cached=cached, display_hints=display_hints
         ):
             r[int(o.split(".")[-1])] = v
         return r
