@@ -422,7 +422,7 @@ class ManagedObjectDataStream(DataStream):
                 "name": qs(svc.remote_system.name),
             }
             r["remote_id"] = str(svc.remote_id)
-        iface["service"] = [r]
+        iface["services"] = [r]
 
     @classmethod
     def get_meta(cls, data):
