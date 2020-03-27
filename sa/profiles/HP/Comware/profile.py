@@ -21,7 +21,9 @@ class Profile(BaseProfile):
         r"% (?:Unrecognized command|Too many parameters|Incomplete command)" r" found at"
     )
     rogue_chars = [
-        re.compile(b"\x1b\[16D\s+\x1b\[16D"), re.compile(b"\x1b\[42D\s+\x1b\[42D"), b"\r"
+        re.compile(b"\x1b\[16D\s+\x1b\[16D"),
+        re.compile(b"\x1b\[42D\s+\x1b\[42D"),
+        b"\r",
     ]
 
     spaces_rx = re.compile(r"^\s{42}|^\s{16}", re.DOTALL | re.MULTILINE)
