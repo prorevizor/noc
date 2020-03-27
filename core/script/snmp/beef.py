@@ -92,7 +92,9 @@ class BeefSNMP(SNMP):
                             encoder.encode_int(err_index),
                             encoder.encode_sequence(
                                 [
-                                    encoder.encode_sequence([encoder.encode_oid(str(oid)), smart_bytes(value)])
+                                    encoder.encode_sequence(
+                                        [encoder.encode_oid(str(oid)), smart_bytes(value)]
+                                    )
                                     for oid, value in data
                                 ]
                             ),
