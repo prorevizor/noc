@@ -369,7 +369,7 @@ class BaseScript(six.with_metaclass(BaseScriptMetaclass, object)):
                 raise Exception("Invalid lookup operation: %s" % o)
         # Combine expressions into single lambda
         return reduce(
-            lambda x, y: lambda self, v, x=x, y=y: (x(self, v) and y(self, v)),
+            lambda x, y: lambda self, v, x=x, y=y: (x(self, v) and y(self, v)),  # pylint: disable=undefined-variable
             c,
             lambda self, x: True,
         )
@@ -384,6 +384,7 @@ class BaseScript(six.with_metaclass(BaseScriptMetaclass, object)):
             # Append to the execute chain
             if hasattr(f, "_match"):
                 old_filter = f._match
+                # pylint: disable=undefined-variable
                 f._match = lambda self, v, old_filter=old_filter, new_filter=new_filter: new_filter(
                     self, v
                 ) or old_filter(self, v)
