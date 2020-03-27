@@ -312,6 +312,7 @@ class BaseScript(six.with_metaclass(BaseScriptMetaclass, object)):
 
     @classmethod
     def compile_match_filter(cls, *args, **kwargs):
+        # pylint: disable=undefined-variable
         """
         Compile arguments into version check function
         Returns callable accepting self and version hash arguments
