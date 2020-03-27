@@ -858,7 +858,7 @@ class BaseProfile(six.with_metaclass(BaseProfileMetaclass, object)):
                                 "%s: 'rogue_char' %r pattern cannot be compiled with re.UNICODE flag."
                                 % (cls.name, rc.pattern)
                             )
-                            flags &= re.UNICODE
+                            flags &= ~re.UNICODE
                         rc = re.compile(smart_bytes(rc.pattern), flags)
                     chain += [get_re_cleaner(rc)]
                 else:
