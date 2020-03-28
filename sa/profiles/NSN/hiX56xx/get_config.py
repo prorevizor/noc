@@ -3,7 +3,7 @@
 # NSN.hiX56xx.get_config
 # sergey.sadovnikov@gmail.com
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 """
@@ -18,5 +18,5 @@ class Script(BaseScript):
 
     def execute_cli(self, **kwargs):
         config = self.cli("show running-config")
-        config = self.strip_first_lines(config, 3)
+        config = self.strip_first_lines(config, 4)
         return self.cleaned_config(config)
