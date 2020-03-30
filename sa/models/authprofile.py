@@ -23,7 +23,6 @@ from noc.core.cache.base import cache
 from noc.core.model.decorator import on_delete_check
 from noc.core.model.fields import TagsField, DocumentReferenceField
 from noc.core.bi.decorator import bi_sync
-from .managedobject import CREDENTIAL_CACHE_VERSION
 
 id_lock = Lock()
 
@@ -89,6 +88,8 @@ class AuthProfile(NOCModel):
             return None
 
     def on_save(self):
+        from .managedobject import CREDENTIAL_CACHE_VERSION
+
         if not self.enable_suggest:
             cache.delete_many(
                 ["cred-%s" % x for x in self.managedobject_set.values_list("id", flat=True)],
