@@ -23,7 +23,7 @@ from noc.core.cache.base import cache
 from noc.core.model.decorator import on_delete_check
 from noc.core.model.fields import TagsField, DocumentReferenceField
 from noc.core.bi.decorator import bi_sync
-from noc.sa.models.managedobject import CREDENTIAL_CACHE_VERSION
+from .managedobject import CREDENTIAL_CACHE_VERSION
 
 id_lock = Lock()
 
