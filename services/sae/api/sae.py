@@ -13,7 +13,7 @@ import tornado.gen
 from noc.core.service.api import API, APIError, api
 from noc.core.script.loader import loader
 from noc.core.script.scheme import CLI_PROTOCOLS, HTTP_PROTOCOLS, PROTOCOLS, BEEF
-from noc.sa.models.managedobject import ManagedObject  # noqa Do not delete
+from noc.sa.models.managedobject import ManagedObject, CREDENTIAL_CACHE_VERSION  # noqa Do not delete
 from noc.sa.models.objectcapabilities import ObjectCapabilities
 from noc.sa.models.profile import Profile
 from noc.inv.models.vendor import Vendor
@@ -137,7 +137,7 @@ class SAEAPI(API):
         data["pool"] = pool
         raise tornado.gen.Return(data)
 
-    @cachedmethod(key="cred-%s", version=CREDENTIALS_CACHE_VERSION)
+    @cachedmethod(key="cred-%s", version=CREDENTIAL_CACHE_VERSION)
     def get_object_data(self, object_id):
         """
         Worker to resolve credentials

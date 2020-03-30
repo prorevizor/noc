@@ -89,10 +89,10 @@ from .authprofile import AuthProfile
 from .managedobjectprofile import ManagedObjectProfile
 from .objectstatus import ObjectStatus
 from .objectdata import ObjectData
-from noc.services.sae.api.sae import CREDENTIALS_CACHE_VERSION
 
 # Increase whenever new field added or removed
 MANAGEDOBJECT_CACHE_VERSION = 20
+CREDENTIAL_CACHE_VERSION = 1
 
 Credentials = namedtuple(
     "Credentials", ["user", "password", "super_password", "snmp_ro", "snmp_rw"]
@@ -727,7 +727,7 @@ class ManagedObject(NOCModel):
             or "cli_privilege_policy" in self.changed_fields
             or "remote_path" in self.changed_fields
         ):
-            cache.delete("cred-%s" % self.id, version=CREDENTIALS_CACHE_VERSION)
+            cache.delete("cred-%s" % self.id, version=CREDENTIAL_CACHE_VERSION)
         # Rebuild paths
         if (
             self.initial_data["id"] is None
@@ -1782,7 +1782,7 @@ class ManagedObjectAttribute(NOCModel):
         return "%s: %s" % (self.managed_object, self.key)
 
     def on_save(self):
-        cache.delete("cred-%s" % self.managed_object.id, version=CREDENTIALS_CACHE_VERSION)
+        cache.delete("cred-%s" % self.managed_object.id, version=CREDENTIAL_CACHE_VERSION)
 
 
 # object.scripts. ...

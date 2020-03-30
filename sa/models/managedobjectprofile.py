@@ -41,7 +41,6 @@ from noc.core.datastream.decorator import datastream
 from noc.cm.models.objectvalidationpolicy import ObjectValidationPolicy
 from .authprofile import AuthProfile
 from .capsprofile import CapsProfile
-from noc.services.sae.api.sae import CREDENTIALS_CACHE_VERSION
 
 
 m_valid = DictListParameter(
@@ -630,6 +629,8 @@ class ManagedObjectProfile(NOCModel):
             yield mo.pool
 
     def on_save(self):
+        from .managedobject import CREDENTIAL_CACHE_VERSION
+
         box_changed = self.initial_data["enable_box_discovery"] != self.enable_box_discovery
         periodic_changed = (
             self.initial_data["enable_periodic_discovery"] != self.enable_periodic_discovery
@@ -651,7 +652,7 @@ class ManagedObjectProfile(NOCModel):
         if access_changed:
             cache.delete_many(
                 ["cred-%s" % x for x in self.managedobject_set.values_list("id", flat=True)],
-                version=CREDENTIALS_CACHE_VERSION,
+                version=CREDENTIAL_CACHE_VERSION,
             )
 
     def can_escalate(self, depended=False):
