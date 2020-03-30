@@ -26,6 +26,9 @@ from noc.core.dcs.base import ResolutionError
 from noc.config import config
 from noc.core.perf import metrics
 
+# Increase whenever new field added or removed
+CREDENTIALS_CACHE_VERSION = 1
+
 
 class SAEAPI(API):
     """
@@ -134,7 +137,7 @@ class SAEAPI(API):
         data["pool"] = pool
         raise tornado.gen.Return(data)
 
-    @cachedmethod(key="cred-%s")
+    @cachedmethod(key="cred-%s", version=CREDENTIALS_CACHE_VERSION)
     def get_object_data(self, object_id):
         """
         Worker to resolve credentials

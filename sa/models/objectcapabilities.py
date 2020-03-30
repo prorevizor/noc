@@ -28,6 +28,7 @@ from noc.core.mongo.fields import ForeignKeyField
 from noc.core.model.decorator import on_save
 from noc.core.cache.base import cache
 from noc.core.datastream.decorator import datastream
+from noc.services.sae.api.sae import CREDENTIALS_CACHE_VERSION
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +56,7 @@ class ObjectCapabilities(Document):
         return "%s caps" % self.object.name
 
     def on_save(self):
-        cache.delete("cred-%s" % self.object.id)
+        cache.delete("cred-%s" % self.object.id, version=CREDENTIALS_CACHE_VERSION)
 
     def iter_changed_datastream(self, changed_fields=None):
         yield "managedobject", self.object.id
@@ -141,7 +142,7 @@ class ObjectCapabilities(Document):
             ObjectCapabilities._get_collection().update(
                 {"_id": object}, {"$set": {"caps": new_caps}}, upsert=True
             )
-            cache.delete("cred-%s" % object)
+            cache.delete("cred-%s" % object, version=CREDENTIALS_CACHE_VERSION)
         caps = {}
         for ci in new_caps:
             cn = Capability.get_by_id(ci["capability"])

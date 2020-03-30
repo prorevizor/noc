@@ -41,6 +41,7 @@ from noc.core.datastream.decorator import datastream
 from noc.cm.models.objectvalidationpolicy import ObjectValidationPolicy
 from .authprofile import AuthProfile
 from .capsprofile import CapsProfile
+from noc.services.sae.api.sae import CREDENTIALS_CACHE_VERSION
 
 
 m_valid = DictListParameter(
@@ -649,7 +650,8 @@ class ManagedObjectProfile(NOCModel):
             )
         if access_changed:
             cache.delete_many(
-                ["cred-%s" % x for x in self.managedobject_set.values_list("id", flat=True)]
+                ["cred-%s" % x for x in self.managedobject_set.values_list("id", flat=True)],
+                version=CREDENTIALS_CACHE_VERSION,
             )
 
     def can_escalate(self, depended=False):
