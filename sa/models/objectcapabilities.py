@@ -28,7 +28,6 @@ from noc.core.mongo.fields import ForeignKeyField
 from noc.core.model.decorator import on_save
 from noc.core.cache.base import cache
 from noc.core.datastream.decorator import datastream
-from noc.services.sae.api.sae import CREDENTIALS_CACHE_VERSION
 
 logger = logging.getLogger(__name__)
 
