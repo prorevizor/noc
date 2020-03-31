@@ -161,7 +161,7 @@ class BaseLoader(object):
         :return:
         """
         for line in g:
-            yield line.replace(b"\x00", b"")
+            yield line.replace("\x00", "")
 
     def get_new_state(self):
         """
