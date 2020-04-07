@@ -105,8 +105,8 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
 
             from_date = from_date.replace(microsecond=0)
             to_date = to_date.replace(microsecond=0)
-            SQL = """SELECT managed_object, path[4] as iface, 
-                             dictGetString('interfaceattributes','description' , (managed_object, arrayStringConcat(path))) AS iface_description, 
+            SQL = """SELECT managed_object, path[4] as iface,
+                             dictGetString('interfaceattributes','description' , (managed_object, arrayStringConcat(path))) AS iface_description,
                              dictGetString('interfaceattributes', 'profile', (managed_object, arrayStringConcat(path))) as profile,
                              dictGetUInt64('interfaceattributes','in_speed' , (managed_object, arrayStringConcat(path))) AS iface_speed, divide(max(load_in),1048576) as load_in_max,
                              divide(max(load_out),1048576) as load_out_max, argMax(ts,load_in) as max_load_in_time,
