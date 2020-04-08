@@ -1279,19 +1279,6 @@ class ManagedObject(NOCModel):
             self._profile = self.profile.get_profile()
         return self._profile
 
-    def get_parser(self):
-        """
-        Return parser instance or None.
-        Depends on version_discovery
-        """
-        if self.vendor and self.platform and self.version:
-            cls = self.profile.get_profile().get_parser(
-                self.vendor.code, self.platform.name, self.version.version
-            )
-            if cls:
-                return get_handler(cls)(self)
-        return get_handler("noc.cm.parsers.base.BaseParser")(self)
-
     def get_interface(self, name):
         from noc.inv.models.interface import Interface
 
