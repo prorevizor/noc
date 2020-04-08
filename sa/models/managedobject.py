@@ -67,7 +67,6 @@ from noc.main.models.textindex import full_text_search, TextIndex
 from noc.core.scheduler.job import Job
 from noc.main.models.handler import Handler
 from noc.core.handler import get_handler
-from noc.core.debug import error_report
 from noc.core.script.loader import loader as script_loader
 from noc.core.model.decorator import on_save, on_init, on_delete, on_delete_check
 from noc.inv.models.object import Object
