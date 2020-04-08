@@ -58,9 +58,7 @@ class Script(BaseScript):
                     "name": name,
                     "mac": mac,
                     "admin_status": (admin_status).lower() == "up",
-                    "subinterfaces": [
-                        {"name": name, "mac": mac, "enabled_afi": ["BRIDGE"]}
-                    ],
+                    "subinterfaces": [{"name": name, "mac": mac, "enabled_afi": ["BRIDGE"]}],
                 }
             ]
         return [{"interfaces": interfaces}]
