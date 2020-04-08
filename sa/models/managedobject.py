@@ -1067,9 +1067,6 @@ class ManagedObject(NOCModel):
             self.write_config(data)
         # Apply mirroring settings
         self.mirror_config(data, changed)
-        # Run config validation
-        if validate:
-            self.validate_config(changed)
         # Rebuild datastream if necessary
         if changed:
             register_changes([("managedobject", self.id)])
@@ -1171,26 +1168,6 @@ class ManagedObject(NOCModel):
             logger.debug("[%s] Configuration has not been changed. Skipping", self.name)
             return False
         return True
-
-    def validate_config(self, changed):
-        """
-        Apply config validation rules (Legacy CLIPS path)
-
-        :param changed:
-        :return:
-        """
-        logger.debug("[%s] Validating config (Legacy path)", self.name)
-        if not self.to_validate(changed):
-            return
-        # Validate (Legacy Path)
-        from noc.cm.engine import Engine
-
-        engine = Engine(self)
-        try:
-            engine.check()
-        except:  # noqa
-            logger.error("Failed to validate config for %s", self.name)
-            error_report()
 
     def iter_validation_problems(self, changed):
         """
