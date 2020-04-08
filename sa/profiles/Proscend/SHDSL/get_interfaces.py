@@ -51,7 +51,7 @@ class Script(BaseScript):
                         a_stat = True
                     else:
                         a_stat = False
-                    ostat = self.snmp.get(mib["IF-MIB::ifAdminStatus", i])
+                    ostat = self.snmp.get(mib["IF-MIB::ifOperStatus", i])
                     if ostat == 1:
                         o_stat = True
                     else:

@@ -70,7 +70,7 @@ class Script(BaseScript):
                 admin_status = True
             else:
                 admin_status = False
-            ostatus = self.snmp.get(mib["IF-MIB::ifAdminStatus", ifindex])
+            ostatus = self.snmp.get(mib["IF-MIB::ifOperStatus", ifindex])
             if ostatus == 1:
                 oper_status = True
             else:

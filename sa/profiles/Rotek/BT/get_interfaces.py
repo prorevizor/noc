@@ -27,7 +27,7 @@ class Script(BaseScript):
                     name = self.snmp.get(mib["IF-MIB::ifDescr", ifindex])
                     mac = self.snmp.get(mib["IF-MIB::ifPhysAddress", ifindex])
                     a_status = self.snmp.get(mib["IF-MIB::ifAdminStatus", ifindex])
-                    o_status = self.snmp.get(mib["IF-MIB::ifAdminStatus", ifindex])
+                    o_status = self.snmp.get(mib["IF-MIB::ifOperStatus", ifindex])
                     if a_status == 7:
                         admin_status = True
                     else:
