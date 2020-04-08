@@ -41,7 +41,7 @@ class Script(BaseScript):
             try:
                 for v in self.snmp.getnext("1.3.6.1.2.1.2.2.1.1", cached=True):
                     i = v
-                    name = self.snmp.get(mib["IF-MIB::ifName", i])
+                    name = self.snmp.get(mib["IF-MIB::ifDescr", i])
                     if name.lower().startswith("line"):
                         continue
                     iftype = self.get_interface_type(name)

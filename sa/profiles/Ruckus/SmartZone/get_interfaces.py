@@ -40,7 +40,7 @@ class Script(BaseScript):
         # Try SNMP first
         for v in self.snmp.getnext("1.3.6.1.2.1.2.2.1.1", cached=True):
             i = v[1]
-            name = self.snmp.get(mib["IF-MIB::ifName", i])
+            name = self.snmp.get(mib["IF-MIB::ifDescr", i])
             iftype = self.get_interface_type(name)
             if not name:
                 self.logger.info("Ignoring unknown interface type: '%s", iftype)

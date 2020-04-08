@@ -56,7 +56,7 @@ class Script(BaseScript):
 
         for v in self.snmp.getnext("1.3.6.1.2.1.2.2.1.1", cached=True):
             ifindex = v[1]
-            name = self.snmp.get(mib["IF-MIB::ifName", ifindex])
+            name = self.snmp.get(mib["IF-MIB::ifDescr", ifindex])
             iftype = self.profile.get_interface_type(name)
             if not name:
                 self.logger.info("Ignoring unknown interface type: '%s", iftype)
