@@ -64,4 +64,3 @@ class Script(BaseScript):
                 }
             ]
         return [{"interfaces": interfaces}]
-
