@@ -39,12 +39,8 @@ class Script(BaseScript):
         for line in vlans.splitlines():
             for vlan_pack in line.split()[0]:
                 # for is_v in bin(int(vlan_pack, 16)):
-                if six.PY2:
-                    for is_v in "{0:04b}".format(int(vlan_pack, 16)):
-                        yield int(is_v)
-                else:
-                    for is_v in "{0:08b}".format(vlan_pack):
-                        yield int(is_v)
+                for is_v in "{0:08b}".format(vlan_pack):
+                    yield int(is_v)
 
     def execute_snmp(self, **kwargs):
         result = {}
@@ -76,8 +72,6 @@ class Script(BaseScript):
             display_hints={mib["Q-BRIDGE-MIB::dot1qVlanCurrentEgressPorts"]: render_bin},
         ):
             vlan_num = int(oid.split(".")[-1])
-            if six.PY2:
-                ports_list = hexlify(ports_list)
             if ports_list not in decode_ports_list:
                 # ports_list_mask = ["{0:04b}".format(int(x, 16)) for x in ports_list]
                 decode_ports_list[ports_list] = list(

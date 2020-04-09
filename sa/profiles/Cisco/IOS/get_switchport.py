@@ -66,15 +66,10 @@ class Script(BaseScript):
         for line in vlans.splitlines():
             for vlan_pack in line.split()[0]:
                 # for is_v in bin(int(vlan_pack, 16)):
-                if six.PY2:
-                    for is_v in "{0:04b}".format(int(vlan_pack, 16)):
-                        yield int(is_v)
-                else:
-                    for is_v in "{0:04b}".format(vlan_pack):
-                        yield int(is_v)
+                for is_v in "{0:04b}".format(vlan_pack):
+                    yield int(is_v)
 
     def execute_snmp(self, **kwargs):
-
         names = {x: y for y, x in six.iteritems(self.scripts.get_ifindexes())}
         r = {}
         for ifindex, port_type, pvid, port_status in self.snmp.get_tables(
@@ -127,10 +122,7 @@ class Script(BaseScript):
             if int(enc_type) != 4:
                 # not dot1Q
                 continue
-            if six.PY2:
-                vlans_bank = hexlify("".join([vlans_base, vlans_2k, vlans_3k, vlans_4k]))
-            else:
-                vlans_bank = b"".join([vlans_base, vlans_2k, vlans_3k, vlans_4k])
+            vlans_bank = b"".join([vlans_base, vlans_2k, vlans_3k, vlans_4k])
             # vlans_bank = hexlify(vlans_bank)
             if int(ifindex) in r:
                 r[int(ifindex)]["tagged"] += list(

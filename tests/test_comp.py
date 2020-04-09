@@ -13,16 +13,8 @@ import pytest
 # NOC modules
 from noc.core.comp import smart_bytes, smart_text, bord
 
-if six.PY3:
-
-    def bin(s):
-        return bytes(s, "utf-8")
-
-
-else:
-
-    def bin(s):
-        return str(s)
+def bin(s):
+    return bytes(s, "utf-8")
 
 
 @pytest.mark.parametrize(

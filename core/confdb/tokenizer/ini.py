@@ -25,11 +25,7 @@ class INITokenizer(BaseTokenizer):
     def __init__(self, data):
         super(INITokenizer, self).__init__(data)
         self.config = RawConfigParser()
-        if six.PY3:
-            self.config.read_string(data)
-        else:
-            f = StringIO(data)
-            self.config.readfp(f)
+        self.config.read_string(data)
 
     def __iter__(self):
         for section in sorted(self.config.sections()):

@@ -32,10 +32,7 @@ def set_translation(service, lang):
         if os.path.exists(mo_path):
             logger.info("Setting '%s' translation", mo_path)
             with open(mo_path, mode="rb") as f:
-                if six.PY3:
-                    _ugettext = gettext.GNUTranslations(f).lgettext
-                else:
-                    _ugettext = gettext.GNUTranslations(f).ugettext
+                _ugettext = gettext.GNUTranslations(f).lgettext
         else:
             logger.info("No translation for language '%s'. Using 'en' instead", lang)
 
