@@ -107,6 +107,7 @@ ACCEPTED_TELNET_OPTIONS = {0x01, 0x03, 0x18, 0x1F}
 
 OPTS = {B_OPT_TTYPE_IS: "TTYPE IS", B_OPT_WS: "WS"}
 
+
 def bytes_seq(*args):
     # type: (*int) -> six.binary_type
     return bytes(args)

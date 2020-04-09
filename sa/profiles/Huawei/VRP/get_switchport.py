@@ -9,7 +9,6 @@
 # Python modules
 import re
 from itertools import compress
-from binascii import hexlify
 
 # Third-party modules
 import six

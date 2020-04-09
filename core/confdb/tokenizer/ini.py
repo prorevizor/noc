@@ -2,14 +2,12 @@
 # ----------------------------------------------------------------------
 # INI file tokenizer
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
 # Third-party modules
 from six.moves.configparser import RawConfigParser
-from six import StringIO
-import six
 
 # NOC modules
 from .base import BaseTokenizer

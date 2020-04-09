@@ -34,15 +34,17 @@ def smart_text(s, errors="strict", encoding=DEFAULT_ENCODING):
         return s.decode(encoding, errors=errors)
     return six.text_type(s)
 
+
 def bord(x):
     # type: (int) -> int
     return x
+
 
 def bchr(x):
     # type: (int) -> bytes
     return bytes([x])
 
+
 def make_bytes(x):
     # type: (List[int]) -> bytes
     return bytes(x)
-

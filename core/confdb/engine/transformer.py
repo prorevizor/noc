@@ -11,7 +11,6 @@ import ast
 import itertools
 
 # Third-party modules
-import six
 from six.moves import zip_longest
 
 CVAR_NAME = "_ctx"
@@ -40,10 +39,7 @@ class PredicateTransformer(ast.NodeTransformer):
         l_name = "_input_%d" % next(self.input_counter)
         return ast.Lambda(
             args=ast.arguments(
-                args=[
-                    ast.arg(arg="self", annotation=None),
-                    ast.arg(arg=l_name, annotation=None),
-                ],
+                args=[ast.arg(arg="self", annotation=None), ast.arg(arg=l_name, annotation=None),],
                 vararg=None,
                 kwonlyargs=[],
                 kw_defaults=[],

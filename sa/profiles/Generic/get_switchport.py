@@ -2,14 +2,13 @@
 # ---------------------------------------------------------------------
 # Generic.get_switchport
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2018 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
 # Python modules
 import six
 from itertools import compress
-from binascii import hexlify
 
 # NOC Modules
 from noc.core.script.base import BaseScript

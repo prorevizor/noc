@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------
 # ThreadPool class
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -13,13 +13,11 @@ import itertools
 import time
 import datetime
 from collections import deque
-import sys
 
 # Third-party modules
 from six.moves import _thread
 from concurrent.futures import Future
 from tornado.gen import with_timeout
-import six
 
 # NOC modules
 from noc.config import config

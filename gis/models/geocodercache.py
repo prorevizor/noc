@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # Geocoding cache
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -13,7 +13,6 @@ import logging
 import hashlib
 import datetime
 import codecs
-import six
 
 # Third-party modules
 from mongoengine.document import Document
