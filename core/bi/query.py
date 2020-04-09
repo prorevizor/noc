@@ -75,7 +75,7 @@ def in_lookup(seq, model=None):
     # check int
     m = []
     for l in seq[1]:
-        if type(l) in int or l.isdigit():
+        if isinstance(l, int) or l.isdigit():
             m += [int(l)]
             continue
     if len(seq[1]) == 1:
