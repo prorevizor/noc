@@ -25,8 +25,9 @@ def iter_ids_batch():
             .sort("_id")
             .limit(BATCH_SIZE)
         )
-        # for d in cursor:
-        yield [d["_id"] for d in cursor]
+        d = {}
+        for d in cursor:
+            yield d["_id"]
         if match and match["_id"]["$gt"] == d["_id"]:
             break
         match = {"_id": {"$gt": d["_id"]}}
@@ -39,8 +40,8 @@ def fix():
         i += 1
         if i < 20:
             continue
-        for l in Link.objects.filter(id__in=ids).timeout(False):
+        for link in Link.objects.filter(id__in=ids).timeout(False):
             try:
-                l.save()
+                link.save()
             except AssertionError:
-                print("Assertion Error, check link with id: %s" % l.id)
+                print("Assertion Error, check link with id: %s" % link.id)
