@@ -80,22 +80,22 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
         },
     )
     def api_report(
-        self,
-        request,
-        reporttype=None,
-        from_date=None,
-        to_date=None,
-        object_profile=None,
-        filter_default=None,
-        exclude_zero=True,
-        interface_profile=None,
-        selector=None,
-        administrative_domain=None,
-        columns=None,
-        description=None,
-        o_format=None,
-        enable_autowidth=False,
-        **kwargs
+            self,
+            request,
+            reporttype=None,
+            from_date=None,
+            to_date=None,
+            object_profile=None,
+            filter_default=None,
+            exclude_zero=True,
+            interface_profile=None,
+            selector=None,
+            administrative_domain=None,
+            columns=None,
+            description=None,
+            o_format=None,
+            enable_autowidth=False,
+            **kwargs
     ):
         # get maximum metrics for the period
         def get_interface_metrics(managed_objects, from_date, to_date):
@@ -129,17 +129,17 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
             metric_map = defaultdict(dict)
             try:
                 for (
-                    mo_bi_id,
-                    iface,
-                    iface_description,
-                    profile,
-                    iface_speed,
-                    load_in_max,
-                    load_out_max,
-                    max_load_in_time,
-                    max_load_out_time,
-                    avg_load_in,
-                    avg_load_out,
+                        mo_bi_id,
+                        iface,
+                        iface_description,
+                        profile,
+                        iface_speed,
+                        load_in_max,
+                        load_out_max,
+                        max_load_in_time,
+                        max_load_out_time,
+                        avg_load_in,
+                        avg_load_out,
                 ) in ch.execute(post=SQL):
                     mo = bi_map.get(mo_bi_id)
                     if mo:
@@ -270,7 +270,7 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
 
         moss = {}
         for row in mos.values_list(
-            "id", "name", "address", "platform", "administrative_domain__name", "segment", "id"
+                "id", "name", "address", "platform", "administrative_domain__name", "segment", "id"
         ):
             moss[row[0]] = mo_attrs(
                 *[
@@ -321,8 +321,8 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
             for i in ifaces_metrics[mm]:
                 if not exclude_zero:
                     if (
-                        ifaces_metrics[mm][i]["max_load_in"] == 0
-                        and ifaces_metrics[mm][i]["max_load_out"] == 0
+                                    ifaces_metrics[mm][i]["max_load_in"] == 0
+                            and ifaces_metrics[mm][i]["max_load_out"] == 0
                     ):
                         continue
                 if description:
@@ -363,19 +363,19 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
                     for link in links:
                         if link["role"] == "uplink":
                             ifname_uplink = link["local_interface"][0].name
-                            # uplink_data = get_uplink_metrics([mm], [ifname_uplink], from_date, to_date)
-                            row2[16] = ifname_uplink
-                            row2[17] = link["local_interface"][0].description
-                            row2[22] = ifaces_metrics[mm][ifname_uplink]["avg_load_in"]
-                            row2[23] = ifaces_metrics[mm][ifname_uplink]["avg_load_out"]
-                            row2[18] = ifaces_metrics[mm][ifname_uplink]["max_load_in"]
-                            row2[20] = ifaces_metrics[mm][ifname_uplink]["max_load_out"]
-                            row2[19] = ifaces_metrics[mm][ifname_uplink]["max_load_in_time"]
-                            row2[21] = ifaces_metrics[mm][ifname_uplink]["max_load_out_time"]
-                            r += [translate_row(row2, cmap)]
+                            if ifname_uplink in ifaces_metrics[mm]:
+                                # uplink_data = get_uplink_metrics([mm], [ifname_uplink], from_date, to_date)
+                                row2[16] = ifname_uplink
+                                row2[17] = link["local_interface"][0].description
+                                row2[22] = ifaces_metrics[mm][ifname_uplink]["avg_load_in"]
+                                row2[23] = ifaces_metrics[mm][ifname_uplink]["avg_load_out"]
+                                row2[18] = ifaces_metrics[mm][ifname_uplink]["max_load_in"]
+                                row2[20] = ifaces_metrics[mm][ifname_uplink]["max_load_out"]
+                                row2[19] = ifaces_metrics[mm][ifname_uplink]["max_load_in_time"]
+                                row2[21] = ifaces_metrics[mm][ifname_uplink]["max_load_out_time"]
+                                r += [translate_row(row2, cmap)]
                 else:
                     r += [translate_row(row2, cmap)]
-
         filename = "metrics_detail_report_%s" % datetime.datetime.now().strftime("%Y%m%d")
         if o_format == "csv":
             response = HttpResponse(content_type="text/csv")
@@ -392,8 +392,8 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
             for rn, x in enumerate(r):
                 for cn, c in enumerate(x):
                     if rn and (
-                        r[0][cn] not in max_column_data_length
-                        or len(str(c)) > max_column_data_length[r[0][cn]]
+                                    r[0][cn] not in max_column_data_length
+                            or len(str(c)) > max_column_data_length[r[0][cn]]
                     ):
                         max_column_data_length[r[0][cn]] = len(str(c))
                     ws.write(rn, cn, c, cf1)
