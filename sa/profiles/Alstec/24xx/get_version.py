@@ -80,7 +80,9 @@ class Script(BaseScript):
             v = self.cli("show hardware", cached=True)
             r = {
                 "vendor": "Alstec",
-                "platform": self.profile.normalize_platform(self.rx_platform.search(v).group("platform")),
+                "platform": self.profile.normalize_platform(
+                    self.rx_platform.search(v).group("platform")
+                ),
                 "version": self.rx_version.search(v).group("version"),
             }
             match = self.rx_serial.search(v)
