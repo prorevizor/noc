@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------
 # Profile loader
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2018 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -11,6 +11,7 @@ import sys
 import glob
 import os
 import threading
+import importlib
 
 # NOC modules
 from noc.core.loader.base import BaseLoader
@@ -69,7 +70,7 @@ class ProfileLoader(BaseLoader):
             self.logger.info("Reloading profiles")
             for s in self.profiles:
                 self.logger.debug("Reload profile %s", s.name)
-                reload(sys.modules[s.__module__])
+                importlib.reload(sys.modules[s.__module__])
             self.profiles = {}
             self.all_profiles = set()
 

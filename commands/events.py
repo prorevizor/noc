@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # Reclassify events
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -45,7 +45,7 @@ def unescape(s):
     """
     Unescape HTML string
     """
-    return rx_cp.sub(lambda m: unichr(name2codepoint[m.group(1)]), s)
+    return rx_cp.sub(lambda m: chr(name2codepoint[m.group(1)]), s)
 
 
 class Command(BaseCommand):
