@@ -30,7 +30,8 @@ class Script(BaseScript):
     def execute_snmp(self, interface=None, vlan=None, mac=None):
         r = []
         iface_map = {
-            i["ifindex"]: i["interface"] for i in self.scripts.get_interface_properties(enable_ifindex=True)
+            i["ifindex"]: i["interface"]
+            for i in self.scripts.get_interface_properties(enable_ifindex=True)
         }
         port_oid = mib["Q-BRIDGE-MIB::dot1qTpFdbPort"]
         status_oid = mib["Q-BRIDGE-MIB::dot1qTpFdbStatus"]
@@ -39,10 +40,10 @@ class Script(BaseScript):
             status_oid = mib["Q-BRIDGE-MIB::dot1qTpFdbStatus", vlan]
         mac_port = {}
         for r_oid, iface in self.snmp.getnext(
-                port_oid,
-                max_repetitions=self.get_max_repetitions(),
-                max_retries=self.get_getnext_retires(),
-                bulk=self.get_bulk()
+            port_oid,
+            max_repetitions=self.get_max_repetitions(),
+            max_retries=self.get_getnext_retires(),
+            bulk=self.get_bulk(),
         ):
             if not iface:
                 # For iface == 0
@@ -54,10 +55,10 @@ class Script(BaseScript):
             mac_port[tuple(r_oid)] = iface
         # Apply status
         for r_oid, status in self.snmp.getnext(
-                status_oid,
-                max_repetitions=self.get_max_repetitions(),
-                max_retries=self.get_getnext_retires(),
-                bulk=self.get_bulk()
+            status_oid,
+            max_repetitions=self.get_max_repetitions(),
+            max_retries=self.get_getnext_retires(),
+            bulk=self.get_bulk(),
         ):
             r_oid = tuple(r_oid.rsplit(".", 7)[-7:])
             if r_oid not in mac_port:
