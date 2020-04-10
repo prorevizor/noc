@@ -20,7 +20,7 @@ class Profile(BaseProfile):
     command_exit = "logout"
     config_volatile = [r"^# Finished.*$", r"^# Generated.*$"]
     command_more = " "
-    rogue_chars = [re.compile(br"\r\s+\r"), b"\r"]
+    rogue_chars = [re.compile(rb"\r\s+\r"), b"\r"]
 
     def convert_interface_name(self, s):
         if "," in s:
