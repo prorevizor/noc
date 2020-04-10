@@ -22,7 +22,7 @@ class Profile(BaseProfile):
     command_super = "enable"
     command_more = "g"
     command_exit = "bye"
-    rogue_chars = [re.compile(b" \(\[q\]Quit,\[g\]Go to end,\[any key\]Continue...\)\r\n"), b"\r"]
+    rogue_chars = [re.compile(br" \(\[q\]Quit,\[g\]Go to end,\[any key\]Continue...\)\r\n"), b"\r"]
 
     def convert_interface_name(self, interface):
         """

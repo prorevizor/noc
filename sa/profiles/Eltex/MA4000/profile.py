@@ -19,8 +19,8 @@ class Profile(BaseProfile):
     pattern_username = r"^\S+ login: "
     pattern_more = [(r"^--More-- ", " "), (r"\[Yes/press any key for no\]", "Y")]
     rogue_chars = [
-        re.compile(b"\r\s{9}\r"),
-        re.compile(b"^\s+VLAN Table\r\n\s+\~+\r\n", re.MULTILINE),
+        re.compile(br"\r\s{9}\r"),
+        re.compile(br"^\s+VLAN Table\r\n\s+\~+\r\n", re.MULTILINE),
         b"\r",
     ]
     pattern_syntax_error = r"^Unknown command"

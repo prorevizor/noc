@@ -25,4 +25,4 @@ class Profile(BaseProfile):
     command_submit = "\r\n"
     enable_cli_session = False
     command_exit = "\x1Alogout"
-    rogue_chars = [re.compile(b"\x1b\[\d+;0H\x1b\[K"), re.compile(b"\x1b\[\d;2[47]"), b"\r"]
+    rogue_chars = [re.compile(br"\x1b\[\d+;0H\x1b\[K"), re.compile(br"\x1b\[\d;2[47]"), b"\r"]
