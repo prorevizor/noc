@@ -171,4 +171,4 @@ class Script(BaseScript):
             if ont_distance != -1:
                 r[ont_index]["distance"] = ont_distance
 
-        return r.values()
+        return list(r.values())

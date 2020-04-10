@@ -127,4 +127,4 @@ class Script(BaseScript):
             [mib["HUAWEI-XPON-MIB::hwGponDeviceOntControlRunStatus"]]
         ):
             r[ont_index]["status"] = "active" if ont_status == 1 else "inactive"
-        return r.values()
+        return list(r.values())
