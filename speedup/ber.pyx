@@ -4,6 +4,7 @@
 # Copyright (C) 2007-2018 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
+# cython: language_level=3
 
 from libc.stdio cimport snprintf
 
