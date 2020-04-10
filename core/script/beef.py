@@ -16,6 +16,7 @@ import codecs
 # Third-party modules
 import ujson
 import six
+from typing import Optional
 
 # NOC modules
 from noc.core.comp import smart_text, smart_bytes
@@ -288,7 +289,7 @@ class Beef(object):
             self.mib_oid_values = dict((m.oid, m.value) for m in self.mib)
         return self.mib_oid_values
 
-    def get_mib_value(self, oid: str) -> None | bytes:
+    def get_mib_value(self, oid: str) -> Optional[bytes]:
         """
         Lookup mib and return oid value
         :param oid:
