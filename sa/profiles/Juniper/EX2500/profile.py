@@ -26,6 +26,6 @@ class Profile(BaseProfile):
 
     rogue_chars = [
         "\r",
-        re.compile(b"\n\n.*?\n"),
-        re.compile(b"\n.*?:TELNET-ALERT:.*?\nvia TELNET/SSH From host .*?\n"),
+        re.compile(br"\n\n.*?\n"),
+        re.compile(br"\n.*?:TELNET-ALERT:.*?\nvia TELNET/SSH From host .*?\n"),
     ]
