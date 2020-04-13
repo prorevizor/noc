@@ -337,7 +337,6 @@ COLLECTIONS = [
     "inv.Firmware",
     "fm.MIBAlias",
     "gis.Layer",
-    "cm.ErrorType",
     "fm.OIDAlias",
     "inv.Technology",
     "fm.MIBPreference",
