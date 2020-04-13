@@ -95,6 +95,7 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
         description=None,
         o_format=None,
         enable_autowidth=False,
+        **kwargs
     ):
         # get maximum metrics for the period
         def get_interface_metrics(managed_objects, from_date, to_date):
