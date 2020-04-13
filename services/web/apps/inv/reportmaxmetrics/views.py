@@ -11,10 +11,10 @@ import datetime
 from collections import defaultdict, Iterable
 from collections import namedtuple
 import csv
-from io import BytesIO
 
 # Third-party modules
 import xlsxwriter
+from six import BytesIO
 from django.http import HttpResponse
 
 # NOC modules
@@ -87,7 +87,7 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
         to_date=None,
         object_profile=None,
         filter_default=None,
-        exclude_zero=True,
+        exclude_zero=None,
         interface_profile=None,
         selector=None,
         administrative_domain=None,
@@ -95,12 +95,12 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
         description=None,
         o_format=None,
         enable_autowidth=False,
-        **kwargs,
+        **kwargs
     ):
         # get maximum metrics for the period
         def get_interface_metrics(managed_objects, from_date, to_date):
-            if not isinstance(managed_objects, Iterable):
-                managed_objects = [managed_objects]
+            # if not isinstance(managed_objects, Iterable):
+            #    managed_objects = [managed_objects]
             bi_map = {str(getattr(mo, "bi_id", mo)): mo for mo in managed_objects}
 
             from_date = from_date.replace(microsecond=0)
@@ -142,18 +142,18 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
                     avg_load_out,
                 ) in ch.execute(post=SQL):
                     mo = bi_map.get(mo_bi_id)
-                    if mo:
-                        metric_map[mo][iface] = {
-                            "max_load_in": float(load_in_max),
-                            "max_load_out": float(load_out_max),
-                            "max_load_in_time": max_load_in_time,
-                            "max_load_out_time": max_load_out_time,
-                            "avg_load_in": float(avg_load_in),
-                            "avg_load_out": float(avg_load_out),
-                            "description": iface_description,
-                            "profile": profile,
-                            "bandwidth": iface_speed,
-                        }
+                    # if mo:
+                    metric_map[mo][iface] = {
+                        "max_load_in": float(load_in_max),
+                        "max_load_out": float(load_out_max),
+                        "max_load_in_time": max_load_in_time,
+                        "max_load_out_time": max_load_out_time,
+                        "avg_load_in": float(avg_load_in),
+                        "avg_load_out": float(avg_load_out),
+                        "description": iface_description,
+                        "profile": profile,
+                        "bandwidth": iface_speed,
+                    }
             except ClickhouseError:
                 pass
             return metric_map
@@ -319,7 +319,7 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
                     ]
 
             for i in ifaces_metrics[mm]:
-                if not exclude_zero:
+                if exclude_zero:
                     if (
                         ifaces_metrics[mm][i]["max_load_in"] == 0
                         and ifaces_metrics[mm][i]["max_load_out"] == 0
