@@ -11,7 +11,7 @@ import datetime
 from collections import defaultdict, Iterable
 from collections import namedtuple
 import csv
-from six import BytesIO
+from io import BytesIO
 
 # Third-party modules
 import xlsxwriter
