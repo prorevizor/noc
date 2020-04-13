@@ -87,7 +87,7 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
         to_date=None,
         object_profile=None,
         filter_default=None,
-        exclude_zero=None,
+        exclude_zero=True,
         interface_profile=None,
         selector=None,
         administrative_domain=None,
@@ -319,7 +319,7 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
                     ]
 
             for i in ifaces_metrics[mm]:
-                if exclude_zero:
+                if not exclude_zero:
                     if (
                         ifaces_metrics[mm][i]["max_load_in"] == 0
                         and ifaces_metrics[mm][i]["max_load_out"] == 0
@@ -358,22 +358,22 @@ class ReportMaxMetricsmaxDetailApplication(ExtApplication):
                     "",
                     "",
                 ]
-                if links:
-                    for link in links:
-                        if link["role"] == "uplink":
-                            ifname_uplink = link["local_interface"][0].name
-                            if ifname_uplink in ifaces_metrics[mm]:
-                                # uplink_data = get_uplink_metrics([mm], [ifname_uplink], from_date, to_date)
-                                row2[16] = ifname_uplink
-                                row2[17] = link["local_interface"][0].description
-                                row2[22] = ifaces_metrics[mm][ifname_uplink]["avg_load_in"]
-                                row2[23] = ifaces_metrics[mm][ifname_uplink]["avg_load_out"]
-                                row2[18] = ifaces_metrics[mm][ifname_uplink]["max_load_in"]
-                                row2[20] = ifaces_metrics[mm][ifname_uplink]["max_load_out"]
-                                row2[19] = ifaces_metrics[mm][ifname_uplink]["max_load_in_time"]
-                                row2[21] = ifaces_metrics[mm][ifname_uplink]["max_load_out_time"]
-                                r += [translate_row(row2, cmap)]
-                else:
+                ss = True
+                for link in links:
+                    if link["role"] == "uplink":
+                        ifname_uplink = link["local_interface"][0].name
+                        if ifname_uplink in ifaces_metrics[mm]:
+                            row2[16] = ifname_uplink
+                            row2[17] = link["local_interface"][0].description
+                            row2[22] = ifaces_metrics[mm][ifname_uplink]["avg_load_in"]
+                            row2[23] = ifaces_metrics[mm][ifname_uplink]["avg_load_out"]
+                            row2[18] = ifaces_metrics[mm][ifname_uplink]["max_load_in"]
+                            row2[20] = ifaces_metrics[mm][ifname_uplink]["max_load_out"]
+                            row2[19] = ifaces_metrics[mm][ifname_uplink]["max_load_in_time"]
+                            row2[21] = ifaces_metrics[mm][ifname_uplink]["max_load_out_time"]
+                            r += [translate_row(row2, cmap)]
+                            ss = False
+                if ss:
                     r += [translate_row(row2, cmap)]
         filename = "metrics_detail_report_%s" % datetime.datetime.now().strftime("%Y%m%d")
         if o_format == "csv":
