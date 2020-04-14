@@ -41,12 +41,10 @@ SERVICE_NAME = os.path.relpath(sys.argv[0] or sys.executable)
 
 # Sentry error reporting
 if config.features.sentry:
-    from raven import Client as RavenClient
+    import sentry_sdk
 
-    raven_client = RavenClient(
-        config.sentry.url,
-        processors=("raven.processors.SanitizePasswordsProcessor",),
-        release=version.version,
+    sentry_sdk.init(
+        config.sentry.url, shutdown_timeout=config.sentry.shutdown_timeout, release=version.version
     )
 
 
@@ -268,7 +266,7 @@ def error_report(reverse=config.traceback.reverse, logger=logger):
     metrics["errors"] += 1
     if config.sentry.url:
         try:
-            raven_client.captureException(fingerprint=[fp])
+            sentry_sdk.capture_exception(fp)
         except Exception as e:
             logger.error("Failed to sent problem report to Sentry: %s", e)
     if ENABLE_CP:
