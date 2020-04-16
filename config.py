@@ -506,7 +506,7 @@ class Config(BaseConfig):
 
     class sentry(ConfigSection):
         url = StringParameter(default="")
-        shutdown_timeout = IntParameter(default=2)
+        shutdown_timeout = IntParameter(min=1, max=10, default=2)
 
     class syslogcollector(ConfigSection):
         listen = StringParameter(default="0.0.0.0:514")
