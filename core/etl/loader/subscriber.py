@@ -6,15 +6,8 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
-# Python modules
-import operator
-
-# Third-party modules
-import cachetools
-
 # NOC modules
 from .base import BaseLoader
-from noc.crm.models.subscriberprofile import SubscriberProfile
 from noc.crm.models.subscriber import Subscriber
 
 
@@ -40,19 +33,6 @@ class SubscriberLoader(BaseLoader):
     }
 
     discard_deferred = True
-
-    _profile_cache = {}
-
-    @classmethod
-    @cachetools.cachedmethod(operator.attrgetter("_profile_cache"))
-    def get_profile(cls, name):
-        return SubscriberProfile.objects.get(name=name)
-
-    # def clean(self, row):
-    #     d = super(SubscriberLoader, self).clean(row)
-    #     if "profile" in d:
-    #         d["profile"] = self.get_profile(d["profile"])
-    #     return d
 
     def find_object(self, v):
         """
