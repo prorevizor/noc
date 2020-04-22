@@ -11,7 +11,7 @@ import hashlib
 import tarfile
 import gzip
 import shutil
-from io import BytesIO
+import six
 
 # NOC modules
 from noc.core.version import version
@@ -150,7 +150,7 @@ def urlopen(url, auto_deflate=False):
         r = url
     if auto_deflate and url.endswith(".gz"):
         u = urlopen(r)
-        f = BytesIO(u.read())
+        f = six.BytesIO(u.read())
         return gzip.GzipFile(fileobj=f)
     return urlopen(r)
 
