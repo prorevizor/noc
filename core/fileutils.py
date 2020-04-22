@@ -11,6 +11,8 @@ import hashlib
 import tarfile
 import gzip
 import shutil
+
+# Third-party modules
 import six
 
 # NOC modules
