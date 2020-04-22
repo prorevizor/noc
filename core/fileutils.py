@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -11,9 +11,7 @@ import hashlib
 import tarfile
 import gzip
 import shutil
-
-# Third-party modules
-import six
+from io import BytesIO
 
 # NOC modules
 from noc.core.version import version
@@ -152,7 +150,7 @@ def urlopen(url, auto_deflate=False):
         r = url
     if auto_deflate and url.endswith(".gz"):
         u = urlopen(r)
-        f = six.StringIO(u.read())
+        f = BytesIO(u.read())
         return gzip.GzipFile(fileobj=f)
     return urlopen(r)
 
