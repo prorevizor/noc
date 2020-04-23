@@ -266,7 +266,7 @@ def error_report(reverse=config.traceback.reverse, logger=logger):
     metrics["errors"] += 1
     if config.sentry.url:
         try:
-            sentry_sdk.capture_exception(fingerprint=fp)
+            sentry_sdk.capture_exception(fingerprint=[fp])
         except Exception as e:
             logger.error("Failed to sent problem report to Sentry: %s", e)
     if ENABLE_CP:
