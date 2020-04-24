@@ -54,7 +54,7 @@ if config.features.sentry:
         config.sentry.url,
         shutdown_timeout=config.sentry.shutdown_timeout,
         release=version.version,
-        max_breadcrumbs=10,
+        max_breadcrumbs=config.sentry.max_breadcrumbs,
         default_integrations=config.sentry.default_integrations,
         debug=config.sentry.debug,
         before_send=before_send,
