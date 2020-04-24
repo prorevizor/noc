@@ -46,7 +46,7 @@
         },
         {
             "description": "Console port",
-            "direction": "i",
+            "direction": "s",
             "gender": "f",
             "name": "Console",
             "protocols": [">RS232"],
