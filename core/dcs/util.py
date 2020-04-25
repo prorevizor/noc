@@ -5,16 +5,11 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
-# Python modules
-import sys
-
 # Third-party modules
-from tornado.ioloop import IOLoop
 import tornado.gen
 
 # NOC modules
 from noc.core.ioloop.util import run_sync
-from noc.core.comp import reraise
 from .loader import get_dcs_url, get_dcs_class
 
 
