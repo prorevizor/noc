@@ -731,7 +731,7 @@ class Service(object):
                 continue
             try:
                 self.logger.debug("[nsq|%s] Publishing %d messages", topic, len(messages))
-                yield mpub(topic, messages, dcs=self.dcs, io_loop=self.ioloop)
+                yield mpub(topic, messages, dcs=self.dcs)
             except NSQPubError:
                 if queue.to_shutdown:
                     self.logger.debug(
