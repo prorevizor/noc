@@ -361,8 +361,8 @@ class ExtModelApplication(ExtApplication):
                 else:
                     r[f.name] = None
                     r["%s__label" % f.name] = ""
-            elif f.rel is None:
-                v = f._get_val_from_obj(o)
+            elif f.remote_field is None:
+                v = f.value_from_object(o)
                 if (
                     v is not None
                     and not isinstance(v, str)
