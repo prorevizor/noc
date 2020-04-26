@@ -11,7 +11,6 @@ from io import StringIO
 
 # Third-party modules
 from django import forms
-from django.contrib import admin
 from django.apps import apps as d_apps
 from django.http import HttpResponse
 from noc.core.translation import ugettext as _
