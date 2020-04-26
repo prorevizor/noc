@@ -16,6 +16,7 @@ from collections import defaultdict
 import time
 import threading
 from time import perf_counter
+import datetime
 
 # Third-party modules
 from tornado.ioloop import IOLoop, PeriodicCallback
@@ -777,7 +778,7 @@ class Service(object):
                 has_topics = bool(self.topic_queues)
             try:
                 self.logger.info("Waiting shutdown of topic queue %s", topic)
-                yield queue.shutdown_complete.wait(5)
+                yield queue.shutdown_complete.wait(datetime.timedelta(seconds=5))
             except tornado.gen.TimeoutError:
                 self.logger.info("Failed to shutdown topic queue %s: Timed out", topic)
 
