@@ -45,11 +45,11 @@ class NRIPortmapperCheck(DiscoveryCheck):
         bulk = []
         icol = Interface._get_collection()
         ifaces_hints = tuple(
-            IF_HINT(
-                **{"name": iface["name"], "ifindex": iface.get("ifindex")}
-            ) for iface in icol.find(
+            IF_HINT(**{"name": iface["name"], "ifindex": iface.get("ifindex")})
+            for iface in icol.find(
                 {"managed_object": self.object.id, "type": "physical"},
-                {"_id": 1, "name": 1, "ifindex": 1})
+                {"_id": 1, "name": 1, "ifindex": 1},
+            )
         )
         for d in icol.find(
             {"managed_object": self.object.id, "type": "physical"},
