@@ -785,10 +785,10 @@ class ClassifierService(Service):
             managed_object=mo,
             source=source,
             repeats=1,
-        )  # raw_vars will be filled by classify_event()\
+        )  # raw_vars will be filled by classify_event()
         # Ignore event
         if self.patternset.find_ignore_rule(event, data):
-            self.logger.info("Ignored event %s vars %s", event, data)
+            self.logger.debug("Ignored event %s vars %s", event, data)
             metrics[CR_IGNORED] += 1
             return True
         # Classify event

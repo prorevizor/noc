@@ -12,6 +12,7 @@ import logging
 import re
 
 # NOC modules
+from noc.core.validators import is_oid
 from noc.fm.models.ignorepattern import IgnorePattern
 
 
@@ -69,6 +70,8 @@ class PatternSet(object):
                     return True
             elif event.source == E_SRC_SNMP_TRAP:
                 oid = vars.get("1.3.6.1.6.3.1.1.4.1.0", "")
+                if not is_oid(oid):
+                    return False
                 if any(r for r in ignore_mask if r.search(oid)):
                     logging.debug("Ignored")
                     return True
