@@ -15,7 +15,7 @@ class IgnorePattern(Document):
     meta = {"collection": "noc.fm.ignorepatterns", "strict": False, "auto_create_index": False}
 
     source = StringField()
-    pattern = StringField()
+    pattern = StringField(unique=True)
     is_active = BooleanField()
     description = StringField(required=False)
 
