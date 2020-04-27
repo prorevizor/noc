@@ -132,7 +132,7 @@ class SNMP(object):
         if display_hints is None:
             display_hints = self._get_display_hints()
         version = self._get_snmp_version(version)
-        return run_sync(run)
+        return run_sync(run, close_all=False)
 
     def set(self, *args):
         """
@@ -166,7 +166,7 @@ class SNMP(object):
             raise ValueError("Invalid varbinds")
         if "snmp_ro" not in self.script.credentials:
             raise SNMPError(code=ERR_SNMP_BAD_COMMUNITY)
-        return run_sync(run)
+        return run_sync(run, close_all=False)
 
     def count(self, oid, filter=None, version=None):
         """
@@ -198,7 +198,7 @@ class SNMP(object):
         if "snmp_ro" not in self.script.credentials:
             raise SNMPError(code=ERR_SNMP_BAD_COMMUNITY)
         version = self._get_snmp_version(version)
-        return run_sync(run)
+        return run_sync(run, close_all=False)
 
     def getnext(
         self,
@@ -246,7 +246,7 @@ class SNMP(object):
         if display_hints is None:
             display_hints = self._get_display_hints()
         version = self._get_snmp_version(version)
-        return run_sync(run)
+        return run_sync(run, close_all=False)
 
     def get_table(self, oid, community_suffix=None, cached=False, display_hints=None):
         """
