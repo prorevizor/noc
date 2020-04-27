@@ -47,6 +47,7 @@ from noc.aaa.models.modelprotectionprofile import ModelProtectionProfile
 from noc.core.middleware.tls import get_user
 from noc.core.comp import smart_text
 from noc.models import get_model_id
+from noc.core.model.util import is_related_field
 from .extapplication import ExtApplication, view
 from .interfaces import DateParameter, DateTimeParameter
 
@@ -361,7 +362,7 @@ class ExtModelApplication(ExtApplication):
                 else:
                     r[f.name] = None
                     r["%s__label" % f.name] = ""
-            elif f.remote_field is None:
+            elif not is_related_field(f):
                 v = f.value_from_object(o)
                 if (
                     v is not None
