@@ -14,7 +14,7 @@ from noc.services.discovery.jobs.base import DiscoveryCheck
 from noc.core.etl.portmapper.loader import loader as portmapper_loader
 from noc.inv.models.interface import Interface
 
-IF_HINT = namedtuple("IfHints", ("name", "ifindex"))
+IFHint = namedtuple("IFHint", ("name", "ifindex"))
 
 
 class NRIPortmapperCheck(DiscoveryCheck):
@@ -45,7 +45,7 @@ class NRIPortmapperCheck(DiscoveryCheck):
         bulk = []
         icol = Interface._get_collection()
         ifaces_hints = tuple(
-            IF_HINT(**{"name": iface["name"], "ifindex": iface.get("ifindex")})
+            IFHint(name=iface["name"], ifindex=iface.get("ifindex"))
             for iface in icol.find(
                 {"managed_object": self.object.id, "type": "physical"},
                 {"_id": 1, "name": 1, "ifindex": 1},
