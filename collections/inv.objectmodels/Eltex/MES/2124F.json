@@ -262,7 +262,7 @@
             "description": "gigabitethernet 1/0/25 port",
             "direction": "i",
             "gender": "f",
-            "internal_name": "gigabitethernet 1/0/25_sfp",
+            "internal_name": "gi25_sfp",
             "name": "gigabitethernet 1/0/25_sfp",
             "protocols": ["TransEth100M", "TransEth1G"],
             "type__name": "Transceiver | SFP"
@@ -290,7 +290,7 @@
             "direction": "i",
             "gender": "f",
             "internal_name": "gigabitethernet 1/0/26_sfp",
-            "name": "gigabitethernet 1/0/26_sfp",
+            "name": "gi26_sfp",
             "protocols": ["TransEth100M", "TransEth1G"],
             "type__name": "Transceiver | SFP"
         },
@@ -316,7 +316,7 @@
             "description": "gigabitethernet 1/0/27 port",
             "direction": "i",
             "gender": "f",
-            "internal_name": "gigabitethernet 1/0/27_sfp",
+            "internal_name": "gi27_sfp",
             "name": "gigabitethernet 1/0/27_sfp",
             "protocols": ["TransEth100M", "TransEth1G"],
             "type__name": "Transceiver | SFP"
@@ -343,7 +343,7 @@
             "description": "gigabitethernet 1/0/28 port",
             "direction": "i",
             "gender": "f",
-            "internal_name": "gigabitethernet 1/0/28_sfp",
+            "internal_name": "gi28_sfp",
             "name": "gigabitethernet 1/0/28_sfp",
             "protocols": ["TransEth100M", "TransEth1G"],
             "type__name": "Transceiver | SFP"
