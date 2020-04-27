@@ -28,7 +28,6 @@
             "description": "gigabitethernet 1/0/1 port",
             "direction": "s",
             "gender": "f",
-            "internal_name": "gi1",
             "name": "gigabitethernet 1/0/1",
             "protocols": ["10BASET", "100BASETX", "1000BASETX"],
             "type__name": "Electrical | RJ45"
@@ -37,7 +36,6 @@
             "description": "gigabitethernet 1/0/2 port",
             "direction": "s",
             "gender": "f",
-            "internal_name": "gi2",
             "name": "gigabitethernet 1/0/2",
             "protocols": ["10BASET", "100BASETX", "1000BASETX"],
             "type__name": "Electrical | RJ45"
@@ -46,7 +44,6 @@
             "description": "gigabitethernet 1/0/3 port",
             "direction": "s",
             "gender": "f",
-            "internal_name": "gi3",
             "name": "gigabitethernet 1/0/3",
             "protocols": ["10BASET", "100BASETX", "1000BASETX"],
             "type__name": "Electrical | RJ45"
@@ -55,7 +52,6 @@
             "description": "gigabitethernet 1/0/4 port",
             "direction": "s",
             "gender": "f",
-            "internal_name": "gi4",
             "name": "gigabitethernet 1/0/4",
             "protocols": ["10BASET", "100BASETX", "1000BASETX"],
             "type__name": "Electrical | RJ45"
@@ -64,7 +60,6 @@
             "description": "gigabitethernet 1/0/5 port",
             "direction": "s",
             "gender": "f",
-            "internal_name": "gi5",
             "name": "gigabitethernet 1/0/5",
             "protocols": ["10BASET", "100BASETX", "1000BASETX"],
             "type__name": "Electrical | RJ45"
@@ -73,7 +68,6 @@
             "description": "gigabitethernet 1/0/6 port",
             "direction": "s",
             "gender": "f",
-            "internal_name": "gi6",
             "name": "gigabitethernet 1/0/6",
             "protocols": ["10BASET", "100BASETX", "1000BASETX"],
             "type__name": "Electrical | RJ45"
@@ -82,7 +76,6 @@
             "description": "gigabitethernet 1/0/7 port",
             "direction": "s",
             "gender": "f",
-            "internal_name": "gi7",
             "name": "gigabitethernet 1/0/7",
             "protocols": ["10BASET", "100BASETX", "1000BASETX"],
             "type__name": "Electrical | RJ45"
@@ -91,7 +84,6 @@
             "description": "gigabitethernet 1/0/8 port",
             "direction": "s",
             "gender": "f",
-            "internal_name": "gi8",
             "name": "gigabitethernet 1/0/8",
             "protocols": ["10BASET", "100BASETX", "1000BASETX"],
             "type__name": "Electrical | RJ45"
