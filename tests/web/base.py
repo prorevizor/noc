@@ -31,7 +31,7 @@ class APIHandler(object):
             APIHandler.io_loop.make_current()
         sock, port = tornado.testing.bind_unused_port()
         app = tornado.web.Application(handlers)
-        self.server = tornado.httpserver.HTTPServer(app, io_loop=self.io_loop)
+        self.server = tornado.httpserver.HTTPServer(app)
         self.server.add_socket(sock)
         self.base_url = "http://127.0.0.1:%d" % port
         self.server.start()

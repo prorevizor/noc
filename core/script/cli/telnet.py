@@ -12,7 +12,7 @@ import codecs
 # Third-party modules
 from tornado.iostream import IOStream
 import tornado.gen
-from typing import List, Optional
+from typing import List, Optional, Union
 
 # NOC modules
 from noc.core.perf import metrics
@@ -173,6 +173,14 @@ class TelnetParser(object):
             self.out_iac_seq = []
         return b"".join(r)
 
+    def refeed(self, chunk: bytes) -> None:
+        """
+        Return unprocessed chunk to start of buffer
+        :param chunk:
+        :return:
+        """
+        self.out_iac_seq.insert(0, chunk)
+
     def send_iac(self, cmd: int, opt: int) -> None:
         """
         Send IAC response
@@ -257,14 +265,26 @@ class TelnetIOStream(IOStream):
             self.logger.debug("Sending %r on connect", self.cli.profile.telnet_send_on_connect)
             yield self.write(self.cli.profile.telnet_send_on_connect)
 
-    def read_from_fd(self):
+    def read_from_fd(self, buf: Union[bytearray, memoryview]) -> Optional[int]:
         metrics["telnet_reads"] += 1
-        chunk = super(TelnetIOStream, self).read_from_fd()
-        if chunk:
-            metrics["telnet_read_bytes"] += len(chunk)
-        elif chunk is None:
+        buf_len = len(buf)
+        n = super(TelnetIOStream, self).read_from_fd(buf)
+        if n:
+            metrics["telnet_read_bytes"] += n
+            parsed = self.parser.feed(buf)
+            n = len(parsed)
+            if n > buf_len:
+                buf[:buf_len] = parsed[:buf_len]
+                self.parser.refeed(parsed[buf_len:])
+                # WARNING: May hang forever, if it is the last reply from the box
+                # and no new packets to be received for this interaction
+                return buf_len
+            else:
+                buf[:n] = parsed
+                return n
+        else:
             metrics["telnet_reads_blocked"] += 1
-        return self.parser.feed(chunk)
+        return n
 
     def write(self, data, callback=None):
         data = self.parser.escape(data)
