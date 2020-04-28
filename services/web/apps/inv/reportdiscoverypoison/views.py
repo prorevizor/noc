@@ -18,7 +18,7 @@ from noc.core.translation import ugettext as _
 
 class ReportForm(forms.Form):
     pool = forms.ChoiceField(
-        label=_("Managed Object Selector"),
+        label=_("Pool"),
         required=False,
         initial=None,
         choices=[(x, x) for x in Pool.objects.order_by("name").scalar("name")] + [(None, "-")],
