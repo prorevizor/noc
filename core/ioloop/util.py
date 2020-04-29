@@ -11,8 +11,6 @@ import asyncio
 
 # Third-party modules
 from typing import Callable, TypeVar, List, Tuple, Any
-from tornado.ioloop import IOLoop
-import tornado.gen
 
 # NOC modules
 from noc.core.comp import reraise
