@@ -7,6 +7,7 @@
 
 # Python modules
 import sys
+import asyncio
 
 # Third-party modules
 from typing import Callable, TypeVar, List, Tuple, Any
@@ -29,10 +30,9 @@ def run_sync(cb: Callable[..., T], close_all: bool = True) -> T:
     :return: Callable result
     """
 
-    @tornado.gen.coroutine
-    def wrapper():
+    async def wrapper():
         try:
-            r = yield cb()
+            r = await cb()
             result.append(r)
         except Exception:
             error.append(sys.exc_info())
@@ -40,19 +40,14 @@ def run_sync(cb: Callable[..., T], close_all: bool = True) -> T:
     result: List[T] = []
     error: List[Tuple[Any, Any, Any]] = []
 
-    # Get current instance or None
-    prev_io_loop = IOLoop.current(instance=False)
-    # Instantiate new IOLoop
-    ioloop = IOLoop()
-    ioloop.make_current()
-    try:
-        ioloop.run_sync(wrapper)
-    finally:
-        ioloop.close(all_fds=close_all)
-        if prev_io_loop:
-            prev_io_loop.make_current()
-        else:
-            IOLoop.clear_current()
+    prev_loop = asyncio._get_running_loop()
+    new_loop = asyncio.new_event_loop()
+    if prev_loop:
+        # Reset running loop
+        asyncio._set_running_loop(None)
+    new_loop.run_until_complete(wrapper())
+    asyncio._set_running_loop(prev_loop)
+    # @todo: close_all
     if error:
         reraise(*error[0])
     return result[0]
