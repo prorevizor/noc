@@ -36,7 +36,7 @@ RUN apk add --no-cache --virtual .build-deps \
     zlib-dev \
     cmake \
     proj-util \
-    proj-dev \
+    proj-dev
 RUN pip3 install --src=/tmp/src --no-cache --upgrade -r /opt/noc/requirements/docker.txt \
     && pip3 install --src=/tmp/src --no-cache --upgrade -r /opt/noc/requirements/test.txt
 
