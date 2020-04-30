@@ -21,7 +21,7 @@ RUN apk add --update --no-cache \
     snappy \
     tzdata \
     curl \
-    proj \
+    proj
 RUN apk add --no-cache --virtual .build-deps \
     git \
     build-base \
