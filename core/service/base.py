@@ -45,6 +45,7 @@ from noc.core.nsq.topic import TopicQueue
 from noc.core.nsq.pub import mpub
 from noc.core.nsq.error import NSQPubError
 from noc.core.clickhouse.shard import ShardingFunction
+from noc.core.ioloop.util import setup_asyncio
 from .api import API, APIRequestHandler
 from .doc import DocRequestHandler
 from .mon import MonRequestHandler
@@ -321,11 +322,7 @@ class Service(object):
         else:
             self.logger.warning("Running service %s", self.name)
         try:
-            if config.features.use_uvlib:
-                from tornaduv import UVLoop
-
-                self.logger.warning("Using libuv")
-                IOLoop.configure(UVLoop)
+            setup_asyncio()
             self.ioloop = IOLoop.current()
             # Initialize DCS
             self.dcs = get_dcs(cmd_options["dcs"])

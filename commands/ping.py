@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
 # Pretty command
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ import tornado.queues
 from noc.core.management.base import BaseCommand
 from noc.core.validators import is_ipv4
 from noc.core.ioloop.ping import Ping
-from noc.config import config
+from noc.core.ioloop.util import setup_asyncio
 
 
 class Command(BaseCommand):
@@ -46,11 +46,7 @@ class Command(BaseCommand):
                 except OSError as e:
                     self.die("Cannot read file %s: %s\n" % (fn, e))
         # Ping
-        if config.features.use_uvlib:
-            from tornaduv import UVLoop
-
-            self.stderr.write("Using libuv\n")
-            tornado.ioloop.IOLoop.configure(UVLoop)
+        setup_asyncio()
         self.ping = Ping()
         self.jobs = jobs
         self.queue = tornado.queues.Queue(self.jobs)

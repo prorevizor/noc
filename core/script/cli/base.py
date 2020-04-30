@@ -145,7 +145,7 @@ class CLI(object):
         # Cannot call call_later directly due to
         # thread-safety problems
         # See tornado issue #1773
-        IOLoop.instance().add_callback(self._set_close_timeout, session_timeout)
+        IOLoop.current().add_callback(self._set_close_timeout, session_timeout)
 
     def _set_close_timeout(self, session_timeout):
         """
@@ -154,7 +154,7 @@ class CLI(object):
         :return:
         """
         with self.close_timeout_lock:
-            self.close_timeout = IOLoop.instance().call_later(session_timeout, self.maybe_close)
+            self.close_timeout = IOLoop.current().call_later(session_timeout, self.maybe_close)
 
     def create_iostream(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

@@ -88,7 +88,7 @@ class MMLBase(object):
         # Cannot call call_later directly due to
         # thread-safety problems
         # See tornado issue #1773
-        tornado.ioloop.IOLoop.instance().add_callback(self._set_close_timeout, session_timeout)
+        tornado.ioloop.IOLoop.current().add_callback(self._set_close_timeout, session_timeout)
 
     def _set_close_timeout(self, session_timeout):
         """
@@ -96,9 +96,7 @@ class MMLBase(object):
         :param session_timeout:
         :return:
         """
-        self.close_timeout = tornado.ioloop.IOLoop.instance().call_later(
-            session_timeout, self.close
-        )
+        self.close_timeout = tornado.ioloop.IOLoop.current().call_later(session_timeout, self.close)
 
     def create_iostream(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -128,7 +126,7 @@ class MMLBase(object):
     def set_script(self, script):
         self.script = script
         if self.close_timeout:
-            tornado.ioloop.IOLoop.instance().remove_timeout(self.close_timeout)
+            tornado.ioloop.IOLoop.current().remove_timeout(self.close_timeout)
             self.close_timeout = None
 
     @tornado.gen.coroutine
