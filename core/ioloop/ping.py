@@ -154,7 +154,7 @@ class PingSocket(object):
         """
         Check future is not timed out
         """
-        if future.running():
+        if not future.done():
             if future.sid in self.sessions:
                 logger.debug("[%s] Timed out", future.sid[0])
                 del self.sessions[future.sid]
