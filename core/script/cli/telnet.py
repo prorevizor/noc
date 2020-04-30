@@ -13,6 +13,7 @@ import codecs
 from tornado.iostream import IOStream
 import tornado.gen
 from typing import List, Optional, Union
+from tornado.concurrent import Future
 
 # NOC modules
 from noc.core.perf import metrics
@@ -286,11 +287,11 @@ class TelnetIOStream(IOStream):
             metrics["telnet_reads_blocked"] += 1
         return n
 
-    def write(self, data, callback=None):
+    def write(self, data: Union[bytes, memoryview]) -> "Future[None]":
         data = self.parser.escape(data)
         metrics["telnet_writes"] += 1
         metrics["telnet_write_bytes"] += len(data)
-        return super(TelnetIOStream, self).write(data, callback=callback)
+        return super().write(data)
 
 
 class TelnetCLI(CLI):
