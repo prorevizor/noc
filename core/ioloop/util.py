@@ -30,6 +30,7 @@ def run_sync(cb: Callable[..., T], close_all: bool = True) -> T:
     :param close_all: Close all file descriptors
     :return: Callable result
     """
+    global _setup_completed
 
     async def wrapper():
         try:
@@ -37,6 +38,9 @@ def run_sync(cb: Callable[..., T], close_all: bool = True) -> T:
             result.append(r)
         except Exception:
             error.append(sys.exc_info())
+
+    if not _setup_completed:
+        setup_asyncio()
 
     result: List[T] = []
     error: List[Tuple[Any, Any, Any]] = []
