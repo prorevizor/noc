@@ -178,6 +178,10 @@ def fetch(
                 future=stream.connect(connect_address, server_hostname=u.netloc),
             )
         except tornado.iostream.StreamClosedError:
+            # May be not relevant on Tornado6 anymore
+            metrics["httpclient_timeouts"] += 1
+            return ERR_TIMEOUT, {}, "Connection refused"
+        except ConnectionRefusedError:
             metrics["httpclient_timeouts"] += 1
             return ERR_TIMEOUT, {}, "Connection refused"
         except tornado.gen.TimeoutError:
