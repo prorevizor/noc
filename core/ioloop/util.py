@@ -46,13 +46,16 @@ def run_sync(cb: Callable[..., T], close_all: bool = True) -> T:
     if prev_loop:
         # Reset running loop
         asyncio._set_running_loop(None)
-    new_loop.run_until_complete(wrapper())
-    asyncio._set_running_loop(prev_loop)
-    if prev_loop:
+    try:
+        new_loop.run_until_complete(wrapper())
+    finally:
+        new_loop.close()
         asyncio._set_running_loop(prev_loop)
-    else:
-        asyncio._set_running_loop(None)
-        asyncio.get_event_loop_policy()._local._set_called = False
+        if prev_loop:
+            asyncio._set_running_loop(prev_loop)
+        else:
+            asyncio._set_running_loop(None)
+            asyncio.get_event_loop_policy().reset_called()
     # @todo: close_all
     if error:
         reraise(*error[0])
@@ -93,3 +96,10 @@ class NOCEventLoopPolicy(asyncio.DefaultEventLoopPolicy):
             loop = self.new_event_loop()
             self.set_event_loop(loop)
             return loop
+
+    def reset_called(self) -> None:
+        """
+        Reset called status
+        :return:
+        """
+        self._local._set_called = False
