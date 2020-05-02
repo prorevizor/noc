@@ -30,6 +30,7 @@ from noc.core.validators import is_ipv4
 from .proxy import SYSTEM_PROXIES
 from noc.config import config
 from noc.core.comp import smart_bytes, smart_text
+
 from http_parser.parser import HttpParser
 
 logger = logging.getLogger(__name__)
@@ -59,8 +60,7 @@ CE_DEFLATE = "deflate"
 CE_GZIP = "gzip"
 
 
-@tornado.gen.coroutine
-def resolve(host):
+async def resolve(host):
     """
     Resolve host and return address
     :param host:
@@ -79,8 +79,7 @@ def resolve(host):
         return None
 
 
-@tornado.gen.coroutine
-def fetch(
+async def fetch(
     url,
     method="GET",
     headers=None,
@@ -147,7 +146,7 @@ def fetch(
     if is_ipv4(host):
         addr = host
     else:
-        addr = yield resolver(host)
+        addr = await resolver(host)
     if not addr:
         return ERR_TIMEOUT, {}, "Cannot resolve host: %s" % host
     # Detect proxy server
@@ -173,7 +172,7 @@ def fetch(
 
             if proxy:
                 logger.debug("Connecting to proxy %s:%s", connect_address[0], connect_address[1])
-            yield tornado.gen.with_timeout(
+            await tornado.gen.with_timeout(
                 IOLoop.current().time() + connect_timeout,
                 future=stream.connect(connect_address, server_hostname=u.netloc),
             )
@@ -198,7 +197,7 @@ def fetch(
                 smart_bytes(DEFAULT_USER_AGENT),
             )
             try:
-                yield tornado.gen.with_timeout(
+                await tornado.gen.with_timeout(
                     deadline,
                     future=stream.write(smart_bytes(req)),
                     quiet_exceptions=(tornado.iostream.StreamClosedError,),
@@ -213,7 +212,7 @@ def fetch(
             parser = HttpParser()
             while not parser.is_headers_complete():
                 try:
-                    data = yield tornado.gen.with_timeout(
+                    data = await tornado.gen.with_timeout(
                         deadline,
                         future=stream.read_bytes(max_buffer_size, partial=True),
                         quiet_exceptions=(tornado.iostream.StreamClosedError,),
@@ -236,7 +235,7 @@ def fetch(
             if use_tls:
                 logger.debug("Starting TLS negotiation")
                 try:
-                    stream = yield tornado.gen.with_timeout(
+                    stream = await tornado.gen.with_timeout(
                         deadline,
                         future=stream.start_tls(
                             server_side=False,
@@ -304,7 +303,7 @@ def fetch(
             body,
         )
         try:
-            yield tornado.gen.with_timeout(
+            await tornado.gen.with_timeout(
                 deadline,
                 future=stream.write(req),
                 quiet_exceptions=(tornado.iostream.StreamClosedError,),
@@ -319,7 +318,7 @@ def fetch(
         response_body = []
         while not parser.is_message_complete():
             try:
-                data = yield tornado.gen.with_timeout(
+                data = await tornado.gen.with_timeout(
                     deadline,
                     future=stream.read_bytes(max_buffer_size, partial=True),
                     quiet_exceptions=(tornado.iostream.StreamClosedError,),
@@ -360,7 +359,7 @@ def fetch(
                 if not new_url:
                     return ERR_PARSE_ERROR, {}, "No Location header"
                 logger.debug("HTTP redirect %s %s", code, new_url)
-                code, parsed_headers, response_body = yield fetch(
+                code, parsed_headers, response_body = await fetch(
                     new_url,
                     method="GET",
                     headers=headers,
@@ -405,9 +404,8 @@ def fetch_sync(
     content_encoding=None,
     eof_mark=None,
 ):
-    @tornado.gen.coroutine
-    def _fetch():
-        result = yield fetch(
+    async def _fetch():
+        result = await fetch(
             url,
             method=method,
             headers=headers,

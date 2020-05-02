@@ -10,7 +10,6 @@ import argparse
 
 # Third-party modules
 from tornado.ioloop import IOLoop
-import tornado.gen
 import tornado.queues
 
 # NOC modules
