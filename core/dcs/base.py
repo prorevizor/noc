@@ -154,9 +154,8 @@ class DCSBase(object):
         :return:
         """
 
-        @tornado.gen.coroutine
-        def _resolve():
-            r = yield self.resolve(
+        async def _resolve():
+            r = await self.resolve(
                 name, hint=hint, wait=wait, timeout=timeout, full_result=full_result
             )
             return r
