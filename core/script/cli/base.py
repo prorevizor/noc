@@ -495,7 +495,7 @@ class CLI(object):
                         break
         return objects
 
-    def send_pager_reply(self, data, match):
+    async def send_pager_reply(self, data, match):
         """
         Send proper pager reply
         """
@@ -503,7 +503,7 @@ class CLI(object):
         for p, c in self.patterns["more_patterns_commands"]:
             if p.search(pg):
                 self.collected_data += [data]
-                self.send(c)
+                await self.send(c)
                 return
         raise self.InvalidPagerPattern(pg)
 
