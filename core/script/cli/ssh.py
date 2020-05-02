@@ -15,7 +15,6 @@ import codecs
 # Third-party modules modules
 import cachetools
 from tornado.iostream import IOStream
-import tornado.gen
 from ssh2.session import Session, LIBSSH2_HOSTKEY_HASH_SHA1
 from ssh2.exceptions import SSH2Error
 from ssh2.error_codes import LIBSSH2_ERROR_EAGAIN
@@ -68,8 +67,7 @@ class SSHIOStream(IOStream):
         with open(pub_path) as fpub, open(priv_path) as fpriv:
             return fpub.read(), fpriv.read()
 
-    @tornado.gen.coroutine
-    def startup(self):
+    async def startup(self):
         """
         SSH session startup
         """

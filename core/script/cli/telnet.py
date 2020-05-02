@@ -11,7 +11,6 @@ import codecs
 
 # Third-party modules
 from tornado.iostream import IOStream
-import tornado.gen
 from typing import List, Optional, Union
 from tornado.concurrent import Future
 
@@ -260,11 +259,10 @@ class TelnetIOStream(IOStream):
             logger=self.logger, writer=self.write_to_fd, naws=cli.profile.get_telnet_naws()
         )
 
-    @tornado.gen.coroutine
-    def startup(self):
+    async def startup(self):
         if self.cli.profile.telnet_send_on_connect:
             self.logger.debug("Sending %r on connect", self.cli.profile.telnet_send_on_connect)
-            yield self.write(self.cli.profile.telnet_send_on_connect)
+            await self.write(self.cli.profile.telnet_send_on_connect)
 
     def read_from_fd(self, buf: Union[bytearray, memoryview]) -> Optional[int]:
         metrics["telnet_reads"] += 1
