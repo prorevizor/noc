@@ -173,14 +173,6 @@ class TelnetParser(object):
             self.out_iac_seq = []
         return b"".join(r)
 
-    def refeed(self, chunk: bytes) -> None:
-        """
-        Return unprocessed chunk to start of buffer
-        :param chunk:
-        :return:
-        """
-        self.out_iac_seq.insert(0, chunk)
-
     def send_iac(self, cmd: int, opt: int) -> None:
         """
         Send IAC response
@@ -266,24 +258,19 @@ class TelnetIOStream(IOStream):
 
     def read_from_fd(self, buf: Union[bytearray, memoryview]) -> Optional[int]:
         metrics["telnet_reads"] += 1
-        buf_len = len(buf)
-        n = super(TelnetIOStream, self).read_from_fd(buf)
-        if n:
-            metrics["telnet_read_bytes"] += n
-            parsed = self.parser.feed(buf)
-            n = len(parsed)
-            if n > buf_len:
-                buf[:buf_len] = parsed[:buf_len]
-                self.parser.refeed(parsed[buf_len:])
-                # WARNING: May hang forever, if it is the last reply from the box
-                # and no new packets to be received for this interaction
-                return buf_len
-            else:
-                buf[:n] = parsed
-                return n
-        else:
+        n = super().read_from_fd(buf)
+        if n == 0:
+            return 0  # EOF
+        if n is None:
             metrics["telnet_reads_blocked"] += 1
-        return n
+            return None  # EAGAIN
+        metrics["telnet_read_bytes"] += n
+        parsed = self.parser.feed(buf[:n])
+        pn = len(parsed)
+        if not pn:
+            return None  # Incomplete data, blocked until next read
+        buf[:pn] = parsed
+        return pn
 
     def write(self, data: Union[bytes, memoryview]) -> "Future[None]":
         data = self.parser.escape(data)
