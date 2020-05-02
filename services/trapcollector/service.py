@@ -54,7 +54,7 @@ class TrapCollectorService(Service):
         # Report invalid sources every 60 seconds
         self.logger.info("Stating invalid sources reporting task")
         self.report_invalid_callback = tornado.ioloop.PeriodicCallback(
-            self.report_invalid_sources, 60000, self.ioloop
+            self.report_invalid_sources, 60000
         )
         self.report_invalid_callback.start()
         # Start tracking changes

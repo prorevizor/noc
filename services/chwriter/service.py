@@ -46,10 +46,10 @@ class CHWriterService(Service):
 
     @tornado.gen.coroutine
     def on_activate(self):
-        report_callback = tornado.ioloop.PeriodicCallback(self.report, 10000, self.ioloop)
+        report_callback = tornado.ioloop.PeriodicCallback(self.report, 10000)
         report_callback.start()
         check_callback = tornado.ioloop.PeriodicCallback(
-            self.check_channels, config.chwriter.batch_delay_ms, self.ioloop
+            self.check_channels, config.chwriter.batch_delay_ms
         )
         check_callback.start()
         yield self.subscribe(

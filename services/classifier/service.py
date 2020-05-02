@@ -131,7 +131,7 @@ class ClassifierService(Service):
         self.load_link_action()
         self.load_handlers()
         yield self.subscribe("events.%s" % config.pool, "fmwriter", self.on_event)
-        report_callback = tornado.ioloop.PeriodicCallback(self.report, 1000, self.ioloop)
+        report_callback = tornado.ioloop.PeriodicCallback(self.report, 1000)
         report_callback.start()
 
     def load_triggers(self):
