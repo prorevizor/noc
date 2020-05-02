@@ -9,8 +9,7 @@
 import logging
 import random
 import signal
-import sys
-from threading import Lock, Event
+from threading import Lock
 import datetime
 import os
 from urllib.parse import urlparse
@@ -23,7 +22,7 @@ import tornado.locks
 # NOC modules
 from noc.config import config
 from noc.core.perf import metrics
-from noc.core.comp import reraise
+from noc.core.ioloop.util import run_sync
 from .error import ResolutionError
 
 
@@ -157,26 +156,12 @@ class DCSBase(object):
 
         @tornado.gen.coroutine
         def _resolve():
-            try:
-                r = yield self.resolve(
-                    name, hint=hint, wait=wait, timeout=timeout, full_result=full_result
-                )
-                result.append(r)
-            except tornado.gen.Return as e:
-                result.append(e.value)
-            except Exception:
-                error.append(sys.exc_info())
-            event.set()
+            r = yield self.resolve(
+                name, hint=hint, wait=wait, timeout=timeout, full_result=full_result
+            )
+            return r
 
-        event = Event()
-        result = []
-        error = []
-        IOLoop.current().add_callback(_resolve)
-        event.wait()
-        if error:
-            reraise(*error[0])
-        else:
-            return result[0]
+        return run_sync(_resolve)
 
     @tornado.gen.coroutine
     def resolve_near(
