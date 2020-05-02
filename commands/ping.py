@@ -54,20 +54,18 @@ class Command(BaseCommand):
             IOLoop.current().spawn_callback(self.ping_worker)
         IOLoop.current().run_sync(self.ping_task)
 
-    @tornado.gen.coroutine
-    def ping_task(self):
+    async def ping_task(self):
         for a in self.addresses:
-            yield self.queue.put(a)
+            await self.queue.put(a)
         for i in range(self.jobs):
-            yield self.queue.put(None)
-        yield self.queue.join()
+            await self.queue.put(None)
+        await self.queue.join()
 
-    @tornado.gen.coroutine
-    def ping_worker(self):
+    async def ping_worker(self):
         while True:
-            a = yield self.queue.get()
+            a = await self.queue.get()
             if a:
-                rtt, attempts = yield self.ping.ping_check_rtt(a, count=1, timeout=1000)
+                rtt, attempts = await self.ping.ping_check_rtt(a, count=1, timeout=1000)
                 if rtt:
                     self.stdout.write("%s %.2fms\n" % (a, rtt * 1000))
                 else:

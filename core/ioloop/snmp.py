@@ -10,9 +10,6 @@ import logging
 import socket
 import errno
 
-# Third-party modules
-from tornado.gen import coroutine
-
 # NOC modules
 from noc.core.snmp.version import SNMP_v2c
 from noc.core.snmp.get import (
