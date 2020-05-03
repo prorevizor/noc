@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------
 
 # Python modules
-from typing import Dict, Optional, Union, Iterable, Tuple, Callable, List, Any
+from typing import Dict, Optional, Union, Iterable, Tuple, Callable, List, Any, Iterator
 from collections import defaultdict
 from itertools import compress, chain
 
@@ -48,7 +48,7 @@ class Script(BaseScript):
             pid_ifindex_mappings[oid.split(".")[-1]] = v
         return pid_ifindex_mappings
 
-    def get_switchport(self) -> Dict[int, Dict[str, Union[int, list]]]:
+    def get_switchport(self) -> defaultdict[int, Dict[str, Union[int, list, None]]]:
         result = defaultdict(lambda: {"tagged_vlans": [], "untagged_vlan": None})
         pid_ifindex_mappings = self.get_bridge_ifindex_mappings()
         iface_list = sorted(pid_ifindex_mappings, key=int)
@@ -322,7 +322,7 @@ class Script(BaseScript):
         return self.profile.get_interface_type(ifname)
 
     def iter_iftable(
-        self, key: str, oid: str, ifindexes: Optional[Iterable[int]] = None, clean: Callable = None,
+        self, key: str, oid: str, ifindexes: Optional[Iterator[int]] = None, clean: Callable = None,
     ) -> Iterable[Tuple[str, Union[str, int]]]:
         """
         Collect part of IF-MIB table.
