@@ -10,7 +10,6 @@ import logging
 from urllib.parse import urlencode, urlsplit, parse_qs, urlunsplit
 
 # Third-party modules
-import tornado.gen
 from nsq.reader import Reader as BaseReader, _utf8_params
 import ujson
 
