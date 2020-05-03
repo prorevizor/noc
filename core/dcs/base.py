@@ -13,6 +13,7 @@ from threading import Lock
 import datetime
 import os
 from urllib.parse import urlparse
+from time import perf_counter
 
 # Third-party modules
 import tornado.gen
@@ -204,6 +205,7 @@ class ResolverBase(object):
         self.near = near
         self.ready_event = tornado.locks.Event()
         self.track = track
+        self.last_used = perf_counter()
 
     def stop(self):
         self.to_shutdown = True
@@ -242,6 +244,7 @@ class ResolverBase(object):
             metrics["dcs_resolver_activeservices", ("name", self.name)] = len(self.services)
 
     async def resolve(self, hint=None, wait=True, timeout=None, full_result=False):
+        self.last_used = perf_counter()
         metrics["dcs_resolver_requests"] += 1
         if wait:
             # Wait until service catalog populated
@@ -287,3 +290,10 @@ class ResolverBase(object):
         """
         self.rr_index = min(self.rr_index + 1, len(self.service_ids) - 1)
         return self.service_ids[self.rr_index]
+
+    def is_expired(self) -> bool:
+        """
+        Check if resolver is no longer used and may be expired
+        :return:
+        """
+        return perf_counter() - self.last_used > config.dcs.resolver_expiration_timeout
