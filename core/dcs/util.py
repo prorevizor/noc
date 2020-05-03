@@ -28,13 +28,12 @@ def resolve(
     :return:
     """
 
-    @tornado.gen.coroutine
-    def _resolve():
+    async def _resolve():
         url = get_dcs_url()
         dcs = get_dcs_class()(url)
         try:
             if near:
-                r = yield dcs.resolve_near(
+                r = await dcs.resolve_near(
                     name,
                     hint=hint,
                     wait=wait,
@@ -43,7 +42,7 @@ def resolve(
                     critical=critical,
                 )
             else:
-                r = yield dcs.resolve(
+                r = await dcs.resolve(
                     name,
                     hint=hint,
                     wait=wait,

@@ -72,10 +72,8 @@ class DCSBase(object):
                 self.logger.info("Stopping resolver for service %s", svc)
                 r.stop()
             self.resolvers = {}
-        # self.ioloop.stop()
 
-    @tornado.gen.coroutine
-    def register(self, name, address, port, pool=None, lock=None, tags=None):
+    async def register(self, name, address, port, pool=None, lock=None, tags=None):
         """
         Register service
         :param name:
@@ -92,8 +90,7 @@ class DCSBase(object):
         self.logger.info("Shooting self with SIGTERM")
         os.kill(os.getpid(), signal.SIGTERM)
 
-    @tornado.gen.coroutine
-    def acquire_slot(self, name, limit):
+    async def acquire_slot(self, name, limit):
         """
         Acquire shard slot
         :param name: <service name>-<pool>
@@ -102,8 +99,7 @@ class DCSBase(object):
         """
         raise NotImplementedError()
 
-    @tornado.gen.coroutine
-    def get_resolver(self, name, critical=False, near=False, track=True):
+    async def get_resolver(self, name, critical=False, near=False, track=True):
         if track:
             with self.resolvers_lock:
                 resolver = self.resolvers.get((name, critical, near))
@@ -118,8 +114,7 @@ class DCSBase(object):
             IOLoop.current().add_callback(resolver.start)
         return resolver
 
-    @tornado.gen.coroutine
-    def resolve(
+    async def resolve(
         self,
         name,
         hint=None,
@@ -130,12 +125,11 @@ class DCSBase(object):
         near=False,
         track=True,
     ):
-        resolver = yield self.get_resolver(name, critical=critical, near=near, track=track)
-        r = yield resolver.resolve(hint=hint, wait=wait, timeout=timeout, full_result=full_result)
+        resolver = await self.get_resolver(name, critical=critical, near=near, track=track)
+        r = await resolver.resolve(hint=hint, wait=wait, timeout=timeout, full_result=full_result)
         return r
 
-    @tornado.gen.coroutine
-    def expire_resolvers(self):
+    async def expire_resolvers(self):
         with self.resolvers_lock:
             for svc in self.resolvers:
                 r = self.resolvers[svc]
@@ -162,8 +156,7 @@ class DCSBase(object):
 
         return run_sync(_resolve)
 
-    @tornado.gen.coroutine
-    def resolve_near(
+    async def resolve_near(
         self, name, hint=None, wait=True, timeout=None, full_result=False, critical=False
     ):
         """
@@ -214,8 +207,7 @@ class ResolverBase(object):
         self.to_shutdown = True
         metrics["dcs_resolver_activeservices", ("name", self.name)] = 0
 
-    @tornado.gen.coroutine
-    def start(self):
+    async def start(self):
         raise NotImplementedError()
 
     def set_services(self, services):
@@ -247,8 +239,7 @@ class ResolverBase(object):
                 self.ready_event.clear()
             metrics["dcs_resolver_activeservices", ("name", self.name)] = len(self.services)
 
-    @tornado.gen.coroutine
-    def resolve(self, hint=None, wait=True, timeout=None, full_result=False):
+    async def resolve(self, hint=None, wait=True, timeout=None, full_result=False):
         metrics["dcs_resolver_requests"] += 1
         if wait:
             # Wait until service catalog populated
@@ -257,7 +248,7 @@ class ResolverBase(object):
             else:
                 t = self.dcs.DEFAULT_SERVICE_RESOLUTION_TIMEOUT
             try:
-                yield self.ready_event.wait(timeout=t)
+                await self.ready_event.wait(timeout=t)
             except tornado.gen.TimeoutError:
                 metrics["errors", ("type", "dcs_resolver_timeout")] += 1
                 if self.critical:
