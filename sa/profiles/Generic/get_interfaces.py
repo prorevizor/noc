@@ -322,11 +322,7 @@ class Script(BaseScript):
         return self.profile.get_interface_type(ifname)
 
     def iter_iftable(
-        self,
-        key: str,
-        oid: str,
-        ifindexes: Optional[Iterable[int]] = None,
-        clean: Callable = None,
+        self, key: str, oid: str, ifindexes: Optional[Iterable[int]] = None, clean: Callable = None,
     ) -> Iterable[Tuple[str, Union[str, int]]]:
         """
         Collect part of IF-MIB table.
