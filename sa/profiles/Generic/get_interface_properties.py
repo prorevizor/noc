@@ -84,7 +84,7 @@ class Script(BaseScript):
                 enable_interface_mac
                 and "mac" in v
                 and is_mac(v["mac"])
-                and self.is_ignored_mac(MAC(v["mac"]))
+                and not self.is_ignored_mac(MAC(v["mac"]))
             ):
                 item["mac"] = v["mac"]
             if enable_admin_status and "admin_status" in v:
