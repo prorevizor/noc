@@ -26,28 +26,12 @@ class Script(BaseScript):
     MAX_GETNEXT_RETIRES = 1
     MAX_TIMEOUT = 20
 
+    # Replace on get_interface_properties
     # SNMP_NAME_TABLE = "IF-MIB::ifDescr"
     # SNMP_MAC_TABLE = "IF-MIB::ifPhysAddress"
     SNMP_ADMIN_STATUS_TABLE = "IF-MIB::ifAdminStatus"
     SNMP_OPER_STATUS_TABLE = "IF-MIB::ifOperStatus"
     SNMP_IF_DESCR_TABLE = "IF-MIB::ifAlias"
-
-    INTERFACE_TYPES = {
-        1: "other",
-        6: "physical",  # ethernetCsmacd
-        23: "tunnel",  # ppp
-        24: "loopback",  # softwareLoopback
-        117: "physical",  # gigabitEthernet
-        131: "tunnel",  # tunnel
-        135: "SVI",  # l2vlan
-        161: "aggregated",  # ieee8023adLag
-        53: "SVI",  # propVirtual
-    }
-
-    INTERFACE_NAMES = set()
-
-    def get_interface_snmp_type(self, snmp_type):
-        return self.INTERFACE_TYPES.get(snmp_type, "unknown")
 
     def get_bridge_ifindex_mappings(self) -> Dict[int, int]:
         """
@@ -136,6 +120,28 @@ class Script(BaseScript):
             r[ifindex] = ip_mask[address]
         return r
 
+    def get_mpls_vpn_mappings(self) -> Tuple[Dict[str, Dict[str, Any]], Dict[str, str]]:
+        # Process VRFs
+        vrfs = {"default": {"forwarding_instance": "default", "type": "table", "interfaces": []}}
+        imap = {}  # interface -> VRF
+        try:
+            r = self.scripts.get_mpls_vpn()
+        except self.CLISyntaxError:
+            r = []
+        for v in r:
+            vrfs[v["name"]] = {
+                "forwarding_instance": v["name"],
+                "type": v["type"],
+                "vpn_id": v.get("vpn_id"),
+                "interfaces": [],
+            }
+            rd = v.get("rd")
+            if rd:
+                vrfs[v["name"]]["rd"] = rd
+            for i in v["interfaces"]:
+                imap[i] = v["name"]
+        return vrfs, imap
+
     def filter_interface(self, ifindex: int, name: str) -> bool:
         """
         Filter interface
@@ -146,11 +152,10 @@ class Script(BaseScript):
         return True
 
     def execute_snmp(self, **kwargs):
-        ifaces = {}
-        subifaces = {}
+        ifaces = {}  # For interfaces
+        subifaces = {}  # For subinterfaces like Fa 0/1.XXX
         switchports = self.get_switchport()
-        portchannels = self.get_portchannels()
-        self.logger.info("Portchannel %s", portchannels)
+        portchannels = self.get_portchannels()  # portchannel map
         ips = self.get_ip_ifaces()
 
         # Getting initial iface info, filter result if needed
@@ -162,7 +167,7 @@ class Script(BaseScript):
             if "." in iface["interface"]:
                 subifaces[iface["ifindex"]] = {
                     "name": iface["interface"],
-                    "ifindex": iface["ifindex"],
+                    "snmp_ifindex": iface["ifindex"],
                     "type": "SVI",
                 }
                 if "mac" in iface:
@@ -170,7 +175,7 @@ class Script(BaseScript):
             else:
                 ifaces[iface["ifindex"]] = {
                     "name": iface["interface"],
-                    "ifindex": iface["ifindex"],
+                    "snmp_ifindex": iface["ifindex"],
                     "enabled_protocols": [],
                     "subinterfaces": [],
                 }
@@ -210,8 +215,8 @@ class Script(BaseScript):
         if not ifaces:
             # If empty result - raise error
             raise NotImplementedError
-        # Format result
-        r = {}
+        # Format result to ifname -> iface
+        interfaces = {}
         for ifindex, iface in ifaces.items():
             if ifindex in data:
                 iface.update(data[ifindex])
@@ -224,7 +229,7 @@ class Script(BaseScript):
                     {
                         "name": iface["name"],
                         "enabled_afi": ["IPv4"],
-                        "ipv4_addresses": [IPv4(*i) for i in ips[iface["ifindex"]]],
+                        "ipv4_addresses": [IPv4(*i) for i in ips[ifindex]],
                     }
                 ]
             if ifindex in switchports:
@@ -232,17 +237,16 @@ class Script(BaseScript):
                     "name": iface["name"],
                     "enabled_afi": ["BRIDGE"],
                 }
-                sub.update(switchports[iface["ifindex"]])
+                sub.update(switchports[ifindex])
                 iface["subinterfaces"] += [sub]
             if ifindex in portchannels:
                 iface["aggregated_interface"] = ifaces[portchannels[ifindex]]["name"]
                 iface["enabled_protocols"] = ["LACP"]
-            r[iface["name"]] = iface
-            # print(switchports[iface["ifindex"]])
+            interfaces[iface["name"]] = iface
         # Proccessed subinterfaces
         for ifindex, sub in subifaces.items():
             ifname, num = sub["name"].split(".", 1)
-            if ifname not in r:
+            if ifname not in interfaces:
                 self.logger.info("Sub %s for ignored iface %s", sub["name"], ifname)
                 continue
             if ifindex in data:
@@ -254,8 +258,31 @@ class Script(BaseScript):
                 vlan_ids = int(sub["name"].rsplit(".", 1)[-1])
                 if 1 <= vlan_ids < 4095:
                     sub["vlan_ids"] = vlan_ids
-            r[ifname]["subinterfaces"] += [sub]
-        return [{"interfaces": r.values()}]
+            interfaces[ifname]["subinterfaces"] += [sub]
+        # VRF and forwarding_instance proccessed
+        vrfs, vrf_if_map = self.get_mpls_vpn_mappings()
+        for i in interfaces.keys():
+            iface_vrf = "default"
+            subs = interfaces[i]["subinterfaces"]
+            interfaces[i]["subinterfaces"] = []
+            if i in vrf_if_map:
+                iface_vrf = vrf_if_map[i]
+                vrfs[vrf_if_map[i]]["interfaces"] += [interfaces[i]]
+            else:
+                vrfs["default"]["interfaces"] += [interfaces[i]]
+            for s in subs:
+                if s["name"] in vrf_if_map and vrf_if_map[s["name"]] != iface_vrf:
+                    vrfs[vrf_if_map[s["name"]]]["interfaces"] += [
+                        {
+                            "name": s["name"],
+                            "type": "other",
+                            "enabled_protocols": [],
+                            "subinterfaces": [s],
+                        }
+                    ]
+                else:
+                    interfaces[i]["subinterfaces"] += [s]
+        return list(vrfs.values())
 
     def merge_tables(
         self, *args: Optional[Iterable]
@@ -270,7 +297,7 @@ class Script(BaseScript):
         for iter_table in args:
             for key, ifindex, value in iter_table:
                 if ifindex not in r:
-                    r[ifindex] = {"ifindex": ifindex}
+                    r[ifindex] = {"snmp_ifindex": ifindex}
                 r[ifindex][key] = value
         return r
 
@@ -298,7 +325,7 @@ class Script(BaseScript):
         self,
         key: str,
         oid: str,
-        ifindexes: Optional[Union[List[int], Dict[int, Any]]] = None,
+        ifindexes: Optional[Iterable[int]] = None,
         clean: Callable = None,
     ) -> Iterable[Tuple[str, Union[str, int]]]:
         """
