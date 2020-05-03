@@ -195,7 +195,7 @@ class BaseTopology(object):
 
     def non_isolated_graph(self):
         isolated = set(self.get_isolated())
-        return self.G.subgraph([o for o in self.G.node if o not in isolated])
+        return self.G.subgraph([o for o in self.G.nodes if o not in isolated])
 
     def normalize_pos(self, pos):
         """
@@ -240,7 +240,7 @@ class BaseTopology(object):
             pos.update(dpos)
         else:
             pos = dpos
-        pos = {o: pos[o] for o in pos if o in self.G.node}
+        pos = {o: pos[o] for o in pos if o in self.G.nodes}
         width, height, pos = self.normalize_pos(pos)
         # Place isolated nodes
         isolated = sorted(
