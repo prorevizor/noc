@@ -101,8 +101,8 @@ class Script(BaseScript):
                 result[pid_ifindex_mappings[o]]["tagged_vlans"] += [vlan_num]
         return result
 
-    def get_portchannels(self):
-        r = defaultdict(list)
+    def get_portchannels(self) -> Dict[int, int]:
+        r = {}
         for ifindex, sel_pc, att_pc in self.snmp.get_tables(
             [
                 mib["IEEE8023-LAG-MIB::dot3adAggPortSelectedAggID"],
@@ -111,7 +111,7 @@ class Script(BaseScript):
         ):
             if att_pc:
                 if sel_pc > 0:
-                    r[int(att_pc)] += [int(ifindex)]
+                    r[int(ifindex)] = int(att_pc)
         return r
 
     def get_enabled_proto(self):
@@ -136,16 +136,13 @@ class Script(BaseScript):
             r[ifindex] = ip_mask[address]
         return r
 
-    def filter_interface(self, ifindex, name):
-        # If the bug in the firmware and the number of interfaces in cli is
-        # different from the number of interfaces given through snmp,
-        # we pass the list of interfaces for reconciliation.
-        if not hasattr(self, "_iface_count"):
-            self._iface_count = self.snmp.get(mib["IF-MIB::ifNumber", 0])
-        if self._iface_count == 355:
-            self.logger.warning("Overhead ifinterface number. Enable filter")
-            if ifindex > 1015:
-                return False
+    def filter_interface(self, ifindex: int, name: str) -> bool:
+        """
+        Filter interface
+        :param ifindex:
+        :param name:
+        :return:
+        """
         return True
 
     def execute_snmp(self, **kwargs):
@@ -153,6 +150,7 @@ class Script(BaseScript):
         subifaces = {}
         switchports = self.get_switchport()
         portchannels = self.get_portchannels()
+        self.logger.info("Portchannel %s", portchannels)
         ips = self.get_ip_ifaces()
 
         # Getting initial iface info, filter result if needed
@@ -236,6 +234,9 @@ class Script(BaseScript):
                 }
                 sub.update(switchports[iface["ifindex"]])
                 iface["subinterfaces"] += [sub]
+            if ifindex in portchannels:
+                iface["aggregated_interface"] = ifaces[portchannels[ifindex]]["name"]
+                iface["enabled_protocols"] = ["LACP"]
             r[iface["name"]] = iface
             # print(switchports[iface["ifindex"]])
         # Proccessed subinterfaces
@@ -243,13 +244,14 @@ class Script(BaseScript):
             ifname, num = sub["name"].split(".", 1)
             if ifname not in r:
                 self.logger.info("Sub %s for ignored iface %s", sub["name"], ifname)
+                continue
             if ifindex in data:
                 sub.update(data[ifindex])
             if ifindex in ips:
                 sub["enabled_afi"] = ["IPv4"]
-                sub["ipv4_addresses"] = [IPv4(*i) for i in ips[iface["ifindex"]]]
+                sub["ipv4_addresses"] = [IPv4(*i) for i in ips[ifindex]]
             if num.isdigit():
-                vlan_ids = int(iface["interface"].rsplit(".", 1)[-1])
+                vlan_ids = int(sub["name"].rsplit(".", 1)[-1])
                 if 1 <= vlan_ids < 4095:
                     sub["vlan_ids"] = vlan_ids
             r[ifname]["subinterfaces"] += [sub]
