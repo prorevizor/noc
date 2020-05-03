@@ -338,7 +338,7 @@ class Service(object):
             error_report()
         finally:
             if self.ioloop:
-                self.ioloop.add_callback(self.deactivate())
+                self.ioloop.add_callback(self.deactivate)
         for cb, args, kwargs in self.close_callbacks:
             cb(*args, **kwargs)
         self.logger.warning("Service %s has been terminated", self.name)
@@ -456,8 +456,7 @@ class Service(object):
             self.start_telemetry_callback()
         self.ioloop.add_callback(self.on_register)
 
-    @tornado.gen.coroutine
-    def deactivate(self):
+    async def deactivate(self):
         if not self.is_active:
             return
         self.is_active = False
@@ -468,20 +467,20 @@ class Service(object):
         # Release registration
         if self.dcs:
             self.logger.info("Deregistration")
-            yield self.dcs.deregister()
+            await self.dcs.deregister()
         # Shutdown schedulers
         if self.scheduler:
             try:
                 self.logger.info("Shutting down scheduler")
-                yield self.scheduler.shutdown()
+                await self.scheduler.shutdown()
             except tornado.gen.TimeoutError:
                 self.logger.info("Timed out when shutting down scheduler")
         # Shutdown executors
-        yield self.shutdown_executors()
+        await self.shutdown_executors()
         # Custom deactivation
-        yield self.on_deactivate()
+        await self.on_deactivate()
         # Shutdown NSQ topics
-        yield self.shutdown_topic_queues()
+        await self.shutdown_topic_queues()
         # Continue deactivation
         # Finally stop ioloop
         self.dcs = None
