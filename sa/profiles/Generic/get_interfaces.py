@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------
 
 # Python modules
-from typing import Dict, Optional, Union, Iterable, Tuple, Callable, List, Any, Iterator
+from typing import Dict, Optional, Union, Iterable, Tuple, Callable, List, Any, Iterator, DefaultDict
 from collections import defaultdict
 from itertools import compress, chain
 
@@ -48,7 +48,7 @@ class Script(BaseScript):
             pid_ifindex_mappings[oid.split(".")[-1]] = v
         return pid_ifindex_mappings
 
-    def get_switchport(self) -> defaultdict[int, Dict[str, Union[int, list, None]]]:
+    def get_switchport(self) -> DefaultDict[int, Dict[str, Union[int, list, None]]]:
         result = defaultdict(lambda: {"tagged_vlans": [], "untagged_vlan": None})
         pid_ifindex_mappings = self.get_bridge_ifindex_mappings()
         iface_list = sorted(pid_ifindex_mappings, key=int)
