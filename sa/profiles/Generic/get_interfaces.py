@@ -6,7 +6,18 @@
 # ---------------------------------------------------------------------
 
 # Python modules
-from typing import Dict, Optional, Union, Iterable, Tuple, Callable, List, Any, Iterator, DefaultDict
+from typing import (
+    Dict,
+    Optional,
+    Union,
+    Iterable,
+    Tuple,
+    Callable,
+    List,
+    Any,
+    Iterator,
+    DefaultDict,
+)
 from collections import defaultdict
 from itertools import compress, chain
 
