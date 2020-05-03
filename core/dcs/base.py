@@ -43,7 +43,7 @@ class DCSBase(object):
         # service -> resolver instances
         self.resolvers = {}
         self.resolvers_lock = Lock()
-        self.resolver_expiration_task = PeriodicCallback(self.expire_resolvers, 10000)
+        self.resolver_expiration_task = None
         self.health_check_service_id = None
         self.status = True
         self.status_message = ""
@@ -56,15 +56,17 @@ class DCSBase(object):
         Run IOLoop if not started yet
         :return:
         """
+        self.resolver_expiration_task = PeriodicCallback(self.expire_resolvers, 10000)
         self.resolver_expiration_task.start()
-        # self.ioloop.start()
 
     def stop(self):
         """
         Stop IOLoop if not stopped yet
         :return:
         """
-        self.resolver_expiration_task.stop()
+        if self.resolver_expiration_task:
+            self.resolver_expiration_task.stop()
+            self.resolver_expiration_task = None
         # Stop all resolvers
         with self.resolvers_lock:
             for svc in self.resolvers:

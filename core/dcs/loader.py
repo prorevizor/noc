@@ -44,5 +44,7 @@ def get_dcs(url=None):
     url = get_dcs_url(url)
     with _lock:
         if url not in _instances:
-            _instances[url] = get_dcs_class(url)(url)
+            dcs = get_dcs_class(url)(url)
+            dcs.start()
+            _instances[url] = dcs
         return _instances[url]
