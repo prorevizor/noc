@@ -5,9 +5,6 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
-# Third-party modules
-import tornado.gen
-
 # NOC modules
 from noc.core.ioloop.util import run_sync
 from .loader import get_dcs_url, get_dcs_class
