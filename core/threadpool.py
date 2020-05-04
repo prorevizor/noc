@@ -14,10 +14,9 @@ import datetime
 from collections import deque
 import _thread
 from time import perf_counter
-from asyncio import Future
+from asyncio import Future, wait_for
 
 # Third-party modules
-from tornado.gen import with_timeout
 from typing import Optional, Dict, Any, Set, List
 
 # NOC modules
@@ -163,9 +162,7 @@ class ThreadPoolExecutor(object):
             self.done_event.wait(timeout=self.shutdown_timeout)
             return self.done_future
         else:
-            return with_timeout(
-                timeout=datetime.timedelta(seconds=self.shutdown_timeout), future=self.done_future
-            )
+            return wait_for(self.done_future, self.shutdown_timeout)
 
     def worker(self):
         t = threading.current_thread()
@@ -182,8 +179,8 @@ class ThreadPoolExecutor(object):
                 if not future:
                     logger.debug("Worker %s has no future. Stopping", t.name)
                     break
-                if not future.set_running_or_notify_cancel():
-                    continue
+                # if not future.set_running_or_notify_cancel():
+                #     continue
                 sample = 1 if span_ctx else 0
                 if config.features.forensic:
                     if in_label and callable(in_label):

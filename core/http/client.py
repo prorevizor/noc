@@ -15,6 +15,7 @@ import time
 import struct
 import codecs
 from urllib.parse import urlparse
+import asyncio
 
 # Third-party modules
 import tornado.gen
@@ -172,9 +173,8 @@ async def fetch(
 
             if proxy:
                 logger.debug("Connecting to proxy %s:%s", connect_address[0], connect_address[1])
-            await tornado.gen.with_timeout(
-                IOLoop.current().time() + connect_timeout,
-                future=stream.connect(connect_address, server_hostname=u.netloc),
+            await asyncio.wait_for(
+                stream.connect(connect_address, server_hostname=u.netloc), connect_timeout
             )
         except tornado.iostream.StreamClosedError:
             # May be not relevant on Tornado6 anymore
@@ -183,10 +183,9 @@ async def fetch(
         except ConnectionRefusedError:
             metrics["httpclient_timeouts"] += 1
             return ERR_TIMEOUT, {}, "Connection refused"
-        except tornado.gen.TimeoutError:
+        except asyncio.TimeoutError:
             metrics["httpclient_timeouts"] += 1
             return ERR_TIMEOUT, {}, "Connection timed out"
-        deadline = IOLoop.current().time() + request_timeout
         # Proxy CONNECT
         if proxy:
             logger.debug("Sending CONNECT %s:%s", addr, port)
@@ -197,30 +196,24 @@ async def fetch(
                 smart_bytes(DEFAULT_USER_AGENT),
             )
             try:
-                await tornado.gen.with_timeout(
-                    deadline,
-                    future=stream.write(smart_bytes(req)),
-                    quiet_exceptions=(tornado.iostream.StreamClosedError,),
-                )
+                await asyncio.wait_for(stream.write(smart_bytes(req)), request_timeout)
             except tornado.iostream.StreamClosedError:
                 metrics["httpclient_proxy_timeouts"] += 1
                 return ERR_TIMEOUT, {}, "Connection reset while connecting to proxy"
-            except tornado.gen.TimeoutError:
+            except asyncio.TimeoutError:
                 metrics["httpclient_proxy_timeouts"] += 1
                 return ERR_TIMEOUT, {}, "Timed out while sending request to proxy"
             # Wait for proxy response
             parser = HttpParser()
             while not parser.is_headers_complete():
                 try:
-                    data = await tornado.gen.with_timeout(
-                        deadline,
-                        future=stream.read_bytes(max_buffer_size, partial=True),
-                        quiet_exceptions=(tornado.iostream.StreamClosedError,),
+                    data = await asyncio.wait_for(
+                        stream.read_bytes(max_buffer_size, partial=True), request_timeout
                     )
                 except tornado.iostream.StreamClosedError:
                     metrics["httpclient_proxy_timeouts"] += 1
                     return ERR_TIMEOUT, {}, "Connection reset while connecting to proxy"
-                except tornado.gen.TimeoutError:
+                except asyncio.TimeoutError:
                     metrics["httpclient_proxy_timeouts"] += 1
                     return ERR_TIMEOUT, {}, "Timed out while sending request to proxy"
                 received = len(data)
@@ -235,19 +228,18 @@ async def fetch(
             if use_tls:
                 logger.debug("Starting TLS negotiation")
                 try:
-                    stream = await tornado.gen.with_timeout(
-                        deadline,
-                        future=stream.start_tls(
+                    stream = await asyncio.wait_for(
+                        stream.start_tls(
                             server_side=False,
                             ssl_options=get_ssl_options(),
                             server_hostname=u.netloc,
                         ),
-                        quiet_exceptions=(tornado.iostream.StreamClosedError,),
+                        request_timeout,
                     )
                 except tornado.iostream.StreamClosedError:
                     metrics["httpclient_proxy_timeouts"] += 1
                     return ERR_TIMEOUT, {}, "Connection reset while connecting to proxy"
-                except tornado.gen.TimeoutError:
+                except asyncio.TimeoutError:
                     metrics["httpclient_proxy_timeouts"] += 1
                     return ERR_TIMEOUT, {}, "Timed out while sending request to proxy"
         # Process request
@@ -303,25 +295,19 @@ async def fetch(
             body,
         )
         try:
-            await tornado.gen.with_timeout(
-                deadline,
-                future=stream.write(req),
-                quiet_exceptions=(tornado.iostream.StreamClosedError,),
-            )
+            await asyncio.wait_for(stream.write(req), request_timeout)
         except tornado.iostream.StreamClosedError:
             metrics["httpclient_timeouts"] += 1
             return ERR_TIMEOUT, {}, "Connection reset while sending request"
-        except tornado.gen.TimeoutError:
+        except asyncio.TimeoutError:
             metrics["httpclient_timeouts"] += 1
             return ERR_TIMEOUT, {}, "Timed out while sending request"
         parser = HttpParser()
         response_body = []
         while not parser.is_message_complete():
             try:
-                data = await tornado.gen.with_timeout(
-                    deadline,
-                    future=stream.read_bytes(max_buffer_size, partial=True),
-                    quiet_exceptions=(tornado.iostream.StreamClosedError,),
+                data = await asyncio.wait_for(
+                    stream.read_bytes(max_buffer_size, partial=True), request_timeout
                 )
             except tornado.iostream.StreamClosedError:
                 if eof_mark and response_body:
@@ -340,7 +326,7 @@ async def fetch(
                             break
                 metrics["httpclient_timeouts"] += 1
                 return ERR_READ_TIMEOUT, {}, "Connection reset"
-            except tornado.gen.TimeoutError:
+            except asyncio.TimeoutError:
                 metrics["httpclient_timeouts"] += 1
                 return ERR_READ_TIMEOUT, {}, "Request timed out"
             received = len(data)

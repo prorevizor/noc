@@ -183,7 +183,7 @@ class CLI(object):
     def set_timeout(self, timeout: int) -> None:
         if timeout:
             self.logger.debug("Setting timeout: %ss", timeout)
-            self.current_timeout = datetime.timedelta(seconds=timeout)
+            self.current_timeout = timeout
         else:
             if self.current_timeout:
                 self.logger.debug("Resetting timeouts")
@@ -342,7 +342,7 @@ class CLI(object):
                 metrics["cli_reads", ("proto", self.name)] += 1
                 f = self.iostream.read_bytes(self.BUFFER_SIZE, partial=True)
                 if self.current_timeout:
-                    r = await tornado.gen.with_timeout(self.current_timeout, f)
+                    r = await asyncio.wait_for(f, self.current_timeout)
                 else:
                     r = await f
                 if r == self.SYNTAX_ERROR_CODE:
@@ -379,7 +379,7 @@ class CLI(object):
                     continue
                 else:
                     raise tornado.iostream.StreamClosedError()
-            except tornado.gen.TimeoutError:
+            except asyncio.TimeoutError:
                 self.logger.info("Timeout error")
                 metrics["cli_timeouts", ("proto", self.name)] += 1
                 # IOStream must be closed to prevent hanging read callbacks
