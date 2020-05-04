@@ -13,9 +13,6 @@ import re
 from collections import defaultdict
 from threading import Lock
 
-# Third-party modules
-import tornado.gen
-
 # NOC modules
 from noc.config import config
 from noc.core.service.base import Service

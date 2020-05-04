@@ -17,7 +17,6 @@ from email.header import Header
 
 # Third-party modules
 import pytz
-import tornado.gen
 
 # NOC modules
 from noc.config import config

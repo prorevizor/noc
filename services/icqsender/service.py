@@ -13,9 +13,6 @@ import json
 import time
 from urllib.parse import urlencode
 
-# Third-party modules
-import tornado.gen
-
 # NOC modules
 from noc.core.service.base import Service
 from noc.core.http.client import fetch_sync

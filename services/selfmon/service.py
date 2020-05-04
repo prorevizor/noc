@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------
 # metrics service
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2018 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -10,9 +10,6 @@
 from threading import Thread
 import operator
 import time
-
-# Third-party modules
-import tornado.gen
 
 # NOC modules
 from noc.core.service.base import Service
