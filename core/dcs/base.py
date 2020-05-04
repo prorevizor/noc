@@ -16,7 +16,6 @@ from time import perf_counter
 import asyncio
 
 # Third-party modules
-import tornado.gen
 from tornado.ioloop import IOLoop, PeriodicCallback
 
 # NOC modules
