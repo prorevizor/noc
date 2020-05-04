@@ -14,9 +14,9 @@ import datetime
 from collections import deque
 import _thread
 from time import perf_counter
+from asyncio import Future
 
 # Third-party modules
-from concurrent.futures import Future
 from tornado.gen import with_timeout
 from typing import Optional, Dict, Any, Set, List
 

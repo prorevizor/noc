@@ -17,7 +17,6 @@ import asyncio
 # Third-party modules
 import pymongo.errors
 from tornado.ioloop import IOLoop
-from concurrent.futures import Future
 from pymongo import DeleteOne, UpdateOne
 
 # NOC modules
@@ -523,7 +522,7 @@ class Scheduler(object):
         if self.executor:
             f = self.executor.shutdown(sync)
         else:
-            f = Future()
+            f = asyncio.Future()
             f.set_result(True)
         f.add_done_callback(lambda _: self.apply_bulk_ops())
         return f

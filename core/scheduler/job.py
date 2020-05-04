@@ -10,9 +10,7 @@ import logging
 import time
 import datetime
 from time import perf_counter
-
-# Third-party modules
-import tornado.gen
+import asyncio
 
 # NOC modules
 from noc.core.log import PrefixLoggerAdapter
@@ -159,7 +157,7 @@ class Job(object):
                         try:
                             data = self.attrs.get(self.ATTR_DATA) or {}
                             result = self.handler(**data)
-                            if tornado.gen.is_future(result):
+                            if asyncio.isfuture(result):
                                 # Wait for future
                                 result = await result
                             status = self.E_SUCCESS
