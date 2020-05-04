@@ -40,7 +40,7 @@ class WebService(Service):
             (r"^.*$", NOCWSGIHandler, {"service": self})
         ]
 
-    def on_activate(self):
+    async def on_activate(self):
         # Initialize audit trail
         from noc.main.models.audittrail import AuditTrail
 

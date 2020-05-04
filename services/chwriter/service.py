@@ -44,15 +44,14 @@ class CHWriterService(Service):
             self.ch_address = config.clickhouse.rw_addresses[0]
         self.restore_timeout = None
 
-    @tornado.gen.coroutine
-    def on_activate(self):
+    async def on_activate(self):
         report_callback = tornado.ioloop.PeriodicCallback(self.report, 10000)
         report_callback.start()
         check_callback = tornado.ioloop.PeriodicCallback(
             self.check_channels, config.chwriter.batch_delay_ms
         )
         check_callback.start()
-        yield self.subscribe(
+        await self.subscribe(
             config.chwriter.topic,
             "chwriter",
             self.on_data,

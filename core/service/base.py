@@ -528,8 +528,7 @@ class Service(object):
         else:
             raise self.RegistrationError()
 
-    @tornado.gen.coroutine
-    def on_activate(self):
+    async def on_activate(self):
         """
         Called when service activated
         """
@@ -548,8 +547,7 @@ class Service(object):
             self.die("Service misconfiguration detected: Invalid total_slots")
         return slot_number, total_slots
 
-    @tornado.gen.coroutine
-    def on_deactivate(self):
+    async def on_deactivate(self):
         return
 
     def open_rpc(self, name, pool=None, sync=False, hints=None):

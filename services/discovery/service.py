@@ -29,9 +29,8 @@ class DiscoveryService(Service):
         self.slot_number = 0
         self.total_slots = 0
 
-    @tornado.gen.coroutine
-    def on_activate(self):
-        self.slot_number, self.total_slots = yield self.acquire_slot()
+    async def on_activate(self):
+        self.slot_number, self.total_slots = await self.acquire_slot()
         if self.total_slots > 1:
             self.logger.info(
                 "Enabling distributed mode: Slot %d/%d", self.slot_number, self.total_slots

@@ -119,8 +119,7 @@ class ClassifierService(Service):
         self.last_ts = None
         self.stats = {}
 
-    @tornado.gen.coroutine
-    def on_activate(self):
+    async def on_activate(self):
         """
         Load rules from database after loading config
         """
@@ -130,7 +129,7 @@ class ClassifierService(Service):
         self.load_suppression()
         self.load_link_action()
         self.load_handlers()
-        yield self.subscribe("events.%s" % config.pool, "fmwriter", self.on_event)
+        await self.subscribe("events.%s" % config.pool, "fmwriter", self.on_event)
         report_callback = tornado.ioloop.PeriodicCallback(self.report, 1000)
         report_callback.start()
 

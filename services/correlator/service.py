@@ -59,8 +59,7 @@ class CorrelatorService(Service):
         self.rca_lock = Lock()
         self.topology_rca_lock = Lock()
 
-    @tornado.gen.coroutine
-    def on_activate(self):
+    async def on_activate(self):
         self.scheduler = Scheduler(
             self.name,
             pool=config.pool,
@@ -71,7 +70,7 @@ class CorrelatorService(Service):
             max_chunk=100,
         )
         self.scheduler.correlator = self
-        yield self.subscribe(
+        await self.subscribe(
             "correlator.dispose.%s" % config.pool,
             "dispose",
             self.on_dispose_event,

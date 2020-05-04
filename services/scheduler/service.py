@@ -22,8 +22,7 @@ class SchedulerService(Service):
     leader_lock_name = "scheduler"
     use_mongo = True
 
-    @tornado.gen.coroutine
-    def on_activate(self):
+    async def on_activate(self):
         self.scheduler = Scheduler(
             "scheduler", reset_running=True, max_threads=config.scheduler.max_threads,
         )

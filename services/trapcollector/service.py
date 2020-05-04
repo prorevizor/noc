@@ -39,8 +39,7 @@ class TrapCollectorService(Service):
         self.address_configs = {}  # address -> SourceConfig
         self.invalid_sources = defaultdict(int)  # ip -> count
 
-    @tornado.gen.coroutine
-    def on_activate(self):
+    async def on_activate(self):
         # Listen sockets
         server = TrapServer(service=self)
         for addr, port in server.iter_listen(config.trapcollector.listen):
