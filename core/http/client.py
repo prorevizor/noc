@@ -23,6 +23,7 @@ from tornado.ioloop import IOLoop
 import tornado.iostream
 import cachetools
 import ujson
+from typing import Optional
 
 # NOC modules
 from noc.core.perf import metrics
@@ -83,7 +84,7 @@ async def fetch(
     url,
     method="GET",
     headers=None,
-    body=None,
+    body: Optional[bytes] = None,
     connect_timeout=DEFAULT_CONNECT_TIMEOUT,
     request_timeout=DEFAULT_REQUEST_TIMEOUT,
     resolver=resolve,
@@ -268,7 +269,7 @@ async def fetch(
                     6, zlib.DEFLATED, -zlib.MAX_WBITS, zlib.DEF_MEM_LEVEL, 0
                 )
                 crc = zlib.crc32(body, 0) & 0xFFFFFFFF
-                body = "\x1f\x8b\x08\x00%s\x02\xff%s%s%s%s" % (
+                body = b"\x1f\x8b\x08\x00%s\x02\xff%s%s%s%s" % (
                     to32u(int(time.time())),
                     compress.compress(body),
                     compress.flush(),
