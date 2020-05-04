@@ -9,8 +9,7 @@
 import logging
 import random
 import signal
-from threading import Lock
-import datetime
+import threading
 import os
 from urllib.parse import urlparse
 from time import perf_counter
@@ -19,7 +18,6 @@ import asyncio
 # Third-party modules
 import tornado.gen
 from tornado.ioloop import IOLoop, PeriodicCallback
-import tornado.locks
 
 # NOC modules
 from noc.config import config
@@ -29,7 +27,6 @@ from .error import ResolutionError
 
 
 class DCSBase(object):
-    DEFAULT_SERVICE_RESOLUTION_TIMEOUT = datetime.timedelta(seconds=config.dcs.resolution_timeout)
     # Resolver class
     resolver_cls = None
     # HTTP code to be returned by /health endpoint when service is healthy
@@ -44,7 +41,7 @@ class DCSBase(object):
         self.parse_url(urlparse(url))
         # service -> resolver instances
         self.resolvers = {}
-        self.resolvers_lock = Lock()
+        self.resolvers_lock = threading.Lock()
         self.resolver_expiration_task = None
         self.health_check_service_id = None
         self.status = True
@@ -199,12 +196,15 @@ class ResolverBase(object):
         self.services = {}
         self.service_ids = []
         self.service_addresses = set()
-        self.lock = Lock()
+        self.lock = threading.Lock()
         self.policy = self.policy_random
         self.rr_index = -1
         self.critical = critical
         self.near = near
-        self.ready_event = tornado.locks.Event()
+        self.is_ready = False
+        self.thread_id = threading.get_ident()
+        self.ready_event_async = asyncio.Event()
+        self.ready_event_sync = threading.Event()
         self.track = track
         self.last_used = perf_counter()
 
@@ -238,29 +238,56 @@ class ResolverBase(object):
                     self.name,
                     ", ".join("%s: %s" % (i, self.services[i]) for i in self.services),
                 )
-                self.ready_event.set()
+                self.set_ready()
             else:
                 self.logger.info("[%s] No active services", self.name)
-                self.ready_event.clear()
+                self.clear_ready()
             metrics["dcs_resolver_activeservices", ("name", self.name)] = len(self.services)
+
+    def set_ready(self):
+        self.is_ready = True
+        self.ready_event_async.set()
+        self.ready_event_sync.set()
+
+    def clear_ready(self):
+        self.is_ready = False
+        self.ready_event_async.clear()
+        self.ready_event_sync.clear()
+
+    def is_same_thread(self):
+        return self.thread_id == threading.get_ident()
+
+    async def _wait_for_services_async(self, timeout):
+        try:
+            await asyncio.wait_for(
+                self.ready_event_async.wait(), timeout or config.dcs.resolution_timeout
+            )
+        except asyncio.TimeoutError:
+            metrics["errors", ("type", "dcs_resolver_timeout")] += 1
+            if self.critical:
+                self.dcs.set_faulty_status("Failed to resolve %s: Timeout" % self.name)
+            raise ResolutionError()
+
+    def _wait_for_services_sync(self, timeout):
+        if not self.ready_event_sync.wait(timeout):
+            metrics["errors", ("type", "dcs_resolver_timeout")] += 1
+            if self.critical:
+                self.dcs.set_faulty_status("Failed to resolve %s: Timeout" % self.name)
+            raise ResolutionError()
+
+    async def _wait_for_services(self, timeout=None):
+        if self.is_same_thread():
+            await self._wait_for_services_async(timeout)
+        else:
+            self._wait_for_services_sync(timeout)
 
     async def resolve(self, hint=None, wait=True, timeout=None, full_result=False):
         self.last_used = perf_counter()
         metrics["dcs_resolver_requests"] += 1
-        if wait:
+        if not self.services and wait:
             # Wait until service catalog populated
-            if timeout:
-                t = datetime.timedelta(seconds=timeout)
-            else:
-                t = self.dcs.DEFAULT_SERVICE_RESOLUTION_TIMEOUT
-            try:
-                await self.ready_event.wait(timeout=t)
-            except (tornado.gen.TimeoutError, asyncio.TimeoutError):
-                metrics["errors", ("type", "dcs_resolver_timeout")] += 1
-                if self.critical:
-                    self.dcs.set_faulty_status("Failed to resolve %s: Timeout" % self.name)
-                raise ResolutionError()
-        if not wait and not self.ready_event.is_set():
+            await self._wait_for_services(timeout)
+        if not wait and not self.is_ready:
             if self.critical:
                 self.dcs.set_faulty_status("Failed to resolve %s: No active services" % self.name)
             raise ResolutionError()
