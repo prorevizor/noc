@@ -131,7 +131,7 @@ class DCSBase(object):
 
     async def expire_resolvers(self):
         with self.resolvers_lock:
-            for svc in self.resolvers:
+            for svc in list(self.resolvers):
                 r = self.resolvers[svc]
                 if r.is_expired():
                     self.logger.info("Stopping expired resolver for service %s", svc)
