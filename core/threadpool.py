@@ -130,7 +130,7 @@ class ThreadPoolExecutor(object):
     def stop_one_worker(self):
         self._put((None, None, None, None, None, None, None))
 
-    def submit(self, fn, *args, **kwargs):
+    def submit(self, fn, *args, **kwargs) -> asyncio.Future:
         if self.to_shutdown:
             raise RuntimeError("Cannot schedule new task after shutdown")
         future = asyncio.Future()

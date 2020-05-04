@@ -18,6 +18,7 @@ import asyncio
 import pymongo.errors
 from tornado.ioloop import IOLoop
 from pymongo import DeleteOne, UpdateOne
+from typing import Optional
 
 # NOC modules
 from noc.core.mongo.connection import get_db
@@ -80,7 +81,7 @@ class Scheduler(object):
         self.bulk = []
         self.bulk_lock = threading.Lock()
         self.max_threads = max_threads
-        self.executor = None
+        self.executor: Optional[ThreadPoolExecutor] = None
         self.run_callback = None
         self.check_time = check_time
         self.read_ahead_interval = datetime.timedelta(milliseconds=check_time)
@@ -141,7 +142,7 @@ class Scheduler(object):
             self.bulk = []
         return self.collection
 
-    def get_executor(self):
+    def get_executor(self) -> ThreadPoolExecutor:
         """
         Returns threadpool executor
         """
@@ -183,8 +184,7 @@ class Scheduler(object):
             qq = self.filter.copy()
             qq.update(q)
             return qq
-        else:
-            return q
+        return q
 
     def scheduler_tick(self):
         """
@@ -210,9 +210,10 @@ class Scheduler(object):
         while not self.to_shutdown:
             t0 = perf_counter()
             n = 0
-            if self.get_executor().may_submit():
+            executor = self.get_executor()
+            if executor.may_submit():
                 try:
-                    n = await self.executor.submit(self.scheduler_tick)
+                    n = await executor.submit(self.scheduler_tick)
                 except Exception as e:
                     self.logger.error("Failed to execute scheduler tick: %s", e)
             dt = self.check_time - (perf_counter() - t0) * 1000
@@ -524,5 +525,5 @@ class Scheduler(object):
         else:
             f = asyncio.Future()
             f.set_result(True)
-        f.add_done_callback(lambda _: self.apply_bulk_ops())
+        f.add_done_callback(lambda _: self.apply_ops())
         return f
