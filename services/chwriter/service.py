@@ -19,7 +19,7 @@ from noc.core.http.client import fetch
 from noc.config import config
 from noc.core.perf import metrics
 from noc.services.chwriter.channel import Channel
-from noc.core.comp import smart_text, smart_bytes
+from noc.core.comp import smart_text
 
 
 class CHWriterService(Service):

@@ -27,7 +27,7 @@ import tornado.httpserver
 import tornado.locks
 import setproctitle
 import ujson
-from typing import Dict, List, Generator
+from typing import Dict, List
 
 # NOC modules
 from noc.config import config, CH_UNCLUSTERED, CH_REPLICATED, CH_SHARDED

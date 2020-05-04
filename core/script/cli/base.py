@@ -10,14 +10,12 @@ import socket
 import re
 import functools
 from functools import reduce
-import sys
 from threading import Lock
 import asyncio
 
 # Third-party modules
 import tornado.gen
 import tornado.iostream
-from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
 from typing import Optional, Callable
 
