@@ -7,7 +7,6 @@
 
 # Python modules
 import socket
-import datetime
 import re
 import asyncio
 
