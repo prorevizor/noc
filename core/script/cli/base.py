@@ -28,6 +28,7 @@ from noc.config import config
 from noc.core.span import Span
 from noc.core.perf import metrics
 from noc.core.comp import smart_bytes, smart_text
+from noc.core.ioloop.util import IOLoopContext
 from .error import (
     CLIError,
     CLIAuthFailed,
@@ -73,7 +74,7 @@ class CLI(object):
         self.iostream = None
         self.motd = ""
         self.ioloop = None
-        self.prev_ioloop = None
+        self.loop_context: Optional[IOLoopContext] = None
         self.command = None
         self.prompt_stack = []
         self.patterns = self.profile.patterns.copy()
@@ -105,9 +106,9 @@ class CLI(object):
             self.ioloop.close(all_fds=True)
             self.ioloop = None
             # Restore previous ioloop
-            if self.prev_ioloop:
-                self.prev_ioloop.make_current()
-                self.prev_ioloop = None
+            if self.loop_context:
+                self.loop_context.drop_context()
+                self.loop_context = None
             else:
                 IOLoop.clear_current()
         self.is_closed = True
@@ -238,9 +239,9 @@ class CLI(object):
         self.allow_empty_response = allow_empty_response
         if not self.ioloop:
             self.logger.debug("Creating IOLoop")
-            self.prev_ioloop = IOLoop.current(instance=False)
-            self.ioloop = IOLoop()
-            self.ioloop.make_current()
+            self.loop_context = IOLoopContext()
+            self.loop_context.get_context()
+            self.ioloop = IOLoop.current()
         if obj_parser:
             parser = functools.partial(
                 self.parse_object_stream, obj_parser, smart_bytes(cmd_next), smart_bytes(cmd_stop)

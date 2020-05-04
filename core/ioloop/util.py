@@ -21,6 +21,37 @@ logger = logging.getLogger(__name__)
 T = TypeVar("T")
 
 
+class IOLoopContext(object):
+    def __init__(self):
+        self.prev_loop = None
+        self.new_loop = None
+
+    def get_context(self):
+        self.prev_loop = asyncio._get_running_loop()
+        self.new_loop = asyncio.new_event_loop()
+        if self.prev_loop:
+            # Reset running loop
+            asyncio._set_running_loop(None)
+        return self.new_loop
+
+    def drop_context(self):
+        self.new_loop.close()
+        self.new_loop = None
+        asyncio._set_running_loop(self.prev_loop)
+        if self.prev_loop:
+            asyncio._set_running_loop(self.prev_loop)
+        else:
+            asyncio._set_running_loop(None)
+            asyncio.get_event_loop_policy().reset_called()
+        self.prev_loop = None
+
+    def __enter__(self):
+        return self.get_context()
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.drop_context()
+
+
 def run_sync(cb: Callable[..., T], close_all: bool = True) -> T:
     """
     Run callable on dedicated IOLoop in safe manner
@@ -45,21 +76,8 @@ def run_sync(cb: Callable[..., T], close_all: bool = True) -> T:
     result: List[T] = []
     error: List[Tuple[Any, Any, Any]] = []
 
-    prev_loop = asyncio._get_running_loop()
-    new_loop = asyncio.new_event_loop()
-    if prev_loop:
-        # Reset running loop
-        asyncio._set_running_loop(None)
-    try:
-        new_loop.run_until_complete(wrapper())
-    finally:
-        new_loop.close()
-        asyncio._set_running_loop(prev_loop)
-        if prev_loop:
-            asyncio._set_running_loop(prev_loop)
-        else:
-            asyncio._set_running_loop(None)
-            asyncio.get_event_loop_policy().reset_called()
+    with IOLoopContext() as loop:
+        loop.run_until_complete(wrapper())
     # @todo: close_all
     if error:
         reraise(*error[0])
