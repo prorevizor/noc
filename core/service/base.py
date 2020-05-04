@@ -675,7 +675,7 @@ class Service(object):
         self.logger.info("Resuming subscription for handler %s", handler)
         self.nsq_readers[handler].set_max_in_flight(config.nsqd.max_in_flight)
 
-    def get_topic_queue(self, topic):
+    def get_topic_queue(self, topic: str) -> TopicQueue:
         q = self.topic_queues.get(topic)
         if q:
             return q
@@ -689,7 +689,7 @@ class Service(object):
             self.ioloop.add_callback(self.nsq_publisher_guard, q)
             return q
 
-    async def nsq_publisher_guard(self, queue: TopicQueue) -> Generator:
+    async def nsq_publisher_guard(self, queue: TopicQueue):
         while not queue.to_shutdown:
             try:
                 await self.nsq_publisher(queue)
@@ -697,7 +697,7 @@ class Service(object):
                 self.logger.error("Unhandled exception in NSQ publisher, restarting: %s", e)
         queue.shutdown_complete.set()
 
-    async def nsq_publisher(self, queue):
+    async def nsq_publisher(self, queue: TopicQueue):
         """
         Publisher for NSQ topic
 
