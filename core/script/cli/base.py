@@ -103,7 +103,10 @@ class CLI(object):
         self.close_iostream()
         if self.ioloop:
             self.logger.debug("Closing IOLoop")
-            self.ioloop.close(all_fds=True)
+            try:
+                self.ioloop.close(all_fds=True)
+            except KeyError:
+                self.logger.info("IOLoop is already closed")
             self.ioloop = None
             # Restore previous ioloop
             if self.loop_context:
