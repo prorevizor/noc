@@ -74,7 +74,7 @@ async def whois_async(query, fields=None):
         await stream.write(smart_bytes(query) + b"\r\n")
         data = await stream.read_until_close()
     finally:
-        await stream.close()
+        stream.close()
     data = smart_text(data)
     data = parse_response(data)
     if fields:
