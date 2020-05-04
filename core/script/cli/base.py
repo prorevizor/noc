@@ -9,7 +9,6 @@
 import socket
 import re
 import functools
-import datetime
 from functools import reduce
 import sys
 from threading import Lock
@@ -679,9 +678,7 @@ class CLI(object):
             await self.send(cmd)
             # Waiting for response and drop it
             if i < lseq - 1:
-                resp = await tornado.gen.with_timeout(
-                    self.ioloop.time() + 30, future=self.iostream.read_bytes(4096, partial=True)
-                )
+                resp = await asyncio.wait_for(self.iostream.read_bytes(4096, partial=True), 30)
                 if self.script.to_track:
                     self.script.push_cli_tracking(resp, self.state)
                 self.logger.debug("Receiving: %r", resp)

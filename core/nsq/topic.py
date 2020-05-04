@@ -14,7 +14,6 @@ import asyncio
 
 # Third-party modules
 import ujson
-import tornado.gen
 import tornado.locks
 from tornado.ioloop import IOLoop
 from typing import Union, Iterable, List, Dict, Any

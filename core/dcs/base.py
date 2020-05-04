@@ -14,6 +14,7 @@ import datetime
 import os
 from urllib.parse import urlparse
 from time import perf_counter
+import asyncio
 
 # Third-party modules
 import tornado.gen
@@ -254,7 +255,7 @@ class ResolverBase(object):
                 t = self.dcs.DEFAULT_SERVICE_RESOLUTION_TIMEOUT
             try:
                 await self.ready_event.wait(timeout=t)
-            except tornado.gen.TimeoutError:
+            except (tornado.gen.TimeoutError, asyncio.TimeoutError):
                 metrics["errors", ("type", "dcs_resolver_timeout")] += 1
                 if self.critical:
                     self.dcs.set_faulty_status("Failed to resolve %s: Timeout" % self.name)

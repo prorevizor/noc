@@ -159,7 +159,7 @@ class Job(object):
                             result = self.handler(**data)
                             if asyncio.isfuture(result):
                                 # Wait for future
-                                result = await result
+                                await result
                             status = self.E_SUCCESS
                         except RetryAfter as e:
                             self.logger.info("Retry after %ss: %s", e.delay, e)

@@ -10,7 +10,6 @@ import threading
 import logging
 import itertools
 import time
-import datetime
 from collections import deque
 import _thread
 from time import perf_counter

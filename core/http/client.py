@@ -18,7 +18,6 @@ from urllib.parse import urlparse
 import asyncio
 
 # Third-party modules
-import tornado.gen
 import tornado.ioloop
 from tornado.ioloop import IOLoop
 import tornado.iostream
