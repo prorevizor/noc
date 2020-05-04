@@ -13,7 +13,7 @@ import time
 from collections import deque
 import _thread
 from time import perf_counter
-from asyncio import Future, wait_for
+import asyncio
 
 # Third-party modules
 from typing import Optional, Dict, Any, Set, List
@@ -133,7 +133,7 @@ class ThreadPoolExecutor(object):
     def submit(self, fn, *args, **kwargs):
         if self.to_shutdown:
             raise RuntimeError("Cannot schedule new task after shutdown")
-        future = Future()
+        future = asyncio.Future()
         span_ctx, span = get_current_span()
         # Fetch span label
         if "_in_label" in kwargs:
@@ -151,7 +151,7 @@ class ThreadPoolExecutor(object):
     def shutdown(self, sync=False):
         logger.info("Shutdown")
         with self.mutex:
-            self.done_future = Future()
+            self.done_future = asyncio.Future()
             if sync:
                 self.done_event = threading.Event()
             self.to_shutdown = True
@@ -161,7 +161,7 @@ class ThreadPoolExecutor(object):
             self.done_event.wait(timeout=self.shutdown_timeout)
             return self.done_future
         else:
-            return wait_for(self.done_future, self.shutdown_timeout)
+            return asyncio.ensure_future(asyncio.wait_for(self.done_future, self.shutdown_timeout))
 
     def worker(self):
         t = threading.current_thread()
