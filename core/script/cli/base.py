@@ -350,7 +350,7 @@ class CLI(object):
                 metrics["cli_timeouts", ("proto", self.name)] += 1
                 # IOStream must be closed to prevent hanging read callbacks
                 self.close_iostream()
-                raise tornado.gen.TimeoutError("Timeout")
+                raise asyncio.TimeoutError("Timeout")
             self.logger.debug("Received: %r", r)
             # Clean input
             if self.buffer.find(b"\x1b", -self.MATCH_MISSED_CONTROL_TAIL) != -1:

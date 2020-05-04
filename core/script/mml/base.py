@@ -14,7 +14,7 @@ import asyncio
 # Third-party modules
 import tornado.ioloop
 import tornado.iostream
-import tornado.gen
+from typing import Union
 
 # NOC modules
 from noc.config import config
@@ -115,10 +115,10 @@ class MMLBase(object):
                 s.setsockopt(socket.SOL_TCP, socket.TCP_KEEPCNT, self.KEEP_CNT)
         return self.iostream_class(s, self)
 
-    def set_timeout(self, timeout):
+    def set_timeout(self, timeout: Union[int, float]):
         if timeout:
             self.logger.debug("Setting timeout: %ss", timeout)
-            self.current_timeout = datetime.timedelta(seconds=timeout)
+            self.current_timeout = timeout
         else:
             if self.current_timeout:
                 self.logger.debug("Resetting timeouts")
@@ -232,7 +232,7 @@ class MMLBase(object):
             try:
                 f = self.iostream.read_bytes(self.BUFFER_SIZE, partial=True)
                 if self.current_timeout:
-                    r = await tornado.gen.with_timeout(self.current_timeout, f)
+                    r = await asyncio.wait_for(f, self.current_timeout)
                 else:
                     r = await f
             except tornado.iostream.StreamClosedError:
@@ -262,9 +262,9 @@ class MMLBase(object):
                     continue
                 else:
                     raise tornado.iostream.StreamClosedError()
-            except tornado.gen.TimeoutError:
+            except asyncio.TimeoutError:
                 self.logger.info("Timeout error")
-                raise tornado.gen.TimeoutError("Timeout")
+                raise asyncio.TimeoutError("Timeout")
             self.logger.debug("Received: %r", r)
             self.buffer += r
             offset = max(0, len(self.buffer) - self.MATCH_TAIL)

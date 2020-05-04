@@ -473,7 +473,7 @@ class Service(object):
             try:
                 self.logger.info("Shutting down scheduler")
                 await self.scheduler.shutdown()
-            except tornado.gen.TimeoutError:
+            except asyncio.TimeoutError:
                 self.logger.info("Timed out when shutting down scheduler")
         # Shutdown executors
         await self.shutdown_executors()
@@ -745,7 +745,7 @@ class Service(object):
                 try:
                     self.logger.info("Shutting down %s", x)
                     await self.executors[x].shutdown()
-                except tornado.gen.TimeoutError:
+                except asyncio.TimeoutError:
                     self.logger.info("Timed out when shutting down %s", x)
 
     async def shutdown_topic_queues(self):
@@ -766,7 +766,7 @@ class Service(object):
             try:
                 self.logger.info("Waiting shutdown of topic queue %s", topic)
                 await queue.shutdown_complete.wait(datetime.timedelta(seconds=5))
-            except tornado.gen.TimeoutError:
+            except asyncio.TimeoutError:
                 self.logger.info("Failed to shutdown topic queue %s: Timed out", topic)
 
     def pub(self, topic, data, raw=False):
