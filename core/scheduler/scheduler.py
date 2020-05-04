@@ -12,22 +12,21 @@ import random
 import threading
 import time
 from time import perf_counter
+import asyncio
 
 # Third-party modules
 import pymongo.errors
-import tornado.gen
-import tornado.ioloop
 from tornado.ioloop import IOLoop
 from concurrent.futures import Future
 from pymongo import DeleteOne, UpdateOne
 
 # NOC modules
-from .job import Job
 from noc.core.mongo.connection import get_db
 from noc.core.handler import get_handler
 from noc.core.threadpool import ThreadPoolExecutor
 from noc.core.perf import metrics
 from noc.config import config
+from .job import Job
 
 
 class Scheduler(object):
@@ -205,8 +204,7 @@ class Scheduler(object):
         self.apply_bulk_ops()
         self.apply_cache_ops()
 
-    @tornado.gen.coroutine
-    def scheduler_loop(self):
+    async def scheduler_loop(self):
         """
         Primary scheduler loop
         """
@@ -215,14 +213,14 @@ class Scheduler(object):
             n = 0
             if self.get_executor().may_submit():
                 try:
-                    n = yield self.executor.submit(self.scheduler_tick)
+                    n = await self.executor.submit(self.scheduler_tick)
                 except Exception as e:
                     self.logger.error("Failed to execute scheduler tick: %s", e)
             dt = self.check_time - (perf_counter() - t0) * 1000
             if dt > 0:
                 if n:
                     dt = min(dt, self.check_time / n)
-                yield tornado.gen.sleep(dt / 1000.0)
+                await asyncio.sleep(dt / 1000.0)
         self.apply_ops()
 
     def iter_pending_jobs(self, limit):

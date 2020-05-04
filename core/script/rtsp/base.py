@@ -10,6 +10,7 @@ import socket
 import datetime
 import os
 from urllib.request import parse_http_list, parse_keqv_list
+import asyncio
 
 # Third-party modules
 import tornado.ioloop
@@ -144,8 +145,7 @@ class RTSPBase(object):
         uri = "rtsp://%s%s" % (address, self.path)
         return uri.encode("utf-8")
 
-    @tornado.gen.coroutine
-    def send(self, method=None, body=None):
+    async def send(self, method=None, body=None):
         # @todo: Apply encoding
         self.error = None
         body = body or ""
@@ -169,29 +169,28 @@ class RTSPBase(object):
         )
 
         self.logger.debug("Send: %r", req)
-        yield self.iostream.write(req)
+        await self.iostream.write(req)
         self.cseq += 1
 
-    @tornado.gen.coroutine
-    def submit(self):
+    async def submit(self):
         # Create iostream and connect, when necessary
         if not self.iostream:
             self.iostream = self.create_iostream()
             address = (self.script.credentials.get("address"), self.default_port)
             self.logger.debug("Connecting %s", address)
             try:
-                yield self.iostream.connect(address)
+                await self.iostream.connect(address)
             except tornado.iostream.StreamClosedError:
                 self.logger.debug("Connection refused")
                 self.error = RTSPConnectionRefused("Connection refused")
                 return None
             self.logger.debug("Connected")
-            yield self.iostream.startup()
+            await self.iostream.startup()
         # Perform all necessary login procedures
         if not self.is_started:
             self.is_started = True
-            yield self.send("OPTIONS")
-            yield self.get_rtsp_response()
+            await self.send("OPTIONS")
+            await self.get_rtsp_response()
             if self.error and self.error.code == 401:
                 self.logger.info("Authentication needed")
                 self.auth = DigestAuth(
@@ -199,16 +198,15 @@ class RTSPBase(object):
                     password=self.script.credentials.get("password"),
                 )
                 # Send command
-        yield self.send()
-        r = yield self.get_rtsp_response()
+        await self.send()
+        r = await self.get_rtsp_response()
         return r
 
-    @tornado.gen.coroutine
-    def get_rtsp_response(self):
+    async def get_rtsp_response(self):
         result = []
         header_sep = "\r\n\r\n"
         while True:
-            r = yield self.read_until_end()
+            r = await self.read_until_end()
             # r = r.strip()
             # Process header
             if header_sep not in r:
@@ -284,16 +282,15 @@ class RTSPBase(object):
             else:
                 return self.result
 
-    @tornado.gen.coroutine
-    def read_until_end(self):
+    async def read_until_end(self):
         connect_retries = self.CONNECT_RETRIES
         while True:
             try:
                 f = self.iostream.read_bytes(self.BUFFER_SIZE, partial=True)
                 if self.current_timeout:
-                    r = yield tornado.gen.with_timeout(self.current_timeout, f)
+                    r = await tornado.gen.with_timeout(self.current_timeout, f)
                 else:
-                    r = yield f
+                    r = await f
             except tornado.iostream.StreamClosedError:
                 # Check if remote end closes connection just
                 # after connection established
@@ -304,7 +301,7 @@ class RTSPBase(object):
                         self.CONNECT_TIMEOUT,
                     )
                     while connect_retries:
-                        yield tornado.gen.sleep(self.CONNECT_TIMEOUT)
+                        await asyncio.sleep(self.CONNECT_TIMEOUT)
                         connect_retries -= 1
                         self.iostream = self.create_iostream()
                         address = (
@@ -313,7 +310,7 @@ class RTSPBase(object):
                         )
                         self.logger.debug("Connecting %s", address)
                         try:
-                            yield self.iostream.connect(address)
+                            await self.iostream.connect(address)
                             break
                         except tornado.iostream.StreamClosedError:
                             if not connect_retries:

@@ -10,6 +10,7 @@ from collections import deque
 from threading import Lock
 import datetime
 from time import perf_counter
+import asyncio
 
 # Third-party modules
 import ujson
@@ -205,7 +206,7 @@ class TopicQueue(object):
             now = perf_counter()
             delta = max(self.last_get + 1.0 / rate - now, 0)
             if delta > 0:
-                await tornado.gen.sleep(delta)
+                await asyncio.sleep(delta)
                 # Adjust remaining timeout
                 if timeout:
                     # Adjust timeout

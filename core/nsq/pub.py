@@ -9,10 +9,10 @@
 import logging
 import struct
 import random
+import asyncio
 
 # Third-party modules
 import ujson
-import tornado.gen
 from typing import List, Any
 
 # NOC modules
@@ -119,7 +119,7 @@ async def mpub(topic, messages, dcs=None, retries=None):
         logger.error("Failed to pub to topic '%s': %s (Code=%d)", topic, body, code)
         retries -= 1
         if retries > 0:
-            await tornado.gen.sleep(config.nsqd.pub_retry_delay)
+            await asyncio.sleep(config.nsqd.pub_retry_delay)
             s_index = (s_index + 1) % num_services
     if code != 200:
         logger.error("Failed to pub to topic '%s'. Giving up", topic)

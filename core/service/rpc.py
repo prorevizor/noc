@@ -12,10 +12,9 @@ import random
 import threading
 import sys
 from time import perf_counter
+import asyncio
 
 # Third-party modules
-import tornado.concurrent
-import tornado.gen
 import ujson
 
 # NOC modules
@@ -125,7 +124,7 @@ class RPCProxy(object):
                 if response:
                     break
                 else:
-                    await tornado.gen.sleep(t)
+                    await asyncio.sleep(t)
             t = perf_counter() - t0
             self._logger.debug("[CALL<] %s.%s (%.2fms)", self._service_name, method, t * 1000)
             if response:
@@ -157,8 +156,6 @@ class RPCProxy(object):
                 try:
                     r = await _call(item, *args, **kwargs)
                     result.append(r)
-                except tornado.gen.Return as e:
-                    result.append(e.value)
                 except Exception:
                     error.append(sys.exc_info())
                 finally:

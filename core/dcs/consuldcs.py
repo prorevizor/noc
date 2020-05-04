@@ -11,11 +11,11 @@ import time
 import ujson
 import uuid
 from urllib.parse import unquote
+import asyncio
 
 # Third-party modules
 import consul.base
 import consul.tornado
-import tornado.gen
 from tornado.ioloop import PeriodicCallback
 
 # NOC modules
@@ -206,7 +206,7 @@ class ConsulDCS(DCSBase):
                 )
                 break
             except ConsulRepeatableErrors:
-                await tornado.gen.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
+                await asyncio.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
                 continue
         self.logger.info("Session id: %s", self.session)
         self.keep_alive_task = PeriodicCallback(
@@ -261,7 +261,7 @@ class ConsulDCS(DCSBase):
                 except ConsulRepeatableErrors as e:
                     metrics["error", ("type", "cant_register_consul")] += 1
                     self.logger.info("Cannot register service %s: %s", name, e)
-                    await tornado.gen.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
+                    await asyncio.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
                     continue
                 if r:
                     self.svc_id = svc_id
@@ -310,7 +310,7 @@ class ConsulDCS(DCSBase):
                     except ConsulRepeatableErrors as e:
                         self.logger.warning("Cannot refresh session due to ignorable error: %s", e)
                         metrics["error", ("type", "dcs_consul_keepalive_retries")] += 1
-                        await tornado.gen.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
+                        await asyncio.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
                 if not touched:
                     self.logger.critical("Cannot refresh session, stopping")
                     if self.keep_alive_task:
@@ -342,9 +342,9 @@ class ConsulDCS(DCSBase):
                 else:
                     metrics["error", ("type", "dcs_consul_failed_get_lock")] += 1
                     self.logger.info("Failed to acquire lock")
-                    await tornado.gen.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
+                    await asyncio.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
             except ConsulRepeatableErrors:
-                await tornado.gen.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
+                await asyncio.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
                 continue
             # Waiting for lock release
             while True:
@@ -354,12 +354,12 @@ class ConsulDCS(DCSBase):
                     )
                     if not data:
                         index = None  # Key has been deleted
-                        await tornado.gen.sleep(
+                        await asyncio.sleep(
                             self.DEFAULT_CONSUL_LOCK_DELAY * (0.5 + random.random())
                         )
                     break
                 except ConsulRepeatableErrors:
-                    await tornado.gen.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
+                    await asyncio.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
         self.logger.info("Lock acquired")
 
     async def acquire_slot(self, name, limit):
@@ -391,9 +391,9 @@ class ConsulDCS(DCSBase):
                 else:
                     metrics["error", ("type", "dcs_consul_failed_get_slot")] += 1
                     self.logger.info("Failed to write contender slot info")
-                    await tornado.gen.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
+                    await asyncio.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
             except ConsulRepeatableErrors:
-                await tornado.gen.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
+                await asyncio.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
         index = 0
         cas = 0
         while True:
@@ -406,7 +406,7 @@ class ConsulDCS(DCSBase):
             try:
                 index, cv = await self.consul.kv.get(key=prefix, index=index, recurse=True)
             except ConsulRepeatableErrors:
-                await tornado.gen.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
+                await asyncio.sleep(self.DEFAULT_CONSUL_RETRY_TIMEOUT)
                 continue
             for e in cv:
                 if e["Key"] == manifest_path:

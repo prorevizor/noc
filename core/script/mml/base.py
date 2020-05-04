@@ -9,6 +9,7 @@
 import socket
 import datetime
 import re
+import asyncio
 
 # Third-party modules
 import tornado.ioloop
@@ -129,15 +130,13 @@ class MMLBase(object):
             tornado.ioloop.IOLoop.current().remove_timeout(self.close_timeout)
             self.close_timeout = None
 
-    @tornado.gen.coroutine
-    def send(self, cmd):
+    async def send(self, cmd):
         # @todo: Apply encoding
         cmd = str(cmd)
         self.logger.debug("Send: %r", cmd)
-        yield self.iostream.write(cmd)
+        await self.iostream.write(cmd)
 
-    @tornado.gen.coroutine
-    def submit(self):
+    async def submit(self):
         # Create iostream and connect, when necessary
         if not self.iostream:
             self.iostream = self.create_iostream()
@@ -147,32 +146,31 @@ class MMLBase(object):
             )
             self.logger.debug("Connecting %s", address)
             try:
-                yield self.iostream.connect(address)
+                await self.iostream.connect(address)
             except tornado.iostream.StreamClosedError:
                 self.logger.debug("Connection refused")
                 self.error = MMLConnectionRefused("Connection refused")
                 return None
             self.logger.debug("Connected")
-            yield self.iostream.startup()
+            await self.iostream.startup()
         # Perform all necessary login procedures
         if not self.is_started:
             self.is_started = True
-            yield self.send(self.profile.get_mml_login(self.script))
-            yield self.get_mml_response()
+            await self.send(self.profile.get_mml_login(self.script))
+            await self.get_mml_response()
             if self.error:
                 self.error = MMLAuthFailed(str(self.error))
                 return None
         # Send command
-        yield self.send(self.command)
-        r = yield self.get_mml_response()
+        await self.send(self.command)
+        r = await self.get_mml_response()
         return r
 
-    @tornado.gen.coroutine
-    def get_mml_response(self):
+    async def get_mml_response(self):
         result = []
         header_sep = self.profile.mml_header_separator
         while True:
-            r = yield self.read_until_end()
+            r = await self.read_until_end()
             r = r.strip()
             # Process header
             if header_sep not in r:
@@ -228,16 +226,15 @@ class MMLBase(object):
             else:
                 return self.result
 
-    @tornado.gen.coroutine
-    def read_until_end(self):
+    async def read_until_end(self):
         connect_retries = self.CONNECT_RETRIES
         while True:
             try:
                 f = self.iostream.read_bytes(self.BUFFER_SIZE, partial=True)
                 if self.current_timeout:
-                    r = yield tornado.gen.with_timeout(self.current_timeout, f)
+                    r = await tornado.gen.with_timeout(self.current_timeout, f)
                 else:
-                    r = yield f
+                    r = await f
             except tornado.iostream.StreamClosedError:
                 # Check if remote end closes connection just
                 # after connection established
@@ -248,7 +245,7 @@ class MMLBase(object):
                         self.CONNECT_TIMEOUT,
                     )
                     while connect_retries:
-                        yield tornado.gen.sleep(self.CONNECT_TIMEOUT)
+                        await asyncio.sleep(self.CONNECT_TIMEOUT)
                         connect_retries -= 1
                         self.iostream = self.create_iostream()
                         address = (
@@ -257,7 +254,7 @@ class MMLBase(object):
                         )
                         self.logger.debug("Connecting %s", address)
                         try:
-                            yield self.iostream.connect(address)
+                            await self.iostream.connect(address)
                             break
                         except tornado.iostream.StreamClosedError:
                             if not connect_retries:

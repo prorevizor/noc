@@ -121,8 +121,7 @@ class Job(object):
             if ctx not in self.context:
                 self.context[ctx] = {}
 
-    @tornado.gen.coroutine
-    def run(self):
+    async def run(self):
         with Span(
             server=self.scheduler.name,
             service=self.attrs[self.ATTR_CLASS],
@@ -162,7 +161,7 @@ class Job(object):
                             result = self.handler(**data)
                             if tornado.gen.is_future(result):
                                 # Wait for future
-                                result = yield result
+                                result = await result
                             status = self.E_SUCCESS
                         except RetryAfter as e:
                             self.logger.info("Retry after %ss: %s", e.delay, e)

@@ -13,6 +13,7 @@ import datetime
 from functools import reduce
 import sys
 from threading import Lock
+import asyncio
 
 # Third-party modules
 import tornado.gen
@@ -360,7 +361,7 @@ class CLI(object):
                         self.CONNECT_TIMEOUT,
                     )
                     while connect_retries:
-                        await tornado.gen.sleep(self.CONNECT_TIMEOUT)
+                        await asyncio.sleep(self.CONNECT_TIMEOUT)
                         connect_retries -= 1
                         self.iostream = self.create_iostream()
                         address = (
@@ -672,7 +673,7 @@ class CLI(object):
         lseq = len(self.profile.setup_sequence)
         for i, c in enumerate(self.profile.setup_sequence):
             if isinstance(c, int) or isinstance(c, float):
-                await tornado.gen.sleep(c)
+                await asyncio.sleep(c)
                 continue
             cmd = c % self.script.credentials
             await self.send(cmd)
