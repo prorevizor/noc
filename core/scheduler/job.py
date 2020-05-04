@@ -119,7 +119,7 @@ class Job(object):
             if ctx not in self.context:
                 self.context[ctx] = {}
 
-    async def run(self):
+    def run(self):
         with Span(
             server=self.scheduler.name,
             service=self.attrs[self.ATTR_CLASS],
@@ -159,7 +159,8 @@ class Job(object):
                             result = self.handler(**data)
                             if asyncio.isfuture(result):
                                 # Wait for future
-                                await result
+                                for _ in asyncio.as_completed([result]):
+                                    pass
                             status = self.E_SUCCESS
                         except RetryAfter as e:
                             self.logger.info("Retry after %ss: %s", e.delay, e)
