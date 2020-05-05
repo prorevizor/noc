@@ -51,7 +51,7 @@ class DCSBase(object):
 
     def start(self):
         """
-        Run IOLoop if not started yet
+        Start all pending tasks
         :return:
         """
         self.resolver_expiration_task = PeriodicCallback(self.expire_resolvers, 10000)
@@ -59,7 +59,7 @@ class DCSBase(object):
 
     def stop(self):
         """
-        Stop IOLoop if not stopped yet
+        Stop all pending tasks
         :return:
         """
         if self.resolver_expiration_task:
