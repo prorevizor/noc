@@ -28,7 +28,7 @@ import tornado.httpserver
 import tornado.locks
 import setproctitle
 import ujson
-from typing import Dict, List
+from typing import Dict, List, Tuple, Callable, Any, TypeVar
 
 # NOC modules
 from noc.config import config, CH_UNCLUSTERED, CH_REPLICATED, CH_SHARDED
@@ -56,6 +56,8 @@ from .sdl import SDLRequestHandler
 from .rpc import RPCProxy
 from .ctl import CtlAPI
 from .loader import set_service
+
+T = TypeVar("T")
 
 
 class Service(object):
@@ -169,13 +171,13 @@ class Service(object):
         self.topic_queues: Dict[str, TopicQueue] = {}
         self.topic_queue_lock = threading.Lock()
 
-    def create_parser(self):
+    def create_parser(self) -> argparse.ArgumentParser:
         """
         Return argument parser
         """
         return argparse.ArgumentParser()
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser: argparse.ArgumentParser) -> None:
         """
         Apply additional parser arguments
         """
@@ -364,7 +366,7 @@ class Service(object):
         self.logger.warning("SIGTERM caught, Stopping")
         self.stop()
 
-    def get_service_address(self):
+    def get_service_address(self) -> Tuple[str, int]:
         """
         Returns an (address, port) for HTTP service listener
         """
@@ -795,7 +797,7 @@ class Service(object):
             for chunk in q.iter_encode_chunks(m):
                 q.put(chunk)
 
-    def get_executor(self, name):
+    def get_executor(self, name: str) -> ThreadPoolExecutor:
         """
         Return or start named executor
         """
@@ -809,6 +811,12 @@ class Service(object):
             executor = ThreadPoolExecutor(max_threads, name=name)
             self.executors[name] = executor
         return executor
+
+    def run_in_executor(
+        self, name: str, fn: Callable[[Any], T], *args: Any, **kwargs: Any
+    ) -> asyncio.Future[T]:
+        executor = self.get_executor(name)
+        return executor.submit(fn, *args, **kwargs)
 
     def register_metrics(self, table, metrics):
         """
@@ -887,7 +895,7 @@ class Service(object):
             for chunk in self._iter_metrics_raw_chunks(table, data[ch]):
                 self.pub(ch, chunk, raw=True)
 
-    def start_telemetry_callback(self):
+    def start_telemetry_callback(self) -> None:
         """
         Run telemetry callback
         :return:

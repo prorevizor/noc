@@ -481,7 +481,7 @@ class CorrelatorService(Service):
         """
         self.logger.info("[%s] Receiving message", event_id)
         message.enable_async()
-        self.get_executor("max").submit(self.dispose_worker, message, event_id, event)
+        self.run_in_executor("max", self.dispose_worker, message, event_id, event)
 
     def dispose_worker(self, message, event_id, event_hint=None):
         metrics["alarm_dispose"] += 1
