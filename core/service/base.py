@@ -814,7 +814,7 @@ class Service(object):
 
     def run_in_executor(
         self, name: str, fn: Callable[[Any], T], *args: Any, **kwargs: Any
-    ) -> asyncio.Future[T]:
+    ) -> asyncio.Future:
         executor = self.get_executor(name)
         return executor.submit(fn, *args, **kwargs)
 

@@ -16,12 +16,15 @@ from time import perf_counter
 import asyncio
 
 # Third-party modules
-from typing import Optional, Dict, Any, Set, List
+from typing import Optional, Dict, Any, Set, List, Callable, TypeVar
 
 # NOC modules
 from noc.config import config
 from noc.core.span import Span, get_current_span
 from noc.core.error import NOCError
+from noc.core.ioloop.util import get_future_loop
+
+T = TypeVar("T")
 
 logger = logging.getLogger(__name__)
 
@@ -130,10 +133,10 @@ class ThreadPoolExecutor(object):
     def stop_one_worker(self):
         self._put((None, None, None, None, None, None, None))
 
-    def submit(self, fn, *args, **kwargs) -> asyncio.Future:
+    def submit(self, fn: Callable[[Any], T], *args: Any, **kwargs: Any) -> asyncio.Future:
         if self.to_shutdown:
             raise RuntimeError("Cannot schedule new task after shutdown")
-        future = asyncio.Future()
+        future: asyncio.Future = asyncio.Future()
         span_ctx, span = get_current_span()
         # Fetch span label
         if "_in_label" in kwargs:
@@ -162,6 +165,14 @@ class ThreadPoolExecutor(object):
             return self.done_future
         else:
             return asyncio.ensure_future(asyncio.wait_for(self.done_future, self.shutdown_timeout))
+
+    @staticmethod
+    def _set_future_result(future: asyncio.Future, result: Any) -> None:
+        get_future_loop(future).call_soon_threadsafe(future.set_result, result)
+
+    @staticmethod
+    def _set_future_exception(future: asyncio.Future, exc: BaseException) -> None:
+        get_future_loop(future).call_soon_threadsafe(future.set_exception, exc)
 
     def worker(self):
         t = threading.current_thread()
@@ -196,14 +207,16 @@ class ThreadPoolExecutor(object):
                 ) as span:
                     try:
                         result = fn(*args, **kwargs)
-                        future.set_result(result)
+                        self._set_future_result(future, result)
                         result = None  # Release memory
                     except NOCError as e:
-                        future.set_exception(e)
+                        self._set_future_exception(future, e)
                         span.set_error_from_exc(e, e.default_code)
+                        e = None  # Release memory
                     except BaseException as e:
-                        future.set_exception(e)
+                        self._set_future_exception(future, e)
                         span.set_error_from_exc(e)
+                        e = None  # Release memory
         finally:
             logger.debug("Stopping worker thread %s", t.name)
             with self.mutex:
