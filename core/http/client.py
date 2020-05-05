@@ -341,6 +341,9 @@ async def fetch(
     finally:
         if writer:
             writer.close()
+            # Pass one more tick to ensure transport is closed
+            # Refer to https://github.com/python/asyncio/issues/466
+            await asyncio.sleep(0)
 
 
 def fetch_sync(
