@@ -9,8 +9,6 @@
 import itertools
 import logging
 import random
-import threading
-import sys
 from time import perf_counter
 import asyncio
 
@@ -23,7 +21,7 @@ from noc.core.http.client import fetch
 from noc.core.perf import metrics
 from noc.config import config
 from noc.core.span import Span, get_current_span
-from noc.core.comp import reraise
+from noc.core.ioloop.util import run_sync
 from .error import RPCError, RPCNoService, RPCHTTPError, RPCException, RPCRemoteError
 
 logger = logging.getLogger(__name__)
@@ -148,28 +146,13 @@ class RPCProxy(object):
                 raise RPCNoService("No active service %s found" % self._service_name)
 
         async def async_wrapper(*args, **kwargs):
-            result = await _call(item, *args, **kwargs)
-            return result
+            return await _call(item, *args, **kwargs)
 
         def sync_wrapper(*args, **kwargs):
-            async def _sync_call():
-                try:
-                    r = await _call(item, *args, **kwargs)
-                    result.append(r)
-                except Exception:
-                    error.append(sys.exc_info())
-                finally:
-                    ev.set()
+            async def wrapper():
+                return await _call(item, *args, **kwargs)
 
-            ev = threading.Event()
-            result = []
-            error = []
-            self._service.ioloop.add_callback(_sync_call)
-            ev.wait()
-            if error:
-                reraise(*error[0])
-            else:
-                return result[0]
+            return run_sync(wrapper)
 
         if item.startswith("_"):
             return self.__dict__[item]
