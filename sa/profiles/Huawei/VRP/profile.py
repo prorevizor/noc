@@ -167,7 +167,7 @@ class Profile(BaseProfile):
         "Logic-Channel": "tunnel",
         "LoopBack": "loopback",
         "InLoopBack": "loopback",
-        "Console": "other",
+        "Console": "SVI",
         "MEth": "management",
         "M-Ethernet": "management",
         "MTunnel": None,
