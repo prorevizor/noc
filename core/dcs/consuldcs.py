@@ -15,7 +15,6 @@ import asyncio
 
 # Third-party modules
 import consul.base
-import consul.tornado
 from tornado.ioloop import PeriodicCallback
 
 # NOC modules
@@ -32,9 +31,9 @@ CONSUL_REQUEST_TIMEOUT = config.consul.request_timeout
 CONSUL_NEAR_RETRY_TIMEOUT = config.consul.near_retry_timeout
 
 
-class ConsulHTTPClient(consul.tornado.HTTPClient):
+class ConsulHTTPClient(consul.base.HTTPClient):
     """
-    Gentler version of tornado http client
+    asyncio version of consul http client
     """
 
     async def _request(self, callback, url, method="GET", body=None):
