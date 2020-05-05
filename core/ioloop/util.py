@@ -35,6 +35,7 @@ class IOLoopContext(object):
         return self.new_loop
 
     def drop_context(self):
+        self.new_loop.run_until_complete(self.new_loop.shutdown_asyncgens())
         self.new_loop.close()
         self.new_loop = None
         asyncio._set_running_loop(self.prev_loop)
@@ -68,8 +69,7 @@ def run_sync(cb: Callable[..., T], close_all: bool = True) -> T:
 
     async def wrapper():
         try:
-            r = await cb()
-            result.append(r)
+            result.append(await cb())
         except Exception:
             error.append(sys.exc_info())
 
@@ -81,7 +81,6 @@ def run_sync(cb: Callable[..., T], close_all: bool = True) -> T:
 
     with IOLoopContext() as loop:
         loop.run_until_complete(wrapper())
-    # @todo: close_all
     if error:
         reraise(*error[0])
     return result[0]
