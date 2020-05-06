@@ -379,7 +379,7 @@ class Script(BaseScript, metaclass=MetricScriptBase):
         """
         Profile extension for very custom logic
         """
-        pass
+        pass  # noqa
 
     def schedule_snmp_oids(self, rule, metric, metrics):
         """
