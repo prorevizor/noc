@@ -140,7 +140,7 @@ class RemoteSystem(Document):
                 extractors += [k[7:]]
         return extractors
 
-    def extract(self, extractors=None, quiet=True):
+    def extract(self, extractors=None, quiet=False):
         extractors = extractors or self.get_extractors()
         error = None
         try:
@@ -157,7 +157,7 @@ class RemoteSystem(Document):
             self.last_successful_extract = self.last_extract
         self.save()
 
-    def load(self, extractors=None, quiet=True):
+    def load(self, extractors=None, quiet=False):
         extractors = extractors or self.get_extractors()
         error = None
         try:
