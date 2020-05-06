@@ -379,7 +379,8 @@ class Script(BaseScript, metaclass=MetricScriptBase):
         """
         Profile extension for very custom logic
         """
-        pass  # noqa
+        # pylint: disable=unnecessary-pass
+        pass
 
     def schedule_snmp_oids(self, rule, metric, metrics):
         """
