@@ -10,7 +10,7 @@
         {
             "description": "Console port",
             "direction": "s",
-            "gender": "f",
+            "gender": "m",
             "name": "Console",
             "protocols": [">RS232"],
             "type__name": "Electrical | RJ45"
