@@ -254,7 +254,7 @@
         {
             "description": "Power input DC",
             "direction": "s",
-            "gender": "m",
+            "gender": "f",
             "name": "RPS",
             "protocols": [">12VDC"],
             "type__name": "Power | MSTB 2.5/4-ST-5.08"
