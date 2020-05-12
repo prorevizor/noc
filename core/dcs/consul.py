@@ -137,7 +137,7 @@ class ConsulDCS(DCSBase):
 
     resolver_cls = ConsulResolver
 
-    def __init__(self, url):
+    def __init__(self, runner, url):
         self.name = None
         self.consul_host = self.DEFAULT_CONSUL_HOST
         self.consul_port = self.DEFAULT_CONSUL_PORT
@@ -155,7 +155,7 @@ class ConsulDCS(DCSBase):
         self.session = None
         self.slot_number = None
         self.total_slots = None
-        super(ConsulDCS, self).__init__(url)
+        super().__init__(runner, url)
         self.consul = ConsulClient(
             host=self.consul_host, port=self.consul_port, token=self.consul_token
         )

@@ -16,7 +16,7 @@ from time import perf_counter
 import asyncio
 
 # Third-party modules
-from tornado.ioloop import IOLoop, PeriodicCallback
+from tornado.ioloop import PeriodicCallback
 
 # NOC modules
 from noc.config import config
@@ -34,7 +34,8 @@ class DCSBase(object):
     # and must be temporary removed from resolver
     HEALTH_FAILED_HTTP_CODE = 429
 
-    def __init__(self, url):
+    def __init__(self, runner, url):
+        self.runner = runner
         self.logger = logging.getLogger(__name__)
         self.url = url
         self.parse_url(urlparse(url))
@@ -45,15 +46,17 @@ class DCSBase(object):
         self.health_check_service_id = None
         self.status = True
         self.status_message = ""
+        self.thread_id = None
 
     def parse_url(self, u):
         pass
 
-    def start(self):
+    async def start(self):
         """
         Start all pending tasks
         :return:
         """
+        self.thread_id = threading.get_ident()
         self.resolver_expiration_task = PeriodicCallback(self.expire_resolvers, 10000)
         self.resolver_expiration_task.start()
 
@@ -100,6 +103,10 @@ class DCSBase(object):
         raise NotImplementedError()
 
     async def get_resolver(self, name, critical=False, near=False, track=True):
+        def run_resolver(res):
+            loop = asyncio.get_running_loop()
+            loop.call_soon(loop.create_task, res.start())
+
         if track:
             with self.resolvers_lock:
                 resolver = self.resolvers.get((name, critical, near))
@@ -107,11 +114,11 @@ class DCSBase(object):
                     self.logger.info("Running resolver for service %s", name)
                     resolver = self.resolver_cls(self, name, critical=critical, near=near)
                     self.resolvers[name, critical, near] = resolver
-                    IOLoop.current().add_callback(resolver.start)
+                    run_resolver(resolver)
         else:
             # One-time resolver
             resolver = self.resolver_cls(self, name, critical=critical, near=near, track=False)
-            IOLoop.current().add_callback(resolver.start)
+            run_resolver(resolver)
         return resolver
 
     async def resolve(
@@ -125,9 +132,14 @@ class DCSBase(object):
         near=False,
         track=True,
     ):
-        resolver = await self.get_resolver(name, critical=critical, near=near, track=track)
-        r = await resolver.resolve(hint=hint, wait=wait, timeout=timeout, full_result=full_result)
-        return r
+        async def wrap():
+            resolver = await self.get_resolver(name, critical=critical, near=near, track=track)
+            r = await resolver.resolve(
+                hint=hint, wait=wait, timeout=timeout, full_result=full_result
+            )
+            return r
+
+        return await self.runner.trampoline(wrap())
 
     async def expire_resolvers(self):
         with self.resolvers_lock:

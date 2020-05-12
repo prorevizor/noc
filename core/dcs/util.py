@@ -7,7 +7,7 @@
 
 # NOC modules
 from noc.core.ioloop.util import run_sync
-from .loader import get_dcs_url, get_dcs_class
+from .loader import get_dcs
 
 
 def resolve(
@@ -26,8 +26,7 @@ def resolve(
     """
 
     async def _resolve():
-        url = get_dcs_url()
-        dcs = get_dcs_class()(url)
+        dcs = get_dcs()
         try:
             if near:
                 r = await dcs.resolve_near(

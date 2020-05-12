@@ -163,15 +163,14 @@ async def fetch(
         proxy = None
     # Connect
     reader, writer = None, None
+    if proxy:
+        connect_address = proxy
+    elif isinstance(addr, tuple):
+        connect_address = addr
+    else:
+        connect_address = (addr, port)
     try:
         try:
-            if proxy:
-                connect_address = proxy
-            elif isinstance(addr, tuple):
-                connect_address = addr
-            else:
-                connect_address = (addr, port)
-
             if proxy:
                 logger.debug("Connecting to proxy %s:%s", connect_address[0], connect_address[1])
             reader, writer = await asyncio.wait_for(
@@ -341,9 +340,13 @@ async def fetch(
     finally:
         if writer:
             writer.close()
-            # Pass one more tick to ensure transport is closed
-            # Refer to https://github.com/python/asyncio/issues/466
-            await asyncio.sleep(0)
+            if hasattr(writer, "wait_closed"):
+                await writer.wait_closed()
+            else:
+                # Pass one more tick to ensure transport is closed
+                # Refer to https://github.com/python/asyncio/issues/466
+                # await asyncio.sleep(0)
+                await asyncio.sleep(0.0001)
 
 
 def fetch_sync(
