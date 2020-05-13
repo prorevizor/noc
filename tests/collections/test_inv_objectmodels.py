@@ -129,7 +129,7 @@ CONNECTION_CHECKLIST = {
     },
     "Transceiver | SFP": {
         "directions": ["i", "o"],
-        "protocols": ["TransEth100M", "TransEth1G", "TransEth10G", "TransEth40G", "GPON"],
+        "protocols": ["TransEth100M", "TransEth1G", "TransEth10G", "TransEth40G", "GPON", "OC3/STM1"],
     },
     "Transceiver | SFP | Cisco": {
         "directions": ["i", "o"],
