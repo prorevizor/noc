@@ -546,7 +546,7 @@ class CLI(object):
         if self.to_raise_privileges:
             # Start privilege raising sequence
             if not self.profile.command_super:
-                self.on_failure(data, match, CLINoSuperCommand)
+                await self.on_failure(data, match, CLINoSuperCommand)
             await self.send(
                 smart_bytes(self.profile.command_super, encoding=self.native_encoding)
                 + (self.profile.command_submit or b"\n")
