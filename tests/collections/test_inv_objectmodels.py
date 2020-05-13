@@ -78,10 +78,10 @@ def test_connection_checklist(model):
             continue
         if c.direction and "directions" in checklist:
             with pytest.assume:
-                check_direction(c, checklist["directions"])
+                assert check_direction(c, checklist["directions"])
         if "protocols" in checklist:
             with pytest.assume:
-                check_protocols(c, checklist["protocols"])
+                assert check_protocols(c, checklist["protocols"])
 
 
 # dict must have one or more keys:
@@ -129,7 +129,14 @@ CONNECTION_CHECKLIST = {
     },
     "Transceiver | SFP": {
         "directions": ["i", "o"],
-        "protocols": ["TransEth100M", "TransEth1G", "TransEth10G", "TransEth40G", "GPON", "OC3/STM1"],
+        "protocols": [
+            "TransEth100M",
+            "TransEth1G",
+            "TransEth10G",
+            "TransEth40G",
+            "GPON",
+            "OC3/STM1",
+        ],
     },
     "Transceiver | SFP | Cisco": {
         "directions": ["i", "o"],
