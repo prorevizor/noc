@@ -78,10 +78,10 @@ def test_connection_checklist(model):
             continue
         if c.direction and "directions" in checklist:
             with pytest.assume:
-                assert check_direction(c, checklist["directions"])
+                check_direction(c, checklist["directions"])
         if "protocols" in checklist:
             with pytest.assume:
-                assert check_protocols(c, checklist["protocols"])
+                check_protocols(c, checklist["protocols"])
 
 
 # dict must have one or more keys:
