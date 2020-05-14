@@ -16,9 +16,7 @@ class IgnorePattern(Document):
         "collection": "noc.fm.ignorepatterns",
         "strict": False,
         "auto_create_index": False,
-        'indexes': [
-            {'fields': ('source', 'pattern'), 'unique': True}
-        ]
+        "indexes": [{"fields": ("source", "pattern"), "unique": True}],
     }
 
     source = StringField()
