@@ -21,6 +21,5 @@ class Script(BaseScript):
 
     rx_iface_sep = re.compile(r"^(\S+)\s+has\s+\d+\s+neighbors?", re.MULTILINE)
 
-    def execute_cli(self, **kwargs):
-        v = self.cli("display lldp neighbor")
-
+    # def execute_cli(self, **kwargs):
+    #    v = self.cli("display lldp neighbor")

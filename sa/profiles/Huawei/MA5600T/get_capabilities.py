@@ -41,9 +41,9 @@ class Script(BaseScript):
         return self.rx_lacp_id.search(cmd) is not None
 
     @false_on_cli_error
-    def has_lacp_cli(self):
+    def has_lldp_cli(self):
         """
-        Check box has LACP enabled
+        Check box has LLDP enabled
         """
         cmd = self.cli("display lldp local")
         return self.rx_lldp_enable.search(cmd) is not None
