@@ -16,6 +16,7 @@ from noc.sa.profiles.Generic.get_interfaces import Script as BaseScript
 from noc.sa.interfaces.igetinterfaces import IGetInterfaces
 from noc.core.ip import IPv4
 from noc.core.mib import mib
+from noc.core.text import parse_table
 
 
 class Script(BaseScript):
@@ -67,20 +68,27 @@ class Script(BaseScript):
         249: {"type": "physical"},  # aluELP (xdsl-line)
     }
 
-    @staticmethod
-    def wrong_interface(ifname):
-        if ifname.startswith("bonding"):
-            return True
-        elif ifname.startswith("xdsl-line"):
-            return True
-        elif ifname.startswith("xdsl-channel"):
-            return True
-        elif ifname.startswith("bridge-port"):
-            return True
-        elif ifname.startswith("vlan_port"):
-            return True
-        else:
-            return False
+    avail_status_map = {
+        1: "available",
+        2: "inTest",
+        3: "failed",
+        4: "powerOff",
+        5: "notInstalled",
+        6: "offLine",
+        7: "dependency",
+    }
+
+    collected_slots_status = {"available", "inTest", "failed", "powerOff"}
+
+    def get_boards_status_cli(self):
+        r = {}
+        v = self.cli("show equipment slot", cached=True)
+        for p in parse_table(v):
+            if not p[0].startswith("lt"):
+                continue
+            slot_id = p[0].split(":", 1)[-1]
+            r[tuple(slot_id.split("/"))] = p[4] in self.collected_slots_status
+        return r
 
     def execute_cli(self, **kwargs):
         self.cli(
@@ -117,6 +125,8 @@ class Script(BaseScript):
             else:
                 tagged_vlans[ifname] = [match.group("vlan_id")]
 
+        boards_status = self.get_boards_status_cli()
+        self.logger.debug("Boards status: %s", boards_status)
         interfaces = {}
         v = self.cli("show interface port detail")
         for p in v.split("----\nport\n----"):
@@ -130,6 +140,10 @@ class Script(BaseScript):
                 hints = ["nni"]
             else:
                 port_id = ifname.split(":", 1)[-1]
+                slot_id = tuple(port_id.split("/")[:-1])
+                if slot_id in boards_status and not boards_status[slot_id]:
+                    self.logger.debug("Board is not enabled. Skipping...")
+                    continue
             iftype = self.types.get(self.rx_type.search(p).group("type"))
             if not iftype or iftype == "other":
                 continue
@@ -195,14 +209,13 @@ class Script(BaseScript):
 
         return [{"interfaces": list(interfaces.values())}]
 
-    collected_slots_status = {1, 2, 3, 4}
-
     def get_boards_status(self):
         r = {}
         for oid, v in self.snmp.getnext("1.3.6.1.4.1.637.61.1.23.3.1.8"):
             slot_id = oid.rsplit(".", 1)[-1]
-            slot = self.profile.get_slot(int(slot_id))
-            r[slot] = v in self.collected_slots_status
+            rack, shelf, slot = self.profile.get_slot(int(slot_id))
+            slot = (rack, shelf, slot + 1)
+            r[slot] = self.avail_status_map[v] in self.collected_slots_status
         return r
 
     def execute_snmp(self, **kwargs):
@@ -213,7 +226,6 @@ class Script(BaseScript):
         portchannels = self.get_portchannels()  # portchannel map
         boards_status = self.get_boards_status()
         ips = self.get_ip_ifaces()
-        print(ips, portchannels)
         vci_ifindex_map = {}
         # iface -> vpi, vci, vciifindex
         for oid, vciifindex in self.snmp.getnext(
@@ -307,6 +319,11 @@ class Script(BaseScript):
                 clean=self.clean_ifdescription,
             )
         ]
+        iter_tables += [
+            self.iter_iftable(
+                "mac", "IF-MIB::ifPhysAddress", ifindexes=ethernet, clean=self.clean_mac
+            )
+        ]
         iter_tables += [self.iter_iftable("mtu", "IF-MIB::ifMtu", ifindexes=ethernet)]
         # Collect and merge results
         data = self.merge_tables(*tuple(iter_tables))
@@ -322,7 +339,6 @@ class Script(BaseScript):
             if port_id in subifaces:
                 iface["subinterfaces"] += subifaces[port_id]
             interfaces[iface["name"]] = iface
-        print(ethernet)
         for ifindex, iface in ethernet.items():
             # Ethernet ports
             if ifindex in data:
@@ -358,3 +374,7 @@ class Script(BaseScript):
         port = ifindex & 0x00000FFF
         slot += 1
         return rack, shelf, slot, port + 1
+
+    @staticmethod
+    def clean_mac(mac):
+        return mac or None
