@@ -90,7 +90,7 @@ class TrapCollectorService(Service):
                 )
             except NOCError as e:
                 self.logger.info("Failed to get object mappings: %s", e)
-                yield asyncio.sleep(1)
+                await asyncio.sleep(1)
 
     async def report_invalid_sources(self):
         """
