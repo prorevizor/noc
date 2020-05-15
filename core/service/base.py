@@ -20,7 +20,7 @@ import datetime
 import asyncio
 
 # Third-party modules
-from tornado.ioloop import IOLoop, PeriodicCallback
+from tornado.ioloop import IOLoop
 import tornado.web
 import tornado.netutil
 import tornado.httpserver
@@ -46,6 +46,7 @@ from noc.core.nsq.pub import mpub
 from noc.core.nsq.error import NSQPubError
 from noc.core.clickhouse.shard import ShardingFunction
 from noc.core.ioloop.util import setup_asyncio
+from noc.core.ioloop.timers import PeriodicCallback
 from .api import API, APIRequestHandler
 from .doc import DocRequestHandler
 from .mon import MonRequestHandler

@@ -20,6 +20,7 @@ from noc.config import config
 from noc.core.perf import metrics
 from noc.services.chwriter.channel import Channel
 from noc.core.comp import smart_text
+from noc.core.ioloop.timers import PeriodicCallback
 
 
 class CHWriterService(Service):
@@ -45,11 +46,9 @@ class CHWriterService(Service):
         self.restore_timeout = None
 
     async def on_activate(self):
-        report_callback = tornado.ioloop.PeriodicCallback(self.report, 10000)
+        report_callback = PeriodicCallback(self.report, 10000)
         report_callback.start()
-        check_callback = tornado.ioloop.PeriodicCallback(
-            self.check_channels, config.chwriter.batch_delay_ms
-        )
+        check_callback = PeriodicCallback(self.check_channels, config.chwriter.batch_delay_ms)
         check_callback.start()
         await self.subscribe(
             config.chwriter.topic,
