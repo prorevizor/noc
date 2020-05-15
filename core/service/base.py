@@ -903,7 +903,7 @@ class Service(object):
         self.telemetry_callback = PeriodicCallback(self.send_telemetry, 250)
         self.telemetry_callback.start()
 
-    def send_telemetry(self):
+    async def send_telemetry(self):
         """
         Publish telemetry data
 

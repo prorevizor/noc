@@ -10,7 +10,6 @@
 from time import perf_counter
 
 # Third-party modules
-import tornado.ioloop
 from typing import Dict
 
 # NOC modules
