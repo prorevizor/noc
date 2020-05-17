@@ -207,7 +207,7 @@ class ExtApplication(Application):
             if fs:
                 data = data.filter(id__in=fav_items)
             else:
-                data = data.exclude(id__in=fav_items)
+                data = data.filter(id__nin=fav_items)
         # Store unpaged/unordered queryset
         unpaged_data = data
         # Select related records when fetching for models
