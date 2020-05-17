@@ -149,7 +149,7 @@ async def fetch(
         host = u.netloc
         port = DEFAULT_PORTS.get(u.scheme)
         if not port:
-            return ERR_TIMEOUT, {}, b"Cannot resolve port for scheme: %s" % u.scheme
+            return ERR_TIMEOUT, {}, b"Cannot resolve port for scheme: %s" % smart_bytes(u.scheme)
     if is_ipv4(host):
         addr = host
     else:
