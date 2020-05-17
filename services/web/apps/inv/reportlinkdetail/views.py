@@ -94,7 +94,8 @@ class ReportLinksDetail(object):
                     },
                     {"$match": match},
                     {"$group": group},
-                ], allowDiskUse=True,
+                ],
+                allowDiskUse=True,
             )
         )
 
