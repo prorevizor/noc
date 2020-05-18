@@ -110,7 +110,7 @@ class MIBAPI(API):
                     self.logger.debug(
                         "Macro '%s' (%s) has not been imported",
                         smart_text(match.group(1)),
-                        smart_text(match.group(2))
+                        smart_text(match.group(2)),
                     )
                     # return {
                     #     "status": False,
