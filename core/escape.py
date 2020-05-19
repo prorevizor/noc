@@ -35,4 +35,4 @@ def fm_unescape(s):
     Decode escaped FM data to a raw string
     'ab\\xffcd'
     """
-    return binascii.a2b_qp(smart_bytes(s))
+    return smart_text(binascii.a2b_qp(smart_bytes(s)))
