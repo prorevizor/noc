@@ -25,4 +25,4 @@ class Script(BaseScript):
         raise NotImplementedError
 
     def get_sysname_oid(self):
-        return self.SNMP_SYSNAME_OIDS
+        return self.SNMP_SYSNAME_OID
