@@ -26,8 +26,8 @@ class IfDescCheck(TopologyDiscoveryCheck):
     IFACE_REF_NAMES = {"interface", "ifindex"}
     MAX_MO_CANDIDATES = 100
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.if_cache: Dict[int, Dict[str, Interface]] = {}
 
     def handler(self):
@@ -86,7 +86,7 @@ class IfDescCheck(TopologyDiscoveryCheck):
 
     def resolve_remote_interface(self, iface: Interface) -> Optional[Interface]:
         direction = "local" if iface.managed_object.id == self.object.id else "remote"
-        if not iface.description.strip():
+        if not iface.description or not iface.description.strip():
             self.logger.info("%s interface %s has no description. Ignoring", direction, iface.name)
             return None
         if not iface.type == "physical":
@@ -195,7 +195,10 @@ class IfDescCheck(TopologyDiscoveryCheck):
             mo = get_nearest_object(mos)
             if mo:
                 return mo
-        # @todo: hostname
+        if hostname:
+            mo = self.get_neighbor_by_hostname(hostname)
+            if mo:
+                return mo
         return None
 
     def resolve_interface_via_patterns(

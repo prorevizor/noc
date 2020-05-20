@@ -78,7 +78,7 @@ class IfDescPatterns(Document):
         for rule in self.patterns:
             if not rule.is_active:
                 continue
-            rx = self._get_re()
+            rx = self._get_re(rule.pattern)
             if not rx:
                 continue
             match = rx.search(s)
