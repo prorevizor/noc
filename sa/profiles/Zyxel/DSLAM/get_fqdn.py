@@ -11,5 +11,5 @@ from noc.sa.interfaces.igetfqdn import IGetFQDN
 
 
 class Script(BaseScript):
-    name = "Zyxel.MSAN.get_fqdn"
+    name = "Zyxel.DSLAM.get_fqdn"
     interface = IGetFQDN

@@ -15,7 +15,7 @@ class Script(BaseScript):
     name = "Generic.get_fqdn"
     interface = IGetFQDN
 
-    SNMP_SYSNAME_OIDS = mib["SNMPv2-MIB::sysName", 0]
+    SNMP_SYSNAME_OID = mib["SNMPv2-MIB::sysName", 0]
 
     def execute_snmp(self, **kwargs):
         # sysName.0
