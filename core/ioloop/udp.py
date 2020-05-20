@@ -7,8 +7,12 @@
 
 # Python modules
 import socket
-from typing import Tuple, Optional, Callable
+from typing import Tuple, Optional
 import asyncio
+import errno
+
+
+_ERRNO_WOULDBLOCK = (errno.EWOULDBLOCK, errno.EAGAIN)
 
 
 class UDPSocket(object):
@@ -43,42 +47,27 @@ class UDPSocket(object):
         self, data: bytes, address: Tuple[str, int]
     ) -> Tuple[bytes, Tuple[str, int]]:
         loop = asyncio.get_running_loop()
-        future = loop.create_future()
-        await loop.create_datagram_endpoint(_get_protocol(data, address, future), sock=self.socket)
-        return await future
-
-
-class UDPSendRecvProtocol(asyncio.DatagramProtocol):
-    def __init__(self, data: bytes, addr: Tuple[str, int], future: asyncio.Future):
-        self.data = data
-        self.addr = addr
-        self.future = future
-        self.transport: Optional[asyncio.BaseTransport] = None
-
-    def connection_made(self, transport: asyncio.DatagramTransport) -> None:
-        self.transport = transport
-        self.transport.sendto(self.data, self.addr)
-
-    def datagram_received(self, data: bytes, addr: Tuple[str, int]) -> None:
-        self.future.set_result((data, addr))
-        if self.transport:
-            self.transport.close()
-            self.transport = None
-
-    def error_received(self, exc: Exception) -> None:
-        self.future.set_exception(exc)
-        if self.transport:
-            self.transport.close()
-            self.transport = None
-
-
-def _get_protocol(
-    data: bytes, address: Tuple[str, int], future: asyncio.Future
-) -> Callable[[], asyncio.BaseProtocol]:
-    def wrap():
-        return UDPSendRecvProtocol(data, address, future)
-
-    return wrap
+        fileno = self.socket.fileno()
+        write_ev = asyncio.Event()
+        loop.add_writer(fileno, write_ev.set)
+        try:
+            await write_ev.wait()
+        finally:
+            loop.remove_writer(fileno)
+        self.socket.sendto(data, address)
+        while True:
+            read_ev = asyncio.Event()
+            loop.add_reader(fileno, read_ev.set)
+            try:
+                await read_ev.wait()
+            finally:
+                loop.remove_reader(fileno)
+            try:
+                return self.socket.recvfrom(65536)
+            except OSError as e:
+                if e.errno in _ERRNO_WOULDBLOCK:
+                    continue
+                raise e
 
 
 class UDPSocketContext(object):
