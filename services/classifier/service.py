@@ -305,32 +305,6 @@ class ClassifierService(Service):
             e.mark_as_new("Reclassification has been requested by noc-classifer")
             self.logger.debug("Failed event %s has been recovered", e.id)
 
-    def eval_rule_variables(self, event, event_class, vars):
-        """
-        Evaluate rule variables
-        """
-        r = {}
-        for ecv in event_class.vars:
-            # Check variable is present
-            if ecv.name not in vars:
-                if ecv.required:
-                    raise Exception("Required variable '%s' is not found" % ecv.name)
-                else:
-                    continue
-            # Decode variable
-            v = vars[ecv.name]
-            decoder = getattr(self, "decode_%s" % ecv.type, None)
-            if decoder:
-                try:
-                    v = decoder(event, v)
-                except InterfaceTypeError:
-                    raise EventProcessingFailed(
-                        "Cannot decode variable '%s'. Invalid %s: %s"
-                        % (ecv.name, ecv.type, repr(v))
-                    )
-            r[ecv.name] = v
-        return r
-
     def to_suppress(self, event, vars):
         """
         Check wrether event must be suppressed
