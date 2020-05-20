@@ -39,8 +39,6 @@ from noc.services.classifier.ruleset import RuleSet
 from noc.services.classifier.patternset import PatternSet
 from noc.core.cache.base import cache
 from noc.core.perf import metrics
-from noc.sa.interfaces.base import InterfaceTypeError
-from noc.services.classifier.exception import EventProcessingFailed
 from noc.core.handler import get_handler
 from noc.core.ioloop.timers import PeriodicCallback
 from noc.core.comp import smart_text
