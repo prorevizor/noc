@@ -44,7 +44,7 @@ class TrapCollectorService(Service):
             self.logger.info("Starting SNMP Trap server at %s:%s", addr, port)
             try:
                 server.listen(port, addr)
-            except socket.error as e:
+            except OSError as e:
                 metrics["error", ("type", "socket_listen_error")] += 1
                 self.logger.error("Failed to start SNMP Trap server at %s:%s: %s", addr, port, e)
         server.start()

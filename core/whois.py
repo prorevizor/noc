@@ -142,7 +142,7 @@ class WhoisCacheLoader(object):
         except URLError as e:
             logger.error("Failed to download %s: %s" % (url, e))
             raise self.DownloadError("Failed to download %s: %s" % (url, e))
-        except socket.error as e:
+        except OSError as e:
             logger.error("Failed to download %s: %s" % (url, e))
             raise self.DownloadError("Failed to download %s: %s" % (url, e))
         logger.info("Parsing")

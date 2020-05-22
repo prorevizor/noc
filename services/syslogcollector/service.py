@@ -47,7 +47,7 @@ class SyslogCollectorService(Service):
             self.logger.info("Starting syslog server at %s:%s", addr, port)
             try:
                 server.listen(port, addr)
-            except socket.error as e:
+            except OSError as e:
                 metrics["error", ("type", "socket_listen_error")] += 1
                 self.logger.error("Failed to start syslog server at %s:%s: %s", addr, port, e)
         server.start()
