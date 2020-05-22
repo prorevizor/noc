@@ -7,7 +7,6 @@
 
 # Python modules
 import logging
-import socket
 from collections import defaultdict
 from urllib.error import URLError
 from io import TextIOWrapper

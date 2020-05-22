@@ -7,7 +7,6 @@
 # ---------------------------------------------------------------------
 
 # Python modules
-import socket
 import datetime
 from collections import defaultdict, namedtuple
 import asyncio

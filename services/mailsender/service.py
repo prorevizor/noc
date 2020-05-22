@@ -9,7 +9,6 @@
 # Python modules
 import datetime
 import smtplib
-import socket
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
