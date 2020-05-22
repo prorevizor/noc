@@ -10,6 +10,7 @@ from threading import Lock
 import operator
 import logging
 from collections import namedtuple
+from typing import Dict, List, Set, Iterable
 
 # Third-party modules
 from pymongo.errors import BulkWriteError
@@ -17,6 +18,7 @@ from pymongo import UpdateOne
 from mongoengine.document import Document
 from mongoengine.fields import IntField, ListField, ObjectIdField
 import cachetools
+from django.db import connection as pg_connection
 
 
 ObjectUplinks = namedtuple("ObjectUplinks", ["object_id", "uplinks", "rca_neighbors"])
@@ -33,6 +35,11 @@ class ObjectData(Document):
     uplinks = ListField(IntField())
     # RCA neighbors cache
     rca_neighbors = ListField(IntField())
+    # xRCA donwlink merge window settings
+    # for rca_neighbors.
+    # Each position represents downlink merge windows for each rca neighbor.
+    # Windows are in seconds, 0 - downlink merge is disabled
+    dlm_windows = ListField(IntField())
     # Paths
     adm_path = ListField(IntField())
     segment_path = ListField(ObjectIdField())
@@ -84,21 +91,47 @@ class ObjectData(Document):
         return uplinks
 
     @classmethod
-    def update_uplinks(cls, uplinks):
+    def update_uplinks(cls, iter_uplinks: Iterable[ObjectUplinks]) -> None:
         """
         Update ObjectUplinks in database
         :param uplinks: Iterable of ObjectUplinks
         :return:
         """
+
+        obj_data: List[ObjectUplinks] = []
+        seen_neighbors: Set[int] = set()
+        for ou in iter_uplinks:
+            obj_data += [ou]
+            seen_neighbors |= set(ou.rca_neighbors)
+        if not obj_data:
+            return  # No uplinks
+        # Get downlink_merge window settings
+        dlm_windows: Dict[int, int] = {}
+        if seen_neighbors:
+            with pg_connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT mo.id, mop.enable_rca_downlink_merge, mop.rca_downlink_merge_window
+                    FROM sa_managedobject mo JOIN sa_managedobjectprofile mop
+                        ON mo.object_profile_id = mop.id
+                    WHERE mo.id IN %s""",
+                    [tuple(seen_neighbors)],
+                )
+                dlm_windows = {mo_id: dlm_w for mo_id, is_enabled, dlm_w in cursor if is_enabled}
+        #
         bulk = [
             UpdateOne(
                 {"_id": u.object_id},
-                {"$set": {"uplinks": u.uplinks, "rca_neighbors": u.rca_neighbors}},
+                {
+                    "$set": {
+                        "uplinks": u.uplinks,
+                        "rca_neighbors": u.rca_neighbors,
+                        "dlm_windows": [dlm_windows.get(o.object_id, 0) for o in u.rca_neighbors],
+                    }
+                },
             )
-            for u in uplinks
+            for u in obj_data
         ]
-        if not bulk:
-            return
         try:
             ObjectData._get_collection().bulk_write(bulk, ordered=False)
         except BulkWriteError as e:

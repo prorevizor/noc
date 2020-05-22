@@ -12,6 +12,8 @@ import datetime
 import re
 from collections import defaultdict
 from threading import Lock
+from typing import Optional, Dict
+import operator
 
 # NOC modules
 from noc.config import config
@@ -35,6 +37,7 @@ from noc.core.version import version
 from noc.core.debug import format_frames, get_traceback_frames, error_report
 from services.correlator import utils
 from noc.core.perf import metrics
+from noc.core.fm.enum import RCA_RULE, RCA_TOPOLOGY, RCA_DOWNLINK_MERGE
 
 
 class CorrelatorService(Service):
@@ -181,7 +184,7 @@ class CorrelatorService(Service):
                 # Root cause found
                 self.logger.info("%s is root cause for %s (Rule: %s)", root.id, a.id, rc.name)
                 metrics["alarm_correlated_rule"] += 1
-                a.set_root(root)
+                a.set_root(root, rca_type=RCA_RULE)
                 return True
         return False
 
@@ -208,7 +211,7 @@ class CorrelatorService(Service):
                         "%s is root cause for %s (Reverse rule: %s)", a.id, ca.id, rc.name
                     )
                     metrics["alarm_correlated_rule"] += 1
-                    ca.set_root(a)
+                    ca.set_root(a, rca_type=RCA_RULE)
                     found = True
         return found
 
@@ -601,7 +604,7 @@ class CorrelatorService(Service):
                 return False
             return sum(1 for mo in a1.uplinks if mo in neighbor_alarms) == len(a1.uplinks)
 
-        def get_root(a1):
+        def get_root(a1) -> Optional[ActiveAlarm]:
             """
             Get root cause for failed uplinks.
             Considering all uplinks are failed.
@@ -640,12 +643,34 @@ class CorrelatorService(Service):
             a2 = get_root(a1)
             if a2:
                 self.logger.info("[%s] Set root to %s", a1.id, a2.id)
-                a1.set_root(a2)
+                a1.set_root(a2, rca_type=RCA_TOPOLOGY)
                 metrics["alarm_correlated_topology"] += 1
+            elif a.rca_neighbors:
+                dlm_neighbors = {mo: w for mo, w in zip(a.rca_neighbors, a.dlm_windows) if w > 0}
+                dlm_candidates = set(neighbor_alarms) & set(dlm_neighbors)
+                if dlm_candidates:
+                    # Downlink Merge correlation
+                    t0 = a.timestamp
+                    candidates = list(
+                        sorted(
+                            (
+                                neighbor_alarms[mo]
+                                for mo in dlm_candidates
+                                if (t0 - neighbor_alarms[mo].timestamp).total_seconds
+                                <= dlm_neighbors[mo]
+                            ),
+                            key=operator.attrgetter("timestamp"),
+                        )
+                    )
+                    if candidates:
+                        a2 = candidates[0]
+                        self.logger.info("[%s] Set root to %s (downlink merge)", a1.id, a2.id)
+                        a1.set_root(a2, rca_type=RCA_DOWNLINK_MERGE)
+                        metrics["alarm_correlated_topology"] += 1
 
         self.logger.debug("[%s] Topology RCA", alarm.id)
         # Get neighboring alarms
-        neighbor_alarms = {
+        neighbor_alarms: Dict[int, ActiveAlarm] = {
             a.managed_object.id: a
             for a in ActiveAlarm.objects.filter(
                 alarm_class=alarm.alarm_class.id, rca_neighbors__in=[alarm.managed_object.id]
