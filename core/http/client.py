@@ -184,12 +184,12 @@ async def fetch(
                 ),
                 connect_timeout,
             )
-        except OSError as e:
-            metrics["httpclient_timeouts"] += 1
-            return ERR_TIMEOUT, {}, b"Connection error: %s" % smart_bytes(e)
         except ConnectionRefusedError:
             metrics["httpclient_timeouts"] += 1
             return ERR_TIMEOUT, {}, b"Connection refused"
+        except OSError as e:
+            metrics["httpclient_timeouts"] += 1
+            return ERR_TIMEOUT, {}, b"Connection error: %s" % smart_bytes(e)
         except asyncio.TimeoutError:
             metrics["httpclient_timeouts"] += 1
             return ERR_TIMEOUT, {}, b"Connection timed out"
