@@ -620,6 +620,17 @@ class CorrelatorService(Service):
                     return na
             return None
 
+        def get_neighboring_alarms(ca: ActiveAlarm) -> Dict[int, ActiveAlarm]:
+            r = {
+                na.managed_object.id: na
+                for na in ActiveAlarm.objects.filter(
+                    alarm_class=ca.alarm_class.id, rca_neighbors__in=[ca.managed_object.id]
+                )
+            }
+            # Add current alarm to correlate downlink alarms properly
+            r[alarm.managed_object.id] = ca
+            return r
+
         def iter_downlink_alarms(a1):
             """
             Yield all downlink alarms
@@ -631,58 +642,63 @@ class CorrelatorService(Service):
                 if na.uplinks and mo in na.uplinks:
                     yield na
 
-        def correlate(a1):
+        def correlate_uplinks(ca: ActiveAlarm) -> bool:
             """
             Correlate with uplink alarms if all uplinks are faulty.
             :param a1:
             :return:
             """
-            if not all_uplinks_failed(a1):
-                return
-            self.logger.info("[%s] All uplinks are faulty. Correlating", a1.id)
-            a2 = get_root(a1)
-            if a2:
-                self.logger.info("[%s] Set root to %s", a1.id, a2.id)
-                a1.set_root(a2, rca_type=RCA_TOPOLOGY)
-                metrics["alarm_correlated_topology"] += 1
-            elif a.rca_neighbors:
-                dlm_neighbors = {mo: w for mo, w in zip(a.rca_neighbors, a.dlm_windows) if w > 0}
-                dlm_candidates = set(neighbor_alarms) & set(dlm_neighbors)
-                if dlm_candidates:
-                    # Downlink Merge correlation
-                    t0 = a.timestamp
-                    candidates = list(
-                        sorted(
-                            (
-                                neighbor_alarms[mo]
-                                for mo in dlm_candidates
-                                if (t0 - neighbor_alarms[mo].timestamp).total_seconds
-                                <= dlm_neighbors[mo]
-                            ),
-                            key=operator.attrgetter("timestamp"),
-                        )
-                    )
-                    if candidates:
-                        a2 = candidates[0]
-                        self.logger.info("[%s] Set root to %s (downlink merge)", a1.id, a2.id)
-                        a1.set_root(a2, rca_type=RCA_DOWNLINK_MERGE)
-                        metrics["alarm_correlated_topology"] += 1
+            if not all_uplinks_failed(ca):
+                return False
+            self.logger.info("[%s] All uplinks are faulty. Correlating", ca.id)
+            ra = get_root(ca)
+            if not ra:
+                return False
+            self.logger.info("[%s] Set root to %s", ca.id, ra.id)
+            ca.set_root(ra, rca_type=RCA_TOPOLOGY)
+            metrics["alarm_correlated_topology"] += 1
+            return True
+
+        def correlate_merge_downlinks(ca: ActiveAlarm) -> bool:
+            """
+            Donwlink merge correlation
+            :param ca:
+            :return:
+            """
+            if not ca.uplinks or not ca.rca_neighbors:
+                return False
+            dlm_neighbors = {mo: w for mo, w in zip(ca.rca_neighbors, ca.dlm_windows) if w > 0}
+            dlm_candidates = set(neighbor_alarms) & set(dlm_neighbors)
+            if not dlm_candidates:
+                return False
+            # Get possible candidates
+            t0 = ca.timestamp
+            candidates = list(
+                sorted(
+                    (
+                        neighbor_alarms[mo]
+                        for mo in dlm_candidates
+                        if (t0 - neighbor_alarms[mo].timestamp).total_seconds <= dlm_neighbors[mo]
+                    ),
+                    key=operator.attrgetter("timestamp"),
+                )
+            )
+            if not candidates:
+                return False
+            ra = candidates[0]
+            self.logger.info("[%s] Set root to %s (downlink merge)", ca.id, ra.id)
+            ca.set_root(ra, rca_type=RCA_DOWNLINK_MERGE)
+            metrics["alarm_correlated_topology"] += 1
+            return True
 
         self.logger.debug("[%s] Topology RCA", alarm.id)
         # Get neighboring alarms
-        neighbor_alarms: Dict[int, ActiveAlarm] = {
-            a.managed_object.id: a
-            for a in ActiveAlarm.objects.filter(
-                alarm_class=alarm.alarm_class.id, rca_neighbors__in=[alarm.managed_object.id]
-            )
-        }
-        # Add current alarm to corellate downlink alarms properly
-        neighbor_alarms[alarm.managed_object.id] = alarm
+        neighbor_alarms = get_neighboring_alarms(alarm)
         # Correlate current alarm
-        correlate(alarm)
+        correlate_uplinks(alarm) or correlate_merge_downlinks(alarm)
         # Correlate all downlink alarms
         for a in iter_downlink_alarms(alarm):
-            correlate(a)
+            correlate_uplinks(a)
         self.logger.debug("[%s] Correlation completed", alarm.id)
 
 
