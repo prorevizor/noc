@@ -678,7 +678,7 @@ class CorrelatorService(Service):
                     (
                         neighbor_alarms[mo]
                         for mo in dlm_candidates
-                        if (t0 - neighbor_alarms[mo].timestamp).total_seconds <= dlm_neighbors[mo]
+                        if (t0 - neighbor_alarms[mo].timestamp).total_seconds() <= dlm_neighbors[mo]
                     ),
                     key=operator.attrgetter("timestamp"),
                 )
