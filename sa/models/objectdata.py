@@ -9,7 +9,6 @@
 from threading import Lock
 import operator
 import logging
-from collections import namedtuple
 from typing import Dict, List, Set, Iterable
 from dataclasses import dataclass
 
