@@ -211,9 +211,8 @@ class CHWriterService(Service):
         if self.restore_timeout:
             return
         self.logger.info("Suspending")
-        self.restore_timeout = self.ioloop.add_timeout(
-            self.ioloop.time() + float(config.chwriter.suspend_timeout_ms) / 1000.0,
-            self.check_restore,
+        self.restore_timeout = self.loop.call_later(
+            float(config.chwriter.suspend_timeout_ms) / 1000.0, self.check_restore
         )
         metrics["suspends"] += 1
         self.suspend_subscription(self.on_data)
@@ -234,7 +233,7 @@ class CHWriterService(Service):
             self.logger.info("Trying to restore during stopping. Ignoring")
             return
         self.logger.info("Resuming")
-        self.ioloop.remove_timeout(self.restore_timeout)
+        self.restore_timeout.cancel()
         self.restore_timeout = None
         metrics["resumes"] += 1
         self.resume_subscription(self.on_data)
@@ -256,9 +255,8 @@ class CHWriterService(Service):
             if code == 200:
                 self.resume()
             else:
-                self.restore_timeout = self.ioloop.add_timeout(
-                    self.ioloop.time() + float(config.chwriter.suspend_timeout_ms) / 1000.0,
-                    self.check_restore,
+                self.restore_timeout = self.loop.call_later(
+                    float(config.chwriter.suspend_timeout_ms) / 1000.0, self.check_restore,
                 )
 
     def stop(self):
