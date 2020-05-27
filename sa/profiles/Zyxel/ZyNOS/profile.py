@@ -10,6 +10,7 @@
 """
 # Python modules
 import re
+import six
 
 # NOC modules
 from noc.core.profile.base import BaseProfile
@@ -65,7 +66,10 @@ class ZyNOSContextManager(object):
     def __enter__(self):
         """Entering zynos mode context"""
         self.script.enter_config()
-        self.script.push_prompt_pattern(self.script.profile.pattern_zynos)
+        if six.PY3:
+            self.script.push_prompt_pattern(b"^\S+?>")
+        else:
+            self.script.push_prompt_pattern(self.script.profile.pattern_zynos)
         self.script.cli(self.profile.command_enter_zynos)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
