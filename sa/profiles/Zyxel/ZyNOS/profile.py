@@ -67,7 +67,7 @@ class ZyNOSContextManager(object):
         """Entering zynos mode context"""
         self.script.enter_config()
         if six.PY3:
-            self.script.push_prompt_pattern(b"^\S+?>")
+            self.script.push_prompt_pattern(b"^\S+?>")  # noqa
         else:
             self.script.push_prompt_pattern(self.script.profile.pattern_zynos)
         self.script.cli(self.profile.command_enter_zynos)
