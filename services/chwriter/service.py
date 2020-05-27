@@ -212,7 +212,7 @@ class CHWriterService(Service):
         if self.restore_timeout:
             return
         self.logger.info("Suspending")
-        self.restore_timeout = self.loop.create_task(self.check_restore())
+        self.restore_timeout = self.loop.create_task(self.suppress_cancel(self.check_restore()))
         metrics["suspends"] += 1
         self.suspend_subscription(self.on_data)
         # Return data to channels
@@ -257,7 +257,7 @@ class CHWriterService(Service):
         if code == 200:
             self.resume()
         else:
-            self.restore_timeout = self.loop.create_task(self.check_restore())
+            self.restore_timeout = self.loop.create_task(self.suppress_cancel(self.check_restore()))
 
     def stop(self):
         self.stopping = True

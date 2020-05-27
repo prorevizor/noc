@@ -18,7 +18,7 @@ import threading
 from time import perf_counter
 import datetime
 import asyncio
-from typing import Optional, Dict, List, Tuple, Callable, Any, TypeVar
+from typing import Optional, Dict, List, Tuple, Callable, Any, TypeVar, Awaitable
 
 # Third-party modules
 import tornado.web
@@ -991,3 +991,14 @@ class Service(object):
         if not self.startup_ts:
             return 0
         return time.time() - self.startup_ts
+
+    async def suppress_cancel(self, aw: Awaitable) -> None:
+        """
+        Wrap awaitable to ignore CancelledError
+        :param aw:
+        :return:
+        """
+        try:
+            await aw
+        except asyncio.CancelledError:
+            pass
