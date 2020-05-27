@@ -18,7 +18,7 @@ import threading
 from time import perf_counter
 import datetime
 import asyncio
-from typing import Optional, Dict, List, Tuple, Callable, Any, TypeVar, Awaitable
+from typing import Optional, Dict, List, Tuple, Callable, Any, TypeVar, NoReturn
 
 # Third-party modules
 import tornado.web
@@ -218,13 +218,13 @@ class Service(object):
             )
 
     @classmethod
-    def die(cls, msg=""):
+    def die(cls, msg: str = "") -> NoReturn:
         """
         Dump message to stdout and terminate process with error code
         """
         sys.stdout.write(str(msg) + "\n")
         sys.stdout.flush()
-        sys.exit(1)
+        os._exit(1)
 
     def setup_logging(self, loglevel=None):
         """
@@ -991,14 +991,3 @@ class Service(object):
         if not self.startup_ts:
             return 0
         return time.time() - self.startup_ts
-
-    async def suppress_cancel(self, aw: Awaitable) -> None:
-        """
-        Wrap awaitable to ignore CancelledError
-        :param aw:
-        :return:
-        """
-        try:
-            await aw
-        except asyncio.CancelledError:
-            pass
