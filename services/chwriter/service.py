@@ -238,26 +238,26 @@ class CHWriterService(Service):
         self.resume_subscription(self.on_data)
 
     async def check_restore(self):
-        # Wait
-        await asyncio.sleep(float(config.chwriter.suspend_timeout_ms) / 1000.0)
-        #
-        if self.stopping:
-            self.logger.info("Checking restore during stopping. Ignoring")
-            return
-        code, headers, body = await fetch(
-            "http://%s/?user=%s&password=%s&database=%s&query=%s"
-            % (
-                self.ch_address,
-                config.clickhouse.rw_user,
-                config.clickhouse.rw_password,
-                config.clickhouse.db,
-                "SELECT%20dummy%20FROM%20system.one",
+        while not self.stopping:
+            # Wait
+            await asyncio.sleep(float(config.chwriter.suspend_timeout_ms) / 1000.0)
+            #
+            if self.stopping:
+                self.logger.info("Checking restore during stopping. Ignoring")
+                return
+            code, headers, body = await fetch(
+                "http://%s/?user=%s&password=%s&database=%s&query=%s"
+                % (
+                    self.ch_address,
+                    config.clickhouse.rw_user,
+                    config.clickhouse.rw_password,
+                    config.clickhouse.db,
+                    "SELECT%20dummy%20FROM%20system.one",
+                )
             )
-        )
-        if code == 200:
-            self.resume()
-        else:
-            self.restore_timeout = self.loop.create_task(self.check_restore())
+            if code == 200:
+                self.resume()
+                return
 
     def stop(self):
         self.stopping = True
