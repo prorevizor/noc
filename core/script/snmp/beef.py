@@ -24,7 +24,6 @@ from .base import SNMP
 
 class BeefSNMP(SNMP):
     name = "beef_snmp"
-    MAX_REQUEST_SIZE = 65535
 
     def get_socket(self):
         if not self.socket:
