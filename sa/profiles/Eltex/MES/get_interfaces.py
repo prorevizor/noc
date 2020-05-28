@@ -110,7 +110,10 @@ class Script(BaseScript):
         # Stack numbers for filter
         self._chassis_filter = None
         if self.is_3124:
-            if "Stack | Member Ids" in self.capabilities and self.capabilities["Stack | Member Ids"] != "0":
+            if (
+                "Stack | Member Ids" in self.capabilities
+                and self.capabilities["Stack | Member Ids"] != "0"
+            ):
                 self._chassis_filter = set(self.capabilities["Stack | Member Ids"].split(" | "))
             self.logger.debug("Chassis members filter: %s", self._chassis_filter)
         return super().execute_snmp()
