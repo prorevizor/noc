@@ -122,9 +122,9 @@ class Script(BaseScript):
         rr = v.split("\n\n")
         switchports = ""
         if len(rr) == 3:
-            total, switchports, vlans = rr
+            _, switchports, _ = rr  # total info, mapping vlan interface table, vlans table
         elif len(rr) == 2:
-            total, switchports, vlans = rr[0], rr[1], []
+            _, switchports, _ = rr[0], rr[1], []
         elif len(rr) == 1:
             # total = rr[0]
             pass
