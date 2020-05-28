@@ -232,7 +232,6 @@ class CHWriterService(Service):
             self.logger.info("Trying to restore during stopping. Ignoring")
             return
         self.logger.info("Resuming")
-        self.restore_timeout.cancel()
         self.restore_timeout = None
         metrics["resumes"] += 1
         self.resume_subscription(self.on_data)
