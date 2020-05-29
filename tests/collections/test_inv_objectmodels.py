@@ -113,7 +113,16 @@ CONNECTION_CHECKLIST = {
     "Electrical | SFF-8470": {"directions": "s", "protocols": ["10GBASECX4"],},
     "Electrical | CXP": {
         "directions": "s",
-        "protocols": ["40GBASECR4", "100GBASECR2", "100GBASECR4", "100GBASESR10"],
+        "protocols": [
+            "40GBASECR4",
+            "100GBASESR2",
+            "100GBASECR4",
+            "100GBASESR4",
+            "100GBASEKR4",
+            "100GBASEKP4",
+            "100GBASECR10",
+            "100GBASESR10",
+        ],
     },
     "Electrical | Power | IEC 60320 C14": {
         "directions": "s",
