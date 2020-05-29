@@ -6,7 +6,6 @@
 # ----------------------------------------------------------------------
 
 # Python modules
-import socket
 import os
 from urllib.request import parse_http_list, parse_keqv_list
 import asyncio

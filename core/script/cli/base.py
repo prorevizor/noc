@@ -12,7 +12,6 @@ from typing import Optional
 from noc.core.log import PrefixLoggerAdapter
 from noc.core.ioloop.util import IOLoopContext
 from noc.core.perf import metrics
-from .error import CLIConnectionRefused
 
 
 class BaseCLI(object):
