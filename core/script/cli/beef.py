@@ -85,6 +85,9 @@ class BeefCLI(CLI):
         """
         self.collected_data += [data]
 
+    def is_beef(self) -> bool:
+        return True
+
 
 class BeefIOStream(TelnetIOStream):
     def connect(self, *args, **kwargs):
