@@ -111,6 +111,10 @@ CONNECTION_CHECKLIST = {
         ],
     },
     "Electrical | SFF-8470": {"directions": "s", "protocols": ["10GBASECX4"],},
+    "Electrical | CXP": {
+        "directions": "s",
+        "protocols": ["40GBASECR4", "100GBASECR2", "100GBASECR4", "100GBASESR10"],
+    },
     "Electrical | Power | IEC 60320 C14": {
         "directions": "s",
         "protocols": [">220VAC", "<220VAC", ">110VAC", "<110VAC"],
@@ -123,24 +127,14 @@ CONNECTION_CHECKLIST = {
         "directions": "s",
         "protocols": [">220VAC", "<220VAC", ">110VAC", "<110VAC"],
     },
-    "Transceiver | GBIC": {
-        "directions": ["i", "o"],
-        "protocols": ["TransEth100M", "TransEth1G", "TransEth10G", "TransEth40G"],
-    },
+    "Transceiver | GBIC": {"directions": ["i", "o"], "protocols": ["TransEth100M", "TransEth1G"],},
     "Transceiver | SFP": {
         "directions": ["i", "o"],
-        "protocols": [
-            "TransEth100M",
-            "TransEth1G",
-            "TransEth10G",
-            "TransEth40G",
-            "GPON",
-            "OC3/STM1",
-        ],
+        "protocols": ["TransEth100M", "TransEth1G", "GPON", "OC3/STM1", "OC48/STM16",],
     },
     "Transceiver | SFP | Cisco": {
         "directions": ["i", "o"],
-        "protocols": ["TransEth100M", "TransEth1G", "TransEth10G", "TransEth40G", "GPON"],
+        "protocols": ["TransEth100M", "TransEth1G", "GPON"],
     },
     "Transceiver | SFP+": {"directions": ["i", "o"], "protocols": ["TransEth1G", "TransEth10G"],},
     "Transceiver | SFP+ | Cisco": {
@@ -157,11 +151,29 @@ CONNECTION_CHECKLIST = {
     },
     "Transceiver | QSFP+": {
         "directions": ["i", "o"],
-        "protocols": ["TransEth1G", "TransEth10G", "TransEth40G"],
+        "protocols": ["TransEth10G", "TransEth40G", "TransEth100G"],
     },
-    "Transceiver | XFP": {"directions": ["i", "o"], "protocols": ["TransEth10G"],},
-    "Transceiver | XFP | Cisco": {"directions": ["i", "o"], "protocols": ["TransEth10G"],},
+    "Transceiver | XFP": {"directions": ["i", "o"], "protocols": ["TransEth10G", "OC192/STM64"],},
+    "Transceiver | XFP | Cisco": {
+        "directions": ["i", "o"],
+        "protocols": ["TransEth10G", "OC192/STM64"],
+    },
     "Transceiver | XENPAK | Cisco": {"directions": ["i", "o"], "protocols": ["TransEth10G"],},
     "Transceiver | X2 | Cisco": {"directions": ["i", "o"], "protocols": ["TransEth10G"],},
-    "Transceiver | CFP": {"directions": ["i", "o"], "protocols": ["TransEth40G", "TransEth100G"],},
+    "Transceiver | CFP": {
+        "directions": ["i", "o"],
+        "protocols": ["TransEth40G", "TransEth100G", "OC768/STM256"],
+    },
+    "Transceiver | CFP2": {
+        "directions": ["i", "o"],
+        "protocols": ["TransEth40G", "TransEth100G", "OC768/STM256"],
+    },
+    "Transceiver | CFP4": {
+        "directions": ["i", "o"],
+        "protocols": ["TransEth40G", "TransEth100G", "OC768/STM256"],
+    },
+    "Transceiver | CFP8": {
+        "directions": ["i", "o"],
+        "protocols": ["TransEth40G", "TransEth100G", "OC768/STM256"],
+    },
 }
