@@ -125,8 +125,9 @@ class TelnetStream(BaseStream):
             if data:
                 return data
 
-    async def write(self, data: bytes):
-        data = self.escape(data)
+    async def write(self, data: bytes, raw: bool = False):
+        if not raw:
+            data = self.escape(data)
         metrics["telnet_writes"] += 1
         metrics["telnet_write_bytes"] += len(data)
         await super().write(data)
@@ -185,7 +186,7 @@ class TelnetStream(BaseStream):
                 break
         if self.out_iac_seq:
             out_seq = b"".join(self.out_iac_seq)
-            await super().write(out_seq)
+            await self.write(out_seq, raw=True)
             self.out_iac_seq = []
         return b"".join(r)
 
