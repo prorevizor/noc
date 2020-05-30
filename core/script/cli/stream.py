@@ -122,7 +122,11 @@ class BaseStream(object):
         """
         while data:
             await self.wait_for_write()
-            sent = self.socket.send(data)
+            try:
+                sent = self.socket.send(data)
+            except OSError as e:
+                self.logger.debug("Failed to write: %s", e)
+                raise asyncio.TimeoutError()
             data = data[sent:]
 
     def close(self):
