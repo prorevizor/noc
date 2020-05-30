@@ -62,9 +62,12 @@ class BaseStream(object):
                 self.socket.setsockopt(socket.SOL_TCP, socket.TCP_KEEPCNT, self.KEEP_CNT)
         self.socket.setblocking(False)
         loop = asyncio.get_running_loop()
-        await asyncio.wait_for(
-            loop.sock_connect(self.socket, (address, port or self.default_port)), self._timeout
-        )
+        try:
+            await asyncio.wait_for(
+                loop.sock_connect(self.socket, (address, port or self.default_port)), self._timeout
+            )
+        except OSError:
+            raise ConnectionRefusedError
 
     async def startup(self):
         """
