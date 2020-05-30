@@ -106,7 +106,7 @@ class BaseStream(object):
         try:
             await asyncio.wait_for(write_ev.wait(), self._timeout)
         finally:
-            loop.remove_reader(fileno)
+            loop.remove_writer(fileno)
 
     async def read(self, n: int) -> bytes:
         """
