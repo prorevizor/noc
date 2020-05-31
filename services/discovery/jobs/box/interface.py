@@ -443,11 +443,13 @@ class InterfaceCheck(PolicyDiscoveryCheck):
             n[1]
             for n in self.if_name_cache
             if (
-                    n in self.if_name_cache
-                    and self.if_name_cache[n]
-                    and ((ifindex and self.if_name_cache[n].ifindex is None)
-                         or (mac and self.if_name_cache[n].mac is None))
-                    and self.if_name_cache[n].type in ("physical", "aggregated")
+                n in self.if_name_cache
+                and self.if_name_cache[n]
+                and (
+                    (ifindex and self.if_name_cache[n].ifindex is None)
+                    or (mac and self.if_name_cache[n].mac is None)
+                )
+                and self.if_name_cache[n].type in ("physical", "aggregated")
             )
         ]
         if not missed_properties:
