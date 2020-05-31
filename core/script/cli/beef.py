@@ -38,8 +38,8 @@ class BeefStream(TelnetStream):
             await self.read_event.wait()
             if self.read_buffer:
                 data = self.read_buffer.pop(0)
-                if self.read_buffer:
-                    self.read_event.set()
+                if not self.read_buffer:
+                    self.read_event.clear()
                 return data
 
     async def write(self, data: bytes, raw: bool = False):
@@ -92,7 +92,7 @@ class BeefCLI(CLI):
     def is_beef(self) -> bool:
         return True
 
-    def send_pager_reply(self, data, match):
+    async def send_pager_reply(self, data, match):
         """
         Beef need no pagers
         """
