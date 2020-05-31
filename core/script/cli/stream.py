@@ -110,7 +110,8 @@ class BaseStream(object):
 
     async def read(self, n: int) -> bytes:
         """
-        Read up to n bytes from socket
+        Read up to n bytes from socket.
+        Return empty bytes on EOF
         :param n:
         :return:
         """

@@ -25,6 +25,7 @@ from .error import (
     CLINoSuperCommand,
     CLILowPrivileges,
     CLIConnectionRefused,
+    CLIConnectionReset,
 )
 from .base import BaseCLI
 
@@ -127,7 +128,8 @@ class CLI(BaseCLI):
             for cmd in self.command.split(self.profile.command_submit):
                 # Send line
                 await self.send(cmd + self.profile.command_submit)
-                # @todo: Await response
+                # Await response
+                await self.stream.wait_for_read()
         parser = parser or self.read_until_prompt
         self.result = await parser()
         self.logger.debug("Command: %s\n%s", self.command.strip(), self.result)
@@ -174,18 +176,21 @@ class CLI(BaseCLI):
             try:
                 metrics["cli_reads", ("proto", self.name)] += 1
                 r = await self.stream.read(self.BUFFER_SIZE)
-                if r == self.SYNTAX_ERROR_CODE:
-                    metrics["cli_syntax_errors", ("proto", self.name)] += 1
-                    return self.SYNTAX_ERROR_CODE
-                metrics["cli_read_bytes", ("proto", self.name)] += len(r)
-                if self.script.to_track:
-                    self.script.push_cli_tracking(r, self.state)
             except asyncio.TimeoutError:
                 self.logger.info("Timeout error")
                 metrics["cli_timeouts", ("proto", self.name)] += 1
                 # IOStream must be closed to prevent hanging read callbacks
                 self.close_stream()
                 raise asyncio.TimeoutError("Timeout")  # @todo: Uncaught
+            if not r:
+                self.logger.debug("Connection reset")
+                await self.on_failure(r, None, error_cls=CLIConnectionReset)
+            if r == self.SYNTAX_ERROR_CODE:
+                metrics["cli_syntax_errors", ("proto", self.name)] += 1
+                return self.SYNTAX_ERROR_CODE
+            metrics["cli_read_bytes", ("proto", self.name)] += len(r)
+            if self.script.to_track:
+                self.script.push_cli_tracking(r, self.state)
             self.logger.debug("Received: %r", r)
             # Clean input
             if self.buffer.find(b"\x1b", -self.MATCH_MISSED_CONTROL_TAIL) != -1:
@@ -568,7 +573,7 @@ class CLI(BaseCLI):
             await self.stream.write(smart_bytes(seq))
         elif callable(seq):
             if asyncio.iscoroutinefunction(seq):
-                # Yield coroutine
+                # Await coroutine
                 await seq(self, command, error_text)
             else:
                 seq = seq(self, command, error_text)

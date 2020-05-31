@@ -121,6 +121,8 @@ class TelnetStream(BaseStream):
         metrics["telnet_reads"] += 1
         while True:
             data = await super().read(n)
+            if not data:
+                return data  # Return EOF
             data = await self.feed(data)
             if data:
                 return data
