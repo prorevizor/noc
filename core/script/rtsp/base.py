@@ -9,13 +9,14 @@
 import os
 from urllib.request import parse_http_list, parse_keqv_list
 import asyncio
+from typing import Tuple, Dict, Any
 
 # Third-party modules
 import hashlib
 
 # NOC modules
 from noc.config import config
-from noc.core.comp import smart_bytes
+from noc.core.comp import smart_bytes, smart_text
 from noc.core.span import Span
 from noc.core.ioloop.util import IOLoopContext
 from noc.core.perf import metrics
@@ -23,8 +24,8 @@ from ..cli.base import BaseCLI
 from ..cli.stream import BaseStream
 from .error import RTSPConnectionRefused, RTSPAuthFailed, RTSPBadResponse, RTSPError
 
-DEFAULT_PROTOCOL = "RTSP/1.0"
-DEFAULT_USER_AGENT = config.http_client.user_agent
+DEFAULT_PROTOCOL = b"RTSP/1.0"
+DEFAULT_USER_AGENT = smart_bytes(config.http_client.user_agent)
 MULTIPLE_HEADER = {"WWW-Authenticate"}
 
 
@@ -39,9 +40,9 @@ class RTSPBase(BaseCLI):
         self.path = None
         self.cseq = 1
         self.method = None
-        self.headers = None
+        self.headers: Dict[str, Any] = None
         self.auth = None
-        self.buffer = ""
+        self.buffer: bytes = b""
         self.is_started = False
         self.result = None
         self.error = None
@@ -52,16 +53,16 @@ class RTSPBase(BaseCLI):
     def get_stream(self) -> BaseStream:
         return RTSPStream(self)
 
-    def get_uri(self, port=None):
+    def get_uri(self, port: int = None) -> str:
         address = self.script.credentials.get("address")
         if not port:
             port = RTSPStream.default_port
         if port:
             address += ":%s" % port
         uri = "rtsp://%s%s" % (address, self.path)
-        return uri.encode("utf-8")
+        return uri
 
-    async def send(self, method=None, body=None):
+    async def send(self, method: str = None, body: str = None):
         # @todo: Apply encoding
         self.error = None
         body = body or ""
@@ -77,11 +78,11 @@ class RTSPBase(BaseCLI):
                 self.get_uri(), method, self.headers["WWW-Authenticate"]["Digest"]
             )
         req = b"%s %s %s\r\n%s\r\n\r\n%s" % (
-            method,
-            self.get_uri(),
+            smart_bytes(method),
+            smart_bytes(self.get_uri()),
             DEFAULT_PROTOCOL,
-            b"\r\n".join(b"%s: %s" % (k, h[k]) for k in h),
-            body,
+            b"\r\n".join(b"%s: %s" % (smart_bytes(k), smart_bytes(h[k])) for k in h),
+            smart_bytes(body),
         )
         self.logger.debug("Send: %r", req)
         await self.stream.write(req)
@@ -123,7 +124,7 @@ class RTSPBase(BaseCLI):
                 self.error = RTSPBadResponse("Missed header separator")
                 return None
             header, r = r.split(header_sep, 1)
-            code, msg, headers = self.parse_rtsp_header(header)
+            code, headers, msg = self.parse_rtsp_header(header)
             self.headers = headers
             self.logger.debug(
                 "Parsed received, err code: %d, err message: %s, headers: %s", code, msg, headers
@@ -139,17 +140,18 @@ class RTSPBase(BaseCLI):
                 return None
             result += [r]
             break
-        self.result = "".join(result)
+        self.result = smart_text(b"".join(result))
         return self.result
 
     @staticmethod
-    def parse_rtsp_header(data):
-        code, msg, headers = 200, "", {}
+    def parse_rtsp_header(data: bytes) -> Tuple[int, Dict[str, Any], bytes]:
+        code, headers, msg = 200, {}, b""
         for line in data.splitlines():
-            if line.startswith("RTSP/1.0"):
+            if line.startswith(b"RTSP/1.0"):
                 _, code, msg = line.split(None, 2)
-            elif ":" in line:
-                h, v = line.split(":", 1)
+            elif b":" in line:
+                h, v = line.split(b":", 1)
+                h, v = smart_text(h), smart_text(v)
                 if h in MULTIPLE_HEADER:
                     if h not in headers:
                         headers[h] = {}
@@ -158,7 +160,7 @@ class RTSPBase(BaseCLI):
                     headers[h][auth] = parse_keqv_list(items)
                     continue
                 headers[h] = v.strip()
-        return int(code), msg, headers
+        return int(code), headers, msg
 
     def execute(self, path, method, **kwargs):
         """
