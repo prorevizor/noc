@@ -130,7 +130,7 @@ class MRTRequestHandler(AuthRequestHandler):
                 )
             # Wait for rest
             while futures:
-                done, futures = asyncio.wait(futures, return_when=asyncio.FIRST_COMPLETED)
+                done, futures = await asyncio.wait(futures, return_when=asyncio.FIRST_COMPLETED)
                 for f in done:
                     r = await f
                     await self.write_chunk(r)
