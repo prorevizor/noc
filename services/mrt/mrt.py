@@ -123,11 +123,11 @@ class MRTRequestHandler(AuthRequestHandler):
                     for f in done:
                         r = await f
                         await self.write_chunk(r)
-                futures += [
+                futures.add(
                     self.run_script(
                         oid, d["script"], d.get("args"), span_id=span.span_id, bi_id=ids.get(oid)
                     )
-                ]
+                )
             # Wait for rest
             while futures:
                 done, futures = asyncio.wait(futures, return_when=asyncio.FIRST_COMPLETED)
