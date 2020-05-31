@@ -23,15 +23,10 @@ class BaseCLI(object):
         self.logger = PrefixLoggerAdapter(self.script.logger, self.name)
         self.stream: Optional[BaseStream] = None
         self.tos = tos
-        self.loop_context: Optional[IOLoopContext] = None
 
     def close(self):
         self.script.close_current_session()
         self.close_stream()
-        # Restore previous event loop
-        if self.loop_context:
-            self.loop_context.drop_context()
-            self.loop_context = None
 
     def close_stream(self):
         if self.stream:
