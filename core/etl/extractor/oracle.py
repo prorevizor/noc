@@ -109,4 +109,3 @@ class ORACLEExtractor(SQLExtractor):
             yield from self.iter_data_single()
         else:
             yield from self.iter_data_parallel(concurrency)
-
