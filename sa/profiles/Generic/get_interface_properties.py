@@ -19,6 +19,8 @@ from noc.core.mac import MAC
 class Script(BaseScript):
     name = "Generic.get_interface_properties"
     interface = IGetInterfaceProperties
+    requires = []
+
     MAX_REPETITIONS = 40
     MAX_GETNEXT_RETIRES = 0
 
