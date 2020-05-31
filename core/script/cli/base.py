@@ -10,7 +10,6 @@ from typing import Optional
 
 # NOC module
 from noc.core.log import PrefixLoggerAdapter
-from noc.core.ioloop.util import IOLoopContext
 from noc.core.perf import metrics
 
 
