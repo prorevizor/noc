@@ -109,6 +109,8 @@ class RedisCache(BaseCache):
             metrics["error", ("type", "redis_set_many_failed")] += 1
 
     def delete_many(self, keys, version=None):
+        if not keys:
+            return
         try:
             self.redis.delete(*[self.make_key(k, version) for k in keys])
         except ignorable_redis_errors:
