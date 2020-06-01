@@ -59,7 +59,7 @@ class RedisCache(BaseCache):
         k = self.make_key(key, version)
         try:
             v = self.deserialize(self.redis.get(k))
-        except ignorable_redis_errors:
+        except ignorable_redis_errors:  # pylint: catching-non-exception
             metrics["error", ("type", "redis_get_failed")] += 1
             v = None
         if v is None:
@@ -79,10 +79,11 @@ class RedisCache(BaseCache):
         ttl = ttl or config.redis.default_ttl
         try:
             self.redis.set(k, self.serialize(value), ex=ttl)
-        except ignorable_redis_errors:
+        except ignorable_redis_errors:  # pylint: catching-non-exception
             metrics["error", ("type", "redis_set_failed")] += 1
 
     def delete(self, key, version=None):
+        # pylint: catching-non-exception
         k = self.make_key(key, version)
         try:
             self.redis.delete(k)
@@ -90,6 +91,7 @@ class RedisCache(BaseCache):
             metrics["error", ("type", "redis_delete_failed")] += 1
 
     def get_many(self, keys, version=None):
+        # pylint: catching-non-exception
         k = [self.make_key(x, version) for x in keys]
         try:
             r = self.redis.mget(k)
@@ -99,6 +101,7 @@ class RedisCache(BaseCache):
         return {k: self.deserialize(v) for k, v in zip(keys, r)}
 
     def set_many(self, data, ttl=None, version=None):
+        # pylint: catching-non-exception
         ttl = ttl or config.redis.default_ttl
         pipe = self.redis.pipeline()
         for k in data:
@@ -109,6 +112,7 @@ class RedisCache(BaseCache):
             metrics["error", ("type", "redis_set_many_failed")] += 1
 
     def delete_many(self, keys, version=None):
+        # pylint: catching-non-exception
         keys = [self.make_key(k, version) for k in keys]
         if not keys:
             return
