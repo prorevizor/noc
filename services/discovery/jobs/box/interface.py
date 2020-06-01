@@ -56,6 +56,11 @@ class InterfaceCheck(PolicyDiscoveryCheck):
         Match("virtual-router", vr, "forwarding-instance", instance, "vrf-target", "import", rt_import)
     ) and Group("vr", "instance", stack={"rt_export", "rt_import"})"""
 
+    PROTOCOLS_QUERY = """(Collapse("protocols", "lldp", "interface", if_name, "admin-status", join=",") or
+        Match("protocols", "lldp", "interface", if_name, "admin-status", lldp_status) or
+        Match("protocols", "spanning-tree", "interface", if_name, "admin-status", stp_status)
+    ) and Group("if_name")"""
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.get_interface_profile = InterfaceClassificationRule.get_classificator()
@@ -165,7 +170,7 @@ class InterfaceCheck(PolicyDiscoveryCheck):
         self.cleanup_interfaces(self.seen_interfaces)
         # Delete hanging forwarding instances
         self.cleanup_forwarding_instances(fi["forwarding_instance"] for fi in result)
-        self.resolve_ifindexes()
+        self.resolve_properties()
         self.update_caps(
             {"DB | Interfaces": Interface.objects.filter(managed_object=self.object.id).count()},
             source="interface",
@@ -422,43 +427,62 @@ class InterfaceCheck(PolicyDiscoveryCheck):
                 iface.profile = profile
                 iface.save()
 
-    def resolve_ifindexes(self):
+    def resolve_properties(self):
         """
-        Try to resolve missed ifindexes
+        Try to resolve missed ifindexes and mac
         """
-        if self.object.get_interface_discovery_policy() == "d":
+        resolve_ifindex, resolve_mac = True, False
+        iface_discovery_policy = self.object.get_interface_discovery_policy()
+        if iface_discovery_policy == "c":
             self.logger.info("Cannot resolve ifindexes due to policy")
             return
-        missed_ifindexes = [
+        elif iface_discovery_policy in {"C", "S"}:
+            self.logger.info("Resolve ifindexes and macs by script")
+            resolve_mac = True
+        # Missed properties
+        missed_properties = [
             n[1]
             for n in self.if_name_cache
             if (
                 n in self.if_name_cache
                 and self.if_name_cache[n]
-                and self.if_name_cache[n].ifindex is None
+                and (
+                    (resolve_ifindex and self.if_name_cache[n].ifindex is None)
+                    or (resolve_mac and self.if_name_cache[n].mac is None)
+                )
                 and self.if_name_cache[n].type in ("physical", "aggregated")
             )
         ]
-        if not missed_ifindexes:
+        if not missed_properties:
             return
-        self.logger.info("Missed ifindexes for: %s", ", ".join(missed_ifindexes))
+        self.logger.info("Missed properties for: %s", ", ".join(missed_properties))
         try:
-            r = self.object.scripts.get_ifindexes()
+            r = self.object.scripts.get_interface_properties(
+                enable_ifindex=resolve_ifindex, enable_interface_mac=resolve_mac
+            )
         except RPCError:
             r = None
         if not r:
             return
-        updates = {}
-        for n in missed_ifindexes:
-            if n in r:
-                updates[n] = r[n]
+        updates = defaultdict(dict)
+        for i in r:
+            if i["interface"] not in missed_properties:
+                continue
+            if resolve_mac:
+                updates[i["interface"]]["ifindex"] = i["ifindex"]
+            if resolve_ifindex:
+                updates[i["interface"]]["mac"] = i["mac"]
         if not updates:
             return
         for n, i in updates.items():
             iface = self.get_interface_by_name(n)
             if iface:
-                self.logger.info("Set ifindex for %s: %s", n, i)
-                iface.ifindex = i
+                if "ifindex" in i:
+                    self.logger.info("Set ifindex for %s: %s", n, i["ifindex"])
+                    iface.ifindex = i["ifindex"]
+                if "mac" in i:
+                    self.logger.info("Set mac for %s: %s", n, i["mac"])
+                    iface.mac = i["mac"]
                 iface.save()  # Signals will be sent
 
     @staticmethod
@@ -475,6 +499,7 @@ class InterfaceCheck(PolicyDiscoveryCheck):
         # Get interfaces and parse result
         interfaces = {d["if_name"]: d for d in self.confdb.query(self.IF_QUERY)}
         vrfs = {(d["vr"], d["instance"]): d for d in self.confdb.query(self.VRF_QUERY)}
+        iface_proto = {d["if_name"]: d for d in self.confdb.query(self.PROTOCOLS_QUERY)}
         instances = defaultdict(dict)
         for d in self.confdb.query(self.UNIT_QUERY):
             r = instances[d["vr"], d["instance"]]
@@ -515,6 +540,7 @@ class InterfaceCheck(PolicyDiscoveryCheck):
                     "name": if_name,
                     "type": p_iface.get("type", "unknown") if p_iface else "unknown",
                     "admin_status": False,
+                    "enabled_protocols": [],
                     "subinterfaces": {},
                 }
                 r["interfaces"][if_name] = iface
@@ -523,6 +549,11 @@ class InterfaceCheck(PolicyDiscoveryCheck):
                         iface["description"] = p_iface["description"]
                     if "admin_status" in p_iface:
                         iface["admin_status"] = p_iface["admin_status"] == "on"
+                    if if_name in iface_proto:
+                        if iface_proto[if_name]["stp_status"] == "on":
+                            iface["enabled_protocols"] += ["STP"]
+                        if iface_proto[if_name]["lldp_status"]:
+                            iface["enabled_protocols"] += ["LLDP"]
             unit = iface["subinterfaces"].get(d["unit"])
             if unit is None:
                 unit = {"name": d["unit"], "enabled_afi": []}
