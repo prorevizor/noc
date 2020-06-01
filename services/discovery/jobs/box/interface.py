@@ -548,11 +548,11 @@ class InterfaceCheck(PolicyDiscoveryCheck):
                     if "description" in p_iface:
                         iface["description"] = p_iface["description"]
                     if "admin_status" in p_iface:
-                        iface["admin_status"] = p_iface["admin_status"] == "on"
+                        iface["admin_status"] = p_iface["admin_status"]
                     if if_name in iface_proto:
-                        if iface_proto[if_name]["stp_status"] == "on":
+                        if iface_proto[if_name].get("stp_status") == "on":
                             iface["enabled_protocols"] += ["STP"]
-                        if iface_proto[if_name]["lldp_status"]:
+                        if iface_proto[if_name].get("lldp_status"):
                             iface["enabled_protocols"] += ["LLDP"]
             unit = iface["subinterfaces"].get(d["unit"])
             if unit is None:
