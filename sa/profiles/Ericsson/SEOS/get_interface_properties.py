@@ -22,16 +22,16 @@ class Script(BaseScript):
         ifaces = set()
 
         for doid, descr in self.snmp.getnext(
-                mib["IF-MIB::ifDescr"],
-                max_repetitions=self.get_max_repetitions(),
-                max_retries=self.get_getnext_retires()
+            mib["IF-MIB::ifDescr"],
+            max_repetitions=self.get_max_repetitions(),
+            max_retries=self.get_getnext_retires(),
         ):
             dindex = int(doid.split(".")[-1])
             d[dindex] = descr
         for oid, ifname in self.snmp.getnext(
-                mib["IF-MIB::ifName"],
-                max_repetitions=self.get_max_repetitions(),
-                max_retries=self.get_getnext_retires()
+            mib["IF-MIB::ifName"],
+            max_repetitions=self.get_max_repetitions(),
+            max_retries=self.get_getnext_retires(),
         ):
             ifindex = int(oid.split(".")[-1])
             if ifname in ifaces:

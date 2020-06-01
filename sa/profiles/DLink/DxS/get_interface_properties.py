@@ -19,9 +19,9 @@ class Script(BaseScript):
         unknown_interfaces = []
         old_dlink = False
         for oid, ifname in self.snmp.getnext(
-                mib["IF-MIB::ifName"],
-                max_repetitions=self.get_max_repetitions(),
-                max_retries=self.get_getnext_retires(),
+            mib["IF-MIB::ifName"],
+            max_repetitions=self.get_max_repetitions(),
+            max_retries=self.get_getnext_retires(),
         ):
             ifindex = int(oid.split(".")[-1])
             if ifindex == 1 and ifname.startswith("Slot0/"):
@@ -35,9 +35,9 @@ class Script(BaseScript):
             ifnames[ifindex] = ifname
         if not old_dlink:
             for oid, ifname in self.snmp.getnext(
-                    mib["IF-MIB::ifDescr"],
-                    max_repetitions=self.get_max_repetitions(),
-                    max_retries=self.get_getnext_retires(),
+                mib["IF-MIB::ifDescr"],
+                max_repetitions=self.get_max_repetitions(),
+                max_retries=self.get_getnext_retires(),
             ):
                 ifindex = int(oid.split(".")[-1])
                 if name and name != self.profile.convert_interface_name(ifname):
