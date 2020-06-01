@@ -105,8 +105,7 @@ class VRPNormalizer(BaseNormalizer):
     def normalize_interface(self, tokens):
         if_name = self.interface_name(tokens[1])
         unit_name = if_name
-        if "." not in tokens[1] and not tokens[1].startswith("Vl"):
-            # @todo get_iface_type
+        if "." not in tokens[1]:
             yield self.make_interface(interface=if_name)
         elif "." in if_name:
             if_name, _ = if_name.split(".", 1)
@@ -128,7 +127,7 @@ class VRPNormalizer(BaseNormalizer):
     def normalize_interface_description(self, tokens):
         if_name = self.interface_name(tokens[1])
         unit_name = if_name
-        if "." not in tokens[1] and not tokens[1].startswith("Vl"):
+        if "." not in tokens[1]:
             yield self.make_interface_description(
                 interface=self.interface_name(tokens[1]), description=" ".join(tokens[2:])
             )
@@ -244,6 +243,7 @@ class VRPNormalizer(BaseNormalizer):
         if_name = self.interface_name("Vlanif%s " % tokens[2])
         yield self.make_unit_description(interface=if_name, unit=if_name, description="")
 
+    @match("interface", "vlan", ANY, "ip", "address", ANY, ANY, "sub")
     @match("interface", "vlan", ANY, "ip", "address", ANY, ANY)
     def normalize_vlan_ip(self, tokens):
         if_name = self.interface_name("Vlanif%s " % tokens[2])
@@ -251,6 +251,7 @@ class VRPNormalizer(BaseNormalizer):
             interface=if_name, unit=if_name, address=self.to_prefix(tokens[5], tokens[6])
         )
 
+    @match("interface", ANY, "ip", "address", ANY, ANY, "sub")
     @match("interface", ANY, "ip", "address", ANY, ANY)
     def normalize_interface_ip(self, tokens):
         if_name = self.interface_name(tokens[1])
