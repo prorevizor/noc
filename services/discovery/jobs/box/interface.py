@@ -241,6 +241,9 @@ class InterfaceCheck(PolicyDiscoveryCheck):
         enabled_protocols = enabled_protocols or []
         iface = self.get_interface_by_name(name)
         if iface:
+            ignore_empty = ["ifindex"]
+            if self.object.get_interface_discovery_policy() == "C":
+                ignore_empty = ["ifindex", "mac"]
             # Interface exists
             changes = self.update_if_changed(
                 iface,
@@ -254,7 +257,7 @@ class InterfaceCheck(PolicyDiscoveryCheck):
                     "ifindex": ifindex,
                     "hints": hints or [],
                 },
-                ignore_empty=["ifindex"],
+                ignore_empty=ignore_empty,
             )
             self.log_changes("Interface '%s' has been changed" % name, changes)
         else:
@@ -298,6 +301,9 @@ class InterfaceCheck(PolicyDiscoveryCheck):
         mac = mac or interface.mac
         si = self.get_subinterface(interface, name)
         if si:
+            ignore_empty = ["ifindex"]
+            if self.object.get_interface_discovery_policy() == "C":
+                ignore_empty = ["ifindex", "mac"]
             changes = self.update_if_changed(
                 si,
                 {
@@ -317,7 +323,7 @@ class InterfaceCheck(PolicyDiscoveryCheck):
                     # ip_unnumbered_subinterface
                     "ifindex": ifindex,
                 },
-                ignore_empty=["ifindex"],
+                ignore_empty=ignore_empty,
             )
             self.log_changes("Subinterface '%s' has been changed" % name, changes)
         else:
