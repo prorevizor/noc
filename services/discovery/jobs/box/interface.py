@@ -69,6 +69,7 @@ class InterfaceCheck(PolicyDiscoveryCheck):
         self.vrf_artefact = {}  # name -> {name:, type:, rd:}
         self.prefix_artefact = {}
         self.interface_prefix_artefact = []
+        self.is_confdb_source = False  # Set True if Interface source is ConfDB
 
     def handler(self):
         self.logger.info("Checking interfaces")
@@ -242,7 +243,7 @@ class InterfaceCheck(PolicyDiscoveryCheck):
         iface = self.get_interface_by_name(name)
         if iface:
             ignore_empty = ["ifindex"]
-            if self.object.get_interface_discovery_policy() == "C":
+            if self.is_confdb_source:
                 ignore_empty = ["ifindex", "mac"]
             # Interface exists
             changes = self.update_if_changed(
@@ -302,7 +303,7 @@ class InterfaceCheck(PolicyDiscoveryCheck):
         si = self.get_subinterface(interface, name)
         if si:
             ignore_empty = ["ifindex"]
-            if self.object.get_interface_discovery_policy() == "C":
+            if self.is_confdb_source:
                 ignore_empty = ["ifindex", "mac"]
             changes = self.update_if_changed(
                 si,
@@ -442,7 +443,7 @@ class InterfaceCheck(PolicyDiscoveryCheck):
         if iface_discovery_policy == "c":
             self.logger.info("Cannot resolve ifindexes due to policy")
             return
-        elif iface_discovery_policy in {"C", "S"}:
+        elif self.is_confdb_source:
             self.logger.info("Resolve ifindexes and macs by script")
             resolve_mac = True
         # Missed properties
@@ -502,6 +503,7 @@ class InterfaceCheck(PolicyDiscoveryCheck):
         return self.object.scripts.get_interfaces()
 
     def get_data_from_confdb(self):
+        self.is_confdb_source = True
         # Get interfaces and parse result
         interfaces = {d["if_name"]: d for d in self.confdb.query(self.IF_QUERY)}
         vrfs = {(d["vr"], d["instance"]): d for d in self.confdb.query(self.VRF_QUERY)}
