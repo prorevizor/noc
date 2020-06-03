@@ -26,15 +26,18 @@ class AuthRequestHandler(tornado.web.RequestHandler):
         Checks Basic auth or noc_user secure cookie
         """
 
+        def quote(s: str) -> bytes:
+            return s.encode("utf-8")
+
         def success(user):
             self.set_status(200, "OK")
-            self.set_header("Remote-User", user)
+            self.set_header("Remote-User", quote(user))
 
         def api_success(access, key_name=None):
             self.set_status(200, "OK")
-            self.set_header("X-NOC-API-Access", access)
+            self.set_header("X-NOC-API-Access", quote(access))
             if key_name:
-                self.set_header("Remote-User", key_name)
+                self.set_header("Remote-User", quote(key_name))
 
         def fail(user_name=None, reason=None):
             self.set_status(401, "Not authorized")
