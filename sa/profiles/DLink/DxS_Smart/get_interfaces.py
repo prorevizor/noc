@@ -39,7 +39,7 @@ class Script(BaseScript):
         admin_status = {}
         try:
             for n, s in self.snmp.join_tables(
-                    mib["IF-MIB::ifName"], mib["IF-MIB::ifAdminStatus"]
+                mib["IF-MIB::ifName"], mib["IF-MIB::ifAdminStatus"]
             ):  # IF-MIB
                 if n[:3] == "Aux" or n[:4] == "Vlan" or n[:11] == "InLoopBack":
                     continue
