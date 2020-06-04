@@ -7,6 +7,7 @@
 
 # Python modules
 import codecs
+import urllib.parse
 
 # Third-party modules
 import tornado.web
@@ -26,8 +27,8 @@ class AuthRequestHandler(tornado.web.RequestHandler):
         Checks Basic auth or noc_user secure cookie
         """
 
-        def quote(s: str) -> bytes:
-            return s.encode("utf-8")
+        def quote(s: str) -> str:
+            return urllib.parse.quote(s)
 
         def success(user):
             self.set_status(200, "OK")
