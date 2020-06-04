@@ -44,9 +44,6 @@ class Script(BaseScript):
                 result += [{"vlan_id": vlan_id, "name": v.strip().rstrip(smart_text("\x00"))}]
                 tmp_vlan += [vlan_id]
         if result:
-            return sorted(
-                result,
-                key=operator.itemgetter("vlan_id"),
-            )
+            return sorted(result, key=operator.itemgetter("vlan_id"))
         else:
             raise NotImplementedError()
