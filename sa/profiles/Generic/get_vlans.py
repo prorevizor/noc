@@ -5,6 +5,9 @@
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
+# Python modules
+import operator
+
 # NOC Modules
 from noc.core.script.base import BaseScript
 from noc.sa.interfaces.igetvlans import IGetVlans
@@ -22,6 +25,8 @@ class Script(BaseScript):
         # Get OID -> VLAN ID mapping
         # dot1qVlanFdbId
         for oid, v in self.snmp.getnext(mib["Q-BRIDGE-MIB::dot1qVlanFdbId"]):
+            if not v:
+                continue
             oids[oid.split(".")[-1]] = v
         if oids:
             # Get VLAN names
@@ -41,7 +46,7 @@ class Script(BaseScript):
         if result:
             return sorted(
                 result,
-                cmp=lambda x, y: (x["vlan_id"] > y["vlan_id"]) - (x["vlan_id"] < y["vlan_id"]),
+                key=operator.itemgetter("vlan_id"),
             )
         else:
             raise NotImplementedError()
