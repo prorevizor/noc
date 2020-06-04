@@ -198,7 +198,7 @@ def parse_get_response_strict(
     pdu = data[2]
     if pdu[0] != PDU_RESPONSE:
         raise ValueError("Invalid response PDU type: %s" % pdu[0])
-    request_id, err_status, err_index, varbinds = pdu
+    _, request_id, err_status, err_index, varbinds = pdu
     cleaned_varbinds = []
     for n, item in enumerate(varbinds):
         if not isinstance(item, list) or not len(item) == 2 or not isinstance(item[0], str):
