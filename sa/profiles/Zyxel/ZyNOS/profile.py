@@ -14,6 +14,7 @@ import six
 
 # NOC modules
 from noc.core.profile.base import BaseProfile
+from noc.core.comp import smart_bytes
 
 
 class Profile(BaseProfile):
@@ -77,4 +78,10 @@ class ZyNOSContextManager(object):
         """Leaving zynos mode context"""
         if exc_type is None:
             self.script.pop_prompt_pattern()
+            if six.PY3:
+                self.script.push_prompt_pattern(
+                    smart_bytes(self.script.profile.pattern_unprivileged_prompt)
+                )
+            else:
+                self.script.push_prompt_pattern(self.script.profile.pattern_unprivileged_prompt)
             self.script.cli(self.profile.command_exit_zynos)
