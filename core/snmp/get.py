@@ -139,7 +139,7 @@ def parse_get_response_raw(
 ) -> GetResponse:
     """
     Raw response parser for beef collector
-    
+
     :param pdu:
     :param display_hints:
     :return:
