@@ -32,7 +32,7 @@ class BaseCLI(object):
     def close_stream(self):
         if self.stream:
             self.logger.debug("Closing stream")
-            if self.profile.command_exit:
+            if self.is_started and self.profile.command_exit:
                 with IOLoopContext() as loop:
                     loop.run_until_complete(self.send(smart_bytes(self.profile.command_exit)))
             self.stream.close()
