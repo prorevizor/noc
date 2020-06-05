@@ -13,6 +13,7 @@ from noc.services.nbi.loader import loader
 from noc.core.perf import metrics
 from noc.services.nbi.base import NBIAPI
 from noc.core.comp import smart_text
+import urllib.parse
 
 
 class NBIService(Service):
@@ -53,7 +54,7 @@ class NBIService(Service):
         request = handler.request
         method = request.method
         uri = request.uri
-        user = request.headers.get("Remote-User", "-")
+        user = urllib.parse.unquote(request.headers.get("Remote-User", "-"))
         if user != "-":
             user = smart_text(user)
         remote_ip = request.remote_ip

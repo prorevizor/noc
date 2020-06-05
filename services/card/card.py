@@ -10,6 +10,7 @@ import os
 import inspect
 from threading import Lock
 import operator
+import urllib.parse
 
 # Third-party modules
 import tornado.web
@@ -53,7 +54,9 @@ class CardRequestHandler(UIHandler):
     def get_current_user(self):
         user = None
         with ErrorReport():
-            user = self.get_user_by_name(self.request.headers.get("Remote-User"))
+            user = self.get_user_by_name(
+                urllib.parse.unquote(self.request.headers.get("Remote-User"))
+            )
         return user
 
     def get(self, card_type, card_id, *args, **kwargs):
