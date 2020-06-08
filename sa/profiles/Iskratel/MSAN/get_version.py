@@ -27,10 +27,9 @@ class Script(BaseScript):
     def execute_cli(self):
         v = self.cli("show hardware", cached=True)
         match = self.rx_platform.search(v)
-        platform = None
         if match:
             platform = match.group("platform")
-        if not platform:
+        else:
             raise NotImplementedError
         match = self.rx_serial.search(v)
         if match:
