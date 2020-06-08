@@ -80,10 +80,7 @@ class LoginService(UIService):
             metrics["auth_success", ("method", method)] += 1
             # Set cookie
             handler.set_secure_cookie(
-                "noc_user",
-                user,
-                expires_days=config.login.session_ttl,
-                httponly=True,
+                "noc_user", user, expires_days=config.login.session_ttl, httponly=True,
             )
             # Register last login
             if config.login.register_last_login:
