@@ -19,7 +19,7 @@ from typing import (
     DefaultDict,
 )
 from collections import defaultdict
-from itertools import compress, chain
+from itertools import chain
 
 # NOC modules
 from noc.core.script.base import BaseScript
