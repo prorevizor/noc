@@ -22,21 +22,24 @@ RUN apk add --update --no-cache \
     tzdata \
     libmemcached \
     curl \
-   && apk add --no-cache --virtual .build-deps \
-        git \
-        build-base \
-        cyrus-sasl-dev \
-        cython \
-        cython-dev \
-        gcc \
-        libffi-dev \
-        libmemcached-dev \
-        libressl-dev \
-        musl-dev \
-        postgresql-dev \
-        python3-dev \
-        zlib-dev \
-        cmake \
+    proj
+RUN apk add --no-cache --virtual .build-deps \
+    git \
+    build-base \
+    cyrus-sasl-dev \
+    cython \
+    cython-dev \
+    gcc \
+    libffi-dev \
+    libmemcached-dev \
+    libressl-dev \
+    musl-dev \
+    postgresql-dev \
+    python3-dev \
+    zlib-dev \
+    cmake \
+    proj-util \
+    proj-dev
     && pip3 install --src=/tmp/src --no-cache --trusted-host cdn.getnoc.com --find-links https://cdn.getnoc.com/npkg/ --upgrade -r /opt/noc/requirements/docker.txt \
     && python ./scripts/deploy/install-packages requirements/web.json \
     && python ./scripts/deploy/install-packages requirements/card.json \
