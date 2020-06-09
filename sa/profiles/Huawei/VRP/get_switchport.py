@@ -1,16 +1,13 @@
-# -*- coding: utf-8 -*-
 # ---------------------------------------------------------------------
 # Huawei.VRP.get_switchport
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
 # Python modules
 import re
-import six
 from itertools import compress
-from binascii import hexlify
 
 # NOC modules
 from noc.core.script.base import BaseScript
@@ -26,7 +23,7 @@ class Script(BaseScript):
 
     rx_vlan_comment = re.compile(r"\([^)]+\)", re.MULTILINE | re.DOTALL)
     rx_line1 = re.compile(
-        r"(?P<interface>\S+)\s+(?P<mode>access|trunk|hybrid|trunking)\s+(?P<pvid>\d+)\s+(?P<vlans>(?:(?!40GE)\d|\-|\s|\n)+)",
+        r"(?P<interface>\S+)\s+(?P<mode>access|trunk|hybrid|trunking)\s+(?P<pvid>\d+)\s+(?P<vlans>(?:(?!40GE)\d|\-|\s|\n)+\s)",
         re.MULTILINE,
     )
     rx_line2 = re.compile(
@@ -62,15 +59,11 @@ class Script(BaseScript):
         """
         for line in vlans.splitlines():
             for vlan_pack in line.split()[0]:
-                if six.PY2:
-                    for is_v in "{0:04b}".format(int(vlan_pack, 16)):
-                        yield int(is_v)
-                else:
-                    for is_v in "{0:08b}".format(vlan_pack):
-                        yield int(is_v)
+                for is_v in "{0:08b}".format(vlan_pack):
+                    yield int(is_v)
 
     def execute_snmp(self, **kwargs):
-        names = {x: y for y, x in six.iteritems(self.scripts.get_ifindexes())}
+        names = {x: y for y, x in self.scripts.get_ifindexes().items()}
         r = {}
         for port_num, ifindex, port_type, pvid in self.snmp.get_tables(
             [
@@ -100,8 +93,6 @@ class Script(BaseScript):
         ):
             start, end = 0, 2048
             oid, port_num = oid.rsplit(".", 1)
-            if six.PY2:
-                vlans_bank = hexlify(vlans_bank)
             if oid.endswith("1.3"):
                 # HighVLAN
                 start, end = 2048, 4096
@@ -113,7 +104,7 @@ class Script(BaseScript):
         # hybrid_vlans = list(self.snmp.get_tables([mib["HUAWEI-L2IF-MIB::hwL2IfHybridPortTable"]]))
 
         # x2 = list(compress(range(1, 4096), self.convert_vlan(r2)))
-        return list(six.itervalues(r))
+        return list(r.values())
 
     def execute_cli(self, **kwargs):
         # Get descriptions
