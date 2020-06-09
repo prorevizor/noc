@@ -13,6 +13,7 @@ import time
 from noc.sa.profiles.Generic.get_interfaces import Script as BaseScript
 from noc.sa.interfaces.igetinterfaces import IGetInterfaces
 from noc.core.comp import smart_text
+from noc.core.validators import is_vlan
 
 
 class Script(BaseScript):
@@ -56,7 +57,7 @@ class Script(BaseScript):
     )
     rx_log_ae = re.compile(r"AE bundle: (?P<bundle>\S+?)\.\d+")
     rx_flags_vlan = re.compile(
-        r"^\s+Flags:.+VLAN-Tag \[\s*0x\d+\.(?P<vlan>\d+)" r"(\s+0x\d+\.(?P<vlan2>\d+))?\s*\]",
+        r"^\s+Flags:.+VLAN-Tag \[\s*0x\d+\.(?P<vlan>\d+)(\s+0x\d+\.(?P<vlan2>\d+))?\s*\]",
         re.MULTILINE,
     )
     # Flags: Up SNMP-Traps 0x20004000 \
@@ -254,9 +255,9 @@ class Script(BaseScript):
                     #    Flags: Up 0x0 VLAN-Tag [ 0x0000.0 ]  Encapsulation: ENET2
                     #    Protocol aenet, AE bundle: ae0.0
 
-                    if int(match.group("vlan")) != 0:
+                    if is_vlan(match.group("vlan")):
                         vlan_ids = [int(match.group("vlan"))]
-                    if match.group("vlan2") and int(match.group("vlan2")) != 0:
+                    if match.group("vlan2") and is_vlan(match.group("vlan2")):
                         vlan_ids += [int(match.group("vlan2"))]
                 # `irb` and `vlan` interfaces display other,
                 # then `eth-switch` protocol
@@ -334,7 +335,7 @@ class Script(BaseScript):
                     ):
                         si["vlan_ids"] = vlan_ids
                     """
-                    if vlan_ids:
+                    if is_vlan(vlan_ids):
                         si["vlan_ids"] = vlan_ids
                 if self.rx_flags_unnumbered.search(s):
                     match = self.rx_iface_unnumbered.search(s)
