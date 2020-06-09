@@ -39,7 +39,7 @@ RUN apk add --no-cache --virtual .build-deps \
     zlib-dev \
     cmake \
     proj-util \
-    proj-dev
+    proj-dev \
     && pip3 install --src=/tmp/src --no-cache --trusted-host cdn.getnoc.com --find-links https://cdn.getnoc.com/npkg/ --upgrade -r /opt/noc/requirements/docker.txt \
     && python ./scripts/deploy/install-packages requirements/web.json \
     && python ./scripts/deploy/install-packages requirements/card.json \
