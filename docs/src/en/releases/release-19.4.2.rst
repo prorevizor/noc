@@ -4,16 +4,7 @@
 NOC 19.4.2
 ================
 
-19.4.2 release contains `41 <https://code.getnoc.com/noc/noc/merge_requests?scope=all&state=merged&milestone_title=19.4.2>`_ bugfixes, optimisations and improvements.
-
-
-
-.. _release-19.4.2-features:
-New features
-------------
-Empty section
-
-
+19.4.2 release contains `40 <https://code.getnoc.com/noc/noc/merge_requests?scope=all&state=merged&milestone_title=19.4.2>`_ bugfixes, optimisations and improvements.
 
 .. _release-19.4.2-improvements:
 Improvements
@@ -36,8 +27,6 @@ Bugfixes
 --------
 +------------+------------------------------------------------------------------------------------------------------+
 | MR         | Title                                                                                                |
-+------------+------------------------------------------------------------------------------------------------------+
-| :mr:`1571` | Fix Qtech.QSW profile for lldp                                                                       |
 +------------+------------------------------------------------------------------------------------------------------+
 | :mr:`1571` | Fix Qtech.QSW profile for lldp                                                                       |
 +------------+------------------------------------------------------------------------------------------------------+
