@@ -18,7 +18,7 @@ Python3 Compatibility
 
 As it was declared in :ref:`Python3 Compatibility Statement<release-19.4-py3>`,
 20.2 is the first Python3-only release. This allows us to clean up
-and optimize code base if following ways:
+and optimize code base in following ways:
 
 * All Python2 compatibility layers are removed.
 * Key dependencies (Tornado, Django, etc) are upgraded to latest stable versions.
