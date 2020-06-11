@@ -60,7 +60,7 @@ class InterfaceCheck(PolicyDiscoveryCheck):
 
     PROTOCOLS_QUERY = """(Collapse("protocols", "lldp", "interface", if_name, "admin-status", join=",") or
         Match("protocols", "lldp", "interface", if_name, "admin-status", lldp_status) or
-        Match("protocols", "spanning-tree", "interface", if_name, "admin-status", stp_status) or 
+        Match("protocols", "spanning-tree", "interface", if_name, "admin-status", stp_status) or
         Match("protocols", "lacp", "interface", if_name, "mode", lacp_status)
     ) and Group("if_name")"""
 
