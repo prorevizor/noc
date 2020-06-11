@@ -40,7 +40,7 @@ Ext.define("NOC.sa.managedobject.L1Panel", {
             text: __("Add Interface"),
             glyph: NOC.glyph.plus,
             scope: me,
-            disabled: !NOC.hasPermission("sa:managedobject:changeinterface"),
+            disabled: !NOC.hasPermission("sa:managedobject:change_interface"),
             handler: me.onAddInterface
         });
 
@@ -129,7 +129,7 @@ Ext.define("NOC.sa.managedobject.L1Panel", {
                         {
                             xtype: 'glyphactioncolumn',
                             items: [{
-                                disabled: !NOC.hasPermission("sa:managedobject:changeinterface"),
+                                disabled: !NOC.hasPermission("sa:managedobject:change_interface"),
                                 glyph: NOC.glyph.minus_circle,
                                 scope: me,
                                 handler: me.onRemoveInterface
@@ -177,18 +177,17 @@ Ext.define("NOC.sa.managedobject.L1Panel", {
         var me = this,
             r = e.record,
             data = {
-                "id": r.get("id"),
-                "profile": r.get("profile"),
-                "project": r.get("project"),
-                "state": r.get("state"),
-                "vc_domain": r.get("vc_domain")
+                profile: r.get("profile"),
+                project: r.get("project"),
+                state: r.get("state"),
+                vc_domain: r.get("vc_domain"),
+                description: r.get("description")
             },
             isNewRecord = Ext.isEmpty(e.originalValues.name);
         if(isNewRecord) {
-            data = {
-                name: r.get("name"),
-                description: r.get("description")
-            }
+            data["name"] = r.get("name");
+        } else {
+            data["id"] = r.get("id");
         }
         Ext.Ajax.request({
             url: "/sa/managedobject/" + me.app.currentRecord.get("id") + "/interface/",
@@ -197,6 +196,11 @@ Ext.define("NOC.sa.managedobject.L1Panel", {
             scope: me,
             success: function() {
                 me.app.onRefresh();
+                if(isNewRecord) {
+                    NOC.info(__("Created interface: ") + r.get("name"));
+                } else {
+                    NOC.info(__("Saved"));
+                }
                 // @todo: Set tab
             },
             failure: function() {
@@ -239,7 +243,7 @@ Ext.define("NOC.sa.managedobject.L1Panel", {
             modal: true,
             fn: function(button) {
                 if(button === "yes") {
-                    me.removeInterface(me.app.currentRecord.get("id"), rec.get("id"))
+                    me.removeInterface(me.app.currentRecord.get("id"), rec.get("id"));
                 }
             }
         })
@@ -260,14 +264,13 @@ Ext.define("NOC.sa.managedobject.L1Panel", {
     },
 
     removeInterface: function(objectId, interfaceId) {
+        var me = this;
         Ext.Ajax.request({
             url: "/sa/managedobject/" + objectId + "/interface/" + interfaceId + "/",
             method: "DELETE",
             success: function(response) {
-                var data = Ext.decode(response.responseText);
-                if(data.status) {
-                    NOC.info(data.result);
-                }
+                me.app.onRefresh();
+                NOC.info(__("Deleted"));
             },
             failure: function() {
                 NOC.error(__("Failed to remove interface"));
