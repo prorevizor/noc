@@ -139,12 +139,9 @@ class Script(BaseScript):
             [
                 mib["HUAWEI-XPON-MIB::hwGponDeviceOntSn"],
                 mib["HUAWEI-XPON-MIB::hwGponDeviceOntDespt"],
-
             ],
-                bulk=False,
-                display_hints={
-                    mib["HUAWEI-XPON-MIB::hwGponDeviceOntSn"]: render_bin
-                }
+            bulk=False,
+            display_hints={mib["HUAWEI-XPON-MIB::hwGponDeviceOntSn"]: render_bin},
         ):
             ifindex, ont_id = ont_index.split(".")
             ont_id = "%s/%s" % (names[int(ifindex)], ont_id)
