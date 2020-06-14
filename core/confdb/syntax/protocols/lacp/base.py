@@ -20,15 +20,36 @@ PROTOCOLS_LACP_SYNTAX = DEF(
                     [
                         DEF(
                             "system-id",
-                            [DEF(INTEGER, name="system_id", gen="make_lacp_interface_system_id")],
+                            [
+                                DEF(
+                                    INTEGER,
+                                    required=True,
+                                    name="system_id",
+                                    gen="make_lacp_interface_system_id",
+                                )
+                            ],
                         ),
                         DEF(
                             "admin-key",
-                            [DEF(INTEGER, name="key", gen="make_lacp_interface_admin_key")],
+                            [
+                                DEF(
+                                    INTEGER,
+                                    required=True,
+                                    name="key",
+                                    gen="make_lacp_interface_admin_key",
+                                )
+                            ],
                         ),
                         DEF(
                             "interval",
-                            [DEF(INTEGER, name="seconds", gen="make_lacp_interface_interval")],
+                            [
+                                DEF(
+                                    INTEGER,
+                                    required=True,
+                                    name="seconds",
+                                    gen="make_lacp_interface_interval",
+                                )
+                            ],
                         ),
                     ],
                     multi=True,
@@ -42,6 +63,7 @@ PROTOCOLS_LACP_SYNTAX = DEF(
                             [
                                 DEF(
                                     CHOICES("active", "passive"),
+                                    required=True,
                                     name="mode",
                                     gen="make_lacp_interface_mode",
                                 )
