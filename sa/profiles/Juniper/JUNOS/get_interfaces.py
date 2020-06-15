@@ -335,7 +335,7 @@ class Script(BaseScript):
                     ):
                         si["vlan_ids"] = vlan_ids
                     """
-                    if is_vlan(vlan_ids):
+                    if vlan_ids:
                         si["vlan_ids"] = vlan_ids
                 if self.rx_flags_unnumbered.search(s):
                     match = self.rx_iface_unnumbered.search(s)
