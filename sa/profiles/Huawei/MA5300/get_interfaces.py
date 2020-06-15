@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------
 # Huawei.MA5300.get_interfaces
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2017 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ class Script(BaseScript):
         r"^(?:Adsl|Ethernet|GigabitEthernet)(?P<card>\d+)/\d+/(?P<port>\d+)", re.MULTILINE
     )
     rx_tagged = re.compile(
-        r"^\s*(?:Description:\s+\S+\s+)?(?:Route Interface: not configured\s+)?Tagged\s+Ports:(?P<tagged>.+)Untagged",
+        r"^\s*(?:Description:.+?)?(?:Route Interface: not configured\s+)?Tagged\s+Ports:(?P<tagged>.+)Untagged",
         re.MULTILINE | re.DOTALL,
     )
     rx_untagged = re.compile(r"^\s*Untagged\s+Ports:(?P<untagged>.+)", re.MULTILINE | re.DOTALL)
