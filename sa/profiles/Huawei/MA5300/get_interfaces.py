@@ -59,8 +59,12 @@ class Script(BaseScript):
             for v in self.rx_port.finditer(match.group("tagged")):
                 vlan["tagged"] += [v.group("port")]
             match = self.rx_untagged.search(vlan_entry)
-            for v in self.rx_port.finditer(match.group("untagged")):
-                vlan["untagged"] += [v.group("port")]
+            if match:
+                # Found on SmartAX MA5300 V100R006 VRP Version V3R000M03
+                # Tagged   Ports:
+                #             Ethernet7/2/0 Untagged Ports: none
+                for v in self.rx_port.finditer(match.group("untagged")):
+                    vlan["untagged"] += [v.group("port")]
             vlan_table += [vlan]
         # ADSL ports state
         adsl_state = {}
