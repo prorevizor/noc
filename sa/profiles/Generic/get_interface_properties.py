@@ -198,8 +198,4 @@ class Script(BaseScript):
         :param interface: Interface name
         :return:
         """
-        try:
-            self.profile.convert_interface_name(interface)
-        except ValueError:
-            return False
         return True
