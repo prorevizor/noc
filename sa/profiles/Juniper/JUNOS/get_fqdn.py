@@ -18,7 +18,7 @@ class Script(BaseScript):
     interface = IGetFQDN
 
     rx_config = re.compile(
-        r"^host-name (?P<hostname>\S+);\s*\n(?:^domain-name (?P<dname>\S+);)?$", re.MULTILINE
+        r"^host-name (?P<hostname>\S+);\s*\n(?:^domain-name (?P<dname>\S+);)?", re.MULTILINE
     )
 
     def execute_cli(self):
