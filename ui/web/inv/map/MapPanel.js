@@ -759,6 +759,7 @@ Ext.define("NOC.inv.map.MapPanel", {
             node.setFilter(me.statusFilter[data[s] & 0x1f]); // Remove maintenance bit
             var embeddedCells = node.getEmbeddedCells();
             if(data[s] & 0x20) {
+                // Maintenance mode
                 if(embeddedCells.length === 0) {
                     var nodeSize = node.get('size');
                     var size = nodeSize.width / 3;
