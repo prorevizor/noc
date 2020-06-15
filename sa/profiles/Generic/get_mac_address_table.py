@@ -49,14 +49,6 @@ class Script(BaseScript):
                 # For iface == 0
                 continue
             r_oid = r_oid.rsplit(".", 7)[-7:]
-            if not is_vlan(r_oid[0]):
-                # Found vlan `4155` on Eltex MES-3124F fw 2.5.48.6
-                self.logger.error(
-                    "Invalid vlan number %s, for MAC: %s",
-                    r_oid[0],
-                    ":".join("%02x" % int(c) for c in r_oid[1:]),
-                )
-                continue
             if iface not in iface_map:
                 self.logger.error(
                     "Unknown interface index %s, for MAC: %s",
@@ -79,6 +71,12 @@ class Script(BaseScript):
             if r_oid not in mac_port:
                 continue
             vlan_id, mac = r_oid[0], ":".join("%02x" % int(c) for c in r_oid[1:])
+            if vlan_id != "0" and not is_vlan(vlan_id):
+                # Found vlan `4155` on Eltex MES-3124F fw 2.5.48.6
+                self.logger.error(
+                    "Invalid vlan number %s, for MAC: %s, Port: %s", vlan_id, mac, mac_port[r_oid],
+                )
+                continue
             r += [
                 {
                     "interfaces": [mac_port[r_oid]],
