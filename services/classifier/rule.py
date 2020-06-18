@@ -272,6 +272,7 @@ class Rule(object):
         """
         Factory returning clone rules
         """
+        # pylint: disable=unnecessary-pass
         pass
 
     def fixup_int_to_ip(self, v):
