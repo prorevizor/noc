@@ -327,6 +327,9 @@ class SegmentTopology(BaseTopology):
                 neighbors.add(dmo)
                 # And uplinks of downlinks
                 neighbors |= set(obj_uplinks[dmo])
+            # Downlinks of uplink
+            for dumo in obj_uplinks[mo]:
+                neighbors |= obj_downlinks[dumo]
             # Not including object itself
             if mo in neighbors:
                 neighbors.remove(mo)
