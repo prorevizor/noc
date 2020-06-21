@@ -84,6 +84,7 @@ class LoginService(UIService):
                 user,
                 expires_days=config.login.session_ttl,
                 httponly=True,
+                secure=True,
             )
             # Register last login
             if config.login.register_last_login:
