@@ -317,8 +317,8 @@ class SegmentTopology(BaseTopology):
         # Check uplinks with DownlinkMerge settings
         dlm_settings = set(
             ManagedObject.objects.filter(
-                id__in=obj_uplinks,
-                object_profile__enable_rca_downlink_merge=True).values_list("id", flat=True)
+                id__in=obj_uplinks, object_profile__enable_rca_downlink_merge=True
+            ).values_list("id", flat=True)
         )
         # Calculate RCA neighbors and yield result
         for mo in obj_uplinks:
