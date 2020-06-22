@@ -55,7 +55,7 @@ Ext.define("NOC.main.glyph.Application", {
                     xtype: "textfield",
                     fieldLabel: __("Name"),
                     allowBlank: false,
-                    uiStyle: "medium"
+                    uiStyle: "large"
                 },
                 {
                     name: "uuid",
@@ -64,6 +64,7 @@ Ext.define("NOC.main.glyph.Application", {
                     allowBlank: true
                 },
                 {
+                    itemId: "font",
                     name: "font",
                     xtype: "main.font.LookupField",
                     fieldLabel: __("Font"),
@@ -71,12 +72,39 @@ Ext.define("NOC.main.glyph.Application", {
                 },
                 {
                     name: "code",
-                    xtype: "numberfield",
+                    xtype: "textfield",
                     fieldLabel: __("Code (HEX)"),
+                    emptyText: __("Enter HEX number"),
                     allowBlank: false,
-                    minValue: 0,
-                    hideTrigger: true,
+                    regex: /^[0-9a-fA-F]+$/,
+                    invalidText: __("Invalid HEX format"),
+                    valueToRaw: function(value) {
+                        return Ext.util.Format.hex(value);
+                    },
+                    rawToValue: function(value) {
+                        if(this.regex.test(value)) {
+                            return parseInt(value, 16);
+                        }
+                        return value;
+                    },
+                    listeners: {
+                        change: function(field, newValue) {
+                            field.up().queryById("preview").setValue(newValue);
+                        }
+                    },
+                    uiStyle: "medium",
+                },
+                {
+                    itemId: "preview",
+                    xtype: "displayfield",
                     uiStyle: "small",
+                    fieldLabel: __("Preview"),
+                    renderer: function(value, field) {
+                        var fontName = field.up().queryById("font").getRawValue();
+                        if(fontName) {
+                            return "<span style='font-family: " + fontName + ";'>&#" + value + "</span>";
+                        }
+                    }
                 }
             ],
 
@@ -94,7 +122,7 @@ Ext.define("NOC.main.glyph.Application", {
         me.callParent();
     },
 
-    onJSON: function () {
+    onJSON: function() {
         var me = this;
         me.showItem(me.ITEM_JSON);
         me.jsonPanel.preview(me.currentRecord);
