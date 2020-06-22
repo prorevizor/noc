@@ -315,11 +315,10 @@ build:rust:
 upload docs:
   stage: Upload
   environment: docs
-  image: registry.getnoc.com/infrastructure/s3helper:master
-  script:
-    - /tmp/mc -q cp -r build/docs/* cdn/$S3_BUCKET/$CI_COMMIT_REF_SLUG
-  tags:
-    - docker
+  extends: .upload
+  variables:
+    SOURCE: build/docs/*
+    DEST: cdn/$S3_BUCKET/$CI_COMMIT_REF_SLUG
   only:
     refs:
       - master
