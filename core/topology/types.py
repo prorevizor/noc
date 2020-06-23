@@ -22,8 +22,8 @@ class ShapeOverlayPosition(str, Enum):
 
 
 class ShapeOverlayForm(str, Enum):
-    Circle = "circle"
-    Square = "square"
+    Circle = "c"
+    Square = "s"
 
 
 @dataclass

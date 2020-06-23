@@ -7,7 +7,7 @@
 
 # Python modules
 import operator
-from typing import Optional, List
+from typing import Optional, List, Set
 from dataclasses import asdict
 
 # Third-Party modules
@@ -22,7 +22,7 @@ from noc.sa.models.managedobject import ManagedObject
 from .layout.ring import RingLayout
 from .layout.spring import SpringLayout
 from .layout.tree import TreeLayout
-from .types import ShapeOverlay
+from .types import ShapeOverlay, ShapeOverlayPosition, ShapeOverlayForm
 
 
 class BaseTopology(object):
@@ -162,7 +162,44 @@ class BaseTopology(object):
 
     @staticmethod
     def get_object_stencil_overlays(mo: ManagedObject) -> List[ShapeOverlay]:
-        return []
+        seen: Set[ShapeOverlayPosition] = set()
+        r: List[ShapeOverlay] = []
+        # ManagedObject
+        if mo.shape_overlay_glyph:
+            pos = mo.shape_overlay_position or ShapeOverlayPosition.NW
+            r += [
+                ShapeOverlay(
+                    code=mo.shape_overlay_glyph.code,
+                    position=pos,
+                    form=mo.shape_overlay_form or ShapeOverlayForm.Circle,
+                )
+            ]
+            seen.add(pos)
+        # Project
+        if mo.project and mo.project.shape_overlay_glyph:
+            pos = mo.project.shape_overlay_position or ShapeOverlayPosition.NW
+            if pos not in seen:
+                r += [
+                    ShapeOverlay(
+                        code=mo.project.shape_overlay_glyph.code,
+                        position=pos,
+                        form=mo.project.shape_overlay_form or ShapeOverlayForm.Circle,
+                    )
+                ]
+                seen.add(pos)
+        # ManagedObjectProfile
+        if mo.object_profile.shape_overlay_glyph:
+            pos = mo.object_profile.shape_overlay_position or ShapeOverlayPosition.NW
+            if pos not in seen:
+                r += [
+                    ShapeOverlay(
+                        code=mo.object_profile.shape_overlay_glyph.code,
+                        position=pos,
+                        form=mo.object_profile.shape_overlay_form or ShapeOverlayForm.Circle,
+                    )
+                ]
+                seen.add(pos)
+        return r
 
     @staticmethod
     def get_cloud_stencil(link) -> Stencil:

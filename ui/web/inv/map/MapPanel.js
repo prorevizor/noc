@@ -767,7 +767,7 @@ Ext.define("NOC.inv.map.MapPanel", {
     createBadge: function(node, config) {
         var nodeSize = node.get('size'),
             size = nodeSize.width / 3,
-            shape = config.form === 'square' ? "Rectangle" : "Circle",
+            shape = config.form === 's' ? "Rectangle" : "Circle",
             // default NE
             x = node.get('position').x + nodeSize.width - 0.75 * size,
             y = node.get('position').y - 0.25 * size;
@@ -808,7 +808,7 @@ Ext.define("NOC.inv.map.MapPanel", {
             },
             size: {width: size, height: size},
             attrs: {
-                text: {text: config.code, 'font-family': 'FontAwesome', 'font-size': size / 1.7}
+                text: {text: String.fromCharCode(config.code), 'font-family': 'FontAwesome', 'font-size': size / 1.7}
             }
         });
     },
@@ -823,7 +823,7 @@ Ext.define("NOC.inv.map.MapPanel", {
             node.setFilter(me.statusFilter[data[s] & 0x1f]); // Remove maintenance bit
             if(data[s] & 0x20) { // Maintenance mode
                 if(!node.get('data').isMaintenance) {
-                    var wrench = me.createBadge(node, {position: "NE", form: "circle", code: "\uf0ad"});
+                    var wrench = me.createBadge(node, {position: "NE", form: "c", code: "\uf0ad"});
                     node.set('data', {isMaintenance: true});
                     wrench.set('data', {type: 'wrench'});
                     node.embed(wrench);

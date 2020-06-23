@@ -235,6 +235,22 @@ Ext.define("NOC.sa.managedobject.Model", {
             type: "string"
         },
         {
+            name: "shape_overlay_glyph",
+            type: "string"
+        },
+        {
+            name: "shape_overlay_glyph__label",
+            type: "string"
+        },
+        {
+            name: "shape_overlay_position",
+            type: "string"
+        },
+        {
+            name: "shape_overlay_form",
+            type: "string"
+        },
+        {
             name: "config_filter_handler",
             type: "string"
         },
