@@ -16,6 +16,8 @@ from noc.sa.interfaces.igetfqdn import IGetFQDN
 class Script(BaseScript):
     name = "Cisco.SANOS.get_fqdn"
     interface = IGetFQDN
+    always_prefer = "S"
+
     rx_hostname = re.compile(r"^switchname\s+(?P<hostname>\S+)", re.MULTILINE)
     rx_domain_name = re.compile(r"^ip domain[ \-]name\s+(?P<domain>\S+)", re.MULTILINE)
 

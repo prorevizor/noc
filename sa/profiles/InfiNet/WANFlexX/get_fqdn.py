@@ -16,6 +16,7 @@ from noc.sa.interfaces.igetfqdn import IGetFQDN
 class Script(BaseScript):
     name = "InfiNet.WANFlexX.get_fqdn"
     interface = IGetFQDN
+    always_prefer = "S"
 
     rx_hostname = re.compile(r"SysName:      \| (?P<hostname>\S+)", re.MULTILINE)
 
