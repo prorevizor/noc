@@ -16,6 +16,7 @@ from noc.sa.interfaces.igetfqdn import IGetFQDN
 class Script(BaseScript):
     name = "Alcatel.AOS.get_fqdn"
     interface = IGetFQDN
+    always_prefer = "S"
 
     rx_hostname = re.compile(r"\s+Name:\s+(?P<hostname>.*),", re.MULTILINE)
 
