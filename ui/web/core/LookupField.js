@@ -15,7 +15,7 @@ Ext.define("NOC.core.LookupField", {
     queryParam: "__query",
     queryCaching: false,
     queryDelay: 200,
-    forceSelection: false,
+    forceSelection: true,
     minChars: 2,
     typeAhead: true,
     triggerAction: "all",
