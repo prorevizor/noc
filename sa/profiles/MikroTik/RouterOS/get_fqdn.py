@@ -13,6 +13,7 @@ from noc.sa.interfaces.igetfqdn import IGetFQDN
 class Script(BaseScript):
     name = "MikroTik.RouterOS.get_fqdn"
     interface = IGetFQDN
+    always_prefer = "S"
 
     def execute_cli(self):
         s = self.cli("/system identity print")
