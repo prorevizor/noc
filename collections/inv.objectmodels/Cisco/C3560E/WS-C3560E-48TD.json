@@ -431,7 +431,7 @@
     ],
     "data": {
         "asset": {
-            "part_no": ["WS-C3560E-48TD"]
+            "order_part_no": ["WS-C3560E-48TD","WS-C3560E-48TD-SD"]
         },
         "dimensions": {
             "depth": 441,
