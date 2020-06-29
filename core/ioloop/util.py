@@ -106,14 +106,14 @@ def setup_asyncio() -> None:
     if _setup_completed:
         return
     logger.info("Setting up asyncio event loop policy")
-    if config.features.use_uvlib:
+    if config.features.use_uvloop:
         try:
             import uvloop
 
-            logger.info("Setting up libuv event loop")
+            logger.info("Setting up uvloop event loop")
             uvloop.install()
         except ImportError:
-            logger.info("libuv is not installed, using default event loop")
+            logger.info("uvloop is not installed, using default event loop")
     asyncio.set_event_loop_policy(NOCEventLoopPolicy())
     _setup_completed = True
 
