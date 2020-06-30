@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------
 # Eltex.LTP.get_mac_address_table
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -58,6 +58,9 @@ class Script(BaseScript):
             cmd += " 0-7"
         for match in self.rx_gpon.finditer(self.cli(cmd)):
             interfaces = match.group("interfaces")
+            # 0      00:00:00:00:00:00   (invalid port 00:20:00)
+            if match.group("mac") == "00:00:00:00:00:00":
+                continue
             r += [
                 {
                     "vlan_id": match.group("vlan_id"),
