@@ -69,7 +69,7 @@
         {
             "description": "Power inlet",
             "direction": "s",
-            "gender": "f",
+            "gender": "m",
             "name": "power",
             "protocols": [">-42VDC", ">-56VDC"],
             "type__name": "Power | MSTB 2.5/4-ST-5.08"
