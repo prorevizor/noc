@@ -27,7 +27,7 @@
         {
             "description": "Alarm I/O",
             "direction": "s",
-            "gender": "f",
+            "gender": "m",
             "name": "alarm",
             "protocols": [">DryContact"],
             "type__name": "Electrical | MSTB 2,5/13-ST-5,08"
@@ -69,7 +69,7 @@
         {
             "description": "Power inlet",
             "direction": "s",
-            "gender": "m",
+            "gender": "f",
             "name": "power",
             "protocols": [">-42VDC", ">-56VDC"],
             "type__name": "Power | MSTB 2.5/4-ST-5.08"
