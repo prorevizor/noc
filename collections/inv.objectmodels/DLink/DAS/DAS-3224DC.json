@@ -25,6 +25,14 @@
             "type__name": "Electrical | Telco-50"
         },
         {
+            "description": "Alarm I/O",
+            "direction": "s",
+            "gender": "f",
+            "name": "alarm",
+            "protocols": [">DryContact"],
+            "type__name": "Electrical | MSTB 2,5/13-ST-5,08"
+        },
+        {
             "description": "Console port",
             "direction": "s",
             "gender": "f",
