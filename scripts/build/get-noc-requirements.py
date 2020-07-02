@@ -39,7 +39,8 @@ def main(extras):
                         else:
                             print(req)
                     continue
-            print(line)
+            if not line.startswith("#"):
+                print(line)
 
 
 if __name__ == "__main__":
