@@ -3,6 +3,7 @@
 # Following extras can be set:
 # * activator
 # * classifier
+# * cython
 # * dev
 # * login-ldap
 # * login-pam
