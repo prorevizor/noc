@@ -6,7 +6,6 @@
 # * login-ldap
 # * login-pam
 # * login-radius
-# * notifier
 # * supervisor
 # * prod-tools
 # * testing
@@ -72,8 +71,6 @@ pam==0.1.4; extra == "login-pam"
 pyrad==2.0; extra == "login-radius"
 # Classifier
 bitarray==0.8.1; extra == "classifier"
-# Notifier
-sleekxmpp==1.1.11; extra == "notifier"
 # Standalone node with supervisor
 supervisor==4.1.0; extra == "supervisor"
 supervisor-serialrestart==0.1.1; extra == "supervisor"
