@@ -766,22 +766,22 @@ Ext.define("NOC.inv.map.MapPanel", {
 
     createBadge: function(node, config) {
         var nodeSize = node.get('size'),
-            size = nodeSize.width / 3,
+            size = nodeSize.width > nodeSize.height ? nodeSize.height / 3 : nodeSize.width / 3,
             shape = config.form === 's' ? "Rectangle" : "Circle",
             // default NE
-            x = node.get('position').x + nodeSize.width - 0.75 * size,
-            y = node.get('position').y - 0.25 * size;
+            x = node.get('position').x + nodeSize.width - 0.62 * size,
+            y = node.get('position').y - 0.38 * size;
         switch(config.position) {
             case "N":
                 x = node.get('position').x + nodeSize.width / 2 - size / 2;
-                y = node.get('position').y - 0.25 * size;
+                y = node.get('position').y - 0.38 * size;
                 break;
             case "E":
-                x = node.get('position').x + nodeSize.width - 0.75 * size;
+                x = node.get('position').x + nodeSize.width - 0.62 * size;
                 y = node.get('position').y + size;
                 break;
             case "SE":
-                x = node.get('position').x + nodeSize.width - 0.75 * size;
+                x = node.get('position').x + nodeSize.width - 0.62 * size;
                 y = node.get('position').y + 2.25 * size;
                 break;
             case "S":
@@ -789,16 +789,16 @@ Ext.define("NOC.inv.map.MapPanel", {
                 y = node.get('position').y + 2.25 * size;
                 break;
             case "SW":
-                x = node.get('position').x - 0.25 * size;
+                x = node.get('position').x - 0.38 * size;
                 y = node.get('position').y + 2.25 * size;
                 break;
             case "W":
-                x = node.get('position').x - 0.25 * size;
+                x = node.get('position').x - 0.38 * size;
                 y = node.get('position').y + size;
                 break;
             case "NW":
-                x = node.get('position').x - 0.25 * size;
-                y = node.get('position').y - 0.25 * size;
+                x = node.get('position').x - 0.38 * size;
+                y = node.get('position').y - 0.38 * size;
                 break;
         }
         return new joint.shapes.standard[shape]({
