@@ -808,6 +808,7 @@ Ext.define("NOC.inv.map.MapPanel", {
             },
             size: {width: size, height: size},
             attrs: {
+                body: {strokeWidth: 0.5},
                 text: {text: String.fromCharCode(config.code), 'font-family': 'FontAwesome', 'font-size': size / 1.7}
             }
         });
