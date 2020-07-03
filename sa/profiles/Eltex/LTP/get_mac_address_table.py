@@ -44,6 +44,9 @@ class Script(BaseScript):
         with self.profile.switch(self):
             t = parse_table(self.cli(cmd))
             for i in t:
+                # 0      00:00:00:00:00:00   (invalid port 00:20:00)
+                if i[1] == "00:00:00:00:00:00":
+                    continue
                 if i[3] == "Dynamic":
                     mtype = "D"
                 else:
