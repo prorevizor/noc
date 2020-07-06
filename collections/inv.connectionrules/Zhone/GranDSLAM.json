@@ -1,7 +1,7 @@
 {
     "name": "Zhone | GranDSLAM",
     "$collection": "inv.connectionrules",
-    "uuid": "343b9a6d-8c7f-4793-b1c7-00cde7a5ed1f",
+    "uuid": "343b9a6d-8c7f-4793-b1c7-21cde7a5ed1f",
     "description": "Zhone GranDSLAM connection rules",
     "context": [
         {
