@@ -193,7 +193,7 @@ Ext.define("NOC.maintenance.maintenance.Application", {
             gridToolbar: [
                 {
                     xtype: "combo",
-                    fieldLabel: __("Choose State"),
+                    fieldLabel: __("Status"),
                     store: [
                         ["true", __("Active")],
                         ["false", __("Completed")]
