@@ -195,8 +195,8 @@ Ext.define("NOC.maintenance.maintenance.Application", {
                     xtype: "combo",
                     fieldLabel: __("Choose State"),
                     store: [
-                        ["A", __("Active")],
-                        ["C", __("Completed")]
+                        ["true", __("Active")],
+                        ["false", __("Completed")]
                     ],
                     triggerAction: "all",
                     editable: false,
@@ -222,9 +222,9 @@ Ext.define("NOC.maintenance.maintenance.Application", {
                             var me = this,
                                 value = field.getValue();
                             if(value) {
-                                me.currentQuery.status = value;
+                                me.currentQuery.is_completed = value;
                             } else {
-                                delete me.currentQuery.status;
+                                delete me.currentQuery.is_completed;
                             }
                             me.reloadStore();
                         },
