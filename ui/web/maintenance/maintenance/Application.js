@@ -190,6 +190,29 @@ Ext.define("NOC.maintenance.maintenance.Application", {
                     allowBlank: true
                 }
             ],
+            gridToolbar: [
+                {
+                    xtype: "combo",
+                    fieldLabel: __("Choose State"),
+                    store: [
+                        ["A", __("Active")],
+                        ["S", __("Archived")],
+                        ["F", __("Failed")]
+                    ],
+                    queryMode: "local",
+                    // ToDo need check
+                    hasAccess: function(app) {
+                        return app.search === true;
+                    },
+                    listeners: {
+                        scope: me,
+                        select: function() {
+                            var me = this;
+                            console.log("onSelect", me.currentQuery);
+                        }
+                    }
+                }
+            ],
             formToolbar: [
                 me.cardButton,
                 me.affectedButton
@@ -197,7 +220,6 @@ Ext.define("NOC.maintenance.maintenance.Application", {
         });
         me.callParent();
     },
-
     inlines: [
         {
             title: __("Objects"),
