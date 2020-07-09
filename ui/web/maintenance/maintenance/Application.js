@@ -28,7 +28,6 @@ Ext.define("NOC.maintenance.maintenance.Application", {
             "NOC.maintenance.maintenance.ObjectsPanel"
         );
 
-
         me.cardButton = Ext.create("Ext.button.Button", {
             text: __("Card"),
             glyph: NOC.glyph.eye,
@@ -72,6 +71,25 @@ Ext.define("NOC.maintenance.maintenance.Application", {
                     dataIndex: "time_pattern",
                     width: 150,
                     renderer: NOC.render.Lookup("time_pattern")
+                },
+                {
+                    text: __("TT"),
+                    dataIndex: "escalation_tt",
+                    width: 150,
+                    sortable: false,
+                    renderer: function(v, _, record) {
+                        var r = [],
+                            tt = record.get("escalation_tt") || false,
+                            ee = record.get("escalation_error") || false;
+                        if(tt) {
+                            r.push('<a href="/api/card/view/tt/' + tt + '/" target="_blank">' + tt + '</a>');
+                        } else {
+                            if(ee) {
+                                r.push('<i class="fa fa-exclamation-triangle"></i> Error')
+                            }
+                        }
+                        return r;
+                    }
                 },
                 {
                     text: __("Subject"),
