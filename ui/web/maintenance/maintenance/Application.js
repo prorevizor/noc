@@ -196,19 +196,44 @@ Ext.define("NOC.maintenance.maintenance.Application", {
                     fieldLabel: __("Choose State"),
                     store: [
                         ["A", __("Active")],
-                        ["S", __("Archived")],
-                        ["F", __("Failed")]
+                        ["C", __("Completed")]
                     ],
+                    triggerAction: "all",
+                    editable: false,
                     queryMode: "local",
                     // ToDo need check
                     hasAccess: function(app) {
                         return app.search === true;
                     },
+                    triggers: {
+                        clear: {
+                            cls: "x-form-clear-trigger",
+                            hidden: true,
+                            weight: -1,
+                            handler: function(field) {
+                                field.setValue(null);
+                                field.fireEvent("select", field);
+                            }
+                        }
+                    },
                     listeners: {
                         scope: me,
-                        select: function() {
-                            var me = this;
-                            console.log("onSelect", me.currentQuery);
+                        select: function(field) {
+                            var me = this,
+                                value = field.getValue();
+                            if(value) {
+                                me.currentQuery.status = value;
+                            } else {
+                                delete me.currentQuery.status;
+                            }
+                            me.reloadStore();
+                        },
+                        change: function(field, value) {
+                            if(value == null || value === "") {
+                                field.getTrigger("clear").hide();
+                                return;
+                            }
+                            field.getTrigger("clear").show();
                         }
                     }
                 }
