@@ -464,7 +464,7 @@ Ext.define("NOC.core.ModelApplication", {
                 //         //leadingBufferZone: 50
                 //     }
             ],
-            selModel: selModel,
+            selModel: me.hasGroupEdit ? selModel : null,
             dockedItems: gridToolbars,
             rbar: grid_rbar,
             viewConfig: {
