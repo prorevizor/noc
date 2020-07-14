@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------
-# Update ObjectUplink
+# Update Maintenance
 # ---------------------------------------------------------------------
 # Copyright (C) 2007-2019 The NOC Project
 # See LICENSE for details
@@ -10,7 +10,6 @@ import progressbar
 
 # NOC module
 from noc.maintenance.models.maintenance import Maintenance
-
 
 
 def fix():
