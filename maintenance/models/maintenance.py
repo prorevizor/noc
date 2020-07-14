@@ -52,7 +52,7 @@ class Maintenance(Document):
         "collection": "noc.maintenance",
         "strict": False,
         "auto_create_index": False,
-        "indexes": ["affected_objects.object", ("start", "is_completed")],
+        "indexes": ["affected_objects.object", ("start", "is_completed"), "administrative_domain"],
         "legacy_collections": ["noc.maintainance"],
     }
 
