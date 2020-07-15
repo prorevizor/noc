@@ -14,8 +14,10 @@ to share your collection models with the community.
 So, you have a self-made collection, for example a new model of switch or connection rule or etc.
 
 1. Register at our `Repository <https://code.getnoc.com>`_
+
 2. Create a `Personal Access Token <https://code.getnoc.com/profile/personal_access_tokens>`_ with `api` Scope checked.
 Remember it!
+
 3. Open a model, that you want to share in NOC web interface, for example:
 
 .. image:: /images/share-collections/howto_share_json.png
