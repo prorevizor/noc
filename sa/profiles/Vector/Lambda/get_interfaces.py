@@ -52,7 +52,14 @@ class Script(BaseScript):
                 "subinterfaces": [],
             },
         }
-        if self.is_sysid_support:
+        if self.is_vectrar2d2:
+            ips = self.snmp.get("1.3.6.1.4.1.17409.1.3.1.9.0")
+            mac = self.snmp.get(
+                "1.3.6.1.4.1.17409.1.3.2.1.1.1.0",
+                display_hints={"1.3.6.1.4.1.17409.1.3.2.1.1.1.0": render_mac},
+            )
+            ip = ["%s/24" % ips]
+        elif self.is_sysid_support:
             mac = self.snmp.get(
                 "1.3.6.1.4.1.34652.2.11.5.1.0",
                 display_hints={"1.3.6.1.4.1.34652.2.11.5.1.0": render_mac},
@@ -63,7 +70,7 @@ class Script(BaseScript):
                 "1.3.6.1.4.1.5591.1.3.2.7.0",
                 display_hints={"1.3.6.1.4.1.5591.1.3.2.7.0": render_mac},
             )
-            ip = ["%s/32" % ips]
+            ip = ["%s/24" % ips]
         interfaces["mgmt"] = {
             "name": "mgmt",
             "admin_status": True,
