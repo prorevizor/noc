@@ -20,20 +20,20 @@ Remember it!
 
 3. Open a model, that you want to share in NOC web interface, for example:
 
-.. image:: /images/share-collections/howto_share_json.png
+.. image:: /images/howto_share_json.png
 
 4. Use the Force, Luke, and fill up all the forms.
 
-.. image:: /images/share-collections/howto_share_json2.png
+.. image:: /images/howto_share_json2.png
 
-.. image:: /images/share-collections/howto_share_apikey.png
+.. image:: /images/howto_share_apikey.png
 
-.. image:: /images/share-collections/howto_share_descr.png
+.. image:: /images/howto_share_descr.png
 
 5. Then NOC will send file(your browser should have access to the Internet) to the repository and opens a Merge Request.
 Some browsers will prevent open a new popup, so check this moment.
 
-.. image:: /images/share-collections/howto_share_mr.png
+.. image:: /images/howto_share_mr.png
 
 6. Congratulations with your contribution and thank you.
 
