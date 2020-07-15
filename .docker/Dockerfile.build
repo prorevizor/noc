@@ -38,7 +38,7 @@ RUN apk add --no-cache --virtual .build-deps \
 COPY requirements.txt /opt/noc/requirements.txt
 COPY scripts/build/get-noc-requirements.py /opt/noc/scripts/build/get-noc-requirements.py
 RUN ./scripts/build/get-noc-requirements.py \
-  testing activator classifier login-ldap login-radius prod-tools \
+  testing activator classifier login-ldap login-radius prod-tools cache-redis cache-memcached \
   | pip3 install --src=/tmp/src --no-cache --upgrade -r /dev/stdin
 
 RUN pip3 install cython
