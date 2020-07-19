@@ -31,6 +31,7 @@ from noc.inv.models.firmwarepolicy import FirmwarePolicy
 from noc.sa.models.servicesummary import ServiceSummary
 from noc.core.text import alnum_key, list_to_ranges
 from noc.maintenance.models.maintenance import Maintenance
+from noc.pm.models.thresholdprofile import ThresholdProfile
 from noc.sa.models.useraccess import UserAccess
 from noc.core.pm.utils import get_interface_metrics, get_objects_metrics
 from noc.pm.models.metrictype import MetricType
@@ -56,8 +57,9 @@ class ManagedObjectCard(BaseCard):
     # get data function
     def get_data(self):
         def sortdict(dct):
+            kys = sorted(dct.keys())
             res = OrderedDict()
-            for x in sorted(dct):
+            for x in kys:
                 for k, v in dct.items():
                     if k == x:
                         res[k] = v
@@ -189,14 +191,46 @@ class ManagedObjectCard(BaseCard):
         objects_metrics, last_time = get_objects_metrics(mo[0])
         objects_metrics = objects_metrics.get(mo[0])
 
-        meta = {}
+        m_tp = {}
+        if mo[0].object_profile.metrics:
+            for mt in mo[0].object_profile.metrics:
+                if mt.get("threshold_profile"):
+                    threshold_profile = ThresholdProfile.get_by_id(mt.get("threshold_profile"))
+                    m_tp[MetricType.get_by_id(mt.get("metric_type")).name] = threshold_profile
+        data = {}
+        meta = []
         metric_type_name = dict(MetricType.objects.filter().scalar("name", "measure"))
         metric_type_field = dict(MetricType.objects.filter().scalar("field_name", "measure"))
         if objects_metrics:
             for path, mres in objects_metrics.items():
+                t_v = False
                 for key in mres:
-                    metric_name = "%s | %s" % (key, path) if any(path.split("|")) else key
-                    meta[metric_name] = {"type": metric_type_name[key], "value": mres[key]}
+                    m_path = path if any(path.split("|")) else key
+                    m_path = " | ".join(kk.strip() for kk in m_path.split("|"))
+                    if m_tp.get(key):
+                        t_v = self.get_threshold_config(m_tp.get(key), int(mres[key]))
+                    val = {
+                        "name": m_path,
+                        "type": metric_type_name[key],
+                        "value": mres[key],
+                        "threshold": t_v,
+                    }
+                    if data.get(key):
+                        data[key] += [val]
+                    else:
+                        data[key] = [val]
+
+        data = sortdict(data)
+        for k, d in data.items():
+            collapsed = False
+            if k.startswith("CPU") or k.startswith("Memory"):
+                collapsed = True
+            for dd in d:
+                isdanger = False
+                if dd["threshold"]:
+                    isdanger = True
+                    collapsed = True
+            meta.append({"name": k, "value": d, "collapsed": collapsed, "isdanger": isdanger})
 
         for i in Interface.objects.filter(managed_object=self.object.id, type="physical"):
             load_in = "-"
@@ -364,7 +398,7 @@ class ManagedObjectCard(BaseCard):
             "links": links,
             "alarms": alarm_list,
             "interfaces": interfaces,
-            "metrics": sortdict(meta),
+            "metrics": meta,
             "maintenance": maintenance,
             "redundancy": redundancy,
             "inventory": self.flatten_inventory(inv),
