@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ hashed("/ui/pkg/fontawesome/css/font-awesome.min.css") }}">
     <!-- Latest compiled and minified JavaScript -->
     <script src="{{ hashed("/ui/pkg/jquery/jquery.min.js") }}"></script>
-    <script src="{{ hashed("/ui/pkg/bootstrap/js/bootstrap.min.js") }}"></script>
+    <script type="text/javascript" src="{{ hashed("/ui/pkg/bootstrap/js/bootstrap.min.js") }}"></script>
     {% if card_js -%}
         {% for js in card_js -%}
             <script src="{{ hashed(js) }}"></script>
@@ -29,6 +29,3 @@
     </div>
 </body>
 </html>
-
-{% if card_js -%} {% for js in card_js -%} {%- endfor %} {%- endif %} {% if card_css -%} {% for css in card_css -%} {%- endfor %} {%- endif %}
-{{ card_data }}
