@@ -339,6 +339,8 @@ gemnasium-python-dependency_scanning:
     name: "$SECURE_ANALYZERS_PREFIX/gemnasium-python:$DS_MAJOR_VERSION"
   script:
     - /analyzer run
+  tags:
+    - docker
   artifacts:
     reports:
       dependency_scanning: gl-dependency-scanning-report.json
