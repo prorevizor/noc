@@ -328,3 +328,31 @@ upload docs:
     refs:
       - master
       - /^release-\d+\.\d+/
+
+gemnasium-python-dependency_scanning:
+  stage: Test
+  allow_failure: true
+  image:
+    name: "$SECURE_ANALYZERS_PREFIX/gemnasium-python:$DS_MAJOR_VERSION"
+  script:
+    - /analyzer run
+  artifacts:
+    reports:
+      dependency_scanning: gl-dependency-scanning-report.json
+  rules:
+    - if: $DEPENDENCY_SCANNING_DISABLED || $DS_DISABLE_DIND == 'false'
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $GITLAB_FEATURES =~ /\bdependency_scanning\b/
+      exists:
+        - '{requirements.txt,*/requirements.txt,*/*/requirements.txt}'
+        - '{requirements.pip,*/requirements.pip,*/*/requirements.pip}'
+        - '{Pipfile,*/Pipfile,*/*/Pipfile}'
+        - '{requires.txt,*/requires.txt,*/*/requires.txt}'
+        - '{setup.py,*/setup.py,*/*/setup.py}'
+        # Support passing of $PIP_REQUIREMENTS_FILE
+        # See https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#configuring-specific-analyzers-used-by-dependency-scanning
+    - if: $CI_COMMIT_BRANCH &&
+          $GITLAB_FEATURES =~ /\bdependency_scanning\b/ &&
+          $DS_DEFAULT_ANALYZERS =~ /gemnasium-python/ &&
+          $PIP_REQUIREMENTS_FILE
