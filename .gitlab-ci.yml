@@ -332,6 +332,9 @@ upload docs:
 gemnasium-python-dependency_scanning:
   stage: Test
   allow_failure: true
+  variables:
+    SECURE_ANALYZERS_PREFIX: "registry.gitlab.com/gitlab-org/security-products/analyzers"
+    DS_MAJOR_VERSION: 2
   image:
     name: "$SECURE_ANALYZERS_PREFIX/gemnasium-python:$DS_MAJOR_VERSION"
   script:
