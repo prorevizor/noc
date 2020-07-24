@@ -337,6 +337,8 @@ gemnasium-python-dependency_scanning:
     DS_MAJOR_VERSION: 2
   image:
     name: "$SECURE_ANALYZERS_PREFIX/gemnasium-python:$DS_MAJOR_VERSION"
+  before_script:
+    - apt install libpq-dev
   script:
     - /analyzer run
   tags:
