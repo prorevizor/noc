@@ -66,6 +66,7 @@ class Script(BaseScript):
     )
     rx_psu1 = re.compile(r"(?:PS|Power Supply) (?P<number>\d+) ")
     rx_psu2 = re.compile(r"Power Supply (?P<number>\d+)$")
+    rx_stack1 = re.compile(r"StackPort\d+/(?P<number>\d+)$")
 
     slot_id = 0
 
@@ -296,6 +297,8 @@ class Script(BaseScript):
             or pid.startswith("X2-")
             or pid.startswith("XENPAK")
             or pid.startswith("Xenpak")
+            or pid.startswith("SFP-")
+            or pid.startswith("QSFP-")
             or name.startswith("Converter")
         ):
             # Transceivers
@@ -306,6 +309,11 @@ class Script(BaseScript):
             elif name.startswith("GigabitEthernet"):
                 number = name.split(" ", 1)[0].split("/")[-1]
             elif name.startswith("Te"):
+                if " " in name:
+                    number = name.split(" ", 1)[0].split("/")[-1]
+                else:
+                    number = name.split("/")[-1]
+            elif name.startswith("Fo"):
                 if " " in name:
                     number = name.split(" ", 1)[0].split("/")[-1]
                 else:
@@ -351,6 +359,7 @@ class Script(BaseScript):
             and "VTT-E FRU" not in descr
             and "C2801 Motherboard " not in descr
             and "xx Switch Stack" not in descr
+            and "c38xx Stack" not in descr
         ):
             if pid in ("", "N/A"):
                 if self.rx_7100.search(descr):
@@ -497,6 +506,12 @@ class Script(BaseScript):
         elif "PCMCIA Flash Disk" in descr:
             # PCMCIA Flash
             return "Flash | PCMCIA", name, pid
+
+        elif name.startswith("StackPort"):
+            match = self.rx_stack1.search(name)
+            if match:
+                self.slot_id = int(match.group("number"))
+            return "STACKPORT", self.slot_id, pid
         # Unknown
         return None, None, None
 
