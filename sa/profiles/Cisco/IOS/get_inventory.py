@@ -383,6 +383,15 @@ class Script(BaseScript):
                 and "Supervisor Engine" in descr
             ):
                 return "SUP", self.slot_id, pid
+            if pid.startswith("ISR"):
+                if "Route Processor" in descr:
+                    return "RP", self.slot_id, pid
+                if "Forwarding Processor" in descr:
+                    return "FP", self.slot_id, pid
+                if "SM controller" in descr:
+                    return "SM", self.slot_id, pid
+                if self.slot_id == 0 and "Built-In NIM controller" in descr:
+                    return "MOTHERBOARD", self.slot_id, pid
             if pid.startswith("PA-"):
                 # Port Adapter
                 return "PA", self.slot_id, pid
@@ -459,6 +468,7 @@ class Script(BaseScript):
         elif (
             pid.startswith("NM-")
             or pid.startswith("NME-")
+            or pid.startswith("NIM-")
             or pid.startswith("EVM-")
             or pid.startswith("EM-")
         ):
@@ -485,8 +495,8 @@ class Script(BaseScript):
         elif pid.startswith("AIM-"):
             # Network Module
             return "AIM", self.slot_id, pid
-        elif pid.startswith("PVDM2-") or pid.startswith("PVDM3-"):
-            # PVDM Type 2 and 3
+        elif pid.startswith("PVDM2-") or pid.startswith("PVDM3-") or pid.startswith("PVDM4-"):
+            # PVDM Type 2, 3, 4
             return "PVDM", self.slot_id, pid
         elif pid.endswith("-MB"):
             # Motherboard
@@ -506,7 +516,6 @@ class Script(BaseScript):
         elif "PCMCIA Flash Disk" in descr:
             # PCMCIA Flash
             return "Flash | PCMCIA", name, pid
-
         elif name.startswith("StackPort"):
             match = self.rx_stack1.search(name)
             if match:
