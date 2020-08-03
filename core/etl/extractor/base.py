@@ -15,7 +15,7 @@ import io
 from time import perf_counter
 import contextlib
 from typing import Any, List
-import dataclass
+import dataclasses
 
 # NOC modules
 from noc.core.log import PrefixLoggerAdapter
@@ -25,7 +25,7 @@ from noc.core.comp import smart_text
 logger = logging.getLogger(__name__)
 
 
-@dataclass.dataclass
+@dataclasses.dataclass
 class Problem(object):
     line: int
     is_rej = bool
