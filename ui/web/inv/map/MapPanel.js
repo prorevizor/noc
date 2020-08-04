@@ -766,7 +766,7 @@ Ext.define("NOC.inv.map.MapPanel", {
 
     createBadge: function(node, config) {
         var nodeSize = node.get('size'),
-            size = nodeSize.width > nodeSize.height ? nodeSize.height / 3 : nodeSize.width / 3,
+            size = Math.max(Math.min(nodeSize.height / 3, nodeSize.width / 3), 18),
             shape = config.form === 's' ? "Rectangle" : "Circle",
             // default NE
             x = node.get('position').x + nodeSize.width - 0.62 * size,
