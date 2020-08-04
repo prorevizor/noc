@@ -105,7 +105,7 @@ def get_objects_metrics(managed_objects):
                     metric_map[mo][path][f_name] = r
                     last_ts[mo] = max(ts, last_ts.get(mo, ts))
                     i += 1
-        except ClickhouseError as e:
+        except ClickhouseError:
             pass
     return metric_map, last_ts
 
