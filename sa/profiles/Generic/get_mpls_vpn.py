@@ -50,7 +50,8 @@ class Script(BaseScript):
             [mib["MPLS-L3VPN-STD-MIB::mplsL3VpnIfConfRowStatus"]]
         ):
             conf_id, ifindex = conf_id.rsplit(".", 1)
-            r[conf_id]["interfaces"] += [names[int(ifindex)]]
+            if int(ifindex) in names:
+                r[conf_id]["interfaces"] += [names[int(ifindex)]]
         for conf_id, vrf_rt, vrf_rt_decr in self.snmp.get_tables(
             [
                 mib["MPLS-L3VPN-STD-MIB::mplsL3VpnVrfRT"],
