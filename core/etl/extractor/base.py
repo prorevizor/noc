@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 @dataclasses.dataclass
 class Problem(object):
     line: int
-    is_rej = bool
+    is_rej: bool
     p_class: str
     message: str
     row: List[Any]
