@@ -1714,6 +1714,9 @@ class ManagedObject(NOCModel):
             return self.fm_pool
         return self.pool
 
+    def _reset_caches(self):
+        pass
+
 
 @on_save
 class ManagedObjectAttribute(NOCModel):
