@@ -111,7 +111,7 @@ def moderate(
 ) -> Tuple[Optional[str], Optional[str], bool]:
     """
     Perform trial moderation
-    
+
     :param attacker:
     :param target:
     :param attacker_object:

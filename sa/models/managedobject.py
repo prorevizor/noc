@@ -1715,7 +1715,12 @@ class ManagedObject(NOCModel):
         return self.pool
 
     def _reset_caches(self):
-        pass
+        try:
+            del self._id_cache[self.id]
+        except KeyError:
+            pass
+        cache.delete("managedobject-id-%s" % self.id, version=MANAGEDOBJECT_CACHE_VERSION)
+        cache.delete("cred-%s" % self.id, version=CREDENTIAL_CACHE_VERSION)
 
 
 @on_save

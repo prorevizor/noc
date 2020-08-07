@@ -56,11 +56,11 @@ class BaseBioSegPolicy(object):
                 """
                 SELECT SUM(p.level)
                 FROM sa_managedobject mo JOIN sa_managedobjectprofile p ON mo.object_profile_id = p.id
-                WHERE segment = %s 
+                WHERE segment = %s
             """,
                 [str(seg.id)],
             )
-            pwr = cursor.fetchall()[0][0]
+            pwr = cursor.fetchall()[0][0] or 0
         self.set_power(seg, pwr)
         return pwr
 

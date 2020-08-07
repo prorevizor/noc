@@ -27,6 +27,18 @@ ns_id1 = bson.ObjectId("5f2a62bce9d7278f02ed1230")
 ns_id2 = bson.ObjectId("5f2a62c0e9d7278f02ed1231")
 
 
+def patch_model(model):
+    def save():
+        pass
+
+    def _reset_caches():
+        pass
+
+    model.save = save
+    model._reset_caches = _reset_caches
+    return model
+
+
 class MockBioSegPolicy(BaseBioSegPolicy):
     N = 10
     LEVEL = 10
@@ -36,7 +48,9 @@ class MockBioSegPolicy(BaseBioSegPolicy):
         if not self._objects:
             profile = ManagedObjectProfile(name="mock", level=self.LEVEL)
             self._objects = [
-                ManagedObject(name="%d" % i, segment=self.target, object_profile=profile)
+                patch_model(
+                    ManagedObject(name="%d" % (i + 1), segment=self.target, object_profile=profile)
+                )
                 for i in range(self.N)
             ]
 
@@ -65,11 +79,10 @@ def test_set_power():
     assert policy.get_power(attacker) == 30
 
 
-def test_comsume_objects():
-    attacker = NetworkSegment(name="attacker")
-    attacker.id = ns_id1
-    target = NetworkSegment(name="target")
-    target.id = ns_id2
+def test_consume_objects():
+    profile = NetworkSegmentProfile(name="mock", is_persistent=False)
+    attacker = NetworkSegment(id=ns_id1, name="attacker", profile=profile)
+    target = NetworkSegment(id=ns_id2, name="target", profile=profile)
     policy = MockBioSegPolicy(attacker, target)
     assert len(policy.get_objects(attacker)) == 0
     assert len(policy.get_objects(target)) == policy.N
@@ -247,7 +260,7 @@ def test_collision_persist(attacker_policy, target_policy, expected):
         ("feed", "keep", "feed"),
         ("feed", "eat", "feed"),
         ("feed", "feed", "merge"),
-        ("feed", "calcify", "keep"),
+        ("feed", "calcify", "feed"),
         # Calcify
         ("calcify", "merge", "calcify"),
         ("calcify", "keep", "calcify"),
