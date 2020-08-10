@@ -5,9 +5,6 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
-# Third-party modules
-import bson
-
 # NOC module
 from noc.core.migration.base import BaseMigration
 
