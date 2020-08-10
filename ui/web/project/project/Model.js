@@ -33,7 +33,8 @@ Ext.define("NOC.project.project.Model", {
         },
         {
             name: "shape_overlay_glyph__label",
-            type: "string"
+            type: "string",
+            persist: false
         },
         {
             name: "shape_overlay_position",
