@@ -9,7 +9,6 @@
 import bson
 
 # NOC module
-from noc.core.model.fields import DocumentReferenceField
 from noc.core.migration.base import BaseMigration
 
 
