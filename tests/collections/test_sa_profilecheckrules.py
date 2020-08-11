@@ -16,6 +16,7 @@ import pytest
 from noc.sa.models.profilecheckrule import ProfileCheckRule
 from .utils import CollectionTestHelper
 from noc.core.validators import is_oid
+from noc.core.mib import mib
 
 
 class PCRHelper(CollectionTestHelper):
@@ -26,7 +27,7 @@ class PCRHelper(CollectionTestHelper):
     def get_object(self, path):
         obj = super().get_object(path)
         if obj.method == "snmp_v2c_get" and obj.match_method == "eq":
-            self._oid_count[obj.method, obj.param, obj.match_method, obj.value] += 1
+            self._oid_count[obj.method, mib[obj.param], obj.match_method, obj.value] += 1
         return obj
 
     def get_oid_count(self, param, value):
@@ -72,7 +73,7 @@ def test_oid(model):
 
     if model.method != "snmp_v2c_get":
         pytest.skip("Not relevant")
-    assert check_oid(model.param), "Invalid OID: '%s'" % model.param
+    assert check_oid(mib[model.param]), "Invalid OID: '%s'" % model.param
     if model.match_method != "eq":
         pytest.skip("Not relevant")
     assert check_oid(model.value)
@@ -81,7 +82,7 @@ def test_oid(model):
 def test_oid_unique(model):
     if model.method != "snmp_v2c_get" or model.match_method != "eq":
         pytest.skip("Not relevant")
-    assert helper.get_oid_count(model.param, model.value) == 0, "'%s' == '%s' is not unique" % (
+    assert helper.get_oid_count(mib[model.param], model.value) == 0, "'%s' == '%s' is not unique" % (
         model.param,
         model.value,
     )
