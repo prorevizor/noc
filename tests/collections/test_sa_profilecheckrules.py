@@ -59,7 +59,7 @@ def test_name_unique(model):
     assert helper.get_name_count(model.name) == 1, "Name '%s' is not unique" % model.name
 
 
-rx_mib = re.compile(r"^[0-9a-z][0-9a-z\-_]*(\.\d+)*$", re.IGNORECASE)
+rx_mib = re.compile(r"^[0-9a-z][0-9a-z\-_]::[0-9a-z][0-9a-z\-_]*(\.\d+)*$", re.IGNORECASE)
 
 
 def test_oid(model):
