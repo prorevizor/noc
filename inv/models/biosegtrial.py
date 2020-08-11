@@ -6,6 +6,7 @@
 # ----------------------------------------------------------------------
 
 # Python modules
+import datetime
 from typing import Optional
 
 # Third-party modules
@@ -15,15 +16,22 @@ from mongoengine.fields import (
     ObjectIdField,
     IntField,
     BooleanField,
+    DateTimeField,
 )
 
 # NOC modules
 from noc.inv.models.networksegment import NetworkSegment
 from noc.sa.models.managedobject import ManagedObject
+from noc.config import config
 
 
 class BioSegTrial(Document):
-    meta = {"collection": "biosegtrials", "strict": False, "auto_create_index": False}
+    meta = {
+        "collection": "biosegtrials",
+        "strict": False,
+        "auto_create_index": False,
+        "indexes": [{"fields": ["expires"], "expireAfterSeconds": 0}],
+    }
 
     # Reason of the trial
     reason = StringField()
@@ -41,6 +49,8 @@ class BioSegTrial(Document):
     outcome = StringField()
     # Error report
     error = StringField()
+    # Schedule for expiration, only when processed is True
+    expires = DateTimeField()
 
     def __str__(self):
         return str(self.id)
@@ -69,13 +79,26 @@ class BioSegTrial(Document):
         self.outcome = outcome
         self.processed = True
         self.error = None
+        self._set_expires()
         self.save()
 
     def set_error(self, error: str, fatal: bool = False) -> None:
         self.error = error
         if fatal:
             self.processed = True
+            self._set_expires()
         self.save()
+
+    def _set_expires(self) -> None:
+        """
+        Set expires when necessary
+
+        :return:
+        """
+        if config.biosegmentation.processed_trials_ttl:
+            self.expires = datetime.datetime.now() + datetime.timedelta(
+                seconds=config.biosegmentation.processed_trials_ttl
+            )
 
     def retry(self) -> None:
         """
