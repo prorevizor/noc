@@ -30,7 +30,6 @@ class Script(GetMetricsScript):
             for m in metrics
             if m.ifindex and m.metric == "Interface | Status | Duplex"
         }
-        print(metrics, if_map)
         for oid, duplex in self.snmp.getnext(mib["EtherLike-MIB::dot3StatsDuplexStatus"]):
             _, ifindex = oid.rsplit(".", 1)
             if int(ifindex) not in if_map:
