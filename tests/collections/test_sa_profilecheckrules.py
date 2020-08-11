@@ -82,7 +82,6 @@ def test_oid(model):
 def test_oid_unique(model):
     if model.method != "snmp_v2c_get" or model.match_method != "eq":
         pytest.skip("Not relevant")
-    assert helper.get_oid_count(mib[model.param], model.value) == 0, "'%s' == '%s' is not unique" % (
-        model.param,
-        model.value,
-    )
+    assert (
+        helper.get_oid_count(mib[model.param], model.value) == 0
+    ), "'%s' == '%s' is not unique" % (model.param, model.value)
