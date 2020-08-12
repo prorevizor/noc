@@ -48,7 +48,7 @@ class Script(BaseScript):
         re.MULTILINE,
     )
     rx_mac = re.compile(
-        r"^\s+Description is none\s*\n" r"^\s+MAC address is (?P<mac>\S+)\s*\n", re.MULTILINE
+        r"^\s+Description is (?P<descr>.+)\n^\s+MAC address is (?P<mac>\S+)\s*\n", re.MULTILINE
     )
 
     def execute_cli(self):
@@ -72,7 +72,7 @@ class Script(BaseScript):
                     "oper_status": oper_status,
                     "subinterfaces": [],
                 }
-                if descr != "none":
+                if descr not in ["none", "none."]:
                     iface["description"] = descr
                 if prefix == "gei_":
                     v = self.cli("show vlan port %s" % ifname)
