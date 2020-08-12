@@ -65,6 +65,9 @@ rx_mib = re.compile(r"^[0-9a-z][0-9a-z\-_]::[0-9a-z][0-9a-z\-_]*(\.\d+)*$", re.I
 
 def test_oid(model):
     def check_oid(oid):
+        if oid == "0.0":
+            # For ISKRATEL VDSL-2 sysObjectID ProfileCheckRule
+            return True
         if is_oid(oid):
             return True
         if "::" not in oid:
