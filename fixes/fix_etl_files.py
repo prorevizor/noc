@@ -12,7 +12,7 @@ import os
 from noc.core.compressor.loader import loader
 from noc.config import config
 
-ext_map = {c.ext: c for c in loader.iter_classes() if c.ext}
+ext_map = {cc.ext: cc for cc in (c for c in loader.iter_classes()) if cc.ext}
 
 
 def fix():
