@@ -7,7 +7,6 @@
 
 # Python modules
 import logging
-import gzip
 import os
 import csv
 import itertools
