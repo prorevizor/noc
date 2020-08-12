@@ -1,7 +1,7 @@
 {
     "name": "Qtech | QSW | QSW-2800 sysObjectID.2.59",
     "$collection": "sa.profilecheckrules",
-    "uuid": "d806f998-a865-41b8-a785-1213e5abf490",
+    "uuid": "9775a9bc-4983-4cca-867d-a8912d5e13cf",
     "description": null,
     "preference": 10,
     "method": "snmp_v2c_get",
