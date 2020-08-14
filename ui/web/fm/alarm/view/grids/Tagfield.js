@@ -76,7 +76,10 @@ Ext.define("NOC.fm.alarm.view.grids.Tagfield", {
     setWidgetValues: function(data) {
         this.setSelection(data);
     },
-    onTriggerClick: function() {
+    onTriggerClick: function(el) {
+        if(!el) {
+            return;
+        }
         if(this.isTree) {
             var position,
                 heightAbove = this.getPosition()[1] - Ext.getBody().getScroll().top,
