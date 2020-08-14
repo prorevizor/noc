@@ -51,11 +51,7 @@ def ensure_format(path: str) -> None:
             src_ext = ext
             break
     src_comp = ext_map[src_ext]
-    if dst_comp.ext:
-        dst_path = path[: -len(src_ext)] + dst_comp.ext
-    else:
-        # For plain compressor
-        dst_path = path + dst_comp.ext
+    dst_path = path[: -len(src_ext) if src_ext else None] + dst_comp.ext
     print("Repacking %s -> %s" % (path, dst_path))
     with src_comp(path, "r") as src, dst_comp(dst_path, "w") as dst:
         dst.write(src.read())
