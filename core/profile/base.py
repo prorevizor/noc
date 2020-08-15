@@ -251,7 +251,7 @@ class BaseProfile(object, metaclass=BaseProfileMetaclass):
     max_scripts = None
     # CLI timeouts
     # Timeout between connection established and login prompt
-    cli_timeout_start = 60
+    cli_timeout_start = 50
     # Timeout after user name provided
     cli_timeout_user = 30
     # Timeout after password provided
