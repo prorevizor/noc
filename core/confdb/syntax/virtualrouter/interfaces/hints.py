@@ -16,17 +16,6 @@ VIRTUAL_ROUTER_INTERFACES_HINTS_SYNTAX = DEF(
             "untagged",
             [
                 DEF(
-                    "default",
-                    [
-                        DEF(
-                            INTEGER,
-                            required=True,
-                            name="vlan",
-                            gen="make_virtual_router_untagged_default",
-                        )
-                    ]
-                ),
-                DEF(
                     "interface",
                     [
                         DEF(
