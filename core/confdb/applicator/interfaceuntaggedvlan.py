@@ -14,7 +14,6 @@ class DefaultInterfaceUntaggedVlanApplicator(QueryApplicator):
     Apply Default Untagged vlan on interfaces
     """
 
-    CHECK_QUERY = "Match('hints', 'virtual-router', 'interfaces', 'untagged', 'default')"
     QUERY = [
         # Get all physical interfaces and bind to variable X
         "Match('interfaces', X, 'type', 'physical') and "
