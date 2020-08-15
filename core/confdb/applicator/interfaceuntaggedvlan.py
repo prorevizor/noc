@@ -19,7 +19,7 @@ class DefaultInterfaceUntaggedVlanApplicator(QueryApplicator):
         # Get all physical interfaces and bind to variable X
         "Match('interfaces', X, 'type', 'physical') and "
         # Filter out explicitly disabled interfaces
-        "NotMatch('hints', 'virtual-router', 'interfaces', 'untagged', 'interface', X, 'off') and "
+        "NotMatch('hints', 'virtual-router', 'interfaces', 'untagged', 'default', X, 'off') and "
         # For each interface with untagged vlan is not set
         "NotMatch('virtual-router', vr, 'forwarding-instance', fi, 'interfaces', X, 'unit', X, 'bridge', 'switchport','untagged') and "
         # Set untagged vlan

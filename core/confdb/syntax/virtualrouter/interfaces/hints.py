@@ -7,7 +7,7 @@
 
 # NOC modules
 from ...defs import DEF
-from ...patterns import IF_NAME, INTEGER
+from ...patterns import IF_NAME
 
 VIRTUAL_ROUTER_INTERFACES_HINTS_SYNTAX = DEF(
     "interfaces",
@@ -16,7 +16,7 @@ VIRTUAL_ROUTER_INTERFACES_HINTS_SYNTAX = DEF(
             "untagged",
             [
                 DEF(
-                    "interface",
+                    "default",
                     [
                         DEF(
                             IF_NAME,
