@@ -267,9 +267,10 @@ async def snmp_getnext(
     result = []
     parser = _get_parser(response_parser, raw_varbinds)
     with UDPSocketContext(udp_socket, tos=tos) as sock:
-        last_oid = None
+        prev_oids = set()
         while True:
             # Get PDU
+            current_oids = set()
             if bulk:
                 pdu = getbulk_pdu(
                     community,
@@ -312,26 +313,35 @@ async def snmp_getnext(
             elif not raw_varbinds:
                 # Success value
                 for oid, v in resp.varbinds:
-                    if oid.startswith(poid) and not (only_first and result) and oid != last_oid:
+                    if (
+                        oid.startswith(poid)
+                        and not (only_first and result)
+                        and oid not in prev_oids
+                    ):
                         # Next value
                         if filter(oid, v):
                             result += [(oid, v)]
-                        last_oid = oid
                     else:
                         logger.debug("[%s] GETNEXT result: %s", address, result)
                         return result
+                    current_oids.add(oid)
             else:
                 # Raw varbinds
                 for oid, v in resp.varbinds:
                     s_oid = str(oid)
-                    if s_oid.startswith(poid) and not (only_first and result) and oid != last_oid:
+                    if (
+                        s_oid.startswith(poid)
+                        and not (only_first and result)
+                        and s_oid not in prev_oids
+                    ):
                         # Next value
                         if filter(s_oid, v):
                             result += [(oid, v)]
-                        last_oid = oid
                     else:
                         logger.debug("[%s] GETNEXT result: %s", address, result)
                         return result
+                    current_oids.add(s_oid)
+            prev_oids = current_oids
 
 
 async def snmp_set(
