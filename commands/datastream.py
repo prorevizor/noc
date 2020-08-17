@@ -109,7 +109,7 @@ class Command(BaseCommand):
 
         def grouper(iterable, n):
             args = [iter(iterable)] * n
-            return itertools.filterfalse(lambda x: not x, itertools.zip_longest(*args))
+            return itertools.zip_longest(*args)
 
         def do_update(bulk):
             ds.bulk_update(bulk)
@@ -134,7 +134,10 @@ class Command(BaseCommand):
             pool = ThreadPool(jobs)
             iterable = pool.imap_unordered(update_object, self.iter_id(model))
         else:
-            iterable = (ds.bulk_update(bulk) for bulk in grouper(self.iter_id(model), BATCH))
+            iterable = (
+                ds.bulk_update(list(filter(lambda x: x, bulk)))
+                for bulk in grouper(self.iter_id(model), BATCH)
+            )
 
         if not self.no_progressbar:
             # Disable logging
