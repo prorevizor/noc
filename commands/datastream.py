@@ -67,7 +67,6 @@ class Command(BaseCommand):
             if is_document(m):
                 match = {}
                 while True:
-                    print(match)
                     cursor = (
                         m._get_collection()
                         .find(match, {"_id": 1}, no_cursor_timeout=True)
@@ -135,7 +134,7 @@ class Command(BaseCommand):
             iterable = pool.imap_unordered(update_object, self.iter_id(model))
         else:
             iterable = (
-                ds.bulk_update(list(filter(lambda x: x, bulk)))
+                ds.bulk_update([b for b in bulk if b is not None])
                 for bulk in grouper(self.iter_id(model), BATCH)
             )
 
