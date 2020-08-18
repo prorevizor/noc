@@ -27,9 +27,7 @@ class Node(object):
     __slots__ = ["token", "handler", "children", "matcher"]
 
     def __init__(self, token):
-        if token is None:
-            self.token = None
-        elif isinstance(token, str):
+        if isinstance(token, str):
             self.token = Token(token)
         else:
             self.token = token
@@ -43,7 +41,7 @@ class Node(object):
         return "<Node %s>" % repr(self.token)
 
     def clone(self) -> "Node":
-        node = Node(self.token)
+        node = self.__class__(self.token)
         node.handler = self.handler
         node.matcher = self.matcher
         node.children = [c.clone() for c in self.children]
@@ -98,8 +96,8 @@ class Node(object):
 class RootNode(Node):
     __slots__ = ["token", "handler", "children", "matcher"]
 
-    def __init__(self):
-        super().__init__(None)
+    def __init__(self, token=None):
+        super().__init__(token)
 
     def __repr__(self):
         return "<RootNode>"
