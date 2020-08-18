@@ -27,7 +27,9 @@ class Node(object):
     __slots__ = ["token", "handler", "children", "matcher"]
 
     def __init__(self, token):
-        if isinstance(token, str):
+        if token is None:
+            self.token = None
+        elif isinstance(token, str):
             self.token = Token(token)
         else:
             self.token = token
@@ -97,10 +99,7 @@ class RootNode(Node):
     __slots__ = ["token", "handler", "children", "matcher"]
 
     def __init__(self):
-        self.token = None
-        self.handler = None
-        self.children = []
-        self.matcher = None
+        super().__init__(None)
 
     def __repr__(self):
         return "<RootNode>"
