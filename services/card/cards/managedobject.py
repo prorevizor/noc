@@ -360,9 +360,9 @@ class ManagedObjectCard(BaseCard):
         # Maintenance
         maintenance = []
         for m in Maintenance.objects.filter(
-            affected_objects__object=self.object.id,
-            is_completed=False,
-            start__lte=now + datetime.timedelta(hours=1),
+                affected_objects__object=self.object.id,
+                is_completed=False,
+                start__lte=now + datetime.timedelta(hours=1),
         ):
             maintenance += [
                 {
