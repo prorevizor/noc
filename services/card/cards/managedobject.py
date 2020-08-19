@@ -56,6 +56,28 @@ class ManagedObjectCard(BaseCard):
 
     # get data function
     def get_data(self):
+
+        intervals = (
+            ('y', 31557617),  # 60 * 60 * 24 * 7 * 52
+            ('w', 604800),  # 60 * 60 * 24 * 7
+            ('d', 86400),  # 60 * 60 * 24
+            ('h', 3600),  # 60 * 60
+            ('m', 60),
+            ('s', 1),
+        )
+
+        def display_time(seconds):
+            result = []
+
+            for name, count in intervals:
+                value = seconds // count
+                if value:
+                    seconds -= value * count
+                    if value == 1:
+                        name = name.rstrip('s')
+                    result.append("{}{}".format(value, name))
+            return ', '.join(result[:-1])
+
         def sortdict(dct):
             kys = sorted(dct.keys())
             res = OrderedDict()
@@ -211,8 +233,8 @@ class ManagedObjectCard(BaseCard):
                         t_v = self.get_threshold_config(m_tp.get(key), int(mres[key]))
                     val = {
                         "name": m_path,
-                        "type": metric_type_name[key],
-                        "value": mres[key],
+                        "type": "" if m_path == "Object | SysUptime" else metric_type_name[key],
+                        "value": display_time(int(mres[key])) if m_path == "Object | SysUptime" else mres[key],
                         "threshold": t_v,
                     }
                     if data.get(key):
@@ -223,7 +245,7 @@ class ManagedObjectCard(BaseCard):
         data = sortdict(data)
         for k, d in data.items():
             collapsed = False
-            if k.startswith("CPU") or k.startswith("Memory"):
+            if len(d) == 1:
                 collapsed = True
             for dd in d:
                 isdanger = False
