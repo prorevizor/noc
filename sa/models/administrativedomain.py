@@ -180,4 +180,4 @@ class AdministrativeDomain(NOCModel):
 
 
 if TYPE_CHECKING:
-    from noc.inv.models.networksegment import NetworkSegment
+    from noc.inv.models.networksegment import NetworkSegment  # noqa
