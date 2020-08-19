@@ -58,12 +58,12 @@ class ManagedObjectCard(BaseCard):
     def get_data(self):
 
         intervals = (
-            ('y', 31557617),  # 60 * 60 * 24 * 7 * 52
-            ('w', 604800),  # 60 * 60 * 24 * 7
-            ('d', 86400),  # 60 * 60 * 24
-            ('h', 3600),  # 60 * 60
-            ('m', 60),
-            ('s', 1),
+            ("y", 31557617),  # 60 * 60 * 24 * 7 * 52
+            ("w", 604800),  # 60 * 60 * 24 * 7
+            ("d", 86400),  # 60 * 60 * 24
+            ("h", 3600),  # 60 * 60
+            ("m", 60),
+            ("s", 1),
         )
 
         def display_time(seconds):
@@ -74,9 +74,9 @@ class ManagedObjectCard(BaseCard):
                 if value:
                     seconds -= value * count
                     if value == 1:
-                        name = name.rstrip('s')
+                        name = name.rstrip("s")
                     result.append("{}{}".format(value, name))
-            return ', '.join(result[:-1])
+            return ", ".join(result[:-1])
 
         def sortdict(dct):
             kys = sorted(dct.keys())
@@ -234,7 +234,9 @@ class ManagedObjectCard(BaseCard):
                     val = {
                         "name": m_path,
                         "type": "" if m_path == "Object | SysUptime" else metric_type_name[key],
-                        "value": display_time(int(mres[key])) if m_path == "Object | SysUptime" else mres[key],
+                        "value": display_time(int(mres[key]))
+                        if m_path == "Object | SysUptime"
+                        else mres[key],
                         "threshold": t_v,
                     }
                     if data.get(key):
@@ -360,9 +362,9 @@ class ManagedObjectCard(BaseCard):
         # Maintenance
         maintenance = []
         for m in Maintenance.objects.filter(
-                affected_objects__object=self.object.id,
-                is_completed=False,
-                start__lte=now + datetime.timedelta(hours=1),
+            affected_objects__object=self.object.id,
+            is_completed=False,
+            start__lte=now + datetime.timedelta(hours=1),
         ):
             maintenance += [
                 {
