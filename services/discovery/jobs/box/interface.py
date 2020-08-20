@@ -49,7 +49,7 @@ class InterfaceCheck(PolicyDiscoveryCheck):
         Match("virtual-router", vr, "forwarding-instance", instance, "interfaces", if_name, "unit", unit, "bridge", "switchport", "tagged", tagged) or
         Match("virtual-router", vr, "forwarding-instance", instance, "interfaces", if_name, "unit", unit, "bridge", "switchport", "untagged", untagged) or
         Match("virtual-router", vr, "forwarding-instance", instance, "interfaces", if_name, "unit", unit, "vlan_ids", vlan_ids)
-    ) and Group("vr", "instance", "if_name", "unit", stack={"ipv4_addresses", "ipv6_addresses"})"""
+    ) and Group("vr", "instance", "if_name", "unit", stack={"ipv4_addresses", "ipv6_addresses", "vlan_ids"})"""
 
     VRF_QUERY = """(Match("virtual-router", vr, "forwarding-instance", instance) or
         Match("virtual-router", vr, "forwarding-instance", instance, "type", type) or
@@ -595,7 +595,7 @@ class InterfaceCheck(PolicyDiscoveryCheck):
             if "tagged" in d:
                 unit["tagged_vlans"] = ranges_to_list(d["tagged"])
             if "vlan_ids" in d:
-                unit["vlan_ids"] = [d["vlan_ids"]]
+                unit["vlan_ids"] = d["vlan_ids"]
         # Flatten units
         r = list(instances.values())
         for fi in r:
