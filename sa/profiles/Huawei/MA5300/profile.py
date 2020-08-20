@@ -17,7 +17,8 @@ class Profile(BaseProfile):
     name = "Huawei.MA5300"
     pattern_more = [
         (r"--- More:", " "),
-        (r"[ ]+---- More \(Press CTRL\+C break\) ---[ ]+", " "),
+        (r"[ ]+---- More \(Press CTRL\+C break\) ---[ ]+", " "),  # [ ]+ use for save \n in output
+        # stream, because more pattern remove from stream
         (r"Note: Terminal", "\n"),
         (r"Warning: Battery is low power!", "\n"),
         (r"\{\s<cr>.*\s\}:", "\n"),
