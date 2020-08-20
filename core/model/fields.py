@@ -253,6 +253,8 @@ class DocumentReferenceDescriptor(object):
     def __set__(self, instance, value):
         if instance is None:
             raise AttributeError("%s must be accessed via instance" % self.field.name)
+        if not self.dereference:
+            self.set_dereference()
         # If null=True, we can assign null here, but otherwise the value needs
         # to be an instance of the related class.
         if value is None and self.field.null is False:
