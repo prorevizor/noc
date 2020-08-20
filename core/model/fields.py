@@ -19,6 +19,7 @@ from bson import ObjectId
 from noc.core.ip import IP
 from noc.sa.interfaces.base import MACAddressParameter
 from noc.core.comp import smart_text
+from noc.models import get_model
 
 
 class CIDRField(models.Field):
@@ -200,9 +201,28 @@ class TagsContainsLookup(models.Lookup):
 class DocumentReferenceDescriptor(object):
     def __init__(self, field):
         self.field = field
+        self.document = self.field.document
         self.cache_name = field.get_cache_name()
         self.name = field.name
-        self.has_get_by_id = hasattr(self.field.document, "get_by_id")
+        self.dereference = None
+
+    def dereference_cached(self, value):
+        obj = self.document.get_by_id(value)
+        if not obj:
+            raise self.document.DoesNotExist()
+        return obj
+
+    def dereference_uncached(self, value):
+        return self.document.objects.get(pk=value)
+
+    def set_dereference(self):
+        if isinstance(self.document, str):
+            self.document = get_model(self.document)
+            self.field.document = self.document
+        if hasattr(self.document, "get_by_id"):
+            self.dereference = self.dereference_cached
+        else:
+            self.dereference = self.dereference_uncached
 
     def is_cached(self, instance):
         return hasattr(instance, self.cache_name)
@@ -219,13 +239,10 @@ class DocumentReferenceDescriptor(object):
                 # If NULL is an allowed value, return it.
                 if self.field.null:
                     return None
-                raise self.field.document.DoesNotExist()
-            if self.has_get_by_id:
-                rel_obj = self.field.document.get_by_id(val)
-                if not rel_obj:
-                    raise self.field.document.DoesNotExist()
-            else:
-                rel_obj = self.field.document.objects.get(id=val)
+                raise self.document.DoesNotExist()
+            if not self.dereference:
+                self.set_dereference()
+            rel_obj = self.dereference(val)
             setattr(instance, self.cache_name, rel_obj)
             return rel_obj
 
@@ -248,14 +265,14 @@ class DocumentReferenceDescriptor(object):
         elif isinstance(value, ObjectId):
             self._reset_cache(instance)
             value = str(value)
-        elif value and isinstance(value, self.field.document):
+        elif value and isinstance(value, self.document):
             # Save to cache
             setattr(instance, self.cache_name, value)
             value = str(value.id)
         else:
             raise ValueError(
                 'Cannot assign "%r": "%s.%s" must be a "%s" instance.'
-                % (value, instance._meta.object_name, self.field.name, self.field.document)
+                % (value, instance._meta.object_name, self.field.name, self.document)
             )
         instance.__dict__[self.name] = value
 
