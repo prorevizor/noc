@@ -225,6 +225,8 @@ class DocumentReferenceDescriptor(object):
             self.dereference = self.dereference_uncached
 
     def is_cached(self, instance):
+        if not self.dereference:
+            self.set_dereference()
         return hasattr(instance, self.cache_name)
 
     def __get__(self, instance, instance_type=None):
