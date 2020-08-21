@@ -169,7 +169,12 @@ class Script(BaseScript):
         :rtype: list
         """
         self.logger.debug(
-            "Getting type. Slot: %s, Sub: %s, name: %s, part_no: %s, hints: %s", slot, sub, name, part_no, slot_hints,
+            "Getting type. Slot: %s, Sub: %s, name: %s, part_no: %s, hints: %s",
+            slot,
+            sub,
+            name,
+            part_no,
+            slot_hints,
         )
         if part_no.startswith("LSB"):
             # Huawei S8500
@@ -217,7 +222,11 @@ class Script(BaseScript):
             return tp, slot, part_no
         elif self.is_cloud_engine and part_no.startswith("CE"):
             return "CHASSIS", slot, part_no
-        elif not name and slot_hints and (part_no.endswith("PWD") or part_no.endswith("PWA")or part_no in ["PDC-350WC-B"]):
+        elif (
+            not name
+            and slot_hints
+            and (part_no.endswith("PWD") or part_no.endswith("PWA") or part_no in ["PDC-350WC-B"])
+        ):
             # 5XX chassis PWR card
             # Try detect slot number by display device, use for 53XX series
             card = [x for x in slot_hints["subcards"] if x["type"] == "PWR" or x["type"] == part_no]
