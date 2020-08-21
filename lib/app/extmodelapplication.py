@@ -266,13 +266,15 @@ class ExtModelApplication(ExtApplication):
         # Extract IN
         # extjs not working with same parameter name in query
         for p in list(q.keys()):
-            if p.endswith(self.in_param) and self.rx_oper_splitter.match(p):
-                field = self.rx_oper_splitter.match(p).group("field") + self.in_param
-                if field not in q:
-                    q[field] = "%s" % (q[p])
-                else:
-                    q[field] += ",%s" % (q[p])
-                del q[p]
+            if p.endswith(self.in_param):
+                match = self.rx_oper_splitter.match(p)
+                if match:
+                    field = self.rx_oper_splitter.match(p).group("field") + self.in_param
+                    if field not in q:
+                        q[field] = "%s" % (q[p])
+                    else:
+                        q[field] += ",%s" % (q[p])
+                    del q[p]
         for p in q:
             if p.endswith("__exists"):
                 v = BooleanParameter().clean(q[p])
