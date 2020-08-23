@@ -11,7 +11,7 @@ import asyncio
 import logging
 
 # Third-party modules
-from typing import Callable, TypeVar, List, Tuple, Any, Optional
+from typing import Callable, TypeVar, Tuple, Any, Optional
 
 # NOC modules
 from noc.config import config
