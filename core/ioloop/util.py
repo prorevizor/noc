@@ -87,22 +87,23 @@ def run_sync(cb: Callable[..., T], close_all: bool = True) -> T:
     global _setup_completed
 
     async def wrapper():
+        nonlocal result, error
         try:
-            result.append(await cb())
+            result = await cb()
         except Exception:
-            error.append(sys.exc_info())
+            error = sys.exc_info()
 
     if not _setup_completed:
         setup_asyncio()
 
-    result: List[T] = []
-    error: List[Tuple[Any, Any, Any]] = []
+    result: Optional[T] = None
+    error: Optional[Tuple[Any, Any, Any]] = None
 
     with IOLoopContext() as loop:
         loop.run_until_complete(wrapper())
     if error:
-        reraise(*error[0])
-    return result[0]
+        reraise(*error)
+    return result
 
 
 _setup_completed = False
