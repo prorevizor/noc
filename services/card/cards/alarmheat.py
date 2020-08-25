@@ -67,7 +67,9 @@ class AlarmHeatCard(BaseCard):
         north = float(self.handler.get_argument("n"))
         south = float(self.handler.get_argument("s"))
         ms = int(self.handler.get_argument("maintenance"))
-        active_layers = [l_r for l_r in self.get_pop_layers() if l_r.min_zoom <= zoom <= l_r.max_zoom]
+        active_layers = [
+            l_r for l_r in self.get_pop_layers() if l_r.min_zoom <= zoom <= l_r.max_zoom
+        ]
         alarms = []
         res = {}
         services = {}
