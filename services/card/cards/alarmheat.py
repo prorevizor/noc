@@ -127,7 +127,7 @@ class AlarmHeatCard(BaseCard):
             for d in ObjectConnection._get_collection().find(
                 {
                     "type": "pop_link",
-                    "layer": {"$in": [l.id for l in active_layers]},
+                    "layer": {"$in": [a_l.id for a_l in active_layers]},
                     "line": {"$geoIntersects": {"$geometry": bbox}},
                 },
                 {"_id": 0, "connection": 1, "line": 1},
