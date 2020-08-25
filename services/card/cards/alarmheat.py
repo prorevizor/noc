@@ -84,7 +84,7 @@ class AlarmHeatCard(BaseCard):
         if ms == 0:
             mos_id = list(set(list(res.keys())) - set(Maintenance.currently_affected()))
         for a in ActiveAlarm._get_collection().find(
-            {"managed_object": {"$in": mos_id}},
+            {"managed_object": {"$in": mos_id, "$exists": True}},
             {"_id": 1, "managed_object": 1, "direct_subscribers": 1, "direct_services": 1},
         ):
             if "managed_object" not in a:
