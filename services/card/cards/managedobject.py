@@ -54,6 +54,22 @@ class ManagedObjectCard(BaseCard):
     def get_template_name(self):
         return self.object.object_profile.card or "managedobject"
 
+    def get_threshold_config(self, threshold_profile, w_value):
+        """
+        :param threshold_profile:
+        :type threshold_profile: ThresholdProfile
+        :param w_value: Window value
+        :type w_value: int
+        :return:
+        :rtype:
+        """
+        for threshold in threshold_profile.thresholds:
+            if threshold.is_open_match(w_value):
+                return True
+            if threshold.is_clear_match(w_value):
+                return False
+        return False
+
     # get data function
     def get_data(self):
 
