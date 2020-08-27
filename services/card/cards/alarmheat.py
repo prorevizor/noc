@@ -87,8 +87,6 @@ class AlarmHeatCard(BaseCard):
             {"managed_object": {"$in": mos_id, "$exists": True}},
             {"_id": 1, "managed_object": 1, "direct_subscribers": 1, "direct_services": 1},
         ):
-            if "managed_object" not in a:
-                continue
             s_sub, s_service = {}, {}
             if a.get("direct_subscribers"):
                 s_sub = {dsub["profile"]: dsub["summary"] for dsub in a["direct_subscribers"]}
