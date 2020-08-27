@@ -179,8 +179,8 @@ def get_execution_frames(frame):
 def format_frames(frames, reverse=config.traceback.reverse):
     def format_source(lineno, lines):
         r = []
-        for l in lines:
-            r += ["%5d     %s" % (lineno, l)]
+        for line in lines:
+            r += ["%5d     %s" % (lineno, line)]
             lineno += 1
         return "\n".join(r)
 
