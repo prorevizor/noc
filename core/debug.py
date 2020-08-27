@@ -40,7 +40,6 @@ CP_SET_UID = None
 SERVICE_NAME = os.path.relpath(sys.argv[0] or sys.executable)
 
 if config.features.sentry:
-    import sentry_sdk
 
     def before_send(event, hint):
         if "exc_info" not in hint:
@@ -49,16 +48,23 @@ if config.features.sentry:
         exception = hint["exc_info"][1]
         event["fingerprint"] = ["{{ type }}", str(exception), error_fingerprint()]
         return event
+    try:
+        import sentry_sdk
 
-    sentry_sdk.init(
-        config.sentry.url,
-        shutdown_timeout=config.sentry.shutdown_timeout,
-        release=version.version,
-        max_breadcrumbs=config.sentry.max_breadcrumbs,
-        default_integrations=config.sentry.default_integrations,
-        debug=config.sentry.debug,
-        before_send=before_send,
-    )
+        sentry_sdk.init(
+            config.sentry.url,
+            shutdown_timeout=config.sentry.shutdown_timeout,
+            release=version.version,
+            max_breadcrumbs=config.sentry.max_breadcrumbs,
+            default_integrations=config.sentry.default_integrations,
+            debug=config.sentry.debug,
+            before_send=before_send,
+        )
+    except ModuleNotFoundError:
+        logger.warning(
+            "sentry-sdk module is not installed. Sending exception to Sentry will be disabled"
+        )
+        sentry_sdk = None
 
 
 def get_lines_from_file(filename, lineno, context_lines, loader=None, module_name=None):
@@ -277,7 +283,7 @@ def error_report(reverse=config.traceback.reverse, logger=logger):
     r = get_traceback(reverse=reverse, fp=fp)
     logger.error(r)
     metrics["errors"] += 1
-    if config.sentry.url:
+    if config.sentry.url and sentry_sdk:
         try:
             sentry_sdk.capture_exception()
         except Exception as e:
