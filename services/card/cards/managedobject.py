@@ -175,16 +175,16 @@ class ManagedObjectCard(BaseCard):
         else:
             redundancy = "N"
         links = []
-        for l in Link.object_links(self.object):
+        for _link in Link.object_links(self.object):
             local_interfaces = []
             remote_interfaces = []
             remote_objects = set()
-            for i in l.interfaces:
-                if i.managed_object.id == self.object.id:
-                    local_interfaces += [i]
+            for iface in _link.interfaces:
+                if iface.managed_object.id == self.object.id:
+                    local_interfaces += [iface]
                 else:
-                    remote_interfaces += [i]
-                    remote_objects.add(i.managed_object)
+                    remote_interfaces += [iface]
+                    remote_objects.add(iface.managed_object)
             if len(remote_objects) == 1:
                 ro = remote_objects.pop()
                 if ro.id in uplinks:
@@ -193,7 +193,7 @@ class ManagedObjectCard(BaseCard):
                     role = "downlink"
                 links += [
                     {
-                        "id": l.id,
+                        "id": _link.id,
                         "role": role,
                         "local_interface": sorted(
                             local_interfaces, key=lambda x: alnum_key(x.name)
