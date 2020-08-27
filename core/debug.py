@@ -48,6 +48,7 @@ if config.features.sentry:
         exception = hint["exc_info"][1]
         event["fingerprint"] = ["{{ type }}", str(exception), error_fingerprint()]
         return event
+
     try:
         import sentry_sdk
 
