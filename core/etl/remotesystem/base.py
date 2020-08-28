@@ -83,13 +83,13 @@ class BaseRemoteSystem(object):
         # Check
         summary = []
         n_errors = 0
-        for l in chain:
-            n = l.check(chain)
+        for ll in chain:
+            n = ll.check(chain)
             if n:
                 ss = "%d errors" % n
             else:
                 ss = "OK"
-            summary += ["%s.%s: %s" % (self.name, l.name, ss)]
+            summary += ["%s.%s: %s" % (self.name, ll.name, ss)]
             n_errors += n
         if summary:
             out.write("Summary:\n")
