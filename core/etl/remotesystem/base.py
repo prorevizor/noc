@@ -27,6 +27,7 @@ class BaseRemoteSystem(object):
         "administrativedomain",
         "authprofile",
         "ttsystem",
+        "project",
         "managedobject",
         "link",
         "subscriberprofile",
