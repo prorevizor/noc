@@ -70,6 +70,7 @@ class EnvItem(EmbeddedDocument):
         ("wf.State", "remote_system"),
         ("wf.Transition", "remote_system"),
         ("wf.Workflow", "remote_system"),
+        ("project.Project", "remote_system"),
     ]
 )
 class RemoteSystem(Document):

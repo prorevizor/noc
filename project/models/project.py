@@ -18,6 +18,7 @@ from noc.core.model.base import NOCModel
 from noc.core.model.decorator import on_delete_check
 from noc.core.model.fields import DocumentReferenceField
 from noc.main.models.glyph import Glyph
+from noc.main.models.remotesystem import RemoteSystem
 from noc.core.topology.types import ShapeOverlayPosition, ShapeOverlayForm
 
 id_lock = Lock()
@@ -73,6 +74,13 @@ class Project(NOCModel):
         null=True,
         blank=True,
     )
+    # Integration with external NRI systems
+    # Reference to remote system object has been imported from
+    remote_system = DocumentReferenceField(RemoteSystem, null=True, blank=True)
+    # Object id in remote system
+    remote_id = models.CharField(max_length=64, null=True, blank=True)
+    # Object id in BI
+    bi_id = models.BigIntegerField(unique=True)
 
     _id_cache = cachetools.TTLCache(100, ttl=60)
 
