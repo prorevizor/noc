@@ -19,11 +19,13 @@ from noc.core.model.decorator import on_delete_check
 from noc.core.model.fields import DocumentReferenceField
 from noc.main.models.glyph import Glyph
 from noc.main.models.remotesystem import RemoteSystem
+from noc.core.bi.decorator import bi_sync
 from noc.core.topology.types import ShapeOverlayPosition, ShapeOverlayForm
 
 id_lock = Lock()
 
 
+@bi_sync
 @on_delete_check(
     check=[
         ("crm.Subscriber", "project"),

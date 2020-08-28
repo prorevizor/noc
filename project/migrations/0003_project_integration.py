@@ -22,10 +22,6 @@ class Migration(BaseMigration):
             DocumentReferenceField("self", null=True, blank=True),
         )
         self.db.add_column(
-            "project_project",
-            "remote_id",
-            models.CharField(max_length=64, null=True, blank=True),
+            "project_project", "remote_id", models.CharField(max_length=64, null=True, blank=True),
         )
-        self.db.add_column(
-            "project_project", "bi_id", models.IntegerField(null=True, blank=True)
-        )
+        self.db.add_column("project_project", "bi_id", models.BigIntegerField(null=True, blank=True))
