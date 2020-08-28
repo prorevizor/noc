@@ -68,15 +68,15 @@ class BaseRemoteSystem(object):
         # Build chain
         chain = self.get_loader_chain()
         # Add & Modify
-        for l in chain:
-            if loaders and l.name not in loaders:
-                l.load_mappings()
+        for ll in chain:
+            if loaders and ll.name not in loaders:
+                ll.load_mappings()
                 continue
-            l.load()
-            l.save_state()
+            ll.load()
+            ll.save_state()
         # Remove in reverse order
-        for l in reversed(list(chain)):
-            l.purge()
+        for ll in reversed(list(chain)):
+            ll.purge()
 
     def check(self, out):
         chain = self.get_loader_chain()
