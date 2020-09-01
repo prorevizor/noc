@@ -11,6 +11,7 @@ ENV\
     NOC_PYTHON_INTERPRETER=/usr/bin/python3
 
 COPY . /opt/noc
+COPY scripts/build/get-noc-requirements.py /opt/noc/scripts/build/get-noc-requirements.py 
 
 RUN apk add --update --no-cache \
     ca-certificates \
@@ -40,13 +41,17 @@ RUN apk add --no-cache --virtual .build-deps \
     cmake \
     proj-util \
     proj-dev \
-    && pip3 install --src=/tmp/src --no-cache --trusted-host cdn.getnoc.com --find-links https://cdn.getnoc.com/npkg/ --upgrade -r /opt/noc/requirements.txt \
-    && python3 ./scripts/deploy/install-packages requirements/web.json \
-    && python3 ./scripts/deploy/install-packages requirements/card.json \
-    && python3 ./scripts/deploy/install-packages requirements/bi.json \
-    && find /opt/noc/ -type f -name "*.py" -print0 | xargs -0 python3 -m py_compile \
-    && /usr/bin/cythonize -i speedup/*.pyx \
-    && apk del -r .build-deps \
+    && chmod a+x /usr/bin/get-noc-requirements \
+    && /usr/bin/python3 -m ensurepip --upgrade \
+    && /usr/bin/pip3 install --upgrade pip wheel \
+    && (/usr/bin/get-noc-requirements activator dev test cython | /usr/bin/pip3 install -r /dev/stdin )\
+    && /usr/bin/cythonize -i /opt/noc/speedup/*.pyx \
+    && mkdir /opt/nocspeedup \
+    && cp /opt/noc/speedup/*.so /opt/nocspeedup \
+    && /usr/bin/pip3 uninstall -y Cython \
+    && rm /requirements.txt \
+    && apk del .build-dependencies \
+    && rm -rf /var/cache/apk/* /root/.cache/
     && adduser -h /opt/noc -s /bin/sh -S -D -H -u 1200 noc \
     && chown noc /opt/noc
 
