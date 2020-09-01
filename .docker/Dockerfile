@@ -11,7 +11,6 @@ ENV\
     NOC_PYTHON_INTERPRETER=/usr/bin/python3
 
 COPY . /opt/noc
-COPY scripts/build/get-noc-requirements.py /opt/noc/scripts/build/get-noc-requirements.py 
 
 RUN apk add --update --no-cache \
     ca-certificates \
@@ -44,7 +43,7 @@ RUN apk add --no-cache --virtual .build-deps \
     && chmod a+x /usr/bin/get-noc-requirements \
     && /usr/bin/python3 -m ensurepip --upgrade \
     && /usr/bin/pip3 install --upgrade pip wheel \
-    && (/usr/bin/get-noc-requirements activator dev test cython | /usr/bin/pip3 install -r /dev/stdin )\
+    && (./scripts/build/get-noc-requirements.py  | /usr/bin/pip3 install -r /dev/stdin )\
     && /usr/bin/cythonize -i /opt/noc/speedup/*.pyx \
     && mkdir /opt/nocspeedup \
     && cp /opt/noc/speedup/*.so /opt/nocspeedup \
