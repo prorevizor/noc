@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
 # Extract/Transfer/Load commands
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -107,25 +107,25 @@ class Command(BaseCommand):
             except TypeError as e:
                 self.die("Failed to parse JSON: %s in %s" % (e, options["control_dict"]))
         chain = remote_system.get_loader_chain()
-        for l in chain:
-            if diffs and l.name not in diffs:
+        for ldr in chain:
+            if diffs and ldr.name not in diffs:
                 continue
             if summary:
-                i, u, d = l.check_diff_summary()
-                control_num = control_dict.get(l.name, options["control_default"])
-                self.stdout.write(self.SUMMARY_MASK % (l.name, i, u, d))
+                i, u, d = ldr.check_diff_summary()
+                control_num = control_dict.get(ldr.name, options["control_default"])
+                self.stdout.write(self.SUMMARY_MASK % (ldr.name, i, u, d))
                 if control_num:
                     if sum([i, u, d]) >= control_num:
                         self.stdout.write(
-                            self.CONTROL_MESSAGE % (l.name, sum([i, u, d]), control_num)
+                            self.CONTROL_MESSAGE % (ldr.name, sum([i, u, d]), control_num)
                         )
                         self.stderr.write(
-                            self.CONTROL_MESSAGE % (l.name, sum([i, u, d]), control_num)
+                            self.CONTROL_MESSAGE % (ldr.name, sum([i, u, d]), control_num)
                         )
                         n_errors = 1
                         break
             else:
-                l.check_diff()
+                ldr.check_diff()
         else:
             n_errors = 0
         return 1 if n_errors else 0

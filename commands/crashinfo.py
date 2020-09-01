@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
 # ./noc crashinfo
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -82,9 +82,16 @@ class Command(BaseCommand):
                 ]
         fs = "%s %36s  %19s  %-29s %-s\n"
         self.stdout.write(fs % ("N", "UUID", "Time", "Service", "Exception"))
-        for l in sorted(fl, key=operator.itemgetter("time"), reverse=True):
+        for line in sorted(fl, key=operator.itemgetter("time"), reverse=True):
             self.stdout.write(
-                fs % (l["status"], l["uuid"], l["time"].isoformat(), l["service"], l["exception"])
+                fs
+                % (
+                    line["status"],
+                    line["uuid"],
+                    line["time"].isoformat(),
+                    line["service"],
+                    line["exception"],
+                )
             )
 
     def handle_view(self, view_uuids, *args, **options):
