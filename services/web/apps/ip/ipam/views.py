@@ -248,8 +248,8 @@ class IPAMApplication(ExtApplication):
                 for e in entering:
                     slots[r_slots[e]] = e
                 r[2] = slots[:]
-                for l in leaving:
-                    slots[r_slots[l]] = None
+                for lv in leaving:
+                    slots[r_slots[lv]] = None
             # Assign slots to addresses
             c = [None] * max_slots
             rrs = rs[:]
