@@ -51,7 +51,7 @@ RUN apk add --no-cache --virtual .build-deps \
     && /usr/bin/pip3 uninstall -y Cython \
     && rm /requirements.txt \
     && apk del .build-dependencies \
-    && rm -rf /var/cache/apk/* /root/.cache/
+    && rm -rf /var/cache/apk/* /root/.cache/ \
     && adduser -h /opt/noc -s /bin/sh -S -D -H -u 1200 noc \
     && chown noc /opt/noc
 
