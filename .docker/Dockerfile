@@ -40,7 +40,6 @@ RUN apk add --no-cache --virtual .build-deps \
     cmake \
     proj-util \
     proj-dev \
-    && chmod a+x /usr/bin/get-noc-requirements \
     && /usr/bin/python3 -m ensurepip --upgrade \
     && /usr/bin/pip3 install --upgrade pip wheel \
     && (./scripts/build/get-noc-requirements.py  | /usr/bin/pip3 install -r /dev/stdin )\
