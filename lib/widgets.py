@@ -9,7 +9,7 @@
 from django.forms.widgets import Input
 from django.http import HttpResponse
 from django.utils.safestring import mark_safe
-import ujson
+import orjson
 
 
 class AutoCompleteTags(Input):
@@ -26,7 +26,7 @@ class AutoCompleteTags(Input):
                 v = v.strip()
                 if v:
                     initial += [{"id": v, "name": v}]
-        initial = ujson.dumps(initial)
+        initial = orjson.dumps(initial)
         html = super().render(name, value, attrs)
         js = """<script type="text/javascript">
         $(document).ready(function() {

@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------
 
 # Third-party modules
-import ujson
+import orjson
 
 # NOC modules
 from noc.core.script.base import BaseScript
@@ -24,4 +24,4 @@ class Script(BaseScript):
         result = {}
         for section in self.SECTIONS:
             result[section] = self.http.post("/upload/", data=section, json=True, use_basic=True)
-        return ujson.dumps(result, indent=2)
+        return orjson.dumps(result, indent=2)

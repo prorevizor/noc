@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------
 
 # Third-party modules
-import ujson
+import orjson
 
 # NOC modules
 from .base import BaseCard
@@ -39,4 +39,4 @@ class PathCard(BaseCard):
                 path += [{"x": mo.x, "y": mo.y, "objects": [{"id": mo.id, "name": mo.name}]}]
             else:
                 path[-1]["objects"] += [{"id": mo.id, "name": mo.name}]
-        return {"mo1": mo1, "mo2": mo2, "path": ujson.dumps(path)}
+        return {"mo1": mo1, "mo2": mo2, "path": orjson.dumps(path)}

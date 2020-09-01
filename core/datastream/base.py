@@ -13,7 +13,7 @@ import logging
 from collections import defaultdict
 
 # Third-party modules
-import ujson
+import orjson
 import bson
 import bson.errors
 import pymongo
@@ -118,7 +118,7 @@ class DataStream(object):
 
     @staticmethod
     def get_hash(data) -> str:
-        return hashlib.sha256(smart_bytes(ujson.dumps(data))).hexdigest()[: DataStream.HASH_LEN]
+        return hashlib.sha256(smart_bytes(orjson.dumps(data))).hexdigest()[: DataStream.HASH_LEN]
 
     @classmethod
     def bulk_update(cls, objects: List[Union[id, str, bson.ObjectId]]) -> None:
@@ -197,7 +197,7 @@ class DataStream(object):
         metrics["ds_%s_changed" % m_name] += 1
         change_id = bson.ObjectId()
         data["change_id"] = str(change_id)
-        op = {"$set": {cls.F_CHANGEID: change_id, cls.F_HASH: hash, cls.F_DATA: ujson.dumps(data)}}
+        op = {"$set": {cls.F_CHANGEID: change_id, cls.F_HASH: hash, cls.F_DATA: orjson.dumps(data)}}
         if meta:
             op["$set"][cls.F_META] = meta
         elif "$deleted" not in data:

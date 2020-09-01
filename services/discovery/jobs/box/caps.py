@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------
 
 # Third-party modules
-import ujson
+import orjson
 
 # NOC modules
 from noc.services.discovery.jobs.base import PolicyDiscoveryCheck
@@ -37,7 +37,7 @@ class CapsCheck(PolicyDiscoveryCheck):
         if result is None:
             self.logger.error("Failed to get capabilities")
             return
-        self.logger.debug("Received capabilities: \n%s", ujson.dumps(result, indent=4))
+        self.logger.debug("Received capabilities: \n%s", orjson.dumps(result, indent=4))
         self.update_caps(result, source="caps")
 
     def get_policy(self):

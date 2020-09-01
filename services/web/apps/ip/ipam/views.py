@@ -9,7 +9,7 @@
 from operator import itemgetter
 
 # Third-party modules modules
-import ujson
+import orjson
 from django import forms
 from django.db.models import Q
 from noc.core.translation import ugettext as _
@@ -279,7 +279,7 @@ class IPAMApplication(ExtApplication):
                     if rrs:
                         cr = rrs.pop(0)
                 spot += [(None if a is None else a.address, c, a in special_addr)]
-            spot = ujson.dumps(spot)
+            spot = orjson.dumps(spot)
         else:
             spot = None
         can_ping = spot is not None and len([a for a in addresses if a.managed_object]) > 0

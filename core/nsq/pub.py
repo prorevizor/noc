@@ -12,7 +12,7 @@ import random
 import asyncio
 
 # Third-party modules
-import ujson
+import orjson
 from typing import List, Any
 
 # NOC modules
@@ -36,7 +36,7 @@ def nsq_pub(topic, message):
     :return:
     """
     if not isinstance(message, str):
-        message = ujson.dumps(message)
+        message = orjson.dumps(message)
     # Resolve NSQd or wait
     si = config.nsqd.http_addresses[0]
     # Post message
@@ -59,7 +59,7 @@ def mpub_encode(messages: List[Any]) -> bytes:
         yield struct.pack("!i", len(messages))
         for msg in messages:
             if not isinstance(msg, str):
-                msg = ujson.dumps(msg)
+                msg = orjson.dumps(msg)
             if isinstance(msg, str):
                 msg = smart_bytes(msg)
             yield struct.pack("!i", len(msg))

@@ -10,7 +10,7 @@ import argparse
 
 # Third-party modules
 import yaml
-import ujson
+import orjson
 
 # NOC modules
 from noc.core.mongo.connection import connect
@@ -101,7 +101,7 @@ class Command(BaseCommand):
         control_dict = {}
         if options["control_dict"]:
             try:
-                control_dict = ujson.loads(options["control_dict"])
+                control_dict = orjson.loads(options["control_dict"])
             except ValueError as e:
                 self.die("Failed to parse JSON: %s in %s" % (e, options["control_dict"]))
             except TypeError as e:

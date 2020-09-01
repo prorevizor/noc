@@ -14,7 +14,7 @@ import stat
 import re
 
 # Third-party modules
-import ujson
+import orjson
 
 # NOC modules
 from noc.core.management.base import BaseCommand
@@ -57,7 +57,7 @@ class Command(BaseCommand):
                 ts = os.stat(path)[stat.ST_MTIME]
                 t = datetime.datetime.fromtimestamp(ts)
                 with open(path) as f:
-                    data = ujson.load(f)
+                    data = orjson.load(f)
                 service = data["process"]
                 if service.startswith("services/") and service.endswith("/service.py"):
                     service = service[9:-11]
@@ -97,7 +97,7 @@ class Command(BaseCommand):
                 else:
                     continue
             with open(path) as f:
-                data = ujson.load(f)
+                data = orjson.load(f)
             self.stdout.write(data["traceback"])
             self.stdout.write("\n\n")
 

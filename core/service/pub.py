@@ -10,7 +10,7 @@
 import logging
 
 # Third-party modules
-import ujson
+import orjson
 
 # NOC modules
 from noc.core.http.client import fetch_sync
@@ -29,7 +29,7 @@ def pub(topic, data, raw=False):
     code, headers, body = fetch_sync(
         "%s?topic=%s" % (url, topic),
         method="POST",
-        body=data if raw else ujson.dumps(data),
+        body=data if raw else orjson.dumps(data),
         connect_timeout=config.nsqd.connect_timeout,
         request_timeout=config.nsqd.request_timeout,
     )

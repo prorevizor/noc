@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------
 
 # Third-party modules
-import ujson
+import orjson
 
 # NOC modules
 from .base import BaseMarshaller
@@ -24,4 +24,4 @@ class JSONMarshaller(BaseMarshaller):
                 r["children"] = children
             return r
 
-        return ujson.dumps([get_node(x) for x in node.iter_nodes()])
+        return orjson.dumps([get_node(x) for x in node.iter_nodes()])

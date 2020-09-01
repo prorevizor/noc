@@ -11,7 +11,7 @@ import codecs
 
 #  Third-party modules
 from typing import Dict, Any, List, Tuple, Set, Optional
-import ujson
+import orjson
 
 # NOC modules
 from noc.config import config
@@ -114,7 +114,7 @@ class InterfacePathCard(BaseCard):
     @classmethod
     def encode_query(cls, to_collect: Set[Tuple[int, int, str]]) -> str:
         data = smart_text(
-            codecs.encode(smart_bytes(ujson.dumps(to_collect)), "base64").replace(b"\n", b"")
+            codecs.encode(smart_bytes(orjson.dumps(to_collect)), "base64").replace(b"\n", b"")
         )
         return cls.get_signature(data) + data
 
@@ -123,7 +123,7 @@ class InterfacePathCard(BaseCard):
         sig, data = query[: cls.SIG_LEN], query[cls.SIG_LEN :]
         if sig != cls.get_signature(data):
             raise ValueError
-        return ujson.loads(codecs.decode(data.encode(), "base64"))
+        return orjson.loads(codecs.decode(data.encode(), "base64"))
 
     @staticmethod
     def split_interfaces(

@@ -13,7 +13,7 @@ import asyncio
 from typing import Optional, Tuple
 
 # Third-party modules
-import ujson
+import orjson
 from typing import Union, Iterable, List, Dict, Any
 
 # NOC modules
@@ -56,7 +56,7 @@ class TopicQueue(object):
                 raise ValueError("Message too big")
             yield message
         else:
-            data = ujson.dumps(message)
+            data = orjson.dumps(message)
             if len(data) <= limit:
                 yield data
             elif isinstance(message, (list, tuple)):
@@ -65,7 +65,7 @@ class TopicQueue(object):
                 chunk_size = len(message) // n_chunks
                 while message:
                     chunk, message = message[:chunk_size], message[chunk_size:]
-                    chunk_data = ujson.dumps(chunk)
+                    chunk_data = orjson.dumps(chunk)
                     if len(chunk_data) > limit:
                         raise ValueError("Message too big")
                     yield chunk_data
@@ -82,7 +82,7 @@ class TopicQueue(object):
         :return:
         """
         if not isinstance(message, str):
-            message = ujson.dumps(message)
+            message = orjson.dumps(message)
         with self.lock:
             if self.to_shutdown:
                 raise RuntimeError("put() after shutdown")
