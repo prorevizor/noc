@@ -1,6 +1,6 @@
 ---
 variables:
-  CI_COMMIT_TAG: 20.3
+  COMMIT_TAG: 20.3
   
 stages:
   - Lint
