@@ -47,7 +47,6 @@ RUN apk add --no-cache --virtual .build-deps \
     && mkdir /opt/nocspeedup \
     && cp /opt/noc/speedup/*.so /opt/nocspeedup \
     && /usr/bin/pip3 uninstall -y Cython \
-    && rm /requirements.txt \
     && apk del .build-dependencies \
     && rm -rf /var/cache/apk/* /root/.cache/ \
     && adduser -h /opt/noc -s /bin/sh -S -D -H -u 1200 noc \
