@@ -43,6 +43,9 @@ RUN apk add --no-cache --virtual .build-deps \
     && /usr/bin/python3 -m ensurepip --upgrade \
     && /usr/bin/pip3 install --upgrade pip wheel \
     && (./scripts/build/get-noc-requirements.py  | /usr/bin/pip3 install -r /dev/stdin )\
+    && python3 ./scripts/deploy/install-packages requirements/web.json \
+    && python3 ./scripts/deploy/install-packages requirements/card.json \
+    && python3 ./scripts/deploy/install-packages requirements/bi.json \
     && /usr/bin/cythonize -i /opt/noc/speedup/*.pyx \
     && mkdir /opt/nocspeedup \
     && cp /opt/noc/speedup/*.so /opt/nocspeedup \
