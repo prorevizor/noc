@@ -46,6 +46,7 @@ RUN apk add --no-cache --virtual .build-deps \
     && python3 ./scripts/deploy/install-packages requirements/web.json \
     && python3 ./scripts/deploy/install-packages requirements/card.json \
     && python3 ./scripts/deploy/install-packages requirements/bi.json \
+    && find /opt/noc/ -type f -name "*.py" -print0 | xargs -0 python3 -m py_compile \
     && /usr/bin/cythonize -i /opt/noc/speedup/*.pyx \
     && mkdir /opt/nocspeedup \
     && cp /opt/noc/speedup/*.so /opt/nocspeedup \
