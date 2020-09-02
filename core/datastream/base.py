@@ -189,7 +189,7 @@ class DataStream(object):
         if not is_changed(doc, hash):
             logger.info("[%s] Object hasn't been changed", l_name)
             return False  # Not changed
-        if not format and cls.on_change(data):
+        if not fmt and cls.on_change(data):
             hash = cls.get_hash(data)
             if not is_changed(doc, hash):
                 logger.info("[%s] Object hasn't been changed", l_name)
