@@ -455,6 +455,7 @@ class DataStream(object):
             raise ValueError("Invalid instance")
         return {"_id": {"$mod": [n_instances, instance]}}
 
+    @classmethod
     def get_format_role(cls, fmt: str) -> Optional[str]:
         """
         Returns format role, if any
