@@ -25,6 +25,10 @@ class Script(BaseScript):
         "GTGOG": "gpon-onu_",
         "VDWVD": "vdsl_",
         "SCXN": "gei_",
+        "SCTM": "gei_",
+        "SCXM": "gei_",
+        "SCXL": "gei_",
+        "SMXA": "gei_",
         "PRWGS": "",
     }
     rx_iface = re.compile(
