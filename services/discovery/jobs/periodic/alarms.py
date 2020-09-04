@@ -44,7 +44,6 @@ class AlarmsCheck(DiscoveryCheck):
                 managed_object__in=mos_id,
                 source="other",
                 raw_vars__id__exists=True,
-                raw_vars__status="Open",
             )
         }
         # Search objcet alarms in system events, if objcet alarms not in system events, create!
@@ -74,13 +73,11 @@ class AlarmsCheck(DiscoveryCheck):
                     raw_vars["slot"] = raw_vars["path"][1]
                 if len(raw_vars["path"]) > 2 and raw_vars["path"][2]:
                     raw_vars["interface"] = raw_vars["path"][2]
-                raw_vars["status"] = "Open"
                 self.raise_event(managed_object.id, managed_object.pool.name, raw_vars)
         if len(close_objects_event) != 0:
             for close_event in close_objects_event:
                 event = system_alarms[close_event]
                 raw_vars = event.raw_vars
-                raw_vars["status"] = "Close"
                 self.raise_event(event.managed_object.id, event.managed_object.pool.name, raw_vars)
                 event.mark_as_archived("Close event")
                 self.logger.info("Close event %s" % event)
