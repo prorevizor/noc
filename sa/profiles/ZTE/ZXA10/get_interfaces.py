@@ -163,7 +163,7 @@ class Script(BaseScript):
                         "admin_status": admin_status,
                         "oper_status": oper_status,
                         "enabled_afi": ["IPv4"],
-                        "ip_addresses": [match.group("ip")],
+                        "ipv4_addresses": [match.group("ip")],
                         "mtu": match.group("mtu"),
                     }
                 ],
