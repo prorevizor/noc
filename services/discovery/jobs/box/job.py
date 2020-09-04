@@ -1,5 +1,4 @@
 #!./bin/python
-# -*- coding: utf-8 -*-
 # ---------------------------------------------------------------------
 # Box Discovery Job
 # ---------------------------------------------------------------------
@@ -163,10 +162,7 @@ class BoxDiscoveryJob(MODiscoveryJob):
         return self.object.get_effective_box_discovery_running_policy()
 
     def can_run(self):
-        return (
-            super(BoxDiscoveryJob, self).can_run()
-            and self.object.object_profile.enable_box_discovery
-        )
+        return super().can_run() and self.object.object_profile.enable_box_discovery
 
     def get_interval(self):
         if self.object:

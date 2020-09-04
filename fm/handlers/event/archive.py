@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # ----------------------------------------------------------------------
 #  Mark Archive Event when close
 #  Rules handlers

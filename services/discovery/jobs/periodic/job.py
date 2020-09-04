@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # ---------------------------------------------------------------------
 # Periodic Discovery Job
 # ---------------------------------------------------------------------
@@ -7,7 +6,6 @@
 # ---------------------------------------------------------------------
 
 # Python modules
-from __future__ import absolute_import
 import random
 
 # NOC modules
@@ -65,7 +63,7 @@ class PeriodicDiscoveryJob(MODiscoveryJob):
 
     def can_run(self):
         return (
-            super(PeriodicDiscoveryJob, self).can_run()
+            super().can_run()
             and self.object.object_profile.enable_periodic_discovery
             and self.object.object_profile.periodic_discovery_interval
         )
