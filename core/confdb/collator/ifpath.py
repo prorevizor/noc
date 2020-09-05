@@ -64,9 +64,7 @@ class IfPathCollator(BaseCollator):
         return self.PROTOCOL_MAPPING.get(if_name[:2])
 
     @staticmethod
-    def name_path(
-        if_name: str,
-    ) -> Tuple[Union[str, None], List[str], Union[str, None]]:
+    def name_path(if_name: str,) -> Tuple[Union[str, None], List[str], Union[str, None]]:
         match = rx_ifname_splitter.match(if_name)
         if not match:
             return None, [], None
@@ -138,7 +136,9 @@ class IfPathCollator(BaseCollator):
         paths_candidate.append(tuple(candidates[0][0]))
 
         logger.debug(
-            "Path candidates: %s, protocols: %s", paths_candidate, physical_path[-1].connection.protocols
+            "Path candidates: %s, protocols: %s",
+            paths_candidate,
+            physical_path[-1].connection.protocols,
         )
         if_proto = set(physical_path[-1].connection.protocols)
         for p, if_name, protocols in self.paths[if_num]:
