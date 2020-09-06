@@ -136,15 +136,19 @@ class IfPathCollator(BaseCollator):
             return None
 
         if physical_path[:-1]:
+            # slot devices
             candidates = [x for x in self.paths[if_num]]
-            for step, num in enumerate(self.iter_path_component(physical_path[:-1]), start=1):
+            for step, num in enumerate(self.iter_path_component(physical_path)):
+                if not step:
+                    continue
                 candidates = list(
                     filter(
                         lambda x: (len(x[0]) < step) or (len(x[0]) >= step and x[0][-step] == num),
                         candidates,
                     )
                 )
-            paths_candidate.append(tuple(candidates[0][0]))
+            if candidates:
+                paths_candidate.append(tuple(candidates[0][0]))
 
         if if_path and physical_path[0].object.get_data("stack", "member"):
             # @todo perhaps move to other collator
