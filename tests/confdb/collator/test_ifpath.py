@@ -42,7 +42,10 @@ PATHS1 = [
     [
         [
             {"object": ("MockObject1", {}), "connection": ("1", "")},
-            {"object": ("Connection1", {}), "connection": ("XGigabitEthernetX/0/1", ["TransEth10G"])},
+            {
+                "object": ("Connection1", {}),
+                "connection": ("XGigabitEthernetX/0/1", ["TransEth10G"]),
+            },
         ],
         "XGigabitEthernet1/0/1",
     ],
