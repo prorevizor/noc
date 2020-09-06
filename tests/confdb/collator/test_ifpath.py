@@ -26,6 +26,7 @@ INTERFACES1 = [
     ("GigabitEthernet0/0/10", "physical"),
     ("XGigabitEthernet0/1/1", "physical"),
     ("XGigabitEthernet0/1/2", "physical"),
+    ("XGigabitEthernet1/0/1", "physical"),
     ("Ethernet0/0/1", "physical"),
     ("M-Ethernet0/0/1", "physical"),
 ]
@@ -37,6 +38,13 @@ PATHS1 = [
             {"object": ("Connection1", {}), "connection": ("xfp 1", ["TransEth10G"])},
         ],
         "XGigabitEthernet0/1/1",
+    ],
+    [
+        [
+            {"object": ("MockObject1", {}), "connection": ("1", "")},
+            {"object": ("Connection1", {}), "connection": ("XGigabitEthernetX/0/1", ["TransEth10G"])},
+        ],
+        "XGigabitEthernet1/0/1",
     ],
     [
         [
