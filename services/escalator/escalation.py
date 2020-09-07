@@ -41,7 +41,15 @@ retry_lock = threading.Lock()
 next_retry = datetime.datetime.now()
 
 
-def escalate(alarm_id, escalation_id, escalation_delay, login="correlator", timestamp_policy="a", *args, **kwargs):
+def escalate(
+    alarm_id,
+    escalation_id,
+    escalation_delay,
+    login="correlator",
+    timestamp_policy="a",
+    *args,
+    **kwargs,
+):
     def log(message, *args):
         msg = message % args
         logger.info("[%s] %s", alarm_id, msg)
