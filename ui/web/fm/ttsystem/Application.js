@@ -90,6 +90,17 @@ Ext.define("NOC.fm.ttsystem.Application", {
                     uiStyle: "small"
                 },
                 {
+                    text: __("Escalate Alarm Consequence Policy"),
+                    dataIndex: "alarm_consequence_policy",
+                    renderer: function (value) {
+                        return {
+                            "D": "Disable",
+                            "a": "Escalate with alarm timestamp",
+                            "c": "Escalate with current timestamp"
+                        }[value];
+                    }
+                },
+                {
                     name: "telemetry_sample",
                     xtype: "numberfield",
                     fieldLabel: __("Tememetry Sample"),

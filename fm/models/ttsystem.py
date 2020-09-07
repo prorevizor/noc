@@ -56,6 +56,16 @@ class TTSystem(Document):
     max_threads = IntField(default=10)
     # Telemetry settings
     telemetry_sample = IntField(default=0)
+    # Escalation Policy settings
+    alarm_consequence_policy = StringField(
+        required=True,
+        choices=[
+            ("D", "Disable"),
+            ("a", "Escalate with alarm timestamp"),
+            ("c", "Escalate with current timestamp"),
+        ],
+        default="a",
+    )
     #
     tags = ListField(StringField())
     # Integration with external NRI and TT systems
