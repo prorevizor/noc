@@ -31,7 +31,6 @@ from .api_pb2 import (
     SubscribeRequest,
     AckPolicy as _AckPolicy,
     StartPosition as _StartPosition,
-    NullableBool,
 )
 from .error import rpc_error, ErrorNotFound, ErrorChannelClosed
 from .message import Message
