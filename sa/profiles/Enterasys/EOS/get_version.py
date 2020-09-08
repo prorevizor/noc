@@ -33,10 +33,10 @@ class Script(BaseScript):
         for oid, name in self.snmp.getnext(mib["ENTITY-MIB::entPhysicalSerialNum"],):
             if name:
                 r["attributes"]["Serial Number"] = name
+                break
         for oid, name in self.snmp.getnext(mib["ENTITY-MIB::entPhysicalHardwareRev"],):
             if name:
                 r["attributes"]["HW version"] = name
-                break
                 break
         for oid, name in self.snmp.getnext(mib["ENTITY-MIB::entPhysicalFirmwareRev"],):
             if name:
