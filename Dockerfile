@@ -10,7 +10,7 @@ ENV\
 COPY . /opt/noc/
 WORKDIR /opt/noc/
 
-ARG BUILD_PACKAGES="build-essential cmake gcc libffi-dev libmemcached-dev libpq-dev libssl-dev zlib1g-dev"
+ARG BUILD_PACKAGES="build-essential cmake gcc libffi-dev libmemcached-dev  libssl-dev zlib1g-dev"
 
 RUN \
     apt update && apt-get install -y --no-install-recommends \
@@ -18,6 +18,7 @@ RUN \
     libffi6 \
     libjemalloc2 \
     libmemcached11 \
+    libpq-dev \
     $BUILD_PACKAGES \
     && (./scripts/build/get-noc-requirements.py activator classifier cache-memcached cache-redis login-ldap login-pam login-radius prod-tools cython testing | pip3 install -r /dev/stdin )\
     && python3 ./scripts/deploy/install-packages requirements/web.json \
