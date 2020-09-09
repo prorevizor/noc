@@ -30,7 +30,7 @@ RUN \
     && cythonize -i /opt/noc/speedup/*.pyx \
     && mkdir /opt/nocspeedup \
     && cp /opt/noc/speedup/*.so /opt/nocspeedup \
-    && pip3 uninstall -y Cython
+    && pip3 uninstall -y Cython \
     && apt remove gcc cmake build-essential -y \
     && rm -rf /var/lib/apt/lists/*
 
