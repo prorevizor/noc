@@ -27,12 +27,20 @@ RUN \
     libssl-dev \
     zlib1g-dev \
     && (./scripts/build/get-noc-requirements.py activator classifier cache-memcached cache-redis login-ldap login-pam login-radius prod-tools cython testing | pip3 install -r /dev/stdin )\
+    && python3 ./scripts/deploy/install-packages requirements/web.json \
+    && python3 ./scripts/deploy/install-packages requirements/card.json \
+    && python3 ./scripts/deploy/install-packages requirements/bi.json \
     && cythonize -i /opt/noc/speedup/*.pyx \
     && mkdir /opt/nocspeedup \
     && cp /opt/noc/speedup/*.so /opt/nocspeedup \
+    && find /opt/noc/ -type f -name "*.py" -print0 | xargs -0 python3 -m py_compile \
     && pip3 uninstall -y Cython \
-    && apt remove gcc cmake build-essential -y \
-    && rm -rf /var/lib/apt/lists/*
+    && apt remove build-essential -y --purge \
+    && apt autoremove -y \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd -d /opt/noc -M -r -u 1200 -U noc -s /bin/sh \
+    && chown noc /opt/noc
+
 
 VOLUME /opt/noc
 VOLUME /usr/local/lib/python3.8/site-packages/django
