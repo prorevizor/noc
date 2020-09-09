@@ -101,11 +101,11 @@ class Script(GetMetricsScript):
                     value = 1
             self.set_metric(id=("Environment | Power | Input | Status", metric.path), value=value)
 
-    @metrics(["Environment | Battery | Capacity"], volatile=False, access="S")  # SNMP version
+    @metrics(["Environment | Battery | Capacity | Level"], volatile=False, access="S")  # SNMP version
     def get_battery_capacity(self, metrics):
         for metric in metrics:
             if self.is_lite:
                 value = self.snmp.get("1.3.6.1.4.1.27514.103.0.25.0")
                 self.set_metric(
-                    id=("Environment | Battery | Capacity", metric.path), value=value,
+                    id=("Environment | Battery | Capacity | Level", metric.path), value=value,
                 )
