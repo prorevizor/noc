@@ -228,8 +228,7 @@ class LiftBridgeClient(object):
             req.correlationIid = correlation_id
         # Publish
         with rpc_error():
-            resp = await self.stub.Publish(req)
-            print(resp)
+            await self.stub.Publish(req)
 
     async def subscribe(
         self,

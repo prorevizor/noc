@@ -7,6 +7,7 @@
 
 # Python modules
 from typing import Optional
+from time import perf_counter
 
 # NOC modules
 from noc.core.management.base import BaseCommand
@@ -40,6 +41,15 @@ class Command(BaseCommand):
         subscribe_parser = subparsers.add_parser("subscribe")
         subscribe_parser.add_argument("--name")
         subscribe_parser.add_argument("--partition", type=int, default=0)
+        # benchmark-publisher
+        benchmark_publisher_parser = subparsers.add_parser("benchmark-publisher")
+        benchmark_publisher_parser.add_argument("--name")
+        benchmark_publisher_parser.add_argument("--num-messages", type=int, default=1000)
+        benchmark_publisher_parser.add_argument("--payload-size", type=int, default=64)
+        # benchmark-subscriber
+        benchmark_subscriber_parser = subparsers.add_parser("benchmark-subscriber")
+        benchmark_subscriber_parser.add_argument("--name")
+        benchmark_subscriber_parser.add_argument("--commit-offset", action="store_true")
 
     def handle(self, cmd, *args, **options):
         return getattr(self, "handle_%s" % cmd.replace("-", "_"))(*args, **options)
@@ -105,6 +115,48 @@ class Command(BaseCommand):
                     print(msg.value)
 
         run_sync(subscribe)
+
+    def handle_benchmark_publisher(
+        self, name: str, num_messages: int, payload_size: int = 64, *args, **kwargs
+    ):
+        async def publisher():
+            async with LiftBridgeClient() as client:
+                payload = b" " * payload_size
+                t0 = perf_counter()
+                for _ in self.progress(range(num_messages), num_messages):
+                    await client.publish(payload, stream=name)
+                dt = perf_counter() - t0
+            self.print("%d messages sent in %.2fms" % (num_messages, dt * 1000))
+            self.print(
+                "%d msg/sec, %d bytes/sec" % (num_messages / dt, num_messages * payload_size / dt)
+            )
+
+        run_sync(publisher)
+
+    def handle_benchmark_subscriber(self, name: str, commit_offset: bool = False, *args, **kwargs):
+        async def subscriber():
+            async with LiftBridgeClient() as client:
+                report_interval = 1.0
+                t0 = perf_counter()
+                total_msg = last_msg = 0
+                total_size = last_size = 0
+                async for msg in client.subscribe(name):
+                    total_msg += 1
+                    total_size += len(msg.value)
+                    t = perf_counter()
+                    dt = t - t0
+                    if dt >= report_interval:
+                        self.print(
+                            "%d msg/sec, %d bytes/sec"
+                            % ((total_msg - last_msg) / dt, (total_size - last_size) / dt)
+                        )
+                        t0 = t
+                        last_msg = total_msg
+                        last_size = total_size
+                    if commit_offset:
+                        await client.commit_offset(name, partition=0, offset=msg.offset)
+
+        run_sync(subscriber)
 
 
 if __name__ == "__main__":
