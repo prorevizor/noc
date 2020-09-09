@@ -94,9 +94,13 @@ def scale(n, float_round=None):
     """
 
     def inner(v):
-        if float_round:
-            return round(v * n, float_round)
         return v * n
+
+    def inner_round(v):
+        return round(v * n, float_round)
+
+    if float_round is not None:
+        return inner_round
 
     return inner
 
