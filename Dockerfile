@@ -9,7 +9,7 @@ ENV\
 # ADD thin.tgz /
 
 RUN \
-    apt update && apt-get install -y \
+    apt update && apt-get install -y --no-install-recommends \
     build-essential \
     bzip2 \
     cmake \
@@ -46,7 +46,7 @@ HEALTHCHECK --interval=10s --timeout=1s \
 FROM code AS dev
 
 RUN \
-    apt update && apt-get install -y \
+    apt update && apt-get install -y --no-install-recommends \
     snmp \
     vim \
     && (./scripts/build/get-noc-requirements.py dev | pip3 install -r /dev/stdin )\
