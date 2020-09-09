@@ -56,6 +56,7 @@ services:
     build:
       context: ../
       dockerfile: Dockerfile
+      target: code
     restart: "no"
     working_dir: /opt/noc
     depends_on:
