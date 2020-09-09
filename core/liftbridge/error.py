@@ -16,6 +16,7 @@ from noc.core.error import (
     ERR_LIFTBRIDGE_NOT_FOUND,
     ERR_LIFTBRIDGE_ALREADY_EXISTS,
     ERR_LIFTBRIDGE_CHANNEL_CLOSED,
+    ERR_LIFTBRIDGE_UNAVAILABLE,
 )
 
 
@@ -35,9 +36,14 @@ class ErrorChannelClosed(LiftbridgeError):
     default_code = ERR_LIFTBRIDGE_CHANNEL_CLOSED
 
 
+class ErrorUnavailable(LiftbridgeError):
+    default_code = ERR_LIFTBRIDGE_UNAVAILABLE
+
+
 RPC_CODE_TO_ERR = {
     StatusCode.ALREADY_EXISTS: ErrorAlreadyExists,
     StatusCode.NOT_FOUND: ErrorNotFound,
+    StatusCode.UNAVAILABLE: ErrorUnavailable,
 }
 
 

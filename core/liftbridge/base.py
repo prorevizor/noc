@@ -17,6 +17,7 @@ import struct
 
 # Third-party modules
 from grpc.aio import insecure_channel
+from grpc import StatusCode
 from grpc._cython.cygrpc import EOF
 
 # NOC modules
@@ -32,7 +33,7 @@ from .api_pb2 import (
     AckPolicy as _AckPolicy,
     StartPosition as _StartPosition,
 )
-from .error import rpc_error, ErrorNotFound, ErrorChannelClosed
+from .error import rpc_error, ErrorNotFound, ErrorChannelClosed, ErrorUnavailable
 from .message import Message
 
 logger = logging.getLogger(__name__)
@@ -128,7 +129,7 @@ class LiftBridgeClient(object):
         return cls._offset_struct.unpack(value)[0]
 
     async def connect(self) -> None:
-        svc = config.liftbridge.addresses[0]
+        svc = random.choice(config.liftbridge.addresses)
         logger.debug("Connecting %s:%s", svc.host, svc.port)
         self.channel = insecure_channel("%s:%s" % (svc.host, svc.port))
         await self.channel.channel_ready()
@@ -138,6 +139,11 @@ class LiftBridgeClient(object):
         logger.debug("Closing channel")
         await self.channel.close()
         self.channel = None
+        self.stub = None
+
+    async def reconnect(self) -> None:
+        await self.close()
+        await self.connect()
 
     async def fetch_metadata(self) -> Metadata:
         r = await self.stub.FetchMetadata(FetchMetadataRequest())
@@ -227,8 +233,15 @@ class LiftBridgeClient(object):
         if correlation_id:
             req.correlationIid = correlation_id
         # Publish
-        with rpc_error():
-            await self.stub.Publish(req)
+        while True:
+            try:
+                with rpc_error():
+                    await self.stub.Publish(req)
+                    break
+            except ErrorUnavailable:
+                logger.info("Loosing connection to current cluster member. Trying to reconnect")
+                await asyncio.sleep(1)
+                await self.reconnect()
 
     async def subscribe(
         self,
@@ -243,6 +256,7 @@ class LiftBridgeClient(object):
     ) -> AsyncIterable[Message]:
         # Build request
         req = SubscribeRequest(stream=stream)
+        to_restore_position = False
         if partition:
             req.partition = partition
         if resume:
@@ -258,21 +272,36 @@ class LiftBridgeClient(object):
         elif start_position == StartPosition.RESUME:
             logger.debug("Getting stored offset for stream '%s'" % stream)
             req.startPosition = StartPosition.OFFSET
-            req.startOffset = await self.get_stored_offset(stream, partition=partition)
+            to_restore_position = True
             logger.debug("Resuming from offset %d", req.startOffset)
         else:
             req.startPosition = start_position
-        # @todo: Bind to partition leader
+        while True:
+            try:
+                async for msg in self._subscribe(req, restore_position=to_restore_position):
+                    yield msg
+            except ErrorUnavailable:
+                logger.error("Subscriber looses connection to partition node. Trying to reconnect")
+                await asyncio.sleep(1)
+
+    async def _subscribe(
+        self, req: SubscribeRequest, restore_position: bool = False
+    ) -> AsyncIterable[Message]:
         with rpc_error():
+            logging.debug("[%s:%s] Resolving partition node", req.stream, req.partition)
             host, port = await self.resolve_subscription_source(
-                stream, partition=partition, allow_isr=allow_isr
+                req.stream, partition=req.partition, allow_isr=bool(req.readISRReplica)
             )
             logger.debug("Connecting %s:%s", host, port)
             # Open separate channel for subscription
             async with insecure_channel("%s:%s" % (host, port)) as channel:
                 await channel.channel_ready()
-                logger.debug("Subscribing stream '%s'", stream)
+                logger.debug("Subscribing stream '%s'", req.stream)
                 stub = APIStub(channel)
+                if restore_position:
+                    req.startOffset = await self.get_stored_offset(
+                        req.stream, partition=req.partition
+                    )
                 call = stub.Subscribe(req)
                 # NB: We cannot use `async for msg in call` construction
                 # Due to liftbridge protocol specific:
@@ -302,7 +331,10 @@ class LiftBridgeClient(object):
                     )
                     msg = await call._read()
                 # Get core message to explain the result
-                raise ErrorChannelClosed(str(await call.code()))
+                code = await call.code()
+                if code is StatusCode.UNAVAILABLE:
+                    raise ErrorUnavailable()
+                raise ErrorChannelClosed(str(code))
 
     async def resolve_subscription_source(
         self, stream: str, partition: Optional[int] = None, allow_isr: bool = False
@@ -319,6 +351,7 @@ class LiftBridgeClient(object):
         """
 
         async def _resolve_broker(b_id: str) -> Tuple[str, int]:
+            logger.debug("Resolving broker %s", b_id)
             for broker in meta.brokers:
                 if broker.id != b_id:
                     continue
@@ -337,10 +370,17 @@ class LiftBridgeClient(object):
             raise ErrorNotFound("Broker not found")
 
         # Request cluster topology
-        meta = await self.fetch_metadata()
-        s_data = [m for m in meta.metadata if m.name == stream]
-        if not s_data:
-            raise ErrorNotFound("Stream not found")
+        while True:
+            meta = await self.fetch_metadata()
+            if not meta.metadata:
+                # No streams, election in progress, wait for a while
+                logger.info("Waiting for election")
+                await asyncio.sleep(1)
+                continue
+            s_data = [m for m in meta.metadata if m.name == stream]
+            if not s_data:
+                raise ErrorNotFound("Stream not found")
+            break
         p_data = s_data[0].partitions.get(partition or 0)
         if not p_data:
             raise ErrorNotFound("Partition not found")
