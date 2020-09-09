@@ -3,8 +3,8 @@ FROM python:3.8.5-slim-buster AS code
 ENV\
     DJANGO_SETTINGS_MODULE=noc.settings \
     NOC_THREAD_STACK_SIZE=524288 \
-    NOC_PYTHON_INTERPRETER=/usr/bin/python3 \
-    PYTHONPATH=/opt/noc:/opt:/usr/bin/python3.8 \
+    NOC_PYTHON_INTERPRETER=/usr/local/bin/python3 \
+    PYTHONPATH=/opt/noc:/opt:/usr/local/bin/python3.8 \
     PROJ_DIR=/usr
 # ADD thin.tgz /
 
@@ -34,7 +34,7 @@ RUN \
     && cythonize -i /opt/noc/speedup/*.pyx \
     && mkdir /opt/nocspeedup \
     && cp /opt/noc/speedup/*.so /opt/nocspeedup \
-    && pip3 uninstall -y Cython \
+    && pip3 uninstall -y Cython
 
 VOLUME /opt/noc
 VOLUME /usr/local/lib/python3.8/site-packages/django
