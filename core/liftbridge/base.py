@@ -93,6 +93,13 @@ class LiftBridgeClient(object):
         self.channel = None
         self.stub = None
 
+    async def __aenter__(self) -> "LiftBridgeClient":
+        await self.connect()
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        await self.close()
+
     @staticmethod
     def get_offset_stream(stream: str) -> str:
         """
@@ -100,7 +107,7 @@ class LiftBridgeClient(object):
         :param stream:
         :return:
         """
-        return "%s--offset" % stream
+        return "__offset.%s" % stream
 
     @classmethod
     def encode_offset(cls, value: int) -> bytes:
@@ -253,7 +260,7 @@ class LiftBridgeClient(object):
             logger.debug("Getting stored offset for stream '%s'" % stream)
             req.startPosition = StartPosition.OFFSET
             req.startOffset = await self.get_stored_offset(stream, partition=partition)
-            logger.debug("Resuming from offset %d", req.startPosition)
+            logger.debug("Resuming from offset %d", req.startOffset)
         else:
             req.startPosition = start_position
         # @todo: Bind to partition leader
@@ -350,7 +357,7 @@ class LiftBridgeClient(object):
         :param offset:
         :return:
         """
-        logger.debug("[%s:%s] Commiting offset %d", stream, partition, offset)
+        logger.debug("[%s:%s] Committing offset %d", stream, partition, offset)
         await self.publish(
             stream=self.get_offset_stream(stream),
             value=self.encode_offset(offset + 1),
@@ -366,6 +373,6 @@ class LiftBridgeClient(object):
         :return:
         """
         async for msg in self.subscribe(
-            self.get_offset_stream(stream), partition=partition, start_offset=0
+            self.get_offset_stream(stream), partition=partition, start_position=StartPosition.LATEST
         ):
             return self.decode_offset(msg.value)
