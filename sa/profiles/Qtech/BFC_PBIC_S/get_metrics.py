@@ -90,16 +90,16 @@ class Script(GetMetricsScript):
     @metrics(["Environment | Power | Input | Status"], volatile=False, access="S")  # SNMP version
     def get_power_input_status(self, metrics):
         for metric in metrics:
-            value = 0
+            value = 1
             descr = self.snmp.get("1.3.6.1.3.55.1.3.1.2.%s" % metric.ifindex)
             if descr == 10:
                 status = self.snmp.get("1.3.6.1.3.55.1.3.1.4.%s" % metric.ifindex)
                 invert = self.snmp.get("1.3.6.1.3.55.1.3.1.3.%s" % metric.ifindex)
                 battery = self.get_battery()
                 if battery and invert == 0 and status == 0:
-                    value = 1
+                    value = 0
                 elif battery and invert == 1 and status == 1:
-                    value = 1
+                    value = 0
                 self.set_metric(
                     id=("Environment | Power | Input | Status", metric.path), value=value,
                 )
