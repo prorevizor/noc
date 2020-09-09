@@ -37,7 +37,7 @@ RUN \
     && pip3 uninstall -y Cython \
 
 VOLUME /opt/noc
-VOLUME /usr/lib/python3.8/site-packages/django
+VOLUME /usr/local/lib/python3.8/site-packages/django
 
 EXPOSE 1200
 
