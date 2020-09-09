@@ -6,26 +6,19 @@ ENV\
     NOC_PYTHON_INTERPRETER=/usr/local/bin/python3 \
     PYTHONPATH=/opt/noc:/opt:/usr/local/bin/python3.8 \
     PROJ_DIR=/usr
-# ADD thin.tgz /
 
 COPY . /opt/noc/
 WORKDIR /opt/noc/
 
+ARG BUILD_PACKAGES="build-essential cmake gcc libffi-dev libmemcached-dev libpq-dev libssl-dev zlib1g-dev"
+
 RUN \
     apt update && apt-get install -y --no-install-recommends \
-    build-essential \
     bzip2 \
-    cmake \
-    curl \
-    gcc \
     libffi6 \
-    libffi-dev \
     libjemalloc2 \
-    libmemcached-dev \
     libmemcached11 \
-    libpq-dev \
-    libssl-dev \
-    zlib1g-dev \
+    $BUILD_PACKAGES \
     && (./scripts/build/get-noc-requirements.py activator classifier cache-memcached cache-redis login-ldap login-pam login-radius prod-tools cython testing | pip3 install -r /dev/stdin )\
     && python3 ./scripts/deploy/install-packages requirements/web.json \
     && python3 ./scripts/deploy/install-packages requirements/card.json \
@@ -35,7 +28,7 @@ RUN \
     && cp /opt/noc/speedup/*.so /opt/nocspeedup \
     && find /opt/noc/ -type f -name "*.py" -print0 | xargs -0 python3 -m py_compile \
     && pip3 uninstall -y Cython \
-    && apt remove build-essential -y --purge \
+    && apt remove --purge -y $BUILD_PACKAGES \
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/* \
     && useradd -d /opt/noc -M -r -u 1200 -U noc -s /bin/sh \
