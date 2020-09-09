@@ -25,12 +25,11 @@ RUN \
     zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
-
 COPY . /opt/noc/
 WORKDIR /opt/noc/
 
 RUN \
-    (./scripts/build/get-noc-requirements.py activator classifier cache-redis login-ldap login-pam login-radius prod-tools cython | pip3 install -r /dev/stdin )\
+    (./scripts/build/get-noc-requirements.py activator classifier cache-redis login-ldap login-pam login-radius prod-tools cython testing | pip3 install -r /dev/stdin )\
     && cythonize -i /opt/noc/speedup/*.pyx \
     && mkdir /opt/nocspeedup \
     && cp /opt/noc/speedup/*.so /opt/nocspeedup \
@@ -50,7 +49,7 @@ RUN \
     apt update && apt-get install -y \
     snmp \
     vim \
-    && (./scripts/build/get-noc-requirements.py  dev testing | pip3 install -r /dev/stdin )\
+    && (./scripts/build/get-noc-requirements.py dev | pip3 install -r /dev/stdin )\
     && rm -rf /var/lib/apt/lists/*
 
 FROM nginx:alpine AS static
