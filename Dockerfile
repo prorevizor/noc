@@ -8,6 +8,9 @@ ENV\
     PROJ_DIR=/usr
 # ADD thin.tgz /
 
+COPY . /opt/noc/
+WORKDIR /opt/noc/
+
 RUN \
     apt update && apt-get install -y --no-install-recommends \
     build-essential \
@@ -23,17 +26,13 @@ RUN \
     libpq-dev \
     libssl-dev \
     zlib1g-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY . /opt/noc/
-WORKDIR /opt/noc/
-
-RUN \
-    (./scripts/build/get-noc-requirements.py activator classifier cache-memcached cache-redis login-ldap login-pam login-radius prod-tools cython testing | pip3 install -r /dev/stdin )\
+    && (./scripts/build/get-noc-requirements.py activator classifier cache-memcached cache-redis login-ldap login-pam login-radius prod-tools cython testing | pip3 install -r /dev/stdin )\
     && cythonize -i /opt/noc/speedup/*.pyx \
     && mkdir /opt/nocspeedup \
     && cp /opt/noc/speedup/*.so /opt/nocspeedup \
     && pip3 uninstall -y Cython
+    && apt remove gcc cmake build-essential -y \
+    && rm -rf /var/lib/apt/lists/*
 
 VOLUME /opt/noc
 VOLUME /usr/local/lib/python3.8/site-packages/django
