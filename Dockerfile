@@ -29,7 +29,7 @@ COPY . /opt/noc/
 WORKDIR /opt/noc/
 
 RUN \
-    (./scripts/build/get-noc-requirements.py activator classifier cache-redis login-ldap login-pam login-radius prod-tools cython testing | pip3 install -r /dev/stdin )\
+    (./scripts/build/get-noc-requirements.py activator classifier cache-memcached cache-redis login-ldap login-pam login-radius prod-tools cython testing | pip3 install -r /dev/stdin )\
     && cythonize -i /opt/noc/speedup/*.pyx \
     && mkdir /opt/nocspeedup \
     && cp /opt/noc/speedup/*.so /opt/nocspeedup \
