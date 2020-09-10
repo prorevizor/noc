@@ -133,7 +133,7 @@ class Collection(object):
         coll = self.get_state_collection()
         coll.update_one(
             {"_id": self.name},
-            {"$set": {"state": bson.Binary(zlib.compress(smart_bytes(orjson.dumps(state))))}},
+            {"$set": {"state": bson.Binary(zlib.compress(orjson.dumps(state)))}},
             upsert=True,
         )
         # Remove legacy state

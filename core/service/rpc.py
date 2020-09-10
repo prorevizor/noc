@@ -24,6 +24,7 @@ from noc.config import config
 from noc.core.span import Span, get_current_span
 from noc.core.ioloop.util import run_sync
 from .error import RPCError, RPCNoService, RPCHTTPError, RPCException, RPCRemoteError
+from noc.core.comp import smart_text
 
 logger = logging.getLogger(__name__)
 
@@ -116,7 +117,7 @@ class RPCProxy(object):
             is_notify = "_notify" in kwargs
             if not is_notify:
                 msg["id"] = tid
-            body = orjson.dumps(msg)
+            body = smart_text(orjson.dumps(msg))
             # Get services
             response = None
             for t in self._service.iter_rpc_retry_timeout():

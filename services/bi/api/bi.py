@@ -327,7 +327,7 @@ class BIAPI(API):
             d = Dashboard(id=str(bson.ObjectId()), owner=self.handler.current_user)
         d.format = config.get("format", 1)
         config["id"] = str(d.id)
-        d.config = zlib.compress(smart_bytes(orjson.dumps(config)))
+        d.config = zlib.compress(orjson.dumps(config))
         d.changed = datetime.datetime.now()
         d.title = config.get("title")  # @todo: Generate title
         d.description = config.get("description")

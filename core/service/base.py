@@ -43,6 +43,7 @@ from noc.core.ioloop.util import setup_asyncio
 from noc.core.ioloop.timers import PeriodicCallback
 from .rpc import RPCProxy
 from .loader import set_service
+from noc.core.comp import smart_text
 
 T = TypeVar("T")
 
@@ -786,7 +787,7 @@ class BaseService(object):
             r = [table]
             limit -= len(table) + 1
             for m in metrics[start:]:
-                jm = orjson.dumps(m)
+                jm = smart_text(orjson.dumps(m))
                 js = len(jm) + 1
                 if limit < js:
                     break

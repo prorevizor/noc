@@ -114,7 +114,7 @@ class InterfacePathCard(BaseCard):
     @classmethod
     def encode_query(cls, to_collect: Set[Tuple[int, int, str]]) -> str:
         data = smart_text(
-            codecs.encode(smart_bytes(orjson.dumps(to_collect)), "base64").replace(b"\n", b"")
+            codecs.encode(orjson.dumps(to_collect), "base64").replace(b"\n", b"")
         )
         return cls.get_signature(data) + data
 

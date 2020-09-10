@@ -28,6 +28,7 @@ from noc.ip.models.vrfgroup import VRFGroup
 from noc.main.models.customfield import CustomField
 from noc.aaa.models.permission import Permission
 from noc.core.colors import get_colors
+from noc.core.comp import smart_text
 
 
 class IPAMApplication(ExtApplication):
@@ -279,7 +280,7 @@ class IPAMApplication(ExtApplication):
                     if rrs:
                         cr = rrs.pop(0)
                 spot += [(None if a is None else a.address, c, a in special_addr)]
-            spot = orjson.dumps(spot)
+            spot = smart_text(orjson.dumps(spot))
         else:
             spot = None
         can_ping = spot is not None and len([a for a in addresses if a.managed_object]) > 0

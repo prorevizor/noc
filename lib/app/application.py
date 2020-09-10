@@ -257,7 +257,7 @@ class Application(object, metaclass=ApplicationBase):
         if "noc_user" in request.COOKIES:
             session_id = request.COOKIES["noc_user"].rsplit("|", 1)[-1]
             key = "msg-%s" % session_id
-            cache.set(key, orjson.dumps([message]), ttl=30, version=1)
+            cache.set(key, smart_text(orjson.dumps([message])), ttl=30, version=1)
 
     def get_template_path(self, template):
         """

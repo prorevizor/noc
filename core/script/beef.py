@@ -177,7 +177,7 @@ class Beef(object):
         :param path: Beef path
         :return: Compressed, Uncompressed sizes
         """
-        data = orjson.dumps(self.get_data())
+        data = smart_text(orjson.dumps(self.get_data()))
         usize = len(data)
         dir_path = os.path.dirname(path)
         if path.endswith(".gz"):
