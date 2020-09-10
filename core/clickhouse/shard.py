@@ -38,7 +38,10 @@ class BaseSharder(object):
             data = self.records[topic]
             while data:
                 chunk, data = data[: self.chunk], data[self.chunk :]
-                yield topic, "%s\n%s" % (self.table, smart_text(b"\n".join(orjson.dumps(s) for s in chunk)))
+                yield topic, "%s\n%s" % (
+                    self.table,
+                    smart_text(b"\n".join(orjson.dumps(s) for s in chunk)),
+                )
         self.records = defaultdict(list)
 
     def pub(self):

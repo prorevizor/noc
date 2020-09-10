@@ -17,7 +17,6 @@ import orjson
 # NOC modules
 from noc.config import config
 from noc.core.fileutils import make_persistent
-from noc.core.comp import smart_bytes
 
 
 class Stream(object):

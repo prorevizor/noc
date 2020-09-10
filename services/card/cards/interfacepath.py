@@ -30,7 +30,7 @@ from noc.core.clickhouse.connect import connection as ch_connection
 from noc.core.clickhouse.error import ClickhouseError
 from noc.core.hash import hash_str
 from .base import BaseCard
-from noc.core.comp import smart_bytes, smart_text
+from noc.core.comp import smart_text
 
 
 class InterfacePathCard(BaseCard):
@@ -113,9 +113,7 @@ class InterfacePathCard(BaseCard):
 
     @classmethod
     def encode_query(cls, to_collect: Set[Tuple[int, int, str]]) -> str:
-        data = smart_text(
-            codecs.encode(orjson.dumps(to_collect), "base64").replace(b"\n", b"")
-        )
+        data = smart_text(codecs.encode(orjson.dumps(to_collect), "base64").replace(b"\n", b""))
         return cls.get_signature(data) + data
 
     @classmethod
