@@ -43,7 +43,7 @@ class CollectionTestHelper(object):
 
     def get_object(self, path):
         with open(path) as f:
-            data = orjson.load(f)
+            data = orjson.loads(f.read())
             self._uuid_count[data["uuid"]] += 1
             self._name_count[data["name"]] += 1
         if self.cache is None:

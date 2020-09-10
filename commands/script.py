@@ -417,7 +417,7 @@ class VersionStub(object):
 class JSONObject(object):
     def __init__(self, path):
         with open(path) as f:
-            data = orjson.load(f)
+            data = orjson.loads(f.read())
         self.scheme = {"telnet": TELNET, "ssh": SSH, "http": HTTP, "https": HTTPS}.get(
             data.get("scheme", "telnet"), TELNET
         )

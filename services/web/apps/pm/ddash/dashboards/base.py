@@ -70,7 +70,7 @@ class BaseDashboard(object):
                     continue
                 with open(os.path.join(t_path, f)) as data_file:
                     try:
-                        t[f.split(".")[0]] = orjson.load(data_file)
+                        t[f.split(".")[0]] = orjson.loads(data_file.read())
                     except ValueError:
                         self.logger.error("Dashboard template file %s not contains valid JSON" % f)
                         continue
@@ -81,7 +81,7 @@ class BaseDashboard(object):
                     continue
                 with open(os.path.join(t_path, f, fl)) as data_file:
                     try:
-                        t[".".join((f, fl.split(".")[0]))] = orjson.load(data_file)
+                        t[".".join((f, fl.split(".")[0]))] = orjson.loads(data_file.read())
                     except ValueError:
                         self.logger.error("Dashboard template file %s not contains valid JSON" % fl)
                         continue

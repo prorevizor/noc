@@ -57,7 +57,7 @@ class Command(BaseCommand):
                 ts = os.stat(path)[stat.ST_MTIME]
                 t = datetime.datetime.fromtimestamp(ts)
                 with open(path) as f:
-                    data = orjson.load(f)
+                    data = orjson.loads(f.read())
                 service = data["process"]
                 if service.startswith("services/") and service.endswith("/service.py"):
                     service = service[9:-11]
@@ -104,7 +104,7 @@ class Command(BaseCommand):
                 else:
                     continue
             with open(path) as f:
-                data = orjson.load(f)
+                data = orjson.loads(f.read())
             self.stdout.write(data["traceback"])
             self.stdout.write("\n\n")
 

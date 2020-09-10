@@ -96,7 +96,7 @@ class Command(BaseCommand):
             if not os.path.isfile(fp):
                 self.die("File not found: %s" % fp)
             with open(fp) as f:
-                data = orjson.load(f)
+                data = orjson.loads(f.read())
             try:
                 Collection.install(data)
                 if load:
