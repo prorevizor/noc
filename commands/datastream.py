@@ -12,7 +12,7 @@ import itertools
 import logging
 
 # Third-party modules
-import orjson
+import json
 
 # NOC modules
 from noc.core.management.base import BaseCommand
@@ -167,8 +167,8 @@ class Command(BaseCommand):
             self.print(
                 "===[id: %s, change id: %s, time: %s]================" % (obj_id, change_id, gt)
             )
-            d = orjson.loads(data)
-            self.print(orjson.dumps(d, indent=2))
+            d = json.loads(data)
+            self.print(json.dumps(d, indent=2))
 
 
 if __name__ == "__main__":

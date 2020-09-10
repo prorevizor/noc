@@ -21,6 +21,7 @@ from noc.config import config
 from noc.core.http.client import fetch
 from noc.core.perf import metrics
 from noc.core.ioloop.timers import PeriodicCallback
+from noc.core.comp import smart_text
 from .base import DCSBase, ResolverBase
 
 ConsulRepearableCodes = {500, 598, 599}
@@ -445,7 +446,7 @@ class ConsulDCS(DCSBase):
             try:
                 r = await self.consul.kv.put(
                     key=manifest_path,
-                    value=orjson.dumps({"Limit": total_slots, "Holders": holders}, indent=2),
+                    value=smart_text(orjson.dumps({"Limit": total_slots, "Holders": holders})),
                     cas=cas,
                 )
             except ConsulRepeatableErrors as e:
