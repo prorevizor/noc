@@ -15,6 +15,7 @@ ARG BUILD_PACKAGES="build-essential cmake gcc libffi-dev libmemcached-dev  libss
 RUN \
     apt update && apt-get install -y --no-install-recommends \
     bzip2 \
+    curl \
     libffi6 \
     libjemalloc2 \
     libmemcached11 \
