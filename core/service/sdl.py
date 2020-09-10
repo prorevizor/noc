@@ -16,4 +16,4 @@ class SDLRequestHandler(tornado.web.RequestHandler):
 
     def get(self):
         self.set_header("Content-Type", "text/javascript")
-        self.write("var SDL = %s;" % orjson.dumps(self.sdl))
+        self.write(b"var SDL = %s;" % orjson.dumps(self.sdl))
