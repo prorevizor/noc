@@ -37,7 +37,6 @@ RUN \
 
 
 VOLUME /opt/noc
-VOLUME /usr/local/lib/python3.8/site-packages/django
 
 EXPOSE 1200
 
