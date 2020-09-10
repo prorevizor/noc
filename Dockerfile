@@ -10,7 +10,7 @@ ENV\
 COPY . /opt/noc/
 WORKDIR /opt/noc/
 
-ARG BUILD_PACKAGES="build-essential cmake gcc libffi-dev libmemcached-dev  libssl-dev zlib1g-dev"
+ARG BUILD_PACKAGES="build-essential cmake gcc libffi-dev libmemcached-dev libssl-dev zlib1g-dev"
 
 RUN \
     apt update && apt-get install -y --no-install-recommends \
