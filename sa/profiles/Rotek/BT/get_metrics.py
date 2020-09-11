@@ -52,7 +52,7 @@ class Script(GetMetricsScript):
     def get_power_input_status(self, metrics):
         for metric in metrics:
             value = 1
-            res = self.snmp.get("1.3.6.1.4.1.41752.5.15.1.9.0" % metric.ifindex)
+            res = self.snmp.get("1.3.6.1.4.1.41752.5.15.1.9.0")
             if res not in [1, 2, 3]:
                 value = 0
             self.set_metric(id=("Environment | Power | Input | Status", metric.path), value=value)
