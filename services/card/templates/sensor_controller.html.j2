@@ -1,0 +1,408 @@
+<style>
+    .line {
+        color: #c0c0c0;
+        background: #c0c0c0;
+        width: 100%;
+        height: 1px;
+    }
+    .metric-header .fa {
+        transition: .3s transform ease-in-out;
+    }
+    .metric-header .collapsed .fa {
+        transform: rotate(90deg);
+    }
+
+    .row-bordered:after {
+        content: "";
+        display: block;
+        border-bottom: 1px solid #c0c0c0;
+    }
+</style>
+<div class="panel-{{ {'up': 'success', 'alarm': 'warning', 'down': 'danger', 'unmanaged': 'default'}[current_state] }}">
+    <div class="panel-heading">
+        <a target="_blank" href="/#sa.managedobject/{{ id  }}">{{ object | managed_object_title }}</a>
+        <span style="float: right">
+            {% if current_state == "down" %}Down{% else %}<i class="fa fa-check"></i>Up{% endif %}{%if current_start %}: {{ current_duration }} ({{ current_start | timestamp }}){% endif %}
+        </span>
+    </div>
+    <div class="panel-body">
+        <div class="container-fluid">
+            {% if maintenance %}
+            <div class="row">
+                <div class="col-sm-1">
+                    <b>{{ _("Maintenance") }}</b>
+                </div>
+                <div class="col-sm-10">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="col-sm-7">{{ _("Subject") }}</th>
+                                <th class="col-sm-3">{{ _("Start") }}</th>
+                                <th class="col-sm-3">{{ _("Stop") }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for m in maintenance %}
+                            <tr class="bg-{{ {True: "danger", False: "warning"}[m["in_progress"]] }}">
+                                <td><a href="/api/card/view/maintenance/{{ m["id"] }}/">{{ m["subject"] }}</a></td>
+                                <td>{{ m["start"] | timestamp }}</td>
+                                <td>{{ m["stop"] | timestamp }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- row-->
+            <div class="line"></div>
+            {% endif %}
+            {% if container_path %}
+            <div class="row">
+                <div class="col-sm-1">
+                    <b>{{ _("Container") }}</b>
+                </div>
+                <div class="col-sm-8">
+                    {% for o in container_path %}
+                    <a href="/api/card/view/object/{{ o.id }}/">{{ o.name }}</a>
+                    {% if not loop.last %} | {% endif %}
+                    {% endfor %}
+                </div>
+            </div> <!-- row-->
+            <div class="line"></div>
+            {% endif %}
+            <div class="row">
+                <div class="col-sm-1">
+                    <b>{{ _("Location") }}</b>
+                </div>
+                <div class="col-sm-10">
+                    {{ object | object_location }}
+                </div>
+            </div> <!-- row-->
+            {% if object.project %}
+            <div class="line"></div>
+            <div class="row">
+                <div class="col-sm-1">
+                    <b>{{ _("Project") }}</b>
+                </div>
+                <div class="col-sm-10">
+                    <a href="/api/card/view/project/{{ object.project.id }}/">{{ object.project }}</a>
+                </div>
+            </div> <!-- row -->
+            {% endif %}
+            <div class="line"></div>
+            <div class="row">
+                <div class="col-sm-1">
+                    <b>{{ _("Segment") }}</b>
+                </div>
+                <div class="col-sm-3">
+                    {% if segment %}
+                    <a href="/api/card/view/segment/{{ segment.id }}/">
+                    {% if segment.is_redundant %}
+                        {% if segment.lost_redundancy %}
+                            <i class="fa fa-exclamation-triangle" title="{{ _("Lost redundancy") }}"></i>
+                        {% else %}
+                            <i class="fa fa-check" title="{{ _("Redundant") }}"></i>
+                        {% endif %}
+                    {% else %}
+                        <i class="fa fa-times" title="{{ _("No redundancy") }}"></i>
+                    {% endif %}
+                    {{ segment.name }}
+                    </a>
+                    {% endif %}
+                </div>
+                <div class="col-sm-2">
+                    <!-- Redundancy-->
+                    {{ {"R": _("Redundant"), "L": _("Lost redundancy"), "N": _("No redundancy") }[redundancy] }}
+                </div>
+            </div> <!-- row-->
+            <div class="line"></div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <b>{{ _("Administrative Domain") }}</b>
+                </div>
+                <div class="col-sm-3">
+                    {{ object.administrative_domain.name }}
+                </div>
+            </div> <!-- row -->
+            <div class="line"></div>
+            {% if object.time_pattern %}
+            <div class="row">
+                <div class="col-sm-1">
+                    <small><b>{{ _("Time Pattern") }}</b></small>
+                </div>
+                <div class="col-sm-3">
+                    <a href="/api/card/view/timepattern/{{ object.time_pattern.id }}/">{{ object.time_pattern.name }}</a>
+                </div>
+            </div> <!-- row-->
+            <div class="line"></div>
+            {% endif %}
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <b>{{ _("IP") }}</b>
+                                    </br><b>{{ _("Dashboard") }}</b>
+                                    </br><b>{{ _("Description") }}</b>
+                                </div>
+                                <div class="col-sm-8">
+                                    {{ address }} {{ object | object_console }}</br>
+                                    <a target="_blank" href="/ui/grafana/dashboard/script/noc.js?dashboard=mo&id={{ object.id }}"><i class="fa fa-dashboard"></i> - {{ _("Graphics") }}</a></br>
+                                    {% if description %}{{ description }}{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <b>{{ _("Profile SA") }}</b>    {{ object.profile }}<br>
+                            {% if platform != "Unknown" %}
+                                <a href="/api/card/view/platform/{{ object.platform.id }}/">{{ platform }}</a>
+                                {% if platform %}
+                                    {% if object.platform.is_end_of_sale %}<br><i class="fa fa-exclamation-triangle"></i> {{ _("End of Sale") }}{% endif %}
+                                    {% if object.platform.is_end_of_support %}<br><i class="fa fa-exclamation-triangle"></i> {{ _("End of Support") }}{% endif %}
+                                {% endif %}
+                                {% if version %}
+                                    </br>Version: <a href="/api/card/view/firmware/{{ object.version.id }}/">{{ version }}</a>
+                                    {% if firmware_recommended and firmware_recommended.version != version %}
+                                        ({{ _("Recommended") }}: {{ firmware_recommended.version }})
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                            {% if serial_number %}
+                                </br><b>Serial number:</b> {{ serial_number }}
+                            {% endif %}
+                            {% if macs %}
+                                </br><b>MAC:</b> {{ macs }} <br>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- row-->
+            {% if links %}
+            <div class="row">
+                <div class="col-sm-1">
+                    <b>{{ _("Neighbors") }}</b>
+                </div>
+                <div class="col-sm-11">
+                    <table class="table table-condensed table-hover table-bordered">
+                        <thead>
+                            <th class="col-sm-2">{{ _("Local port") }}</th>
+                            <th class="col-sm-4">{{ _("Remote object") }}</th>
+                            <th class="col-sm-1">{{ _("Remote port") }}</th>
+                            <th class="col-sm-3">{{ _("Local description") }}</th>
+                            <th class="col-sm-3">{{ _("Remote description") }}</th>
+                        </thead>
+                        <tbody>
+                            {% for l in links %}
+                            <tr class="{{ {'up': 'success', 'alarm': 'warning', 'down': 'danger'}[l["remote_status"]] }}">
+                                <td>
+                                    {% if l["role"] == "uplink" %}
+                                        <i class="fa fa-arrow-circle-up" title="Uplink"></i>
+                                    {% else %}
+                                        <i class="fa fa-arrow-circle-down" title="Downlink"></i>
+                                    {% endif %}
+                                    {% for i in l["local_interface"] %}
+                                        {{ i.name }}
+                                        {% if not loop.first %}, {% endif %}
+                                    {% endfor %}
+                                    <div><a target="_blank" href="/ui/grafana/dashboard/script/noc.js?dashboard=link&id={{ l.id }}&refresh=15m&orgId=1">{{ _("LinkGraph") }}</a></div
+                                </td>
+                                <td>
+                                    <div><a href="/api/card/view/managedobject/{{ l["remote_object"].id }}/">
+                                        {{ l["remote_object"] | managed_object_title }}</a></div>
+                                </td>
+                                <td>
+                                    {% for i in l["remote_interface"] %}
+                                        <div>{{ i.name }}</div>
+                                        {% if not loop.first %}, {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for i in l["local_interface"] %}
+                                        <div>{{ i.description }}</div>
+                                        {% if not loop.first %}, {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for i in l["remote_interface"] %}
+                                        <div>{{ i.description }}</div>
+                                        {% if not loop.first %}, {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- row-->
+            <div class="line"></div>
+            {% endif %}
+            <div class="row">
+                <div class="col-sm-1">
+                    <b>{{ _("TT") }}</b>
+                </div>
+                <div class="col-sm-10">
+                    N/A
+                </div>
+            </div> <!-- row-->
+            <div class="line"></div>
+            {% if alarms %}
+            <div class="row">
+                <div class="col-sm-1">
+                    <b>{{ _("Alarms") }}</b>
+                </div>
+                <div class="col-sm-10">
+                    <table class="table table-condensed">
+                        <thead>
+                            <th></th>
+                            <th>{{ _("Timestamp") }}</th>
+                            <th>{{ _("Duration") }}</th>
+                            <th>{{ _("Object") }}</th>
+                            <th>{{ _("IP") }}</th>
+                            <th>{{ _("Class") }}</th>
+                            <th>{{ _("Subject") }}</th>
+                        </thead>
+                        <tbody>
+                            {% for a in alarms %}
+                            <tr>
+                                <td>{% if a.root_id and a.id == a.root_id %}<i class="fa fa-arrow-right"></i>{% endif %}</td>
+                                <td>{# {{ "".join(["&nbsp;&nbsp;&nbsp;&nbsp;"] * }} #}<a href="/api/card/view/alarm/{{ a.id }}/">{{ a.timestamp | timestamp }}</a></td>
+                                <td>{{ a.duration }}</td>
+                                <td><a href="/api/card/view/managedobject/{{ a.managed_object.id }}/">{{ a.managed_object | managed_object_title }}</a></td>
+                                <td><a href="/api/card/view/managedobject/{{ a.managed_object.id }}/">{{ a.managed_object.address }}</a></td>
+                                <td>{{ a.alarm_class.name }}</td>
+                                <td>{{ a.subject }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- row-->
+            <div class="line"></div>
+            {% endif %}
+        </div> <!-- container-fluid -->
+        </div> <!-- end panel-body -->
+        <div class="panel-body">
+            {% if metrics %}
+            <div class="row">
+                <div class="col-se-1">
+                    <b>{{ _("Object Metrics") }}</b>
+                </div>
+                <div class="col-sm-12">
+                    <div class="panel-group">
+                        {% for m in metrics %}
+                        <div class="panel" style="width: 50%">
+                            <div class="panel-heading metric-header{%- if m.isdanger %} bg-danger{% endif %}"
+                                 style="padding: 0;">
+                                <a data-toggle="collapse" {% if not m.collapsed %} class="collapsed" {% endif %} href="#metric-{{ loop.index }}">
+                                    <i class="fa fa-chevron-down pull-right"></i>
+                                    {{ m.name }}
+                                </a>
+                            </div>
+                            <div id="metric-{{ loop.index }}" class="panel-collapse collapse {% if m.collapsed %} in {% endif %}">
+                                <div class="panel-body">
+                                    {% for v in m.value %}
+                                    <div class="row row-bordered {% if v.threshold %} bg-danger{% endif %}">
+                                        <div class="col-sm-7 col-sm-offset-1">
+                                            {{ v.name }}
+                                        </div>
+                                        {% if v.type != "bool" %}
+                                            {% if v.type == "C" %}
+                                                <div class="col-sm-4">{{ v.value }}<sup>o</sup>{{ v.type }}</div>
+                                            {% else %}
+                                                <div class="col-sm-4">{{ v.value }}{{ v.type }}</div>
+                                            {% endif %}
+                                        {% else %}
+                                            <div class="col-sm-4">{{ v.value }}</div>
+                                        {% endif %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div> <!-- row-->
+            <div class="line"></div>
+            {% endif %}
+        </div>
+        <div class="panel-body">
+            {% if sensors %}
+            <div class="row">
+                <div class="col-se-1">
+                    <b>{{ _("Sensors") }}</b>
+                </div>
+                <div class="col-sm-12">
+                    <div class="panel-group">
+                        {% for m in sensors %}
+                        <div class="panel" style="width: 50%">
+                            <div class="panel-heading metric-header{%- if m.isdanger %} bg-danger{% endif %}"
+                                 style="padding: 0;">
+                                <a data-toggle="collapse" href="#sensors-{{ loop.index }}">
+                                    <i class="fa fa-chevron-down pull-right"></i>
+                                    {{ m.name }}
+                                </a>
+                            </div>
+                            <div id="sensors-{{ loop.index }}" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    {% for v in m.value %}
+                                    <div class="row row-bordered {% if v.threshold %} bg-danger{% endif %}">
+                                        <div class="col-sm-7 col-sm-offset-1">
+                                            {{ v.name }}
+                                        </div>
+                                        {% if v.type != "bool" %}
+                                            {% if v.type == "C" %}
+                                                <div class="col-sm-4">{{ v.value }}<sup>o</sup>{{ v.type }}</div>
+                                            {% else %}
+                                                <div class="col-sm-4">{{ v.value }}{{ v.type }}</div>
+                                            {% endif %}
+                                        {% else %}
+                                            <div class="col-sm-4">{{ v.value }}</div>
+                                        {% endif %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div> <!-- row-->
+            {% endif %}
+        </div>
+        <div class="panel-footer">
+        {% if interfaces %}
+            <div class="row">
+                <div class="col-sm-12">
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <th class="col-sm-1">{{ _("Port") }}</th>
+                        <th class="col-sm-1/12">{{ _("Admin") }}/<br/>{{ _("Oper") }}</th>
+                        <th class="col-sm-1/12">{{ _("Profile") }}</th>
+                        <th class="col-sm-1/12">{{ _("Description") }}</th>
+                    </thead>
+                    <tbody>
+                        {% for i in interfaces %}
+                        <tr>
+                            <td>
+                            <i class="fa fa-dashboard"></i> - {{i["name"]}} </i>
+                            </td>
+                            <td{% if not i["oper_status"] %} class="danger"{% endif %}>
+                                {{ {True: "<i class='text-success fa fa-circle' title='Admin Up'></i>", False: "<i class='text-danger fa fa-circle' title='Admin Down'></i>"}[i["admin_status"]] }}&nbsp;
+                                {{ {True: "<i class='text-success fa fa-circle' title='Oper Up'></i>", False: "<i class='text-danger fa fa-circle' title='Oper Down'></i>"}[i["oper_status"]] }}
+                            </td>
+
+                            <td>
+                                <span class="small">{{ i["profile"] }}</span>
+                            </td>
+
+                            <td><span class="small">{{ i["description"] }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div> <!-- row -->
+        {% endif %}
+    </div>
+</div>
