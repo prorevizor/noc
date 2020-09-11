@@ -93,10 +93,13 @@ class Command(BaseCommand):
     def get_model(self, datastream):
         if isinstance(datastream, tuple):
             return tuple(self.get_model(ds) for ds in datastream)
-        model_id = self.MODELS.get(datastream)[0]
+        model_id = self.MODELS.get(datastream)
         if not model_id:
             self.die("Unsupported datastream")
-        model = get_model(model_id)
+        if isinstance(model_id, tuple):
+            model = tuple(get_model(mid) for mid in model_id)
+        else:
+            model = get_model(model_id)
         if not model:
             self.die("Invalid model")
         return model

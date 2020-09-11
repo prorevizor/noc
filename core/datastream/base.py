@@ -389,7 +389,7 @@ class DataStream(object):
             return ""
         if isinstance(s, datetime.datetime):
             return s.isoformat()
-        return s.encode("utf-8")
+        return smart_text(s)
 
     @classmethod
     def _parse_filter(cls, expr):
