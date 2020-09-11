@@ -225,7 +225,12 @@ class Site(object):
             # Serialize response when necessary
             if not isinstance(r, HttpResponse):
                 try:
-                    r = HttpResponse(orjson.dumps(r), content_type="text/json; charset=utf-8")
+                    r = HttpResponse(
+                        orjson.dumps(
+                            r, option=orjson.OPT_SERIALIZE_NUMPY | orjson.OPT_NON_STR_KEYS
+                        ),
+                        content_type="text/json; charset=utf-8",
+                    )
                 except Exception:
                     error_report(logger=app_logger)
                     r = HttpResponse(error_report(), status=500)

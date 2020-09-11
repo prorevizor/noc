@@ -101,7 +101,9 @@ class ExtApplication(Application):
     def response(self, content="", status=200):
         if not isinstance(content, str):
             return HttpResponse(
-                orjson.dumps(content), content_type="text/json; charset=utf-8", status=status
+                orjson.dumps(content, option=orjson.OPT_SERIALIZE_NUMPY | orjson.OPT_NON_STR_KEYS),
+                content_type="text/json; charset=utf-8",
+                status=status,
             )
         else:
             return HttpResponse(content, content_type="text/plain; charset=utf-8", status=status)

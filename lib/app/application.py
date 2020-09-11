@@ -348,7 +348,11 @@ class Application(object, metaclass=ApplicationBase):
         """
         Create serialized JSON-encoded response
         """
-        return HttpResponse(orjson.dumps(obj), content_type="text/json", status=status)
+        return HttpResponse(
+            orjson.dumps(obj, option=orjson.OPT_SERIALIZE_NUMPY | orjson.OPT_NON_STR_KEYS),
+            content_type="text/json",
+            status=status,
+        )
 
     def render_success(self, request, subject=None, text=None):
         """

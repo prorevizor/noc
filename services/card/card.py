@@ -81,7 +81,9 @@ class CardRequestHandler(UIHandler):
         self.set_header("Cache-Control", "no-cache, must-revalidate")
         if is_ajax:
             self.set_header("Content-Type", "text/json")
-            self.write(orjson.dumps(data))
+            self.write(
+                orjson.dumps(data, option=orjson.OPT_SERIALIZE_NUMPY | orjson.OPT_NON_STR_KEYS)
+            )
         else:
             self.set_header("Content-Type", "text/html; charset=utf-8")
             refresh = self.get_argument("refresh", None)
