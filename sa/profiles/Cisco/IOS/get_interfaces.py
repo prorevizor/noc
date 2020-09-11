@@ -38,6 +38,7 @@ class Script(BaseScript):
         r"^(?P<interface>.+?)\s+is(?:\s+administratively)?\s+(?P<admin_status>up|down),\s+line\s+"
         r"protocol\s+is\s+(?P<oper_status>up|down)\s"
         r"(?:\((?:connected|notconnect|disabled|monitoring|err-disabled)\)\s*|, Autostate \S+)?\n"
+        r"(^\s+Hardware is .+\n)?"
         r"\s+Hardware is (?P<hardw>[^\n]+)\n(?:\s+Description:\s(?P<desc>[^\n]+)\n)?"
         r"(?:\s+Internet address ((is\s(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/\d{1,2}))|([^\d]+))\n)?"
         r"[^\n]+\n[^\n]+\n\s+Encapsulation\s+(?P<encaps>[^\n]+)",

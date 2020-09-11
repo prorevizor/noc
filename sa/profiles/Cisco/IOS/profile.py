@@ -128,6 +128,8 @@ class Profile(BaseProfile):
             return "CPP"
         if il.startswith("srp"):
             return "SRP %s" % interface[3:].strip()
+        if il.startswith("TwentyFiveGigE"):
+            return "Twe %s" % interface[14:].strip()
         if il.startswith("cable"):
             match = self.rx_cable_if.search(interface)
             if match:
@@ -202,6 +204,7 @@ class Profile(BaseProfile):
         "Et": "physical",  # Ethernet
         "Fa": "physical",  # FastEthernet
         "Fd": "physical",  # Fddi
+        "Fi": "physical",  # FiveGigabitEthernet
         "Fo": "physical",  # FortyGigabitEthernet
         "Gi": "physical",  # GigabitEthernet
         "Gm": "physical",  # GMPLS
@@ -224,6 +227,7 @@ class Profile(BaseProfile):
         "Te": "physical",  # TenGigabitEthernet
         "To": "physical",  # TokenRing
         "Tu": "tunnel",  # Tunnel
+        "Tw": "physical",  # TwoGigabitEthernet or TwentyFiveGigE
         "Vi": "template",  # Virtual-Template
         "VL": "SVI",  # VLAN, found on C3500XL
         "Vl": "SVI",  # Vlan
