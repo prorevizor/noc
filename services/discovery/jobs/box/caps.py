@@ -38,7 +38,10 @@ class CapsCheck(PolicyDiscoveryCheck):
         if result is None:
             self.logger.error("Failed to get capabilities")
             return
-        self.logger.debug("Received capabilities: \n%s", smart_text(orjson.dumps(result)))
+        self.logger.debug(
+            "Received capabilities: \n%s",
+            smart_text(orjson.dumps(result, option=orjson.OPT_INDENT_2)),
+        )
         self.update_caps(result, source="caps")
 
     def get_policy(self):

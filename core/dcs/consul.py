@@ -446,7 +446,11 @@ class ConsulDCS(DCSBase):
             try:
                 r = await self.consul.kv.put(
                     key=manifest_path,
-                    value=smart_text(orjson.dumps({"Limit": total_slots, "Holders": holders})),
+                    value=smart_text(
+                        orjson.dumps(
+                            {"Limit": total_slots, "Holders": holders}, option=orjson.OPT_INDENT_2
+                        )
+                    ),
                     cas=cas,
                 )
             except ConsulRepeatableErrors as e:

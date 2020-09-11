@@ -25,4 +25,4 @@ class Script(BaseScript):
         result = {}
         for section in self.SECTIONS:
             result[section] = self.http.post("/upload/", data=section, json=True, use_basic=True)
-        return smart_text(orjson.dumps(result))
+        return smart_text(orjson.dumps(result, option=orjson.OPT_INDENT_2))
