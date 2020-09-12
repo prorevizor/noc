@@ -33,10 +33,10 @@ CONNECT_TIMEOUT = config.rpc.async_connect_timeout
 # Total request time
 REQUEST_TIMEOUT = config.rpc.async_request_timeout
 
-# WARNING: later orjson versions are not thread-safe when dealing with floating numbers deserealization,
-# so we obliged to lock all RPC deserializations until the better time. i.e:
-# * orjson will became thread-safe once again
-# * orjson will be replaced with proper library
+# WARNING: later ujson versions are not thread-safe when dealing with floating numbers # deserealization,
+# so we need the time to prove orjson is thread-safe and
+# to remove the lock
+# @todo: Check and remove the lock
 _orjson_crash_lock = threading.Lock()
 
 
