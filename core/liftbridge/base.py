@@ -9,7 +9,7 @@
 import logging
 from dataclasses import dataclass
 import enum
-from typing import Optional, Dict, List, AsyncIterable, Tuple
+from typing import Optional, Dict, List, AsyncIterable, Tuple, Iterator
 import random
 import asyncio
 import socket
@@ -32,6 +32,7 @@ from .api_pb2 import (
     SubscribeRequest,
     AckPolicy as _AckPolicy,
     StartPosition as _StartPosition,
+    Ack,
 )
 from .error import rpc_error, ErrorNotFound, ErrorChannelClosed, ErrorUnavailable
 from .message import Message
@@ -207,7 +208,7 @@ class LiftBridgeClient(object):
         with rpc_error():
             await self.stub.DeleteStream(DeleteStreamRequest(name=name))
 
-    async def publish(
+    def get_publish_request(
         self,
         value: bytes,
         stream: Optional[str] = None,
@@ -217,8 +218,7 @@ class LiftBridgeClient(object):
         ack_inbox: Optional[str] = None,
         correlation_id: Optional[str] = None,
         ack_policy: AckPolicy = AckPolicy.LEADER,
-    ) -> None:
-        # Build message
+    ) -> PublishRequest:
         req = PublishRequest(value=value, ackPolicy=ack_policy.value)
         if stream:
             req.stream = stream
@@ -232,6 +232,9 @@ class LiftBridgeClient(object):
             req.ackInbox = ack_inbox
         if correlation_id:
             req.correlationIid = correlation_id
+        return req
+
+    async def publish_sync(self, req: PublishRequest) -> None:
         # Publish
         while True:
             try:
@@ -242,6 +245,36 @@ class LiftBridgeClient(object):
                 logger.info("Loosing connection to current cluster member. Trying to reconnect")
                 await asyncio.sleep(1)
                 await self.reconnect()
+
+    async def publish_async(self, iter_req: Iterator[PublishRequest]) -> AsyncIterable[Ack]:
+        with rpc_error():
+            async for req in self.stub.PublishAsync(iter_req):
+                yield req
+
+    async def publish(
+        self,
+        value: bytes,
+        stream: Optional[str] = None,
+        key: Optional[bytes] = None,
+        partition: Optional[int] = None,
+        headers: Optional[Dict[str, bytes]] = None,
+        ack_inbox: Optional[str] = None,
+        correlation_id: Optional[str] = None,
+        ack_policy: AckPolicy = AckPolicy.LEADER,
+    ) -> None:
+        # Build message
+        req = self.get_publish_request(
+            value,
+            stream=stream,
+            key=key,
+            partition=partition,
+            headers=headers,
+            ack_inbox=ack_inbox,
+            correlation_id=correlation_id,
+            ack_policy=ack_policy,
+        )
+        # Publish
+        await self.publish_sync(req)
 
     async def subscribe(
         self,

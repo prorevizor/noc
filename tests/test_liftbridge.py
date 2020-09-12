@@ -13,7 +13,7 @@ from noc.core.liftbridge.base import LiftBridgeClient
 
 
 @pytest.mark.parametrize(
-    "input,expected", [("test", "test--offset"), ("test-offset", "test-offset--offset")]
+    "input,expected", [("test", "__offset.test"), ("test-offset", "__offset.test-offset")]
 )
 def test_offset_stream(input: str, expected: str):
     client = LiftBridgeClient()

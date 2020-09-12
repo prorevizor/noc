@@ -46,6 +46,7 @@ class Command(BaseCommand):
         benchmark_publisher_parser.add_argument("--name")
         benchmark_publisher_parser.add_argument("--num-messages", type=int, default=1000)
         benchmark_publisher_parser.add_argument("--payload-size", type=int, default=64)
+        benchmark_publisher_parser.add_argument("--batch", type=int, default=1)
         # benchmark-subscriber
         benchmark_subscriber_parser = subparsers.add_parser("benchmark-subscriber")
         benchmark_subscriber_parser.add_argument("--name")
@@ -117,7 +118,7 @@ class Command(BaseCommand):
         run_sync(subscribe)
 
     def handle_benchmark_publisher(
-        self, name: str, num_messages: int, payload_size: int = 64, *args, **kwargs
+        self, name: str, num_messages: int, payload_size: int = 64, batch=1, *args, **kwargs
     ):
         async def publisher():
             async with LiftBridgeClient() as client:
@@ -131,7 +132,34 @@ class Command(BaseCommand):
                 "%d msg/sec, %d bytes/sec" % (num_messages / dt, num_messages * payload_size / dt)
             )
 
-        run_sync(publisher)
+        async def batch_publisher():
+            async with LiftBridgeClient() as client:
+                payload = b" " * payload_size
+                t0 = perf_counter()
+                out = []
+                n_acks = 0
+                for _ in self.progress(range(num_messages), num_messages):
+                    out += [client.get_publish_request(payload, stream=name)]
+                    if len(out) == batch:
+                        async for ack in client.publish_async(out):
+                            print(ack)
+                            n_acks += 1
+                        out = []
+                if out:
+                    async for _ in client.publish_async(out):
+                        n_acks += 1
+                    out = []
+                dt = perf_counter() - t0
+            self.print("%d messages sent in %.2fms (%d acks)" % (num_messages, dt * 1000, n_acks))
+            self.print(
+                "%d msg/sec, %d bytes/sec" % (num_messages / dt, num_messages * payload_size / dt)
+            )
+
+        if batch == 1:
+            run_sync(publisher)
+        else:
+            print("batch")
+            run_sync(batch_publisher)
 
     def handle_benchmark_subscriber(self, name: str, commit_offset: bool = False, *args, **kwargs):
         async def subscriber():
