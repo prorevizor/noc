@@ -257,7 +257,7 @@ class Script(BaseScript):
             return "CARD", 2, part_no
         elif not sub and "PWR" in part_no:
             return "PWR", slot, None
-        elif not name and "Chassis" in descr:
+        elif (not name or name == "Main_Board") and "Chassis" in descr:
             # 5XXX Series Cards
             # self.logger.debug("Huawei 5XXX series, slot 0 is CHASSIS TYPE")
             #
