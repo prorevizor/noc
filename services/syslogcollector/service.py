@@ -139,7 +139,7 @@ class SyslogCollectorService(TornadoService):
         )
         self.invalid_sources = defaultdict(int)
 
-    def update_source(self, data):
+    async def update_source(self, data):
         # Get old config
         old_cfg = self.source_configs.get(data["id"])
         if old_cfg:
@@ -167,7 +167,7 @@ class SyslogCollectorService(TornadoService):
         # Update metrics
         metrics["sources_changed"] += 1
 
-    def delete_source(self, id):
+    async def delete_source(self, id):
         cfg = self.source_configs.get(id)
         if not cfg:
             return
