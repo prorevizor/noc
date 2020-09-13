@@ -20,7 +20,7 @@ class Script(BaseScript):
 
     rx_mac = re.compile(r"MAC address[^:]*?:\s*(?P<id>\S+)", re.IGNORECASE | re.MULTILINE)
     rx_mac1 = re.compile(
-    r"(CIST Bridge|Bridge ID)\s+:\d+\s*\.(?P<id>\S+)", re.IGNORECASE | re.MULTILINE
+        r"(CIST Bridge|Bridge ID)\s+:\d+\s*\.(?P<id>\S+)", re.IGNORECASE | re.MULTILINE
     )
 
     def execute_cli(self):
