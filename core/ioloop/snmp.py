@@ -33,6 +33,7 @@ from noc.core.snmp.error import (
     END_OID_TREE,
 )
 from noc.core.ioloop.udp import UDPSocket, UDPSocketContext
+from noc.core.comp import smart_text
 
 _ERRNO_WOULDBLOCK = (errno.EWOULDBLOCK, errno.EAGAIN)
 logger = logging.getLogger(__name__)
@@ -328,7 +329,8 @@ async def snmp_getnext(
             else:
                 # Raw varbinds
                 for oid, v in resp.varbinds:
-                    s_oid = str(oid)
+                    oid = smart_text(oid)
+                    s_oid = oid
                     if oid == first_oid:
                         logger.warning("[%s] GETNEXT Oid wrap detected", address)
                         return result
