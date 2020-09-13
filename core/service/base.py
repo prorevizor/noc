@@ -38,6 +38,9 @@ from noc.core.tz import setup_timezone
 from noc.core.nsq.topic import TopicQueue
 from noc.core.nsq.pub import mpub
 from noc.core.nsq.error import NSQPubError
+from noc.core.liftbridge.base import LiftBridgeClient
+from noc.core.liftbridge.error import LiftbridgeError
+from noc.core.liftbridge.queue import LiftBridgeQueue
 from noc.core.clickhouse.shard import ShardingFunction
 from noc.core.ioloop.util import setup_asyncio
 from noc.core.ioloop.timers import PeriodicCallback
@@ -153,6 +156,9 @@ class BaseService(object):
         # name -> TopicQueue()
         self.topic_queues: Dict[str, TopicQueue] = {}
         self.topic_queue_lock = threading.Lock()
+        # Liftbridge publisher
+        self.publish_queue: Optional[LiftBridgeQueue] = None
+        self.publisher_start_lock = threading.Lock()
 
     def create_parser(self) -> argparse.ArgumentParser:
         """
@@ -434,6 +440,8 @@ class BaseService(object):
         await self.on_deactivate()
         # Shutdown NSQ topics
         await self.shutdown_topic_queues()
+        # Shutdown Liftbridge publisher
+        await self.shutdown_publisher()
         # Continue deactivation
         # Finally stop ioloop
         self.dcs = None
@@ -628,6 +636,60 @@ class BaseService(object):
         self.logger.info("Resuming subscription for handler %s", handler)
         self.nsq_readers[handler].set_max_in_flight(config.nsqd.max_in_flight)
 
+    def _init_publisher(self):
+        """
+        Spin-up publisher and queue
+        :return:
+        """
+        with self.publisher_start_lock:
+            if self.publish_queue:
+                return  # Created in concurrent thread
+            self.publish_queue = LiftBridgeQueue(self.loop)
+            self.loop.create_task(self.publisher())
+
+    def publish(
+        self,
+        value: bytes,
+        stream: str,
+        partition: Optional[int] = None,
+        key: Optional[bytes] = None,
+    ):
+        """
+        Schedule publish request
+        :param value:
+        :param stream:
+        :param partition:
+        :param key:
+        :return:
+        """
+        if not self.publish_queue:
+            self._init_publisher()
+        req = LiftBridgeClient.get_publish_request(
+            value=value, stream=stream, partition=partition, key=key
+        )
+        self.publish_queue.put(req)
+
+    async def publisher_guard(self):
+        while not self.publish_queue.to_shutdown:
+            try:
+                await self.publisher()
+            except Exception as e:
+                self.logger.error("Unhandled exception in liftbridge publisher: %s", e)
+
+    async def publisher(self):
+        with LiftBridgeClient as client:
+            while not self.publish_queue.to_shutdown:
+                req = await self.publish_queue.get(timeout=1)
+                if not req:
+                    continue  # Timeout or shutdown
+                try:
+                    await client.publish_sync(req)
+                except LiftbridgeError as e:
+                    self.logger.error("Failed to publish message: %s", e)
+                    self.logger.error("Retry message")
+                    await asyncio.sleep(1)
+                    self.publish_queue.put(req, fifo=False)
+
     def get_topic_queue(self, topic: str) -> TopicQueue:
         q = self.topic_queues.get(topic)
         if q:
@@ -701,6 +763,16 @@ class BaseService(object):
                     await self.executors[x].shutdown()
                 except asyncio.TimeoutError:
                     self.logger.info("Timed out when shutting down %s", x)
+
+    async def shutdown_publisher(self):
+        if self.publish_queue:
+            r = await self.publish_queue.drain(5.0)
+            if not r:
+                self.logger.info(
+                    "Unclean shutdown of liftbridge queue. Up to %d messages may be lost",
+                    self.publish_queue.qsize(),
+                )
+            self.publish_queue.shutdown()
 
     async def shutdown_topic_queues(self):
         # Issue shutdown
@@ -945,3 +1017,22 @@ class BaseService(object):
         if not self.startup_ts:
             return 0
         return time.time() - self.startup_ts
+
+    async def get_stream_partitions(self, stream: str) -> int:
+        """
+
+        :param stream:
+        :return:
+        """
+        with LiftBridgeClient() as client:
+            while True:
+                meta = await client.fetch_metadata()
+                if meta.metadata:
+                    for stream_meta in meta.metadata:
+                        if stream_meta.name == stream:
+                            if stream_meta.patitions:
+                                return len(stream_meta.partitions)
+                            break
+                # Cluster election in progress or cluster is misconfigured
+                self.logger.info("Stream '%s' has no active partitions. Waiting" % stream)
+                await asyncio.sleep(1)

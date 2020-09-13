@@ -208,8 +208,8 @@ class LiftBridgeClient(object):
         with rpc_error():
             await self.stub.DeleteStream(DeleteStreamRequest(name=name))
 
+    @staticmethod
     def get_publish_request(
-        self,
         value: bytes,
         stream: Optional[str] = None,
         key: Optional[bytes] = None,
