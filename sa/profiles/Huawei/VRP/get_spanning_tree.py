@@ -168,17 +168,17 @@ class Script(BaseScript):
             except self.CLISyntaxError:
                 # Not support command "display stp instance NUM"
                 instance_list = self.cli("display stp").split(r"-------\[")
-            for I in instance_list[0:]:
+            for si in instance_list[0:]:
                 # instance_id = int(instance_id)
                 if instance_id == 0:
-                    match = self.rx_mstp0_bridge.search(I)
-                    v2 = self.rx_mstp0_interfaces.finditer(I)
-                elif "MSTI" in I:
-                    match = self.rx_mstp_bridge.search(I)
-                    v2 = self.rx_mstp_interfaces.finditer(I)
+                    match = self.rx_mstp0_bridge.search(si)
+                    v2 = self.rx_mstp0_interfaces.finditer(si)
+                elif "MSTI" in si:
+                    match = self.rx_mstp_bridge.search(si)
+                    v2 = self.rx_mstp_interfaces.finditer(si)
                 else:
-                    match = self.rx_stp_bridge.search(I)
-                    v2 = self.rx_mstp_interfaces.finditer(I)
+                    match = self.rx_stp_bridge.search(si)
+                    v2 = self.rx_mstp_interfaces.finditer(si)
                 r["instances"] += [
                     {
                         "id": int(instance_id),

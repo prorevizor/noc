@@ -255,10 +255,10 @@ class Script(BaseScript):
         if "Protocol Status    :disabled" in v:
             return {}
         stp = []
-        for l in v.splitlines():
-            if not l:
+        for line in v.splitlines():
+            if not line:
                 continue
-            stp += [l.split()[1]]
+            stp += [line.split()[1]]
         if stp:
             stp.pop(0)
         return stp
@@ -309,13 +309,13 @@ class Script(BaseScript):
         # Get IPv4 interfaces
         ipv4_interfaces = defaultdict(list)  # interface -> [ipv4 addresses]
         c_iface = None
-        for l in self.cli("display ip interface").splitlines():
-            match = self.rx_dis_ip_int.search(l)
+        for line in self.cli("display ip interface").splitlines():
+            match = self.rx_dis_ip_int.search(line)
             if match:
                 c_iface = self.profile.convert_interface_name(match.group("interface"))
                 continue
             # Primary ip
-            match = self.rx_ip.search(l)
+            match = self.rx_ip.search(line)
             if not match:
                 continue
             ip = match.group("ip")
