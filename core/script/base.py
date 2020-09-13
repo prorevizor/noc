@@ -813,8 +813,8 @@ class BaseScript(object, metaclass=BaseScriptMetaclass):
         def format_result(result):
             if list_re:
                 x = []
-                for l in result.splitlines():
-                    match = list_re.match(l.strip())
+                for line in result.splitlines():
+                    match = list_re.match(line.strip())
                     if match:
                         x += [match.groupdict()]
                 return x
