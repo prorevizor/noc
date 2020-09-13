@@ -44,7 +44,7 @@ class Script(BaseScript):
         if result:
             return sorted(
                 result,
-                cmp=lambda x, y: (x["vlan_id"] > y["vlan_id"]) - (x["vlan_id"] < y["vlan_id"]),
+                key=lambda x: x["vlan_id"],
             )
         else:
             raise self.NotSupportedError()

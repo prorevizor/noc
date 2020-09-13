@@ -70,7 +70,7 @@ class Script(BaseScript):
             }
         return ports
 
-    rx_stp_disabled = re.compile(r"Protocol Status\s+:\s*Disabled", re.MULTILINE)
+    rx_stp_disabled = re.compile(r"Protocol Status\s+:\s*[Dd]isabled", re.MULTILINE)
 
     rx_mstp_region = re.compile(
         r"Region name\s+:(?P<region>\S+).+Revision level\s+:(?P<revision>\d+)",

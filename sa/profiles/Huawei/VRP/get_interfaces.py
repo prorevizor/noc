@@ -183,12 +183,12 @@ class Script(BaseScript):
             max_retries=self.get_getnext_retires(),
             timeout=self.get_snmp_timeout(),
         ):
+            pid_ifindex_mappings[port_num] = ifindex
             if not pvid:
                 # Avoid zero-value untagged
                 # Found on ME60-X8 5.160 (V600R008C10SPC300)
                 continue
             result[ifindex]["untagged_vlan"] = pvid
-            pid_ifindex_mappings[port_num] = ifindex
 
         for oid, vlans_bank in self.snmp.getnext(
             mib["HUAWEI-L2IF-MIB::hwL2IfTrunkPortTable"],
