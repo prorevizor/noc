@@ -249,6 +249,9 @@ class Script(BaseScript):
             return "FAN", 3, part_no
         # elif not sub and "FAN" in part_no:
         #    return "FAN", slot, None
+        elif not name and "stack interface card" in descr:
+            # On S5320-36C-EI-28S-AC: LS5D21X02S01,LS5D21X02T01,LS5D21VST000 cards
+            return "CARD", 1, part_no
         elif not name and part_no.endswith("TPC"):
             # Slot 2 - TPC
             return "CARD", 2, part_no
@@ -524,7 +527,9 @@ class Script(BaseScript):
             if item.mnf_date:
                 try:
                     mfg_date = parse_date(item.mnf_date)
-                    data["mfg_date"] = mfg_date.strftime("%Y-%m-%d")
+                    if mfg_date.year > 1980:
+                        # Check for "201�-��-�6" -> datetime.datetime(201, 6, 13, 0, 0)
+                        data["mfg_date"] = mfg_date.strftime("%Y-%m-%d")
                 except ValueError:
                     pass
             r += [data]
