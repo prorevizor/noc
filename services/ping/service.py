@@ -12,7 +12,7 @@ import time
 import datetime
 import os
 import asyncio
-from typing import Dict
+from typing import Dict, Any
 
 # Third-party modules
 import orjson
@@ -156,15 +156,13 @@ class PingService(TornadoService):
         metrics["ping_objects"] = len(self.probes)
 
     @classmethod
-    def get_status_message(cls, status: bool) -> bytes:
+    def get_status_message(cls, status: bool) -> Dict[str, Any]:
         """
         Construct status message event
         :param status:
         :return:
         """
-        return orjson.dumps(
-            {"source": "system", "$event": {"class": cls.PING_CLS[status], "vars": {}}}
-        )
+        return {"source": "system", "$event": {"class": cls.PING_CLS[status], "vars": {}}}
 
     async def ping_check(self, ps):
         """
@@ -217,7 +215,11 @@ class PingService(TornadoService):
             ps.status = s
         if ps and not self.is_throttled and s != ps.sent_status:
             self.publish(
-                self.ok_event if s else self.failed_event, stream=ps.stream, partition=ps.partition,
+                orjson.dumps(
+                    {"ts": t0, "object": ps.id, "data": self.ok_event if s else self.failed_event}
+                ),
+                stream=ps.stream,
+                partition=ps.partition,
             )
             ps.sent_status = s
         self.logger.debug("[%s] status=%s rtt=%s", address, s, rtt)

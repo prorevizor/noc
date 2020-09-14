@@ -550,7 +550,8 @@ class BaseService(object):
         apply_metrics(r)
         for topic in self.topic_queues:
             self.topic_queues[topic].apply_metrics(r)
-        self.publish_queue.apply_metrics(r)
+        if self.publish_queue:
+            self.publish_queue.apply_metrics(r)
         apply_hists(r)
         apply_quantiles(r)
         return r
@@ -562,11 +563,11 @@ class BaseService(object):
         for t in config.rpc.retry_timeout.split(","):
             yield float(t)
 
-    async def subscribe_stream(self, stream: str, partition: str, handler: Coroutine) -> None:
+    async def subscribe_stream(self, stream: str, partition: int, handler: Coroutine) -> None:
         # @todo: Restart on failure
         self.logger.info("Subscribing %s:%s", stream, partition)
         try:
-            with LiftBridgeClient() as client:
+            async with LiftBridgeClient() as client:
                 self.active_subscribers += 1
                 async for msg in client.subscribe(
                     stream=stream, partition=partition, start_position=StartPosition.RESUME
@@ -575,7 +576,7 @@ class BaseService(object):
                         await handler(msg)
                     except Exception as e:
                         self.logger.error("Failed to process message: %s", e)
-                    client.commit_offset(stream, partition, msg.offset)
+                    await client.commit_offset(stream, partition, msg.offset)
                     if self.subscriber_shutdown_waiter:
                         break
         finally:
@@ -704,7 +705,7 @@ class BaseService(object):
                 self.logger.error("Unhandled exception in liftbridge publisher: %s", e)
 
     async def publisher(self):
-        with LiftBridgeClient as client:
+        async with LiftBridgeClient as client:
             while not self.publish_queue.to_shutdown:
                 req = await self.publish_queue.get(timeout=1)
                 if not req:
@@ -1061,13 +1062,13 @@ class BaseService(object):
         :param stream:
         :return:
         """
-        with LiftBridgeClient() as client:
+        async with LiftBridgeClient() as client:
             while True:
                 meta = await client.fetch_metadata()
                 if meta.metadata:
                     for stream_meta in meta.metadata:
                         if stream_meta.name == stream:
-                            if stream_meta.patitions:
+                            if stream_meta.partitions:
                                 return len(stream_meta.partitions)
                             break
                 # Cluster election in progress or cluster is misconfigured
