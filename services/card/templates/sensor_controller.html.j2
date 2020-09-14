@@ -204,7 +204,7 @@
                                         {{ i.name }}
                                         {% if not loop.first %}, {% endif %}
                                     {% endfor %}
-                                    <div><a target="_blank" href="/ui/grafana/dashboard/script/noc.js?dashboard=link&id={{ l.id }}&refresh=15m&orgId=1">{{ _("LinkGraph") }}</a></div
+                                    <div><a target="_blank" href="/ui/grafana/dashboard/script/noc.js?dashboard=link&id={{ l.id }}&refresh=15m&orgId=1">{{ _("LinkGraph") }}</a></div>
                                 </td>
                                 <td>
                                     <div><a href="/api/card/view/managedobject/{{ l["remote_object"].id }}/">
