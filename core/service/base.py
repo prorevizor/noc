@@ -17,7 +17,7 @@ import time
 import threading
 from time import perf_counter
 import asyncio
-from typing import Optional, Dict, Tuple, Callable, Any, TypeVar, NoReturn
+from typing import Optional, Dict, Tuple, Callable, Any, TypeVar, NoReturn, Coroutine
 
 # Third-party modules
 import setproctitle
@@ -38,7 +38,7 @@ from noc.core.tz import setup_timezone
 from noc.core.nsq.topic import TopicQueue
 from noc.core.nsq.pub import mpub
 from noc.core.nsq.error import NSQPubError
-from noc.core.liftbridge.base import LiftBridgeClient
+from noc.core.liftbridge.base import LiftBridgeClient, StartPosition
 from noc.core.liftbridge.error import LiftbridgeError
 from noc.core.liftbridge.queue import LiftBridgeQueue
 from noc.core.clickhouse.shard import ShardingFunction
@@ -159,6 +159,9 @@ class BaseService(object):
         # Liftbridge publisher
         self.publish_queue: Optional[LiftBridgeQueue] = None
         self.publisher_start_lock = threading.Lock()
+        #
+        self.active_subscribers = 0
+        self.subscriber_shutdown_waiter: Optional[asyncio.Event] = None
 
     def create_parser(self) -> argparse.ArgumentParser:
         """
@@ -434,6 +437,8 @@ class BaseService(object):
                 await self.scheduler.shutdown()
             except asyncio.TimeoutError:
                 self.logger.info("Timed out when shutting down scheduler")
+        # Shutdown subscriptions
+        await self.shutdown_subscriptions()
         # Shutdown executors
         await self.shutdown_executors()
         # Custom deactivation
@@ -545,6 +550,7 @@ class BaseService(object):
         apply_metrics(r)
         for topic in self.topic_queues:
             self.topic_queues[topic].apply_metrics(r)
+        self.publish_queue.apply_metrics(r)
         apply_hists(r)
         apply_quantiles(r)
         return r
@@ -555,6 +561,27 @@ class BaseService(object):
         """
         for t in config.rpc.retry_timeout.split(","):
             yield float(t)
+
+    async def subscribe_stream(self, stream: str, partition: str, handler: Coroutine) -> None:
+        # @todo: Restart on failure
+        self.logger.info("Subscribing %s:%s", stream, partition)
+        try:
+            with LiftBridgeClient() as client:
+                self.active_subscribers += 1
+                async for msg in client.subscribe(
+                    stream=stream, partition=partition, start_position=StartPosition.RESUME
+                ):
+                    try:
+                        await handler(msg)
+                    except Exception as e:
+                        self.logger.error("Failed to process message: %s", e)
+                    client.commit_offset(stream, partition, msg.offset)
+                    if self.subscriber_shutdown_waiter:
+                        break
+        finally:
+            self.active_subscribers -= 1
+        if self.subscriber_shutdown_waiter and not self.active_subscribers:
+            self.subscriber_shutdown_waiter.set()
 
     async def subscribe(self, topic, channel, handler, raw=False, **kwargs):
         """
@@ -763,6 +790,16 @@ class BaseService(object):
                     await self.executors[x].shutdown()
                 except asyncio.TimeoutError:
                     self.logger.info("Timed out when shutting down %s", x)
+
+    async def shutdown_subscriptions(self):
+        self.logger.info("Shutting down subscriptions")
+        self.subscriber_shutdown_waiter = asyncio.Event()
+        try:
+            await asyncio.wait_for(self.subscriber_shutdown_waiter.wait(), 10)
+        except asyncio.TimeoutError:
+            self.logger.info(
+                "Timed out when shutting down subscriptions. Some message may be still processing"
+            )
 
     async def shutdown_publisher(self):
         if self.publish_queue:
