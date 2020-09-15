@@ -329,8 +329,7 @@ async def snmp_getnext(
             else:
                 # Raw varbinds
                 for oid, v in resp.varbinds:
-                    oid = smart_text(oid)
-                    s_oid = oid
+                    s_oid = smart_text(oid)
                     if oid == first_oid:
                         logger.warning("[%s] GETNEXT Oid wrap detected", address)
                         return result
