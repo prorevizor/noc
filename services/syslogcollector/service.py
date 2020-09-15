@@ -8,8 +8,12 @@
 
 # Python modules
 import datetime
-from collections import defaultdict, namedtuple
+from collections import defaultdict
 import asyncio
+from typing import Optional, Dict
+
+# Third-party modules
+import orjson
 
 # NOC modules
 from noc.config import config
@@ -19,10 +23,7 @@ from noc.core.perf import metrics
 from noc.services.syslogcollector.syslogserver import SyslogServer
 from noc.services.syslogcollector.datastream import SysologDataStreamClient
 from noc.core.ioloop.timers import PeriodicCallback
-
-SourceConfig = namedtuple(
-    "SourceConfig", ["id", "addresses", "bi_id", "process_events", "archive_events", "fm_pool"]
-)
+from .sourceconfig import SourceConfig
 
 
 class SyslogCollectorService(TornadoService):
@@ -38,6 +39,7 @@ class SyslogCollectorService(TornadoService):
         self.source_configs = {}  # id -> SourceConfig
         self.address_configs = {}  # address -> SourceConfig
         self.invalid_sources = defaultdict(int)  # ip -> count
+        self.pool_partitions: Dict[str, int] = {}
 
     async def on_activate(self):
         # Listen sockets
@@ -57,34 +59,46 @@ class SyslogCollectorService(TornadoService):
         # Start tracking changes
         asyncio.get_running_loop().create_task(self.get_object_mappings())
 
-    def lookup_config(self, address):
+    async def get_pool_partitions(self, pool: str) -> int:
+        parts = self.pool_partitions.get(pool)
+        if not parts:
+            parts = await self.get_stream_partitions("events.%s" % pool)
+            self.pool_partitions[pool] = parts
+        return parts
+
+    def lookup_config(self, address: str) -> Optional[SourceConfig]:
         """
         Returns object id for given address or None when
         unknown source
         """
         cfg = self.address_configs.get(address)
-        if not cfg:
-            # Register invalid event source
-            if self.address_configs:
-                self.invalid_sources[address] += 1
-            metrics["error", ("type", "object_not_found")] += 1
-            return None
-        return cfg
+        if cfg:
+            return cfg
+        # Register invalid event source
+        if self.address_configs:
+            self.invalid_sources[address] += 1
+        metrics["error", ("type", "object_not_found")] += 1
+        return None
 
-    def register_message(self, cfg, timestamp, message, facility, severity):
+    def register_message(
+        self, cfg: SourceConfig, timestamp: int, message: str, facility: int, severity: int
+    ) -> None:
         """
         Spool message to be sent
         """
         if cfg.process_events:
             # Send to classifier
             metrics["events_out"] += 1
-            self.pub(
-                "events.%s" % cfg.fm_pool,
-                {
-                    "ts": timestamp,
-                    "object": cfg.id,
-                    "data": {"source": "syslog", "collector": config.pool, "message": message},
-                },
+            self.publish(
+                orjson.dumps(
+                    {
+                        "ts": timestamp,
+                        "object": cfg.id,
+                        "data": {"source": "syslog", "collector": config.pool, "message": message},
+                    }
+                ),
+                stream=cfg.stream,
+                partition=cfg.partition,
             )
         if cfg.archive_events and cfg.bi_id:
             # Archive message
@@ -146,14 +160,18 @@ class SyslogCollectorService(TornadoService):
             old_addresses = set(old_cfg.addresses)
         else:
             old_addresses = set()
+        # Get pool and sharding information
+        fm_pool = data.get("fm_pool", None) or config.pool
+        num_partitions = await self.get_pool_partitions(fm_pool)
         # Build new config
         cfg = SourceConfig(
-            data["id"],
-            tuple(data["addresses"]),
-            data.get("bi_id"),  # For backward compatibility
-            data.get("process_events", True),  # For backward compatibility
-            data.get("archive_events", False),
-            data.get("fm_pool", None) or config.pool,
+            id=data["id"],
+            addresses=tuple(data["addresses"]),
+            bi_id=data.get("bi_id"),  # For backward compatibility
+            process_events=data.get("process_events", True),  # For backward compatibility
+            archive_events=data.get("archive_events", False),
+            stream="events.%s" % fm_pool,
+            partition=int(data["id"]) % num_partitions,
         )
         new_addresses = set(cfg.addresses)
         # Add new addresses, update remaining
