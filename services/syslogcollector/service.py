@@ -22,8 +22,8 @@ from noc.core.service.tornado import TornadoService
 from noc.core.perf import metrics
 from noc.services.syslogcollector.syslogserver import SyslogServer
 from noc.services.syslogcollector.datastream import SysologDataStreamClient
+from noc.services.syslogcollector.sourceconfig import SourceConfig
 from noc.core.ioloop.timers import PeriodicCallback
-from .sourceconfig import SourceConfig
 
 
 class SyslogCollectorService(TornadoService):
