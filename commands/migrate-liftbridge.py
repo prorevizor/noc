@@ -10,7 +10,7 @@ from typing import Tuple
 
 # NOC modules
 from noc.core.management.base import BaseCommand
-from noc.core.liftbridge.base import LiftBridgeClient, Metadata
+from noc.core.liftbridge.base import LiftBridgeClient, Metadata, StreamMetadata, StartPosition
 from noc.main.models.pool import Pool
 from noc.core.mongo.connection import connect
 from noc.core.service.loader import get_dcs
@@ -80,6 +80,91 @@ class Command(BaseCommand):
 
             run_sync(wrapper)
 
+        def alter_stream(
+            current_meta: StreamMetadata, new_partitions: int, replication_factor: int
+        ):
+            name = StreamMetadata.name
+            old_partitions = len(current_meta.partitions)
+            n_msg: Dict[int, int] = {}  # partition -> copied messages
+
+            async def wrapper():
+                self.print("Altering stream %s" % name)
+                async with LiftBridgeClient() as client:
+                    # Create temporary stream with same structure, as original one
+                    tmp_stream = "__tmp-%s" % name
+                    self.print("Creating temporary stream %s" % tmp_stream)
+                    await client.create_stream(
+                        subject=tmp_stream,
+                        name=tmp_stream,
+                        partitions=old_partitions,
+                        replication_factor=replication_factor,
+                    )
+                    # Copy all unread data to temporary stream as is
+                    for partition in range(old_partitions):
+                        self.print(
+                            "Copying partition %s:%s to %s:%s"
+                            % (name, partition, tmp_stream, partition)
+                        )
+                        n_msg[partition] = 0
+                        # Get current offset
+                        current_offset = await client.get_stored_offset(stream, partitions)
+                        newest_offset = stream_meta.partitions[partition].newest_offset or 0
+                        if current_offset >= newest_offset:
+                            async for msg in client.subscribe(
+                                stream=name, partition=partition, start_offset=current_offset
+                            ):
+                                await client.publish(
+                                    msg.value, stream=tmp_stream, partition=partition
+                                )
+                                n_msg[partition] += 1
+                                if msg.offset == current_offset:
+                                    break
+                        if n_msg[partition]:
+                            self.print("  %d messages has been copied" % n_msg[partition])
+                        else:
+                            self.print("  nothing to copy")
+                    # Drop original stream
+                    self.print("Dropping original stream %s" % name)
+                    await client.delete_stream(client.get_offset_stream(name))
+                    await client.delete_stream(name)
+                    # Create new stream with required structure
+                    self.print("Creating stream %s" % name)
+                    await client.create_stream(
+                        subject=name,
+                        name=name,
+                        partitions=new_partitions,
+                        replication_factor=replication_factor,
+                        init_offsets=True,
+                    )
+                    # Copy data from temporary stream to a new one
+                    for partition in range(old_partitions):
+                        self.print("Restoring partition %s:%s" % (tmp_stream, partition))
+                        # Re-route dropped partitions to partition 0
+                        dest_partition = new_partitions if partition < new_partitions else 0
+                        n = n_msg[partition]
+                        if n > 0:
+                            async for msg in client.subscribe(
+                                stream=tmp_stream,
+                                partition=partition,
+                                start_position=StartPosition.EARLIEST,
+                            ):
+                                await client.publish(
+                                    msg.value, stream=name, partition=dest_partition
+                                )
+                                n -= 1
+                                if not n:
+                                    break
+                            self.print("  %d messages restored" % n_msg[partition])
+                        else:
+                            self.print("  nothing to restore")
+                    # Drop temporary stream
+                    self.print("Dropping temporary stream %s" % tmp_stream)
+                    await client.delete_stream(tmp_stream)
+                    # Uh-oh
+                    self.print("Stream %s has been altered" % name)
+
+            run_sync(wrapper)
+
         stream_meta = None
         for m in meta.metadata:
             if m.name == stream:
@@ -88,15 +173,16 @@ class Command(BaseCommand):
         # Check if stream is configured properly
         if stream_meta and len(stream_meta.partitions) == partitions:
             return False
-        # Check if stream must be dropped
+        # Check if stream must be altered
         if stream_meta:
             self.print(
-                "Dropping stream %s due to partition/replication factor mismatch (%d -> %d)",
+                "Altering stream %s due to partition/replication factor mismatch (%d -> %d)",
                 stream,
                 len(stream_meta.partitions),
                 partitions,
             )
-            delete_stream(stream)
+            alter_stream(stream_meta, partitions, rf)
+            return True
         # Create stream
         self.print("Creating stream %s with %d partitions", stream, partitions)
         create_stream(stream, partitions, rf)
