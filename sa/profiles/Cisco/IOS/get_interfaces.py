@@ -219,8 +219,8 @@ class Script(BaseScript):
         except self.CLISyntaxError:
             return {}
         r = {}
-        for l in c.split("\n"):
-            match = self.rx_ifindex.match(l.strip())
+        for line in c.split("\n"):
+            match = self.rx_ifindex.match(line.strip())
             if match:
                 r[match.group("interface")] = int(match.group("ifindex"))
         return r
@@ -231,8 +231,8 @@ class Script(BaseScript):
     def get_ubr_pvm(self):
         vlans = self.cli("show cable l2-vpn dot1q-vc-map")
         pvm = {}
-        for l in vlans.split("\n"):
-            match = self.rx_vlan_ubr.search(l)
+        for line in vlans.split("\n"):
+            match = self.rx_vlan_ubr.search(line)
             if match:
                 port = match.group("port")
                 vlan_id = int(match.group("vlan_id"))
@@ -366,16 +366,16 @@ class Script(BaseScript):
         # Get IPv4 interfaces
         ipv4_interfaces = defaultdict(list)  # interface -> [ipv4 addresses]
         c_iface = None
-        for l in self.cli("show ip interface").splitlines():
-            match = self.rx_sh_ip_int.search(l)
+        for line in self.cli("show ip interface").splitlines():
+            match = self.rx_sh_ip_int.search(line)
             if match:
                 c_iface = self.profile.convert_interface_name(match.group("interface").strip())
                 continue
             # Primary ip
-            match = self.rx_ip.search(l)
+            match = self.rx_ip.search(line)
             if not match:
                 # Secondary ip
-                match = self.rx_sec_ip.search(l)
+                match = self.rx_sec_ip.search(line)
                 if not match:
                     continue
             ip = match.group("ip")
@@ -387,8 +387,8 @@ class Script(BaseScript):
             v = self.cli("show ipv6 interface")
         except self.CLISyntaxError:
             v = ""
-        for l in v.splitlines():
-            match = self.rx_sh_ip_int.search(l)
+        for line in v.splitlines():
+            match = self.rx_sh_ip_int.search(line)
             if match:
                 iface = match.group("interface")
                 try:
@@ -399,7 +399,7 @@ class Script(BaseScript):
             if not c_iface:
                 continue  # Skip wierd interfaces
             # Primary ip
-            match = self.rx_ipv6.search(l)
+            match = self.rx_ipv6.search(line)
             if not match:
                 # Secondary ip?
                 continue
