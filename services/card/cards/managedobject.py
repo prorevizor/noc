@@ -297,13 +297,13 @@ class ManagedObjectCard(BaseCard):
                     if key == "Interface | Load | In":
                         load_in = (
                             "%s%s" % (self.humanize_speed(value, metric_type), metric_type)
-                            if int(value)
+                            if value
                             else "-"
                         )
                     if key == "Interface | Load | Out":
                         load_out = (
                             "%s%s" % (self.humanize_speed(value, metric_type), metric_type)
-                            if int(value)
+                            if value
                             else "-"
                         )
                     if key == "Interface | Errors | In":
