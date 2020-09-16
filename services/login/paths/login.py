@@ -6,8 +6,8 @@
 # ----------------------------------------------------------------------
 
 # Third-party modules
-from fastapi import APIRouter, Request, Depends
-from fastapi.responses import UJSONResponse
+from fastapi import APIRouter, Request
+from fastapi.responses import ORJSONResponse
 
 # NOC modules
 from ..models.login import LoginRequest
@@ -21,7 +21,7 @@ router = APIRouter()
 async def login(request: Request, creds: LoginRequest):
     auth_req = {"user": creds.user, "password": creds.password, "ip": request.client.host}
     if authenticate(auth_req):
-        response = UJSONResponse({"status": True})
+        response = ORJSONResponse({"status": True})
         set_jwt_cookie(response, creds.user)
         return response
     return StatusResponse(status=False, message="Authentication failed")

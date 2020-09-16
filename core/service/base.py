@@ -294,7 +294,7 @@ class BaseService(object):
         self.add_arguments(parser)
         options = parser.parse_args(sys.argv[1:])
         cmd_options = vars(options)
-        args = cmd_options.pop("args", ())
+        cmd_options.pop("args", ())
         # Bootstrap logging with --loglevel
         self.setup_logging(cmd_options["loglevel"])
         self.log_separator()

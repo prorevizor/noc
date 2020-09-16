@@ -12,7 +12,7 @@ import codecs
 
 # Third-party modules
 from fastapi import APIRouter, Request, Cookie, Header
-from fastapi.responses import UJSONResponse
+from fastapi.responses import ORJSONResponse
 import cachetools
 
 # NOC modules
@@ -41,7 +41,7 @@ async def auth(
     """
     if original_uri and original_uri in PINHOLE_PATHS:
         # Pinholes to endpoints without authorization
-        return UJSONResponse({"status": True}, status_code=200)
+        return ORJSONResponse({"status": True}, status_code=200)
     if jwt_cookie:
         return await auth_cookie(request=request, jwt_cookie=jwt_cookie)
     if private_token:
@@ -49,22 +49,22 @@ async def auth(
     if authorization:
         return await auth_authorization(request=request, authorization=authorization)
     logger.error("[%s] Denied: Unsupported authentication method", request.client.host)
-    return UJSONResponse({"status": False}, status_code=401)
+    return ORJSONResponse({"status": False}, status_code=401)
 
 
-async def auth_cookie(request: Request, jwt_cookie: str) -> UJSONResponse:
+async def auth_cookie(request: Request, jwt_cookie: str) -> ORJSONResponse:
     """
     Authorize against JWT token contained in cookie
     """
     try:
         user = get_user_from_jwt(jwt_cookie)
-        return UJSONResponse({"status": True}, status_code=200, headers={"Remote-User": user})
+        return ORJSONResponse({"status": True}, status_code=200, headers={"Remote-User": user})
     except ValueError as e:
         logger.error("[Cookie][%s] Denied: %s", request.client.host, str(e) or "Unspecified reason")
-        return UJSONResponse({"status": False}, status_code=401)
+        return ORJSONResponse({"status": False}, status_code=401)
 
 
-async def auth_private_token(request: Request, private_token: str) -> UJSONResponse:
+async def auth_private_token(request: Request, private_token: str) -> ORJSONResponse:
     """
     Authenticate against Private-Token header
     """
@@ -72,7 +72,7 @@ async def auth_private_token(request: Request, private_token: str) -> UJSONRespo
     remote_ip = request.client.host
     user, access = get_api_access(private_token, remote_ip)
     if user and access:
-        return UJSONResponse(
+        return ORJSONResponse(
             {"status": True},
             status_code=200,
             headers={"Remote-User": user, "X-NOC-API-Access": access},
@@ -87,7 +87,7 @@ async def auth_private_token(request: Request, private_token: str) -> UJSONRespo
         remote_ip,
         reason or "Unspecified reason",
     )
-    return UJSONResponse({"status": False}, status_code=401)
+    return ORJSONResponse({"status": False}, status_code=401)
 
 
 api_key_cache = cachetools.TTLCache(100, ttl=3)
@@ -105,7 +105,7 @@ def get_api_access(key: str, ip: str) -> Tuple[str, str]:
     return APIKey.get_name_and_access_str(key, ip)
 
 
-async def auth_authorization(request: Request, authorization: str) -> UJSONResponse:
+async def auth_authorization(request: Request, authorization: str) -> ORJSONResponse:
     """
     Authenticate against Authorization header
     """
@@ -119,10 +119,10 @@ async def auth_authorization(request: Request, authorization: str) -> UJSONRespo
         request.client.host,
         schema,
     )
-    return UJSONResponse({"status": False}, status_code=401)
+    return ORJSONResponse({"status": False}, status_code=401)
 
 
-async def auth_authorization_basic(request: Request, data: str) -> UJSONResponse:
+async def auth_authorization_basic(request: Request, data: str) -> ORJSONResponse:
     """
     HTTP Basic authorization handler
     """
@@ -130,18 +130,18 @@ async def auth_authorization_basic(request: Request, data: str) -> UJSONResponse
     auth_data = smart_text(codecs.decode(smart_bytes(data), "base64"))
     if ":" not in auth_data:
         logger.error("[Authorization|Basic][%s] Denied: Malformed data", remote_ip)
-        return UJSONResponse({"status": False}, status_code=401)
+        return ORJSONResponse({"status": False}, status_code=401)
     user, password = auth_data.split(":", 1)
     credentials = {"user": user, "password": password, "ip": remote_ip}
     if authenticate(credentials):
-        response = UJSONResponse({"status": True}, status_code=200, headers={"Remote-User": user})
+        response = ORJSONResponse({"status": True}, status_code=200, headers={"Remote-User": user})
         set_jwt_cookie(response, user)
         return response
     logger.error("[Authorization|Basic][%s|%s] Denied: Authentication failed", user, remote_ip)
-    return UJSONResponse({"status": False}, status_code=401)
+    return ORJSONResponse({"status": False}, status_code=401)
 
 
-async def auth_authorization_bearer(request: Request, data: str) -> UJSONResponse:
+async def auth_authorization_bearer(request: Request, data: str) -> ORJSONResponse:
     """
     HTTP Bearer autorization handler
     :return:
@@ -152,5 +152,5 @@ async def auth_authorization_bearer(request: Request, data: str) -> UJSONRespons
         logger.error(
             "[Authorization|Bearer][%s] Denied: Authentication failed", request.client.host
         )
-        return UJSONResponse({"status": False}, status_code=401)
-    return UJSONResponse({"status": True}, status_code=200, headers={"Remote-User": user})
+        return ORJSONResponse({"status": False}, status_code=401)
+    return ORJSONResponse({"status": True}, status_code=200, headers={"Remote-User": user})
