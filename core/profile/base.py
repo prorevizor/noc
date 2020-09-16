@@ -332,7 +332,7 @@ class BaseProfile(object, metaclass=BaseProfileMetaclass):
         "noc.core.confdb.applicator.systemaaaservicelocal.DefaultSystemAAAServiceLocalApplicator",
         "noc.core.confdb.applicator.systemaaaorder.DefaultSystemAAAOrderApplicator",
         "noc.core.confdb.applicator.systemuserclass.DefaultUserClassApplicator",
-        "noc.core.confdb.applicator.systemaaasourceaddress.DefaultAAASourceAddressApplicator",
+        "noc.core.confdb.applicator.systemaaasourceaddresslookup.DefaultAAASourceAddressLookupApplicator",
         # Finally apply meta
         "noc.core.confdb.applicator.meta.MetaApplicator",
     ]

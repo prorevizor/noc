@@ -9,4 +9,4 @@
 from ..defs import DEF
 from .aaa.hints import HINTS_SYSTEM_AAA
 
-SYSTEM_HINTS_SYNTAX = DEF("system", [HINTS_SYSTEM_AAA,],)
+SYSTEM_HINTS_SYNTAX = DEF("system", [HINTS_SYSTEM_AAA])
