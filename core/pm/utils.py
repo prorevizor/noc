@@ -153,10 +153,11 @@ def get_interface_metrics(managed_objects, meric_map=None):
     ch = ch_connection()
     metric_map = defaultdict(dict)
     last_ts = {}  # mo -> ts
+    metric_fields = list(meric_map["map"].keys())
     try:
         for result in ch.execute(post=SQL):
             mo_bi_id, ts, iface = result[:3]
-            res = dict(zip(list(meric_map["map"].keys()), result[3:]))
+            res = dict(zip(metric_fields, result[3:]))
             mo = bi_map.get(mo_bi_id)
             for field, value in res.items():
                 if mo not in metric_map:
