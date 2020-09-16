@@ -705,7 +705,7 @@ class BaseService(object):
                 self.logger.error("Unhandled exception in liftbridge publisher: %s", e)
 
     async def publisher(self):
-        async with LiftBridgeClient as client:
+        async with LiftBridgeClient() as client:
             while not self.publish_queue.to_shutdown:
                 req = await self.publish_queue.get(timeout=1)
                 if not req:
