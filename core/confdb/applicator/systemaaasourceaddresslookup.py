@@ -11,7 +11,7 @@ from .query import QueryApplicator
 
 class DefaultAAASourceAddressLookupApplicator(QueryApplicator):
     """
-    Apply source-ip if default-interface set
+    Lookup source-address hints from default-interface
     """
 
     CHECK_QUERY = (
@@ -19,7 +19,7 @@ class DefaultAAASourceAddressLookupApplicator(QueryApplicator):
         " Match('hints', 'system', 'aaa', 'service-type', stype, 'default-interface')"
     )
     QUERY = [
-        # Getting source-ip from default-interface or default-address
+        # Getting source-ip from interface address by default-interface
         "((Match('hints', 'system', 'aaa', 'service-type', stype, 'default-interface', interface) and "
         " Match('virtual-router', VR, 'forwarding-instance', FI, 'interfaces', interface, 'unit', unit, 'inet', 'address', source)) and "
         " Fact('hints', 'system', 'aaa', 'service-type', stype, 'default-address', source))"
