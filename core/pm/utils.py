@@ -161,7 +161,9 @@ def get_interface_metrics(managed_objects, meric_map=None):
             for field, value in res.items():
                 if mo not in metric_map:
                     metric_map[mo] = defaultdict(dict)
-                metric_map[mo][iface][meric_map["map"].get(field)] = value
+                metric_map[mo][iface][meric_map["map"].get(field)] = (
+                    float(value) if isinstance(float(value), float) else int(value)
+                )
                 last_ts[mo] = max(ts, last_ts.get(mo, ts))
     except ClickhouseError:
         pass
