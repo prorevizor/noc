@@ -172,9 +172,7 @@ class Script(BaseScript):
 
             r[port_num] = {"local_interface": iface_name, "local_interface_subtype": port_subtype}
         if not r:
-            self.logger.warning(
-                "Not getting local LLDP port mappings. Check lldp table"
-            )
+            self.logger.warning("Not getting local LLDP port mappings. Check lldp table")
             raise NotImplementedError()
         return r
 
