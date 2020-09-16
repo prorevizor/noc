@@ -294,21 +294,21 @@ class ManagedObjectCard(BaseCard):
             if iface_metrics:
                 for key, value in iface_metrics.items():
                     metric_type = metric_type_name.get(key) or metric_type_field.get(key)
-                    if key == "load_in":
+                    if key == "Interface | Load | In":
                         load_in = (
-                            "%s%s" % (self.humanize_speed(int(value), metric_type), metric_type)
+                            "%s%s" % (self.humanize_speed(value, metric_type), metric_type)
                             if int(value)
                             else "-"
                         )
-                    if key == "load_out":
+                    if key == "Interface | Load | Out":
                         load_out = (
-                            "%s%s" % (self.humanize_speed(int(value), metric_type), metric_type)
+                            "%s%s" % (self.humanize_speed(value, metric_type), metric_type)
                             if int(value)
                             else "-"
                         )
-                    if key == "errors_in":
+                    if key == "Interface | Errors | In":
                         errors_in = value if value else "-"
-                    if key == "errors_out":
+                    if key == "Interface | Errors | Out":
                         errors_out = value if value else "-"
             interfaces += [
                 {
@@ -334,18 +334,16 @@ class ManagedObjectCard(BaseCard):
             if sensors_metrics:
                 s_metrics = sensors_metrics.get(str(i.name))
             if s_metrics:
-                sens_metrics = {}
+                sens_metrics = []
                 for i_metrics in i.profile.metrics:
-                    sens_metrics.update(
-                        {i_metrics.metric_type.field_name: i_metrics.metric_type.name}
-                    )
+                    sens_metrics.append(i_metrics.metric_type.name)
                 for key, value in s_metrics.items():
-                    if key not in sens_metrics.keys():
+                    if key not in sens_metrics:
                         continue
                     val = {
-                        "name": meric_map["map"].get(key),
-                        "type": metric_type_field[key],
-                        "value": STATUS.get(value) if metric_type_field[key] == " " else value,
+                        "name": key,
+                        "type": metric_type_name[key],
+                        "value": STATUS.get(value) if metric_type_name[key] == " " else value,
                         "threshold": None,
                     }
                     if sensors.get(i.name):

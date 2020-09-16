@@ -156,16 +156,13 @@ def get_interface_metrics(managed_objects, meric_map=None):
     try:
         for result in ch.execute(post=SQL):
             mo_bi_id, ts, iface = result[:3]
-            result = result[3:]
+            res = dict(zip(list(meric_map["map"].keys()), result[3:]))
             mo = bi_map.get(mo_bi_id)
-            i = 0
-            for r in result:
-                f_name = list(meric_map["map"].keys())[i]
+            for field, value in res.items():
                 if mo not in metric_map:
                     metric_map[mo] = defaultdict(dict)
-                metric_map[mo][iface][f_name] = r
+                metric_map[mo][iface][meric_map["map"].get(field)] = value
                 last_ts[mo] = max(ts, last_ts.get(mo, ts))
-                i += 1
     except ClickhouseError:
         pass
     return metric_map, last_ts
