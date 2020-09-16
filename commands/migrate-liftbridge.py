@@ -176,15 +176,15 @@ class Command(BaseCommand):
         # Check if stream must be altered
         if stream_meta:
             self.print(
-                "Altering stream %s due to partition/replication factor mismatch (%d -> %d)",
+                "Altering stream %s due to partition/replication factor mismatch (%d -> %d)" % (
                 stream,
                 len(stream_meta.partitions),
                 partitions,
-            )
+            ))
             alter_stream(stream_meta, partitions, rf)
             return True
         # Create stream
-        self.print("Creating stream %s with %d partitions", stream, partitions)
+        self.print("Creating stream %s with %d partitions" % (stream, partitions))
         create_stream(stream, partitions, rf)
         return True
 
