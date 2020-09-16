@@ -187,55 +187,54 @@ class Script(BaseScript):
         )
         r = []
         local_ports = self.get_local_iface()
-        if self.has_snmp():
-            for v in self.snmp.get_tables(
-                [
-                    "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.2",
-                    "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.4",
-                    "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.5",
-                    "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.6",
-                    "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.7",
-                    "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.8",
-                    "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.9",
-                ],
-                bulk=True,
-                max_retries=1,
-                display_hints={
-                    "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.7": render_bin,
-                    "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.5": render_bin,
-                },
-            ):
-                if v:
-                    neigh = dict(zip(neighb, v[2:]))
-                    # cleaning
-                    if neigh["remote_port_subtype"] == LLDP_PORT_SUBTYPE_COMPONENT:
-                        neigh["remote_port_subtype"] = LLDP_PORT_SUBTYPE_ALIAS
-                    neigh["remote_port"] = neigh["remote_port"].replace(b" \x00", b"")
-                    if neigh["remote_chassis_id_subtype"] == LLDP_CHASSIS_SUBTYPE_MAC:
-                        neigh["remote_chassis_id"] = MAC(neigh["remote_chassis_id"])
-                    if neigh["remote_port_subtype"] == LLDP_PORT_SUBTYPE_MAC:
-                        try:
-                            neigh["remote_port"] = MAC(neigh["remote_port"])
-                        except ValueError:
-                            self.logger.warning(
-                                "Bad MAC address on Remote Neighbor: %s", neigh["remote_port"]
-                            )
-                    else:
-                        neigh["remote_port"] = smart_text(neigh["remote_port"]).rstrip("\x00")
-                    if "remote_system_name" in neigh:
-                        neigh["remote_system_name"] = smart_text(
-                            neigh["remote_system_name"]
-                        ).rstrip("\x00")
-                    if "remote_port_description" in neigh:
-                        neigh["remote_port_description"] = neigh["remote_port_description"].rstrip(
-                            "\x00"
+        for v in self.snmp.get_tables(
+            [
+                "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.2",
+                "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.4",
+                "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.5",
+                "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.6",
+                "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.7",
+                "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.8",
+                "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.9",
+            ],
+            bulk=True,
+            max_retries=1,
+            display_hints={
+                "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.7": render_bin,
+                "1.3.6.1.4.1.6527.3.1.2.59.4.1.1.5": render_bin,
+            },
+        ):
+            if v:
+                neigh = dict(zip(neighb, v[2:]))
+                # cleaning
+                if neigh["remote_port_subtype"] == LLDP_PORT_SUBTYPE_COMPONENT:
+                    neigh["remote_port_subtype"] = LLDP_PORT_SUBTYPE_ALIAS
+                neigh["remote_port"] = neigh["remote_port"].replace(b" \x00", b"")
+                if neigh["remote_chassis_id_subtype"] == LLDP_CHASSIS_SUBTYPE_MAC:
+                    neigh["remote_chassis_id"] = MAC(neigh["remote_chassis_id"])
+                if neigh["remote_port_subtype"] == LLDP_PORT_SUBTYPE_MAC:
+                    try:
+                        neigh["remote_port"] = MAC(neigh["remote_port"])
+                    except ValueError:
+                        self.logger.warning(
+                            "Bad MAC address on Remote Neighbor: %s", neigh["remote_port"]
                         )
-                    r += [
-                        {
-                            "local_interface": local_ports[v[0].split(".")[1]]["local_interface"],
-                            # @todo if local interface subtype != 5
-                            # "local_interface_id": 5,
-                            "neighbors": [neigh],
-                        }
-                    ]
+                else:
+                    neigh["remote_port"] = smart_text(neigh["remote_port"]).rstrip("\x00")
+                if "remote_system_name" in neigh:
+                    neigh["remote_system_name"] = smart_text(neigh["remote_system_name"]).rstrip(
+                        "\x00"
+                    )
+                if "remote_port_description" in neigh:
+                    neigh["remote_port_description"] = neigh["remote_port_description"].rstrip(
+                        "\x00"
+                    )
+                r += [
+                    {
+                        "local_interface": local_ports[v[0].split(".")[1]]["local_interface"],
+                        # @todo if local interface subtype != 5
+                        # "local_interface_id": 5,
+                        "neighbors": [neigh],
+                    }
+                ]
         return r
