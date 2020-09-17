@@ -29,7 +29,8 @@ class Script(GetMetricsScript):
             else:
                 value = self.snmp.get("1.3.6.1.4.1.35419.20.1.10%s.0" % metric.ifindex)
             self.set_metric(
-                id=("Environment | Sensor Status", metric.path), value=value,
+                id=("Environment | Sensor Status", metric.path),
+                value=value,
             )
 
     @metrics(["Environment | Temperature"], volatile=False, access="S")  # SNMP version

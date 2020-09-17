@@ -67,7 +67,8 @@ class Script(GetMetricsScript):
                 if -55 < temp < 600:
                     value = 0
             self.set_metric(
-                id=("Environment | Sensor Status", metric.path), value=value,
+                id=("Environment | Sensor Status", metric.path),
+                value=value,
             )
 
     @metrics(["Environment | Temperature"], volatile=False, access="S")  # SNMP version
@@ -108,5 +109,6 @@ class Script(GetMetricsScript):
                 elif battery and invert == 1 and status == 1:
                     value = 0
                 self.set_metric(
-                    id=("Environment | Power | Input | Status", metric.path), value=value,
+                    id=("Environment | Power | Input | Status", metric.path),
+                    value=value,
                 )

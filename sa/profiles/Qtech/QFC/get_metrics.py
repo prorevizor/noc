@@ -34,7 +34,8 @@ class Script(GetMetricsScript):
             elif metric.ifindex in [16, 27] and status > 0:
                 value = 0
             self.set_metric(
-                id=("Environment | Sensor Status", metric.path), value=value,
+                id=("Environment | Sensor Status", metric.path),
+                value=value,
             )
 
     @metrics(["Environment | Temperature"], volatile=False, access="S")  # SNMP version
@@ -106,7 +107,8 @@ class Script(GetMetricsScript):
             else:
                 value = self.snmp.get("1.3.6.1.4.1.27514.102.0.18")
             self.set_metric(
-                id=("Environment | Power", metric.path), value=value,
+                id=("Environment | Power", metric.path),
+                value=value,
             )
 
     @metrics(["Environment | Power | Input | Status"], volatile=False, access="S")  # SNMP version
@@ -131,5 +133,6 @@ class Script(GetMetricsScript):
             if self.is_lite:
                 value = self.snmp.get("1.3.6.1.4.1.27514.103.0.25.0")
                 self.set_metric(
-                    id=("Environment | Battery | Capacity | Level", metric.path), value=value,
+                    id=("Environment | Battery | Capacity | Level", metric.path),
+                    value=value,
                 )

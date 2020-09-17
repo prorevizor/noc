@@ -28,7 +28,8 @@ class Script(GetMetricsScript):
             elif metric.ifindex == 9 and int(status) != 2:
                 value = 0
             self.set_metric(
-                id=("Environment | Sensor Status", metric.path), value=value,
+                id=("Environment | Sensor Status", metric.path),
+                value=value,
             )
 
     @metrics(["Environment | Temperature"], volatile=False, access="S")  # SNMP version
