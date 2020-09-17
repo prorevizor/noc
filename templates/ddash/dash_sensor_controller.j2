@@ -69,7 +69,7 @@
     {
       "collapse": false,
       "editable": false,
-      "height": "250px",
+      "height": "200px",
       "showTitle": true,
       "internal_comment": "info_row",
       "title": "$device $ip $vendor $platform",
@@ -88,105 +88,106 @@
                       {% endif %}
                   {%- endfor %}
               {% endif %}
-      ]
-    }
-    {% if sensors_status %}
-    ,
-        {
-          "collapse": false,
-          "editable": false,
-          "height": "250px",
-          "showTitle": false,
-          "title": "Sensors Status",
-          "internal_comment": "status_row",
-          "panels": [
-              {% include "graph_sensor_status.j2" with context -%}
-          ]
-        }
-    {% endif %}
-    {%if sensor_types %}
-    ,
-        {% set comma = joiner(",") -%}
-        {% for sensor in sensor_types -%}
-                {{ comma() }}
+              ]
+            }
+            {% if sensors_status %}
+            ,
                 {
                   "collapse": false,
                   "editable": false,
-                  "height": "250px",
-                  "showTitle": true,
-                  "title": "Sensor: {{sensor.name}} Status: {{ sensor.status }} Profile: {{ sensor.profile }} {% if sensor.descr %} Description: {{ sensor.descr }}{% endif %}",
-                  "internal_comment": "sensor_row",
+                  "height": "100px",
+                  "showTitle": false,
+                  "title": "Sensors Status",
+                  "internal_comment": "status_row",
                   "panels": [
-                        {% if "battery_capacity_level" in sensor.metrics %}
-                          {% from "graph_sensor_battery_capacity_level.j2" import sensors -%}
-                          {{sensors(sensor, loop.index)}},
-                        {% endif %}
-                        {% if "temperature" in sensor.metrics %}
-                            {% from "graph_sensor_temperature.j2" import sensors -%}
-                          {{sensors(sensor, loop.index)}},
-                        {% endif %}
-                        {% if "pulse" in sensor.metrics %}
-                            {% from "graph_sensor_pulse.j2" import sensors -%}
-                          {{sensors(sensor, loop.index)}},
-                        {% endif %}
-                        {% if "power" in sensor.metrics %}
-                            {% from "graph_sensor_power.j2" import sensors -%}
-                          {{sensors(sensor, loop.index)}},
-                        {% endif %}
-                        {% if "voltage" in sensor.metrics %}
-                            {% from "graph_sensor_voltage.j2" import sensors -%}
-                          {{sensors(sensor, loop.index)}},
-                        {% endif %}
-                        {% if "elec_current" in sensor.metrics %}
-                            {% from "graph_sensor_electric_current.j2" import sensors -%}
-                          {{sensors(sensor, loop.index)}},
-                        {% endif %}
+                      {% include "graph_sensor_status.j2" with context -%}
                   ]
                 }
-        {%- endfor %}
-    {% endif %}
-    {%if port_types %}
-    ,
-        {% set comma = joiner(",") -%}
-        {% for port in port_types -%}
-            {{ comma() }}
-            {
-              "collapse": true,
-              "editable": false,
-              "height": "250px",
-              "showTitle": true,
-              "title": "Profile: {{port.name}}",
-              "internal_comment": "port_row",
-              "panels": [
-                {% from "graph_interface_load.j2" import interface -%}
+            {% endif %}
+            {%if sensor_types %}
+            ,
+                {% set comma = joiner(",") -%}
+                {% for sensor in sensor_types -%}
+                        {{ comma() }}
+                        {
+                          "collapse": false,
+                          "editable": false,
+                          "height": "200px",
+                          "showTitle": true,
+                          "title": "Sensor: {{sensor.name}} Status: {{ sensor.status }} Profile: {{ sensor.profile }} {% if sensor.descr %} Description: {{ sensor.descr }}{% endif %}",
+                          "internal_comment": "sensor_row",
+                          "panels": [
+                                {% if "battery_capacity_level" in sensor.metrics %}
+                                  {% from "graph_sensor_battery_capacity_level.j2" import sensors -%}
+                                  {{sensors(sensor, loop.index)}},
+                                {% endif %}
+                                {% if "temperature" in sensor.metrics %}
+                                    {% from "graph_sensor_temperature.j2" import sensors -%}
+                                  {{sensors(sensor, loop.index)}},
+                                {% endif %}
+                                {% if "pulse" in sensor.metrics %}
+                                    {% from "graph_sensor_pulse.j2" import sensors -%}
+                                  {{sensors(sensor, loop.index)}},
+                                {% endif %}
+                                {% if "power" in sensor.metrics %}
+                                    {% from "graph_sensor_power.j2" import sensors -%}
+                                  {{sensors(sensor, loop.index)}},
+                                {% endif %}
+                                {% if "voltage" in sensor.metrics %}
+                                    {% from "graph_sensor_voltage.j2" import sensors -%}
+                                  {{sensors(sensor, loop.index)}},
+                                {% endif %}
+                                {% if "elec_current" in sensor.metrics %}
+                                    {% from "graph_sensor_electric_current.j2" import sensors -%}
+                                  {{sensors(sensor, loop.index)}},
+                                {% endif %}
+                          ]
+                        }
+                {%- endfor %}
+            {% endif %}
+            {% if object_metrics %}
+                ,
+                {
+                  "collapse": false,
+                  "editable": false,
+                  "height": "200px",
+                  "showTitle": true,
+                  "internal_comment": "object_metrics",
+                  "title": "Objects metrics",
+                  "panels": [
+                    {% set comma = joiner(",") -%}
+                    {% for graph in object_metrics -%}
+                      {% set template = 'graph_' + graph | lower() |replace(" ","") | replace("|","_") + '.j2' %}
+                      {{ comma() }}{% include [template, "graph_default.j2"] ignore missing with context %}
+                    {%- endfor %}
+                  ]
 
-                {{interface(port, loop.index)}}
-              ]
-            }
-        {%- endfor %}
-    {% endif %}
-    {% if port_types %}
-        ,
-            {% include "row_errors.j2" with context -%}
-    {% endif %}
-    {% if object_metrics %}
-        ,
-        {
-          "collapse": false,
-          "editable": false,
-          "height": "250px",
-          "showTitle": true,
-          "internal_comment": "object_metrics",
-          "title": "Objects metrics",
-          "panels": [
-            {% set comma = joiner(",") -%}
-            {% for graph in object_metrics -%}
-              {% set template = 'graph_' + graph | lower() |replace(" ","") | replace("|","_") + '.j2' %}
-              {{ comma() }}{% include [template, "graph_default.j2"] ignore missing with context %}
-            {%- endfor %}
-          ]
+                }
+            {% endif %}
+            {%if port_types %}
+            ,
+                {% set comma = joiner(",") -%}
+                {% for port in port_types -%}
+                    {{ comma() }}
+                    {
+                      "collapse": true,
+                      "editable": false,
+                      "height": "200px",
+                      "showTitle": true,
+                      "title": "Profile: {{port.name}}",
+                      "internal_comment": "port_row",
+                      "panels": [
+                        {% from "graph_interface_load.j2" import interface -%}
 
-        }
-    {% endif %}
+                        {{interface(port, loop.index)}}
+                      ]
+                    }
+                {%- endfor %}
+            {% endif %}
+            {% if port_types %}
+                ,
+                    {% include "row_errors.j2" with context -%}
+            {% endif %}
+
   ]
 }
