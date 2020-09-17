@@ -51,8 +51,9 @@ class Script(BaseScript):
             status = self.snmp.get("1.3.6.1.4.1.41752.5.15.1.%s.0" % index)
             if index == 1 and int(status) == 0:
                 s_status = 1
-            elif index == 2 and (-55 < float(status) < 600):
-                s_status = 1
+            elif index == 2:
+                if not isinstance(str(status, str)) and (-55 < float(status) < 600):
+                    s_status = 1
             elif index in [4, 6] and float(status) > 0:
                 s_status = 1
             elif index == 9 and int(status) != 2:
