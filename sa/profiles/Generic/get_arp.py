@@ -23,7 +23,7 @@ class Script(BaseScript):
         names = {x: y for y, x in self.scripts.get_ifindexes().items()}
         for oid, mac in self.snmp.getnext(
                 mib["RFC1213-MIB::ipNetToMediaPhysAddress"],
-                display_hints={mib["RFC1213-MIB::ipNetToMediaPhysAddress"]: render_mac()}
+                display_hints={mib["RFC1213-MIB::ipNetToMediaPhysAddress"]: render_mac}
         ):
             ifindex, ip = oid[21:].split(".", 1)
             ifname = names.get(int(ifindex))
