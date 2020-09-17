@@ -37,7 +37,10 @@ class Script(GetMetricsScript):
         for metric in metrics:
             value = self.snmp.get("1.3.6.1.4.1.35419.20.1.%s.0" % metric.ifindex, cached=True)
             self.set_metric(
-                id=("Environment | Temperature", metric.path), value=value,
+                id=("Environment | Temperature", metric.path),
+                path=["", "", metric.path[3], metric.path[3]],
+                value=value,
+                multi=True,
             )
 
     @metrics(["Environment | Voltage"], volatile=False, access="S")  # SNMP version
@@ -45,5 +48,8 @@ class Script(GetMetricsScript):
         for metric in metrics:
             value = self.snmp.get("1.3.6.1.4.1.35419.20.1.%s.0" % metric.ifindex)
             self.set_metric(
-                id=("Environment | Voltage", metric.path), value=value,
+                id=("Environment | Voltage", metric.path),
+                path=["", "", metric.path[3], metric.path[3]],
+                value=value,
+                multi=True,
             )
