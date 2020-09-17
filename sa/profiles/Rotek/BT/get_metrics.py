@@ -9,6 +9,7 @@
 from noc.sa.profiles.Generic.get_metrics import Script as GetMetricsScript, metrics
 from noc.core.validators import is_float
 
+
 class Script(GetMetricsScript):
     name = "Rotek.BT.get_metrics"
 
