@@ -9,6 +9,7 @@
 # NOC modules
 from noc.core.script.base import BaseScript
 from noc.sa.interfaces.igetinterfacestatusex import IGetInterfaceStatusEx
+from noc.core.validators import is_float
 from noc.core.mib import mib
 
 
@@ -33,7 +34,7 @@ class Script(BaseScript):
             if index == 1 and int(status) == 0:
                 s_status = 1
             elif index == 2:
-                if not isinstance(status, str) and (-55 < float(status) < 600):
+                if is_float(status) and (-55 < float(status) < 600):
                     s_status = 1
             elif index in [4, 6] and float(status) > 0:
                 s_status = 1
