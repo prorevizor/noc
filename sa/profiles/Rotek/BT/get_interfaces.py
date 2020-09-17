@@ -52,7 +52,7 @@ class Script(BaseScript):
             if index == 1 and int(status) == 0:
                 s_status = 1
             elif index == 2:
-                if not isinstance(str(status), str) and (-55 < float(status) < 600):
+                if not isinstance(status, str) and (-55 < float(status) < 600):
                     s_status = 1
             elif index in [4, 6] and float(status) > 0:
                 s_status = 1

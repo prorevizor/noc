@@ -22,7 +22,7 @@ class Script(GetMetricsScript):
             if metric.ifindex == 1 and int(status) == 0:
                 value = 0
             elif metric.ifindex == 2:
-                if not isinstance(str(status), str) and (-55 < float(status) < 600):
+                if not isinstance(status, str) and (-55 < float(status) < 600):
                     value = 0
             elif metric.ifindex in [4, 6] and float(status) > 0:
                 value = 0
@@ -38,12 +38,13 @@ class Script(GetMetricsScript):
         for metric in metrics:
             if "temp" in metric.path[3]:
                 value = self.snmp.get("1.3.6.1.4.1.41752.5.15.1.%s.0" % metric.ifindex)
-                self.set_metric(
-                    id=("Environment | Temperature", metric.path),
-                    path=["", "", metric.path[3], metric.path[3]],
-                    value=value,
-                    multi=True,
-                )
+                if not isinstance(value, str):
+                    self.set_metric(
+                        id=("Environment | Temperature", metric.path),
+                        path=["", "", metric.path[3], metric.path[3]],
+                        value=value,
+                        multi=True,
+                    )
 
     @metrics(["Environment | Voltage"], volatile=False, access="S")  # SNMP version
     def get_voltage(self, metrics):
