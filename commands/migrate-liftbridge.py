@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------
 
 # Python modules
-from typing import Tuple
+from typing import Tuple, Dict
 
 # NOC modules
 from noc.core.management.base import BaseCommand
