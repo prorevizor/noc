@@ -17,7 +17,7 @@ import struct
 
 # Third-party modules
 from grpc.aio import insecure_channel
-from grpc import StatusCode
+from grpc import StatusCode, ChannelConnectivity
 from grpc._cython.cygrpc import EOF
 
 # NOC modules
@@ -130,13 +130,20 @@ class LiftBridgeClient(object):
         return cls._offset_struct.unpack(value)[0]
 
     async def connect(self) -> None:
-        svc = random.choice(config.liftbridge.addresses)
-        logger.debug("Connecting %s:%s", svc.host, svc.port)
-        self.channel = insecure_channel("%s:%s" % (svc.host, svc.port))
-        logger.debug("Waiting for channel")
-        await self.channel.channel_ready()
-        logger.debug("Channel is ready")
-        self.stub = APIStub(self.channel)
+        while True:
+            svc = random.choice(config.liftbridge.addresses)
+            logger.debug("Connecting %s:%s", svc.host, svc.port)
+            self.channel = insecure_channel("%s:%s" % (svc.host, svc.port))
+            logger.debug("Waiting for channel")
+            try:
+                await self.wait_for_channel_ready(self.channel)
+            except ErrorUnavailable as e:
+                logger.debug("Failed to connect: %s", e)
+                await asyncio.sleep(1)
+                continue
+            logger.debug("Channel is ready")
+            self.stub = APIStub(self.channel)
+            break
 
     async def close(self) -> None:
         logger.debug("Closing channel")
@@ -336,7 +343,7 @@ class LiftBridgeClient(object):
             logger.debug("Connecting %s:%s", host, port)
             # Open separate channel for subscription
             async with insecure_channel("%s:%s" % (host, port)) as channel:
-                await channel.channel_ready()
+                await self.wait_for_channel_ready(channel)
                 logger.debug("Subscribing stream '%s'", req.stream)
                 stub = APIStub(channel)
                 if restore_position:
@@ -464,3 +471,23 @@ class LiftBridgeClient(object):
             self.get_offset_stream(stream), partition=partition, start_position=StartPosition.LATEST
         ):
             return self.decode_offset(msg.value)
+
+    @staticmethod
+    async def wait_for_channel_ready(channel):
+        """
+        Wait until channel became ready or raise ErrorUnavailable
+
+        :param channel:
+        :return:
+        """
+
+        while True:
+            state = channel.get_state(try_to_connect=True)
+            if state == ChannelConnectivity.READY:
+                return
+            if (
+                state == ChannelConnectivity.TRANSIENT_FAILURE
+                or state == ChannelConnectivity.SHUTDOWN
+            ):
+                raise ErrorUnavailable("Unavailable: %s" % state)
+            await channel.wait_for_state_change(state)
