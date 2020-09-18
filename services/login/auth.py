@@ -7,7 +7,7 @@
 
 # Python modules
 import logging
-from typing import Dict, Any
+from typing import Optional, Dict, Any
 import datetime
 
 # Third-party modules
@@ -71,20 +71,26 @@ def authenticate(credentials: Dict[str, Any]) -> bool:
     return False
 
 
-def get_jwt_token(user: str) -> str:
+def get_jwt_token(user: str, expire: Optional[int] = None, audience: Optional[str] = None) -> str:
     """
     Build JWT token for given user
     :param user: User name
+    :param expire: Expiration time in seconds
+    :param aud: Token audience
     :return:
     """
+    expire = expire or config.login.session_ttl
+    exp = datetime.datetime.utcnow() + datetime.timedelta(seconds=expire)
     payload = {
         "sub": user,
-        "exp": datetime.datetime.utcnow() + datetime.timedelta(seconds=config.login.session_ttl),
+        "exp": exp,
     }
+    if audience:
+        payload["aud"] = audience
     return jwt.encode(payload, jwt_key, algorithm=config.login.jwt_algorithm)
 
 
-def get_user_from_jwt(token: str) -> str:
+def get_user_from_jwt(token: str, audience: Optional[str] = None) -> str:
     """
     Check JWT token and return user.
     Raise ValueError if failed
@@ -96,6 +102,8 @@ def get_user_from_jwt(token: str) -> str:
         user = None
         if isinstance(token, dict):
             user = token.get("sub")
+            if audience and token.get("aud") != audience:
+                raise ValueError("Invalid audience")
         if not user:
             raise ValueError("Malformed token")
         return user
@@ -116,7 +124,7 @@ def set_jwt_cookie(response: Response, user: str) -> None:
     expires = datetime.datetime.utcnow() + datetime.timedelta(seconds=config.login.session_ttl)
     response.set_cookie(
         key=config.login.jwt_cookie_name,
-        value=get_jwt_token(user),
+        value=get_jwt_token(user, audience="auth"),
         expires=expires.strftime("%a, %d %b %Y %H:%M:%S GMT"),
     )
 
@@ -144,4 +152,22 @@ def change_credentials(credentials: Dict[str, Any]):
             continue
         except backend.LoginError as e:
             logger.error("Failed to change credentials for %s: %s", c, e)
+    return False
+
+
+def revoke_token(token: str) -> None:
+    """
+    Mark token as revoked. Any futher use will be prohibited
+    :param token:
+    :return:
+    """
+    pass  # @todo: Write actual implementation
+
+
+def is_revoked(token: str) -> bool:
+    """
+    Check if token is revoked
+    :param token: encoded JWT token to check
+    :return: True if token is revoked
+    """
     return False

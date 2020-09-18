@@ -19,7 +19,7 @@ import cachetools
 from noc.config import config
 from noc.aaa.models.apikey import APIKey
 from noc.core.comp import smart_text, smart_bytes
-from ..auth import authenticate, set_jwt_cookie, get_user_from_jwt
+from ..auth import authenticate, set_jwt_cookie, get_user_from_jwt, is_revoked
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -57,7 +57,7 @@ async def auth_cookie(request: Request, jwt_cookie: str) -> ORJSONResponse:
     Authorize against JWT token contained in cookie
     """
     try:
-        user = get_user_from_jwt(jwt_cookie)
+        user = get_user_from_jwt(jwt_cookie, audience="auth")
         return ORJSONResponse({"status": True}, status_code=200, headers={"Remote-User": user})
     except ValueError as e:
         logger.error("[Cookie][%s] Denied: %s", request.client.host, str(e) or "Unspecified reason")
@@ -146,8 +146,10 @@ async def auth_authorization_bearer(request: Request, data: str) -> ORJSONRespon
     HTTP Bearer autorization handler
     :return:
     """
+    if is_revoked(data):
+        return ORJSONResponse({"status": False}, status_code=401)
     try:
-        user = get_user_from_jwt(data)
+        user = get_user_from_jwt(data, audience="auth")
     except ValueError:
         logger.error(
             "[Authorization|Bearer][%s] Denied: Authentication failed", request.client.host
