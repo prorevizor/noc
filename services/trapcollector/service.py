@@ -77,7 +77,13 @@ class TrapCollectorService(TornadoService):
         """
         metrics["events_out"] += 1
         self.publish(
-            orjson.dumps({"ts": timestamp, "object": cfg.id, "data": data,}),
+            orjson.dumps(
+                {
+                    "ts": timestamp,
+                    "object": cfg.id,
+                    "data": data,
+                }
+            ),
             stream=cfg.stream,
             partition=cfg.partition,
         )

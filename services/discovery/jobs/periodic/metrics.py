@@ -850,5 +850,7 @@ class MetricsCheck(DiscoveryCheck):
         self.service.pub("events.%s" % self.object.pool.name, msg)
         stream, partition = self.object.events_stream_and_partition
         self.service.publish(
-            orjson.dumps(msg), stream=stream, partition=partition,
+            orjson.dumps(msg),
+            stream=stream,
+            partition=partition,
         )

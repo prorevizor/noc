@@ -1117,7 +1117,9 @@ _PUBLISHREQUEST = _descriptor.Descriptor(
         ),
     ],
     extensions=[],
-    nested_types=[_PUBLISHREQUEST_HEADERSENTRY,],
+    nested_types=[
+        _PUBLISHREQUEST_HEADERSENTRY,
+    ],
     enum_types=[],
     serialized_options=None,
     is_extendable=False,
@@ -1359,7 +1361,9 @@ _PUBLISHTOSUBJECTREQUEST = _descriptor.Descriptor(
         ),
     ],
     extensions=[],
-    nested_types=[_PUBLISHTOSUBJECTREQUEST_HEADERSENTRY,],
+    nested_types=[
+        _PUBLISHTOSUBJECTREQUEST_HEADERSENTRY,
+    ],
     enum_types=[],
     serialized_options=None,
     is_extendable=False,
@@ -1622,8 +1626,12 @@ _STREAMMETADATA = _descriptor.Descriptor(
         ),
     ],
     extensions=[],
-    nested_types=[_STREAMMETADATA_PARTITIONSENTRY,],
-    enum_types=[_STREAMMETADATA_ERROR,],
+    nested_types=[
+        _STREAMMETADATA_PARTITIONSENTRY,
+    ],
+    enum_types=[
+        _STREAMMETADATA_ERROR,
+    ],
     serialized_options=None,
     is_extendable=False,
     syntax="proto3",
@@ -2044,7 +2052,9 @@ _MESSAGE = _descriptor.Descriptor(
         ),
     ],
     extensions=[],
-    nested_types=[_MESSAGE_HEADERSENTRY,],
+    nested_types=[
+        _MESSAGE_HEADERSENTRY,
+    ],
     enum_types=[],
     serialized_options=None,
     is_extendable=False,
