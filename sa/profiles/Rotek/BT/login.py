@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------
-# Qtech.QFC.login
+# Rotek.BT.login
 # ---------------------------------------------------------------------
 # Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
@@ -15,7 +15,7 @@ class Script(BaseScript):
     Try to log in
     """
 
-    name = "Qtech.QFC.login"
+    name = "Rotek.BT.login"
     interface = ILogin
     requires = []
 
