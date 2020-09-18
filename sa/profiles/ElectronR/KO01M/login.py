@@ -20,8 +20,5 @@ class Script(BaseScript):
     requires = []
 
     def execute(self):
-        try:
-            self.http.get("/")
-            return True
-        except Exception:
-            return False
+        return {"result": True, "message": ""}
+
