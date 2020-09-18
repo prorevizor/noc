@@ -133,7 +133,9 @@ class LiftBridgeClient(object):
         svc = random.choice(config.liftbridge.addresses)
         logger.debug("Connecting %s:%s", svc.host, svc.port)
         self.channel = insecure_channel("%s:%s" % (svc.host, svc.port))
+        logger.debug("Waiting for channel")
         await self.channel.channel_ready()
+        logger.debug("Channel is ready")
         self.stub = APIStub(self.channel)
 
     async def close(self) -> None:
@@ -289,7 +291,7 @@ class LiftBridgeClient(object):
     ) -> AsyncIterable[Message]:
         # Build request
         req = SubscribeRequest(stream=stream)
-        to_restore_position = False
+        to_restore_position = start_position == StartPosition.RESUME
         if partition:
             req.partition = partition
         if resume:
@@ -305,17 +307,23 @@ class LiftBridgeClient(object):
         elif start_position == StartPosition.RESUME:
             logger.debug("Getting stored offset for stream '%s'" % stream)
             req.startPosition = StartPosition.OFFSET
-            to_restore_position = True
             logger.debug("Resuming from offset %d", req.startOffset)
         else:
             req.startPosition = start_position
+        last_offset: Optional[int] = None
         while True:
             try:
                 async for msg in self._subscribe(req, restore_position=to_restore_position):
                     yield msg
-            except ErrorUnavailable:
-                logger.error("Subscriber looses connection to partition node. Trying to reconnect")
+                    last_offset = msg.offset
+            except ErrorUnavailable as e:
+                logger.error("Subscriber looses connection to partition node: %s", e)
+                logger.info("Reconnecting")
                 await asyncio.sleep(1)
+                if not to_restore_position and last_offset is not None:
+                    # Continue from last seen position
+                    req.startPosition = StartPosition.OFFSET
+                    req.startOffset = last_offset + 1
 
     async def _subscribe(
         self, req: SubscribeRequest, restore_position: bool = False
@@ -335,6 +343,8 @@ class LiftBridgeClient(object):
                     req.startOffset = await self.get_stored_offset(
                         req.stream, partition=req.partition
                     )
+                if req.startOffset:
+                    logger.debug("Resuming from position %d", req.startOffset)
                 call = stub.Subscribe(req)
                 # NB: We cannot use `async for msg in call` construction
                 # Due to liftbridge protocol specific:
@@ -351,6 +361,7 @@ class LiftBridgeClient(object):
                 # Should be EOF, error otherwise
                 if msg is not EOF:
                     raise ErrorChannelClosed()
+                logger.debug("Stream is ready, waiting for messages")
                 # Next, process all other messages
                 msg = await call._read()
                 while msg:
@@ -365,7 +376,7 @@ class LiftBridgeClient(object):
                     msg = await call._read()
                 # Get core message to explain the result
                 code = await call.code()
-                if code is StatusCode.UNAVAILABLE:
+                if code is StatusCode.UNAVAILABLE or code is StatusCode.FAILED_PRECONDITION:
                     raise ErrorUnavailable()
                 raise ErrorChannelClosed(str(code))
 
@@ -404,22 +415,27 @@ class LiftBridgeClient(object):
 
         # Request cluster topology
         while True:
-            meta = await self.fetch_metadata()
-            if not meta.metadata:
-                # No streams, election in progress, wait for a while
-                logger.info("Waiting for election")
+            while True:
+                meta = await self.fetch_metadata()
+                if not meta.metadata:
+                    # No streams, election in progress, wait for a while
+                    logger.info("Waiting for election")
+                    await asyncio.sleep(1)
+                    continue
+                s_data = [m for m in meta.metadata if m.name == stream]
+                if not s_data:
+                    raise ErrorNotFound("Stream not found")
+                break
+            p_data = s_data[0].partitions.get(partition or 0)
+            if not p_data:
+                raise ErrorNotFound("Partition not found")
+            broker = p_data.leader if not allow_isr else random.choice(p_data.isr)
+            try:
+                return await _resolve_broker(broker)
+            except ErrorNotFound as e:
+                logger.debug("Failed to resolve broker '%s': %s", broker, e)
+                logger.debug("Retrying")
                 await asyncio.sleep(1)
-                continue
-            s_data = [m for m in meta.metadata if m.name == stream]
-            if not s_data:
-                raise ErrorNotFound("Stream not found")
-            break
-        p_data = s_data[0].partitions.get(partition or 0)
-        if not p_data:
-            raise ErrorNotFound("Partition not found")
-        if allow_isr:
-            return await _resolve_broker(random.choice(p_data.isr))
-        return await _resolve_broker(p_data.leader)
 
     async def commit_offset(self, stream: str, partition: int, offset: int) -> None:
         """
