@@ -12,10 +12,11 @@ from typing import Optional
 from fastapi import APIRouter, Cookie
 from fastapi.responses import JSONResponse
 from jose import jwt, JWTError
-import ujson
+import orjson
 
 # NOC modules
 from noc.config import config
+from noc.core.comp import smart_text
 
 router = APIRouter()
 
@@ -29,7 +30,9 @@ async def is_logged(jwt_cookie: Optional[str] = Cookie(None, alias=config.login.
     if jwt_cookie:
         try:
             token = jwt.decode(
-                jwt_cookie, ujson.dumps(config.secret_key), algorithms=[config.login.jwt_algorithm]
+                jwt_cookie,
+                smart_text(orjson.dumps(config.secret_key)),
+                algorithms=[config.login.jwt_algorithm],
             )
             result = isinstance(token, dict) and "sub" in token
         except JWTError:
