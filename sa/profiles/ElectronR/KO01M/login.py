@@ -21,4 +21,3 @@ class Script(BaseScript):
 
     def execute(self):
         return {"result": True, "message": ""}
-
