@@ -383,7 +383,11 @@ class LiftBridgeClient(object):
                     msg = await call._read()
                 # Get core message to explain the result
                 code = await call.code()
-                if code is StatusCode.UNAVAILABLE or code is StatusCode.FAILED_PRECONDITION:
+                if (
+                    code is StatusCode.UNAVAILABLE
+                    or code is StatusCode.FAILED_PRECONDITION
+                    or code is StatusCode.NOT_FOUND
+                ):
                     raise ErrorUnavailable()
                 raise ErrorChannelClosed(str(code))
 
