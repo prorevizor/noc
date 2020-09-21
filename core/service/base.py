@@ -711,7 +711,7 @@ class BaseService(object):
                 if not req:
                     continue  # Timeout or shutdown
                 try:
-                    await client.publish_sync(req)
+                    await client.publish_sync(req, wait_for_stream=True)
                 except LiftbridgeError as e:
                     self.logger.error("Failed to publish message: %s", e)
                     self.logger.error("Retry message")

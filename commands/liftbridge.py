@@ -47,6 +47,7 @@ class Command(BaseCommand):
         benchmark_publisher_parser.add_argument("--num-messages", type=int, default=1000)
         benchmark_publisher_parser.add_argument("--payload-size", type=int, default=64)
         benchmark_publisher_parser.add_argument("--batch", type=int, default=1)
+        benchmark_publisher_parser.add_argument("--wait-for-stream", action="store_true")
         # benchmark-subscriber
         benchmark_subscriber_parser = subparsers.add_parser("benchmark-subscriber")
         benchmark_subscriber_parser.add_argument("--name")
@@ -118,14 +119,21 @@ class Command(BaseCommand):
         run_sync(subscribe)
 
     def handle_benchmark_publisher(
-        self, name: str, num_messages: int, payload_size: int = 64, batch=1, *args, **kwargs
+        self,
+        name: str,
+        num_messages: int,
+        payload_size: int = 64,
+        batch=1,
+        wait_for_stream=False,
+        *args,
+        **kwargs,
     ):
         async def publisher():
             async with LiftBridgeClient() as client:
                 payload = b" " * payload_size
                 t0 = perf_counter()
                 for _ in self.progress(range(num_messages), num_messages):
-                    await client.publish(payload, stream=name)
+                    await client.publish(payload, stream=name, wait_for_stream=wait_for_stream)
                 dt = perf_counter() - t0
             self.print("%d messages sent in %.2fms" % (num_messages, dt * 1000))
             self.print(

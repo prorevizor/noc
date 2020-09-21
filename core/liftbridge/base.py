@@ -243,7 +243,14 @@ class LiftBridgeClient(object):
             req.correlationIid = correlation_id
         return req
 
-    async def publish_sync(self, req: PublishRequest) -> None:
+    async def publish_sync(self, req: PublishRequest, wait_for_stream: bool = False) -> None:
+        """
+        Send publish request and wait for acknowledge
+        :param req:
+        :param wait_for_stream: Wait for stream being created.
+        :return:
+        """
+
         # Publish
         while True:
             try:
@@ -254,6 +261,17 @@ class LiftBridgeClient(object):
                 logger.info("Loosing connection to current cluster member. Trying to reconnect")
                 await asyncio.sleep(1)
                 await self.reconnect()
+            except ErrorNotFound as e:
+                if wait_for_stream:
+                    logger.info(
+                        "Stream '%s' is not available yet. Maybe election in progress. "
+                        "Trying to reconnect",
+                        req.stream,
+                    )
+                    await asyncio.sleep(1)
+                    await self.reconnect()
+                else:
+                    raise ErrorNotFound(str(e))  # Reraise
 
     async def publish_async(self, iter_req: Iterator[PublishRequest]) -> AsyncIterable[Ack]:
         with rpc_error():
@@ -270,6 +288,7 @@ class LiftBridgeClient(object):
         ack_inbox: Optional[str] = None,
         correlation_id: Optional[str] = None,
         ack_policy: AckPolicy = AckPolicy.LEADER,
+        wait_for_stream: bool = False,
     ) -> None:
         # Build message
         req = self.get_publish_request(
@@ -283,7 +302,7 @@ class LiftBridgeClient(object):
             ack_policy=ack_policy,
         )
         # Publish
-        await self.publish_sync(req)
+        await self.publish_sync(req, wait_for_stream=wait_for_stream)
 
     async def subscribe(
         self,
