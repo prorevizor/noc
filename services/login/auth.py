@@ -98,10 +98,12 @@ def get_user_from_jwt(token: str, audience: Optional[str] = None) -> str:
     :return:
     """
     try:
-        token = jwt.decode(token, jwt_key, algorithms=[config.login.jwt_algorithm])
+        token = jwt.decode(token, jwt_key, algorithms=[config.login.jwt_algorithm], audience=audience)
+        logger.info("Parsed token: %s", token)
         user = None
         if isinstance(token, dict):
             user = token.get("sub")
+            logger.info("Audience: %s", audience)
             if audience and token.get("aud") != audience:
                 raise ValueError("Invalid audience")
         if not user:

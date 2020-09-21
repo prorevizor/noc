@@ -30,4 +30,4 @@ async def revoke(req: RevokeRequest):
         except ValueError:
             return StatusResponse(status=False, message="Invalid refresh token")
         revoke_token(req.refresh_token)
-    return StatusResponse(status=True)
+    return StatusResponse(status=True, message="Ok")

@@ -32,11 +32,11 @@ async def token(
     if req.grant_type == "refresh_token":
         # Refresh token
         if is_revoked(req.refresh_token):
-            raise HTTPException("Token is expired", status_code=HTTPStatus.FORBIDDEN)
+            raise HTTPException(detail="Token is expired", status_code=HTTPStatus.FORBIDDEN)
         try:
             user = get_user_from_jwt(req.refresh_token, audience="refresh")
-        except ValueError:
-            raise HTTPException("Access denied", status_code=HTTPStatus.FORBIDDEN)
+        except ValueError as e:
+            raise HTTPException(detail="Access denied (%s)" % e, status_code=HTTPStatus.FORBIDDEN)
         revoke_token(req.refresh_token)
         return get_token_response(user)
     elif req.grant_type == "password":
@@ -47,19 +47,19 @@ async def token(
         schema, data = authorization.split(" ", 1)
         if schema != "Basic":
             raise HTTPException(
-                "Basic authorization header required", status_code=HTTPStatus.BAD_REQUEST
+                detail="Basic authorization header required", status_code=HTTPStatus.BAD_REQUEST
             )
         auth_data = smart_text(codecs.decode(smart_bytes(data), "base64"))
         if ":" not in auth_data:
-            raise HTTPException("Invalid basic auth header", status_code=HTTPStatus.BAD_REQUEST)
+            raise HTTPException(detail="Invalid basic auth header", status_code=HTTPStatus.BAD_REQUEST)
         user, password = auth_data.split(":", 1)
         auth_req = {"user": user, "password": password, "ip": request.client.host}
     else:
-        raise HTTPException("Invalid grant type", status_code=HTTPStatus.BAD_REQUEST)
+        raise HTTPException(detail="Invalid grant type", status_code=HTTPStatus.BAD_REQUEST)
     # Authenticate
     if auth_req and authenticate(auth_req):
         return get_token_response(auth_req["user"])
-    raise HTTPException("Access denied", status_code=HTTPStatus.BAD_REQUEST)
+    raise HTTPException(detail="Access denied", status_code=HTTPStatus.BAD_REQUEST)
 
 
 def get_token_response(user: str) -> TokenResponse:
