@@ -19,8 +19,8 @@ class Script(BaseScript):
 
     type = {
         "PRWGS": "PWR",
-        "PRWH": "PRW",
-        "PUMD": "PRW",
+        "PRWH": "PWR",
+        "PUMD": "PWR",
         "SCXN": "MAINBOARD",
         "SCTM": "MAINBOARD",
         "SCXM": "MAINBOARD",
