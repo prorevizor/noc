@@ -17,7 +17,7 @@ class Script(BaseScript):
     interface = IGetPortchannel
 
     rx_num = re.compile(r"^(\d+)", re.MULTILINE)
-    rx_iface = re.compile(r"^(x?gei_\d+/\d+/\d+)\s+active", re.MULTILINE)
+    rx_iface = re.compile(r"^(x?gei[\_\-]\d+/\d+/\d+)(?:\[[SA\* ]+\])?\s+(?:active|inactive)", re.MULTILINE | re.IGNORECASE)
 
     def execute_cli(self):
         r = []
