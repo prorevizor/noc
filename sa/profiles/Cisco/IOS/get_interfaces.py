@@ -78,12 +78,13 @@ class Script(BaseScript):
     rx_ctp = re.compile(r"Keepalive set \(\d+ sec\)")
     rx_cdp = re.compile(r"^(?P<iface>\S+) is ")
     rx_lldp = re.compile(
-        r"^(?P<iface>(?:Fa|Gi|Te|Fo)[^:]+?):.+Rx: (?P<rx_state>\S+)", re.MULTILINE | re.DOTALL
+        r"^(?P<iface>(?:Fa|Gi|Te|Fo|Fi|Tw|Twe)[^:]+?):.+Rx: (?P<rx_state>\S+)",
+        re.MULTILINE | re.DOTALL,
     )
     rx_gvtp = re.compile(r"VTP Operating Mode\s+: Off", re.MULTILINE)
-    rx_vtp = re.compile(r"^\s*(?P<iface>(?:Fa|Gi|Te|Fo)[^:]+?)\s+enabled", re.MULTILINE)
+    rx_vtp = re.compile(r"^\s*(?P<iface>(?:Fa|Gi|Te|Fo|Fi|Tw|Twe)[^:]+?)\s+enabled", re.MULTILINE)
     rx_vtp1 = re.compile(
-        r"^\s*Local updater ID is \S+ on interface (?P<iface>(?:Fa|Gi|Te|Fo)[^:]+?)\s+",
+        r"^\s*Local updater ID is \S+ on interface (?P<iface>(?:Fa|Gi|Te|Fo|Fi|Tw|Twe)[^:]+?)\s+",
         re.MULTILINE,
     )
     rx_oam = re.compile(r"^\s*(?P<iface>(?:Fa|Gi|Te|Fo)\S+)\s+\S+\s+\S+\s+\S+\s+\S+\s*$")
