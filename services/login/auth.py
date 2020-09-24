@@ -98,7 +98,9 @@ def get_user_from_jwt(token: str, audience: Optional[str] = None) -> str:
     :return:
     """
     try:
-        token = jwt.decode(token, jwt_key, algorithms=[config.login.jwt_algorithm], audience=audience)
+        token = jwt.decode(
+            token, jwt_key, algorithms=[config.login.jwt_algorithm], audience=audience
+        )
         user = None
         if isinstance(token, dict):
             user = token.get("sub")

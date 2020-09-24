@@ -51,7 +51,9 @@ async def token(
             )
         auth_data = smart_text(codecs.decode(smart_bytes(data), "base64"))
         if ":" not in auth_data:
-            raise HTTPException(detail="Invalid basic auth header", status_code=HTTPStatus.BAD_REQUEST)
+            raise HTTPException(
+                detail="Invalid basic auth header", status_code=HTTPStatus.BAD_REQUEST
+            )
         user, password = auth_data.split(":", 1)
         auth_req = {"user": user, "password": password, "ip": request.client.host}
     else:
