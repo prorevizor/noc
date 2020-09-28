@@ -61,15 +61,30 @@ PATHS1 = [
     #     "M-Ethernet0/0/1",
     # ],
     [
-        [{"object": ("MockObject1", {}), "connection": ("GigabitEthernet0/0/1", ["TransEth1G"]),}],
+        [
+            {
+                "object": ("MockObject1", {}),
+                "connection": ("GigabitEthernet0/0/1", ["TransEth1G"]),
+            }
+        ],
         "GigabitEthernet0/0/1",
     ],
     [
-        [{"object": ("MockObject1", {}), "connection": ("GigabitEthernet0/0/2", ["TransEth1G"]),}],
+        [
+            {
+                "object": ("MockObject1", {}),
+                "connection": ("GigabitEthernet0/0/2", ["TransEth1G"]),
+            }
+        ],
         "GigabitEthernet0/0/2",
     ],
     [
-        [{"object": ("MockObject1", {}), "connection": ("GigabitEthernet0/0/3", ["TransEth1G"]),}],
+        [
+            {
+                "object": ("MockObject1", {}),
+                "connection": ("GigabitEthernet0/0/3", ["TransEth1G"]),
+            }
+        ],
         "GigabitEthernet0/0/3",
     ],
     [
@@ -130,7 +145,12 @@ PATHS2 = [
         "gigaethernet1/1/28",
     ],
     [
-        [{"object": ("MockObject1", {}), "connection": ("1/0/1", ["10BASET", "100BASETX"]),}],
+        [
+            {
+                "object": ("MockObject1", {}),
+                "connection": ("1/0/1", ["10BASET", "100BASETX"]),
+            }
+        ],
         "fastethernet1/0/1",
     ],
 ]
@@ -145,19 +165,39 @@ INTERFACES3 = [
 
 PATHS3 = [
     [
-        [{"object": ("MockObject1", {}), "connection": ("1", ["10BASET", "100BASETX"]),}],
+        [
+            {
+                "object": ("MockObject1", {}),
+                "connection": ("1", ["10BASET", "100BASETX"]),
+            }
+        ],
         "Ethernet1/0/1",
     ],
     [
-        [{"object": ("MockObject1", {}), "connection": ("2", ["10BASET", "100BASETX"]),}],
+        [
+            {
+                "object": ("MockObject1", {}),
+                "connection": ("2", ["10BASET", "100BASETX"]),
+            }
+        ],
         "Ethernet1/0/2",
     ],
     [
-        [{"object": ("MockObject1", {}), "connection": ("3", ["10BASET", "100BASETX"]),}],
+        [
+            {
+                "object": ("MockObject1", {}),
+                "connection": ("3", ["10BASET", "100BASETX"]),
+            }
+        ],
         "Ethernet1/0/3",
     ],
     [
-        [{"object": ("MockObject1", {}), "connection": ("sfp28", ["TransEth1G"]),}],
+        [
+            {
+                "object": ("MockObject1", {}),
+                "connection": ("sfp28", ["TransEth1G"]),
+            }
+        ],
         "Ethernet1/0/28",
     ],
 ]
