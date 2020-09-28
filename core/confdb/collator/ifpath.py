@@ -53,7 +53,11 @@ class IfPathCollator(BaseCollator):
         "m-": {"10BASET", "100BASETX"},
         "fa": {"100BASETX", "10BASET", "TransEth100M"},  # FastEthernet
         "fo": {"TransEth40G"},  # FortyGigabitEthernet
-        "gi": {"1000BASET", "1000BASETX", "TransEth1G",},  # GigabitEthernet
+        "gi": {
+            "1000BASET",
+            "1000BASETX",
+            "TransEth1G",
+        },  # GigabitEthernet
         "te": {"TransEth10G"},  # TenGigabitEthernet
         "xg": {"TransEth10G"},
     }
@@ -141,12 +145,12 @@ class IfPathCollator(BaseCollator):
             for step, num in enumerate(self.iter_path_component(physical_path)):
                 if not step:
                     continue
-                candidates = list(
-                    filter(
-                        lambda x: (len(x[0]) < step) or (len(x[0]) >= step and x[0][-step] == num),
-                        candidates,
-                    )
-                )
+                candidates = [
+                    x
+                    for x in candidates
+                    if (len(x[0]) < step) or (len(x[0]) >= step and x[0][-step] == num)
+                ]
+
             if candidates:
                 paths_candidate.append(tuple(candidates[0][0]))
 
