@@ -176,7 +176,6 @@ class ThresholdProfile(Document):
         return None
 
     def to_json(self):
-        print(self.thresholds)
         return to_json(
             {
                 "name": self.name,
