@@ -75,7 +75,7 @@ class Profile(BaseProfile):
 
     collators = [
         "noc.sa.profiles.Huawei.VRP.confdb.collators.HuaweiMgmgIfCollator",
-        "noc.core.confdb.collator.ifpath.IfPathCollator"
+        "noc.core.confdb.collator.ifpath.IfPathCollator",
     ]
 
     matchers = {
