@@ -336,6 +336,7 @@ COLLECTIONS = [
     "inv.Capability",
     "pm.MetricScope",
     "pm.MetricType",
+    "pm.ThresholdProfile",
     "fm.Enumeration",
     "inv.ConnectionRule",
     "inv.ConnectionType",
