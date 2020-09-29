@@ -58,10 +58,8 @@ class Script(BaseScript):
                     sw_ifname = "fastethernet %s" % ifname[2:]
                 elif ifname.startswith("Ex"):
                     sw_ifname = "extreme-ethernet %s" % ifname[2:]
-                c = self.cli(
-                    "show interfaces switchport %s" % sw_ifname, footer="^Forbidden VLANs:"
-                )
-                for i in parse_table(c):
+                c = self.cli("show interfaces switchport %s" % sw_ifname)
+                for i in parse_table(c, footer="^Forbidden VLANs:"):
                     vlan_id = i[0]
                     if i[2] == "Untagged":
                         sub["untagged_vlan"] = vlan_id
