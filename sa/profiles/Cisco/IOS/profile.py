@@ -128,7 +128,9 @@ class Profile(BaseProfile):
             return "CPP"
         if il.startswith("srp"):
             return "SRP %s" % interface[3:].strip()
-        if il.startswith("twe") and not il.startswith("twe "):
+        if il.startswith("twe"):
+            if il.startswith("twe "):
+                return il.capitalize()
             return "Twe %s" % interface[14:].strip()
         if il.startswith("cable"):
             match = self.rx_cable_if.search(interface)
