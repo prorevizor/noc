@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------
 # Eltex.MES24xx.get_interfaces
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -58,7 +58,9 @@ class Script(BaseScript):
                     sw_ifname = "fastethernet %s" % ifname[2:]
                 elif ifname.startswith("Ex"):
                     sw_ifname = "extreme-ethernet %s" % ifname[2:]
-                c = self.cli("show interfaces switchport %s" % sw_ifname)
+                c = self.cli(
+                    "show interfaces switchport %s" % sw_ifname, footer="^Forbidden VLANs:"
+                )
                 for i in parse_table(c):
                     vlan_id = i[0]
                     if i[2] == "Untagged":
