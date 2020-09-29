@@ -5,7 +5,7 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
-from collections import defaultdict
+# Python modules
 import logging
 
 # NOC modules
