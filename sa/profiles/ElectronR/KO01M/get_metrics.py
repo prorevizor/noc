@@ -36,13 +36,14 @@ class Script(GetMetricsScript):
     @metrics(["Environment | Temperature"], volatile=False, access="S")  # SNMP version
     def get_temperature(self, metrics):
         for metric in metrics:
-            value = self.snmp.get("1.3.6.1.4.1.35419.20.1.%s.0" % metric.ifindex, cached=True)
-            self.set_metric(
-                id=("Environment | Temperature", metric.path),
-                path=["", "", metric.path[3], metric.path[3]],
-                value=value,
-                multi=True,
-            )
+            if metric.ifindex == 140:
+                value = self.snmp.get("1.3.6.1.4.1.35419.20.1.%s.0" % metric.ifindex, cached=True)
+                self.set_metric(
+                    id=("Environment | Temperature", metric.path),
+                    path=["", "", metric.path[3], metric.path[3]],
+                    value=value,
+                    multi=True,
+                )
 
     @metrics(["Environment | Voltage"], volatile=False, access="S")  # SNMP version
     def get_voltage(self, metrics):
@@ -54,3 +55,14 @@ class Script(GetMetricsScript):
                 value=value,
                 multi=True,
             )
+
+    @metrics(["Environment | Pulse"], volatile=False, access="S")  # SNMP version
+    def get_pulse(self, metrics):
+        for metric in metrics:
+            if metric.ifindex == 160:
+                value = self.snmp.get("1.3.6.1.4.1.35419.20.1.%s.0" % metric.ifindex, cached=True)
+                self.set_metric(
+                    id=("Environment | Pulse", metric.path),
+                    path=["", "", "", metric.path[3]],
+                    value=value,
+                )
