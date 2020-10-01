@@ -13,7 +13,6 @@ from typing import List, DefaultDict, Iterator
 from noc.core.liftbridge.message import Message
 from noc.core.mx import MX_MESSAGE_TYPE
 from noc.main.models.messageroute import MessageRoute
-from noc.core.mongo.connection import connect
 from noc.core.comp import smart_bytes
 from .route import Route
 
@@ -27,7 +26,6 @@ class Router(object):
         Load up all the rules and populate the chains
         :return:
         """
-        connect()
         for route in MessageRoute.objects.filter(is_active=True).order_by("order"):
             self.chains[smart_bytes(route.type)] += [Route.from_route(route)]
 
