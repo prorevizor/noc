@@ -16,7 +16,7 @@ from noc.core.datastream.base import DataStream
 from noc.fm.models.alarmclass import AlarmClass
 from noc.fm.models.utils import get_alarm
 from noc.core.comp import smart_bytes
-from noc.core.mx import MX_ADMINISTRATIVE_DOMAIN_ID, MX_PROFILE_ID
+from noc.core.mx import MX_PROFILE_ID
 
 
 class AlarmDataStream(DataStream):
