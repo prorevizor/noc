@@ -9,7 +9,8 @@
 from typing import Optional
 
 # Third-party modules
-from aiokafka import AIOKafkaProducer, KafkaError
+from aiokafka import AIOKafkaProducer
+from aiokafka.errors import KafkaError
 
 # NOC modules
 from noc.config import config
