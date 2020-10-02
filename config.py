@@ -301,6 +301,9 @@ class Config(BaseConfig):
 
     instance = IntParameter(default=0)
 
+    class kafkasender(ConfigSection):
+        bootstrap_servers = StringParameter()
+
     language = StringParameter(default="en")
     language_code = StringParameter(default="en")
 
