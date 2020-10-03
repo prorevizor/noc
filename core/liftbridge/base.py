@@ -106,33 +106,6 @@ class LiftBridgeClient(object):
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self.close()
 
-    @staticmethod
-    def get_offset_stream(stream: str) -> str:
-        """
-        Returns name for offset stream
-        :param stream:
-        :return:
-        """
-        return "__offset.%s" % stream
-
-    @classmethod
-    def encode_offset(cls, value: int) -> bytes:
-        """
-        Encode offset value to bytes stream
-        :param value:
-        :return:
-        """
-        return cls._offset_struct.pack(value)
-
-    @classmethod
-    def decode_offset(cls, value: bytes) -> int:
-        """
-        Encode offset value to bytes stream
-        :param value:
-        :return:
-        """
-        return cls._offset_struct.unpack(value)[0]
-
     async def connect(self) -> None:
         while True:
             svc = random.choice(config.liftbridge.addresses)
@@ -508,22 +481,6 @@ class LiftBridgeClient(object):
             SetCursorRequest(
                 stream=stream, partition=partition, cursorId=cursor_id, offset=offset + 1
             )
-        )
-
-    async def commit_offset(self, stream: str, partition: int, offset: int) -> None:
-        """
-        Store last processed position of the stream
-        :param stream:
-        :param partition:
-        :param offset:
-        :return:
-        """
-        logger.debug("[%s:%s] Committing offset %d", stream, partition, offset)
-        await self.publish(
-            stream=self.get_offset_stream(stream),
-            value=self.encode_offset(offset + 1),
-            partition=partition,
-            key=self._offset_key,
         )
 
     @staticmethod
