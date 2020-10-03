@@ -33,7 +33,6 @@ class Command(BaseCommand):
         create_parser.add_argument("--subject")
         create_parser.add_argument("--partitions", type=int, default=1)
         create_parser.add_argument("--rf", type=int)
-        create_parser.add_argument("--init-offsets", action="store_true")
         # drop-stream
         delete_parser = subparsers.add_parser("delete-stream")
         delete_parser.add_argument("--name")
@@ -82,7 +81,6 @@ class Command(BaseCommand):
         subject: Optional[str] = None,
         partitions: int = 1,
         rf: int = 1,
-        init_offsets: bool = False,
         *args,
         **kwargs,
     ):
@@ -93,7 +91,6 @@ class Command(BaseCommand):
                     subject=subject,
                     partitions=partitions,
                     replication_factor=rf,
-                    init_offsets=init_offsets,
                 )
 
         subject = subject or name
@@ -197,7 +194,9 @@ class Command(BaseCommand):
                         last_msg = total_msg
                         last_size = total_size
                     if commit_offset:
-                        await client.commit_offset(name, partition=0, offset=msg.offset)
+                        await client.set_cursor(
+                            stream=name, partition=0, cursor_id="bench", offset=msg.offset
+                        )
 
         run_sync(subscriber)
 

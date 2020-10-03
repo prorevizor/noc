@@ -566,7 +566,9 @@ class BaseService(object):
                         await handler(msg)
                     except Exception as e:
                         self.logger.error("Failed to process message: %s", e)
-                    await client.commit_offset(stream, partition, msg.offset)
+                    await client.set_cursor(
+                        stream=stream, partition=partition, cursor_id=self.name, offset=msg.offset
+                    )
                     if self.subscriber_shutdown_waiter:
                         break
         finally:
