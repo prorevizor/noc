@@ -8,9 +8,12 @@
 # NOC modules
 from noc.sa.profiles.Generic.get_chassis_id import Script as BaseScript
 from noc.sa.interfaces.igetchassisid import IGetChassisID
+from noc.core.mib import mib
 
 
 class Script(BaseScript):
 
     name = "AcmePacket.NetNet.get_chassis_id"
     interface = IGetChassisID
+
+    SNMP_GETNEXT_OIDS = {"SNMP": [mib["IF-MIB::ifPhysAddress"]]}

@@ -15,7 +15,7 @@ from noc.core.mib import mib
 
 
 class Script(BaseScript):
-    name = "AcmePacket.NetNet"
+    name = "AcmePacket.NetNet.get_version"
     interface = IGetVersion
     cache = True
 

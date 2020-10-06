@@ -14,6 +14,7 @@ class Script(BaseScript):
 
     name = "AcmePacket.NetNet.get_interfaces"
     interface = IGetInterfaces
+
     MAX_REPETITIONS = 20
     MAX_GETNEXT_RETIRES = 1
 
@@ -21,4 +22,8 @@ class Script(BaseScript):
         return {}
 
     def get_portchannels(self):
+        return {}
+
+    def get_ip_ifaces(self):
+        # Stuck SNMP when getting oids
         return {}
