@@ -114,4 +114,3 @@ class Profile(BaseProfile):
     @classmethod
     def get_interface_type(cls, name):
         return cls.INTERFACE_TYPES.get(name[:2])
-
