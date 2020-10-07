@@ -8,11 +8,12 @@
 # Python modules
 from typing import Optional
 from time import perf_counter
+import functools
 
 # NOC modules
 from noc.core.management.base import BaseCommand
 from noc.core.ioloop.util import run_sync
-from noc.core.liftbridge.base import LiftBridgeClient, Metadata
+from noc.core.liftbridge.base import LiftBridgeClient, Metadata, PartitionMetadata
 from noc.core.text import alnum_key
 
 
@@ -43,7 +44,6 @@ class Command(BaseCommand):
         subscribe_parser.add_argument("--cursor", type=str, default="")
         # create-cursor
         set_cursor_parser = subparsers.add_parser("create-cursor")
-        set_cursor_parser.add_argument("--create", action="store_true", default=False)
         set_cursor_parser.add_argument("--name")
         set_cursor_parser.add_argument("--stream")
         set_cursor_parser.add_argument("--partition", type=int, default=0)
@@ -73,6 +73,10 @@ class Command(BaseCommand):
             async with LiftBridgeClient() as client:
                 return await client.fetch_metadata()
 
+        async def get_partition_meta(stream, partition) -> PartitionMetadata:
+            async with LiftBridgeClient() as client:
+                return await client.fetch_partition_metadata(stream, partition)
+
         meta: Metadata = run_sync(get_meta)
         self.print("# Brokers (%d)" % len(meta.brokers))
         self.print("%-20s | %s" % ("ID", "HOST:PORT"))
@@ -80,10 +84,19 @@ class Command(BaseCommand):
             self.print("%-20s | %s:%s" % (broker.id, broker.host, broker.port))
         self.print("# Streams")
         for stream in meta.metadata:
+            if stream.name.startswith("__"):
+                # Internal use stream like __cursor, __activity
+                continue
             print("  ## Name: %s Subject: %s" % (stream.name, stream.subject))
             for p in sorted(stream.partitions):
                 print("    ### Partition: %d" % p)
-                p_meta = stream.partitions[p]
+                try:
+                    p_meta: PartitionMetadata = run_sync(
+                        functools.partial(get_partition_meta, stream.name, p)
+                    )
+                except Exception as e:
+                    print("[%s|%s] Failed getting data for partition: %s" % (stream.name, p, e))
+                    continue
                 print("    Leader        : %s" % p_meta.leader)
                 print("    Replicas      : %s" % ", ".join(sorted(p_meta.replicas, key=alnum_key)))
                 print("    ISR           : %s" % ", ".join(sorted(p_meta.isr, key=alnum_key)))
@@ -121,7 +134,9 @@ class Command(BaseCommand):
     def handle_subscribe(self, name: str, partition: int = 0, cursor: str = "", *args, **kwargs):
         async def subscribe():
             async with LiftBridgeClient() as client:
-                async for msg in client.subscribe(stream=name, partition=partition, start_offset=0, cursor_id=cursor or None):
+                async for msg in client.subscribe(
+                    stream=name, partition=partition, start_offset=0, cursor_id=cursor or None
+                ):
                     print(
                         "# Subject: %s Partition: %s Offset: %s Timestamp: %s Key: %s Headers: %s"
                         % (
@@ -138,18 +153,28 @@ class Command(BaseCommand):
         run_sync(subscribe)
 
     def handle_set_cursor(
-            self, name: str, stream: str, partition: int = 0, create: bool = False, offset: int = 0, *args, **kwargs
+        self,
+        name: str,
+        stream: str,
+        partition: int = 0,
+        offset: int = 0,
+        *args,
+        **kwargs,
     ):
         async def set_cursor():
             async with LiftBridgeClient() as client:
-                await client.set_cursor(stream=stream, partition=partition, cursor_id=name, offset=offset)
+                await client.set_cursor(
+                    stream=stream, partition=partition, cursor_id=name, offset=offset
+                )
 
         run_sync(set_cursor)
 
     def handle_fetch_cursor(self, name: str, stream: str, partition: int = 0, *args, **kwargs):
         async def fetch_cursor():
             async with LiftBridgeClient() as client:
-                cursor = await client.fetch_cursor(stream=stream, partition=partition, cursor_id=name)
+                cursor = await client.fetch_cursor(
+                    stream=stream, partition=partition, cursor_id=name
+                )
                 print(cursor)
 
         run_sync(fetch_cursor)
