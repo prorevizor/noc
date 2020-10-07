@@ -4,6 +4,8 @@ import grpc
 
 import noc.core.liftbridge.api_pb2 as api__pb2
 
+# ModuleNotFoundError: No module named 'api_pb2' if 'import api_pb2'
+
 
 class APIStub(object):
     """API is the main Liftbridge server interface clients interact with.
@@ -16,65 +18,65 @@ class APIStub(object):
             channel: A grpc.Channel.
         """
         self.CreateStream = channel.unary_unary(
-                '/proto.API/CreateStream',
-                request_serializer=api__pb2.CreateStreamRequest.SerializeToString,
-                response_deserializer=api__pb2.CreateStreamResponse.FromString,
-                )
+            "/proto.API/CreateStream",
+            request_serializer=api__pb2.CreateStreamRequest.SerializeToString,
+            response_deserializer=api__pb2.CreateStreamResponse.FromString,
+        )
         self.DeleteStream = channel.unary_unary(
-                '/proto.API/DeleteStream',
-                request_serializer=api__pb2.DeleteStreamRequest.SerializeToString,
-                response_deserializer=api__pb2.DeleteStreamResponse.FromString,
-                )
+            "/proto.API/DeleteStream",
+            request_serializer=api__pb2.DeleteStreamRequest.SerializeToString,
+            response_deserializer=api__pb2.DeleteStreamResponse.FromString,
+        )
         self.PauseStream = channel.unary_unary(
-                '/proto.API/PauseStream',
-                request_serializer=api__pb2.PauseStreamRequest.SerializeToString,
-                response_deserializer=api__pb2.PauseStreamResponse.FromString,
-                )
+            "/proto.API/PauseStream",
+            request_serializer=api__pb2.PauseStreamRequest.SerializeToString,
+            response_deserializer=api__pb2.PauseStreamResponse.FromString,
+        )
         self.SetStreamReadonly = channel.unary_unary(
-                '/proto.API/SetStreamReadonly',
-                request_serializer=api__pb2.SetStreamReadonlyRequest.SerializeToString,
-                response_deserializer=api__pb2.SetStreamReadonlyResponse.FromString,
-                )
+            "/proto.API/SetStreamReadonly",
+            request_serializer=api__pb2.SetStreamReadonlyRequest.SerializeToString,
+            response_deserializer=api__pb2.SetStreamReadonlyResponse.FromString,
+        )
         self.Subscribe = channel.unary_stream(
-                '/proto.API/Subscribe',
-                request_serializer=api__pb2.SubscribeRequest.SerializeToString,
-                response_deserializer=api__pb2.Message.FromString,
-                )
+            "/proto.API/Subscribe",
+            request_serializer=api__pb2.SubscribeRequest.SerializeToString,
+            response_deserializer=api__pb2.Message.FromString,
+        )
         self.FetchMetadata = channel.unary_unary(
-                '/proto.API/FetchMetadata',
-                request_serializer=api__pb2.FetchMetadataRequest.SerializeToString,
-                response_deserializer=api__pb2.FetchMetadataResponse.FromString,
-                )
+            "/proto.API/FetchMetadata",
+            request_serializer=api__pb2.FetchMetadataRequest.SerializeToString,
+            response_deserializer=api__pb2.FetchMetadataResponse.FromString,
+        )
         self.FetchPartitionMetadata = channel.unary_unary(
-                '/proto.API/FetchPartitionMetadata',
-                request_serializer=api__pb2.FetchPartitionMetadataRequest.SerializeToString,
-                response_deserializer=api__pb2.FetchPartitionMetadataResponse.FromString,
-                )
+            "/proto.API/FetchPartitionMetadata",
+            request_serializer=api__pb2.FetchPartitionMetadataRequest.SerializeToString,
+            response_deserializer=api__pb2.FetchPartitionMetadataResponse.FromString,
+        )
         self.Publish = channel.unary_unary(
-                '/proto.API/Publish',
-                request_serializer=api__pb2.PublishRequest.SerializeToString,
-                response_deserializer=api__pb2.PublishResponse.FromString,
-                )
+            "/proto.API/Publish",
+            request_serializer=api__pb2.PublishRequest.SerializeToString,
+            response_deserializer=api__pb2.PublishResponse.FromString,
+        )
         self.PublishAsync = channel.stream_stream(
-                '/proto.API/PublishAsync',
-                request_serializer=api__pb2.PublishRequest.SerializeToString,
-                response_deserializer=api__pb2.PublishResponse.FromString,
-                )
+            "/proto.API/PublishAsync",
+            request_serializer=api__pb2.PublishRequest.SerializeToString,
+            response_deserializer=api__pb2.PublishResponse.FromString,
+        )
         self.PublishToSubject = channel.unary_unary(
-                '/proto.API/PublishToSubject',
-                request_serializer=api__pb2.PublishToSubjectRequest.SerializeToString,
-                response_deserializer=api__pb2.PublishToSubjectResponse.FromString,
-                )
+            "/proto.API/PublishToSubject",
+            request_serializer=api__pb2.PublishToSubjectRequest.SerializeToString,
+            response_deserializer=api__pb2.PublishToSubjectResponse.FromString,
+        )
         self.SetCursor = channel.unary_unary(
-                '/proto.API/SetCursor',
-                request_serializer=api__pb2.SetCursorRequest.SerializeToString,
-                response_deserializer=api__pb2.SetCursorResponse.FromString,
-                )
+            "/proto.API/SetCursor",
+            request_serializer=api__pb2.SetCursorRequest.SerializeToString,
+            response_deserializer=api__pb2.SetCursorResponse.FromString,
+        )
         self.FetchCursor = channel.unary_unary(
-                '/proto.API/FetchCursor',
-                request_serializer=api__pb2.FetchCursorRequest.SerializeToString,
-                response_deserializer=api__pb2.FetchCursorResponse.FromString,
-                )
+            "/proto.API/FetchCursor",
+            request_serializer=api__pb2.FetchCursorRequest.SerializeToString,
+            response_deserializer=api__pb2.FetchCursorResponse.FromString,
+        )
 
 
 class APIServicer(object):
@@ -87,15 +89,15 @@ class APIServicer(object):
         already exists.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def DeleteStream(self, request, context):
         """DeleteStream deletes a stream.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def PauseStream(self, request, context):
         """PauseStream pauses a stream's partitions. If no partitions are
@@ -103,16 +105,16 @@ class APIServicer(object):
         resumed when they are published to via the Liftbridge Publish API.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def SetStreamReadonly(self, request, context):
         """SetStreamReadonly sets a read-only flag to a partition. Returns a
         NoSuchStream error code if the given stream or partition does not exist.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def Subscribe(self, request, context):
         """Subscribe creates an ephemeral subscription for the given stream. It
@@ -121,24 +123,24 @@ class APIServicer(object):
         context to close the subscription.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def FetchMetadata(self, request, context):
         """FetchMetadata retrieves the latest cluster metadata, including stream
         broker information.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def FetchPartitionMetadata(self, request, context):
         """FetchPartitionMetadata retrieves the latest partition metadata from partition leader
         The main interest is to retrieve Highest Watermark and Newest Offset
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def Publish(self, request, context):
         """Publish a new message to a stream. If the AckPolicy is not NONE and a
@@ -147,8 +149,8 @@ class APIServicer(object):
         code is returned.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def PublishAsync(self, request_iterator, context):
         """PublishAsync is used to asynchronously publish messages to a stream in a
@@ -156,8 +158,8 @@ class APIServicer(object):
         PublishResponses for messages whose AckPolicy is not NONE.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def PublishToSubject(self, request, context):
         """Publish a Liftbridge message to a NATS subject. If the AckPolicy is not NONE and a
@@ -166,8 +168,8 @@ class APIServicer(object):
         status code is returned.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def SetCursor(self, request, context):
         """SetCursor stores a cursor position for a particular stream partition
@@ -177,8 +179,8 @@ class APIServicer(object):
         included as part of Liftbridge's semantic versioning scheme.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
     def FetchCursor(self, request, context):
         """FetchCursor retrieves a partition cursor position.
@@ -187,283 +189,426 @@ class APIServicer(object):
         included as part of Liftbridge's semantic versioning scheme.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
 
 def add_APIServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'CreateStream': grpc.unary_unary_rpc_method_handler(
-                    servicer.CreateStream,
-                    request_deserializer=api__pb2.CreateStreamRequest.FromString,
-                    response_serializer=api__pb2.CreateStreamResponse.SerializeToString,
-            ),
-            'DeleteStream': grpc.unary_unary_rpc_method_handler(
-                    servicer.DeleteStream,
-                    request_deserializer=api__pb2.DeleteStreamRequest.FromString,
-                    response_serializer=api__pb2.DeleteStreamResponse.SerializeToString,
-            ),
-            'PauseStream': grpc.unary_unary_rpc_method_handler(
-                    servicer.PauseStream,
-                    request_deserializer=api__pb2.PauseStreamRequest.FromString,
-                    response_serializer=api__pb2.PauseStreamResponse.SerializeToString,
-            ),
-            'SetStreamReadonly': grpc.unary_unary_rpc_method_handler(
-                    servicer.SetStreamReadonly,
-                    request_deserializer=api__pb2.SetStreamReadonlyRequest.FromString,
-                    response_serializer=api__pb2.SetStreamReadonlyResponse.SerializeToString,
-            ),
-            'Subscribe': grpc.unary_stream_rpc_method_handler(
-                    servicer.Subscribe,
-                    request_deserializer=api__pb2.SubscribeRequest.FromString,
-                    response_serializer=api__pb2.Message.SerializeToString,
-            ),
-            'FetchMetadata': grpc.unary_unary_rpc_method_handler(
-                    servicer.FetchMetadata,
-                    request_deserializer=api__pb2.FetchMetadataRequest.FromString,
-                    response_serializer=api__pb2.FetchMetadataResponse.SerializeToString,
-            ),
-            'FetchPartitionMetadata': grpc.unary_unary_rpc_method_handler(
-                    servicer.FetchPartitionMetadata,
-                    request_deserializer=api__pb2.FetchPartitionMetadataRequest.FromString,
-                    response_serializer=api__pb2.FetchPartitionMetadataResponse.SerializeToString,
-            ),
-            'Publish': grpc.unary_unary_rpc_method_handler(
-                    servicer.Publish,
-                    request_deserializer=api__pb2.PublishRequest.FromString,
-                    response_serializer=api__pb2.PublishResponse.SerializeToString,
-            ),
-            'PublishAsync': grpc.stream_stream_rpc_method_handler(
-                    servicer.PublishAsync,
-                    request_deserializer=api__pb2.PublishRequest.FromString,
-                    response_serializer=api__pb2.PublishResponse.SerializeToString,
-            ),
-            'PublishToSubject': grpc.unary_unary_rpc_method_handler(
-                    servicer.PublishToSubject,
-                    request_deserializer=api__pb2.PublishToSubjectRequest.FromString,
-                    response_serializer=api__pb2.PublishToSubjectResponse.SerializeToString,
-            ),
-            'SetCursor': grpc.unary_unary_rpc_method_handler(
-                    servicer.SetCursor,
-                    request_deserializer=api__pb2.SetCursorRequest.FromString,
-                    response_serializer=api__pb2.SetCursorResponse.SerializeToString,
-            ),
-            'FetchCursor': grpc.unary_unary_rpc_method_handler(
-                    servicer.FetchCursor,
-                    request_deserializer=api__pb2.FetchCursorRequest.FromString,
-                    response_serializer=api__pb2.FetchCursorResponse.SerializeToString,
-            ),
+        "CreateStream": grpc.unary_unary_rpc_method_handler(
+            servicer.CreateStream,
+            request_deserializer=api__pb2.CreateStreamRequest.FromString,
+            response_serializer=api__pb2.CreateStreamResponse.SerializeToString,
+        ),
+        "DeleteStream": grpc.unary_unary_rpc_method_handler(
+            servicer.DeleteStream,
+            request_deserializer=api__pb2.DeleteStreamRequest.FromString,
+            response_serializer=api__pb2.DeleteStreamResponse.SerializeToString,
+        ),
+        "PauseStream": grpc.unary_unary_rpc_method_handler(
+            servicer.PauseStream,
+            request_deserializer=api__pb2.PauseStreamRequest.FromString,
+            response_serializer=api__pb2.PauseStreamResponse.SerializeToString,
+        ),
+        "SetStreamReadonly": grpc.unary_unary_rpc_method_handler(
+            servicer.SetStreamReadonly,
+            request_deserializer=api__pb2.SetStreamReadonlyRequest.FromString,
+            response_serializer=api__pb2.SetStreamReadonlyResponse.SerializeToString,
+        ),
+        "Subscribe": grpc.unary_stream_rpc_method_handler(
+            servicer.Subscribe,
+            request_deserializer=api__pb2.SubscribeRequest.FromString,
+            response_serializer=api__pb2.Message.SerializeToString,
+        ),
+        "FetchMetadata": grpc.unary_unary_rpc_method_handler(
+            servicer.FetchMetadata,
+            request_deserializer=api__pb2.FetchMetadataRequest.FromString,
+            response_serializer=api__pb2.FetchMetadataResponse.SerializeToString,
+        ),
+        "FetchPartitionMetadata": grpc.unary_unary_rpc_method_handler(
+            servicer.FetchPartitionMetadata,
+            request_deserializer=api__pb2.FetchPartitionMetadataRequest.FromString,
+            response_serializer=api__pb2.FetchPartitionMetadataResponse.SerializeToString,
+        ),
+        "Publish": grpc.unary_unary_rpc_method_handler(
+            servicer.Publish,
+            request_deserializer=api__pb2.PublishRequest.FromString,
+            response_serializer=api__pb2.PublishResponse.SerializeToString,
+        ),
+        "PublishAsync": grpc.stream_stream_rpc_method_handler(
+            servicer.PublishAsync,
+            request_deserializer=api__pb2.PublishRequest.FromString,
+            response_serializer=api__pb2.PublishResponse.SerializeToString,
+        ),
+        "PublishToSubject": grpc.unary_unary_rpc_method_handler(
+            servicer.PublishToSubject,
+            request_deserializer=api__pb2.PublishToSubjectRequest.FromString,
+            response_serializer=api__pb2.PublishToSubjectResponse.SerializeToString,
+        ),
+        "SetCursor": grpc.unary_unary_rpc_method_handler(
+            servicer.SetCursor,
+            request_deserializer=api__pb2.SetCursorRequest.FromString,
+            response_serializer=api__pb2.SetCursorResponse.SerializeToString,
+        ),
+        "FetchCursor": grpc.unary_unary_rpc_method_handler(
+            servicer.FetchCursor,
+            request_deserializer=api__pb2.FetchCursorRequest.FromString,
+            response_serializer=api__pb2.FetchCursorResponse.SerializeToString,
+        ),
     }
-    generic_handler = grpc.method_handlers_generic_handler(
-            'proto.API', rpc_method_handlers)
+    generic_handler = grpc.method_handlers_generic_handler("proto.API", rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
- # This class is part of an EXPERIMENTAL API.
+# This class is part of an EXPERIMENTAL API.
 class API(object):
     """API is the main Liftbridge server interface clients interact with.
     """
 
     @staticmethod
-    def CreateStream(request,
+    def CreateStream(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/proto.API/CreateStream',
+            "/proto.API/CreateStream",
             api__pb2.CreateStreamRequest.SerializeToString,
             api__pb2.CreateStreamResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def DeleteStream(request,
+    def DeleteStream(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/proto.API/DeleteStream',
+            "/proto.API/DeleteStream",
             api__pb2.DeleteStreamRequest.SerializeToString,
             api__pb2.DeleteStreamResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def PauseStream(request,
+    def PauseStream(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/proto.API/PauseStream',
+            "/proto.API/PauseStream",
             api__pb2.PauseStreamRequest.SerializeToString,
             api__pb2.PauseStreamResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def SetStreamReadonly(request,
+    def SetStreamReadonly(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/proto.API/SetStreamReadonly',
+            "/proto.API/SetStreamReadonly",
             api__pb2.SetStreamReadonlyRequest.SerializeToString,
             api__pb2.SetStreamReadonlyResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def Subscribe(request,
+    def Subscribe(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_stream(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/proto.API/Subscribe',
+            "/proto.API/Subscribe",
             api__pb2.SubscribeRequest.SerializeToString,
             api__pb2.Message.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def FetchMetadata(request,
+    def FetchMetadata(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/proto.API/FetchMetadata',
+            "/proto.API/FetchMetadata",
             api__pb2.FetchMetadataRequest.SerializeToString,
             api__pb2.FetchMetadataResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def FetchPartitionMetadata(request,
+    def FetchPartitionMetadata(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/proto.API/FetchPartitionMetadata',
+            "/proto.API/FetchPartitionMetadata",
             api__pb2.FetchPartitionMetadataRequest.SerializeToString,
             api__pb2.FetchPartitionMetadataResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def Publish(request,
+    def Publish(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/proto.API/Publish',
+            "/proto.API/Publish",
             api__pb2.PublishRequest.SerializeToString,
             api__pb2.PublishResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def PublishAsync(request_iterator,
+    def PublishAsync(
+        request_iterator,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.stream_stream(
+            request_iterator,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.stream_stream(request_iterator, target, '/proto.API/PublishAsync',
+            "/proto.API/PublishAsync",
             api__pb2.PublishRequest.SerializeToString,
             api__pb2.PublishResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def PublishToSubject(request,
+    def PublishToSubject(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/proto.API/PublishToSubject',
+            "/proto.API/PublishToSubject",
             api__pb2.PublishToSubjectRequest.SerializeToString,
             api__pb2.PublishToSubjectResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def SetCursor(request,
+    def SetCursor(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/proto.API/SetCursor',
+            "/proto.API/SetCursor",
             api__pb2.SetCursorRequest.SerializeToString,
             api__pb2.SetCursorResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
 
     @staticmethod
-    def FetchCursor(request,
+    def FetchCursor(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/proto.API/FetchCursor',
+            "/proto.API/FetchCursor",
             api__pb2.FetchCursorRequest.SerializeToString,
             api__pb2.FetchCursorResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )
