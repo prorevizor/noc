@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------
 
 # Third-party modules
-import pytest
+# import pytest
 
 # NOC modules
-from noc.core.liftbridge.base import LiftBridgeClient
+# from noc.core.liftbridge.base import LiftBridgeClient

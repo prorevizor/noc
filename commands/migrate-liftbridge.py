@@ -89,7 +89,6 @@ class Command(BaseCommand):
                         name=name,
                         partitions=n_partitions,
                         replication_factor=replication_factor,
-                        init_offsets=True,
                     )
 
             run_sync(wrapper)
