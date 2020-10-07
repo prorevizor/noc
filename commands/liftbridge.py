@@ -9,6 +9,8 @@
 from typing import Optional
 from time import perf_counter
 import functools
+import argparse
+from dateutil.parser import parse
 
 # NOC modules
 from noc.core.management.base import BaseCommand
@@ -23,6 +25,14 @@ class Command(BaseCommand):
     """
 
     help = "Manage Liftbridge streams"
+
+    @staticmethod
+    def valid_date(s):
+        try:
+            return int(parse(s).timestamp())
+        except ValueError:
+            msg = "Not a valid date: '{0}'.".format(s)
+            raise argparse.ArgumentTypeError(msg)
 
     def add_arguments(self, parser):
         subparsers = parser.add_subparsers(dest="cmd")
@@ -42,6 +52,8 @@ class Command(BaseCommand):
         subscribe_parser.add_argument("--name")
         subscribe_parser.add_argument("--partition", type=int, default=0)
         subscribe_parser.add_argument("--cursor", type=str, default="")
+        subscribe_parser.add_argument("--start-offset", type=int, default=0)
+        subscribe_parser.add_argument("--start-ts", type=self.valid_date, default=0)
         # create-cursor
         set_cursor_parser = subparsers.add_parser("create-cursor")
         set_cursor_parser.add_argument("--name")
@@ -131,11 +143,24 @@ class Command(BaseCommand):
 
         run_sync(delete)
 
-    def handle_subscribe(self, name: str, partition: int = 0, cursor: str = "", *args, **kwargs):
+    def handle_subscribe(
+        self,
+        name: str,
+        partition: int = 0,
+        cursor: str = "",
+        start_offset: int = 0,
+        start_ts: int = None,
+        *args,
+        **kwargs,
+    ):
         async def subscribe():
             async with LiftBridgeClient() as client:
                 async for msg in client.subscribe(
-                    stream=name, partition=partition, start_offset=0, cursor_id=cursor or None
+                    stream=name,
+                    partition=partition,
+                    start_offset=start_offset,
+                    cursor_id=cursor or None,
+                    start_timestamp=start_ts,
                 ):
                     print(
                         "# Subject: %s Partition: %s Offset: %s Timestamp: %s Key: %s Headers: %s"
@@ -150,6 +175,9 @@ class Command(BaseCommand):
                     )
                     print(msg.value)
 
+        if start_ts:
+            start_offset = None
+            start_ts *= 1000000000
         run_sync(subscribe)
 
     def handle_set_cursor(
