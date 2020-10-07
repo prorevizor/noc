@@ -71,7 +71,6 @@ class Profile(BaseProfile):
         "BD": "physical",  # Bridge Domain Interface
         "BV": "aggregated",  # BVI
         "BE": "aggregated",  # Bundle
-        "C": "physical",  # @todo: fix
         "Ca": "physical",  # Cable
         "CD": "physical",  # CDMA Ix
         "Ce": "physical",  # Cellular
@@ -87,14 +86,13 @@ class Profile(BaseProfile):
         "Gr": "physical",  # Group-Async
         "Lo": "loopback",  # Loopback
         "In": "physical",  # Integrated-service-engine
-        "M": "management",  # @todo: fix
+        "Mg": "management",  # Management interface
         "MF": "aggregated",  # Multilink Frame Relay
         "Mf": "aggregated",  # Multilink Frame Relay
         "Mu": "aggregated",  # Multilink-group interface
         "ND": "other",  # Netflow Data Exporter
         "PO": "physical",  # Packet OC-3 Port Adapter
         "Po": "aggregated",  # Port-channel/Portgroup
-        "R": "aggregated",  # @todo: fix
         "SR": "physical",  # Spatial Reuse Protocol
         "Sr": "physical",  # Spatial Reuse Protocol
         "Se": "physical",  # Serial
