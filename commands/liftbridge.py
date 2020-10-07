@@ -40,6 +40,19 @@ class Command(BaseCommand):
         subscribe_parser = subparsers.add_parser("subscribe")
         subscribe_parser.add_argument("--name")
         subscribe_parser.add_argument("--partition", type=int, default=0)
+        subscribe_parser.add_argument("--cursor", type=str, default="")
+        # create-cursor
+        set_cursor_parser = subparsers.add_parser("create-cursor")
+        set_cursor_parser.add_argument("--create", action="store_true", default=False)
+        set_cursor_parser.add_argument("--name")
+        set_cursor_parser.add_argument("--stream")
+        set_cursor_parser.add_argument("--partition", type=int, default=0)
+        set_cursor_parser.add_argument("--offset", type=int, default=0)
+        # create-cursor
+        fetch_cursor_parser = subparsers.add_parser("fetch-cursor")
+        fetch_cursor_parser.add_argument("--name")
+        fetch_cursor_parser.add_argument("--stream")
+        fetch_cursor_parser.add_argument("--partition", type=int, default=0)
         # benchmark-publisher
         benchmark_publisher_parser = subparsers.add_parser("benchmark-publisher")
         benchmark_publisher_parser.add_argument("--name")
@@ -71,9 +84,11 @@ class Command(BaseCommand):
             for p in sorted(stream.partitions):
                 print("    ### Partition: %d" % p)
                 p_meta = stream.partitions[p]
-                print("    Leader   : %s" % p_meta.leader)
-                print("    Replicas : %s" % ", ".join(sorted(p_meta.replicas, key=alnum_key)))
-                print("    ISR      : %s" % ", ".join(sorted(p_meta.isr, key=alnum_key)))
+                print("    Leader        : %s" % p_meta.leader)
+                print("    Replicas      : %s" % ", ".join(sorted(p_meta.replicas, key=alnum_key)))
+                print("    ISR           : %s" % ", ".join(sorted(p_meta.isr, key=alnum_key)))
+                print("    HighWatermark : %s" % p_meta.high_watermark)
+                print("    NewestOffset  : %s" % p_meta.newest_offset)
 
     def handle_create_stream(
         self,
@@ -103,10 +118,10 @@ class Command(BaseCommand):
 
         run_sync(delete)
 
-    def handle_subscribe(self, name: str, partition: int = 0, *args, **kwargs):
+    def handle_subscribe(self, name: str, partition: int = 0, cursor: str = "", *args, **kwargs):
         async def subscribe():
             async with LiftBridgeClient() as client:
-                async for msg in client.subscribe(stream=name, partition=partition, start_offset=0):
+                async for msg in client.subscribe(stream=name, partition=partition, start_offset=0, cursor_id=cursor or None):
                     print(
                         "# Subject: %s Partition: %s Offset: %s Timestamp: %s Key: %s Headers: %s"
                         % (
@@ -121,6 +136,23 @@ class Command(BaseCommand):
                     print(msg.value)
 
         run_sync(subscribe)
+
+    def handle_set_cursor(
+            self, name: str, stream: str, partition: int = 0, create: bool = False, offset: int = 0, *args, **kwargs
+    ):
+        async def set_cursor():
+            async with LiftBridgeClient() as client:
+                await client.set_cursor(stream=stream, partition=partition, cursor_id=name, offset=offset)
+
+        run_sync(set_cursor)
+
+    def handle_fetch_cursor(self, name: str, stream: str, partition: int = 0, *args, **kwargs):
+        async def fetch_cursor():
+            async with LiftBridgeClient() as client:
+                cursor = await client.fetch_cursor(stream=stream, partition=partition, cursor_id=name)
+                print(cursor)
+
+        run_sync(fetch_cursor)
 
     def handle_benchmark_publisher(
         self,

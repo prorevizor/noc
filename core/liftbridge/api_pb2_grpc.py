@@ -8,8 +8,7 @@ import noc.core.liftbridge.api_pb2 as api__pb2
 
 
 class APIStub(object):
-    """API is the main Liftbridge server interface clients interact with.
-    """
+    """API is the main Liftbridge server interface clients interact with."""
 
     def __init__(self, channel):
         """Constructor.
@@ -80,8 +79,7 @@ class APIStub(object):
 
 
 class APIServicer(object):
-    """API is the main Liftbridge server interface clients interact with.
-    """
+    """API is the main Liftbridge server interface clients interact with."""
 
     def CreateStream(self, request, context):
         """CreateStream creates a new stream attached to a NATS subject. It returns
@@ -93,8 +91,7 @@ class APIServicer(object):
         raise NotImplementedError("Method not implemented!")
 
     def DeleteStream(self, request, context):
-        """DeleteStream deletes a stream.
-        """
+        """DeleteStream deletes a stream."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -262,8 +259,7 @@ def add_APIServicer_to_server(servicer, server):
 
 # This class is part of an EXPERIMENTAL API.
 class API(object):
-    """API is the main Liftbridge server interface clients interact with.
-    """
+    """API is the main Liftbridge server interface clients interact with."""
 
     @staticmethod
     def CreateStream(

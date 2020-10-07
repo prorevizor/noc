@@ -560,7 +560,7 @@ class BaseService(object):
             async with LiftBridgeClient() as client:
                 self.active_subscribers += 1
                 async for msg in client.subscribe(
-                    stream=stream, partition=partition, start_position=StartPosition.RESUME
+                    stream=stream, partition=partition, start_position=StartPosition.RESUME, cursor_id=self.name
                 ):
                     try:
                         await handler(msg)
