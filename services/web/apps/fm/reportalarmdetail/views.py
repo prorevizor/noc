@@ -428,13 +428,13 @@ class ReportAlarmDetailApplication(ExtApplication):
                                 a.get("escalation_tt"),
                                 a.get("escalation_ts"),
                                 ", ".join(
-                                    l
-                                    for l in (
+                                    ll
+                                    for ll in (
                                         loc.location(moss[a["managed_object"]][5])
                                         if moss[a["managed_object"]][5] is not None
                                         else ""
                                     )
-                                    if l
+                                    if ll
                                 ),
                                 container_lookup[a["managed_object"]].get("text", "")
                                 if container_lookup
@@ -529,13 +529,13 @@ class ReportAlarmDetailApplication(ExtApplication):
                                 a.get("escalation_tt"),
                                 a.get("escalation_ts"),
                                 ", ".join(
-                                    l
-                                    for l in (
+                                    ll
+                                    for ll in (
                                         loc.location(moss[a["managed_object"]][5])
                                         if moss[a["managed_object"]][5] is not None
                                         else ""
                                     )
-                                    if l
+                                    if ll
                                 ),
                                 container_lookup[a["managed_object"]].get("text", "")
                                 if container_lookup
