@@ -312,4 +312,5 @@ class BaseTopology(object):
                 ed.update(self.link_hints)
             else:
                 # @todo: Calculate new positions
-                pass  # pylint: disable=unnecessary-pass
+                # pylint: disable=unnecessary-pass
+                pass
