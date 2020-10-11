@@ -63,6 +63,7 @@ class BaseTopology(object):
         """
         Load objects and links
         """
+        # pylint: disable=unnecessary-pass
         pass
 
     def get_role(self, mo):
