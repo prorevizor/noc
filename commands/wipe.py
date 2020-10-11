@@ -114,11 +114,11 @@ class Command(BaseCommand):
 
     def get_user(self, u_id):
         """
-            Get User by id or name
-            :param u_id: Object's id or name
-            :return: ManagedObject
-            :rtype: ManagedObject
-            """
+        Get User by id or name
+        :param u_id: Object's id or name
+        :return: ManagedObject
+        :rtype: ManagedObject
+        """
         from noc.aaa.models.user import User
 
         # Try to get object by id
@@ -151,7 +151,9 @@ class Command(BaseCommand):
         from noc.ip.models.prefixaccess import PrefixAccess
         from noc.ip.models.prefixbookmark import PrefixBookmark
         from noc.kb.models.kbentrypreviewlog import KBEntryPreviewLog
+        from noc.kb.models.kbentryhistory import KBEntryHistory
         from noc.kb.models.kbuserbookmark import KBUserBookmark
+        from django.contrib.admin.models import LogEntry
 
         # Clean UserState
         with self.log("Cleaning user preferences"):
@@ -191,6 +193,12 @@ class Command(BaseCommand):
         # Clean KB User Bookmarks
         with self.log("Cleaning KB user bookmarks"):
             KBUserBookmark.objects.filter(user=o).delete()
+        # Clean KB Entry History
+        with self.log("Cleaning KB user history"):
+            KBEntryHistory.objects.filter(user=o).delete()
+        # Clean Django admin log
+        with self.log("Cleaning Django Admin log"):
+            LogEntry.objects.filter(user=o).delete()
         # Finally delete user
         with self.log("Deleting user"):
             o.delete()
