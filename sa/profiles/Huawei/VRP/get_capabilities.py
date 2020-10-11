@@ -166,7 +166,7 @@ class Script(BaseScript):
             ):
                 if entity_class == 9:
                     modules.add(str(index.split(".")[-1]))
-        return list(modules)
+        return list(sorted(modules))
 
     def execute_platform_cli(self, caps):
         if self.has_ndp_cli():
