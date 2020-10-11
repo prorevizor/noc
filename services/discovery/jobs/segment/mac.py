@@ -126,6 +126,7 @@ class MACDiscoveryCheck(TopologyDiscoveryCheck):
                         # All objects from mo:iface are seen via ro
                         uplink = uplinks.get(ro)
                         if uplink:
+                            # @todo lacp
                             self.confirm_link(mo, iface, ro, uplink)
                             break
                         else:
@@ -148,15 +149,19 @@ class MACDiscoveryCheck(TopologyDiscoveryCheck):
             # Check if objects belong to same segment
             if ro.segment.id == mo.segment.id:
                 if ro.object_profile.level > mo.object_profile.level:
+                    self.logger.debug("[%s|%s] Uplink by same segment and diff level", mo, if_fib)
                     return True  # Same segment, compare object's levels
                 continue  # Same segment, no preference
-            # Check if object is outside of segment tree
-            if ro.segment.id not in segments:
-                return True  # Leads outside of segment tree
             # Check if ro's segment is ancestor of mo's one
             if ro.segment.id in mo.segment.get_path():
+                self.logger.debug("[%s|%s] Uplink by ancestor mo", mo, if_fib)
                 return True
             # Compare object's levels
             if ro.object_profile.level > mo.object_profile.level:
+                self.logger.debug("[%s|%s] Uplink by object level mo", mo, if_fib)
                 return True
+            # Check if object is outside of segment tree
+            if ro.segment.id not in segments:
+                self.logger.debug("[%s|%s] Uplink by outside segment tree", mo, if_fib)
+                return True  # Leads outside of segment tree
         return False
