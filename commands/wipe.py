@@ -143,7 +143,9 @@ class Command(BaseCommand):
         from noc.main.models.notificationgroup import NotificationGroupUser
         from noc.main.models.audittrail import AuditTrail
         from noc.aaa.models.usercontact import UserContact
+        from noc.aaa.models.permission import Permission
         from noc.main.models.userstate import UserState
+        from noc.main.models.favorites import Favorites
         from noc.sa.models.useraccess import UserAccess
         from noc.fm.models.activealarm import ActiveAlarm
         from noc.ip.models.prefixaccess import PrefixAccess
@@ -166,6 +168,9 @@ class Command(BaseCommand):
         # Clean user access
         with self.log("Cleaning management object access"):
             UserAccess.objects.filter(user=o).delete()
+        # Clean user permission
+        with self.log("Cleaning permission access"):
+            Permission.objects.filter(users=o).delete()
         # Unsubscribe from alarms
         with self.log("Unsubscribing from alarms"):
             for a in ActiveAlarm.objects.filter(subscribers=o.id):
@@ -177,6 +182,9 @@ class Command(BaseCommand):
         # Clean Prefix Bookmarks
         with self.log("Cleaning prefix bookmarks"):
             PrefixBookmark.objects.filter(user=o).delete()
+        # Clean Favorites Bookmarks
+        with self.log("Cleaning favorites bookmarks"):
+            Favorites.objects.filter(user=o).delete()
         # Clean KB Preview log
         with self.log("Cleaning KB preview log"):
             KBEntryPreviewLog.objects.filter(user=o).delete()
