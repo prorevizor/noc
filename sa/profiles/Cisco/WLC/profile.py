@@ -26,7 +26,7 @@ class Profile(BaseProfile):
         "Lo": "loopback",  # Loopback
         "Tu": "tunnel",  # Tunnel
         "Tw": "physical",  # TwoGigabitEthernet or TwentyFiveGigE
-        "Vi": "template",  # Virtual Interface
+        "Vi": "SVI",  # Virtual Interface
         "VL": "SVI",  # VLAN, found on C3500XL
         "Vl": "SVI",  # Vlan
     }
@@ -36,4 +36,7 @@ class Profile(BaseProfile):
         return cls.INTERFACE_TYPES.get(name[:2])
 
     def convert_interface_name(self, interface):
+        if interface.startswith("Virtual"):
+            # Virtual Interface
+            return "virtual"
         return self.convert_interface_name_cisco(interface)
