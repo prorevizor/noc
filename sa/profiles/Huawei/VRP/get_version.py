@@ -97,7 +97,7 @@ class Script(BaseScript):
     def find_re(self, iter, s):
         for re_num, r in enumerate(iter):
             if r.search(s):
-                self.logger.info("Match %d re", re_num)
+                self.logger.debug("Match %d re", re_num)
                 return r
         raise self.UnexpectedResultError()
 
@@ -200,7 +200,6 @@ class Script(BaseScript):
         match = rx.search(v)
         image = None
         platform = platform or match.group("platform")
-        print("Platform", platform)
         # Convert NetEngine to NE
         if platform.lower().startswith("netengine"):
             n, p = platform.split(" ", 1)

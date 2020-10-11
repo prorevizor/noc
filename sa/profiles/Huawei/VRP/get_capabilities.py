@@ -99,7 +99,7 @@ class Script(BaseScript):
         if "device is not in stacking" in out:
             return []
         r = self.profile.parse_table(out, part_name="stack")
-        return [l[0] for l in r["stack"]["table"]] if "table" in r["stack"] else []
+        return [ll[0] for ll in r["stack"]["table"]] if "table" in r["stack"] else []
 
     def has_slot(self):
         """
