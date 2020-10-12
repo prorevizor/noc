@@ -375,9 +375,9 @@ class Profile(BaseProfile):
         vlans = []
         match_first = True
         c = script.cli("show vlan", cached=True)
-        for l in c.split("\n\n"):
+        for ll in c.split("\n\n"):
             if match_first:
-                match = self.rx_vlan.search(l)
+                match = self.rx_vlan.search(ll)
                 if match:
                     tagged_ports = script.expand_interface_range(match.group("tagged_ports"))
                     untagged_ports = script.expand_interface_range(match.group("untagged_ports"))
@@ -391,14 +391,14 @@ class Profile(BaseProfile):
                         }
                     ]
                 else:
-                    v = self.get_vlan(script, l)
+                    v = self.get_vlan(script, ll)
                     if v is not None:
                         vlans += [v]
                         match_first = False
             else:
-                v = self.get_vlan(script, l)
+                v = self.get_vlan(script, ll)
                 if v is not None:
-                    vlans += [self.get_vlan(script, l)]
+                    vlans += [self.get_vlan(script, ll)]
         return vlans
 
     def cleaned_config(self, config):
