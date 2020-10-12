@@ -78,7 +78,14 @@ class KafkaSenderService(FastAPIService):
         if not self.producer:
             bootstrap = [x.strip() for x in config.kafkasender.bootstrap_servers.split(",")]
             self.logger.info("Connecting to producer using bootstrap services %s", bootstrap)
-            self.producer = AIOKafkaProducer(bootstrap_servers=bootstrap, acks="all")
+            self.producer = AIOKafkaProducer(
+                bootstrap_servers=bootstrap,
+                acks="all",
+                sasl_mechanism=config.kafkasender.sasl_mechanism,
+                security_protocol=config.kafkasender.security_protocol,
+                sasl_plain_username=config.kafkasender.username,
+                sasl_plain_password=config.kafkasender.password,
+            )
             await self.producer.start()
         return self.producer
 
