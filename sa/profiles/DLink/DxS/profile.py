@@ -212,7 +212,7 @@ class Profile(BaseProfile):
         r"(?P<admin_flowctrl>Enabled|Disabled)\s+"
         r"(?P<status>LinkDown|Link\sDown||(?:Err|Loop)\-Disabled|Empty)?"
         r"((?P<speed>10M|100M|1000M|10G)/"
-        r"(?P<duplex>Half|Full)/(?P<flowctrl>None|Disabled|802.3x))?\s+"
+        r"(?P<duplex>Half|Full)/(?P<flowctrl>None|Enabled|Disabled|802.3x))?\s+"
         r"(?P<addr_learning>Enabled|Disabled)\s*"
         r"((?P<trap_state>Enabled|Disabled)\s*)?"
         r"((?P<asd>\-)\s*)?"
