@@ -29,6 +29,7 @@ class Command(BaseCommand):
         split_floating_parser.add_argument("ids", nargs=argparse.REMAINDER, help="Segment ids")
         #
         reactivate_floating_parser = subparsers.add_parser("reactivate-floating")
+        reactivate_floating_parser.add_argument("--profile", help="Floating segment profile id")
         reactivate_floating_parser.add_argument("ids", nargs=argparse.REMAINDER, help="Segment ids")
         #
         subparsers.add_parser("show-trials")
@@ -155,9 +156,15 @@ class Command(BaseCommand):
             n_seg += 1
         self.print("### %d objects are floating in %d segments" % (n_mo, n_seg))
 
-    def handle_reactivate_floating(self, ids, *args, **options):
+    def handle_reactivate_floating(self, profile, ids, *args, **options):
         connect()
-        for seg_id in ids:
+        ns = NetworkSegment.objects.filter()
+        if ids:
+            ns = NetworkSegment.objects.filter(id__in=ids)
+        if profile:
+            p = NetworkSegmentProfile.objects.get(name=profile)
+            ns = ns.filter(profile=p)
+        for seg_id in ns.scalar("id"):
             seg = NetworkSegment.get_by_id(seg_id)
             if not seg:
                 self.print("@@@ %s - not found. Skipping" % seg_id)
