@@ -182,6 +182,7 @@ class ReportMetricsDetailApplication(ExtApplication):
             "DISCARDS_IN_SUM",
             "DISCARDS_OUT",
             "DISCARDS_OUT_SUM",
+            "SLOT",
             "CPU_USAGE",
             "MEMORY_USAGE",
             "PING_RTT",
