@@ -63,8 +63,6 @@ class BaseTopology(object):
         """
         Load objects and links
         """
-        # pylint: disable=unnecessary-pass
-        pass
 
     def get_role(self, mo):
         """
@@ -311,7 +309,4 @@ class BaseTopology(object):
             if ed["id"] in self.link_hints:
                 # Use existing hints
                 ed.update(self.link_hints)
-            else:
-                # @todo: Calculate new positions
-                # pylint: disable=unnecessary-pass
-                pass
+            # @todo: Calculate new positions
