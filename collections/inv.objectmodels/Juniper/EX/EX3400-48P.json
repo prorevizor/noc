@@ -518,8 +518,7 @@
             "group": "0",
             "name": "pem1",
             "type__name": "Juniper | EX | 4300 PSU"
-        },
-
+        }
     ],
     "data": {
         "asset": {
