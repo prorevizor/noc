@@ -21,7 +21,7 @@ class Command(BaseCommand):
     STREAMS = [
         # slot name, stream name
         ("mx", "message"),
-        ("kafkasender", "kafkasender")
+        ("kafkasender", "kafkasender"),
     ]
     POOLED_STREAMS = [
         # slot name, stream name
