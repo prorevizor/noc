@@ -16,7 +16,7 @@ from .base import BaseAuthBackend
 
 
 class LdapBackend(BaseAuthBackend):
-    def authenticate(self, user=None, password=None, **kwargs):
+    def authenticate(self, user: str = None, password: str = None, **kwargs) -> str:
         # Validate username
         if not self.check_user(user):
             self.logger.error("Invalid username: %s", user)
