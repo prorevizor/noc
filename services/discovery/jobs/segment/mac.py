@@ -112,10 +112,13 @@ class MACDiscoveryCheck(TopologyDiscoveryCheck):
                     self.logger.debug(
                         "    %s: %s", iface, ", ".join(x.name for x in fib[mo][iface])
                     )
+        self.logger.info("Build segment topology topology")
         # Build topology
         for mo in fib:
             for iface in fib[mo]:
                 if iface == uplinks.get(mo):
+                    # Filter interface that semgent uplink (linked it from upper segment discovery)
+                    self.logger.debug("[%s|%s] Interface is segment uplink. Skipping..", mo, iface)
                     continue
                 for ro in fib[mo][iface]:
                     cvr = coverage.get(ro)
@@ -124,6 +127,9 @@ class MACDiscoveryCheck(TopologyDiscoveryCheck):
                         coverage[ro] = cvr
                     if not fib[mo][iface] - cvr:
                         # All objects from mo:iface are seen via ro
+                        self.logger.debug(
+                            "[%s|%s] All objects from mo:iface are seen via ro: %s", mo, iface, ro
+                        )
                         uplink = uplinks.get(ro)
                         if uplink:
                             # @todo lacp
@@ -161,7 +167,8 @@ class MACDiscoveryCheck(TopologyDiscoveryCheck):
                 self.logger.debug("[%s|%s] Uplink by object level mo", mo, if_fib)
                 return True
             # Check if object is outside of segment tree
-            if ro.segment.id not in segments:
-                self.logger.debug("[%s|%s] Uplink by outside segment tree", mo, if_fib)
-                return True  # Leads outside of segment tree
+            # Disable that it make mistakes when detect uplink device
+            # if ro.segment.id not in segments:
+            #     self.logger.debug("[%s|%s] Uplink by outside segment tree", mo, if_fib)
+            #     return True  # Leads outside of segment tree
         return False
