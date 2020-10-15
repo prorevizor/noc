@@ -175,7 +175,7 @@ class MACDiscoveryCheck(TopologyDiscoveryCheck):
                 self.logger.debug("[%s|%s] Uplink by object level mo", mo, if_fib)
                 return 3
             # Check if object is outside of segment tree
-            # Disable that it make mistakes when detect uplink device
+            # Worked if Segment has not nested, otherwise make mistakes when detect uplink device
             if ro.segment.id not in segments:
                 self.logger.debug("[%s|%s] Uplink by outside segment tree", mo, if_fib)
                 return 4  # Leads outside of segment tree
