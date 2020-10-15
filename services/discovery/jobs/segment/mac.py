@@ -8,6 +8,7 @@
 # Python modules
 import datetime
 import logging
+from typing import Set
 
 # NOC modules
 from noc.services.discovery.jobs.base import TopologyDiscoveryCheck
@@ -15,6 +16,7 @@ from noc.sa.models.managedobject import ManagedObject
 from noc.core.clickhouse.connect import connection
 from noc.core.mac import MAC
 from noc.inv.models.discoveryid import DiscoveryID
+from noc.inv.models.networksegment import NetworkSegment
 
 
 class MACDiscoveryCheck(TopologyDiscoveryCheck):
@@ -90,10 +92,14 @@ class MACDiscoveryCheck(TopologyDiscoveryCheck):
         up_fib = {}  # mo -> {seen via uplinks}
         for mo in fib:
             coverage[mo] = {mo}
+            max_weight = 0
             for iface in fib[mo]:
-                if self.is_uplink(mo, fib[mo][iface], segments):
+                uplink_weight = self.get_uplink_weight(mo, fib[mo][iface], segments)
+                if uplink_weight > max_weight:
+                    self.logger.info("[%s] Set uplink to %s", mo, iface)
                     uplinks[mo] = iface
                     up_fib[mo] = fib[mo][iface]
+                    max_weight = uplink_weight
                 else:
                     coverage[mo] |= fib[mo][iface]
             if mo not in uplinks:
@@ -143,9 +149,11 @@ class MACDiscoveryCheck(TopologyDiscoveryCheck):
                                 iface,
                             )
 
-    def is_uplink(self, mo, if_fib, segments):
+    def get_uplink_weight(
+        self, mo: ManagedObject, if_fib: Set[ManagedObject], segments: Set[NetworkSegment]
+    ) -> int:
         """
-        Check if if_fib belongs to uplink interface
+        Check if if_fib belongs to uplink interface and return weght by method
         :param mo: managed object instance
         :param if_fib: set of managed object seen via interface
         :param segments: Set of segment ids belonging to segment tree
@@ -156,19 +164,19 @@ class MACDiscoveryCheck(TopologyDiscoveryCheck):
             if ro.segment.id == mo.segment.id:
                 if ro.object_profile.level > mo.object_profile.level:
                     self.logger.debug("[%s|%s] Uplink by same segment and diff level", mo, if_fib)
-                    return True  # Same segment, compare object's levels
+                    return 1  # Same segment, compare object's levels
                 continue  # Same segment, no preference
             # Check if ro's segment is ancestor of mo's one
             if ro.segment.id in mo.segment.get_path():
                 self.logger.debug("[%s|%s] Uplink by ancestor mo", mo, if_fib)
-                return True
+                return 2
             # Compare object's levels
             if ro.object_profile.level > mo.object_profile.level:
                 self.logger.debug("[%s|%s] Uplink by object level mo", mo, if_fib)
-                return True
+                return 3
             # Check if object is outside of segment tree
             # Disable that it make mistakes when detect uplink device
-            # if ro.segment.id not in segments:
-            #     self.logger.debug("[%s|%s] Uplink by outside segment tree", mo, if_fib)
-            #     return True  # Leads outside of segment tree
-        return False
+            if ro.segment.id not in segments:
+                self.logger.debug("[%s|%s] Uplink by outside segment tree", mo, if_fib)
+                return 4  # Leads outside of segment tree
+        return 0
