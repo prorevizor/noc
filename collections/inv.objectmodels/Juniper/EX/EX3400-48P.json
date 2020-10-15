@@ -451,7 +451,7 @@
         },
         {
             "description": "et-X/1/0 port",
-            "direction": "s",
+            "direction": "i",
             "gender": "f",
             "group": "0",
             "name": "1/0",
@@ -460,7 +460,7 @@
         },
         {
             "description": "et-X/1/1 port",
-            "direction": "s",
+            "direction": "i",
             "gender": "f",
             "group": "0",
             "name": "1/1",
