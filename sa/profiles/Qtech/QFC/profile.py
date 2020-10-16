@@ -1,8 +1,8 @@
 # ---------------------------------------------------------------------
 # Vendor: Qtech
-# OS:     BFC_PBIC_S
+# OS:     QFC
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2018 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -59,4 +59,12 @@ class Profile(BaseProfile):
         13: "ups",
         27: "elMeter",
     }
-    LIGHT_IFACE_NAME = {5: "input", 6: "output", 8: "V220", 9: "temp1", 10: "temp2", 13: "ups", 16: "elMeter"}
+    LIGHT_IFACE_NAME = {
+        5: "input",
+        6: "output",
+        8: "V220",
+        9: "temp1",
+        10: "temp2",
+        13: "ups",
+        16: "elMeter",
+    }
