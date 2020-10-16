@@ -8,6 +8,7 @@
 # Python modules
 import datetime
 import logging
+import enum
 from typing import Set
 
 # NOC modules
@@ -17,6 +18,14 @@ from noc.core.clickhouse.connect import connection
 from noc.core.mac import MAC
 from noc.inv.models.discoveryid import DiscoveryID
 from noc.inv.models.networksegment import NetworkSegment
+
+
+class UplinkMethod(enum.IntEnum):
+    OUTSIDE_SEGMENT = 4  # object is outside of segment tree
+    OBJECT_LEVEL = 3  # Compare object's levels
+    ANCESTOR_SEGMENT = 2  # Check if ro's segment is ancestor
+    SAME_SEGMENT_LEVEL = 1  # compare level objects belong to same segment
+    NONE = 0
 
 
 class MACDiscoveryCheck(TopologyDiscoveryCheck):
@@ -164,19 +173,19 @@ class MACDiscoveryCheck(TopologyDiscoveryCheck):
             if ro.segment.id == mo.segment.id:
                 if ro.object_profile.level > mo.object_profile.level:
                     self.logger.debug("[%s|%s] Uplink by same segment and diff level", mo, if_fib)
-                    return 1  # Same segment, compare object's levels
+                    return UplinkMethod.SAME_SEGMENT_LEVEL  # Same segment, compare object's levels
                 continue  # Same segment, no preference
             # Check if ro's segment is ancestor of mo's one
             if ro.segment.id in mo.segment.get_path():
                 self.logger.debug("[%s|%s] Uplink by ancestor mo", mo, if_fib)
-                return 2
+                return UplinkMethod.ANCESTOR_SEGMENT
             # Compare object's levels
             if ro.object_profile.level > mo.object_profile.level:
                 self.logger.debug("[%s|%s] Uplink by object level mo", mo, if_fib)
-                return 3
+                return UplinkMethod.OBJECT_LEVEL
             # Check if object is outside of segment tree
             # Worked if Segment has not nested, otherwise make mistakes when detect uplink device
             if ro.segment.id not in segments:
                 self.logger.debug("[%s|%s] Uplink by outside segment tree", mo, if_fib)
-                return 4  # Leads outside of segment tree
-        return 0
+                return UplinkMethod.OUTSIDE_SEGMENT  # Leads outside of segment tree
+        return UplinkMethod.NONE
