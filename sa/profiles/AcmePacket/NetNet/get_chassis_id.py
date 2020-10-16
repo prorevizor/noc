@@ -12,7 +12,6 @@ from noc.core.mib import mib
 
 
 class Script(BaseScript):
-
     name = "AcmePacket.NetNet.get_chassis_id"
     interface = IGetChassisID
 

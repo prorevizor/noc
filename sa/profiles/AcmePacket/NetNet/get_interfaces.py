@@ -11,7 +11,6 @@ from noc.sa.interfaces.igetinterfaces import IGetInterfaces
 
 
 class Script(BaseScript):
-
     name = "AcmePacket.NetNet.get_interfaces"
     interface = IGetInterfaces
 

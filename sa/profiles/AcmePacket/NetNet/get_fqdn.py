@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------
-# AcmePacket.NetNet.get_config
+# AcmePacket.NetNet.get_fqdn
 # ---------------------------------------------------------------------
 # Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
