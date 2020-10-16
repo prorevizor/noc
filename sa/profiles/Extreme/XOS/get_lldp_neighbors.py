@@ -7,6 +7,7 @@
 
 # Python modules
 import re
+from collections import defaultdict
 
 # NOC modules
 from noc.core.script.base import BaseScript
@@ -71,7 +72,7 @@ class Script(BaseScript):
     }
 
     def execute(self):
-        r = []
+        r = defaultdict(list)  # local_iface -> neighbors
         # Try SNMP first
 
         # Fallback to CLI
@@ -102,7 +103,6 @@ class Script(BaseScript):
                 # Actually local(7)
                 remote_port_subtype = LLDP_PORT_SUBTYPE_LOCAL
 
-            i = {"local_interface": local_interface, "neighbors": []}
             n = {
                 "remote_chassis_id": remote_chassis_id,
                 "remote_port": remote_port,
@@ -141,13 +141,7 @@ class Script(BaseScript):
                     ]
             except self.CLISyntaxError:
                 pass
-            for ll in r:
-                if ll["local_interface"] == i["local_interface"]:
-                    ll["neighbors"].append(n)
-                    break
-            else:
-                i["neighbors"].append(n)
-                r.append(i)
+            r[local_interface].append(n)
         # Try EDP Second
         try:
             lldp = self.cli("show edp ports all")
@@ -176,7 +170,6 @@ class Script(BaseScript):
                 # Actually local(7)
                 remote_port_subtype = LLDP_PORT_SUBTYPE_LOCAL
 
-            i = {"local_interface": local_interface, "neighbors": []}
             n = {
                 "remote_chassis_id": remote_chassis_id,
                 "remote_port": remote_port,
@@ -191,11 +184,5 @@ class Script(BaseScript):
                 n["remote_chassis_id_subtype"] = LLDP_CHASSIS_SUBTYPE_MAC
             else:
                 n["remote_chassis_id_subtype"] = LLDP_CHASSIS_SUBTYPE_LOCAL
-            for ll in r:
-                if ll["local_interface"] == i["local_interface"]:
-                    ll["neighbors"].append(n)
-                    break
-            else:
-                i["neighbors"].append(n)
-                r.append(i)
-        return r
+            r[local_interface].append(n)
+        return [{"local_interface": x, "neighbors": r[x]} for x in r]
