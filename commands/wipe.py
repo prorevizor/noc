@@ -163,7 +163,6 @@ class Command(BaseCommand):
         from noc.kb.models.kbentryhistory import KBEntryHistory
         from noc.kb.models.kbuserbookmark import KBUserBookmark
 
-
         # Clean UserState
         with self.log("Cleaning user preferences"):
             UserState.objects.filter(user_id=o.id).delete()
