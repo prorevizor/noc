@@ -88,6 +88,7 @@ class Metadata(object):
     brokers: List[Broker]
     metadata: List[StreamMetadata]
 
+
 CURSOR_STREAM = "__cursors"
 
 
