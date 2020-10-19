@@ -88,6 +88,8 @@ class Metadata(object):
     brokers: List[Broker]
     metadata: List[StreamMetadata]
 
+CURSOR_STREAM = "__cursors"
+
 
 class GRPCChannel(object):
     def __init__(self, broker: str):
@@ -589,7 +591,7 @@ class LiftBridgeClient(object):
         return v
 
     async def set_cursor(self, stream: str, partition: int, cursor_id: str, offset: int) -> None:
-        channel = await self.get_leader_channel(stream, partition)
+        channel = await self.get_leader_channel(CURSOR_STREAM, 0)
         await channel.SetCursor(
             SetCursorRequest(
                 stream=stream, partition=partition, cursorId=cursor_id, offset=offset + 1
