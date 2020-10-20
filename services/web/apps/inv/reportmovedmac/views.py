@@ -135,12 +135,6 @@ class ReportMovedMacApplication(ExtApplication):
         def translate_row(row, cmap):
             return [row[i] for i in cmap]
 
-        map_table = {
-            "load_interfaces": r"/Interface\s\|\sLoad\s\|\s[In|Out]/",
-            "load_cpu": r"/[CPU|Memory]\s\|\sUsage/",
-            "errors": r"/Interface\s\|\s[Errors|Discards]\s\|\s[In|Out]/",
-            "ping": r"/Ping\s\|\sRTT/",
-        }
         cols = [
             "vendor_mac",
             "mac",
