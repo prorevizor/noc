@@ -581,7 +581,7 @@ class LiftBridgeClient(object):
                 raise ErrorChannelClosed(str(code))
 
     async def fetch_cursor(self, stream: str, partition: int, cursor_id: str) -> int:
-        channel = await self.get_channel()
+        channel = await self.get_leader_channel(CURSOR_STREAM, 0)
         r = await channel.FetchCursor(
             FetchCursorRequest(stream=stream, partition=partition, cursorId=cursor_id)
         )
