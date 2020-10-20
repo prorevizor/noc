@@ -181,7 +181,9 @@ class AssetCheck(DiscoveryCheck):
                 if scope:
                     self.set_context(scope, number)
         # Find existing object or create new
-        o = Object.objects.filter(model=m.id, data__asset__serial=serial).first()
+        o = Object.objects.filter(
+            model=m.id, data__match={"interface": "asset", "attr": "serial", "value": serial}
+        ).first()
         if not o:
             # Create new object
             self.logger.info("Creating new object. model='%s', serial='%s'", m.name, serial)
@@ -540,7 +542,13 @@ class AssetCheck(DiscoveryCheck):
         Get all objects managed by managed object
         """
         self.managed = set(
-            Object.objects.filter(data__management__managed_object=self.object.id).values_list("id")
+            Object.objects.filter(
+                data__match={
+                    "interface": "management",
+                    "attr": "managed_object",
+                    "value": self.object.id,
+                }
+            ).values_list("id")
         )
 
     def check_management(self):

@@ -942,7 +942,11 @@ class ManagedObject(NOCModel):
         """
         from noc.inv.models.object import Object
 
-        return list(Object.objects.filter(data__management__managed_object=self.id))
+        return list(
+            Object.objects.filter(
+                data__match={"interface": "management", "attr": "managed_object", "value": self.id}
+            )
+        )
 
     def run_discovery(self, delta=0):
         """

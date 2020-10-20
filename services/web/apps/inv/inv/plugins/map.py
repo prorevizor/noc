@@ -177,7 +177,9 @@ class MapPlugin(InvPlugin):
 
         d = {}
         # All models with geopoint interface
-        for mt in ObjectModel.objects.filter(data__geopoint__layer__exists=True):
+        for mt in ObjectModel.objects.filter(
+            data__match={"interface": "geopoint", "attr": "layer"}
+        ):
             parts = mt.name.split(" | ")
             m = d
             for p in parts[:-1]:

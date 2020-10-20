@@ -10,16 +10,17 @@ import datetime
 import operator
 from threading import Lock
 from collections import namedtuple
+from typing import Optional, Any, Dict, Union, List, Tuple
 
 # Third-party modules
 from mongoengine.document import Document, EmbeddedDocument
 from mongoengine.fields import (
     StringField,
-    DictField,
     ListField,
     PointField,
     LongField,
     EmbeddedDocumentField,
+    DynamicField,
 )
 from mongoengine import signals
 import cachetools
@@ -59,6 +60,18 @@ class ObjectConnectionData(EmbeddedDocument):
         return self.name
 
 
+class ObjectAttr(EmbeddedDocument):
+    interface = StringField()
+    attr = StringField()
+    value = DynamicField()
+    scope = StringField()
+
+    def __str__(self):
+        if self.scope:
+            return "%s.%s@%s = %s" % (self.interface, self.attr, self.scope, self.value)
+        return "%s.%s = %s" % (self.interface, self.attr, self.scope)
+
+
 @bi_sync
 @on_save
 @datastream
@@ -82,14 +95,13 @@ class Object(Document):
             "data",
             "container",
             ("name", "container"),
-            ("model", "data.asset.serial"),
-            "data.management.managed_object",
+            ("data.interface", "data.attr", "data.value"),
         ],
     }
 
     name = StringField()
     model = PlainReferenceField(ObjectModel)
-    data = DictField()
+    data = ListField(EmbeddedDocumentField(ObjectAttr))
     container = PlainReferenceField("self", required=False)
     comment = GridVCSField("object_comment")
     # Map
@@ -143,37 +155,35 @@ class Object(Document):
     def set_point(self):
         from noc.gis.map import map
 
+        # Reset previous data
         self.layer = None
         self.point = None
-        geo = self.data.get("geopoint")
-        if not geo:
-            return
+        # Get points
+        x, y, srid = self.get_data_tuple("geopoint", ("x", "y", "srid"))
+        if x is None or y is None:
+            return  # No point data
+        # Get layer
         layer_code = self.model.get_data("geopoint", "layer")
         if not layer_code:
             return
         layer = Layer.get_by_code(layer_code)
         if not layer:
             return
-        x = geo.get("x")
-        y = geo.get("y")
-        srid = geo.get("srid")
-        if x and y:
-            self.layer = layer
-            self.point = map.get_db_point(x, y, srid=srid)
+        # Update actual data
+        self.layer = layer
+        self.point = map.get_db_point(x, y, srid=srid)
 
     def on_save(self):
         def get_coordless_objects(o):
             r = {str(o.id)}
             for co in Object.objects.filter(container=o.id):
-                g = co.data.get("geopoint")
-                if g and g.get("x") and g.get("y"):
-                    continue
-                else:
+                cx, cy = co.get_data_tuple("geopoint", ("x", "y"))
+                if cx is None and cy is None:
                     r |= get_coordless_objects(co)
             return r
 
-        geo = self.data.get("geopoint")
-        if geo and geo.get("x") and geo.get("y"):
+        x, y = self.get_data_tuple("geopoint", ("x", "y"))
+        if x is not None and y is not None:
             # Rebuild connection layers
             for ct in self.REBUILD_CONNECTIONS:
                 for c, _, _ in self.get_genderless_connections(ct):
@@ -184,7 +194,7 @@ class Object(Document):
             mos = get_coordless_objects(self)
             if mos:
                 ManagedObject.objects.filter(container__in=mos).update(
-                    x=geo.get("x"), y=geo.get("y"), default_zoom=self.layer.default_zoom
+                    x=x, y=y, default_zoom=self.layer.default_zoom
                 )
         if self._created:
             if self.container:
@@ -222,31 +232,83 @@ class Object(Document):
             return self.container.get_path() + [self.id]
         return [self.id]
 
-    def get_data(self, interface, key):
+    def get_data(self, interface: str, key: str, scope: Optional[str] = None) -> Any:
         attr = ModelInterface.get_interface_attr(interface, key)
         if attr.is_const:
             # Lookup model
             return self.model.get_data(interface, key)
-        else:
-            v = self.data.get(interface, {})
-            return v.get(key)
+        for item in self.data:
+            if item.interface == interface and item.attr == key:
+                if not scope or item.scope == scope:
+                    return item.value
+        return None
 
-    def set_data(self, interface, key, value):
+    def get_data_dict(
+        self, interface: str, keys: Iterable, scope: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """
+        Get multiple keys from single interface. Returns dict with values for every given key.
+        If key is missed, return None value
+
+        :param interface:
+        :param keys: Iterable contains key names
+        :param scope:
+        :return:
+        """
+        kset = set(keys)
+        r = {k: None for k in kset}
+        for item in self.data:
+            if item.interface == interface and item.attr in kset:
+                if not scope or item.scope == scope:
+                    r[item.attr] = item.value
+        return r
+
+    def get_data_tuple(
+        self, interface: str, keys: Union[List, Tuple], scope: Optional[str] = None
+    ) -> Tuple[Any, ...]:
+        """
+        Get multiple keys from single interface. Returns tuple with values for every given key.
+        If key is missed, return None value
+
+        :param interface:
+        :param keys: List or tuple with key names
+        :param scope:
+        :return:
+        """
+        r = self.get_data_dict(interface, keys, scope)
+        return tuple(r.get(k) for k in keys)
+
+    def set_data(self, interface: str, key: str, value: Any, scope: Optional[str]) -> None:
         attr = ModelInterface.get_interface_attr(interface, key)
         if attr.is_const:
             raise ModelDataError("Cannot set read-only value")
         value = attr._clean(value)
-        # @todo: Check interface restrictions
-        if interface not in self.data:
-            self.data[interface] = {}
-        self.data[interface][key] = value
+        for item in self.data:
+            if item.interface == interface and item.attr == key:
+                if not scope or item.scope == scope:
+                    item.value = value
+                    break
+        else:
+            # Insert new item
+            self.data += [
+                ObjectAttr(interface=interface, attr=attr, value=value, scope=scope or "")
+            ]
 
-    def reset_data(self, interface, key):
+    def reset_data(self, interface: str, key: Union[str, Iterable], scope: Optional[str]) -> None:
         attr = ModelInterface.get_interface_attr(interface, key)
         if attr.is_const:
             raise ModelDataError("Cannot reset read-only value")
-        if interface in self.data and key in self.data[interface]:
-            del self.data[interface][key]
+        if isinstance(key, str):
+            kset = {key}
+        else:
+            kset = set(key)
+        self.data = [
+            item
+            for item in self.data
+            if item.interface != interface
+            or (scope and item.scope != scope)
+            or item.attr not in kset
+        ]
 
     def has_connection(self, name):
         return self.model.has_connection(name)
@@ -403,10 +465,8 @@ class Object(Document):
         # Connect to parent
         self.container = container.id if container else None
         # Reset previous rack position
-        if self.data.get("rackmount"):
-            for k in ("position", "side", "shift"):
-                if k in self.data["rackmount"]:
-                    del self.data["rackmount"][k]
+        self.reset_data("rackmount", ("position", "side", "shift"))
+        #
         self.save()
         self.log("Insert into %s" % (container or "Root"), system="CORE", op="INSERT")
 
@@ -546,7 +606,7 @@ class Object(Document):
                 c.connection = left
                 c.save()
 
-    def get_pop(self):
+    def get_pop(self) -> Optional["Object"]:
         """
         Find enclosing PoP
         :returns: PoP instance or None
@@ -558,7 +618,7 @@ class Object(Document):
             c = c.container
         return None
 
-    def get_coordinates_zoom(self):
+    def get_coordinates_zoom(self) -> Tuple[Optional[float], Optional[float], Optional[int]]:
         """
         Get managed object's coordinates
         # @todo: Speedup?
@@ -567,8 +627,7 @@ class Object(Document):
         c = self
         while c:
             if c.point and c.layer:
-                x = c.get_data("geopoint", "x")
-                y = c.get_data("geopoint", "y")
+                x, y = c.get_data_tuple("geopoint", ("x", "y"))
                 zoom = c.layer.default_zoom or 11
                 return x, y, zoom
             if c.container:
@@ -587,7 +646,9 @@ class Object(Document):
         """
         if hasattr(mo, "id"):
             mo = mo.id
-        return cls.objects.filter(data__management__managed_object=mo)
+        return cls.objects.filter(
+            data__match={"interface": "management", "attr": "managed_object", "value": mo}
+        )
 
     @classmethod
     def get_by_path(cls, path, hints=None):
