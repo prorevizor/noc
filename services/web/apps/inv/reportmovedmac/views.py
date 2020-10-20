@@ -9,7 +9,6 @@
 import logging
 import datetime
 import csv
-# import time
 from io import BytesIO, TextIOWrapper
 from zipfile import ZipFile, ZIP_DEFLATED
 from tempfile import TemporaryFile
