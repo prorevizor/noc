@@ -179,7 +179,9 @@ class ReportMovedMacApplication(ExtApplication):
         # ts_from_date = time.mktime(from_date.timetuple())
         # ts_to_date = time.mktime(to_date.timetuple())
 
-        mos = self.get_report_object(user=request.user, adm=administrative_domain, selector=selector)
+        mos = self.get_report_object(
+            user=request.user, adm=administrative_domain, selector=selector
+        )
         mos_id = set(mos.order_by("bi_id").values_list("bi_id", flat=True))
         if interface_profile:
             interface_profile = InterfaceProfile.objects.get(id=interface_profile)
