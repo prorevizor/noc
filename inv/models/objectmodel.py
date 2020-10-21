@@ -200,9 +200,7 @@ class ObjectModel(Document):
         return None
 
     @classmethod
-    def get_model(
-        cls, vendor: "Vendor", part_no: Union[List[str], str]
-    ) -> Optional["ObjectModel"]:
+    def get_model(cls, vendor: "Vendor", part_no: Union[List[str], str]) -> Optional["ObjectModel"]:
         """
         Get ObjectModel by part part_no,
         Search order:

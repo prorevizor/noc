@@ -46,7 +46,7 @@ class AssetCheck(DiscoveryCheck):
         self.pn_description: Dict[str, str] = {}  # part_no -> Description
         self.vendors: Dict[str, Vendor] = {}  # code -> Vendor instance
         self.objects: List[
-            Tuple[str, Union[Object, str], Dict[str, str], str]
+            Tuple[str, Union[Object, str], Dict[str, str], Optional[str]]
         ] = []  # [(type, object, context, serial)]
         self.to_disconnect: Set[
             Tuple[Object, str, Object, str]
@@ -482,7 +482,7 @@ class AssetCheck(DiscoveryCheck):
                 self.unknown_part_no[p].add(pp)
             UnknownModel.mark_unknown(vendor.code[0], self.object, p, descripton)
 
-    def get_unknown_part_no(self) -> List[str]:
+    def get_unknown_part_no(self) -> List[List[str]]:
         """
         Get list of missed part number variants
         """

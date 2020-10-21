@@ -709,7 +709,7 @@ class Object(Document):
         )
 
     @classmethod
-    def get_by_path(cls, path: List[str], hints=None) -> "Object":
+    def get_by_path(cls, path: List[str], hints=None) -> Optional["Object"]:
         """
         Get object by given path.
         :param path: List of names following to path
@@ -755,7 +755,7 @@ class Object(Document):
                 break
         return None
 
-    def get_object_serials(self, chassis_only: bool = True) -> str:
+    def get_object_serials(self, chassis_only: bool = True) -> List[str]:
         """
         Gettint object serialNumber
         :param chassis_only: With serial numbers inner objects
