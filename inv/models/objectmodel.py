@@ -10,6 +10,7 @@ import os
 from threading import Lock
 import operator
 import re
+from typing import Optional, List, Tuple
 
 # Third-party modules
 from mongoengine.document import Document, EmbeddedDocument
@@ -160,7 +161,7 @@ class ObjectModel(Document):
     def get_by_name(cls, name):
         return ObjectModel.objects.filter(name=name).first()
 
-    def get_data(self, interface, key):
+    def get_data(self, interface: str, key: str):
         v = self.data.get(interface, {})
         return v.get(key)
 
@@ -170,14 +171,14 @@ class ObjectModel(Document):
         # Exclude all part numbers from unknown models
         self.clear_unknown_models()
 
-    def has_connection(self, name):
+    def has_connection(self, name: str) -> bool:
         if self.get_model_connection(name) is None:
             # Check twinax virtual connection
             return self.get_data("twinax", "twinax") and self.get_data("twinax", "alias") == name
         else:
             return True
 
-    def get_connection_proposals(self, name):
+    def get_connection_proposals(self, name: str) -> List[Tuple["ObjectModel", str]]:
         """
         Return possible connections for connection name
         as (model id, connection name)
@@ -192,14 +193,16 @@ class ObjectModel(Document):
             r += [(cc.model, cc.name)]
         return r
 
-    def get_model_connection(self, name):
+    def get_model_connection(self, name: str) -> Optional["ObjectModelConnection"]:
         for c in self.connections:
             if c.name == name or (c.internal_name and c.internal_name == name):
                 return c
         return None
 
     @classmethod
-    def get_model(cls, vendor, part_no):
+    def get_model(
+        cls, vendor: Vendor, part_no: Optional[List[str], str]
+    ) -> Optional["ObjectModel"]:
         """
         Get ObjectModel by part part_no,
         Search order:
@@ -218,7 +221,7 @@ class ObjectModel(Document):
 
     @classmethod
     @cachetools.cachedmethod(operator.attrgetter("_model_cache"), lock=lambda _: id_lock)
-    def _get_model(cls, vendor, part_no):
+    def _get_model(cls, vendor: Vendor, part_no: str) -> Optional["ObjectModel"]:
         """
         Get ObjectModel by part part_no,
         Search order:

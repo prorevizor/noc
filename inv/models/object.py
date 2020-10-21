@@ -223,7 +223,7 @@ class Object(Document):
                     new_pop.update_pop_links()
 
     @cachetools.cached(_path_cache, key=lambda x: str(x.id), lock=id_lock)
-    def get_path(self):
+    def get_path(self) -> List[str]:
         """
         Returns list of parent segment ids
         :return:
@@ -354,7 +354,9 @@ class Object(Document):
     def has_connection(self, name):
         return self.model.has_connection(name)
 
-    def get_p2p_connection(self, name):
+    def get_p2p_connection(
+        self, name: str
+    ) -> Tuple[Optional["ObjectConnection"], Optional["Object"], Optional[str]]:
         """
         Get neighbor for p2p connection (s and mf types)
         Returns connection, remote object, remote connection or
@@ -370,7 +372,9 @@ class Object(Document):
         # Strange things happen
         return None, None, None
 
-    def get_genderless_connections(self, name):
+    def get_genderless_connections(
+        self, name: str
+    ) -> List[Tuple["ObjectConnection", "Object", str]]:
         r = []
         for c in ObjectConnection.objects.filter(
             __raw__={"connection": {"$elemMatch": {"object": self.id, "name": name}}}
@@ -380,7 +384,7 @@ class Object(Document):
                     r += [[c, x.object, x.name]]
         return r
 
-    def disconnect_p2p(self, name):
+    def disconnect_p2p(self, name: str):
         """
         Remove connection *name*
         """
@@ -389,7 +393,14 @@ class Object(Document):
             self.log("'%s' disconnected" % name, system="CORE", op="DISCONNECT")
             c.delete()
 
-    def connect_p2p(self, name, remote_object, remote_name, data, reconnect=False):
+    def connect_p2p(
+        self,
+        name: str,
+        remote_object: "Object",
+        remote_name: str,
+        data: Dict[str, Any],
+        reconnect: bool = False,
+    ) -> Optional["ObjectConnection"]:
         lc = self.model.get_model_connection(name)
         if lc is None:
             raise ConnectionError("Local connection not found: %s" % name)
@@ -423,7 +434,7 @@ class Object(Document):
                 if reconnect:
                     if r_object.id == remote_object.id and r_name == remote_name:
                         # Same connection exists
-                        n_data = deep_merge(ec.data, data)
+                        n_data = deep_merge(ec.data, data)  # Merge ObjectConnection
                         if n_data != ec.data:
                             # Update data
                             ec.data = n_data
@@ -451,7 +462,13 @@ class Object(Document):
         return c
 
     def connect_genderless(
-        self, name, remote_object, remote_name, data=None, type=None, layer=None
+        self,
+        name: str,
+        remote_object: "Object",
+        remote_name: str,
+        data: Dict[str, Any] = None,
+        type: Optional[str] = None,
+        layer: Optional[Layer] = None,
     ):
         """
         Connect two genderless connections
@@ -491,7 +508,7 @@ class Object(Document):
             "%s:%s -> %s:%s" % (self, name, remote_object, remote_name), system="CORE", op="CONNECT"
         )
 
-    def put_into(self, container):
+    def put_into(self, container: "Object"):
         """
         Put object into container
         """
@@ -511,7 +528,7 @@ class Object(Document):
         self.save()
         self.log("Insert into %s" % (container or "Root"), system="CORE", op="INSERT")
 
-    def get_content(self):
+    def get_content(self) -> "Object":
         """
         Returns all items directly put into container
         """
@@ -522,7 +539,7 @@ class Object(Document):
             return ro.get_local_name_path() + [rn]
         return []
 
-    def get_name_path(self):
+    def get_name_path(self) -> List[str]:
         """
         Return list of container names
         """
@@ -559,7 +576,7 @@ class Object(Document):
     def get_log(self):
         return ObjectLog.objects.filter(object=self.id).order_by("ts")
 
-    def get_lost_and_found(self):
+    def get_lost_and_found(self) -> Optional["Object"]:
         m = ObjectModel.get_by_name("Lost&Found")
         c = self.container
         while c:
@@ -584,7 +601,7 @@ class Object(Document):
             else:
                 o.put_into(target)
 
-    def iter_connections(self, direction):
+    def iter_connections(self, direction: Optional[str]) -> Iterable[Tuple[str, "Object", str]]:
         """
         Yields connections of specified direction as tuples of
         (name, remote_object, remote_name)
@@ -692,7 +709,7 @@ class Object(Document):
         )
 
     @classmethod
-    def get_by_path(cls, path, hints=None):
+    def get_by_path(cls, path: List[str], hints=None) -> "Object":
         """
         Get object by given path.
         :param path: List of names following to path
@@ -710,7 +727,7 @@ class Object(Document):
                     return Object.get_by_id(h)
         return current
 
-    def update_pop_links(self, delay=20):
+    def update_pop_links(self, delay: int = 20):
         call_later("noc.inv.util.pop_links.update_pop_links", delay, pop_id=self.id)
 
     @classmethod
@@ -722,7 +739,7 @@ class Object(Document):
         if "container" in values and values["container"]:
             document._cache_container = values["container"]
 
-    def get_address_text(self):
+    def get_address_text(self) -> Optional[str]:
         """
         Return first found address.text value upwards the path
         :return: Address text or None
@@ -738,7 +755,7 @@ class Object(Document):
                 break
         return None
 
-    def get_object_serials(self, chassis_only=True):
+    def get_object_serials(self, chassis_only: bool = True) -> str:
         """
         Gettint object serialNumber
         :param chassis_only: With serial numbers inner objects
