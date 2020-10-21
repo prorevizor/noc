@@ -64,10 +64,16 @@ class MetaApplicator(BaseApplicator):
             yield "meta", "management", "vrf", "id", str(self.object.vrf.id)
             yield "meta", "management", "vrf", "name", str(self.object.vrf.name)
         # Client groups
-        if self.object.static_client_groups:
-            for group in ResourceGroup.objects.filter(id__in=self.object.static_client_groups):
-                yield "meta", "client-groups", group.name, "id", str(group.id)
-                yield "meta", "client-groups", group.name, "technology", group.technology.name
+        if self.object.static_client_groups or self.object.static_service_groups:
+            for group in ResourceGroup.objects.filter(
+                id__in=self.object.static_client_groups + self.object.static_service_groups
+            ):
+                if str(group.id) in self.object.static_client_groups:
+                    yield "meta", "client-groups", group.name, "id", str(group.id)
+                    yield "meta", "client-groups", group.name, "technology", group.technology.name
+                else:
+                    yield "meta", "service-groups", group.name, "id", str(group.id)
+                    yield "meta", "service-groups", group.name, "technology", group.technology.name
         # meta tags
         if self.object.tags:
             for tag in self.object.tags:
