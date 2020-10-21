@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------
 
 # Python modules
-from typing import Any, Tuple, Dict, Set, List
+from typing import Dict
 
 # NOC modules
 from noc.inv.models.object import Object
@@ -75,28 +75,31 @@ class DataPlugin(InvPlugin):
                         break
             data += [r]
         # Build result
-        mi_attrs: Dict[str, Dict[str, ModelInterfaceAttr]] = {}
+        mi_values: Dict[str, Dict[str, (str, str)]] = {}
         for item in o.get_effective_data():
-            mi = ModelInterface.get_by_name(item.interface)
+            if item.interface not in mi_values:
+                mi_values[item.interface] = {}
+            mi_values[item.interface][item.attr] = (item.value, item.scope)
+        for i in mi_values:
+            mi = ModelInterface.get_by_name(i)
             if not mi:
                 continue
-            if item.interface not in mi_attrs:
-                mi_attrs[item.interface] = {a.name: a for a in mi.attrs}
-            a = mi_attrs[item.interface].get(item.attr)
-            if not a:
-                continue
-            data += [
-                {
-                    "interface": item.interface,
-                    "name": a.name,
-                    "scope": item.scope,
-                    "value": item.value,
-                    "type": a.type,
-                    "description": a.description,
-                    "required": a.required,
-                    "is_const": a.is_const,
-                }
-            ]
+            for a in mi.attrs:
+                value, scope = mi_values[i].get(a.name, (None, ""))
+                if value is None and a.is_const:
+                    continue
+                data += [
+                    {
+                        "interface": i,
+                        "name": a.name,
+                        "scope": scope,
+                        "value": value,
+                        "type": a.type,
+                        "description": a.description,
+                        "required": a.required,
+                        "is_const": a.is_const,
+                    }
+                ]
         return {"id": str(o.id), "name": o.name, "model": o.model.name, "data": data}
 
     def api_save_data(self, request, id, interface=None, key=None, value=None):
