@@ -10,7 +10,7 @@ import datetime
 import operator
 from threading import Lock
 from collections import namedtuple
-from typing import Optional, Any, Dict, Union, List, Tuple
+from typing import Optional, Any, Dict, Union, List, Set
 
 # Third-party modules
 from mongoengine.document import Document, EmbeddedDocument
@@ -124,12 +124,12 @@ class Object(Document):
 
     @classmethod
     @cachetools.cachedmethod(operator.attrgetter("_id_cache"), lock=lambda _: id_lock)
-    def get_by_id(cls, id):
+    def get_by_id(cls, id) -> Optional["Object"]:
         return Object.objects.filter(id=id).first()
 
     @classmethod
     @cachetools.cachedmethod(operator.attrgetter("_bi_id_cache"), lock=lambda _: id_lock)
-    def get_by_bi_id(cls, id):
+    def get_by_bi_id(cls, id) -> Optional["Object"]:
         return Object.objects.filter(bi_id=id).first()
 
     def iter_changed_datastream(self, changed_fields=None):
@@ -277,6 +277,45 @@ class Object(Document):
         """
         r = self.get_data_dict(interface, keys, scope)
         return tuple(r.get(k) for k in keys)
+
+    def get_effective_data(self) -> List[ObjectAttr]:
+        """
+        Return effective object data, including the model's defaults
+        :return:
+        """
+        seen: Set[Tuple[str, str, str]] = set()  # (interface, attr, scope
+        r: List[ObjectAttr] = []
+        # Object attributes
+        for item in self.data:
+            k = (item.interface, item.attr, item.scope or "")
+            if k in seen:
+                continue
+            r += [item]
+            seen.add(k)
+        # Model attributes
+        for i in self.model.data:
+            for a in self.model.data[i]:
+                k = (i, a, "")
+                if k in seen:
+                    continue
+                r += [ObjectAttr(interface=i, attr=a, scope="", value=self.model.data[i][a])]
+                seen.add(k)
+        # Sort according to interface
+        sorting_keys: Dict[str, str] = {}
+        for ni, i in enumerate(sorted(set(x[0] for x in seen))):
+            mi = ModelInterface.get_by_name(i)
+            if not mi:
+                continue
+            for na, a in enumerate(mi.attrs):
+                sorting_keys["%s.%s" % (i, a.name)] = "%06d.%06d" % (ni, na)
+        # Return sorted result
+        return list(
+            sorted(
+                r,
+                key=lambda oa: "%s.%s"
+                % (sorting_keys.get("%s.%s" % (oa.interface, oa.attr), "999999.999999"), oa.scope),
+            )
+        )
 
     def set_data(self, interface: str, key: str, value: Any, scope: Optional[str]) -> None:
         attr = ModelInterface.get_interface_attr(interface, key)

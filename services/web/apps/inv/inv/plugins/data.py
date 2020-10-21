@@ -11,7 +11,7 @@ from typing import Any, Tuple, Dict, Set, List
 # NOC modules
 from noc.inv.models.object import Object
 from noc.inv.models.objectmodel import ObjectModel
-from noc.inv.models.modelinterface import ModelInterface
+from noc.inv.models.modelinterface import ModelInterface, ModelInterfaceAttr
 from noc.sa.interfaces.base import StringParameter, UnicodeParameter
 from .base import InvPlugin
 
@@ -46,7 +46,7 @@ class DataPlugin(InvPlugin):
             },
         )
 
-    def get_data(self, request, o):
+    def get_data(self, request, o: Object):
         data = []
         for k, v, d, is_const in [
             ("Name", " | ".join(o.get_name_path()), "Inventory name", False),
@@ -63,6 +63,7 @@ class DataPlugin(InvPlugin):
                 "required": True,
                 "is_const": is_const,
                 "choices": None,
+                "scope": "",
             }
             if k == "Model":
                 for rg in self.RGROUPS:
@@ -73,43 +74,29 @@ class DataPlugin(InvPlugin):
                         r["choices"] = [[str(x.id), x.name] for x in g]
                         break
             data += [r]
-        # Merge model and object data
-        # interface -> attr -> [(scope, value), ...]
-        d: Dict[str, Dict[str, List[Tuple[str, Any]]]] = {}
-        for item in o.data:
-            if item.interface not in d:
-                d[item.interface] = {}
-            if item.attr not in d[item.interface]:
-                d[item.interface][item.attr] = []
-            d[item.interface][item.attr] += [(item.scope or "", item.value)]
-        for i in o.model.data:
-            for a in o.model.data[i]:
-                if i not in d or a not in d[i]:
-                    d[i][a] = [("", o.model.data[i][a])]
-                elif not any(True for x in d[i][a] if x[0] == ""):
-                    d[i][a] += [("", o.model.data[i][a])]
         # Build result
-        for i in d:
-            mi = ModelInterface.objects.filter(name=i).first()
+        mi_attrs: Dict[str, Dict[str, ModelInterfaceAttr]] = {}
+        for item in o.get_effective_data():
+            mi = ModelInterface.get_by_name(item.interface)
             if not mi:
                 continue
-            for a in mi.attrs:
-                vl = d[i].get(a.name)
-                if vl is None and a.is_const:
-                    continue
-                data += [
-                    {
-                        "interface": i,
-                        "name": a.name,
-                        "scope": scope,
-                        "value": v,
-                        "type": a.type,
-                        "description": a.description,
-                        "required": a.required,
-                        "is_const": a.is_const,
-                    }
-                    for scope, v in vl
-                ]
+            if item.interface not in mi_attrs:
+                mi_attrs[item.interface] = {a.name: a for a in mi.attrs}
+            a = mi_attrs[item.interface].get(item.attr)
+            if not a:
+                continue
+            data += [
+                {
+                    "interface": item.interface,
+                    "name": a.name,
+                    "scope": item.scope,
+                    "value": item.value,
+                    "type": a.type,
+                    "description": a.description,
+                    "required": a.required,
+                    "is_const": a.is_const,
+                }
+            ]
         return {"id": str(o.id), "name": o.name, "model": o.model.name, "data": data}
 
     def api_save_data(self, request, id, interface=None, key=None, value=None):
