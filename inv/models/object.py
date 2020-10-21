@@ -333,15 +333,17 @@ class Object(Document):
                 ObjectAttr(interface=interface, attr=attr.name, value=value, scope=scope or "")
             ]
 
-    def reset_data(self, interface: str, key: Union[str, Iterable], scope: Optional[str] = None) -> None:
-        attr = ModelInterface.get_interface_attr(interface, key)
-        if attr.is_const:
-            raise ModelDataError("Cannot reset read-only value")
+    def reset_data(
+        self, interface: str, key: Union[str, Iterable], scope: Optional[str] = None
+    ) -> None:
         if isinstance(key, str):
             kset = {key}
         else:
             kset = set(key)
-        self.data = [
+        v = [ModelInterface.get_interface_attr(interface, k).is_const for k in kset]
+        if any(v):
+            raise ModelDataError("Cannot reset read-only value")
+        self.data += [
             item
             for item in self.data
             if item.interface != interface
