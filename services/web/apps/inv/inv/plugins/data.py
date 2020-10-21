@@ -5,6 +5,9 @@
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
+# Python modules
+from typing import Any, Tuple, Dict, Set, List
+
 # NOC modules
 from noc.inv.models.object import Object
 from noc.inv.models.objectmodel import ObjectModel
@@ -71,25 +74,42 @@ class DataPlugin(InvPlugin):
                         r["choices"] = [[str(x.id), x.name] for x in g]
                         break
             data += [r]
-        d = deep_merge(o.model.data, o.data)
+        # Merge model and object data
+        # interface -> attr -> [(scope, value), ...]
+        d: Dict[str, Dict[str, List[Tuple[str, Any]]]] = {}
+        for item in o.data:
+            if item.interface not in d:
+                d[item.interface] = {}
+            if item.attr not in d[item.interface]:
+                d[item.interface][item.attr] = []
+            d[item.interface][item.attr] += [(item.scope or "", item.value)]
+        for i in o.model.data:
+            for a in o.model.data[i]:
+                if i not in d or a not in d[i]:
+                    d[i][a] = [("", o.model.data[i][a])]
+                elif not any(True for x in d[i][a] if x[0] == ""):
+                    d[i][a] += [("", o.model.data[i][a])]
+        # Build result
         for i in d:
             mi = ModelInterface.objects.filter(name=i).first()
             if not mi:
                 continue
             for a in mi.attrs:
-                v = d[i].get(a.name)
-                if v is None and a.is_const:
+                vl = d[i].get(a.name)
+                if vl is None and a.is_const:
                     continue
                 data += [
                     {
                         "interface": i,
                         "name": a.name,
+                        "scope": scope,
                         "value": v,
                         "type": a.type,
                         "description": a.description,
                         "required": a.required,
                         "is_const": a.is_const,
                     }
+                    for scope, v in vl
                 ]
         return {"id": str(o.id), "name": o.name, "model": o.model.name, "data": data}
 
