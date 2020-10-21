@@ -46,7 +46,7 @@ class AssetCheck(DiscoveryCheck):
         self.pn_description: Dict[str, str] = {}  # part_no -> Description
         self.vendors: Dict[str, Vendor] = {}  # code -> Vendor instance
         self.objects: List[
-            Tuple[str, Union[Object, str], Dict[str, str], Optional[str]]
+            Tuple[str, Union[Object, str], Dict[str, int], Optional[str]]
         ] = []  # [(type, object, context, serial)]
         self.to_disconnect: Set[
             Tuple[Object, str, Object, str]
@@ -55,7 +55,7 @@ class AssetCheck(DiscoveryCheck):
             list
         )  # Connection rule. type -> [rule1, ruleN]
         self.rule_context = {}
-        self.ctx: Dict[str, str] = {}
+        self.ctx: Dict[str, Union[int, str]] = {}
         self.stack_member: Dict["Object", str] = {}  # object -> stack member numbers
         self.managed: Set[str] = set()  # Object ids
         self.unk_model: Dict[str, ObjectModel] = {}  # name -> model
@@ -270,7 +270,7 @@ class AssetCheck(DiscoveryCheck):
         if number and o.get_data("stack", "stackable"):
             self.stack_member[o] = number
 
-    def prepare_context(self, type: str, number: str):
+    def prepare_context(self, type: str, number: Optional[str]):
         self.set_context("N", number)
         if type and type in self.rule_context:
             scope, reset_scopes = self.rule_context[type]
@@ -293,8 +293,8 @@ class AssetCheck(DiscoveryCheck):
             )
 
     def iter_object(
-        self, i: int, scope: str, value: str, target_type: str, fwd: bool
-    ) -> Iterable[Tuple[str, Union[Object, str], Dict[str, str]]]:
+        self, i: int, scope: str, value: int, target_type: str, fwd: bool
+    ) -> Iterable[Tuple[str, Union[Object, str], Dict[str, int]]]:
         # Search backwards
         if not fwd:
             for j in range(i - 1, -1, -1):
@@ -314,7 +314,7 @@ class AssetCheck(DiscoveryCheck):
                 else:
                     return
 
-    def expand_context(self, s: str, ctx: Dict[str, str]) -> str:
+    def expand_context(self, s: str, ctx: Dict[str, int]) -> str:
         """
         Replace values in context
         """
@@ -468,7 +468,7 @@ class AssetCheck(DiscoveryCheck):
                 )
 
     def register_unknown_part_no(
-        self, vendor: "Vendor", part_no: Union[List[str], str], descripton: str
+        self, vendor: "Vendor", part_no: Union[List[str], str], descripton: Optional[str]
     ):
         """
         Register missed part number
@@ -528,7 +528,7 @@ class AssetCheck(DiscoveryCheck):
         for r in rule.rules:
             self.rule[r.match_type] += [r]
 
-    def set_context(self, name: str, value: str):
+    def set_context(self, name: str, value: Optional[str]):
         self.ctx[name] = value
         n = "N%s" % name
         if n not in self.ctx:
@@ -681,7 +681,7 @@ class AssetCheck(DiscoveryCheck):
             return None
         return lf.id
 
-    def generate_serial(self, model: ObjectModel, number: str) -> str:
+    def generate_serial(self, model: ObjectModel, number: Optional[str]) -> str:
         """
         Generate virtual serial number
         """
@@ -733,7 +733,7 @@ class AssetCheck(DiscoveryCheck):
         except ConnectionError as e:
             self.logger.error("Failed to disconnect: %s", e)
 
-    def clean_serial(self, model: "ObjectModel", number: str, serial: Optional[str]):
+    def clean_serial(self, model: "ObjectModel", number: Optional[str], serial: Optional[str]):
         # Empty value
         if not serial or serial == "None":
             new_serial = self.generate_serial(model, number)
