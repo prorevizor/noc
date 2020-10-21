@@ -201,7 +201,7 @@ class ObjectModel(Document):
 
     @classmethod
     def get_model(
-        cls, vendor: Vendor, part_no: Optional[List[str], str]
+        cls, vendor: "Vendor", part_no: Optional[List[str], str]
     ) -> Optional["ObjectModel"]:
         """
         Get ObjectModel by part part_no,
@@ -221,7 +221,7 @@ class ObjectModel(Document):
 
     @classmethod
     @cachetools.cachedmethod(operator.attrgetter("_model_cache"), lock=lambda _: id_lock)
-    def _get_model(cls, vendor: Vendor, part_no: str) -> Optional["ObjectModel"]:
+    def _get_model(cls, vendor: "Vendor", part_no: str) -> Optional["ObjectModel"]:
         """
         Get ObjectModel by part part_no,
         Search order:

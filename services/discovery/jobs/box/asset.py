@@ -468,7 +468,7 @@ class AssetCheck(DiscoveryCheck):
                 )
 
     def register_unknown_part_no(
-        self, vendor: Vendor, part_no: Optional[List[str], str], descripton: str
+        self, vendor: "Vendor", part_no: Optional[List[str], str], descripton: str
     ):
         """
         Register missed part number
@@ -493,7 +493,7 @@ class AssetCheck(DiscoveryCheck):
                 r += [n]
         return r
 
-    def get_vendor(self, v: str) -> Optional[Vendor]:
+    def get_vendor(self, v: Optional[str]) -> Optional["Vendor"]:
         """
         Get vendor instance or None
         """
@@ -517,7 +517,7 @@ class AssetCheck(DiscoveryCheck):
             self.vendors[v] = None
             return None
 
-    def set_rule(self, rule: ConnectionRule):
+    def set_rule(self, rule: "ConnectionRule"):
         self.logger.debug("Setting connection rule '%s'", rule.name)
         # Compile context mappings
         self.rule_context = {}
@@ -647,7 +647,7 @@ class AssetCheck(DiscoveryCheck):
         return o
 
     def get_model_map(
-        self, vendor: str, part_no: List[str], serial: str
+        self, vendor: str, part_no: Optional[List[str], str], serial: str
     ) -> Optional["ObjectModel"]:
         """
         Try to resolve using model map
@@ -710,7 +710,7 @@ class AssetCheck(DiscoveryCheck):
             self.logger.info("Disconnect: %s:%s ->X<- %s:%s", o1, c1, c2, o2)
             self.disconnect_p2p(o1, c1, c2, o2)
 
-    def disconnect_p2p(self, o1: Object, c1: str, c2: str, o2: Object):
+    def disconnect_p2p(self, o1: "Object", c1: str, c2: str, o2: "Object"):
         """
         Disconnect P2P connection o1:c1 - o2:c2
         """
@@ -733,7 +733,7 @@ class AssetCheck(DiscoveryCheck):
         except ConnectionError as e:
             self.logger.error("Failed to disconnect: %s", e)
 
-    def clean_serial(self, model: ObjectModel, number: str, serial: str):
+    def clean_serial(self, model: "ObjectModel", number: str, serial: Optional[str]):
         # Empty value
         if not serial or serial == "None":
             new_serial = self.generate_serial(model, number)
