@@ -142,7 +142,7 @@ META_SYNTAX = DEF(
                             [
                                 DEF(
                                     ANY,
-                                    name="name",
+                                    name="technology",
                                     required=True,
                                     gen="make_meta_service_group_technology",
                                 )
@@ -170,7 +170,7 @@ META_SYNTAX = DEF(
                             [
                                 DEF(
                                     ANY,
-                                    name="name",
+                                    name="technology",
                                     required=True,
                                     gen="make_meta_client_group_technology",
                                 )
