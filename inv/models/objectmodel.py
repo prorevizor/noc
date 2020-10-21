@@ -10,7 +10,7 @@ import os
 from threading import Lock
 import operator
 import re
-from typing import Optional, List, Tuple
+from typing import Optional, List, Tuple, Union
 
 # Third-party modules
 from mongoengine.document import Document, EmbeddedDocument
@@ -201,7 +201,7 @@ class ObjectModel(Document):
 
     @classmethod
     def get_model(
-        cls, vendor: "Vendor", part_no: Optional[List[str], str]
+        cls, vendor: "Vendor", part_no: Union[List[str], str]
     ) -> Optional["ObjectModel"]:
         """
         Get ObjectModel by part part_no,

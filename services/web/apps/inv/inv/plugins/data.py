@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------
 
 # Python modules
-from typing import Dict
+from typing import Dict, Tuple, Optional
 
 # NOC modules
 from noc.inv.models.object import Object
@@ -75,7 +75,7 @@ class DataPlugin(InvPlugin):
                         break
             data += [r]
         # Build result
-        mi_values: Dict[str, Dict[str, (str, str)]] = {}
+        mi_values: Dict[str, Dict[str, Tuple[Optional[str], str]]] = {}
         for item in o.get_effective_data():
             if item.interface not in mi_values:
                 mi_values[item.interface] = {}

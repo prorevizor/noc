@@ -12,7 +12,7 @@ import base64
 from threading import Lock
 import operator
 import re
-from typing import Optional, List, Dict, Set, Tuple, Iterable, Any
+from typing import Optional, List, Dict, Set, Tuple, Iterable, Any, Union
 
 # Third-party modules
 import cachetools
@@ -46,7 +46,7 @@ class AssetCheck(DiscoveryCheck):
         self.pn_description: Dict[str, str] = {}  # part_no -> Description
         self.vendors: Dict[str, Vendor] = {}  # code -> Vendor instance
         self.objects: List[
-            Tuple[str, Optional[Object, str], Dict[str, str], str]
+            Tuple[str, Union[Object, str], Dict[str, str], str]
         ] = []  # [(type, object, context, serial)]
         self.to_disconnect: Set[
             Tuple[Object, str, Object, str]
@@ -294,7 +294,7 @@ class AssetCheck(DiscoveryCheck):
 
     def iter_object(
         self, i: int, scope: str, value: str, target_type: str, fwd: bool
-    ) -> Iterable[Tuple[str, Optional[Object, str], Dict[str, str]]]:
+    ) -> Iterable[Tuple[str, Union[Object, str], Dict[str, str]]]:
         # Search backwards
         if not fwd:
             for j in range(i - 1, -1, -1):
@@ -468,7 +468,7 @@ class AssetCheck(DiscoveryCheck):
                 )
 
     def register_unknown_part_no(
-        self, vendor: "Vendor", part_no: Optional[List[str], str], descripton: str
+        self, vendor: "Vendor", part_no: Union[List[str], str], descripton: str
     ):
         """
         Register missed part number
@@ -647,7 +647,7 @@ class AssetCheck(DiscoveryCheck):
         return o
 
     def get_model_map(
-        self, vendor: str, part_no: Optional[List[str], str], serial: str
+        self, vendor: str, part_no: Union[List[str], str], serial: str
     ) -> Optional["ObjectModel"]:
         """
         Try to resolve using model map
