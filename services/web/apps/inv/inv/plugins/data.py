@@ -11,7 +11,7 @@ from typing import Dict
 # NOC modules
 from noc.inv.models.object import Object
 from noc.inv.models.objectmodel import ObjectModel
-from noc.inv.models.modelinterface import ModelInterface, ModelInterfaceAttr
+from noc.inv.models.modelinterface import ModelInterface
 from noc.sa.interfaces.base import StringParameter, UnicodeParameter
 from .base import InvPlugin
 
