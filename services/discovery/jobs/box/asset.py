@@ -19,7 +19,7 @@ import cachetools
 # NOC modules
 from noc.services.discovery.jobs.base import DiscoveryCheck
 from noc.inv.models.objectmodel import ObjectModel
-from noc.inv.models.object import Object
+from noc.inv.models.object import Object, ObjectAttr
 from noc.inv.models.vendor import Vendor
 from noc.inv.models.unknownmodel import UnknownModel
 from noc.inv.models.modelmapping import ModelMapping
@@ -187,11 +187,11 @@ class AssetCheck(DiscoveryCheck):
         if not o:
             # Create new object
             self.logger.info("Creating new object. model='%s', serial='%s'", m.name, serial)
-            data = {"asset": {"serial": serial}}
+            data = [ObjectAttr(scope="", interface="asset", attr="serial", value=serial)]
             if revision:
-                data["asset"]["revision"] = revision
+                data += [ObjectAttr(scope="", interface="asset", attr="revision", value=revision)]
             if mfg_date:
-                data["asset"]["mfg_date"] = mfg_date
+                data += [ObjectAttr(scope="", interface="asset", attr="mfg_date", value=mfg_date)]
             if self.object.container:
                 container = self.object.container.id
             else:
