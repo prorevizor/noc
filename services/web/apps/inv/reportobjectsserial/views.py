@@ -69,7 +69,8 @@ class ReportFilterApplication(SimpleReport):
                 ]
             else:
                 for x in Object._get_collection().find(
-                    {"data": {"$elemMatch": {"attr": "managed_object", "value": {"$in": [mo.id]}}}}, {"data": 1}
+                    {"data": {"$elemMatch": {"attr": "managed_object", "value": {"$in": [mo.id]}}}},
+                    {"data": 1},
                 ):
                     serial = [a["value"] for a in x["data"] if a["attr"] == "serial"]
                     data += [

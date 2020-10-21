@@ -11,7 +11,7 @@ from noc.gis.models.layer import Layer
 from noc.gis.models.layerusersettings import LayerUserSettings
 from noc.sa.models.managedobject import ManagedObject
 from noc.inv.models.objectmodel import ObjectModel
-from noc.inv.models.object import Object
+from noc.inv.models.object import Object, ObjectAttr
 from noc.sa.interfaces.base import (
     StringParameter,
     FloatParameter,
@@ -218,7 +218,11 @@ class MapPlugin(InvPlugin):
             name=name,
             model=model,
             container=container,
-            data={"geopoint": {"srid": srid, "x": x, "y": y}},
+            data=[
+                ObjectAttr(scope="", interface="geopoint", attr="srid", value=srid),
+                ObjectAttr(scope="", interface="geopoint", attr="x", value=x),
+                ObjectAttr(scope="", interface="geopoint", attr="y", value=y),
+            ],
         )
         o.save()
         return {"id": str(o.id)}
