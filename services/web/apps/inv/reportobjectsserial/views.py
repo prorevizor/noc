@@ -52,7 +52,7 @@ class ReportFilterApplication(SimpleReport):
 
         for mo in mos_list:
             q = Object._get_collection().count_documents(
-                {"data.management.managed_object": {"$in": [mo.id]}}
+                {"data": {"$elemMatch": {"attr": "managed_object", "value": {"$in": [mo.id]}}}}
             )
             if q == 0:
                 data += [
@@ -69,8 +69,9 @@ class ReportFilterApplication(SimpleReport):
                 ]
             else:
                 for x in Object._get_collection().find(
-                    {"data.management.managed_object": {"$in": [mo.id]}}
+                    {"data": {"$elemMatch": {"attr": "managed_object", "value": {"$in": [mo.id]}}}}, {"data": 1}
                 ):
+                    serial = [a["value"] for a in x["data"] if a["attr"] == "serial"]
                     data += [
                         [
                             x["name"],
@@ -79,7 +80,7 @@ class ReportFilterApplication(SimpleReport):
                             mo.platform.full_name if mo.platform else None,
                             mo.get_attr("HW version") or None,
                             mo.version.version if mo.version else None,
-                            x["data"]["asset"]["serial"],
+                            serial[0],
                         ]
                     ]
 

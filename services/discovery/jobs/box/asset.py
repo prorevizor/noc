@@ -621,7 +621,11 @@ class AssetCheck(DiscoveryCheck):
             container = self.object.container.id
         else:
             container = self.lost_and_found
-        o = Object(model=model, data={"asset": {"serial": serial}}, container=container)
+        o = Object(model=model, data__match={
+                    "interface": "asset",
+                    "attr": "serial",
+                    "value": serial,
+                }, container=container)
         o.save()
         o.log(
             "Created by asset_discovery",
