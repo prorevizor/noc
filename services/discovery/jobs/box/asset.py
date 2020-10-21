@@ -46,7 +46,7 @@ class AssetCheck(DiscoveryCheck):
         self.pn_description: Dict[str, str] = {}  # part_no -> Description
         self.vendors: Dict[str, Vendor] = {}  # code -> Vendor instance
         self.objects: List[
-            Tuple[str, Union[Object, str], Dict[str, int], Optional[str]]
+            Tuple[str, Union[Object, str], Dict[str, Union[int, str]], Optional[str]]
         ] = []  # [(type, object, context, serial)]
         self.to_disconnect: Set[
             Tuple[Object, str, Object, str]
@@ -647,7 +647,7 @@ class AssetCheck(DiscoveryCheck):
         return o
 
     def get_model_map(
-        self, vendor: str, part_no: Union[List[str], str], serial: str
+        self, vendor: str, part_no: Union[List[str], str], serial: Optional[str]
     ) -> Optional["ObjectModel"]:
         """
         Try to resolve using model map
