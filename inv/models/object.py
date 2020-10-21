@@ -374,7 +374,7 @@ class Object(Document):
 
     def get_genderless_connections(
         self, name: str
-    ) -> List[Union[List["ObjectConnection", "Object", str], List]]:
+    ) -> Union[List[List["ObjectConnection", "Object", str]], List]:
         r = []
         for c in ObjectConnection.objects.filter(
             __raw__={"connection": {"$elemMatch": {"object": self.id, "name": name}}}

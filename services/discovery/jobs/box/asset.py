@@ -294,7 +294,7 @@ class AssetCheck(DiscoveryCheck):
 
     def iter_object(
         self, i: int, scope: str, value: int, target_type: str, fwd: bool
-    ) -> Iterable[Tuple[str, Union[Object, str], Dict[str, int]]]:
+    ) -> Iterable[Tuple[str, Union[Object, str], Dict[str, Union[int, str]]]]:
         # Search backwards
         if not fwd:
             for j in range(i - 1, -1, -1):
