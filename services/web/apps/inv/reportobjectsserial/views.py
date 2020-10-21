@@ -69,10 +69,17 @@ class ReportFilterApplication(SimpleReport):
                 ]
             else:
                 for x in Object._get_collection().find(
-                    {"data": {"$elemMatch": {"attr": "managed_object", "value": {"$in": [mo.id]}}}},
-                    {"data": 1},
+                    {
+                        "data": {
+                            "$elemMatch": {
+                                "interface": "management",
+                                "attr": "managed_object",
+                                "value": {"$in": [mo.id]},
+                            }
+                        }
+                    },
+                    {"data": {"$elemMatch": {"interface": "asset", "attr": "serial"}}, "name": 1},
                 ):
-                    serial = [a["value"] for a in x["data"] if a["attr"] == "serial"]
                     data += [
                         [
                             x["name"],
@@ -81,7 +88,7 @@ class ReportFilterApplication(SimpleReport):
                             mo.platform.full_name if mo.platform else None,
                             mo.get_attr("HW version") or None,
                             mo.version.version if mo.version else None,
-                            serial[0],
+                            x["data"][0]["value"] if x["data"] else "",
                         ]
                     ]
 

@@ -153,12 +153,12 @@ class ObjectModel(Document):
 
     @classmethod
     @cachetools.cachedmethod(operator.attrgetter("_id_cache"), lock=lambda _: id_lock)
-    def get_by_id(cls, id):
+    def get_by_id(cls, id) -> Optional["ObjectModel"]:
         return ObjectModel.objects.filter(id=id).first()
 
     @classmethod
     @cachetools.cachedmethod(operator.attrgetter("_name_cache"), lock=lambda _: id_lock)
-    def get_by_name(cls, name):
+    def get_by_name(cls, name) -> Optional["ObjectModel"]:
         return ObjectModel.objects.filter(name=name).first()
 
     def get_data(self, interface: str, key: str):
@@ -338,7 +338,7 @@ class ModelConnectionsCache(Document):
             collection.insert(nc)
 
     @classmethod
-    def update_for_model(cls, model):
+    def update_for_model(cls, model: "ObjectModel"):
         """
         Update connection cache for object model
         :param model: ObjectModel instance

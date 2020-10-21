@@ -69,7 +69,7 @@ class ObjectAttr(EmbeddedDocument):
     def __str__(self):
         if self.scope:
             return "%s.%s@%s = %s" % (self.interface, self.attr, self.scope, self.value)
-        return "%s.%s = %s" % (self.interface, self.attr, self.scope)
+        return "%s.%s = %s" % (self.interface, self.attr, self.value)
 
 
 @bi_sync

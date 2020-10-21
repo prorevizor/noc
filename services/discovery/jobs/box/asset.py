@@ -12,7 +12,7 @@ import base64
 from threading import Lock
 import operator
 import re
-from typing import Optional, List, Dict, Set, Tuple, Iterable
+from typing import Optional, List, Dict, Set, Tuple, Iterable, Any
 
 # Third-party modules
 import cachetools
@@ -692,7 +692,7 @@ class AssetCheck(DiscoveryCheck):
         return "NOC%s" % smart_text(base64.b32encode(h.digest())[:7])
 
     @staticmethod
-    def get_name(obj: Object, managed_object: Optional["ManagedObject"] = None) -> str:
+    def get_name(obj: Object, managed_object: Optional[Any] = None) -> str:
         """
         Generate discovered object's name
         """
