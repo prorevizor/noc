@@ -317,7 +317,7 @@ class Object(Document):
             )
         )
 
-    def set_data(self, interface: str, key: str, value: Any, scope: Optional[str]) -> None:
+    def set_data(self, interface: str, key: str, value: Any, scope: Optional[str] = None) -> None:
         attr = ModelInterface.get_interface_attr(interface, key)
         if attr.is_const:
             raise ModelDataError("Cannot set read-only value")
@@ -330,10 +330,10 @@ class Object(Document):
         else:
             # Insert new item
             self.data += [
-                ObjectAttr(interface=interface, attr=attr, value=value, scope=scope or "")
+                ObjectAttr(interface=interface, attr=attr.name, value=value, scope=scope or "")
             ]
 
-    def reset_data(self, interface: str, key: Union[str, Iterable], scope: Optional[str]) -> None:
+    def reset_data(self, interface: str, key: Union[str, Iterable], scope: Optional[str] = None) -> None:
         attr = ModelInterface.get_interface_attr(interface, key)
         if attr.is_const:
             raise ModelDataError("Cannot reset read-only value")
