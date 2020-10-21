@@ -664,7 +664,7 @@ class AssetCheck(DiscoveryCheck):
                 continue
             if mm.from_serial and mm.to_serial:
                 if mm.from_serial <= serial and serial <= mm.to_serial:
-                    return True
+                    return mm.model
             else:
                 self.logger.debug("Mapping %s %s %s to %s", vendor, part_no, serial, mm.model.name)
                 return mm.model
