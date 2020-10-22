@@ -12,6 +12,7 @@ from django.db import connection
 
 # NOC modules
 from noc.inv.models.networksegment import NetworkSegment
+from noc.inv.models.networksegmentprofile import NetworkSegmentProfile
 from noc.inv.models.link import Link
 from noc.sa.models.managedobject import ManagedObject
 from noc.core.topology.segment import update_uplinks
@@ -30,10 +31,14 @@ class BaseBioSegPolicy(object):
         attacker: NetworkSegment,
         target: NetworkSegment,
         logger: Optional[logging.Logger] = None,
+        calcified_profile: Optional[NetworkSegmentProfile] = None,
+        segment_power_function: Optional[str] = None,
     ):
         self.attacker = attacker
         self.target = target
         self.logger = logger or logging.getLogger(__name__)
+        self.calcified_profile = calcified_profile
+        self.segment_power_function = segment_power_function or "SUM"
         self._powers: Dict[NetworkSegment, int] = {}
 
     def trial(self) -> str:
@@ -55,11 +60,11 @@ class BaseBioSegPolicy(object):
         with connection.cursor() as cursor:
             cursor.execute(
                 """
-                SELECT SUM(p.level)
+                SELECT %s(p.level)
                 FROM sa_managedobject mo JOIN sa_managedobjectprofile p ON mo.object_profile_id = p.id
                 WHERE segment = %s
             """,
-                [str(seg.id)],
+                [self.segment_power_function, str(seg.id)],
             )
             pwr = cursor.fetchall()[0][0] or 0
         self.set_power(seg, pwr)
