@@ -136,23 +136,31 @@ class ReportMovedMacApplication(ExtApplication):
             return [row[i] for i in cmap]
 
         cols = [
-            "vendor_mac",
-            "mac",
             "object_name",
             "object_address",
             "object_adm_domain",
-            "ifaces",
-            # "iface_description",
+            "event_type",
+            "vendor_mac",
+            "mac",
+            "migrate_ts",
+            "from_iface_name",
+            "from_iface_down",
+            "to_iface_name",
+            "to_iface_down",
         ]
 
         header_row = [
-            "VENDOR_MAC",
-            "MAC",
             "OBJECT_NAME",
             "OBJECT_ADDRESS",
             "OBJECT_ADM_DOMAIN",
-            "IFACE_NAME",
-            # "IFACE_DESCRIPTION",
+            "EVENT_TYPE",
+            "VENDOR_MAC",
+            "MAC",
+            "MIGRATE_TS",
+            "FROM_IFACE_NAME",
+            "FROM_IFACE_DOWN",
+            "TO_IFACE_NAME",
+            "TO_IFACE_DOWN",
         ]
 
         if columns:
@@ -202,11 +210,15 @@ class ReportMovedMacApplication(ExtApplication):
             r += [
                 translate_row(
                     [
-                        MACVendor.get_vendor(mac),
-                        mac,
                         mo_name,
                         mo_address,
                         mo_adm_domain,
+                        "Migrate",
+                        MACVendor.get_vendor(mac),
+                        mac,
+                        "",  # TS
+                        ifaces,
+                        "",
                         ifaces,
                         "",
                     ],
