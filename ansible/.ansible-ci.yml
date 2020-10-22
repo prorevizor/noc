@@ -7,7 +7,7 @@ lint:
   stage: Lint
   image: registry.getnoc.com/infrastructure/ansible_linter:master
   script:
-    - export ANSIBLE_ROLES_PATH=./ansible/additional_roles:./system_roles:./noc_roles
+    - export ANSIBLE_ROLES_PATH=./ansible/additional_roles:./ansible/system_roles:./ansible/noc_roles
     - export ANSIBLE_LIBRARY=./ansible/library:./ansible/system_roles/mongod/library
     - yamllint --version
     - yamllint -s ansible/*
