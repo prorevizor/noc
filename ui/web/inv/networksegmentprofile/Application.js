@@ -322,8 +322,10 @@ Ext.define("NOC.inv.networksegmentprofile.Application", {
                                     text: __("Calcified Profile"),
                                     dataIndex: "calcified_profile",
                                     width: 200,
-                                    editor: "inv.networksegmentprofile.LookupField",
-                                     renderer: NOC.render.Lookup("networksegmentprofile")
+                                    editor: {
+                                        xtype: "inv.networksegmentprofile.LookupField"
+                                    },
+                                    renderer: NOC.render.Lookup("calcified_profile")
                                 }
                             ]
                         },
