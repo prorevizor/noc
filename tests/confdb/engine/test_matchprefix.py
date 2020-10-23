@@ -30,6 +30,11 @@ from noc.core.confdb.engine.base import Engine
             "MatchPrefix(prefix, address)",
             [{"prefix": "192.168.100.0/16", "address": "192.168.100.1"}],
         ),
+        (
+            {"prefix": "192.168.100.0/16", "address": "192.169.100.1"},
+            "MatchPrefix(prefix, address)",
+            [],
+        ),
     ],
 )
 def test_match_prefix(input, query, output):
