@@ -24,7 +24,7 @@ from noc.inv.models.firmware import Firmware
 from noc.inv.models.resourcegroup import ResourceGroup
 from noc.fm.models.ttsystem import TTSystem
 from noc.main.models.pool import Pool
-from noc.main.models.prefixtable import PrefixTable
+from noc.main.models.prefixtable import PrefixTable, PrefixTablePrefix
 from noc.core.model.fields import TagsField
 from noc.core.validators import check_re, is_int, is_ipv4, is_ipv6
 from noc.core.model.sql import SQL
@@ -425,7 +425,6 @@ class ManagedObjectSelector(NOCModel):
     @property
     def get_confdb_query(self) -> str:
         query = []
-        print("Query", self.sources)
         if self.sources.count():
             for s in self.sources.all():
                 query += ["(%s)" % s.get_confdb_query]
@@ -460,7 +459,14 @@ class ManagedObjectSelector(NOCModel):
                 % self.filter_address
             ]
         if self.filter_prefix:
-            pass
+            query += [
+                "( %s )"
+                % " or ".join(
+                    "Match('meta', 'management', 'address', address) and MatchPrefix('%s', address)"
+                    % ptp.prefix
+                    for ptp in PrefixTablePrefix.objects.filter(table=self.filter_prefix)
+                )
+            ]
         if self.filter_administrative_domain:
             query += [
                 "Match%r"
