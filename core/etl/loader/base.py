@@ -33,11 +33,11 @@ class BaseLoader(object):
         import/
             <system name>/
                 <loader name>/
-                    import.csv[.ext]  -- state to load, must have .ext extension
+                    import.jsonl[.ext]  -- state to load, must have .ext extension
                                          according to selected compressor
                     mappings.csv -- ID mappings
                     archive/
-                        import-YYYY-MM-DD-HH-MM-SS.csv.ext -- imported state
+                        import-YYYY-MM-DD-HH-MM-SS.jsonl.ext -- imported state
 
     Import file format: CSV, unix end of lines, UTF-8, comma-separated
     First column - record id in the terms of connected system,
