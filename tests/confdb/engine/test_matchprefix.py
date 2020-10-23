@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
-# Test engine's HasVLAN predicate
+# Test engine's MatchPrefix predicate
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 # Third-party modules
@@ -32,6 +32,6 @@ from noc.core.confdb.engine.base import Engine
         ),
     ],
 )
-def test_has_vlan(input, query, output):
+def test_match_prefix(input, query, output):
     e = Engine()
     assert list(e.query(query, **input)) == output
