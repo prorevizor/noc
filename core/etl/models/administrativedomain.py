@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------
 
 # Python modules
-from typing import Optional, Iterable
+from typing import Optional
 
 # NOC modules
 from .base import BaseModel
