@@ -88,7 +88,7 @@ Ext.define("NOC.inv.reportmovedmac.Application", {
             ["object_name", __("Object Name"), true],
             ["object_address", __("Object  Address"), true],
             ["object_adm_domain", __("Object Adm. Domain"), true],
-            ["event_type", __("Event Type (Migrate/Moved)"), true],
+            ["event_type", __("Event Type (Migrate/Duplicate)"), true],
             ["vendor_mac", __("Vendor MAC"), true],
             ["mac", __("MAC"), true],
             ["migrate_ts", __("MAC"), true],
