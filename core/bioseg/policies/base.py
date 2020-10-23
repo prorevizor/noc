@@ -58,14 +58,18 @@ class BaseBioSegPolicy(object):
         if pwr is not None:
             return pwr
         with connection.cursor() as cursor:
-            cursor.execute(
+            self.logger.debug(
+                "Used '%s' function for calculate segment power", self.segment_power_function
+            )
+            query = (
                 """
                 SELECT %s(p.level)
                 FROM sa_managedobject mo JOIN sa_managedobjectprofile p ON mo.object_profile_id = p.id
-                WHERE segment = %s
-            """,
-                [self.segment_power_function, str(seg.id)],
+                WHERE segment = %%s
+            """
+                % self.segment_power_function
             )
+            cursor.execute(query, [str(seg.id)])
             pwr = cursor.fetchall()[0][0] or 0
         self.set_power(seg, pwr)
         return pwr
