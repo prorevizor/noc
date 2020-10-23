@@ -124,6 +124,8 @@ def moderate(
         attacker_object=attacker_object,
         target_object=target_object,
     )
+    if not attacker_c_policy:
+        return None, "Not matched rule", True
     attacker_policy = loader.get_class(attacker_c_policy.policy)
     if not attacker_policy:
         return None, "Cannot determine attacker policy", True
@@ -134,6 +136,8 @@ def moderate(
         attacker_object=attacker_object,
         target_object=target_object,
     )
+    if not target_c_policy:
+        return None, "Not matched rule", True
     target_policy = loader.get_class(target_c_policy.policy)
     if not target_policy:
         return None, "Cannot determine target policy", False

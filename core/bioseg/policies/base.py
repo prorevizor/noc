@@ -19,7 +19,7 @@ from noc.core.topology.segment import update_uplinks
 
 
 class BaseBioSegPolicy(object):
-    name = None
+    name: str = None
 
     # Persistent target. Effective attacker's policy map
     PERSISTENT_POLICY = {}
