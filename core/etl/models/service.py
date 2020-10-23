@@ -27,7 +27,7 @@ class ServiceModel(BaseModel):
     stage_start: Optional[str]
     account_id: Optional[str]
     address: Optional[str]
-    managed_object: str
+    managed_object: Optional[str]
     nri_port: Optional[str]
     cpe_serial: Optional[str]
     cpe_mac: Optional[str]
