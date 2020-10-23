@@ -240,7 +240,7 @@ class ReportMovedMacApplication(ExtApplication):
             iface_from, iface_to, migrate = get_interface(ifaces)
             event_type = _("Migrate")
             if rx_port_num.search(iface_from).group() == rx_port_num.search(iface_to).group():
-                event_type = _("Migrate (Device Changed")
+                event_type = _("Migrate (Device Changed)")
             r += [
                 translate_row(
                     [
