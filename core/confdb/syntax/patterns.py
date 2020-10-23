@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------
 
 # NOC modules
-from noc.core.ip import IP, IPv4
+from noc.core.ip import IP, IPv4, IPv6
 
 
 class BasePattern(object):
@@ -123,6 +123,42 @@ class IPv4_ADDRESS(ANY):
         return "IPv4(%s)" % name
 
 
+class IPv4_PREFIX(ANY):
+    @staticmethod
+    def compile_gen_kwarg(name, value=None):
+        if value is None:
+            return "%s=None" % name
+        return "%s=%s" % (name, IPv4(value))
+
+    @staticmethod
+    def compile_value(name):
+        return "IPv4(%s)" % name
+
+
+class IPv6_ADDRESS(ANY):
+    @staticmethod
+    def compile_gen_kwarg(name, value=None):
+        if value is None:
+            return "%s=None" % name
+        return "%s=%s" % (name, IPv6(value))
+
+    @staticmethod
+    def compile_value(name):
+        return "IPv6(%s)" % name
+
+
+class IPv6_PREFIX(ANY):
+    @staticmethod
+    def compile_gen_kwarg(name, value=None):
+        if value is None:
+            return "%s=None" % name
+        return "%s=%s" % (name, IPv6(value))
+
+    @staticmethod
+    def compile_value(name):
+        return "IPv6(%s)" % name
+
+
 # Matches any token value
 VR_NAME = ANY
 FI_NAME = ANY
@@ -130,9 +166,9 @@ IF_NAME = ANY
 UNIT_NAME = ANY
 IF_UNIT_NAME = ANY
 # IPv4_ADDRESS = ANY
-IPv4_PREFIX = ANY
-IPv6_ADDRESS = ANY
-IPv6_PREFIX = ANY
+# IPv4_PREFIX = ANY
+# IPv6_ADDRESS = ANY
+# IPv6_PREFIX = ANY
 # IP_ADDRESS = ANY
 ISO_ADDRESS = ANY
 # INTEGER = ANY
