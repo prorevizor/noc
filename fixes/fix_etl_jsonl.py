@@ -54,7 +54,7 @@ def ensure_format(path):
     else:
         name = parts[-1]
     model = model_loader[name]
-    new_path = comp.get_path("%s.jsonl" % path[:-7])
+    new_path = comp.get_path("%s.jsonl" % s_path[:-4])
     with comp(path).open() as f:
         reader = csv.reader(f)
         next(reader)  # Skip headers
