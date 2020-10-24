@@ -249,7 +249,9 @@ class BIAPI(API):
         """
         user = self.handler.current_user
         groups = user.groups.values_list("id", flat=True)
-        aq = Q(owner=user.id) | Q(owner=None) | Q(access__user=user.id) | Q(access__group__in=groups)
+        aq = (
+            Q(owner=user.id) | Q(owner=None) | Q(access__user=user.id) | Q(access__group__in=groups)
+        )
         if user.is_superuser:
             aq = Q()
         if query and "query" in query:
