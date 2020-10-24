@@ -158,7 +158,9 @@ class BaseExtractor(object):
         for row in self.iter_data():
             if not self.filter(row):
                 continue
-            row = get_model(self.clean(row))
+            row = self.clean(row)
+            # Do not use get_model(self.clean(row)), to zip_longest broken row
+            row = get_model(row)
             if row.id in seen:
                 if not self.suppress_deduplication_log:
                     self.logger.error("Duplicated row truncated: %r", row)
