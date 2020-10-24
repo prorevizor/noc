@@ -489,8 +489,6 @@ class BaseLoader(object):
         """
         Cleanup row and return a dict of field name -> value
         """
-        self.logger.info("Cleanup item: %s", item.json)
-        self.logger.info("Clean MAP: %s", self.clean_map)
         r = {k: self.clean_map.get(k, self.clean_str)(v) for k, v in item.dict().items()}
         # Fill integration fields
         r["remote_system"] = self.system.remote_system
