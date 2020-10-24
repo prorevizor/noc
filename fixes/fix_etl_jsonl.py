@@ -62,7 +62,7 @@ def ensure_format(path):
             for n, row in enumerate(reader):
                 data = model.from_iter(row)
                 if n:
-                    ff.write("\n%s" % data.json(exclude_unset=True))
+                    ff.write("\n%s" % data.json(exclude_defaults=True, exclude_unset=True))
                 else:
-                    ff.write(data.json(exclude_unset=True))
+                    ff.write(data.json(exclude_defaults=True, exclude_unset=True))
     os.unlink(path)

@@ -176,7 +176,7 @@ class BaseExtractor(object):
             for n, item in enumerate(sorted(data, key=operator.attrgetter("id"))):
                 if n:
                     f.write("\n")
-                f.write(item.json(exclude_unset=True))
+                f.write(item.json(exclude_defaults=True, exclude_unset=True))
         if self.fatal_problems or self.quality_problems:
             self.logger.warning(
                 "Detect problems on extracting, fatal: %d, quality: %d",
