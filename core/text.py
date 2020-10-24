@@ -572,7 +572,7 @@ def safe_shadow(text):
     '******'
     >>> safe_shadow([1, 2])
     '******'
-     """
+    """
     if not text:
         return "None"
     elif not isinstance(text, str):

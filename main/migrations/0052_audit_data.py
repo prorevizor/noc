@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------
 # Migrate audit trail
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -21,7 +21,6 @@ logger = logging.getLogger("migration")
 
 
 class Migration(BaseMigration):
-
     rx_field = re.compile("^[a-zA-Z0-9_]+$")
 
     def migrate(self):

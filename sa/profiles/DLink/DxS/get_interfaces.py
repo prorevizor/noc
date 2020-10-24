@@ -169,7 +169,7 @@ class Script(BaseScript):
         if "::" in oid:
             oid = mib[oid]
         for oid, v in self.snmp.getnext(
-            oid, max_repetitions=40, display_hints={"1.0.8802.1.1.2.1.3.7.1.3": render_bin,}
+            oid, max_repetitions=40, display_hints={"1.0.8802.1.1.2.1.3.7.1.3": render_bin}
         ):
             yield int(oid.rsplit(".", 1)[-1]) if transform else oid, v
 

@@ -156,7 +156,7 @@ class Script(BaseScript):
                             ":".join(lll.split(":")[1:])
                             for lll in vrf_block["import vpn route-target communities"]
                         ]
-                vrf, rd, = self.rx_vrf.match(l).group("vrf"), self.rx_vrf.match(l).group("rd")
+                vrf, rd = self.rx_vrf.match(l).group("vrf"), self.rx_vrf.match(l).group("rd")
                 # interfaces, vrf_export, vrf_import
                 vrf_block = {
                     "interfaces:": [],

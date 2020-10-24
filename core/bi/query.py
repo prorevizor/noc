@@ -151,7 +151,6 @@ def f_selector(seq, model=None):
 
 
 def f_quantile(seq):
-
     return "quantile(%f)(%s)" % seq
 
 
