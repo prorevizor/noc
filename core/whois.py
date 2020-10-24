@@ -68,15 +68,21 @@ class WhoisCacheLoader(object):
         obj = {}
         last = None
         for line in f:
-            line = line.strip()
             if line.startswith("#"):
                 continue
-            if line == "":
+            if line.strip() == "" and line.count(" ") != 16:
+                """
+                != 16 fixed that:
+                 'descr:          Honest,',
+                 '                ',
+                 '                299 Broadway',
+                """
                 # New object
                 if obj:
                     yield obj
                     obj = {}
                 continue
+            line = line.strip()
             if "#" in line:
                 line, r = line.split("#", 1)
             if ":" in line:
