@@ -158,13 +158,13 @@ class BaseExtractor(object):
         for row in self.iter_data():
             if not self.filter(row):
                 continue
-            row = self.clean(row)
-            if row[0] in seen:
+            row = get_model(self.clean(row))
+            if row.id in seen:
                 if not self.suppress_deduplication_log:
                     self.logger.error("Duplicated row truncated: %r", row)
                 continue
-            seen.add(row[0])
-            data += [get_model(row)]
+            seen.add(row.id)
+            data += [row]
             n += 1
             if n % self.REPORT_INTERVAL == 0:
                 self.logger.info("   ... %d records", n)
