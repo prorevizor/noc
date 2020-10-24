@@ -95,7 +95,9 @@ class BaseLoader(object):
         self.c_change = 0
         self.c_delete = 0
         # Build clean map
-        self.clean_map = {}  # field name -> clean function
+        self.clean_map = {
+            n: self.clean_str for n in self.data_model.__fields__
+        }  # field name -> clean function
         self.pending_deletes: List[Tuple[str, BaseModel]] = []  # (id, BaseModel)
         self.reffered_errors: List[Tuple[str, BaseModel]] = []  # (id, BaseModel)
         if self.is_document:
@@ -297,12 +299,13 @@ class BaseLoader(object):
             if rn % self.REPORT_INTERVAL == 0:
                 self.logger.info("   ... %d records", rn)
 
-    def find_object(self, v) -> Optional[Any]:
+    def find_object(self, v: Dict[str, Any]) -> Optional[Any]:
         """
         Find object by remote system/remote id
         :param v:
         :return:
         """
+        self.logger.debug("Find object: %s", v)
         if not self.has_remote_system:
             return None
         if not v.get("remote_system") or not v.get("remote_id"):
@@ -320,6 +323,7 @@ class BaseLoader(object):
                 return list(r)[-1]
             raise self.model.MultipleObjectsReturned
         except self.model.DoesNotExist:
+            self.logger.debug("Object not found")
             return None
 
     def create_object(self, v):
@@ -381,7 +385,7 @@ class BaseLoader(object):
         """
         Create new record
         """
-        self.logger.debug("Add: %s", ";".join(item))
+        self.logger.debug("Add: %s", item.json())
         v = self.clean(item)
         # @todo: Check record is already exists
         if "id" in v:
@@ -407,7 +411,7 @@ class BaseLoader(object):
         """
         Create change record
         """
-        self.logger.debug("Change: %s", ";".join(n))
+        self.logger.debug("Change: %s", n.json())
         self.c_change += 1
         nv = self.clean(n)
         changes = {"remote_system": nv["remote_system"], "remote_id": nv["remote_id"]}
@@ -455,7 +459,9 @@ class BaseLoader(object):
         self.logger.info(
             "Summary: %d new, %d changed, %d removed", self.c_add, self.c_change, self.c_delete
         )
-        self.logger.info("Error delete by referred: %s", "\n".join(self.reffered_errors))
+        self.logger.info(
+            "Error delete by referred: %s", "\n".join(b.json() for _, b in self.reffered_errors)
+        )
         t = time.localtime()
         archive_path = os.path.join(
             self.archive_dir,
@@ -479,6 +485,8 @@ class BaseLoader(object):
         """
         Cleanup row and return a dict of field name -> value
         """
+        self.logger.info("Cleanup item: %s", item.json)
+        self.logger.info("Clean MAP: %s", self.clean_map)
         r = {k: self.clean_map.get(k, self.clean_str)(v) for k, v in item.dict().items()}
         # Fill integration fields
         r["remote_system"] = self.system.remote_system
@@ -508,7 +516,7 @@ class BaseLoader(object):
                 raise self.Deferred
         return value
 
-    def clean_bool(self, value):
+    def clean_bool(self, value: str) -> Optional[bool]:
         if value == "":
             return None
         try:
@@ -631,10 +639,10 @@ class BaseLoader(object):
         if not ns:
             self.logger.info("No new state, skipping")
             return 0
-        new_state = csv.reader(ns)
-        r_index = set(self.fields.index(f) for f in required_fields if f in self.fields)
-        u_index = set(self.fields.index(f) for f in unique_fields if f not in self.ignore_unique)
-        m_index = set(self.fields.index(f) for f in self.mapped_fields)
+        new_state = self.iter_jsonl(ns)
+        # r_index = set(self.fields.index(f) for f in required_fields if f in self.fields)
+        # u_index = set(self.fields.index(f) for f in unique_fields if f not in self.ignore_unique)
+        # m_index = set(self.fields.index(f) for f in self.mapped_fields)
         uv = set()
         m_data = {}  # field_number -> set of mapped ids
         # Load mapped ids
@@ -643,48 +651,49 @@ class BaseLoader(object):
             ls = line.get_new_state()
             if not ls:
                 ls = line.get_current_state()
-            ms = csv.reader(ls)
-            m_data[self.fields.index(f)] = set(item.id for item in ms)
+            ms = self.iter_jsonl(ls)
+            m_data[self.data_model.__fields__[f]] = set(item.id for item in ms)
         # Process data
         n_errors = 0
         for row in new_state:
+            row = row.dict()
             lr = len(row)
             # Check required fields
-            for i in r_index:
-                if not row[i]:
+            for f in required_fields:
+                if f not in row:
                     self.logger.error(
-                        "ERROR: Required field #%d(%s) is missed in row: %s",
-                        i,
-                        self.fields[i],
-                        ",".join(row),
+                        "ERROR: Required field #(%s) is missed in row: %s",
+                        f,
+                        # self.fields[i],
+                        row,
                     )
                     n_errors += 1
                     continue
             # Check unique fields
-            for i in u_index:
-                v = row[i]
-                if (i, v) in uv:
+            for f in unique_fields:
+                if f in self.ignore_unique:
+                    continue
+                if f in uv:
                     self.logger.error(
-                        "ERROR: Field #%d(%s) value is not unique: %s",
-                        i,
-                        self.fields[i],
-                        ",".join(row),
+                        "ERROR: Field #(%s) value is not unique: %s",
+                        f,
+                        # self.fields[i],
+                        row,
                     )
                     n_errors += 1
                 else:
-                    uv.add((i, v))
+                    uv.add(f)
             # Check mapped fields
-            for i in m_index:
+            for i, f in enumerate(self.mapped_fields):
                 if i >= lr:
                     continue
-                v = row[i]
-                if v and v not in m_data[i]:
+                if f and f not in m_data[i]:
                     self.logger.error(
                         "ERROR: Field #%d(%s) == '%s' refers to non-existent record: %s",
                         i,
-                        self.fields[i],
-                        row[i],
-                        ",".join(row),
+                        f,
+                        row[f],
+                        row,
                     )
                     n_errors += 1
         if n_errors:
@@ -695,14 +704,14 @@ class BaseLoader(object):
 
     def check_diff(self):
         def dump(cmd, row):
-            print("%s %s" % (cmd, ",".join(row)))
+            print("%s %s" % (cmd, row.json()))
 
         print("--- %s.%s" % (self.chain.system.name, self.name))
         ns = self.get_new_state()
         if not ns:
             return
-        current_state = csv.reader(self.get_current_state())
-        new_state = csv.reader(ns)
+        current_state = self.iter_jsonl(self.get_current_state())
+        new_state = self.iter_jsonl(ns)
         for o, n in self.diff(current_state, new_state):
             if o is None and n:
                 dump("+", n)
@@ -717,8 +726,8 @@ class BaseLoader(object):
         ns = self.get_new_state()
         if not ns:
             return i, u, d
-        current_state = csv.reader(self.get_current_state())
-        new_state = csv.reader(ns)
+        current_state = self.iter_jsonl(self.get_current_state())
+        new_state = self.iter_jsonl(ns)
         for o, n in self.diff(current_state, new_state):
             if o is None and n:
                 i += 1
