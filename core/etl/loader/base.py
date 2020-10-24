@@ -186,14 +186,18 @@ class BaseLoader(object):
         logger.info("Current state from %s", path)
         return compressor(path, "r").open()
 
-    def iter_jsonl(self, f: TextIOWrapper) -> Iterable[BaseModel]:
+    def iter_jsonl(
+        self, f: TextIOWrapper, data_model: Optional[BaseModel] = None
+    ) -> Iterable[BaseModel]:
         """
         Iterate over JSONl stream and yield model instances
         :param f:
+        :param data_model:
         :return:
         """
+        dm = data_model or self.data_model
         for line in f:
-            yield self.data_model.parse_raw(line)
+            yield dm.parse_raw(line)
 
     def diff(
         self, old: Iterable[BaseModel], new: Iterable[BaseModel]
@@ -493,7 +497,7 @@ class BaseLoader(object):
         r["remote_id"] = self.clean_str(item.id)
         return r
 
-    def clean_str(self, value):
+    def clean_str(self, value) -> Optional[str]:
         if value:
             if isinstance(value, str):
                 return smart_text(value)
@@ -634,15 +638,15 @@ class BaseLoader(object):
         if not required_fields and not unique_fields:
             self.logger.info("Nothing to check, skipping")
             return 0
+        self.logger.debug("[%s] Required fields: %s", self.model, required_fields)
+        self.logger.debug("[%s] Unique fields: %s", self.model, unique_fields)
+        self.logger.debug("[%s] Mapped fields: %s", self.model, self.mapped_fields)
         # Prepare data
         ns = self.get_new_state()
         if not ns:
             self.logger.info("No new state, skipping")
             return 0
         new_state = self.iter_jsonl(ns)
-        # r_index = set(self.fields.index(f) for f in required_fields if f in self.fields)
-        # u_index = set(self.fields.index(f) for f in unique_fields if f not in self.ignore_unique)
-        # m_index = set(self.fields.index(f) for f in self.mapped_fields)
         uv = set()
         m_data = {}  # field_number -> set of mapped ids
         # Load mapped ids
@@ -651,8 +655,8 @@ class BaseLoader(object):
             ls = line.get_new_state()
             if not ls:
                 ls = line.get_current_state()
-            ms = self.iter_jsonl(ls)
-            m_data[self.data_model.__fields__[f]] = set(item.id for item in ms)
+            ms = self.iter_jsonl(ls, data_model=line.data_model)
+            m_data[self.data_model.__fields__[f].name] = set(row.id for row in ms)
         # Process data
         n_errors = 0
         for row in new_state:
@@ -660,6 +664,8 @@ class BaseLoader(object):
             lr = len(row)
             # Check required fields
             for f in required_fields:
+                if f not in self.data_model.__fields__:
+                    continue
                 if f not in row:
                     self.logger.error(
                         "ERROR: Required field #(%s) is missed in row: %s",
@@ -673,7 +679,8 @@ class BaseLoader(object):
             for f in unique_fields:
                 if f in self.ignore_unique:
                     continue
-                if f in uv:
+                v = row[f]
+                if v in uv:
                     self.logger.error(
                         "ERROR: Field #(%s) value is not unique: %s",
                         f,
@@ -682,12 +689,13 @@ class BaseLoader(object):
                     )
                     n_errors += 1
                 else:
-                    uv.add(f)
+                    uv.add(v)
             # Check mapped fields
             for i, f in enumerate(self.mapped_fields):
                 if i >= lr:
                     continue
-                if f and f not in m_data[i]:
+                v = row[f]
+                if v and v not in m_data[f]:
                     self.logger.error(
                         "ERROR: Field #%d(%s) == '%s' refers to non-existent record: %s",
                         i,
