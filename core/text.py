@@ -446,14 +446,14 @@ def find_indented(s):
     """
     r = []
     cr = []
-    for l in s.splitlines():
-        if rx_notspace.match(l):
+    for line in s.splitlines():
+        if rx_notspace.match(line):
             if len(cr) > 1:
                 r += ["\n".join(cr)]
-            cr = [l]
+            cr = [line]
             continue
-        elif l:
-            cr += [l]
+        elif line:
+            cr += [line]
     if len(cr) > 1:
         r += ["\n".join(cr)]
     return r

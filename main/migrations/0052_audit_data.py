@@ -37,19 +37,19 @@ class Migration(BaseMigration):
 
         def iteritems(s, sep):
             last = None
-            for l in s.splitlines():
-                if sep not in l:
+            for line in s.splitlines():
+                if sep not in line:
                     if last is not None:
-                        last += "\n" + l
+                        last += "\n" + line
                 elif last:
-                    k = l.split(sep)[0]
+                    k = line.split(sep)[0]
                     if self.rx_field.match(k):
                         yield last.split(sep, 1)
-                        last = l
+                        last = line
                     else:
-                        last += "\n" + l
+                        last += "\n" + line
                 else:
-                    last = l
+                    last = line
             if last:
                 yield last.split(sep, 1)
 
