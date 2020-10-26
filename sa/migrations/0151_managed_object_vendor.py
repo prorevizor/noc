@@ -19,6 +19,7 @@ OLD_VENDOR_MAP = {
     "Cisco Networks": "CISCO",
     "D-Link": "DLINK",
     "Extreme Networks": "EXTREME",
+    "Extreme": "EXTREME",
     "f5 Networks": "F5",
     "Force10 Networks": "FORCE10",
     "Huawei Technologies Co.": "HUAWEI",
