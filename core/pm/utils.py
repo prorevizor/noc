@@ -165,9 +165,8 @@ def get_interface_metrics(managed_objects, meric_map=None):
             mo = bi_map.get(mo_bi_id)
             if not t_iface and metric_map[mo].get(iface):
                 continue
+            metric_map[mo][iface] = defaultdict(dict)
             for field, value in res.items():
-                if mo not in metric_map:
-                    metric_map[mo] = defaultdict(dict)
                 metric_map[mo][iface][meric_map["map"].get(field)] = (
                     float(value) if is_float(value) else int(value)
                 )
