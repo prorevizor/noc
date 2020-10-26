@@ -31,6 +31,10 @@ OLD_VENDOR_MAP = {
     "ZyXEL": "ZYXEL",
 }
 
+DUPLICATE_VENDOR_MAP = {
+    "EXTREME NETWORKS": "Extreme"
+}
+
 
 class Migration(BaseMigration):
     def migrate(self):
@@ -66,7 +70,7 @@ class Migration(BaseMigration):
         for v in vendors:
             u = uuid.uuid4()
             vc = v.upper()
-            if vc in inventory_vendors:
+            if vc in inventory_vendors or vc in DUPLICATE_VENDOR_MAP:
                 continue
             pcoll.update_one(
                 {"code": vc},
@@ -85,6 +89,8 @@ class Migration(BaseMigration):
         )
         # Migrate profile data
         for v in vendors:
+            if v.upper() in DUPLICATE_VENDOR_MAP:
+                v = DUPLICATE_VENDOR_MAP[v]
             self.db.execute(
                 """
                 UPDATE sa_managedobject
