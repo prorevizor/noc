@@ -34,7 +34,6 @@
           'user': "{{ item.item.ssh_user }}"
           'port': "22"
           'identity_file': "{{ molecule_yml.driver.ssh_identity_file }}"
-      #register: instance_config_dict
       with_items: "{{ server.results }}"
 
     - name: Create instance config
