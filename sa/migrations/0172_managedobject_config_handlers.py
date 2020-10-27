@@ -63,3 +63,24 @@ class Migration(BaseMigration):
                     [handler, pyrule_id],
                 )
             self.db.delete_column("sa_managedobject", old_field)
+
+    def migrate_pyrule(self, coll, pyrule_id):
+        row = self.db.execute("SELECT text, handler FROM main_pyrule WHERE id = %s", [pyrule_id])
+        text, handler = row[0][0], row[0][1]
+        if handler.startswith("noc.solutions"):
+            # Skip solutions
+            return None
+        if handler and not text:
+            return handler
+        match = self.rx_fn.search(text)
+        if not match:
+            raise ValueError("Cannot migrate pyrule %d" % pyrule_id)
+        new_text = self.rx_strip_decorator.sub("", text)
+        fn = match.group(1)
+        new_name = "config.filter%d" % pyrule_id
+        handler = "noc.pyrules.%s.%s" % (new_name, fn)
+        coll.insert({
+            "name": "new_name",
+            "source": new_text
+        })
+        return handler

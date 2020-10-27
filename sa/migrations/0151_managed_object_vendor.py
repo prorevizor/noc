@@ -90,7 +90,7 @@ class Migration(BaseMigration):
         # Migrate profile data
         for v in vendors:
             if v.upper() in DUPLICATE_VENDOR_MAP:
-                v = DUPLICATE_VENDOR_MAP[v]
+                v = DUPLICATE_VENDOR_MAP[v.upper()]
             self.db.execute(
                 """
                 UPDATE sa_managedobject
