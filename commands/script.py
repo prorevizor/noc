@@ -442,7 +442,14 @@ class JSONObject(object):
         return Credentials(
             **{
                 k: self.creds.get(k)
-                for k in ("user", "password", "super_password", "snmp_ro", "snmp_rw")
+                for k in (
+                    "user",
+                    "password",
+                    "super_password",
+                    "snmp_ro",
+                    "snmp_rw",
+                    "snmp_rate_limit",
+                )
             }
         )
 

@@ -184,7 +184,7 @@ class BaseScript(object, metaclass=BaseScriptMetaclass):
             self.snmp = BeefSNMP(self)
             self.credentials["snmp_ro"] = "public"  # For core.snmp.base check
         else:
-            self.snmp = SNMP(self)
+            self.snmp = SNMP(self, rate=self.credentials.get("snmp_rate_limit", None) or None)
         if self.parent:
             self.http = self.root.http
         else:
