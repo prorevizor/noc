@@ -11,6 +11,7 @@ import threading
 import operator
 import logging
 import codecs
+from typing import Tuple, Optional
 
 # Third-party modules modules
 import cachetools
@@ -49,7 +50,7 @@ class SSHStream(BaseStream):
 
     @classmethod
     @cachetools.cachedmethod(operator.attrgetter("_key_cache"), lock=lambda _: key_lock)
-    def get_publickey(cls, pool):
+    def get_publickey(cls, pool: str) -> Tuple[Optional[bytes], Optional[bytes]]:
         """
         Return public, private key pair
         :return: bytes, bytes or None, None
@@ -63,7 +64,7 @@ class SSHStream(BaseStream):
         if not os.path.exists(priv_path):
             logger.debug("No private key for pool %s (%s)", pool, priv_path)
             return None, None
-        with open(pub_path) as fpub, open(priv_path) as fpriv:
+        with open(pub_path, "rb") as fpub, open(priv_path, "rb") as fpriv:
             return fpub.read(), fpriv.read()
 
     async def startup(self):
@@ -172,7 +173,7 @@ class SSHStream(BaseStream):
         """
         return self.script.credentials["password"] or ""
 
-    def auth_publickey(self):
+    def auth_publickey(self) -> bool:
         """
         Public key authentication
         """
@@ -183,9 +184,7 @@ class SSHStream(BaseStream):
             return False
         user = self.get_user()
         try:
-            self.session.userauth_publickey_frommemory(
-                user, smart_bytes(priv_key), "", smart_bytes(pub_key)
-            )
+            self.session.userauth_publickey_frommemory(user, priv_key, "", pub_key)
             return True
         except SSH2Error:
             msg = self.session.last_error()
