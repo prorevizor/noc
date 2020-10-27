@@ -67,7 +67,7 @@ class Migration(BaseMigration):
     def migrate_pyrule(self, coll, pyrule_id):
         row = self.db.execute("SELECT text, handler FROM main_pyrule WHERE id = %s", [pyrule_id])
         text, handler = row[0][0], row[0][1]
-        if handler.startswith("noc.solutions"):
+        if handler and handler.startswith("noc.solutions"):
             # Skip solutions
             return None
         if handler and not text:
