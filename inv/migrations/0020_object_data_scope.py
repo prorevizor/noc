@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------
 
 # Third-party modules
-from pymongo import UpdateOne
+from pymongo import UpdateOne, UpdateMany
 
 # NOC modules
 from noc.core.migration.base import BaseMigration
@@ -30,6 +30,7 @@ class Migration(BaseMigration):
             if len(bulk) >= self.MAX_BULK_SIZE:
                 coll.bulk_write(bulk)
                 bulk = []
+        # Fix unsupported operand type(s) for +=: 'BaseDict' and 'list'
+        bulk += [UpdateMany({"data": {}}, {"$set": {"data": []}})]
         # Write rest of data
-        if bulk:
-            coll.bulk_write(bulk)
+        coll.bulk_write(bulk)
