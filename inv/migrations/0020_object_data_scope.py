@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------
 
 # Third-party modules
-from pymongo import UpdateOne, UpdateMany
+from pymongo import UpdateOne
 
 # NOC modules
 from noc.core.migration.base import BaseMigration
