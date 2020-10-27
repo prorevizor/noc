@@ -183,7 +183,7 @@ class SSHStream(BaseStream):
             return False
         user = self.get_user()
         try:
-            self.session.userauth_publickey_frommemory(user, priv_key, "", pub_key)
+            self.session.userauth_publickey_frommemory(user, smart_bytes(priv_key), "", smart_bytes(pub_key))
             return True
         except SSH2Error:
             msg = self.session.last_error()
