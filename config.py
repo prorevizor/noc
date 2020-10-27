@@ -330,6 +330,7 @@ class Config(BaseConfig):
 
     class liftbridge(ConfigSection):
         addresses = ServiceParameter(service="liftbridge", wait=True, near=True, full_result=False)
+        max_message_size = IntParameter(default=16777216)
 
     listen = StringParameter(default="auto:0")
 
