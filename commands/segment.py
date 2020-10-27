@@ -181,7 +181,9 @@ class Command(BaseCommand):
                             "  '%s' challenging '%s' over %s -- %s"
                             % (mo.segment.name, ro.segment.name, mo.name, ro.name)
                         )
-                        BioSegTrial.schedule_trial(mo.segment, ro.segment, mo, ro, reason="link")
+                        BioSegTrial.schedule_trial(
+                            mo.segment, ro.segment, mo, ro, reason="link", trial_persistent=True
+                        )
 
 
 if __name__ == "__main__":
