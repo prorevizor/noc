@@ -44,15 +44,6 @@
       copy:
         content: "{{ instance_conf | to_json | from_json | molecule_to_yaml | molecule_header }}"
         dest: "{{ molecule_instance_config }}"
-    
-        #- debug:
-        #msg: "{{ lookup('file', molecule_instance_config)  }}"
-
-    - debug:
-        msg: "{{ lookup('file', molecule_instance_config) | molecule_from_yaml }}"
-
-    - debug:
-        msg: "{{ lookup('file', molecule_instance_config) | molecule_from_yaml }}"
 
     - name: Wait for SSH
       wait_for:
