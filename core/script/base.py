@@ -12,8 +12,6 @@ import itertools
 import operator
 from functools import reduce
 from time import perf_counter
-
-# Third-party modules
 from typing import Any, Optional
 
 # NOC modules
@@ -175,40 +173,11 @@ class BaseScript(object, metaclass=BaseScriptMetaclass):
         self.start_time = None
         self._interface = self.interface()
         self.args = self.clean_input(args) if args else {}
-        #
-        if not parent and version and not name.endswith(".get_version"):
-            self.logger.debug("Filling get_version cache with %s", version)
-            s = name.split(".")
-            self.set_cache("%s.%s.get_version" % (s[0], s[1]), {}, version)
-        if (
-            self.is_beefed
-            and not parent
-            and not name.endswith(".get_capabilities")
-            and not name.endswith(".get_version")
-        ):
-            self.capabilities = self.scripts.get_capabilities()
-            self.logger.info("Filling capabilities with %s", self.capabilities)
-        # Fill matchers
-        if not self.name.endswith(".get_version"):
-            self.apply_matchers()
-        #
         self.cli_stream = None
         self.mml_stream = None
         self.rtsp_stream = None
-        if self.parent:
-            self.snmp = self.root.snmp
-        elif self.is_beefed:
-            self.snmp = BeefSNMP(self)
-            self.credentials["snmp_ro"] = "public"  # For core.snmp.base check
-        else:
-            snmp_rate_limit = self.credentials.get("snmp_rate_limit", None) or None
-            if snmp_rate_limit is None:
-                snmp_rate_limit = self.profile.get_snmp_rate_limit(self)
-            self.snmp = SNMP(self, rate=snmp_rate_limit)
-        if self.parent:
-            self.http = self.root.http
-        else:
-            self.http = HTTP(self)
+        self._snmp: Optional[SNMP] = None
+        self._http: Optional[HTTP] = None
         self.to_disable_pager = not self.parent and self.profile.command_disable_pager
         self.scripts = ScriptsHub(self)
         # Store session id
@@ -234,12 +203,52 @@ class BaseScript(object, metaclass=BaseScriptMetaclass):
         # state -> [..]
         self.cli_fsm_tracked_data = {}
         #
+        if not parent and version and not name.endswith(".get_version"):
+            self.logger.debug("Filling get_version cache with %s", version)
+            s = name.split(".")
+            self.set_cache("%s.%s.get_version" % (s[0], s[1]), {}, version)
+        if (
+            self.is_beefed
+            and not parent
+            and not name.endswith(".get_capabilities")
+            and not name.endswith(".get_version")
+        ):
+            self.capabilities = self.scripts.get_capabilities()
+            self.logger.info("Filling capabilities with %s", self.capabilities)
+        # Fill matchers
+        if not self.name.endswith(".get_version"):
+            self.apply_matchers()
+        #
         if self.profile.setup_script:
             self.profile.setup_script(self)
 
     def __call__(self, *args, **kwargs):
         self.args = kwargs
         return self.run()
+
+    @property
+    def snmp(self) -> SNMP:
+        if not self._snmp:
+            if self.parent:
+                self._snmp = self.root.snmp
+            elif self.is_beefed:
+                self._snmp = BeefSNMP(self)
+                self.credentials["snmp_ro"] = "public"  # For core.snmp.base check
+            else:
+                snmp_rate_limit = self.credentials.get("snmp_rate_limit", None) or None
+                if snmp_rate_limit is None:
+                    snmp_rate_limit = self.profile.get_snmp_rate_limit(self)
+                self._snmp = SNMP(self, rate=snmp_rate_limit)
+        return self._snmp
+
+    @property
+    def http(self) -> HTTP:
+        if not self._http:
+            if self.parent:
+                self._http = self.root.http
+            else:
+                self._http = HTTP(self)
+        return self._http
 
     def apply_matchers(self):
         """
