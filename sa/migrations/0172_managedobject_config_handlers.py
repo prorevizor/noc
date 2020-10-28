@@ -37,6 +37,7 @@ class Migration(BaseMigration):
             "config_validation_handler",
             models.CharField("Config Validation Handler", max_length=256, null=True, blank=True),
         )
+        pmap = {}  # Check use one pyrule on some function
         # Migrate existing pyrules
         for old_field, new_field in [
             ("config_filter_rule_id", "config_filter_handler"),
@@ -52,7 +53,11 @@ class Migration(BaseMigration):
                 pyrule_id = row[0]
                 if not pyrule_id:
                     continue
-                handler = self.migrate_pyrule(new_coll, pyrule_id)
+                if pyrule_id in pmap:
+                    handler = pmap[pyrule_id]
+                else:
+                    handler = self.migrate_pyrule(new_coll, pyrule_id)
+                    pmap[pyrule_id] = handler
                 self.db.execute(
                     """
                     UPDATE sa_managedobject
@@ -79,8 +84,5 @@ class Migration(BaseMigration):
         fn = match.group(1)
         new_name = "config.filter%d" % pyrule_id
         handler = "noc.pyrules.%s.%s" % (new_name, fn)
-        coll.insert({
-            "name": "new_name",
-            "source": new_text
-        })
+        coll.insert({"name": "new_name", "source": new_text})
         return handler

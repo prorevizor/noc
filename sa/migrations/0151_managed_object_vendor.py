@@ -14,6 +14,7 @@ from noc.core.model.fields import DocumentReferenceField
 
 OLD_VENDOR_MAP = {
     "Alcatel-Lucent": "ALU",
+    "Alcatel": "ALU",
     "Arista Networks": "ARISTA",
     "Edge-Core": "EDGECORE",
     "Cisco Networks": "CISCO",
@@ -31,9 +32,7 @@ OLD_VENDOR_MAP = {
     "ZyXEL": "ZYXEL",
 }
 
-DUPLICATE_VENDOR_MAP = {
-    "EXTREME NETWORKS": "Extreme"
-}
+DUPLICATE_VENDOR_MAP = {"EXTREME NETWORKS": "Extreme"}
 
 
 class Migration(BaseMigration):

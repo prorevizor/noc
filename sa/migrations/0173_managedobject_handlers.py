@@ -41,4 +41,3 @@ class Migration(BaseMigration):
                     coll.update({"_id": h}, {"$set": {"allow_config_validation": True}})
                     continue
                 coll.insert({"_id": h, "name": name, "allow_config_validation": True})
-                proccessed.add(h)
