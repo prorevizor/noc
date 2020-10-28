@@ -32,4 +32,5 @@ class Migration(BaseMigration):
                 coll.bulk_write(bulk)
                 bulk = []
         # Write rest of data
-        coll.bulk_write(bulk)
+        if bulk:
+            coll.bulk_write(bulk)
