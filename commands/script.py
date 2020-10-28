@@ -197,7 +197,7 @@ class Command(BaseCommand):
             "path": obj.remote_path,
             "raise_privileges": obj.to_raise_privileges,
             "access_preference": obj.get_access_preference(),
-            "snmp_rate_limit": obj.snmp_rate_limit,
+            "snmp_rate_limit": obj.snmp_rate_limit or None,
         }
         if creds.snmp_ro:
             credentials["snmp_version"] = "v2c"
