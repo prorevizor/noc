@@ -38,7 +38,7 @@ class Migration(BaseMigration):
             for h in handlers:
                 name = h.split(".")[-2]
                 if h in proccessed:
-                    coll.update({"_id": h, "allow_config_validation": True})
+                    coll.update({"_id": h}, {"$set": {"allow_config_validation": True}})
                     continue
                 coll.insert({"_id": h, "name": name, "allow_config_validation": True})
                 proccessed.add(h)
