@@ -32,7 +32,7 @@ OLD_VENDOR_MAP = {
     "ZyXEL": "ZYXEL",
 }
 
-DUPLICATE_VENDOR_MAP = {"EXTREME NETWORKS": "Extreme"}
+DUPLICATE_VENDOR_MAP = {"EXTREME NETWORKS": "Extreme", "ALCATEL": "Alcatel-Lucent"}
 
 
 class Migration(BaseMigration):

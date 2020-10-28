@@ -53,6 +53,8 @@ class Migration(BaseMigration):
             versions.add((profile, vendor, version))
         # Create platforms
         for vendor, platform in platforms:
+            if not platform:
+                continue
             u = uuid.uuid4()
             v = bson.ObjectId(vendor)
             pcoll.update_one(
