@@ -947,9 +947,9 @@ class BaseScript(object, metaclass=BaseScriptMetaclass):
     def close_snmp(self):
         if self.parent:
             return
-        if self.snmp:
-            self.snmp.close()
-            self.snmp = None
+        if self._snmp:
+            self._snmp.close()
+            self._snmp = None
 
     def mml(self, cmd, **kwargs):
         """
