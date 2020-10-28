@@ -175,6 +175,23 @@ class BaseScript(object, metaclass=BaseScriptMetaclass):
         self.start_time = None
         self._interface = self.interface()
         self.args = self.clean_input(args) if args else {}
+        #
+        if not parent and version and not name.endswith(".get_version"):
+            self.logger.debug("Filling get_version cache with %s", version)
+            s = name.split(".")
+            self.set_cache("%s.%s.get_version" % (s[0], s[1]), {}, version)
+        if (
+            self.is_beefed
+            and not parent
+            and not name.endswith(".get_capabilities")
+            and not name.endswith(".get_version")
+        ):
+            self.capabilities = self.scripts.get_capabilities()
+            self.logger.info("Filling capabilities with %s", self.capabilities)
+        # Fill matchers
+        if not self.name.endswith(".get_version"):
+            self.apply_matchers()
+        #
         self.cli_stream = None
         self.mml_stream = None
         self.rtsp_stream = None
@@ -216,22 +233,6 @@ class BaseScript(object, metaclass=BaseScriptMetaclass):
         self.cli_tracked_command = None
         # state -> [..]
         self.cli_fsm_tracked_data = {}
-        #
-        if not parent and version and not name.endswith(".get_version"):
-            self.logger.debug("Filling get_version cache with %s", version)
-            s = name.split(".")
-            self.set_cache("%s.%s.get_version" % (s[0], s[1]), {}, version)
-        if (
-            self.is_beefed
-            and not parent
-            and not name.endswith(".get_capabilities")
-            and not name.endswith(".get_version")
-        ):
-            self.capabilities = self.scripts.get_capabilities()
-            self.logger.info("Filling capabilities with %s", self.capabilities)
-        # Fill matchers
-        if not self.name.endswith(".get_version"):
-            self.apply_matchers()
         #
         if self.profile.setup_script:
             self.profile.setup_script(self)
