@@ -43,18 +43,18 @@ class Migration(BaseMigration):
         """
         )
         platforms = set()  # vendor, platform
+        platforms_uniq = set()  # Uniq platform name
         versions = set()  # profile, version
         for profile, vendor, platform, version in data:
-            platform = platform.strip() if platform else None
-            vendor = vendor.strip() if vendor else None
-            if not platform or not vendor:
+            platform = platform.strip() if platform and platform != "None" else None
+            vendor = vendor.strip() if vendor and vendor != "None" else None
+            if not platform or not vendor or platform in platforms_uniq:
                 continue
             platforms.add((vendor, platform))
             versions.add((profile, vendor, version))
+            platforms_uniq.add(platform)
         # Create platforms
         for vendor, platform in platforms:
-            if not platform:
-                continue
             u = uuid.uuid4()
             v = bson.ObjectId(vendor)
             pcoll.update_one(
