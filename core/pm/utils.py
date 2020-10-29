@@ -24,7 +24,9 @@ from noc.core.validators import is_float
 
 def get_objects_metrics(
     managed_objects: Union[Iterable, int]
-) -> Tuple[Dict["ManagedObject", Dict[str, Dict[str, int]]], Dict["ManagedObject", datetime]]:
+) -> Tuple[
+    Dict["ManagedObject", Dict[str, Dict[str, int]]], Dict["ManagedObject", datetime.datetime]
+]:
     """
 
     :param managed_objects:
@@ -58,7 +60,7 @@ def get_objects_metrics(
         str(mt.id): (msd[mt.scope.id], mt.field_name, mt.name) for mt in MetricType.objects.all()
     }  # Map Metric Type ID -> table_name, column_name, MetricType Name
     mmm = set()
-    op_fields_map = defaultdict(list)
+    op_fields_map: DefaultDict[List[str]] = defaultdict(list)
     for op in ManagedObjectProfile.objects.filter(id__in=object_profiles):
         if not op.metrics:
             continue
@@ -69,10 +71,10 @@ def get_objects_metrics(
     ch = ch_connection()
     mtable = []  # mo_id, mac, iface, ts
     metric_map = {}
-    last_ts = {}  # mo -> ts
+    last_ts: Dict["ManagedObject", datetime.datetime] = {}  # mo -> ts
 
     for table, fields in itertools.groupby(sorted(mmm, key=lambda x: x[0]), key=lambda x: x[0]):
-        fields = list(fields)
+        fields: List[str] = list(fields)
         SQL = """SELECT managed_object, argMax(ts, ts), %%s %s
               FROM %s
               WHERE
@@ -117,7 +119,8 @@ def get_objects_metrics(
 def get_interface_metrics(
     managed_objects: Union[Iterable, int], meric_map: Optional[Dict[str, Any]] = None
 ) -> Tuple[
-    Dict["ManagedObject", Dict[str, Dict[str, Union[float, int]]]], Dict["ManagedObject", datetime]
+    Dict["ManagedObject", Dict[str, Dict[str, Union[float, int]]]],
+    Dict["ManagedObject", datetime.datetime],
 ]:
     """
 
@@ -165,15 +168,15 @@ def get_interface_metrics(
         ", ".join(bi_map),
     )
     ch = ch_connection()
-    metric_map: DefaultDict["ManagedObject", Dict[str, Dict[str, Union[int, float]]]] = defaultdict(
-        dict
-    )
-    last_ts: Dict["ManagedObject", datetime] = {}  # mo -> ts
+    metric_map: DefaultDict[
+        "ManagedObject", Dict[str, DefaultDict[str, Union[int, float]]]
+    ] = defaultdict(dict)
+    last_ts: Dict["ManagedObject", datetime.datetime] = {}  # mo -> ts
     metric_fields = list(meric_map["map"].keys())
     try:
         for result in ch.execute(post=SQL):
             mo_bi_id, ts, path = result[:3]
-            path: List[str] = ast.literal_eval(path)
+            path = ast.literal_eval(path)
             t_iface, iface = path[2], path[3]
             res = dict(zip(metric_fields, result[3:]))
             mo = bi_map.get(mo_bi_id)
