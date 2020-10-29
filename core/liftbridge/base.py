@@ -616,7 +616,11 @@ class LiftBridgeClient(object):
                     raise e
                 v = r.offset or 0
                 logger.debug(
-                    "Fetching cursor %s for %s:%s: current value is %s", cursor_id, stream, partition, v
+                    "Fetching cursor %s for %s:%s: current value is %s",
+                    cursor_id,
+                    stream,
+                    partition,
+                    v,
                 )
                 return v
 
