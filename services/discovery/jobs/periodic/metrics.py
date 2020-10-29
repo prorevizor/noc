@@ -660,15 +660,12 @@ class MetricsCheck(DiscoveryCheck):
         # Check if profile has configured thresholds
         if not cfg.threshold_profile.thresholds:
             return alarms, events
-        active = self.job.context["active_thresholds"].get(path)
-        print(">>>><<<<<")
-        print(active)
-        print(cfg)
-        print("!!!!!")
+
         w_value = self.get_window_function(m, cfg)
-        if w_value is None and active is None:
+        if w_value is None:
             return alarms, events
         # Get active threshold name
+        active = self.job.context["active_thresholds"].get(path)
         if active:
             # Check we should close existing threshold
             for th in cfg.threshold_profile.thresholds:
@@ -703,7 +700,6 @@ class MetricsCheck(DiscoveryCheck):
                     # Remain umbrella alarm
                     alarms += self.get_umbrella_alarm_cfg(cfg, threshold, path, w_value)
             elif threshold:
-                print("Close event2")
                 if threshold.is_clear_match(w_value):
                     # Close Event
                     active = None  # Reset threshold
@@ -743,9 +739,6 @@ class MetricsCheck(DiscoveryCheck):
                 self.job.context["active_thresholds"][path] = {
                     "threshold": threshold.name,
                     "threshold_profile": cfg.threshold_profile,
-                    "close_event_class": threshold.close_event_class.name,
-                    "close_handler": threshold.close_handler,
-                    "alarm_class": threshold.alarm_class
                 }
                 if threshold.open_event_class:
                     # Raise Event
