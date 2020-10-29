@@ -60,7 +60,7 @@ def get_objects_metrics(
         str(mt.id): (msd[mt.scope.id], mt.field_name, mt.name) for mt in MetricType.objects.all()
     }  # Map Metric Type ID -> table_name, column_name, MetricType Name
     mmm = set()
-    op_fields_map: DefaultDict[List[str]] = defaultdict(list)
+    op_fields_map: DefaultDict[str, List[str]] = defaultdict(list)
     for op in ManagedObjectProfile.objects.filter(id__in=object_profiles):
         if not op.metrics:
             continue
@@ -74,7 +74,7 @@ def get_objects_metrics(
     last_ts: Dict["ManagedObject", datetime.datetime] = {}  # mo -> ts
 
     for table, fields in itertools.groupby(sorted(mmm, key=lambda x: x[0]), key=lambda x: x[0]):
-        fields: List[str] = list(fields)
+        fields = list(fields)
         SQL = """SELECT managed_object, argMax(ts, ts), %%s %s
               FROM %s
               WHERE
@@ -168,9 +168,9 @@ def get_interface_metrics(
         ", ".join(bi_map),
     )
     ch = ch_connection()
-    metric_map: DefaultDict[
-        "ManagedObject", Dict[str, DefaultDict[str, Union[int, float]]]
-    ] = defaultdict(dict)
+    metric_map: DefaultDict["ManagedObject", Dict[str, Dict[str, Union[int, float]]]] = defaultdict(
+        dict
+    )
     last_ts: Dict["ManagedObject", datetime.datetime] = {}  # mo -> ts
     metric_fields = list(meric_map["map"].keys())
     try:
