@@ -660,7 +660,6 @@ class MetricsCheck(DiscoveryCheck):
         # Check if profile has configured thresholds
         if not cfg.threshold_profile.thresholds:
             return alarms, events
-
         w_value = self.get_window_function(m, cfg)
         if w_value is None:
             return alarms, events
