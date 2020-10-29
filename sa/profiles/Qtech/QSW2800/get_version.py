@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------
 # Qtech.QSW.get_version
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2018 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -109,7 +109,7 @@ class Script(BaseScript):
             self.logger.info("Unknown platform OID: %s" % oid)
             raise NotImplementedError("Unknown platform OID: %s" % oid)
         elif oid == "1.3.6.1.4.1.27514.1.1.1.310":
-            # Both QSW-3580-28T-AC and QSW-3470-28T-AC has same mib
+            # Both QSW-3580-28T-AC and QSW-3470-28T-AC has same OID
             temp = self.snmp.get(mib["ENTITY-MIB::entPhysicalModelName", 1])
             if temp is not None and temp != "QSW-3580-28T-AC":
                 platform = "QSW-3470-28T-AC"
