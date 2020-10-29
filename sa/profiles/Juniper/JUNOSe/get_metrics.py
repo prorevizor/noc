@@ -36,7 +36,7 @@ class Script(GetMetricsScript):
         if len(r_v) >= 3:
             for slot, rtt in r_v.items():
                 self.set_metric(
-                    id=("Subscribers | Summary | slot", None),
+                    id=("Subscribers | Summary", None),
                     path=("0", str(slot), ""),
                     value=int(rtt),
                     multi=True,
