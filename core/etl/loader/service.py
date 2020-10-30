@@ -19,36 +19,6 @@ class ServiceLoader(BaseLoader):
     name = "service"
     model = ServiceModel
     data_model = Service
-    fields = [
-        "id",
-        "parent",
-        "subscriber",
-        "profile",
-        "ts",
-        "logical_status",
-        "logical_status_start",
-        "agreement_id",
-        "order_id",
-        "stage_id",
-        "stage_name",
-        "stage_start",
-        "account_id",
-        "address",
-        "managed_object",
-        "nri_port",
-        "cpe_serial",
-        "cpe_mac",
-        "cpe_model",
-        "cpe_group",
-        "description",
-    ]
-
-    mapped_fields = {
-        "parent": "service",
-        "subscriber": "subscriber",
-        "profile": "serviceprofile",
-        "managed_object": "managedobject",
-    }
 
     discard_deferred = True
 

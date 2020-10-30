@@ -22,46 +22,6 @@ class ManagedObjectLoader(BaseLoader):
     name = "managedobject"
     model = ManagedObjectModel
     data_model = ManagedObject
-    fields = [
-        "id",
-        "name",
-        "is_managed",
-        "container",
-        "administrative_domain",
-        "pool",
-        "fm_pool",
-        "segment",
-        "profile",
-        "object_profile",
-        "static_client_groups",
-        "static_service_groups",
-        "scheme",
-        "address",
-        "port",
-        "user",
-        "password",
-        "super_password",
-        "snmp_ro",
-        "description",
-        "auth_profile",
-        "tags",
-        "tt_system",
-        "tt_queue",
-        "tt_system_id",
-        "project",
-    ]
-
-    mapped_fields = {
-        "administrative_domain": "administrativedomain",
-        "object_profile": "managedobjectprofile",
-        "segment": "networksegment",
-        "container": "container",
-        "auth_profile": "authprofile",
-        "tt_system": "ttsystem",
-        "static_client_groups": "resourcegroup",
-        "static_service_groups": "resourcegroup",
-        "project": "project",
-    }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

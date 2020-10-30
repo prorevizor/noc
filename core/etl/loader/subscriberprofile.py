@@ -22,7 +22,6 @@ class SubscriberProfileLoader(BaseLoader):
     name = "subscriberprofile"
     model = SubscriberProfileModel
     data_model = SubscriberProfile
-    fields = ["id", "name", "description", "workflow"]
 
     def clean(self, row):
         d = super().clean(row)

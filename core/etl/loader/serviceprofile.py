@@ -19,4 +19,3 @@ class ServiceProfileLoader(BaseLoader):
     name = "serviceprofile"
     model = ServiceProfileModel
     data_model = ServiceProfile
-    fields = ["id", "name", "description", "card_title_template"]

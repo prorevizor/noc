@@ -20,13 +20,6 @@ class NetworkSegmentLoader(BaseLoader):
     name = "networksegment"
     model = NetworkSegmentModel
     data_model = NetworkSegment
-    fields = ["id", "parent", "name", "sibling", "profile"]
-
-    mapped_fields = {
-        "parent": "networksegment",
-        "sibling": "networksegment",
-        "profile": "networksegmentprofile",
-    }
 
     def purge(self):
         """

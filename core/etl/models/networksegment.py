@@ -18,7 +18,7 @@ class NetworkSegment(BaseModel):
     id: str
     parent: Optional[Reference["NetworkSegment"]]
     name: str
-    sibling: Optional[str]
+    sibling: Optional[Reference["NetworkSegment"]]
     profile: Reference["NetworkSegmentProfile"]
 
     _csv_fields = ["id", "parent", "name", "sibling", "profile"]

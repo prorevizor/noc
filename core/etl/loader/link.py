@@ -19,9 +19,6 @@ class LinkLoader(BaseLoader):
     name = "link"
     model = ExtNRILink
     data_model = Link
-    fields = ["id", "source", "src_mo", "src_interface", "dst_mo", "dst_interface"]
-
-    mapped_fields = {"src_mo": "managedobject", "dst_mo": "managedobject"}
 
     discard_deferred = True
 

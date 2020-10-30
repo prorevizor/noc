@@ -19,5 +19,3 @@ class AdminitstrativeDomainLoader(BaseLoader):
     name = "administrativedomain"
     model = AdministrativeDomainModel
     data_model = AdministrativeDomain
-    fields = ["id", "name", "parent", "default_pool"]
-    mapped_fields = {"parent": "administrativedomain"}

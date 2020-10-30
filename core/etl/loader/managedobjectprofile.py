@@ -20,7 +20,6 @@ class ManagedObjectProfileLoader(BaseLoader):
     name = "managedobjectprofile"
     model = ManagedObjectProfileModel
     data_model = ManagedObjectProfile
-    fields = ["id", "name", "level"]
 
     def clean(self, row):
         """

@@ -20,19 +20,6 @@ class ContainerLoader(BaseLoader):
     name = "container"
     model = Object
     data_model = Container
-    fields = [
-        "id",
-        "name",
-        "model",
-        "path",
-        "addr_id",
-        "lon",
-        "lat",
-        "addr_text",
-        "adm_contact_text",
-        "tech_contact_text",
-        "billing_contact_text",
-    ]
 
     CONTAINER_MODEL = "Group"
 

@@ -19,6 +19,3 @@ class AdmDivLoader(BaseLoader):
     name = "admdiv"
     model = Division
     data_model = AdmDiv
-    fields = ["id", "parent", "name", "short_name"]
-
-    mapped_fields = {"parent": "admdiv"}

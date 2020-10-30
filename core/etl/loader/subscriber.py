@@ -19,19 +19,6 @@ class SubscriberLoader(BaseLoader):
     name = "subscriber"
     model = SubscriberModel
     data_model = Subscriber
-    fields = [
-        "id",
-        "name",
-        "description",
-        "profile",
-        "address",
-        "tech_contact_person",
-        "tech_contact_phone",
-    ]
-
-    mapped_fields = {
-        "profile": "subscriberprofile",
-    }
 
     discard_deferred = True
 

@@ -15,4 +15,3 @@ class ProjectLoader(BaseLoader):
     name = "project"
     model = ProjectModel
     data_model = Project
-    fields = ["id", "name", "code", "description"]

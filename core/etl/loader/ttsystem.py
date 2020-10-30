@@ -15,4 +15,3 @@ class TTMapLoader(BaseLoader):
     name = "ttsystem"
     model = TTSystemModel
     data_model = TTSystem
-    fields = ["id", "name", "handler", "connection", "description"]

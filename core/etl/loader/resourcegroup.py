@@ -20,9 +20,6 @@ class ResourceGroupLoader(BaseLoader):
     name = "resourcegroup"
     model = ResourceGroupModel
     data_model = ResourceGroup
-    fields = ["id", "name", "technology", "parent", "description"]
-
-    mapped_fields = {"parent": "resourcegroup"}
 
     def clean(self, row):
         """

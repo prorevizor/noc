@@ -18,15 +18,3 @@ class AuthProfileLoader(BaseLoader):
 
     name = "authprofile"
     model = AuthProfileModel
-    data_model = AuthProfile
-    fields = [
-        "id",
-        "name",
-        "description",
-        "type",
-        "user",
-        "password",
-        "super_password",
-        "snmp_ro",
-        "snmp_rw",
-    ]
