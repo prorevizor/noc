@@ -6,11 +6,12 @@
 # ----------------------------------------------------------------------
 
 # Python modules
-from typing import Any, Iterable, Dict
+from typing import Any, Iterable, Dict, ForwardRef
 from itertools import zip_longest
 
 # Third-party modules
 from pydantic import BaseModel as _BaseModel
+from pydantic.fields import ModelField
 import orjson
 
 # NOC modules
@@ -43,8 +44,9 @@ class BaseModel(_BaseModel):
 
     @classmethod
     def get_mapped_fields(cls) -> Dict[str, str]:
-        return {
-            fn: f.sub_fields[0].type_.__name__.lower()
-            for fn, f in cls.__fields__.items()
-            if f.type_ is Reference
-        }
+        def q(mf: ModelField) -> str:
+            if isinstance(mf.type_, ForwardRef):
+                return mf.type_.__forward_arg__.lower()
+            return mf.type_.__name__.lower()
+
+        return {fn: q(f.sub_fields[0]) for fn, f in cls.__fields__.items() if f.type_ is Reference}
