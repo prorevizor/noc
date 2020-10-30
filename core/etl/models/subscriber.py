@@ -10,13 +10,15 @@ from typing import Optional
 
 # NOC modules
 from .base import BaseModel
+from .typing import Reference
+from .subscriberprofile import SubscriberProfileModel
 
 
 class SubscriberModel(BaseModel):
     id: str
     name: str
     description: Optional[str]
-    profile: str
+    profile: Reference[SubscriberProfileModel]
     address: Optional[str]
     tech_contact_person: Optional[str]
     tech_contact_phone: Optional[str]
