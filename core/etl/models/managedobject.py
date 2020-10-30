@@ -26,7 +26,7 @@ class ManagedObject(BaseModel):
     id: str
     name: str
     is_managed: bool
-    container: Reference["Container"]
+    container: Optional[Reference["Container"]]
     administrative_domain: Reference["AdministrativeDomain"]
     pool: str
     fm_pool: Optional[str]
@@ -37,7 +37,7 @@ class ManagedObject(BaseModel):
     static_service_groups: List[Reference["ResourceGroup"]]
     scheme: str
     address: IPvAnyAddress
-    port: str
+    port: Optional[str]
     user: Optional[str]
     password: Optional[str]
     super_password: Optional[str]
