@@ -61,8 +61,6 @@ class BaseLoader(object):
     model = None
     # Data model
     data_model: BaseModel
-    # Mapped fields
-    mapped_fields = {}
 
     # List of tags to add to the created records
     tags = []
@@ -94,12 +92,14 @@ class BaseLoader(object):
         self.c_add = 0
         self.c_change = 0
         self.c_delete = 0
+        # Mapped fields
+        self.mapped_fields = self.data_model.get_mapped_fields()
         # Build clean map
         self.clean_map = {
             n: self.clean_str for n in self.data_model.__fields__
         }  # field name -> clean function
         self.pending_deletes: List[Tuple[str, BaseModel]] = []  # (id, BaseModel)
-        self.reffered_errors: List[Tuple[str, BaseModel]] = []  # (id, BaseModel)
+        self.referred_errors: List[Tuple[str, BaseModel]] = []  # (id, BaseModel)
         if self.is_document:
             import mongoengine.errors
 
@@ -449,7 +449,7 @@ class BaseLoader(object):
                 obj.delete()
             except ValueError as e:  # Referred Error
                 self.logger.error("%s", str(e))
-                self.reffered_errors += [(r_id, msg)]
+                self.referred_errors += [(r_id, msg)]
             except self.model.DoesNotExist:
                 pass  # Already deleted
         self.pending_deletes = []
@@ -464,7 +464,7 @@ class BaseLoader(object):
             "Summary: %d new, %d changed, %d removed", self.c_add, self.c_change, self.c_delete
         )
         self.logger.info(
-            "Error delete by referred: %s", "\n".join(b.json() for _, b in self.reffered_errors)
+            "Error delete by referred: %s", "\n".join(b.json() for _, b in self.referred_errors)
         )
         t = time.localtime()
         archive_path = os.path.join(
