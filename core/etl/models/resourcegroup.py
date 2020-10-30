@@ -13,11 +13,11 @@ from .base import BaseModel
 from .typing import Reference
 
 
-class ResourceGroupModel(BaseModel):
+class ResourceGroup(BaseModel):
     id: str
     name: str
     technology: str
-    parent: Optional[Reference["ResourceGroupModel"]]
+    parent: Optional[Reference["ResourceGroup"]]
     description: Optional[str]
 
     _csv_fields = ["id", "name", "technology", "parent", "description"]

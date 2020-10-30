@@ -7,8 +7,8 @@
 
 # NOC modules
 from .base import BaseLoader
-from ..models.authprofile import AuthProfileModel
-from noc.sa.models.authprofile import AuthProfile
+from ..models.authprofile import AuthProfile
+from noc.sa.models.authprofile import AuthProfile as AuthProfileModel
 
 
 class AuthProfileLoader(BaseLoader):
@@ -17,8 +17,8 @@ class AuthProfileLoader(BaseLoader):
     """
 
     name = "authprofile"
-    model = AuthProfile
-    data_model = AuthProfileModel
+    model = AuthProfileModel
+    data_model = AuthProfile
     fields = [
         "id",
         "name",

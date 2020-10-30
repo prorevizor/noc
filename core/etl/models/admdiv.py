@@ -13,9 +13,9 @@ from .base import BaseModel
 from .typing import Reference
 
 
-class AdmDivModel(BaseModel):
+class AdmDiv(BaseModel):
     id: str
-    parent: Optional[Reference["AdmDivModel"]]
+    parent: Optional[Reference["AdmDiv"]]
     name: str
     short_name: Optional[str]
 

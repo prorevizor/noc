@@ -7,8 +7,8 @@
 
 # NOC modules
 from .base import BaseLoader
-from ..models.managedobjectprofile import ManagedObjectProfileModel
-from noc.sa.models.managedobjectprofile import ManagedObjectProfile
+from ..models.managedobjectprofile import ManagedObjectProfile
+from noc.sa.models.managedobjectprofile import ManagedObjectProfile as ManagedObjectProfileModel
 from noc.sa.models.capsprofile import CapsProfile
 
 
@@ -18,8 +18,8 @@ class ManagedObjectProfileLoader(BaseLoader):
     """
 
     name = "managedobjectprofile"
-    model = ManagedObjectProfile
-    data_model = ManagedObjectProfileModel
+    model = ManagedObjectProfileModel
+    data_model = ManagedObjectProfile
     fields = ["id", "name", "level"]
 
     def clean(self, row):

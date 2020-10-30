@@ -12,29 +12,29 @@ from pydantic import IPvAnyAddress
 # NOC modules
 from .base import BaseModel
 from .typing import Reference
-from .administrativedomain import AdministrativeDomainModel
-from .authprofile import AuthProfileModel
-from .container import ContainerModel
-from .managedobjectprofile import ManagedObjectProfileModel
-from .networksegment import NetworkSegmentModel
-from .resourcegroup import ResourceGroupModel
-from .ttsystem import TTSystemModel
-from .project import ProjectModel
+from .administrativedomain import AdministrativeDomain
+from .authprofile import AuthProfile
+from .container import Container
+from .managedobjectprofile import ManagedObjectProfile
+from .networksegment import NetworkSegment
+from .resourcegroup import ResourceGroup
+from .ttsystem import TTSystem
+from .project import Project
 
 
-class ManagedObjectModel(BaseModel):
+class ManagedObject(BaseModel):
     id: str
     name: str
     is_managed: bool
-    container: Reference["ContainerModel"]
-    administrative_domain: Reference["AdministrativeDomainModel"]
+    container: Reference["Container"]
+    administrative_domain: Reference["AdministrativeDomain"]
     pool: str
     fm_pool: Optional[str]
-    segment: Reference["NetworkSegmentModel"]
+    segment: Reference["NetworkSegment"]
     profile: str
-    object_profile: Reference["ManagedObjectProfileModel"]
-    static_client_groups: List[Reference["ResourceGroupModel"]]
-    static_service_groups: List[Reference["ResourceGroupModel"]]
+    object_profile: Reference["ManagedObjectProfile"]
+    static_client_groups: List[Reference["ResourceGroup"]]
+    static_service_groups: List[Reference["ResourceGroup"]]
     scheme: str
     address: IPvAnyAddress
     port: str
@@ -43,12 +43,12 @@ class ManagedObjectModel(BaseModel):
     super_password: Optional[str]
     snmp_ro: Optional[str]
     description: Optional[str]
-    auth_profile: Optional[Reference["AuthProfileModel"]]
+    auth_profile: Optional[Reference["AuthProfile"]]
     tags: List[str]
-    tt_system: Optional[Reference["TTSystemModel"]]
+    tt_system: Optional[Reference["TTSystem"]]
     tt_queue: Optional[str]
     tt_system_id: Optional[str]
-    project: Optional[Reference["ProjectModel"]]
+    project: Optional[Reference["Project"]]
 
     _csv_fields = [
         "id",

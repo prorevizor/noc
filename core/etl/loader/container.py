@@ -7,7 +7,7 @@
 
 # NOC modules
 from .base import BaseLoader
-from ..models.container import ContainerModel
+from ..models.container import Container
 from noc.inv.models.objectmodel import ObjectModel
 from noc.inv.models.object import Object
 
@@ -19,7 +19,7 @@ class ContainerLoader(BaseLoader):
 
     name = "container"
     model = Object
-    data_model = ContainerModel
+    data_model = Container
     fields = [
         "id",
         "name",

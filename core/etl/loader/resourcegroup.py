@@ -7,8 +7,8 @@
 
 # NOC modules
 from .base import BaseLoader
-from ..models.resourcegroup import ResourceGroupModel
-from noc.inv.models.resourcegroup import ResourceGroup
+from ..models.resourcegroup import ResourceGroup
+from noc.inv.models.resourcegroup import ResourceGroup as ResourceGroupModel
 from noc.inv.models.technology import Technology
 
 
@@ -18,8 +18,8 @@ class ResourceGroupLoader(BaseLoader):
     """
 
     name = "resourcegroup"
-    model = ResourceGroup
-    data_model = ResourceGroupModel
+    model = ResourceGroupModel
+    data_model = ResourceGroup
     fields = ["id", "name", "technology", "parent", "description"]
 
     mapped_fields = {"parent": "resourcegroup"}

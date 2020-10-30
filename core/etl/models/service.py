@@ -11,15 +11,15 @@ from typing import Optional
 # NOC modules
 from .base import BaseModel
 from .typing import Reference
-from .serviceprofile import ServiceProfileModel
-from .managedobject import ManagedObjectModel
+from .serviceprofile import ServiceProfile
+from .managedobject import ManagedObject
 
 
-class ServiceModel(BaseModel):
+class Service(BaseModel):
     id: str
-    parent: Optional[Reference["ServiceModel"]]
+    parent: Optional[Reference["Service"]]
     subscriber: str
-    profile: Reference["ServiceProfileModel"]
+    profile: Reference["ServiceProfile"]
     ts: str
     logical_status: str
     logical_status_start: str
@@ -30,7 +30,7 @@ class ServiceModel(BaseModel):
     stage_start: Optional[str]
     account_id: Optional[str]
     address: Optional[str]
-    managed_object: Optional[Reference["ManagedObjectModel"]]
+    managed_object: Optional[Reference["ManagedObject"]]
     nri_port: Optional[str]
     cpe_serial: Optional[str]
     cpe_mac: Optional[str]

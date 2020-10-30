@@ -7,8 +7,8 @@
 
 # NOC modules
 from .base import BaseLoader
-from ..models.service import ServiceModel
-from noc.sa.models.service import Service
+from ..models.service import Service
+from noc.sa.models.service import Service as ServiceModel
 
 
 class ServiceLoader(BaseLoader):
@@ -17,8 +17,8 @@ class ServiceLoader(BaseLoader):
     """
 
     name = "service"
-    model = Service
-    data_model = ServiceModel
+    model = ServiceModel
+    data_model = Service
     fields = [
         "id",
         "parent",
@@ -63,7 +63,7 @@ class ServiceLoader(BaseLoader):
             return None
         if not hasattr(self, "_service_remote_ids"):
             self.logger.info("Filling service collection")
-            coll = Service._get_collection()
+            coll = ServiceModel._get_collection()
             self._service_remote_ids = {
                 c["remote_id"]: c["_id"]
                 for c in coll.find(
@@ -72,5 +72,5 @@ class ServiceLoader(BaseLoader):
                 )
             }
         if v["remote_id"] in self._service_remote_ids:
-            return Service.objects.get(id=self._service_remote_ids[v["remote_id"]])
+            return ServiceModel.objects.get(id=self._service_remote_ids[v["remote_id"]])
         return None

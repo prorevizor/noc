@@ -7,8 +7,8 @@
 
 # NOC modules
 from .base import BaseLoader
-from ..models.subscriberprofile import SubscriberProfileModel
-from noc.crm.models.subscriberprofile import SubscriberProfile
+from ..models.subscriberprofile import SubscriberProfile
+from noc.crm.models.subscriberprofile import SubscriberProfile as SubscriberProfileModel
 from noc.wf.models.workflow import Workflow
 
 DEFAULT_WOKFLOW_NAME = "Default Resource"
@@ -20,8 +20,8 @@ class SubscriberProfileLoader(BaseLoader):
     """
 
     name = "subscriberprofile"
-    model = SubscriberProfile
-    data_model = SubscriberProfileModel
+    model = SubscriberProfileModel
+    data_model = SubscriberProfile
     fields = ["id", "name", "description", "workflow"]
 
     def clean(self, row):
