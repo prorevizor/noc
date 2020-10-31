@@ -9,7 +9,7 @@
 import re
 
 # NOC modules
-from noc.core.script.base import BaseScript
+from noc.sa.profiles.Generic.get_spanning_tree import Script as BaseScript
 from noc.sa.interfaces.igetspanningtree import IGetSpanningTree
 
 
@@ -73,7 +73,7 @@ class Script(BaseScript):
             sv = parse_section(sections.pop(0).strip())
             yield ifname, sv
 
-    def execute(self):
+    def execute_cli(self, **kwargs):
         r = self.cli("show spanning-tree")
         g = self.iter_blocks(r)
         _, cfg = next(g)
