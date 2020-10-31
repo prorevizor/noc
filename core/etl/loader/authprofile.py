@@ -18,3 +18,4 @@ class AuthProfileLoader(BaseLoader):
 
     name = "authprofile"
     model = AuthProfileModel
+    data_model = AuthProfile

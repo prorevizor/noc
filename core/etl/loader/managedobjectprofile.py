@@ -20,11 +20,3 @@ class ManagedObjectProfileLoader(BaseLoader):
     name = "managedobjectprofile"
     model = ManagedObjectProfileModel
     data_model = ManagedObjectProfile
-
-    def clean(self, row):
-        """
-        Fix pool
-        """
-        v = super().clean(row)
-        v["caps_profile"] = CapsProfile.objects.filter(name="default").first()
-        return v

@@ -20,16 +20,16 @@ from noc.core.etl.models.administrativedomain import AdministrativeDomain
         #
         ((1, "test"), {"id": "1", "name": "test", "parent": None, "default_pool": None}),
         (
-            (2, "test children", "1"),
+            (2, "test children", 1),
             {"id": "2", "name": "test children", "parent": "1", "default_pool": None},
         ),
         (
-            (2, "test children", "1", "DEFAULT"),
+            (2, "test children", 1, "DEFAULT"),
             {"id": "2", "name": "test children", "parent": "1", "default_pool": "DEFAULT"},
         ),
         # Ignore excessive items
         (
-            (2, "test children", "1", "DEFAULT", "_"),
+            (2, "test children", 1, "DEFAULT", "_"),
             {"id": "2", "name": "test children", "parent": "1", "default_pool": "DEFAULT"},
         ),
     ],

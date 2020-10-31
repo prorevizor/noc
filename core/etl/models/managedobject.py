@@ -7,7 +7,7 @@
 
 # Python modules
 from typing import Optional, List
-from pydantic import IPvAnyAddress
+from pydantic import IPvAnyAddress, validator
 
 # NOC modules
 from .base import BaseModel
@@ -36,7 +36,7 @@ class ManagedObject(BaseModel):
     static_client_groups: List[Reference["ResourceGroup"]]
     static_service_groups: List[Reference["ResourceGroup"]]
     scheme: str
-    address: IPvAnyAddress
+    address: str
     port: Optional[str]
     user: Optional[str]
     password: Optional[str]
@@ -49,6 +49,11 @@ class ManagedObject(BaseModel):
     tt_queue: Optional[str]
     tt_system_id: Optional[str]
     project: Optional[Reference["Project"]]
+
+    @validator('address')
+    def address_must_ipaddress(cls, v):
+        IPvAnyAddress().validate(v)
+        return str(v)
 
     _csv_fields = [
         "id",

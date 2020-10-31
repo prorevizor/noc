@@ -21,10 +21,6 @@ class ResourceGroupLoader(BaseLoader):
     model = ResourceGroupModel
     data_model = ResourceGroup
 
-    def clean(self, row):
-        """
-        Fix Technology
-        """
-        v = super().clean(row)
-        v["technology"] = Technology.get_by_name(v["technology"])
-        return v
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.clean_map["technology"] = Technology.get_by_name
