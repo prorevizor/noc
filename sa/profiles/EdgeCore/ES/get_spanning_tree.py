@@ -53,9 +53,9 @@ class Script(BaseScript):
     def iter_blocks(self, s):
         def parse_section(ss):
             sv = {}
-            for l in ss.strip().splitlines():
-                if ":" in l:
-                    k, v = l.split(":", 1)
+            for line in ss.strip().splitlines():
+                if ":" in line:
+                    k, v = line.split(":", 1)
                     # Normalize names to known tokens
                     k = k.strip().lower()
                     k = self.TOKENS.get(k, k)
