@@ -100,9 +100,13 @@ class Script(BaseScript):
             else:
                 desg_priority, desg_id = None, None
                 continue
+            port_id = "%s.%s" % (sv.get("PRIORITY"), sn.rsplit("/")[-1])
+            if sn.startswith("Trunk"):
+                # Trunk interface
+                port_id = sv.get("DESG_PORT")
             iface = {
                 "interface": sn,
-                "port_id": "%s.%s" % (sv.get("PRIORITY"), sn.rsplit("/")[-1]),
+                "port_id": port_id,
                 "role": self.ROLE_MAP[sv.get("ROLE", "disabled")],
                 "state": self.STATE_MAP[sv.get("STATE", "forwarding")],
                 "priority": sv.get("PRIORITY", 128),
