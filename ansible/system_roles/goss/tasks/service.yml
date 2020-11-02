@@ -1,11 +1,4 @@
 ---
-- debug:
-    msg: "GOSS_DEBUG"
-
-- name: Display all variables/facts known for a host
-  debug:
-    var: hostvars[inventory_hostname]
-  when: "goss_service_name" == "noc"
 
 - name: place goss tests file for service {{ goss_service_name }}
   template:
