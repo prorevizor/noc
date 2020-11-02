@@ -80,8 +80,8 @@ class Command(BaseCommand):
                         self.show_link(link, show_method)
         else:
             # Show all links
-            for l in Link.objects.all():
-                self.show_link(l, show_method)
+            for link in Link.objects.all():
+                self.show_link(link, show_method)
 
     def handle_add(self, *args, **options):
         """
