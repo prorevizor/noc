@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------
 // MAC Interfaces window
 //---------------------------------------------------------------------
-// Copyright (C) 2007-2012 The NOC Project
+// Copyright (C) 2007-2020 The NOC Project
 // See LICENSE for details
 //---------------------------------------------------------------------
 console.debug("Defining NOC.inv.interface.MACForm");
@@ -21,7 +21,7 @@ Ext.define("NOC.inv.interface.MACForm", {
         var me = this;
 
         me.store = Ext.create("NOC.inv.interface.MACStore");
-        me.store.loadData(me.data);
+        me.store.loadData(me.config.data);
 
         Ext.apply(me, {
             items: [

@@ -64,44 +64,71 @@ Ext.define("NOC.inv.interface.L2Panel", {
                             dataIndex: "description",
                             flex: 1
                         }
-                     ]
+                    ]
                 }
             ]
         });
         me.callParent();
     },
     //
-    showMAC: function(grid, rowIndex, colIndex) {
+    showMAC: function(grid, rowIndex, colIndex, item, event, record) {
         var me = this,
-            r = me.store.getAt(rowIndex);
+            offset = 0,
+            rxChunk = /^(\d+)\|/,
+            xhr = new XMLHttpRequest();
 
-        me.currentMAC = r;
-        NOC.mrt({
-            url: "/inv/interface/mrt/get_mac/",
-            selector: me.app.currentObject,
-            mapParams: {
-                interface: r.get("name")
-            },
-            loadMask: me,
-            scope: me,
-            success: me.showMACForm,
-            failure: function() {
-                NOC.error(__("Failed to get MACs"));
+        me.currentMAC = record;
+
+        me.mask();
+        // Start streaming request
+        xhr.open(
+            'POST',
+            '/api/mrt/',
+            true
+        );
+        xhr.setRequestHeader('Content-Type', 'text/json');
+        xhr.onprogress = function() {
+            // Parse incoming chunks
+            var ft = xhr.responseText.substr(offset),
+                match, l, lh, chunk, record;
+
+            while(ft) {
+                match = ft.match(rxChunk);
+                if(!match) {
+                    break;
+                }
+                lh = match[0].length;
+                l = parseInt(match[1]);
+                chunk = JSON.parse(ft.substr(lh, l));
+                offset += lh + l;
+                ft = ft.substr(lh + l);
             }
-        });
+            if(!chunk.running) {
+                me.unmask();
+                me.showMACForm(chunk.result);
+            }
+        };
+        xhr.send(JSON.stringify([
+            {
+                id: me.app.currentObject,
+                script: "get_mac_address_table",
+                args: {
+                    interface: record.get("name")
+                }
+            }
+        ]));
+        xhr.onerror = function() {
+            me.unmask();
+            NOC.error(__("Failed to get MACs"));
+        };
     },
     //
     showMACForm: function(result) {
-        var me = this,
-            r = result[0];
-        if(r.status) {
-            Ext.create("NOC.inv.interface.MACForm", {
-                data: r.result,
-                title: Ext.String.format("MACs on {0}",
-                    me.currentMAC.get("name"))
-            });
-        } else {
-            NOC.error(__("Failed to get MACs"));
-        }
+        var me = this;
+        Ext.create("NOC.inv.interface.MACForm", {
+            data: result,
+            title: Ext.String.format("MACs on {0}",
+                me.currentMAC.get("name"))
+        });
     }
 });
