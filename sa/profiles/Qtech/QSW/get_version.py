@@ -22,8 +22,8 @@ class Script(BaseScript):
     rx_plat_ver = re.compile(
         r"^software version\s+:\s*(QTECH|)\s+(?P<platform>\S+)\s+(?P<version>\S+)$", re.MULTILINE
     )
-    rx_bootprom = re.compile(r"^bootrom version\s+:\s+V+(?P<bootprom>\S+)$", re.MULTILINE)
-    rx_hardware = re.compile(r"^hardware version\s+:\s+V+(?P<hardware>\S+)$", re.MULTILINE)
+    rx_bootprom = re.compile(r"^bootrom version\s+:\s+V(?P<bootprom>\S*)$", re.MULTILINE)
+    rx_hardware = re.compile(r"^hardware version\s+:\s+V(?P<hardware>\S+)$", re.MULTILINE)
     rx_serial = re.compile(r"^product serial number\s+:\s+(?P<serial>\S+)$", re.MULTILINE)
 
     rx_plat1 = re.compile(r"^\s+(?P<platform>QSW-\S+) Device, Compiled on", re.MULTILINE)

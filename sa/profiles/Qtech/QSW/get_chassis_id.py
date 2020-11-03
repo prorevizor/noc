@@ -30,6 +30,12 @@ class Script(BaseScript):
         )
         if mac:
             return {"first_chassis_mac": mac, "last_chassis_mac": mac}
+        else:
+            mac = self.snmp.get(
+                "1.3.6.1.4.1.13464.1.2.1.1.1.1.0",
+                display_hints={"1.3.6.1.4.1.13464.1.2.1.1.1.1.0": render_mac},
+            )
+            return {"first_chassis_mac": mac, "last_chassis_mac": mac}
 
     def execute_cli(self, **kwargs):
         # Fallback to CLI
