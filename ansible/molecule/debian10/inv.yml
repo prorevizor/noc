@@ -815,580 +815,361 @@ all:
         noc-node-debian10: {}
     nodes:
       hosts:
-        - noc-node-debian10
-      vars: { }
+        noc-node-debian10: {}
     svc-activator:
       children:
-        - cfg-activator-default-noc-node-debian10
-        - svc-activator-read
-      vars:
-        activator_loglevel: info
-        activator_power: 2
-        activator_script_threads: 20
-        activator_tos: 0
+        cfg-activator-default-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-activator-read: {}
     svc-activator-exec:
       hosts:
-        - noc-node-debian10
-    svc-activator-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-bi:
       children:
-        - cfg-bi-noc-node-debian10
-        - svc-bi-read
-      vars:
-        bi_language: en
-        bi_loglevel: info
-        bi_power: 2
-        bi_query_threads: 10
+        cfg-bi-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-bi-read: {}
     svc-bi-exec:
       hosts:
-        - noc-node-debian10
-    svc-bi-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-card:
       children:
-        - cfg-card-noc-node-debian10
-        - svc-card-read
-      vars:
-        card_language: en
-        card_loglevel: info
-        card_power: 2
+        cfg-card-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-card-read: {}
     svc-card-exec:
       hosts:
-        - noc-node-debian10
-    svc-card-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-ch_datasource:
       children:
-        - cfg-ch_datasource-noc-node-debian10
-        - svc-ch_datasource-read
-      vars:
-        ch_datasource_loglevel: info
-        ch_datasource_power: 2
+        cfg-ch_datasource-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-ch_datasource-read: {}
     svc-ch_datasource-exec:
       hosts:
-        - noc-node-debian10
-    svc-ch_datasource-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-chwriter:
       children:
-        - cfg-chwriter-noc-node-debian10
-        - svc-chwriter-read
-      vars:
-        chwriter_batch_delay_ms: 1000
-        chwriter_batch_size: 50000
-        chwriter_channel_expire_interval: 300
-        chwriter_loglevel: info
-        chwriter_power: 1
-        chwriter_records_buffer: 1000000
+        cfg-chwriter-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-chwriter-read: {}
     svc-chwriter-exec:
       hosts:
-        - noc-node-debian10
-    svc-chwriter-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-classifier:
       children:
-        - cfg-classifier-default-noc-node-debian10
-        - svc-classifier-read
-      vars:
-        classifier_backup_power: 1
-        classifier_default_interface_profile: default
-        classifier_loglevel: info
-        classifier_lookup_solution: noc.services.classifier.rulelookup.RuleLookup
-        classifier_power: 2
+        cfg-classifier-default-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-classifier-read: {}
     svc-classifier-exec:
       hosts:
-        - noc-node-debian10
-    svc-classifier-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-clickhouse:
       children:
-        - cfg-clickhouse-noc-node-debian10
-        - svc-clickhouse-read
-      vars:
-        clickhouse_db: noc
-        clickhouse_max_ast_elements: 10000
-        clickhouse_password: noc
-        clickhouse_query_size: 262144
-        clickhouse_ro_password: noc
-        clickhouse_timezone: Europe/Moscow
-        clickhouse_user: noc
+        cfg-clickhouse-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-clickhouse-read:
+          hosts:
+            noc-node-debian10: {}
     svc-clickhouse-exec:
       hosts:
-        - noc-node-debian10
-    svc-clickhouse-read:
-      hosts:
-        - noc-node-debian10
+        noc-node-debian10: {}
     svc-consul:
       children:
-        - cfg-consul-noc-node-debian10
-        - svc-consul-read
-      vars:
-        consul_address: node_ip
-        consul_master_token: null
-        consul_power: bootstrap
-        consul_replication_token: null
+        cfg-consul-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-consul-read:
+          hosts:
+            noc-node-debian10: {}
     svc-consul-exec:
       hosts:
-        - noc-node-debian10
-    svc-consul-read:
-      hosts:
-        - noc-node-debian10
+        noc-node-debian10: {}
     svc-consul-template:
       children:
-        - cfg-consul-template-noc-node-debian10
-        - svc-consul-template-read
-      vars:
-        consul_template_use_dedup: 'False'
+        cfg-consul-template-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-consul-template-read:
+          hosts:
+            noc-node-debian10: {}
     svc-consul-template-exec:
       hosts:
-        - noc-node-debian10
-    svc-consul-template-read:
-      hosts:
-        - noc-node-debian10
+        noc-node-debian10: {}
     svc-correlator:
       children:
-        - cfg-correlator-default-noc-node-debian10
-        - svc-correlator-read
-      vars:
-        correlator_loglevel: info
-        correlator_max_threads: 10
-        correlator_power: 1
+        cfg-correlator-default-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-correlator-read: {}
     svc-correlator-exec:
       hosts:
-        - noc-node-debian10
-    svc-correlator-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-datastream:
       children:
-        - cfg-datastream-noc-node-debian10
-        - svc-datastream-read
-      vars:
-        datastream_enable_administrativedomain: false
-        datastream_enable_administrativedomain_wait: false
-        datastream_enable_alarm: false
-        datastream_enable_alarm_wait: false
-        datastream_enable_cfgping: true
-        datastream_enable_cfgping_wait: true
-        datastream_enable_cfgsyslog: true
-        datastream_enable_cfgsyslog_wait: true
-        datastream_enable_cfgtrap: true
-        datastream_enable_cfgtrap_wait: true
-        datastream_enable_dnszone: false
-        datastream_enable_dnszone_wait: false
-        datastream_enable_managedobject: false
-        datastream_enable_managedobject_wait: false
-        datastream_enable_resourcegroup: false
-        datastream_enable_resourcegroup_wait: false
-        datastream_loglevel: info
-        datastream_mode: wait
-        datastream_power: 1
-        datastream_whitelist_access: ''
+        cfg-datastream-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-datastream-read: {}
     svc-datastream-exec:
       hosts:
-        - noc-node-debian10
-    svc-datastream-read:
-      hosts:
-        - noc-node-debian10
+        noc-node-debian10: {}
     svc-discovery:
       children:
-        - cfg-discovery-default-noc-node-debian10
-        - svc-discovery-read
-      vars:
-        discovery_backup_power: 1
-        discovery_loglevel: info
-        discovery_max_threads: 10
-        discovery_power: 2
+        cfg-discovery-default-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-discovery-read:
+          hosts:
+            noc-node-debian10: {}
     svc-discovery-exec:
       hosts:
-        - noc-node-debian10
-    svc-discovery-read:
-      hosts:
-        - noc-node-debian10
+        noc-node-debian10: {}
     svc-escalator:
       children:
-        - cfg-escalator-noc-node-debian10
-        - svc-escalator-read
-      vars:
-        escalator_loglevel: info
-        escalator_max_threads: 10
-        escalator_power: 1
+        cfg-escalator-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-escalator-read: {}
     svc-escalator-exec:
       hosts:
-        - noc-node-debian10
-    svc-escalator-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-goss:
       children:
-        - cfg-goss-noc-node-debian10
-        - svc-goss-read
-      vars:
-        goss_validate_fw: true
-        goss_version: 0.3.11
+        cfg-goss-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-goss-read: {}
     svc-goss-exec:
       hosts:
-        - noc-node-debian10
-    svc-goss-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-grafana:
       children:
-        - cfg-grafana-noc-node-debian10
-        - svc-grafana-read
-      vars:
-        grafana_pg_password: grafana
+        cfg-grafana-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-grafana-read:
+          hosts:
+            noc-node-debian10: {}
     svc-grafana-exec:
       hosts:
-        - noc-node-debian10
-    svc-grafana-read:
-      hosts:
-        - noc-node-debian10
+        noc-node-debian10: {}
     svc-grafanads:
       children:
-        - cfg-grafanads-noc-node-debian10
-        - svc-grafanads-read
-      vars:
-        grafanads_db_threads: 10
-        grafanads_loglevel: info
-        grafanads_power: 2
+        cfg-grafanads-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-grafanads-read: {}
     svc-grafanads-exec:
       hosts:
-        - noc-node-debian10
-    svc-grafanads-read:
-      hosts: [ ]
-    svc-icqsender:
+        noc-node-debian10: {}
+    svc-login:
       children:
-        - cfg-icqsender-noc-node-debian10
-        - svc-icqsender-read
-      vars:
-        icqsender_loglevel: info
-        icqsender_power: 1
-        icqsender_token: null
-    svc-icqsender-exec:
+        cfg-login-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-login-read: {}
+    svc-login-exec:
       hosts:
-        - noc-node-debian10
-    svc-icqsender-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-liftbridge:
       children:
-        - cfg-liftbridge-noc-node-debian10
-        - svc-liftbridge-read
+        cfg-liftbridge-noc-node-debian10: {}
       vars:
         liftbridge_loglevel: info
     svc-liftbridge-exec:
       hosts:
-        - noc-node-debian10
-    svc-liftbridge-read:
-      hosts: [ ]
-    svc-login:
-      children:
-        - cfg-login-noc-node-debian10
-        - svc-login-read
-      vars:
-        login_language: en
-        login_loglevel: info
-        login_methods: local
-        login_pam_service: noc
-        login_power: 2
-        login_radius_secret: null
-        login_radius_server: null
-        login_session_ttl: 7d
-    svc-login-exec:
-      hosts:
-        - noc-node-debian10
-    svc-login-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-mailsender:
       children:
-        - cfg-mailsender-noc-node-debian10
-        - svc-mailsender-read
-      vars:
-        mailsender_from_address: noc@example.com
-        mailsender_helo_hostname: noc
-        mailsender_loglevel: info
-        mailsender_power: 1
-        mailsender_smtp_password: null
-        mailsender_smtp_port: 25
-        mailsender_smtp_server: null
-        mailsender_smtp_user: null
-        mailsender_use_tls: 'False'
+        cfg-mailsender-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-mailsender-read: {}
     svc-mailsender-exec:
       hosts:
-        - noc-node-debian10
-    svc-mailsender-read:
-      hosts: [ ]
-    svc-mib:
+        noc-node-debian10: {}
+    svc-memcached:
       children:
-        - cfg-mib-noc-node-debian10
-        - svc-mib-read
-      vars:
-        mib_loglevel: info
-        mib_power: 1
-    svc-mib-exec:
+        cfg-memcached-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-memcached-read: {}
+    svc-memcached-exec:
       hosts:
-        - noc-node-debian10
-    svc-mib-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-mongod:
       children:
-        - cfg-mongod-noc-node-debian10
-        - svc-mongod-read
-      vars:
-        mongod_db: noc
-        mongod_engine: wiredTiger
-        mongod_logging_destination: file
-        mongod_password: noc
-        mongod_power: server
-        mongod_rs: noc
-        mongod_user: noc
-        mongod_version: '4.0'
+        cfg-mongod-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-mongod-read:
+          hosts:
+            noc-node-debian10: {}
     svc-mongod-exec:
       hosts:
-        - noc-node-debian10
-    svc-mongod-read:
-      hosts:
-        - noc-node-debian10
+        noc-node-debian10: {}
     svc-mrt:
       children:
-        - cfg-mrt-noc-node-debian10
-        - svc-mrt-read
-      vars:
-        mrt_loglevel: info
-        mrt_max_concurrency: 50
-        mrt_power: 2
+        cfg-mrt-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-mrt-read: {}
     svc-mrt-exec:
       hosts:
-        - noc-node-debian10
-    svc-mrt-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-mx:
       children:
-        - cfg-mx-noc-node-debian10
-        - svc-mx-read
-      vars:
-        mx_loglevel: info
-        mx_power: 1
+        cfg-mx-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-mx-read: {}
     svc-mx-exec:
       hosts:
-        - noc-node-debian10
-    svc-mx-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-nats:
       children:
-        - cfg-nats-noc-node-debian10
-        - svc-nats-read
-      vars:
-        nats_cluster_password: noc
-        nats_cluster_user: noc
-        nats_loglevel: info
+        cfg-nats-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-nats-read: {}
     svc-nats-exec:
       hosts:
-        - noc-node-debian10
-    svc-nats-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-nbi:
       children:
-        - cfg-nbi-noc-node-debian10
-        - svc-nbi-read
-      vars:
-        nbi_loglevel: info
-        nbi_power: 1
-        nbi_whitelist_access: ''
+        cfg-nbi-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-nbi-read: {}
     svc-nbi-exec:
       hosts:
-        - noc-node-debian10
-    svc-nbi-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-nginx:
       children:
-        - cfg-nginx-noc-node-debian10
-        - svc-nginx-read
-      vars:
-        nginx_cert: b'-----BEGIN CERTIFICATE-----\nMIIFEzCCAvugAwIBAgIUY9SuZGArEgloYgmnHBtzh7m344owDQYJKoZIhvcNAQEL\nBQAwGTEXMBUGA1UEAwwOMTkyLjE2OC4xNjguMTAwHhcNMjAxMDE0MTU0MjI4WhcN\nMzAxMDEyMTU0MjI4WjAZMRcwFQYDVQQDDA4xOTIuMTY4LjE2OC4xMDCCAiIwDQYJ\nKoZIhvcNAQEBBQADggIPADCCAgoCggIBAMeYZ9/yGBCMJ+ZN2uiPtqbKYeCDiBmJ\nxmDXXWEguzJoN8CkXMx5PYCJzijfbBvFXocYLIE3LqMlbpBZMR72A8zL+nqcMP1C\nni1VdC/P1Fm7o1kvEpqdu5dKxY+vDB5LWj7qT1T4NycEivMFWsDMchI/rWEr1ybJ\n7mbopk/CfkFeumUdhtb2JsIApLyMQQT7qqzCBOCTMPxrDqn40WxEy84/oxDpNCnv\n+Qh1y6ta9cDsWNs0rC8LW5pgatqKcFPixqMDMIktCc6M8jun8+/U4W/MXUEvztjV\nwUbvcPjPDDjOxY58cBdVLaamAbHKja7CkwymCjuwc5mlBlitB930e+On4+OWVxhW\nxUyXkLwXDY6vudihTeKYUda/40fxUghAiuI6xDBbbAequZAu8QygJQYybKE6KNKG\nu25fLidOA5rpU5Ci9Thw3IkioWLMXaIkroPPZku23U8EcEvO3fOD1jzXHoI9ous/\naQPRXH22zTmQuq3Ydw3kPzjwxixaOw+kIJqeQ7d1kRSSv1vZRi0nNu6gfMn+RTag\nXMWhooat/wEYPGgr1lhbD30yT5091aii0Ibxpph1JPRpkT0poZG68An9FXQK12s+\ntpc3cv6XbNtxs5+GxUWcDoQxnqXQ+1QsHtCCoT0q7//TgyrligtghDDjEh0VmrC1\nGG/Kb6XBEETJAgMBAAGjUzBRMB0GA1UdDgQWBBTM0+egUuF7KEj+6mAh+9z2G1go\nGDAfBgNVHSMEGDAWgBTM0+egUuF7KEj+6mAh+9z2G1goGDAPBgNVHRMBAf8EBTAD\nAQH/MA0GCSqGSIb3DQEBCwUAA4ICAQBp1tjpHNDrq90H8O9Itb7rxc3vv1pz0gdN\nBkvApQRpd6n9Q/7OiNckuBjnZvhUSF8xcms/cV2l5G9XhTtnwnKGtTrv/mqgHUTH\nBgS6e+n0uCu/d3sfiS3LdCLAkEvswgCOQvp4U7coH3D8yG9oe3Qm670zXpvQpd1O\ndKINDZbpIMhaVvNT5xy0dt2LWkcjzV3iKRx7QEVtrMT+oIDg7Qg7n+mI/L/n2YFK\nFH2RiLJhFXLB5RqUiLaKpni4w4GcNedMlI4zYB57Slm6ybnjv4+EcsG5kHvb1IBr\nSEFto172SBYeGCny4XKehKC25XDhVcpInjDhxdRpKCy4gm0AQrvBuqiR5R9gItOx\nTVr7Wr92/D0ksJpacMcL355Y39TIWCp6wHUZLSLHhYDG7yl5QOj0Pd4NpQ/W/N34\nkPva3016fM2//etNPqtvYrtL3p7cFAR6QGd9oiD/03pvEHrFV+qLzAeiwSHP9f2Y\nIBNkt+Jws+UcaawqMtOcIyvElba4IwIPHroeAJCmYzHG2ySd4k5aO5T8Q6AUVJ4f\nxWORb27cqdLlRegJ3r+OLAoPkupH5XOYVW2BNv645nZV0Adf54ZUwx94P7Yy6M27\nOSASUiB4jsVUopOtlRGNwY0pm95St6CrsecNYXDG0Sn5nOl8/L8DEDU/CuGT4hDL\nV0w0CuIzrw==\n-----END
-          CERTIFICATE-----\n'
-        nginx_cert_key: b'-----BEGIN PRIVATE KEY-----\n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\ng/2vHfYh2EKQPvkh68sNo+jW1Wwbqg==\n-----END
-          PRIVATE KEY-----\n'
-        nginx_external_cert_management: 'False'
-        nginx_http_redirect: 'True'
-        nginx_json_logging: 'False'
-        nginx_permit_firewall: true
-        nginx_self_signed_cerificate: 'True'
+        cfg-nginx-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-nginx-read:
+          hosts:
+            noc-node-debian10: {}
     svc-nginx-exec:
       hosts:
-        - noc-node-debian10
-    svc-nginx-read:
-      hosts:
-        - noc-node-debian10
+        noc-node-debian10: {}
     svc-noc:
       children:
-        - cfg-noc-noc-node-debian10
-        - svc-noc-read
-      vars:
-        noc_consul_token: noc
-        noc_group: noc
-        noc_py3_force_updates: false
-        noc_py3_ver: '3.8'
-        noc_python_interpreter: python3
-        noc_repo: https://github.com/nocproject/noc.git
-        noc_root: /opt/noc
-        noc_user: noc
-        noc_version: stable
+        cfg-noc-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-noc-read:
+          hosts:
+            noc-node-debian10: {}
     svc-noc-exec:
       hosts:
-        - noc-node-debian10
-    svc-noc-read:
-      hosts:
-        - noc-node-debian10
+        noc-node-debian10: {}
     svc-nsqd:
       children:
-        - cfg-nsqd-noc-node-debian10
-        - svc-nsqd-read
-      vars:
-        nsqd_max_messages_in_memory: 10000
-        nsqd_max_msg_size: 1048576
+        cfg-nsqd-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-nsqd-read:
+          hosts:
+            noc-node-debian10: {}
     svc-nsqd-exec:
       hosts:
-        - noc-node-debian10
-    svc-nsqd-read:
-      hosts:
-        - noc-node-debian10
+        noc-node-debian10: {}
     svc-nsqlookupd:
       children:
-        - cfg-nsqlookupd-noc-node-debian10
-        - svc-nsqlookupd-read
-      vars: { }
+        cfg-nsqlookupd-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-nsqlookupd-read:
+          hosts:
+            noc-node-debian10: {}
     svc-nsqlookupd-exec:
       hosts:
-        - noc-node-debian10
-    svc-nsqlookupd-read:
+        noc-node-debian10: {}
+    svc-pgbouncer:
+      children:
+        cfg-pgbouncer-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-pgbouncer-read: {}
+    svc-pgbouncer-exec:
       hosts:
-        - noc-node-debian10
+        noc-node-debian10: {}
     svc-ping:
       children:
-        - cfg-ping-default-noc-node-debian10
-        - svc-ping-read
-      vars:
-        ping_backup_power: 1
-        ping_loglevel: info
-        ping_power: 4
-        ping_restore_threshold: 0
-        ping_throttle_threshold: 0
-        ping_tos: 0
+        cfg-ping-default-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-ping-read: {}
     svc-ping-exec:
       hosts:
-        - noc-node-debian10
-    svc-ping-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-postgres:
       children:
-        - cfg-postgres-noc-node-debian10
-        - svc-postgres-read
-      vars:
-        postgres_max_clients: 300
-        postgres_noc_db: noc
-        postgres_noc_password: noc
-        postgres_noc_user: noc
-        postgres_power: master
-        postgres_replicator_password: noc
-        postgres_superuser_password: noc
-        postgres_version: 9.6
+        cfg-postgres-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-postgres-read:
+          hosts:
+            noc-node-debian10: {}
     svc-postgres-exec:
       hosts:
-        - noc-node-debian10
-    svc-postgres-read:
-      hosts:
-        - noc-node-debian10
+        noc-node-debian10: {}
     svc-sae:
       children:
-        - cfg-sae-noc-node-debian10
-        - svc-sae-read
-      vars:
-        sae_db_threads: 4
-        sae_loglevel: info
-        sae_power: 2
+        cfg-sae-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-sae-read:
+          hosts:
+            noc-node-debian10: {}
     svc-sae-exec:
       hosts:
-        - noc-node-debian10
-    svc-sae-read:
-      hosts:
-        - noc-node-debian10
+        noc-node-debian10: {}
     svc-scheduler:
       children:
-        - cfg-scheduler-noc-node-debian10
-        - svc-scheduler-read
-      vars:
-        scheduler_loglevel: info
-        scheduler_max_threads: 10
-        scheduler_power: 1
+        cfg-scheduler-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-scheduler-read: {}
     svc-scheduler-exec:
       hosts:
-        - noc-node-debian10
-    svc-scheduler-read:
-      hosts: [ ]
-    svc-selfmon:
-      children:
-        - cfg-selfmon-noc-node-debian10
-        - svc-selfmon-read
-      vars:
-        selfmon_loglevel: info
-        selfmon_power: 1
-    svc-selfmon-exec:
-      hosts:
-        - noc-node-debian10
-    svc-selfmon-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-syslogcollector:
       children:
-        - cfg-syslogcollector-default-noc-node-debian10
-        - svc-syslogcollector-read
-      vars:
-        syslogcollector_listen_syslog: 0.0.0.0:514
-        syslogcollector_loglevel: info
-        syslogcollector_permit_firewall: true
-        syslogcollector_power: 1
+        cfg-syslogcollector-default-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-syslogcollector-read: {}
     svc-syslogcollector-exec:
       hosts:
-        - noc-node-debian10
-    svc-syslogcollector-read:
-      hosts: [ ]
-    svc-tgsender:
-      children:
-        - cfg-tgsender-noc-node-debian10
-        - svc-tgsender-read
-      vars:
-        tgsender_loglevel: info
-        tgsender_power: 1
-        tgsender_token: null
-    svc-tgsender-exec:
-      hosts:
-        - noc-node-debian10
-    svc-tgsender-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-trapcollector:
       children:
-        - cfg-trapcollector-default-noc-node-debian10
-        - svc-trapcollector-read
-      vars:
-        trapcollector_listen_traps: 0.0.0.0:162
-        trapcollector_loglevel: info
-        trapcollector_permit_firewall: true
-        trapcollector_power: 1
+        cfg-trapcollector-default-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-trapcollector-read: {}
     svc-trapcollector-exec:
       hosts:
-        - noc-node-debian10
-    svc-trapcollector-read:
-      hosts: [ ]
+        noc-node-debian10: {}
     svc-web:
       children:
-        - cfg-web-noc-node-debian10
-        - svc-web-read
-      vars:
-        web_language: en
-        web_loglevel: info
-        web_max_threads: 10
-        web_power: 2
-        web_theme: gray
+        cfg-web-noc-node-debian10:
+          hosts:
+            noc-node-debian10: {}
+        svc-web-read: {}
     svc-web-exec:
       hosts:
-        - noc-node-debian10
-    svc-web-read:
-      hosts: [ ]
+        noc-node-debian10: {}
+    ungrouped: {}
