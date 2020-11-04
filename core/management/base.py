@@ -124,7 +124,6 @@ class BaseCommand(object):
         """
         Execute command
         """
-        pass
 
     def add_default_arguments(self, parser):
         """
@@ -155,7 +154,6 @@ class BaseCommand(object):
         """
         Apply additional parser arguments
         """
-        pass
 
     def die(self, msg):
         raise CommandError(msg)
