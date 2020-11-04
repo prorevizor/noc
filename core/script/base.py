@@ -66,7 +66,7 @@ class BaseScript(object, metaclass=BaseScriptMetaclass):
     TIMEOUT = config.script.timeout
     # Default session timeout
     SESSION_IDLE_TIMEOUT = config.script.session_idle_timeout
-    # Default access preferenef
+    # Default access preferene
     DEFAULT_ACCESS_PREFERENCE = "SC"
     # Enable call cache
     # If True, script result will be cached and reused

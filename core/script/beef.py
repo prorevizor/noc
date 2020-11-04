@@ -207,20 +207,19 @@ class Beef(object):
         :param path: Beef path
         :return: Compressed, Uncompressed sizes
         """
-        data = self.get_data()
-        data = smart_text(orjson.dumps(data))
+        data = orjson.dumps(self.get_data())
         usize = len(data)
         dir_path = os.path.dirname(path)
         if path.endswith(".gz"):
-            data = self.compress_gzip(smart_bytes(data))
+            data = self.compress_gzip(data)
         elif path.endswith(".bz2"):
-            data = self.compress_bz2(smart_bytes(data))
+            data = self.compress_bz2(data)
         csize = len(data)
         try:
             with storage.open_fs() as fs:
                 if dir_path and dir_path != "/":
                     fs.makedirs(dir_path, recreate=True)
-                fs.writebytes(path, bytes(data))
+                fs.writebytes(path, data)
         except storage.Error as e:
             raise IOError(str(e))
         return csize, usize
