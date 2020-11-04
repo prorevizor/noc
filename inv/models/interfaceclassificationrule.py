@@ -53,6 +53,43 @@ class InterfaceClassificationMatch(EmbeddedDocument):
             v = self.value
         return "%s %s %s" % (self.field, self.op, v)
 
+    def get_confdb_query(self):
+        query = ['Match("interfaces", ifname, "type", "physical")']
+        if self.field == "name" and self.op == "eq":
+            query += ['Filter(ifanme == "%s")' % self.value]
+        elif self.field == "name" and self.op == "regexp":
+            query += ['Re("%s", ifname, ignore_case=True)' % self.value]
+        if self.field == "description":
+            query += ['Match("interfaces", ifname, "description", ifdescr)']
+            if self.op == "eq":
+                query += ['Filter(ifdescr == "%s")' % self.value]
+            elif self.op == "regexp":
+                query += ['Re("%s", ifdescr, ignore_case=True)' % self.value]
+        if self.field == "hints" and self.op == "eq":
+            query += ['Match("interfaces", ifname, "hints", "%s")' % self.value]
+        if self.field == "ip" and self.op == "eq":
+            pass
+        elif self.field == "ip" and self.op == "in" and self.prefix_table:
+            query += [
+                'Match("virtual-router", vr, "forwarding-instance", fi, "interfaces",'
+                ' ifname, "unit", ifname, "inet", "address", address)'
+                ' and MatchPrefix("%s", address) and Del(vr, fi, address)' % self.prefix_table
+            ]
+        if self.field == "untagged" and self.vc_filter:
+            query += [
+                'Match("virtual-router", vr, "forwarding-instance", fi, "interfaces",'
+                ' ifname, "unit", ifname, "bridge", "switchport", "untagged", untagged)'
+                ' and HasVLAN("%s", untagged) and Del(vr, fi, untagged)' % self.vc_filter.expression
+            ]
+        elif self.field == "tagged" and self.vc_filter:
+            query += ["False()"]
+            # query += [
+            #     'Match("virtual-router", vr, "forwarding-instance", fi, "interfaces",'
+            #     ' ifname, "unit", ifname, "bridge", "switchport", "tagged", tagged)'
+            #     ' and HasVLAN("%s", tagged) and Del(vr, fi, tagged)' % self.vc_filter.expression
+            # ]
+        return " and ".join(query)
+
     def compile(self, f_name):
         a = getattr(self, "compile_%s_%s" % (self.field, self.op), None)
         if a:
