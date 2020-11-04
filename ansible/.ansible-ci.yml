@@ -26,7 +26,7 @@ lint:
 
 .base_builder:
   stage: Build
-  image: registry.getnoc.com/infrastructure/molecule-docker:master
+  image: registry.getnoc.com/infrastructure/molecule-docker:stable
   before_script:
     - echo ${ssh_identity_text} | tr -d ' ' | base64 -d > /tmp/temporary_ssh_key
     - chmod 0400 /tmp/temporary_ssh_key
