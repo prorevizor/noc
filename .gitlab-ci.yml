@@ -160,53 +160,53 @@ pylint:
   tags:
     - docker
 
-py:test:
-  stage: Test
-  before_script:
-    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-pytests
-    - mv .dockerignore .dockerignore.prod
-    - cp .dockerignore.tests .dockerignore
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-  script:
-    # see docker/docker-compose.yml for complete list of migrations
-    - >
-      docker-compose
-      -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}"
-      build pytests
-    - >
-      docker-compose
-      -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}"
-      up
-      --exit-code-from pytests
-      pytests
-  after_script:
-    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-pytests
-    - JUNIT_XML_REPORT=build/reports/py-test-junit.xml
-    - mkdir -p build/reports/
-    - >
-      docker cp
-      "${DOCKER_COMPOSE_PROJECT}_pytests_1:/opt/noc/${JUNIT_XML_REPORT}"
-      "${JUNIT_XML_REPORT}"
-    - mv .dockerignore.prod .dockerignore
-    - >
-      docker-compose
-      -f .docker/docker-compose.yml
-      -p "${DOCKER_COMPOSE_PROJECT}"
-      down -v
-  only:
-    refs:
-      - merge_requests
-      - master
-      - /^release-\d+\.\d+/
-  tags:
-    - shell
-  allow_failure: false
-  artifacts:
-    reports:
-      junit: ./build/reports/py-test-junit.xml
-    expire_in: 7 days
+#py:test:
+#  stage: Test
+#  before_script:
+#    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-pytests
+#    - mv .dockerignore .dockerignore.prod
+#    - cp .dockerignore.tests .dockerignore
+#    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+#  script:
+#    # see docker/docker-compose.yml for complete list of migrations
+#    - >
+#      docker-compose
+#      -f .docker/docker-compose.yml
+#      -p "${DOCKER_COMPOSE_PROJECT}"
+#      build pytests
+#    - >
+#      docker-compose
+#      -f .docker/docker-compose.yml
+#      -p "${DOCKER_COMPOSE_PROJECT}"
+#      up
+#      --exit-code-from pytests
+#      pytests
+#  after_script:
+#    - DOCKER_COMPOSE_PROJECT=${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}-pytests
+#    - JUNIT_XML_REPORT=build/reports/py-test-junit.xml
+#    - mkdir -p build/reports/
+#    - >
+#      docker cp
+#      "${DOCKER_COMPOSE_PROJECT}_pytests_1:/opt/noc/${JUNIT_XML_REPORT}"
+#      "${JUNIT_XML_REPORT}"
+#    - mv .dockerignore.prod .dockerignore
+#    - >
+#      docker-compose
+#      -f .docker/docker-compose.yml
+#      -p "${DOCKER_COMPOSE_PROJECT}"
+#      down -v
+#  only:
+#    refs:
+#      - merge_requests
+#      - master
+#      - /^release-\d+\.\d+/
+#  tags:
+#    - shell
+#  allow_failure: false
+#  artifacts:
+#    reports:
+#      junit: ./build/reports/py-test-junit.xml
+#    expire_in: 7 days
 
 build:Docs:
   stage: Build
