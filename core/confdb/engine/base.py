@@ -471,30 +471,6 @@ class Engine(object):
                 yield ctx
 
     @visitor("xx")
-    def fn_MatchAllVLAN(self, _input, vlan_filter, vlans):
-        """
-        Check all `vlans` is within `vlan_filter` expression
-        :param _input:
-        :param vlan_filter:
-        :param vlans:
-        :return:
-        """
-        for ctx in _input:
-            vf = self.resolve_var(ctx, vlan_filter)
-            if not vf:
-                continue
-            vf = set(ranges_to_list(vf))
-            vlans = self.resolve_var(ctx, vlans)
-            if not vlans:
-                continue
-            try:
-                vlans = set(ranges_to_list(vlans))
-            except SyntaxError:
-                return
-            if not vf - vlans:
-                yield ctx
-
-    @visitor("xx")
     def fn_MatchAnyVLAN(self, _input, vlan_filter, vlans):
         """
         Check any `vlans` is within `vlan_filter` expression
@@ -508,14 +484,62 @@ class Engine(object):
             if not vf:
                 continue
             vf = set(ranges_to_list(vf))
-            vlans = self.resolve_var(ctx, vlans)
-            if not vlans:
+            vs = self.resolve_var(ctx, vlans)
+            if not vs:
                 continue
             try:
-                vlans = set(ranges_to_list(vlans))
+                vs = set(ranges_to_list(vs))
             except SyntaxError:
                 return
-            if vf.intersection(vlans):
+            if vf.intersection(vs):
+                yield ctx
+
+    @visitor("xx")
+    def fn_MatchAllVLAN(self, _input, vlan_filter, vlans):
+        """
+        Check all `vlans` is within `vlan_filter` expression
+        :param _input:
+        :param vlan_filter:
+        :param vlans:
+        :return:
+        """
+        for ctx in _input:
+            vf = self.resolve_var(ctx, vlan_filter)
+            if not vf:
+                continue
+            vf = set(ranges_to_list(vf))
+            vs = self.resolve_var(ctx, vlans)
+            if not vs:
+                continue
+            try:
+                vs = set(ranges_to_list(vs))
+            except SyntaxError:
+                return
+            if not vs - vf:
+                yield ctx
+
+    @visitor("xx")
+    def fn_MatchExactVLAN(self, _input, vlan_filter, vlans):
+        """
+        Check all `vlans` is within `vlan_filter` expression
+        :param _input:
+        :param vlan_filter:
+        :param vlans:
+        :return:
+        """
+        for ctx in _input:
+            vf = self.resolve_var(ctx, vlan_filter)
+            if not vf:
+                continue
+            vf = set(ranges_to_list(vf))
+            vs = self.resolve_var(ctx, vlans)
+            if not vs:
+                continue
+            try:
+                vs = set(ranges_to_list(vs))
+            except SyntaxError:
+                return
+            if not vf.symmetric_difference(vs):
                 yield ctx
 
     @visitor("xx")
