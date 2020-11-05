@@ -33,7 +33,7 @@ class Script(BaseScript):
         r = {"vendor": "DLink"}
         try:
             v = self.snmp.get(mib["SNMPv2-MIB::sysDescr", 0], cached=True)
-            match = self.rx_snmp_ver.searcj(v)
+            match = self.rx_snmp_ver.search(v)
             r["platform"] = match.group("platform")
         except self.snmp.TimeOutError:
             raise self.NotSupportedError()
