@@ -128,7 +128,7 @@ class Command(BaseCommand):
             selectors_skipping = set()  # if selectors has not match
             cdb = o.get_confdb()
             ifprofilemap = {}
-            for icr in InterfaceClassificationRule.objects.filter().order_by("order"):
+            for icr in InterfaceClassificationRule.objects.filter(is_active=True).order_by("order"):
                 if icr.selector.id in selectors_skipping:
                     continue
                 r = next(cdb.query(icr.selector.get_confdb_query), None)
@@ -138,7 +138,7 @@ class Command(BaseCommand):
                     continue
                 self.print("[%s] Check selector" % icr)
                 for match in cdb.query(icr.get_confdb_query):
-                    if match["ifname"] in proccessed:
+                    if match["ifname"] in proccessed or match["ifname"] not in ifmap:
                         continue
                     self.print("[%s] Match %s" % (icr, match["ifname"]))
                     iface = ifmap[match["ifname"]]
@@ -149,10 +149,12 @@ class Command(BaseCommand):
             # Set profile
             for ifname in ifmap:
                 i = ifmap[ifname]
-                if i.profile.id != ifprofilemap[ifname].id:
+                if ifname in ifprofilemap and i.profile.id != ifprofilemap[ifname].id:
                     i.profile = ifprofilemap[ifname]
                     i.save()
                     v = "Set %s" % ifprofilemap[ifname].name
+                elif ifname in ifprofilemap and i.profile.id == ifprofilemap[ifname].id:
+                    v = "Already set %s" % ifprofilemap[ifname].name
                 else:
                     v = "Not matched"
                     if kwargs.get("reset_default") and i.profile != default_profile:

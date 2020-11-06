@@ -417,25 +417,27 @@ class InterfaceCheck(PolicyDiscoveryCheck):
         :param ifmap: Interface classification list
         :return:
         """
+        self.logger.debug("Start interface classification")
         proccessed = set()
         selectors_skipping = set()  # if selectors has not match
         cdb = self.object.get_confdb()
         # selector -> [(order, match, profile)]
-        for icr in InterfaceClassificationRule.objects.filter().order_by("order"):
+        for icr in InterfaceClassificationRule.objects.filter(is_active=True).order_by("order"):
             if icr.selector.id in selectors_skipping:
                 continue
-            r = next(self.confdb.query(icr.selector.get_confdb_query), None)
+            r = next(cdb.query(icr.selector.get_confdb_query), None)
             if r is None:
                 # Selectors already fail check
                 selectors_skipping.add(icr.selector.id)
                 continue
             for match in cdb.query(icr.get_confdb_query):
-                if match["ifname"] in proccessed:
+                if match["ifname"] in proccessed or match["ifname"] not in ifmap:
                     continue
+                self.logger.debug("[%s] Match %s", icr, match["ifname"])
                 iface = ifmap[match["ifname"]]
                 proccessed.add(match["ifname"])
                 if iface.profile_locked:
-                    return
+                    continue
                 if icr.profile.id != iface.profile.id:
                     self.logger.info(
                         "Interface %s has been classified as '%s'", iface.name, icr.profile.name

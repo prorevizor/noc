@@ -55,7 +55,7 @@ class InterfaceClassificationMatch(EmbeddedDocument):
 
     @property
     def get_confdb_query(self):
-        query = ['Match("interfaces", ifname, "type", "physical")']
+        query = ['Match("interfaces", ifname)']
         if self.field == "name" and self.op == "eq":
             query += ['Filter(ifanme == "%s")' % self.value]
         elif self.field == "name" and self.op == "regexp":
