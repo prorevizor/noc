@@ -138,7 +138,7 @@ class Command(BaseCommand):
                     selectors_skipping.add(icr.selector.id)
                     continue
                 self.print("[%s] Check selector" % icr)
-                for match in cdb.query(icr.match[0].get_confdb_query()):
+                for match in cdb.query(icr.get_confdb_query):
                     if match["ifname"] in proccessed:
                         continue
                     self.print("[%s] Match %s" % (icr, match["ifname"]))

@@ -429,7 +429,7 @@ class InterfaceCheck(PolicyDiscoveryCheck):
                 # Selectors already fail check
                 selectors_skipping.add(icr.selector.id)
                 continue
-            for match in cdb.query(icr.match[0].get_confdb_query()):
+            for match in cdb.query(icr.get_confdb_query):
                 if match["ifname"] in proccessed:
                     continue
                 iface = ifmap[match["ifname"]]
