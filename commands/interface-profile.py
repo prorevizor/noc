@@ -19,10 +19,10 @@ from noc.core.text import alnum_key
 
 
 class Command(BaseCommand):
-    help = "Show Links"
+    help = "Apply interface classification"
 
     def add_arguments(self, parser):
-        subparsers = parser.add_subparsers(dest="cmd")
+        subparsers = parser.add_subparsers(dest="cmd", required=True)
         # extract command
         show_parser = subparsers.add_parser("show", help="Show interface profiles")
         show_parser.add_argument("mos", nargs=argparse.REMAINDER, help="List of object to showing")
@@ -115,7 +115,6 @@ class Command(BaseCommand):
 
     def handle_apply_confdb(self, moo, *args, **kwargs):
         default_profile = InterfaceProfile.get_default_profile()
-        pcache = {}
         for o in self.get_objects(moo):
             self.stdout.write(
                 "%s (%s):\n" % (o.name, o.platform.name if o.platform else o.profile.name)
