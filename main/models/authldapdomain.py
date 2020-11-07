@@ -8,7 +8,6 @@
 # Python modules
 from threading import Lock
 import operator
-import ldap3
 
 # Third-party modules
 from mongoengine.document import Document, EmbeddedDocument
@@ -120,12 +119,6 @@ class AuthLDAPDomain(Document):
         "ldap": {"givenName": "first_name", "sn": "last_name", "mail": "email"},
     }
 
-    POOLING_STRATEGIES = {
-        "f": ldap3.FIRST,
-        "rr": ldap3.ROUND_ROBIN,
-        "r": ldap3.RANDOM,
-    }
-
     _id_cache = cachetools.TTLCache(maxsize=100, ttl=60)
     _name_cache = cachetools.TTLCache(maxsize=100, ttl=60)
     _default_cache = cachetools.TTLCache(maxsize=100, ttl=60)
@@ -212,9 +205,6 @@ class AuthLDAPDomain(Document):
                     mappings[gm.group] = {gm.group_dn.lower()}
             self._group_dn = mappings
         return self._group_dn
-
-    def get_ha_policy(self):
-        return self.POOLING_STRATEGIES.get(self.ha_policy)
 
     def get_pool_active(self):
         if self.pool_active:

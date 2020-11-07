@@ -16,6 +16,13 @@ from .base import BaseAuthBackend
 
 
 class LdapBackend(BaseAuthBackend):
+
+    POOLING_STRATEGIES = {
+        "f": ldap3.FIRST,
+        "rr": ldap3.ROUND_ROBIN,
+        "r": ldap3.RANDOM,
+    }
+
     def authenticate(self, user: str = None, password: str = None, **kwargs) -> str:
         # Validate username
         if not self.check_user(user):
@@ -151,7 +158,7 @@ class LdapBackend(BaseAuthBackend):
             return None
         pool = ldap3.ServerPool(
             servers,
-            ldap_domain.get_ha_policy(),
+            self.POOLING_STRATEGIES.get(ldap_domain.ha_policy),
             active=ldap_domain.get_pool_active(),
             exhaust=ldap_domain.get_pool_exhaust(),
         )
