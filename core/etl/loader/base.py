@@ -492,8 +492,9 @@ class BaseLoader(object):
         """
         r = {k: self.clean_map.get(k, self.clean_any)(v) for k, v in item.dict().items()}
         # Fill integration fields
-        r["remote_system"] = self.system.remote_system
-        r["remote_id"] = self.clean_str(item.id)
+        if self.has_remote_system:
+            r["remote_system"] = self.system.remote_system
+            r["remote_id"] = self.clean_str(item.id)
         return r
 
     def clean_any(self, value: Any) -> Any:

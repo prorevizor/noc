@@ -33,18 +33,19 @@ class ObjectLoader(BaseLoader):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.clean_map["pool"] = ObjectModel.get_by_name
+        self.clean_map["model"] = ObjectModel.get_by_name
 
     def find_object(self, v: Dict[str, Any]) -> Optional[Any]:
         self.logger.debug("Find object: %s", v)
-        if not self.has_remote_system:
-            return None
         if not v.get("remote_system") or not v.get("remote_id"):
             self.logger.warning("RS or RID not found")
             return None
         o = self.model.objectsfilter(
             data__match={
-                "interface": "remote", "attr": "id", "value": v["remote_id"], "scope": v["remote_system"]
+                "interface": "remote",
+                "attr": "id",
+                "value": v["remote_id"],
+                "scope": v["remote_system"],
             }
         )
         if len(o) > 1:

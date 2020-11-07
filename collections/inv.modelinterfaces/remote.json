@@ -1,0 +1,15 @@
+{
+    "name": "remote",
+    "$collection": "inv.modelinterfaces",
+    "uuid": "066d370d-94d9-4a87-947c-f2c1065120c3",
+    "description": "RemoteSystem binding",
+    "attrs": [
+        {
+            "name": "id",
+            "type": "str",
+            "description": "RemoteSystem ID",
+            "required": true,
+            "is_const": true
+        }
+    ]
+}
