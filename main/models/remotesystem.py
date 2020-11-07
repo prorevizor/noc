@@ -91,6 +91,7 @@ class RemoteSystem(Document):
     enable_managedobjectprofile = BooleanField()
     enable_networksegment = BooleanField()
     enable_networksegmentprofile = BooleanField()
+    enable_object = BooleanField()
     enable_service = BooleanField()
     enable_serviceprofile = BooleanField()
     enable_subscriber = BooleanField()
