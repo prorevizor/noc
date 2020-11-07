@@ -35,8 +35,8 @@ class Command(BaseCommand):
     FROM mac
     WHERE managed_object = %s
       AND interface IN (%s)
-      AND date >= toDate(%s)
-      AND ts >= toDateTime(%s)
+      AND date >= toDate('%s')
+      AND ts >= toDateTime('%s')
     GROUP BY mac
     """
 
@@ -55,7 +55,7 @@ class Command(BaseCommand):
         reactivate_floating_parser.add_argument("ids", nargs=argparse.REMAINDER, help="Segment ids")
         #
         vacuum_bulling_parser = subparsers.add_parser("vacuum-bulling")
-        vacuum_bulling_parser.add_arguments(
+        vacuum_bulling_parser.add_argument(
             "ids", nargs=argparse.REMAINDER, help="Managed Object ids"
         )
         #
@@ -111,6 +111,7 @@ class Command(BaseCommand):
                         BioSegTrial.schedule_trial(mo.segment, ro.segment, mo, ro, reason="link")
 
     def handle_vacuum_bulling(self, ids, *args, **kwargs):
+        connect()
         for mo_id in ids:
             mo = ManagedObject.get_by_id(mo_id)
             if not mo:
@@ -121,35 +122,17 @@ class Command(BaseCommand):
             bulling_ifaces: Set[Interface] = {
                 iface
                 for iface in Interface.objects.filter(managed_object=mo.id)
-                if not iface.profile.allow_vacuum_bulling
+                if not iface.profile.interface_validation_policy
             }
             if not bulling_ifaces:
                 self.print("No interfaces suitable for vacuum bulling")
-                continue
-            # Get existing links and linked interfaces
-            linked_interfaces: Set[Interface] = set()
-            for link in Link.objects.filter(linked_objects=mo.id):
-                for iface in link.interfaces:
-                    if iface.managed_object.id == mo.id:
-                        linked_interfaces.add(iface)
-            # Get bulling interfaces
-            # Interface may not have a link
-            clean_interfaces: List[Interface] = []
-            for iface in sorted(bulling_ifaces, key=lambda x: alnum_key(x.name)):
-                if iface in linked_interfaces:
-                    self.print("%s is already linked" % iface.name)
-                    continue
-                self.print("%s is ready for vacuum bulling")
-                clean_interfaces += [iface]
-            if not clean_interfaces:
-                self.print("No suitable bulling interfaces")
                 continue
             # Get MAC addresses for bulling
             t0 = datetime.datetime.now() - datetime.timedelta(seconds=self.MAC_WINDOW)
             t0 = t0.replace(microsecond=0)
             sql = self.GET_MACS_SQL % (
                 mo.bi_id,
-                ", ".join("'%s'" % iface.name.replace("'", "''") for iface in clean_interfaces),
+                ", ".join("'%s'" % iface.name.replace("'", "''") for iface in bulling_ifaces),
                 t0.date().isoformat(),
                 t0.isoformat(sep=" "),
             )
@@ -187,7 +170,7 @@ class Command(BaseCommand):
                     continue
                 for seg in iface_segs[iface]:
                     self.print("  '%s' challenging '%s' on %s" % (mo.segment.name, seg.name, iface))
-                    BioSegTrial.schedule_trial(mo.segment, seg)
+                    BioSegTrial.schedule_trial(seg, mo.segment)
 
     def handle_show_trials(self):
         def q_seg(id):
@@ -301,7 +284,6 @@ class Command(BaseCommand):
                             mo,
                             ro,
                             reason="link",
-                            trial_persistent=allow_persistent,
                         )
 
 
