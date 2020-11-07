@@ -122,7 +122,7 @@ class Command(BaseCommand):
             bulling_ifaces: Set[Interface] = {
                 iface
                 for iface in Interface.objects.filter(managed_object=mo.id)
-                if not iface.profile.interface_validation_policy
+                if not iface.profile.allow_vacuum_bulling
             }
             if not bulling_ifaces:
                 self.print("No interfaces suitable for vacuum bulling")
