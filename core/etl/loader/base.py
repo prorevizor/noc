@@ -397,7 +397,9 @@ class BaseLoader(object):
             self.c_change += 1
             # Lost&found object with same remote_id
             self.logger.debug("Lost and Found object")
-            vv = {"remote_system": v["remote_system"], "remote_id": v["remote_id"]}
+            vv = {}
+            if self.has_remote_system:
+                vv = {"remote_system": v["remote_system"], "remote_id": v["remote_id"]}
             for fn, nv in v.items():
                 if fn in vv:
                     continue
@@ -416,7 +418,9 @@ class BaseLoader(object):
         self.logger.debug("Change: %s", n.json())
         self.c_change += 1
         nv = self.clean(n)
-        changes = {"remote_system": nv["remote_system"], "remote_id": nv["remote_id"]}
+        changes = {}
+        if self.has_remote_system:
+            changes = {"remote_system": nv["remote_system"], "remote_id": nv["remote_id"]}
         ov = self.clean(o)
         for fn in self.data_model.__fields__:
             if fn == "id":

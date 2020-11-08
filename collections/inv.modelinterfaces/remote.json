@@ -9,7 +9,14 @@
             "type": "str",
             "description": "RemoteSystem ID",
             "required": true,
-            "is_const": true
+            "is_const": false
+        },
+        {
+            "name": "deleted",
+            "type": "bool",
+            "description": "Object deleted from RemoteSystem",
+            "required": false,
+            "is_const": false
         }
     ]
 }

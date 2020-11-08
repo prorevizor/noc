@@ -24,5 +24,5 @@ class Object(BaseModel):
     id: str
     name: str
     model: str
-    data: List[ObjectData]
-    parent: Optional[Reference["Container"]]
+    data: List[ObjectData] = []
+    container: Optional[Reference["Container"]]
