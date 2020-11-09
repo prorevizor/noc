@@ -20,6 +20,7 @@ lint:
   rules:
     - changes:
         - ansible/**/*
+        - ansible/*
     - when: manual
   tags:
     - docker
@@ -49,14 +50,14 @@ lint:
         - ansible/**/*
     - when: manual
 
-# build_centos7:
-#   extends: .base_builder
-#   variables:
-#     PKG_CACHE: /var/cache/yum
-#     SCENARIO_NAME: default
-#   tags:
-#     - cloud
-#     - docker
+ build_centos7:
+   extends: .base_builder
+   variables:
+     PKG_CACHE: /var/cache/yum
+     SCENARIO_NAME: default
+   tags:
+     - cloud
+     - docker
 
 # build_centos8:
 #   extends: .base_builder
@@ -67,13 +68,13 @@ lint:
 #     - cloud
 #     - docker
 
-# build_debian9:
-#   extends: .base_builder
-#   variables:
-#     SCENARIO_NAME: debian9
-#   tags:
-#     - cloud
-#     - docker
+ build_debian9:
+   extends: .base_builder
+   variables:
+     SCENARIO_NAME: debian9
+   tags:
+     - cloud
+     - docker
 
 build_debian10:
   extends: .base_builder
@@ -83,39 +84,39 @@ build_debian10:
     - cloud
     - docker
 
-# build_ubuntu16:
-#   extends: .base_builder
-#   variables:
-#     SCENARIO_NAME: ubuntu16
-#   tags:
-#     - cloud
-#     - docker
+ build_ubuntu16:
+   extends: .base_builder
+   variables:
+     SCENARIO_NAME: ubuntu16
+   tags:
+     - cloud
+     - docker
 
-# build_ubuntu18:
-#   extends: .base_builder
-#   variables:
-#     SCENARIO_NAME: ubuntu18
-#   tags:
-#     - cloud
-#     - docker
+ build_ubuntu18:
+   extends: .base_builder
+   variables:
+     SCENARIO_NAME: ubuntu18
+   tags:
+     - cloud
+     - docker
 
-# build_freebsd:
-#   extends: .base_builder
-#   variables:
-#     PKG_CACHE: /var/cache/pkg
-#     SCENARIO_NAME: freebsd
-#     USE_CACHE: "False"  # freebsd minio-client "broken"
-#   tags:
-#     - satel
-#     - docker
-#   allow_failure: true  # to hard to maintain without maintainer. often incompatible changes
+ build_freebsd:
+   extends: .base_builder
+   variables:
+     PKG_CACHE: /var/cache/pkg
+     SCENARIO_NAME: freebsd
+     USE_CACHE: "False"  # freebsd minio-client "broken"
+   tags:
+     - satel
+     - docker
+   allow_failure: true  # too hard to maintain without maintainer. often incompatible changes
 
-# build_oel7:
-#   extends: .base_builder
-#   variables:
-#     PKG_CACHE: /var/cache/yum
-#     SCENARIO_NAME: oel7
-#   tags:
-#     - satel
-#     - docker
-#   allow_failure: true  # no active users for platform
+ build_oel7:
+   extends: .base_builder
+   variables:
+     PKG_CACHE: /var/cache/yum
+     SCENARIO_NAME: oel7
+   tags:
+     - satel
+     - docker
+   allow_failure: true  # no active users for platform
