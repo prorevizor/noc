@@ -51,7 +51,7 @@ lint:
         - ansible/*
     - when: manual
 
- build_centos7:
+build_centos7:
    extends: .base_builder
    variables:
      PKG_CACHE: /var/cache/yum
@@ -69,7 +69,7 @@ lint:
 #     - cloud
 #     - docker
 
- build_debian9:
+build_debian9:
    extends: .base_builder
    variables:
      SCENARIO_NAME: debian9
@@ -85,7 +85,7 @@ build_debian10:
     - cloud
     - docker
 
- build_ubuntu16:
+build_ubuntu16:
    extends: .base_builder
    variables:
      SCENARIO_NAME: ubuntu16
@@ -93,7 +93,7 @@ build_debian10:
      - cloud
      - docker
 
- build_ubuntu18:
+build_ubuntu18:
    extends: .base_builder
    variables:
      SCENARIO_NAME: ubuntu18
@@ -101,7 +101,7 @@ build_debian10:
      - cloud
      - docker
 
- build_freebsd:
+build_freebsd:
    extends: .base_builder
    variables:
      PKG_CACHE: /var/cache/pkg
@@ -112,7 +112,7 @@ build_debian10:
      - docker
    allow_failure: true  # too hard to maintain without maintainer. often incompatible changes
 
- build_oel7:
+build_oel7:
    extends: .base_builder
    variables:
      PKG_CACHE: /var/cache/yum
