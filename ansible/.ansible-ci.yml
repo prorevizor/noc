@@ -48,6 +48,7 @@ lint:
   rules:
     - changes:
         - ansible/**/*
+        - ansible/*
     - when: manual
 
  build_centos7:
