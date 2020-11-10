@@ -121,7 +121,7 @@
     - "'svc-chwriter-exec' in groups"
 
 - name: migrate liftbridge partitions
-  command: ./noc migrate
+  command: ./noc migrate-liftbridge
   args:
     chdir: "{{ noc_root }}"
   become_user: "{{ noc_user }}"
