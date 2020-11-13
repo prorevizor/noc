@@ -2,6 +2,7 @@
 [tool.black]
 line-length = 100
 target-version = ['py37']
+diff = true
 
 [tool.coverage.run]
 omit = ['*tests*']
