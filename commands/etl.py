@@ -16,6 +16,7 @@ import orjson
 from noc.core.mongo.connection import connect
 from noc.core.management.base import BaseCommand
 from noc.main.models.remotesystem import RemoteSystem
+from noc.core.etl.loader.chain import LoaderChain
 
 
 class Command(BaseCommand):
@@ -26,7 +27,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument("--system", action="append", help="System to extract")
-        subparsers = parser.add_subparsers(dest="cmd")
+        subparsers = parser.add_subparsers(dest="cmd", required=True)
         # load command
         load_parser = subparsers.add_parser("load")
         load_parser.add_argument("system", help="Remote system name")
@@ -53,6 +54,10 @@ class Command(BaseCommand):
             "--control-dict", type=str, help="Dictionary of control numbers in summary object"
         )
         diff_parser.add_argument("diffs", nargs=argparse.REMAINDER, help="List of extractor names")
+        db_diff = subparsers.add_parser("db-diff", help="Compare ETL and database state")
+        db_diff.add_argument("--extractor", required=False, default="managedobject")
+        db_diff.add_argument("--fields", help="List fields for compare", required=False)
+        db_diff.add_argument("system", help="Remote system name")
         # extract command
         extract_parser = subparsers.add_parser("extract")
         extract_parser.add_argument("system", help="Remote system name")
@@ -69,7 +74,7 @@ class Command(BaseCommand):
 
     def handle(self, cmd, *args, **options):
         connect()
-        return getattr(self, "handle_%s" % cmd)(*args, **options)
+        return getattr(self, "handle_%s" % cmd.replace("-", "_"))(*args, **options)
 
     def handle_load(self, *args, **options):
         remote_system = RemoteSystem.get_by_name(options["system"])
@@ -129,6 +134,41 @@ class Command(BaseCommand):
         else:
             n_errors = 0
         return 1 if n_errors else 0
+
+    def iter_db(self, db_objects, model):
+        for d in db_objects:
+            d["id"] = d["remote_id"]
+            # d["object_profile"] = d["object_profile_id"]
+            # d["administrative_domain"] = d["administrative_domain_id"]
+            yield model(**d)
+
+    def handle_db_diff(self, *args, **options):
+        remote_system = RemoteSystem.get_by_name(options["system"])
+        if not remote_system:
+            self.die("Invalid remote system: %s" % options["system"])
+        loader = options["extractor"]
+        include_fields = None
+        if options.get("fields"):
+            include_fields = set(options["fields"].split(","))
+        chain = LoaderChain(remote_system)
+        line = chain.get_loader(loader)
+        ls = line.get_new_state()
+        if not ls:
+            ls = line.get_current_state()
+        iter_db = (
+            line.model.objects.filter(remote_system=remote_system).values().order_by("remote_id")
+        )
+        for o, n in line.diff(
+            line.iter_jsonl(ls),
+            self.iter_db(iter_db, line.data_model),
+            include_fields=include_fields,
+        ):
+            if o is None and n:
+                print("New:", n.id, n.name)
+            elif o and n is None:
+                print("Deleted:", o.id, o.name)
+            else:
+                print("Changed:", o.dict(include=include_fields), n.dict(include=include_fields))
 
 
 if __name__ == "__main__":
