@@ -44,11 +44,11 @@
   "span": 12,
   "stack": false,
   "steppedLine": false,
+
   "targets": [
-      {
+    {
       "intervalFactor": 1,
       "query": "SELECT $timeSeries as t, sum(load_in) as `Input {{ interface.name }}`,  sum(load_out) as `Output {{ interface.name }}` FROM $table WHERE managed_object = $bi_id and path[4] in ({%for port in interface.ports %}{{ comma() }}'{{port}}'{%endfor%}) and $timeFilter GROUP BY t ORDER BY t",
-      "refId": "A",
       "resultFormat": "time_series",
       "database": "noc",
       "tableLoading": false,
@@ -56,8 +56,26 @@
       "dateLoading": false,
       "datetimeLoading": false,
       "dateColDataType": "date",
-      "dateTimeColDataType": "ts"
+      "dateTimeColDataType": "ts",
+      "interval": "$discovery_interval"
     }
+    {% for port in interface.ports -%}
+        {{ comma() }}
+          {
+          "intervalFactor": 1,
+          "query": "SELECT $timeSeries as t, argMax(load_in, t) as `Input {{ port }}`,  argMax(load_out, t) as `Output {{ port }}` FROM $table WHERE managed_object = $bi_id and path[4] = toString('{{port}}') and $timeFilter GROUP BY t ORDER BY t",
+          "resultFormat": "time_series",
+          "database": "noc",
+          "tableLoading": false,
+          "table": "interface",
+          "dateLoading": false,
+          "datetimeLoading": false,
+          "dateColDataType": "date",
+          "dateTimeColDataType": "ts",
+          "interval": "$discovery_interval"
+        }
+    {% endfor %}
+
   ],
   "timeFrom": null,
   "timeShift": null,
