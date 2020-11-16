@@ -15,13 +15,14 @@ class Profile(BaseProfile):
     command_more = " "
     command_exit = "quit"
     pattern_more = [(r"^\s*---- More ----$", " ")]
-    pattern_prompt = r"^[<\[](?P<hostname>\S+)[>\]]"
+    pattern_prompt = r"[\n\s][<\[]\S+[>\]]"
     pattern_syntax_error = (
         r"% (?:Unrecognized command|Too many parameters|Incomplete command)" r" found at"
     )
     rogue_chars = [
         re.compile(br"\x1b\[16D\s+\x1b\[16D"),
         re.compile(br"\x1b\[42D\s+\x1b\[42D"),
+        b"\r",
     ]
 
     spaces_rx = re.compile(r"^\s{42}|^\s{16}", re.DOTALL | re.MULTILINE)
@@ -29,3 +30,25 @@ class Profile(BaseProfile):
     def clean_spaces(self, config):
         config = self.spaces_rx.sub("", config)
         return config
+
+    INTERFACE_TYPES = {
+        "Au": "physical",  # Aux
+        "nu": "other",  # NULL
+        "lo": "loopback",  # Loopback
+        "vl": "SVI",  # Vlan
+    }
+
+    @classmethod
+    def get_interface_type(cls, name):
+        if name.startswith("Bridge-Aggregation") or name.startswith("Route-Aggregation"):
+            return "aggregated"
+        elif name.startswith("LoopBack"):
+            return "loopback"
+        elif name.startswith("Vlan-interface"):
+            return "SVI"
+        elif name.startswith("NULL"):
+            return "unknown"
+        elif name.startswith("Aux"):
+            return "other"
+        else:
+            return "physical"

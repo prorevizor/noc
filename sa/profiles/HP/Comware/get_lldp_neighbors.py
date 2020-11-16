@@ -12,6 +12,15 @@ import re
 # NOC modules
 from noc.core.script.base import BaseScript
 from noc.sa.interfaces.igetlldpneighbors import IGetLLDPNeighbors
+from noc.core.lldp import (
+    LLDP_PORT_SUBTYPE_ALIAS,
+    LLDP_PORT_SUBTYPE_COMPONENT,
+    LLDP_PORT_SUBTYPE_NAME,
+    LLDP_PORT_SUBTYPE_MAC,
+    LLDP_PORT_SUBTYPE_NETWORK_ADDRESS,
+    LLDP_PORT_SUBTYPE_AGENT_CIRCUIT_ID,
+    LLDP_PORT_SUBTYPE_LOCAL,
+)
 
 
 class Script(BaseScript):
@@ -53,13 +62,13 @@ class Script(BaseScript):
             }.get(match.group("chassis_type"))
             n["remote_chassis_id"] = match.group("chassis_id").strip()
             n["remote_port_subtype"] = {
-                "Interface Alias": 1,
-                "Port Component": 2,
-                "MAC Address": 3,
-                "Network Address": 4,
-                "Interface Name": 5,
-                "Agent Circuit ID": 6,
-                "Locally assigned": 7,
+                "Interface Alias": LLDP_PORT_SUBTYPE_ALIAS,
+                "Port Component": LLDP_PORT_SUBTYPE_COMPONENT,
+                "MAC Address": LLDP_PORT_SUBTYPE_MAC,
+                "Network Address": LLDP_PORT_SUBTYPE_NETWORK_ADDRESS,
+                "Interface Name": LLDP_PORT_SUBTYPE_NAME,
+                "Agent Circuit ID": LLDP_PORT_SUBTYPE_AGENT_CIRCUIT_ID,
+                "Locally assigned": LLDP_PORT_SUBTYPE_LOCAL,
             }.get(match.group("port_id_type"))
             n["remote_port"] = match.group("port_id").strip()
             n["remote_port_description"] = match.group("port_descr").strip()

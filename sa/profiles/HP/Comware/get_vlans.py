@@ -5,8 +5,8 @@
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
-
-from noc.core.script.base import BaseScript
+# NOC modules
+from noc.sa.profiles.Generic.get_vlans import Script as BaseScript
 from noc.sa.interfaces.igetvlans import IGetVlans
 
 
@@ -14,7 +14,7 @@ class Script(BaseScript):
     name = "HP.Comware.get_vlans"
     interface = IGetVlans
 
-    def execute(self):
+    def execute_cli(self, **kwargs):
         vlans = self.strip_first_lines(self.cli("display vlan"), 2)
         vlans = vlans.replace("The following VLANs exist:\n", "")
         vlans = vlans.replace("(default)", "")

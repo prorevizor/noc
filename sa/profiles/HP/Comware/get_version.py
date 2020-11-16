@@ -34,7 +34,7 @@ class Script(BaseScript):
 
         v = self.cli("display version")
         match = self.rx_version_HP.search(v)
-        s = self.snmp.get(mib["ENTITY-MIB::entPhysicalSerialNum.37"]) if self.has_snmp() else None
+        s = self.snmp.get(mib["ENTITY-MIB::entPhysicalSerialNum", 37]) if self.has_snmp() else None
         if match:
             version = match.group("version")
         match = self.rx_platform_HP.search(v)
@@ -51,9 +51,9 @@ class Script(BaseScript):
                 pass
         r = {"vendor": "HP", "platform": platform, "version": version, "attributes": {}}
         if not s and self.has_snmp():
-            s = self.snmp.get(mib["ENTITY-MIB::entPhysicalSerialNum.1"])
+            s = self.snmp.get(mib["ENTITY-MIB::entPhysicalSerialNum", 1])
             if not s:
-                s = self.snmp.get(mib["ENTITY-MIB::entPhysicalSerialNum.2"])
+                s = self.snmp.get(mib["ENTITY-MIB::entPhysicalSerialNum", 2])
         if s:
             r["attributes"]["Serial Number"] = s
         return r
