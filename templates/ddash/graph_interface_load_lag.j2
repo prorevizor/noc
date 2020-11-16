@@ -48,7 +48,7 @@
   "targets": [
     {
       "intervalFactor": 1,
-      "query": "SELECT $timeSeries as t, sum(load_in) as `Input {{ interface.name }}`,  sum(load_out) as `Output {{ interface.name }}` FROM $table WHERE managed_object = $bi_id and path[4] in ({%for port in interface.ports %}{{ comma() }}'{{port}}'{%endfor%}) and $timeFilter GROUP BY t ORDER BY t",
+      "query": "SELECT $timeSeries as t, sum(load_in) as `Agg_Input {{ interface.name }}`,  sum(load_out) as `Agg_Output {{ interface.name }}` FROM $table WHERE managed_object = $bi_id and path[4] in ({%for port in interface.ports %}{{ comma() }}'{{port}}'{%endfor%}) and $timeFilter GROUP BY t ORDER BY t",
       "resultFormat": "time_series",
       "database": "noc",
       "tableLoading": false,
