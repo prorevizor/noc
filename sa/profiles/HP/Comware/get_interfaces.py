@@ -73,6 +73,12 @@ class Script(BaseScript):
         ip_match = self.rx_ip.search(block)
         if ip_match:
             r["ip"] = ip_match.group(1)
+        if "tagged_vlan" in r and self.rx_sub_default_vlan.search(r["tagged_vlan"]):
+            r["tagged_vlan"] = r["tagged_vlan"].replace("(default vlan)", "")
+        if "vlan_passing" in r and self.rx_sub_default_vlan.search(r["vlan_passing"]):
+            r["vlan_passing"] = r["vlan_passing"].replace("(default vlan)", "")
+        if "untagged_vlan" in r:
+            r["untagged_vlan"] = self.rx_parse_interface_vlan.match(r["untagged_vlan"]).group(1)
         return r
 
     def execute_cli(self, **kwargs):
@@ -140,16 +146,14 @@ class Script(BaseScript):
             if self.rx_vlan_name.match(name):
                 sub["vlan_ids"] = [int(self.rx_vlan_name.match(name).group(1))]
             if "port_type" in r:
+                sub["enabled_afi"] += ["BRIDGE"]
                 # Bridge interface
                 if r["port_type"] in ["access", "hybrid"] and "untagged_vlan" in r:
-                    sub["untagged_vlan"] = int(
-                        self.rx_parse_interface_vlan.match(r["untagged_vlan"]).group(1)
-                    )
+                    sub["untagged_vlan"] = int(r["untagged_vlan"])
                 if r["port_type"] in ["access", "hybrid"] and "tagged_vlan" in r:
                     sub["tagged_vlan"] = self.expand_rangelist((r["tagged_vlan"]))
                 if r["port_type"] == "trunk" and "vlan_passing" in r:
-                    pass
-                    # sub["tagged_vlan"] = self.expand_rangelist(r["vlan_passing"])
+                    sub["tagged_vlan"] = self.expand_rangelist(r["vlan_passing"])
             interfaces[ifname]["subinterfaces"] += [sub]
 
         return [{"interfaces": list(interfaces.values())}]
