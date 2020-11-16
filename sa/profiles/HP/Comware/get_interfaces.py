@@ -33,13 +33,16 @@ class Script(BaseScript):
     rx_ip = re.compile(r"Internet Address is (?P<ip>\S+) Primary")
     rx_ips = re.compile(r"Internet Address is (?P<ip>\S+) Sub")
     rx_mac = re.compile(
-        r"IP (?:Packet Frame Type:|Sending Frames' Format is) PKTFMT_ETHNT_2, Hardware Address(?: is|:) (?P<mac>\S+)"
+        r"IP (?:Packet Frame Type:|Sending Frames' Format is)\s*PKTFMT_ETHNT_2, Hardware Address(?: is|:) (?P<mac>\S+)"
     )
 
     rx_vlan_name = re.compile(r"^Vlan-interface(?P<vlan>\d+)?")
     rx_isis = re.compile(r"Interface:\s+(?P<iface>\S+)")
     rx_sub_default_vlan = re.compile(r"\(default vlan\),?")
     rx_parse_interface_vlan = re.compile(r"(\d+)(?:\(.+\))?")
+
+    rx_iface_block_splitter = re.compile(r"(?:\n\n|^\s*\S+\d+(?:/\d+)+)")
+    # rx_iface_block_splitter = re.compile(r"\n\n|^\s*\S+\d+(?:/\d+)+", re.MULTILINE)
 
     def get_isis_interfaces(self):
         r = []
@@ -59,7 +62,8 @@ class Script(BaseScript):
         "port link-type": "port_type",
         "pvid": "pvid",
         "untagged vlan id": "untagged_vlan",
-        "tagged vlan id": "tagged_vlan",
+        "untagged vlan": "untagged_vlan",
+        "tagged vlan id": "tagged_vlans",
         "vlan passing": "vlan_passing",
         "vlan permitted": "vlan_permitted",
     }
@@ -73,10 +77,14 @@ class Script(BaseScript):
         ip_match = self.rx_ip.search(block)
         if ip_match:
             r["ip"] = ip_match.group(1)
-        if "tagged_vlan" in r and self.rx_sub_default_vlan.search(r["tagged_vlan"]):
-            r["tagged_vlan"] = r["tagged_vlan"].replace("(default vlan)", "")
+        if "tagged_vlans" in r and self.rx_sub_default_vlan.search(r["tagged_vlans"]):
+            r["tagged_vlans"] = r["tagged_vlans"].replace("(default vlan)", "")
         if "vlan_passing" in r and self.rx_sub_default_vlan.search(r["vlan_passing"]):
             r["vlan_passing"] = r["vlan_passing"].replace("(default vlan)", "")
+        if "vlan_permitted" in r and self.rx_sub_default_vlan.search(r["vlan_permitted"]):
+            r["vlan_permitted"] = r["vlan_permitted"].replace("(default vlan)", "")
+        if "untagged_vlan" not in r and "pvid" in r:
+            r["untagged_vlan"] = r["pvid"]
         if "untagged_vlan" in r:
             r["untagged_vlan"] = self.rx_parse_interface_vlan.match(r["untagged_vlan"]).group(1)
         return r
@@ -95,10 +103,11 @@ class Script(BaseScript):
         v = self.cli("display interface")
         # "display interface Vlan-interface"
         # "display interface NULL"
-        for block in v.split("\n\n"):
-            if not block.strip():
+        for block in self.rx_iface_block_splitter.split(v):
+            if not block:
                 continue
             ifname, block = block.split(None, 1)
+            # print(ifname, "\n\n", block, "\n\n")
             if ifname in interfaces:
                 continue
             r = self.parse_interface_block(block)
@@ -107,7 +116,7 @@ class Script(BaseScript):
             iftype = self.profile.get_interface_type(ifname)
             self.logger.info("Process interface: %s", ifname)
             o_status = r.get("oper_status", "").lower() == "up"
-            a_status = False if "DOWN ( Administratively)" in r.get("oper_status", "") else True
+            a_status = False if "Administratively" in r.get("oper_status", "") else True
             name = ifname
             if "." in ifname:
                 ifname, vlan_ids = ifname.split(".", 1)
@@ -150,10 +159,10 @@ class Script(BaseScript):
                 # Bridge interface
                 if r["port_type"] in ["access", "hybrid"] and "untagged_vlan" in r:
                     sub["untagged_vlan"] = int(r["untagged_vlan"])
-                if r["port_type"] in ["access", "hybrid"] and "tagged_vlan" in r:
-                    sub["tagged_vlan"] = self.expand_rangelist((r["tagged_vlan"]))
-                if r["port_type"] == "trunk" and "vlan_passing" in r:
-                    sub["tagged_vlan"] = self.expand_rangelist(r["vlan_passing"])
+                if r["port_type"] in ["access", "hybrid"] and "tagged_vlans" in r:
+                    sub["tagged_vlans"] = self.expand_rangelist((r["tagged_vlans"]))
+                if r["port_type"] == "trunk" and "vlan_permitted" in r:
+                    sub["tagged_vlans"] = self.expand_rangelist(r["vlan_permitted"])
             interfaces[ifname]["subinterfaces"] += [sub]
 
         return [{"interfaces": list(interfaces.values())}]
