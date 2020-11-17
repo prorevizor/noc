@@ -41,8 +41,7 @@ class Script(BaseScript):
     rx_sub_default_vlan = re.compile(r"\(default vlan\),?")
     rx_parse_interface_vlan = re.compile(r"(\d+)(?:\(.+\))?")
 
-    rx_iface_block_splitter = re.compile(r"(?:\n\n|^\s*\S+\d+(?:/\d+)+)")
-    # rx_iface_block_splitter = re.compile(r"\n\n|^\s*\S+\d+(?:/\d+)+", re.MULTILINE)
+    rx_iface_block_splitter = re.compile(r"^\s*\S+\d+(?:/\d+)+", re.MULTILINE)
 
     def get_isis_interfaces(self):
         r = []
@@ -89,6 +88,26 @@ class Script(BaseScript):
             r["untagged_vlan"] = self.rx_parse_interface_vlan.match(r["untagged_vlan"]).group(1)
         return r
 
+    def iter_block(self, v):
+        for b in v.split("\n\n"):
+            start = 0
+            for match in self.rx_iface_block_splitter.finditer(b):
+                """
+                Fixed
+                     0 aborts, 0 deferred, 0 collisions, 0 late collisions
+                     - lost carrier, - no carrier
+                                  GigabitEthernet1/3
+                Current state: UP
+                """
+                if match.start() > 0:
+                    start = match.start()
+                    yield b[:start]
+                    yield b[start:]
+            if start:
+                continue
+            else:
+                yield b
+
     def execute_cli(self, **kwargs):
         isis = self.get_isis_interfaces()
 
@@ -103,7 +122,7 @@ class Script(BaseScript):
         v = self.cli("display interface")
         # "display interface Vlan-interface"
         # "display interface NULL"
-        for block in self.rx_iface_block_splitter.split(v):
+        for block in self.iter_block(v):
             if not block:
                 continue
             ifname, block = block.split(None, 1)
@@ -118,6 +137,7 @@ class Script(BaseScript):
             o_status = r.get("oper_status", "").lower() == "up"
             a_status = False if "Administratively" in r.get("oper_status", "") else True
             name = ifname
+            vlan_ids = 0
             if "." in ifname:
                 ifname, vlan_ids = ifname.split(".", 1)
             else:
@@ -137,6 +157,8 @@ class Script(BaseScript):
                     ai, is_lacp = portchannel_members[ifname]
                     interfaces[ifname]["aggregated_interface"] = ai
                     interfaces[ifname]["enabled_protocols"] += ["LACP"]
+                if self.rx_vlan_name.match(ifname):
+                    vlan_ids = self.rx_vlan_name.match(name).group(1)
 
             sub = {
                 "name": name,
@@ -152,8 +174,8 @@ class Script(BaseScript):
             if "ip" in r:
                 sub["enabled_afi"] += ["IPv4"]
                 sub["ipv4_addresses"] = [r["ip"]]
-            if self.rx_vlan_name.match(name):
-                sub["vlan_ids"] = [int(self.rx_vlan_name.match(name).group(1))]
+            if vlan_ids:
+                sub["vlan_ids"] = [int(vlan_ids)]
             if "port_type" in r:
                 sub["enabled_afi"] += ["BRIDGE"]
                 # Bridge interface
