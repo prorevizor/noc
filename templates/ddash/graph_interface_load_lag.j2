@@ -6,7 +6,7 @@
   "bars": false,
   "internal_comment":"graph_interface_load_lag.j2",
   "datasource": null,
-  "fill": 1,
+  "fill": 4,
   "grid": {
     "threshold1": null,
     "threshold1Color": "rgba(216, 200, 27, 0.27)",
@@ -27,7 +27,7 @@
     "rightSide": true
   },
   "lines": true,
-  "linewidth": 2,
+  "linewidth": 1,
   "links": [],
   "minSpan": 6,
   "nullPointMode": "connected",
@@ -40,6 +40,11 @@
     {
       "alias": "/Input.+/",
       "transform": "negative-Y"
+    },
+    {
+      "alias": "/Agg.+/",
+      "fill": 5,
+      "linewidth": 5
     }
   ],
   "span": 12,
