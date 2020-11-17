@@ -28,6 +28,7 @@ class ProfileStub(object):
 
 class CLIStub(BaseCLI):
     def __init__(self):
+        super().__init__()
         self.tos = 0
         self.logger = logging.getLogger("CLIStub")
         self.profile = ProfileStub()
