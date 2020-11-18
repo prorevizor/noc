@@ -19,7 +19,9 @@ class Script(BaseScript):
     cache = True
     interface = IGetVersion
 
-    rx_version_HP = re.compile(r"^Comware Software, Version (?P<version>.+)$", re.MULTILINE)
+    rx_version_HP = re.compile(
+        r"^(HPE|)\s*Comware Software, Version (?P<version>.+)$", re.MULTILINE
+    )
     rx_platform_HP = re.compile(
         r"^HP.*?\s(?P<platform>[A-Z,0-9a-z\-]+).*?.*?(Switch|uptime)", re.MULTILINE
     )
@@ -42,7 +44,7 @@ class Script(BaseScript):
             platform = match.group("platform")
         if platform == "Comware":
             try:
-                v = self.cli("display device manuinfo")
+                v = self.cli("display device manuinfo", cached=True)
                 match = self.rx_devinfo.search(v)
                 if match:
                     platform = match.group("platform")

@@ -18,6 +18,7 @@ class Script(BaseScript):
         vlans = self.strip_first_lines(self.cli("display vlan"), 2)
         vlans = vlans.replace("The following VLANs exist:\n", "")
         vlans = vlans.replace("(default)", "")
+        vlans = vlans.replace("(reserved)", "")
         vlans = vlans.replace("\n", ",")
         vlans = self.expand_rangelist(vlans)
         r = []
