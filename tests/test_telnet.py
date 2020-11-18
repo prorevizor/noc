@@ -20,8 +20,13 @@ from noc.core.ioloop.util import IOLoopContext
 
 
 class ScriptStub(BaseScript):
+    name = "Generic.Host"
+
     def __init__(self):
         super().__init__(None, {})
+
+    def interface(self):
+        return
 
 
 class ProfileStub(object):
