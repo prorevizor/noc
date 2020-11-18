@@ -15,21 +15,5 @@ class Script(BaseScript):
     interface = IAddVlan
 
     def execute(self, vlan_id, name, tagged_ports=None):
-        tagged_ports = tagged_ports or []
-        a = ""
-        if not self.scripts.has_vlan(vlan_id=vlan_id):
-            a = 1
-        if tagged_ports:
-            ports = ""
-            for port in tagged_ports:
-                if ports:
-                    ports = ports + "," + port
-                else:
-                    ports = port
-            tagged = ports
-
-        # Try snmp first
-        #
-        #
         # See bug NOC-291: http://bt.nocproject.org/browse/NOC-291
-        raise Exception("Not implemented")
+        raise NotImplementedError()
