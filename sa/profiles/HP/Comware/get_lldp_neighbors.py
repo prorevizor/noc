@@ -50,8 +50,8 @@ class Script(BaseScript):
         "system description": "remote_system_description",
         "system capabilities supported": "remote_capabilities",
         "capabilities": "remote_capabilities",
-        "chassisid/subtype": "remote_chassis_id",
-        "portid/subtype": "remote_port",
+        "chassisid/subtype": "remote_chassis_id_type",
+        "portid/subtype": "remote_port_type",
     }
 
     rx_lldp_neighbor_split = re.compile(r"LLDP neighbor-information of port")
@@ -95,13 +95,13 @@ class Script(BaseScript):
             r = parse_kv(self.lldp_kv_map, nei)
             if "remote_chassis_id_subtype" in r:
                 n["remote_chassis_id_subtype"] = r["remote_chassis_id_subtype"]
-            if "remote_chassis_id" in r and "/" in r["remote_chassis_id"]:
+            if "remote_chassis_id_type" in r:
                 n["remote_chassis_id"], n["remote_chassis_id_subtype"] = r[
-                    "remote_chassis_id"
+                    "remote_chassis_id_type"
                 ].rsplit("/", 1)
-            elif "remote_chassis_id" in r:
+            if "remote_chassis_id" in r:
                 n["remote_chassis_id"] = r["remote_chassis_id"]
-            else:
+            if "remote_chassis_id" not in n:
                 self.logger.warning(
                     "[%s] Not found remote chassis id on output", match.group("interface")
                 )
@@ -112,11 +112,11 @@ class Script(BaseScript):
             # Port fields
             if "remote_port_subtype" in r:
                 n["remote_port_subtype"] = r["remote_port_subtype"]
-            if "remote_port" in r and "/" in r["remote_port"]:
-                n["remote_port"], n["remote_port_subtype"] = r["remote_port"].rsplit("/", 1)
-            elif "remote_port" in r:
+            if "remote_port_type" in r:
+                n["remote_port"], n["remote_port_subtype"] = r["remote_port_type"].rsplit("/", 1)
+            if "remote_port" in r:
                 n["remote_port"] = r["remote_port"]
-            else:
+            if "remote_port" not in n:
                 self.logger.warning("[%s] Not found port id on output", match.group("interface"))
                 continue
             n["remote_port_subtype"] = self.port_type_map[n["remote_port_subtype"].lower()]
