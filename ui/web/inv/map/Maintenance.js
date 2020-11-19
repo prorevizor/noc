@@ -150,8 +150,6 @@ Ext.define('NOC.inv.map.Maintenance', {
             NOC.error(__('Your must select maintenance!'));
             return;
         }
-        console.log(me.noc.args[1])
-        console.log(selected[0].data.direct_objects)
         Ext.Ajax.request({
             url: me.rest_url + selected[0].data.id + "/add/",
             method: 'POST',
