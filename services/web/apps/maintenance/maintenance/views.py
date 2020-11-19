@@ -5,9 +5,14 @@
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
+# Python modules
+import orjson
+import bson
+
 # NOC modules
 from noc.lib.app.extdocapplication import ExtDocApplication, view
-from noc.maintenance.models.maintenance import Maintenance
+from noc.maintenance.models.maintenance import Maintenance, MaintenanceObject, MaintenanceSegment
+from noc.sa.models.profile import Profile
 from noc.sa.models.managedobject import ManagedObject
 from noc.sa.models.useraccess import UserAccess
 from noc.core.translation import ugettext as _
@@ -40,6 +45,7 @@ class MaintenanceApplication(ExtDocApplication):
             if sq:
                 obj = ManagedObject.objects.filter(sq)
             else:
+
                 obj = ManagedObject.objects.filter(name__contains=query)
             if obj:
                 mos = obj.values_list("id", flat=True)
@@ -47,51 +53,122 @@ class MaintenanceApplication(ExtDocApplication):
         else:
             return qs
 
+    @view(url=r"^(?P<id>[a-z0-9]{24})/add/", method=["POST"], api=True, access="update")
+    def api_add(self, request, id):
+        body = orjson.loads(request.body)
+        o = self.model.objects.get(**{self.pk: id})
+        if body["mode"] == "Object":
+            for mo in body["elements"]:
+                mai = MaintenanceObject(object=mo.get("object"))
+                if mai in o.affected_objects:
+                    continue
+                if mai not in o.direct_objects:
+                    o.direct_objects += [mai]
+            o.save()
+        if body["mode"] == "Segment":
+            for seg in body["elements"]:
+                mas = MaintenanceSegment(object=seg.get("segment"))
+                if mas not in o.direct_segments:
+                    o.direct_segments += [mas]
+            o.save()
+        return self.response({"result": "Add object"}, status=self.OK)
+
+    @view(
+        method=["GET"],
+        url=r"^(?P<id>[0-9a-f]{24}|\d+|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/?$",
+        access="read",
+        api=True,
+    )
+    def api_read(self, request, id):
+        """
+        Returns dict with object's fields and values
+        """
+        only = [
+            "id",
+            "description",
+            "contacts",
+            "type",
+            "type__label",
+            "stop",
+            "start",
+            "suppress_alarms",
+            "escalate_managed_object",
+            "escalate_managed_object__label",
+            "escalation_tt",
+            "is_completed",
+            "auto_confirm",
+            "template",
+            "direct_objects",
+            "affected_objects",
+            "direct_segments",
+            "subject",
+            "time_pattern",
+            "time_pattern__label",
+        ]
+
+        o = self.queryset(request).get(**{self.pk: id})
+        data = request.GET.get(self.only_param)
+        if data:
+            only.append(data.split(","))
+        return self.response(self.instance_to_dict(o, fields=only), status=self.OK)
+
     @view(method=["GET"], url="^$", access="read", api=True)
     def api_list(self, request):
-        return self.list_data(request, self.instance_to_dict_list)
+        try:
+            return self.list_data(request, self.instance_to_dict_list)
+        except Exception:
+            return self.response({"result": "Maintenance not found"}, status=self.OK)
 
     def instance_to_dict_list(self, o, fields=None):
-        return {
-            "id": str(o.id),
-            "description": o.description,
-            "contacts": o.contacts,
-            "type": str(o.type.id),
-            "type__label": o.type.name,
-            "stop": o.stop.strftime("%Y-%m-%d %H:%M:%S") if o.stop else "",
-            "start": o.start.strftime("%Y-%m-%d %H:%M:%S") if o.start else "",
-            "suppress_alarms": o.suppress_alarms,
-            "escalate_managed_object": o.escalate_managed_object.id
-            if o.escalate_managed_object
-            else None,
-            "escalate_managed_object__label": o.escalate_managed_object.name
-            if o.escalate_managed_object
-            else "",
-            "escalation_tt": o.escalation_tt if o.escalation_tt else None,
-            "is_completed": o.is_completed,
-            "direct_objects": [],
-            "affected_objects": [],
-            "direct_segments": [],
-            "subject": o.subject,
-            "time_pattern": o.time_pattern.id if o.time_pattern else None,
-            "time_pattern__label": o.time_pattern.name if o.time_pattern else "",
-        }
+        only = [
+            "id",
+            "description",
+            "contacts",
+            "type",
+            "type__label",
+            "stop",
+            "start",
+            "suppress_alarms",
+            "escalate_managed_object",
+            "escalate_managed_object__label",
+            "escalation_tt",
+            "is_completed",
+            "auto_confirm",
+            "template",
+            "subject",
+            "time_pattern",
+            "time_pattern__label",
+        ]
+        return self.instance_to_dict(o, fields=only)
 
     @view(url="(?P<id>[0-9a-f]{24})/objects/", method=["GET"], access="read", api=True)
     def api_test(self, request, id):
-        o = self.get_object_or_404(Maintenance, id=id)
         r = []
-        for mao in o.affected_objects:
-            mo = mao.object
+        data = [
+            d
+            for d in Maintenance._get_collection().aggregate(
+                [
+                    {"$match": {"_id": bson.ObjectId(id)}},
+                    {
+                        "$project": {"objects": "$affected_objects.object"},
+                    },
+                ]
+            )
+        ]
+        for mo in (
+            ManagedObject.objects.filter(is_managed=True, id__in=data[0].get("objects"))
+            .values("id", "name", "is_managed", "profile", "address", "description", "tags")
+            .distinct()
+        ):
             r += [
                 {
-                    "id": mo.id,
-                    "name": mo.name,
-                    "is_managed": mo.is_managed,
-                    "profile": mo.profile.name,
-                    "address": mo.address,
-                    "description": mo.description,
-                    "tags": mo.tags,
+                    "id": mo.get("id"),
+                    "name": mo.get("name"),
+                    "is_managed": mo.get("is_managed"),
+                    "profile": Profile.get_by_id(mo.get("profile")).name,
+                    "address": mo.get("address"),
+                    "description": mo.get("description"),
+                    "tags": mo.get("tags"),
                 }
             ]
         return r

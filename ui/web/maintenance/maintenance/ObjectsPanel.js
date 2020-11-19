@@ -18,13 +18,6 @@ Ext.define("NOC.maintenance.maintenance.ObjectsPanel", {
     initComponent: function() {
         var me = this;
 
-        me.refreshButton = Ext.create("Ext.button.Button", {
-            text: __("Refresh"),
-            glyph: NOC.glyph.refresh,
-            scope: me,
-            handler: me.onRefresh
-        });
-
         me.exportButton = Ext.create("Ext.button.Button", {
             tooltip: __("Export"),
             text: __("Export"),
@@ -82,11 +75,9 @@ Ext.define("NOC.maintenance.maintenance.ObjectsPanel", {
                     xtype: "toolbar",
                     dock: "top",
                     items: [
+                        me.totalField,
                         me.getCloseButton(),
-                        me.refreshButton,
-                        me.exportButton,
-                        "->",
-                        me.totalField
+                        me.exportButton
                     ]
                 }
             ]
