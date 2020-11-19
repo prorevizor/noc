@@ -99,13 +99,11 @@ class MaintenanceApplication(ExtDocApplication):
             "auto_confirm",
             "template",
             "direct_objects",
-            "affected_objects",
             "direct_segments",
             "subject",
             "time_pattern",
             "time_pattern__label",
         ]
-
         o = self.queryset(request).get(**{self.pk: id})
         data = request.GET.get(self.only_param)
         if data:
@@ -171,4 +169,4 @@ class MaintenanceApplication(ExtDocApplication):
                     "tags": mo.get("tags"),
                 }
             ]
-        return r
+        return self.response(r, status=self.OK)
