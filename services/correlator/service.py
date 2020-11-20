@@ -40,7 +40,7 @@ from services.correlator import utils
 from noc.core.perf import metrics
 from noc.core.fm.enum import RCA_RULE, RCA_TOPOLOGY, RCA_DOWNLINK_MERGE
 from noc.core.liftbridge.message import Message
-from .rcalock import RCALock
+from noc.services.correlator.rcalock import RCALock
 
 
 class CorrelatorService(TornadoService):
