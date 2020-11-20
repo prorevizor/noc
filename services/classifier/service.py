@@ -345,7 +345,7 @@ class ClassifierService(TornadoService):
             managed_object=managed_object_id, name=name
         ).first()
 
-    def classify_event(self, event, data):
+    async def classify_event(self, event, data):
         """
         Perform event classification.
         Classification steps are:
@@ -468,7 +468,7 @@ class ClassifierService(TornadoService):
             return
         # Finally dispose event to further processing by correlator
         if event.to_dispose:
-            self.dispose_event(event)
+            await self.dispose_event(event)
         if is_unknown:
             metrics[CR_UNKNOWN] += 1
         elif pre_event:
@@ -476,7 +476,7 @@ class ClassifierService(TornadoService):
         else:
             metrics[CR_CLASSIFIED] += 1
 
-    def dispose_event(self, event):
+    async def dispose_event(self, event):
         self.logger.info(
             "[%s|%s|%s] Disposing",
             event.id,
@@ -743,7 +743,7 @@ class ClassifierService(TornadoService):
             return
         # Classify event
         try:
-            self.classify_event(event, data)
+            await self.classify_event(event, data)
         except Exception as e:
             self.logger.error(
                 "[%s|%s|%s] Failed to process event: %s", event.id, mo.name, mo.address, e
