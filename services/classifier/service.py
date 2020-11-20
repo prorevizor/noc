@@ -14,6 +14,7 @@ from collections import defaultdict
 import operator
 import re
 from time import perf_counter
+from typing import Dict
 
 # Third-party modules
 import cachetools
@@ -38,7 +39,6 @@ from noc.core.escape import fm_unescape
 from noc.services.classifier.trigger import Trigger
 from noc.services.classifier.ruleset import RuleSet
 from noc.services.classifier.patternset import PatternSet
-from noc.core.cache.base import cache
 from noc.core.perf import metrics
 from noc.core.handler import get_handler
 from noc.core.ioloop.timers import PeriodicCallback
@@ -125,6 +125,7 @@ class ClassifierService(TornadoService):
         #
         self.slot_number = 0
         self.total_slots = 0
+        self.pool_partitions: Dict[str, int] = {}
 
     async def on_activate(self):
         """
@@ -482,12 +483,18 @@ class ClassifierService(TornadoService):
             event.managed_object.name,
             event.managed_object.address,
         )
-        # Heat up cache
-        cache.set("activeent-%s" % event.id, event, ttl=900)
-        # @todo: Use config.pool instead
-        self.pub(
-            "correlator.dispose.%s" % event.managed_object.get_effective_fm_pool().name,
-            {"event_id": str(event.id), "event": event.to_json()},
+        # Calculate partition
+        fm_pool = event.managed_object.get_effective_fm_pool().name
+        stream = f"dispose.{fm_pool}"
+        num_partitions = self.pool_partitions.get(fm_pool)
+        if not num_partitions:
+            num_partitions = await self.get_stream_partitions(stream)
+            self.pool_partitions[fm_pool] = num_partitions
+        partition = int(event.managed_object.id) % num_partitions
+        self.publish(
+            orjson.dumps({"event_id": str(event.id), "event": event.to_json()}),
+            stream=stream,
+            partition=partition,
         )
         metrics[CR_DISPOSED] += 1
 
