@@ -7,7 +7,6 @@
 
 # Python modules
 import random
-import time
 from typing import Optional
 import datetime
 import asyncio
