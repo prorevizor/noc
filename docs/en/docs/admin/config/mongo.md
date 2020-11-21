@@ -1,136 +1,142 @@
-.. _config-mongo:
+# [mongo] section
+Mongo service configuration
 
-mongo
------
+## addresses
 
+Default value
+:   service="mongo", wait=True
 
-.. _config-mongo-addresses:
+YAML Path
+:   mongo.addresses
 
-addresses
-~~~~~~~~~
+Key-Value Path
+:   mongo/addresses
 
-==================  ============================================
-**YAML Path**       mongo.addresses
-**Key-Value Path**  mongo/addresses
-**Environment**     NOC_MONGO_ADDRESSES
-**Default Value**   ServiceParameter(service='mongo', wait=True)
-==================  ============================================
+Environment
+:   NOC_MONGO_ADDRESSES
 
+## db
 
-.. _config-mongo-db:
+Default value
+:   noc
 
-db
-~~
+YAML Path
+:   mongo.db
 
-==================  ============
-**YAML Path**       mongo.db
-**Key-Value Path**  mongo/db
-**Environment**     NOC_MONGO_DB
-**Default Value**   noc
-==================  ============
+Key-Value Path
+:   mongo/db
 
+Environment
+:   NOC_MONGO_DB
 
-.. _config-mongo-user:
+## user
 
-user
-~~~~
+Default value
+:   
 
-==================  =================
-**YAML Path**       mongo.user
-**Key-Value Path**  mongo/user
-**Environment**     NOC_MONGO_USER
-**Default Value**   StringParameter()
-==================  =================
+YAML Path
+:   mongo.user
 
+Key-Value Path
+:   mongo/user
 
-.. _config-mongo-password:
+Environment
+:   NOC_MONGO_USER
 
-password
-~~~~~~~~
+## password
 
-==================  ==================
-**YAML Path**       mongo.password
-**Key-Value Path**  mongo/password
-**Environment**     NOC_MONGO_PASSWORD
-**Default Value**   SecretParameter()
-==================  ==================
+Default value
+:   None
 
+YAML Path
+:   mongo.password
 
-.. _config-mongo-rs:
+Key-Value Path
+:   mongo/password
 
-rs
-~~
+Environment
+:   NOC_MONGO_PASSWORD
 
-==================  =================
-**YAML Path**       mongo.rs
-**Key-Value Path**  mongo/rs
-**Environment**     NOC_MONGO_RS
-**Default Value**   StringParameter()
-==================  =================
+## rs
 
+Default value
+:   
 
-.. _config-mongo-retries:
+YAML Path
+:   mongo.rs
 
-retries
-~~~~~~~
+Key-Value Path
+:   mongo/rs
 
-==================  =================
-**YAML Path**       mongo.retries
-**Key-Value Path**  mongo/retries
-**Environment**     NOC_MONGO_RETRIES
-**Default Value**   20
-==================  =================
+Environment
+:   NOC_MONGO_RS
 
+## retries
 
-.. _config-mongo-timeout:
+Default value
+:   20
 
-timeout
-~~~~~~~
+YAML Path
+:   mongo.retries
 
-==================  =================
-**YAML Path**       mongo.timeout
-**Key-Value Path**  mongo/timeout
-**Environment**     NOC_MONGO_TIMEOUT
-**Default Value**   3s
-==================  =================
+Key-Value Path
+:   mongo/retries
 
+Environment
+:   NOC_MONGO_RETRIES
 
-.. _config-mongo-retry_writes:
+## timeout
 
-retry_writes
-~~~~~~~~~~~~
+Default value
+:   3s
 
-==================  ======================
-**YAML Path**       mongo.retry_writes
-**Key-Value Path**  mongo/retry_writes
-**Environment**     NOC_MONGO_RETRY_WRITES
-**Default Value**   False
-==================  ======================
+YAML Path
+:   mongo.timeout
 
+Key-Value Path
+:   mongo/timeout
 
-.. _config-mongo-app_name:
+Environment
+:   NOC_MONGO_TIMEOUT
 
-app_name
-~~~~~~~~
+## retry_writes
 
-==================  ==================
-**YAML Path**       mongo.app_name
-**Key-Value Path**  mongo/app_name
-**Environment**     NOC_MONGO_APP_NAME
-**Default Value**   StringParameter()
-==================  ==================
+Default value
+:   False
 
+YAML Path
+:   mongo.retry_writes
 
-.. _config-mongo-max_idle_time:
+Key-Value Path
+:   mongo/retry_writes
 
-max_idle_time
-~~~~~~~~~~~~~
+Environment
+:   NOC_MONGO_RETRY_WRITES
 
-==================  =======================
-**YAML Path**       mongo.max_idle_time
-**Key-Value Path**  mongo/max_idle_time
-**Environment**     NOC_MONGO_MAX_IDLE_TIME
-**Default Value**   60s
-==================  =======================
+## app_name
 
+Default value
+:   
 
+YAML Path
+:   mongo.app_name
+
+Key-Value Path
+:   mongo/app_name
+
+Environment
+:   NOC_MONGO_APP_NAME
+
+## max_idle_time
+
+Default value
+:   60s
+
+YAML Path
+:   mongo.max_idle_time
+
+Key-Value Path
+:   mongo/max_idle_time
+
+Environment
+:   NOC_MONGO_MAX_IDLE_TIME

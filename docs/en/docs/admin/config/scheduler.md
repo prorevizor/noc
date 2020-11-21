@@ -1,97 +1,100 @@
-.. _config-scheduler:
+# [scheduler] section
+Scheduler service configuration
 
-scheduler
----------
+## max_threads
 
+Default value
+:   20
 
-.. _config-scheduler-max_threads:
+YAML Path
+:   scheduler.max_threads
 
-max_threads
-~~~~~~~~~~~
+Key-Value Path
+:   scheduler/max_threads
 
-==================  =========================
-**YAML Path**       scheduler.max_threads
-**Key-Value Path**  scheduler/max_threads
-**Environment**     NOC_SCHEDULER_MAX_THREADS
-**Default Value**   20
-==================  =========================
+Environment
+:   NOC_SCHEDULER_MAX_THREADS
 
+## submit_threshold_factor
 
-.. _config-scheduler-submit_threshold_factor:
+Default value
+:   10
 
-submit_threshold_factor
-~~~~~~~~~~~~~~~~~~~~~~~
+YAML Path
+:   scheduler.submit_threshold_factor
 
-==================  =====================================
-**YAML Path**       scheduler.submit_threshold_factor
-**Key-Value Path**  scheduler/submit_threshold_factor
-**Environment**     NOC_SCHEDULER_SUBMIT_THRESHOLD_FACTOR
-**Default Value**   10
-==================  =====================================
+Key-Value Path
+:   scheduler/submit_threshold_factor
 
+Environment
+:   NOC_SCHEDULER_SUBMIT_THRESHOLD_FACTOR
 
-.. _config-scheduler-max_chunk_factor:
+## max_chunk_factor
 
-max_chunk_factor
-~~~~~~~~~~~~~~~~
+Default value
+:   1
 
-==================  ==============================
-**YAML Path**       scheduler.max_chunk_factor
-**Key-Value Path**  scheduler/max_chunk_factor
-**Environment**     NOC_SCHEDULER_MAX_CHUNK_FACTOR
-**Default Value**   1
-==================  ==============================
+YAML Path
+:   scheduler.max_chunk_factor
 
+Key-Value Path
+:   scheduler/max_chunk_factor
 
-.. _config-scheduler-updates_per_check:
+Environment
+:   NOC_SCHEDULER_MAX_CHUNK_FACTOR
 
-updates_per_check
-~~~~~~~~~~~~~~~~~
+## updates_per_check
 
-==================  ===============================
-**YAML Path**       scheduler.updates_per_check
-**Key-Value Path**  scheduler/updates_per_check
-**Environment**     NOC_SCHEDULER_UPDATES_PER_CHECK
-**Default Value**   4
-==================  ===============================
+Default value
+:   4
 
+YAML Path
+:   scheduler.updates_per_check
 
-.. _config-scheduler-cache_default_ttl:
+Key-Value Path
+:   scheduler/updates_per_check
 
-cache_default_ttl
-~~~~~~~~~~~~~~~~~
+Environment
+:   NOC_SCHEDULER_UPDATES_PER_CHECK
 
-==================  ===============================
-**YAML Path**       scheduler.cache_default_ttl
-**Key-Value Path**  scheduler/cache_default_ttl
-**Environment**     NOC_SCHEDULER_CACHE_DEFAULT_TTL
-**Default Value**   1d
-==================  ===============================
+## cache_default_ttl
 
+Default value
+:   1d
 
-.. _config-scheduler-autointervaljob_interval:
+YAML Path
+:   scheduler.cache_default_ttl
 
-autointervaljob_interval
-~~~~~~~~~~~~~~~~~~~~~~~~
+Key-Value Path
+:   scheduler/cache_default_ttl
 
-==================  ======================================
-**YAML Path**       scheduler.autointervaljob_interval
-**Key-Value Path**  scheduler/autointervaljob_interval
-**Environment**     NOC_SCHEDULER_AUTOINTERVALJOB_INTERVAL
-**Default Value**   1d
-==================  ======================================
+Environment
+:   NOC_SCHEDULER_CACHE_DEFAULT_TTL
 
+## autointervaljob_interval
 
-.. _config-scheduler-autointervaljob_initial_submit_interval:
+Default value
+:   1d
 
-autointervaljob_initial_submit_interval
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+YAML Path
+:   scheduler.autointervaljob_interval
 
-==================  =====================================================
-**YAML Path**       scheduler.autointervaljob_initial_submit_interval
-**Key-Value Path**  scheduler/autointervaljob_initial_submit_interval
-**Environment**     NOC_SCHEDULER_AUTOINTERVALJOB_INITIAL_SUBMIT_INTERVAL
-**Default Value**   1d
-==================  =====================================================
+Key-Value Path
+:   scheduler/autointervaljob_interval
 
+Environment
+:   NOC_SCHEDULER_AUTOINTERVALJOB_INTERVAL
 
+## autointervaljob_initial_submit_interval
+
+Default value
+:   1d
+
+YAML Path
+:   scheduler.autointervaljob_initial_submit_interval
+
+Key-Value Path
+:   scheduler/autointervaljob_initial_submit_interval
+
+Environment
+:   NOC_SCHEDULER_AUTOINTERVALJOB_INITIAL_SUBMIT_INTERVAL

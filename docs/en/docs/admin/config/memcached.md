@@ -1,45 +1,44 @@
-.. _config-memcached:
+# [memcached] section
+Memcached service configuration
 
-memcached
----------
+## addresses
 
+Default value
+:   service="memcached", wait=True, full_result=True
 
-.. _config-memcached-addresses:
+YAML Path
+:   memcached.addresses
 
-addresses
-~~~~~~~~~
+Key-Value Path
+:   memcached/addresses
 
-==================  ==================================================================
-**YAML Path**       memcached.addresses
-**Key-Value Path**  memcached/addresses
-**Environment**     NOC_MEMCACHED_ADDRESSES
-**Default Value**   ServiceParameter(service='memcached', wait=True, full_result=True)
-==================  ==================================================================
+Environment
+:   NOC_MEMCACHED_ADDRESSES
 
+## pool_size
 
-.. _config-memcached-pool_size:
+Default value
+:   8
 
-pool_size
-~~~~~~~~~
+YAML Path
+:   memcached.pool_size
 
-==================  =======================
-**YAML Path**       memcached.pool_size
-**Key-Value Path**  memcached/pool_size
-**Environment**     NOC_MEMCACHED_POOL_SIZE
-**Default Value**   8
-==================  =======================
+Key-Value Path
+:   memcached/pool_size
 
+Environment
+:   NOC_MEMCACHED_POOL_SIZE
 
-.. _config-memcached-default_ttl:
+## default_ttl
 
-default_ttl
-~~~~~~~~~~~
+Default value
+:   1d
 
-==================  =========================
-**YAML Path**       memcached.default_ttl
-**Key-Value Path**  memcached/default_ttl
-**Environment**     NOC_MEMCACHED_DEFAULT_TTL
-**Default Value**   1d
-==================  =========================
+YAML Path
+:   memcached.default_ttl
 
+Key-Value Path
+:   memcached/default_ttl
 
+Environment
+:   NOC_MEMCACHED_DEFAULT_TTL

@@ -1,142 +1,131 @@
-.. _config-features:
+# [features] section
+Features service configuration
 
-features
---------
+## use_uvloop
 
+Default value
+:   False
 
-.. _config-features-use_uvlib:
+YAML Path
+:   features.use_uvloop
 
-use_uvlib
-~~~~~~~~~
+Key-Value Path
+:   features/use_uvloop
 
-==================  ======================
-**YAML Path**       features.use_uvlib
-**Key-Value Path**  features/use_uvlib
-**Environment**     NOC_FEATURES_USE_UVLIB
-**Default Value**   False
-==================  ======================
+Environment
+:   NOC_FEATURES_USE_UVLOOP
 
+## cp
 
-.. _config-features-cp:
+Default value
+:   True
 
-cp
---
+YAML Path
+:   features.cp
 
-==================  ===============
-**YAML Path**       features.cp
-**Key-Value Path**  features/cp
-**Environment**     NOC_FEATURES_CP
-**Default Value**   True
-==================  ===============
+Key-Value Path
+:   features/cp
 
+Environment
+:   NOC_FEATURES_CP
 
-.. _config-features-sentry:
+## sentry
 
-sentry
-~~~~~~
+Default value
+:   False
 
-==================  ===================
-**YAML Path**       features.sentry
-**Key-Value Path**  features/sentry
-**Environment**     NOC_FEATURES_SENTRY
-**Default Value**   False
-==================  ===================
+YAML Path
+:   features.sentry
 
+Key-Value Path
+:   features/sentry
 
-.. _config-features-traefik:
+Environment
+:   NOC_FEATURES_SENTRY
 
-traefik
-~~~~~~~
+## traefik
 
-==================  ====================
-**YAML Path**       features.traefik
-**Key-Value Path**  features/traefik
-**Environment**     NOC_FEATURES_TRAEFIK
-**Default Value**   False
-==================  ====================
+Default value
+:   False
 
+YAML Path
+:   features.traefik
 
-.. _config-features-cpclient:
+Key-Value Path
+:   features/traefik
 
-cpclient
-~~~~~~~~
+Environment
+:   NOC_FEATURES_TRAEFIK
 
-==================  =====================
-**YAML Path**       features.cpclient
-**Key-Value Path**  features/cpclient
-**Environment**     NOC_FEATURES_CPCLIENT
-**Default Value**   False
-==================  =====================
+## cpclient
 
+Default value
+:   False
 
-.. _config-features-telemetry:
+YAML Path
+:   features.cpclient
 
-telemetry
-~~~~~~~~~
+Key-Value Path
+:   features/cpclient
 
+Environment
+:   NOC_FEATURES_CPCLIENT
+
+## telemetry
 Enable internal telemetry export to Clickhouse
 
-==================  ======================
-**YAML Path**       features.telemetry
-**Key-Value Path**  features/telemetry
-**Environment**     NOC_FEATURES_TELEMETRY
-**Default Value**   False
-==================  ======================
+Default value
+:   False
 
+YAML Path
+:   features.telemetry
 
-.. _config-features-consul_healthchecks:
+Key-Value Path
+:   features/telemetry
 
-consul_healthchecks
-~~~~~~~~~~~~~~~~~~~
+Environment
+:   NOC_FEATURES_TELEMETRY
 
+## consul_healthchecks
 While registering serive in consul also register health check
 
-==================  ================================
-**YAML Path**       features.consul_healthchecks
-**Key-Value Path**  features/consul_healthchecks
-**Environment**     NOC_FEATURES_CONSUL_HEALTHCHECKS
-**Default Value**   True
-==================  ================================
+Default value
+:   True
 
+YAML Path
+:   features.consul_healthchecks
 
-.. _config-features-service_registration:
+Key-Value Path
+:   features/consul_healthchecks
 
-service_registration
-~~~~~~~~~~~~~~~~~~~~
+Environment
+:   NOC_FEATURES_CONSUL_HEALTHCHECKS
 
+## service_registration
 Permit consul self registration
 
-==================  =================================
-**YAML Path**       features.service_registration
-**Key-Value Path**  features/service_registration
-**Environment**     NOC_FEATURES_SERVICE_REGISTRATION
-**Default Value**   True
-==================  =================================
+Default value
+:   True
 
+YAML Path
+:   features.service_registration
 
-.. _config-features-pypy:
+Key-Value Path
+:   features/service_registration
 
-pypy
-~~~~
+Environment
+:   NOC_FEATURES_SERVICE_REGISTRATION
 
-==================  =================
-**YAML Path**       features.pypy
-**Key-Value Path**  features/pypy
-**Environment**     NOC_FEATURES_PYPY
-**Default Value**   False
-==================  =================
+## forensic
 
+Default value
+:   False
 
-.. _config-features-forensic:
+YAML Path
+:   features.forensic
 
-forensic
-~~~~~~~~
+Key-Value Path
+:   features/forensic
 
-==================  =====================
-**YAML Path**       features.forensic
-**Key-Value Path**  features/forensic
-**Environment**     NOC_FEATURES_FORENSIC
-**Default Value**   False
-==================  =====================
-
-
+Environment
+:   NOC_FEATURES_FORENSIC

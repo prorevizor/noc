@@ -1,190 +1,199 @@
-.. _config-consul:
+# [consul] section
+Consul service configuration
 
-consul
-------
+## token
 
+Default value
+:   None
 
-.. _config-consul-token:
+YAML Path
+:   consul.token
 
-token
-~~~~~
+Key-Value Path
+:   consul/token
 
-==================  =================
-**YAML Path**       consul.token
-**Key-Value Path**  consul/token
-**Environment**     NOC_CONSUL_TOKEN
-**Default Value**   SecretParameter()
-==================  =================
+Environment
+:   NOC_CONSUL_TOKEN
 
+## connect_timeout
 
-.. _config-consul-connect_timeout:
+Default value
+:   5s
 
-connect_timeout
-~~~~~~~~~~~~~~~
+YAML Path
+:   consul.connect_timeout
 
-==================  ==========================
-**YAML Path**       consul.connect_timeout
-**Key-Value Path**  consul/connect_timeout
-**Environment**     NOC_CONSUL_CONNECT_TIMEOUT
-**Default Value**   5s
-==================  ==========================
+Key-Value Path
+:   consul/connect_timeout
 
+Environment
+:   NOC_CONSUL_CONNECT_TIMEOUT
 
-.. _config-consul-request_timeout:
+## request_timeout
 
-request_timeout
-~~~~~~~~~~~~~~~
+Default value
+:   1h
 
-==================  ==========================
-**YAML Path**       consul.request_timeout
-**Key-Value Path**  consul/request_timeout
-**Environment**     NOC_CONSUL_REQUEST_TIMEOUT
-**Default Value**   1h
-==================  ==========================
+YAML Path
+:   consul.request_timeout
 
+Key-Value Path
+:   consul/request_timeout
 
-.. _config-consul-near_retry_timeout:
+Environment
+:   NOC_CONSUL_REQUEST_TIMEOUT
 
-near_retry_timeout
-~~~~~~~~~~~~~~~~~~
+## near_retry_timeout
 
-==================  =============================
-**YAML Path**       consul.near_retry_timeout
-**Key-Value Path**  consul/near_retry_timeout
-**Environment**     NOC_CONSUL_NEAR_RETRY_TIMEOUT
-**Default Value**   1
-==================  =============================
+Default value
+:   1
 
+YAML Path
+:   consul.near_retry_timeout
 
-.. _config-consul-host:
+Key-Value Path
+:   consul/near_retry_timeout
 
-host
-~~~~
+Environment
+:   NOC_CONSUL_NEAR_RETRY_TIMEOUT
 
-==================  ===============
-**YAML Path**       consul.host
-**Key-Value Path**  consul/host
-**Environment**     NOC_CONSUL_HOST
-**Default Value**   consul
-==================  ===============
+## host
 
+Default value
+:   consul
 
-.. _config-consul-port:
+YAML Path
+:   consul.host
 
-port
-~~~~
+Key-Value Path
+:   consul/host
 
-==================  ===============
-**YAML Path**       consul.port
-**Key-Value Path**  consul/port
-**Environment**     NOC_CONSUL_PORT
-**Default Value**   8500
-==================  ===============
+Environment
+:   NOC_CONSUL_HOST
 
+## port
 
-.. _config-consul-check_interval:
+Default value
+:   8500
 
-check_interval
-~~~~~~~~~~~~~~
+YAML Path
+:   consul.port
 
-==================  =========================
-**YAML Path**       consul.check_interval
-**Key-Value Path**  consul/check_interval
-**Environment**     NOC_CONSUL_CHECK_INTERVAL
-**Default Value**   10s
-==================  =========================
+Key-Value Path
+:   consul/port
 
+Environment
+:   NOC_CONSUL_PORT
 
-.. _config-consul-check_timeout:
+## check_interval
 
-check_timeout
-~~~~~~~~~~~~~
+Default value
+:   10s
 
-==================  ========================
-**YAML Path**       consul.check_timeout
-**Key-Value Path**  consul/check_timeout
-**Environment**     NOC_CONSUL_CHECK_TIMEOUT
-**Default Value**   1s
-==================  ========================
+YAML Path
+:   consul.check_interval
 
+Key-Value Path
+:   consul/check_interval
 
-.. _config-consul-release:
+Environment
+:   NOC_CONSUL_CHECK_INTERVAL
 
-release
-~~~~~~~
+## check_timeout
 
-==================  ==================
-**YAML Path**       consul.release
-**Key-Value Path**  consul/release
-**Environment**     NOC_CONSUL_RELEASE
-**Default Value**   1M
-==================  ==================
+Default value
+:   1s
 
+YAML Path
+:   consul.check_timeout
 
-.. _config-consul-session_ttl:
+Key-Value Path
+:   consul/check_timeout
 
-session_ttl
-~~~~~~~~~~~
+Environment
+:   NOC_CONSUL_CHECK_TIMEOUT
 
-==================  ======================
-**YAML Path**       consul.session_ttl
-**Key-Value Path**  consul/session_ttl
-**Environment**     NOC_CONSUL_SESSION_TTL
-**Default Value**   10s
-==================  ======================
+## release
 
+Default value
+:   1M
 
-.. _config-consul-lock_delay:
+YAML Path
+:   consul.release
 
-lock_delay
-~~~~~~~~~~
+Key-Value Path
+:   consul/release
 
-==================  =====================
-**YAML Path**       consul.lock_delay
-**Key-Value Path**  consul/lock_delay
-**Environment**     NOC_CONSUL_LOCK_DELAY
-**Default Value**   20s
-==================  =====================
+Environment
+:   NOC_CONSUL_RELEASE
 
+## session_ttl
 
-.. _config-consul-retry_timeout:
+Default value
+:   10s
 
-retry_timeout
-~~~~~~~~~~~~~
+YAML Path
+:   consul.session_ttl
 
-==================  ========================
-**YAML Path**       consul.retry_timeout
-**Key-Value Path**  consul/retry_timeout
-**Environment**     NOC_CONSUL_RETRY_TIMEOUT
-**Default Value**   1s
-==================  ========================
+Key-Value Path
+:   consul/session_ttl
 
+Environment
+:   NOC_CONSUL_SESSION_TTL
 
-.. _config-consul-keepalive_attempts:
+## lock_delay
 
-keepalive_attempts
-~~~~~~~~~~~~~~~~~~
+Default value
+:   20s
 
-==================  =============================
-**YAML Path**       consul.keepalive_attempts
-**Key-Value Path**  consul/keepalive_attempts
-**Environment**     NOC_CONSUL_KEEPALIVE_ATTEMPTS
-**Default Value**   5
-==================  =============================
+YAML Path
+:   consul.lock_delay
 
+Key-Value Path
+:   consul/lock_delay
 
-.. _config-consul-base:
+Environment
+:   NOC_CONSUL_LOCK_DELAY
 
-base
-~~~~
+## retry_timeout
 
+Default value
+:   1s
+
+YAML Path
+:   consul.retry_timeout
+
+Key-Value Path
+:   consul/retry_timeout
+
+Environment
+:   NOC_CONSUL_RETRY_TIMEOUT
+
+## keepalive_attempts
+
+Default value
+:   5
+
+YAML Path
+:   consul.keepalive_attempts
+
+Key-Value Path
+:   consul/keepalive_attempts
+
+Environment
+:   NOC_CONSUL_KEEPALIVE_ATTEMPTS
+
+## base
 kv lookup base
 
-==================  ===============
-**YAML Path**       consul.base
-**Key-Value Path**  consul/base
-**Environment**     NOC_CONSUL_BASE
-**Default Value**   noc
-==================  ===============
+Default value
+:   noc
 
+YAML Path
+:   consul.base
 
+Key-Value Path
+:   consul/base
+
+Environment
+:   NOC_CONSUL_BASE

@@ -1,71 +1,72 @@
-.. _config-date_time_formats:
+# [date_time_formats] section
+Date_time_formats service configuration
 
-date_time_formats
------------------
+## date_format
 
+Default value
+:   d.m.Y
 
-.. _config-date_time_formats-date_format:
+YAML Path
+:   date_time_formats.date_format
 
-date_format
-~~~~~~~~~~~
+Key-Value Path
+:   date_time_formats/date_format
 
-==================  =================================
-**YAML Path**       date_time_formats.date_format
-**Key-Value Path**  date_time_formats/date_format
-**Environment**     NOC_DATE_TIME_FORMATS_DATE_FORMAT
-**Default Value**   d.m.Y
-==================  =================================
+Environment
+:   NOC_DATE_TIME_FORMATS_DATE_FORMAT
 
+## datetime_format
 
-.. _config-date_time_formats-datetime_format:
+Default value
+:   d.m.Y H:i:s
 
-datetime_format
-~~~~~~~~~~~~~~~
+YAML Path
+:   date_time_formats.datetime_format
 
-==================  =====================================
-**YAML Path**       date_time_formats.datetime_format
-**Key-Value Path**  date_time_formats/datetime_format
-**Environment**     NOC_DATE_TIME_FORMATS_DATETIME_FORMAT
-**Default Value**   d.m.Y H:i:s
-==================  =====================================
+Key-Value Path
+:   date_time_formats/datetime_format
 
+Environment
+:   NOC_DATE_TIME_FORMATS_DATETIME_FORMAT
 
-.. _config-date_time_formats-month_day_format:
+## month_day_format
 
-month_day_format
-~~~~~~~~~~~~~~~~
+Default value
+:   F j
 
-==================  ======================================
-**YAML Path**       date_time_formats.month_day_format
-**Key-Value Path**  date_time_formats/month_day_format
-**Environment**     NOC_DATE_TIME_FORMATS_MONTH_DAY_FORMAT
-**Default Value**   F j
-==================  ======================================
+YAML Path
+:   date_time_formats.month_day_format
 
+Key-Value Path
+:   date_time_formats/month_day_format
 
-.. _config-date_time_formats-time_format:
+Environment
+:   NOC_DATE_TIME_FORMATS_MONTH_DAY_FORMAT
 
-time_format
-~~~~~~~~~~~
+## time_format
 
-==================  =================================
-**YAML Path**       date_time_formats.time_format
-**Key-Value Path**  date_time_formats/time_format
-**Environment**     NOC_DATE_TIME_FORMATS_TIME_FORMAT
-**Default Value**   H:i:s
-==================  =================================
+Default value
+:   H:i:s
 
+YAML Path
+:   date_time_formats.time_format
 
-.. _config-date_time_formats-year_month_format:
+Key-Value Path
+:   date_time_formats/time_format
 
-year_month_format
-~~~~~~~~~~~~~~~~~
+Environment
+:   NOC_DATE_TIME_FORMATS_TIME_FORMAT
 
-==================  =======================================
-**YAML Path**       date_time_formats.year_month_format
-**Key-Value Path**  date_time_formats/year_month_format
-**Environment**     NOC_DATE_TIME_FORMATS_YEAR_MONTH_FORMAT
-**Default Value**   F Y
-==================  =======================================
+## year_month_format
 
+Default value
+:   F Y
 
+YAML Path
+:   date_time_formats.year_month_format
+
+Key-Value Path
+:   date_time_formats/year_month_format
+
+Environment
+:   NOC_DATE_TIME_FORMATS_YEAR_MONTH_FORMAT

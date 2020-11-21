@@ -1,19 +1,16 @@
-.. _config-grafanads:
+# [grafanads] section
+Grafanads service configuration
 
-grafanads
----------
+## db_threads
 
+Default value
+:   10
 
-.. _config-grafanads-db_threads:
+YAML Path
+:   grafanads.db_threads
 
-db_threads
-~~~~~~~~~~
+Key-Value Path
+:   grafanads/db_threads
 
-==================  ========================
-**YAML Path**       grafanads.db_threads
-**Key-Value Path**  grafanads/db_threads
-**Environment**     NOC_GRAFANADS_DB_THREADS
-**Default Value**   10
-==================  ========================
-
-
+Environment
+:   NOC_GRAFANADS_DB_THREADS

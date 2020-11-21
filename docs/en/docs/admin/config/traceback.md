@@ -1,19 +1,16 @@
-.. _config-traceback:
+# [traceback] section
+Traceback service configuration
 
-traceback
----------
+## reverse
 
+Default value
+:   True
 
-.. _config-traceback-reverse:
+YAML Path
+:   traceback.reverse
 
-reverse
-~~~~~~~
+Key-Value Path
+:   traceback/reverse
 
-==================  =====================
-**YAML Path**       traceback.reverse
-**Key-Value Path**  traceback/reverse
-**Environment**     NOC_TRACEBACK_REVERSE
-**Default Value**   True
-==================  =====================
-
-
+Environment
+:   NOC_TRACEBACK_REVERSE

@@ -1,45 +1,44 @@
-.. _config-tests:
+# [tests] section
+Tests service configuration
 
-tests
------
+## fixtures_paths
 
+Default value
+:   ['tests/data']
 
-.. _config-tests-enable_coverage:
+YAML Path
+:   tests.fixtures_paths
 
-enable_coverage
-~~~~~~~~~~~~~~~
+Key-Value Path
+:   tests/fixtures_paths
 
-==================  =========================
-**YAML Path**       tests.enable_coverage
-**Key-Value Path**  tests/enable_coverage
-**Environment**     NOC_TESTS_ENABLE_COVERAGE
-**Default Value**   False
-==================  =========================
+Environment
+:   NOC_TESTS_FIXTURES_PATHS
 
+## events_paths
 
-.. _config-tests-events_path:
+Default value
+:   None
 
-events_path
-~~~~~~~~~~~
+YAML Path
+:   tests.events_paths
 
-==================  =======================
-**YAML Path**       tests.events_path
-**Key-Value Path**  tests/events_path
-**Environment**     NOC_TESTS_EVENTS_PATH
-**Default Value**   collections/test.events
-==================  =======================
+Key-Value Path
+:   tests/events_paths
 
+Environment
+:   NOC_TESTS_EVENTS_PATHS
 
-.. _config-tests-profilecheck_path:
+## beef_paths
 
-profilecheck_path
-~~~~~~~~~~~~~~~~~
+Default value
+:   None
 
-==================  =============================
-**YAML Path**       tests.profilecheck_path
-**Key-Value Path**  tests/profilecheck_path
-**Environment**     NOC_TESTS_PROFILECHECK_PATH
-**Default Value**   collections/test.profilecheck
-==================  =============================
+YAML Path
+:   tests.beef_paths
 
+Key-Value Path
+:   tests/beef_paths
 
+Environment
+:   NOC_TESTS_BEEF_PATHS

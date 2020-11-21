@@ -1,45 +1,44 @@
-.. _config-help:
+# [help] section
+Help service configuration
 
-help
-----
+## base_url
 
+Default value
+:   https://docs.getnoc.com
 
-.. _config-help-base_url:
+YAML Path
+:   help.base_url
 
-base_url
-~~~~~~~~
+Key-Value Path
+:   help/base_url
 
-==================  =======================
-**YAML Path**       help.base_url
-**Key-Value Path**  help/base_url
-**Environment**     NOC_HELP_BASE_URL
-**Default Value**   https://docs.getnoc.com
-==================  =======================
+Environment
+:   NOC_HELP_BASE_URL
 
+## branch
 
-.. _config-help-branch:
+Default value
+:   microservices
 
-branch
-~~~~~~
+YAML Path
+:   help.branch
 
-==================  ===============
-**YAML Path**       help.branch
-**Key-Value Path**  help/branch
-**Environment**     NOC_HELP_BRANCH
-**Default Value**   microservices
-==================  ===============
+Key-Value Path
+:   help/branch
 
+Environment
+:   NOC_HELP_BRANCH
 
-.. _config-help-language:
+## language
 
-language
-~~~~~~~~
+Default value
+:   en
 
-==================  =================
-**YAML Path**       help.language
-**Key-Value Path**  help/language
-**Environment**     NOC_HELP_LANGUAGE
-**Default Value**   en
-==================  =================
+YAML Path
+:   help.language
 
+Key-Value Path
+:   help/language
 
+Environment
+:   NOC_HELP_LANGUAGE

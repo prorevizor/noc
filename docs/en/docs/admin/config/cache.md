@@ -1,71 +1,72 @@
-.. _config-cache:
+# [cache] section
+Cache service configuration
 
-cache
------
+## vcinterfacescount
 
+Default value
+:   1h
 
-.. _config-cache-vcinterfacescount:
+YAML Path
+:   cache.vcinterfacescount
 
-vcinterfacescount
-~~~~~~~~~~~~~~~~~
+Key-Value Path
+:   cache/vcinterfacescount
 
-==================  ===========================
-**YAML Path**       cache.vcinterfacescount
-**Key-Value Path**  cache/vcinterfacescount
-**Environment**     NOC_CACHE_VCINTERFACESCOUNT
-**Default Value**   1h
-==================  ===========================
+Environment
+:   NOC_CACHE_VCINTERFACESCOUNT
 
+## vcprefixes
 
-.. _config-cache-vcprefixes:
+Default value
+:   1h
 
-vcprefixes
-~~~~~~~~~~
+YAML Path
+:   cache.vcprefixes
 
-==================  ====================
-**YAML Path**       cache.vcprefixes
-**Key-Value Path**  cache/vcprefixes
-**Environment**     NOC_CACHE_VCPREFIXES
-**Default Value**   1h
-==================  ====================
+Key-Value Path
+:   cache/vcprefixes
 
+Environment
+:   NOC_CACHE_VCPREFIXES
 
-.. _config-cache-cache_class:
+## cache_
 
-cache_class
-~~~~~~~~~~~
+Default value
+:   noc.core.cache.mongo.MongoCache
 
-==================  ===============================
-**YAML Path**       cache.cache_class
-**Key-Value Path**  cache/cache_class
-**Environment**     NOC_CACHE_CACHE_CLASS
-**Default Value**   noc.core.cache.mongo.MongoCache
-==================  ===============================
+YAML Path
+:   cache.cache_
 
+Key-Value Path
+:   cache/cache_
 
-.. _config-cache-default_ttl:
+Environment
+:   NOC_CACHE_CACHE_
 
-default_ttl
-~~~~~~~~~~~
+## default_ttl
 
-==================  =====================
-**YAML Path**       cache.default_ttl
-**Key-Value Path**  cache/default_ttl
-**Environment**     NOC_CACHE_DEFAULT_TTL
-**Default Value**   1d
-==================  =====================
+Default value
+:   1d
 
+YAML Path
+:   cache.default_ttl
 
-.. _config-cache-pool_size:
+Key-Value Path
+:   cache/default_ttl
 
-pool_size
-~~~~~~~~~
+Environment
+:   NOC_CACHE_DEFAULT_TTL
 
-==================  ===================
-**YAML Path**       cache.pool_size
-**Key-Value Path**  cache/pool_size
-**Environment**     NOC_CACHE_POOL_SIZE
-**Default Value**   8
-==================  ===================
+## pool_size
 
+Default value
+:   8
 
+YAML Path
+:   cache.pool_size
+
+Key-Value Path
+:   cache/pool_size
+
+Environment
+:   NOC_CACHE_POOL_SIZE

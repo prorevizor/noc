@@ -1,110 +1,114 @@
-.. _config-selfmon:
+# [selfmon] section
+Selfmon service configuration
 
-selfmon
--------
+## enable_managedobject
 
+Default value
+:   True
 
-.. _config-selfmon-enable_managedobject:
+YAML Path
+:   selfmon.enable_managedobject
 
-enable_managedobject
-~~~~~~~~~~~~~~~~~~~~
+Key-Value Path
+:   selfmon/enable_managedobject
 
-==================  ================================
-**YAML Path**       selfmon.enable_managedobject
-**Key-Value Path**  selfmon/enable_managedobject
-**Environment**     NOC_SELFMON_ENABLE_MANAGEDOBJECT
-**Default Value**   True
-==================  ================================
+Environment
+:   NOC_SELFMON_ENABLE_MANAGEDOBJECT
 
+## managedobject_ttl
 
-.. _config-selfmon-managedobject_ttl:
+Default value
+:   30
 
-managedobject_ttl
-~~~~~~~~~~~~~~~~~
+YAML Path
+:   selfmon.managedobject_ttl
 
-==================  =============================
-**YAML Path**       selfmon.managedobject_ttl
-**Key-Value Path**  selfmon/managedobject_ttl
-**Environment**     NOC_SELFMON_MANAGEDOBJECT_TTL
-**Default Value**   30
-==================  =============================
+Key-Value Path
+:   selfmon/managedobject_ttl
 
+Environment
+:   NOC_SELFMON_MANAGEDOBJECT_TTL
 
-.. _config-selfmon-enable_task:
+## enable_task
 
-enable_task
-~~~~~~~~~~~
+Default value
+:   False
 
-==================  =======================
-**YAML Path**       selfmon.enable_task
-**Key-Value Path**  selfmon/enable_task
-**Environment**     NOC_SELFMON_ENABLE_TASK
-**Default Value**   False
-==================  =======================
+YAML Path
+:   selfmon.enable_task
 
+Key-Value Path
+:   selfmon/enable_task
 
-.. _config-selfmon-task_ttl:
+Environment
+:   NOC_SELFMON_ENABLE_TASK
 
-task_ttl
-~~~~~~~~
+## task_ttl
 
-==================  ====================
-**YAML Path**       selfmon.task_ttl
-**Key-Value Path**  selfmon/task_ttl
-**Environment**     NOC_SELFMON_TASK_TTL
-**Default Value**   30
-==================  ====================
+Default value
+:   30
 
+YAML Path
+:   selfmon.task_ttl
 
-.. _config-selfmon-enable_inventory:
+Key-Value Path
+:   selfmon/task_ttl
 
-enable_inventory
-~~~~~~~~~~~~~~~~
+Environment
+:   NOC_SELFMON_TASK_TTL
 
-==================  ============================
-**YAML Path**       selfmon.enable_inventory
-**Key-Value Path**  selfmon/enable_inventory
-**Environment**     NOC_SELFMON_ENABLE_INVENTORY
-**Default Value**   False
-==================  ============================
+## enable_inventory
 
+Default value
+:   False
 
-.. _config-selfmon-inventory_ttl:
+YAML Path
+:   selfmon.enable_inventory
 
-inventory_ttl
-~~~~~~~~~~~~~
+Key-Value Path
+:   selfmon/enable_inventory
 
-==================  =========================
-**YAML Path**       selfmon.inventory_ttl
-**Key-Value Path**  selfmon/inventory_ttl
-**Environment**     NOC_SELFMON_INVENTORY_TTL
-**Default Value**   30
-==================  =========================
+Environment
+:   NOC_SELFMON_ENABLE_INVENTORY
 
+## inventory_ttl
 
-.. _config-selfmon-enable_fm:
+Default value
+:   30
 
-enable_fm
-~~~~~~~~~
+YAML Path
+:   selfmon.inventory_ttl
 
-==================  =====================
-**YAML Path**       selfmon.enable_fm
-**Key-Value Path**  selfmon/enable_fm
-**Environment**     NOC_SELFMON_ENABLE_FM
-**Default Value**   False
-==================  =====================
+Key-Value Path
+:   selfmon/inventory_ttl
 
+Environment
+:   NOC_SELFMON_INVENTORY_TTL
 
-.. _config-selfmon-fm_ttl:
+## enable_fm
 
-fm_ttl
-~~~~~~
+Default value
+:   False
 
-==================  ==================
-**YAML Path**       selfmon.fm_ttl
-**Key-Value Path**  selfmon/fm_ttl
-**Environment**     NOC_SELFMON_FM_TTL
-**Default Value**   30
-==================  ==================
+YAML Path
+:   selfmon.enable_fm
 
+Key-Value Path
+:   selfmon/enable_fm
 
+Environment
+:   NOC_SELFMON_ENABLE_FM
+
+## fm_ttl
+
+Default value
+:   30
+
+YAML Path
+:   selfmon.fm_ttl
+
+Key-Value Path
+:   selfmon/fm_ttl
+
+Environment
+:   NOC_SELFMON_FM_TTL

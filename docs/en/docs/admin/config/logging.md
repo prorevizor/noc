@@ -1,32 +1,30 @@
-.. _config-logging:
+# [logging] section
+Logging service configuration
 
-logging
--------
+## log_api_calls
 
+Default value
+:   False
 
-.. _config-logging-log_api_calls:
+YAML Path
+:   logging.log_api_calls
 
-log_api_calls
-~~~~~~~~~~~~~
+Key-Value Path
+:   logging/log_api_calls
 
-==================  =========================
-**YAML Path**       logging.log_api_calls
-**Key-Value Path**  logging/log_api_calls
-**Environment**     NOC_LOGGING_LOG_API_CALLS
-**Default Value**   False
-==================  =========================
+Environment
+:   NOC_LOGGING_LOG_API_CALLS
 
+## log_sql_statements
 
-.. _config-logging-log_sql_statements:
+Default value
+:   False
 
-log_sql_statements
-~~~~~~~~~~~~~~~~~~
+YAML Path
+:   logging.log_sql_statements
 
-==================  ==============================
-**YAML Path**       logging.log_sql_statements
-**Key-Value Path**  logging/log_sql_statements
-**Environment**     NOC_LOGGING_LOG_SQL_STATEMENTS
-**Default Value**   False
-==================  ==============================
+Key-Value Path
+:   logging/log_sql_statements
 
-
+Environment
+:   NOC_LOGGING_LOG_SQL_STATEMENTS

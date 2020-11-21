@@ -1,62 +1,60 @@
-.. _config-script:
+# [script] section
+Script service configuration
 
-script
-------
+## timeout
+default sa script script timeout
 
+Default value
+:   2M
 
-.. _config-script-timeout:
+YAML Path
+:   script.timeout
 
-timeout
-~~~~~~~
+Key-Value Path
+:   script/timeout
 
-Default sa script script timeout
+Environment
+:   NOC_SCRIPT_TIMEOUT
 
-==================  ==================
-**YAML Path**       script.timeout
-**Key-Value Path**  script/timeout
-**Environment**     NOC_SCRIPT_TIMEOUT
-**Default Value**   2M
-==================  ==================
+## session_idle_timeout
+default session timeout
 
+Default value
+:   1M
 
-.. _config-script-session_idle_timeout:
+YAML Path
+:   script.session_idle_timeout
 
-session_idle_timeout
-~~~~~~~~~~~~~~~~~~~~
+Key-Value Path
+:   script/session_idle_timeout
 
-Default session timeout
+Environment
+:   NOC_SCRIPT_SESSION_IDLE_TIMEOUT
 
-==================  ===============================
-**YAML Path**       script.session_idle_timeout
-**Key-Value Path**  script/session_idle_timeout
-**Environment**     NOC_SCRIPT_SESSION_IDLE_TIMEOUT
-**Default Value**   1M
-==================  ===============================
+## caller_timeout
 
+Default value
+:   1M
 
-.. _config-script-caller_timeout:
+YAML Path
+:   script.caller_timeout
 
-caller_timeout
-~~~~~~~~~~~~~~
+Key-Value Path
+:   script/caller_timeout
 
-==================  =========================
-**YAML Path**       script.caller_timeout
-**Key-Value Path**  script/caller_timeout
-**Environment**     NOC_SCRIPT_CALLER_TIMEOUT
-**Default Value**   1M
-==================  =========================
+Environment
+:   NOC_SCRIPT_CALLER_TIMEOUT
 
+## calling_service
 
-.. _config-script-calling_service:
+Default value
+:   script
 
-calling_service
-~~~~~~~~~~~~~~~
+YAML Path
+:   script.calling_service
 
-==================  ==========================
-**YAML Path**       script.calling_service
-**Key-Value Path**  script/calling_service
-**Environment**     NOC_SCRIPT_CALLING_SERVICE
-**Default Value**   script
-==================  ==========================
+Key-Value Path
+:   script/calling_service
 
-
+Environment
+:   NOC_SCRIPT_CALLING_SERVICE

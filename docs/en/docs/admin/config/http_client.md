@@ -1,138 +1,143 @@
-.. _config-http_client:
+# [http_client] section
+Http_client service configuration
 
-http_client
------------
+## connect_timeout
 
+Default value
+:   10s
 
-.. _config-http_client-connect_timeout:
+YAML Path
+:   http_client.connect_timeout
 
-connect_timeout
-~~~~~~~~~~~~~~~
+Key-Value Path
+:   http_client/connect_timeout
 
-==================  ===============================
-**YAML Path**       http_client.connect_timeout
-**Key-Value Path**  http_client/connect_timeout
-**Environment**     NOC_HTTP_CLIENT_CONNECT_TIMEOUT
-**Default Value**   10s
-==================  ===============================
+Environment
+:   NOC_HTTP_CLIENT_CONNECT_TIMEOUT
 
+## request_timeout
 
-.. _config-http_client-request_timeout:
+Default value
+:   1h
 
-request_timeout
-~~~~~~~~~~~~~~~
+YAML Path
+:   http_client.request_timeout
 
-==================  ===============================
-**YAML Path**       http_client.request_timeout
-**Key-Value Path**  http_client/request_timeout
-**Environment**     NOC_HTTP_CLIENT_REQUEST_TIMEOUT
-**Default Value**   1h
-==================  ===============================
+Key-Value Path
+:   http_client/request_timeout
 
+Environment
+:   NOC_HTTP_CLIENT_REQUEST_TIMEOUT
 
-.. _config-http_client-user_agent:
+## user_agent
 
-user_agent
-~~~~~~~~~~
+Default value
+:   noc
 
-==================  ==========================
-**YAML Path**       http_client.user_agent
-**Key-Value Path**  http_client/user_agent
-**Environment**     NOC_HTTP_CLIENT_USER_AGENT
-**Default Value**   noc
-==================  ==========================
+YAML Path
+:   http_client.user_agent
 
+Key-Value Path
+:   http_client/user_agent
 
-.. _config-http_client-buffer_size:
+Environment
+:   NOC_HTTP_CLIENT_USER_AGENT
 
-buffer_size
-~~~~~~~~~~~
+## buffer_size
 
-==================  ===========================
-**YAML Path**       http_client.buffer_size
-**Key-Value Path**  http_client/buffer_size
-**Environment**     NOC_HTTP_CLIENT_BUFFER_SIZE
-**Default Value**   128 * 1024
-==================  ===========================
+Default value
+:   131072
 
+YAML Path
+:   http_client.buffer_size
 
-.. _config-http_client-max_redirects:
+Key-Value Path
+:   http_client/buffer_size
 
-max_redirects
-~~~~~~~~~~~~~
+Environment
+:   NOC_HTTP_CLIENT_BUFFER_SIZE
 
-==================  =============================
-**YAML Path**       http_client.max_redirects
-**Key-Value Path**  http_client/max_redirects
-**Environment**     NOC_HTTP_CLIENT_MAX_REDIRECTS
-**Default Value**   5
-==================  =============================
+## max_redirects
 
+Default value
+:   5
 
-.. _config-http_client-ns_cache_size:
+YAML Path
+:   http_client.max_redirects
 
-ns_cache_size
-~~~~~~~~~~~~~
+Key-Value Path
+:   http_client/max_redirects
 
-==================  =============================
-**YAML Path**       http_client.ns_cache_size
-**Key-Value Path**  http_client/ns_cache_size
-**Environment**     NOC_HTTP_CLIENT_NS_CACHE_SIZE
-**Default Value**   1000
-==================  =============================
+Environment
+:   NOC_HTTP_CLIENT_MAX_REDIRECTS
 
+## ns_cache_size
 
-.. _config-http_client-resolver_ttl:
+Default value
+:   1000
 
-resolver_ttl
-~~~~~~~~~~~~
+YAML Path
+:   http_client.ns_cache_size
 
-==================  ============================
-**YAML Path**       http_client.resolver_ttl
-**Key-Value Path**  http_client/resolver_ttl
-**Environment**     NOC_HTTP_CLIENT_RESOLVER_TTL
-**Default Value**   3s
-==================  ============================
+Key-Value Path
+:   http_client/ns_cache_size
 
+Environment
+:   NOC_HTTP_CLIENT_NS_CACHE_SIZE
 
-.. _config-http_client-http_port:
+## resolver_ttl
 
-http_port
-~~~~~~~~~
+Default value
+:   3s
 
-==================  =========================
-**YAML Path**       http_client.http_port
-**Key-Value Path**  http_client/http_port
-**Environment**     NOC_HTTP_CLIENT_HTTP_PORT
-**Default Value**   80
-==================  =========================
+YAML Path
+:   http_client.resolver_ttl
 
+Key-Value Path
+:   http_client/resolver_ttl
 
-.. _config-http_client-https_port:
+Environment
+:   NOC_HTTP_CLIENT_RESOLVER_TTL
 
-https_port
-~~~~~~~~~~
+## http_port
 
-==================  ==========================
-**YAML Path**       http_client.https_port
-**Key-Value Path**  http_client/https_port
-**Environment**     NOC_HTTP_CLIENT_HTTPS_PORT
-**Default Value**   443
-==================  ==========================
+Default value
+:   80
 
+YAML Path
+:   http_client.http_port
 
-.. _config-http_client-validate_certs:
+Key-Value Path
+:   http_client/http_port
 
-validate_certs
-~~~~~~~~~~~~~~
+Environment
+:   NOC_HTTP_CLIENT_HTTP_PORT
 
+## https_port
+
+Default value
+:   443
+
+YAML Path
+:   http_client.https_port
+
+Key-Value Path
+:   http_client/https_port
+
+Environment
+:   NOC_HTTP_CLIENT_HTTPS_PORT
+
+## validate_certs
 Have to be set as True
 
-==================  ==============================
-**YAML Path**       http_client.validate_certs
-**Key-Value Path**  http_client/validate_certs
-**Environment**     NOC_HTTP_CLIENT_VALIDATE_CERTS
-**Default Value**   False
-==================  ==============================
+Default value
+:   False
 
+YAML Path
+:   http_client.validate_certs
 
+Key-Value Path
+:   http_client/validate_certs
+
+Environment
+:   NOC_HTTP_CLIENT_VALIDATE_CERTS

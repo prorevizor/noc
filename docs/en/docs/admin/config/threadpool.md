@@ -1,32 +1,30 @@
-.. _config-threadpool:
+# [threadpool] section
+Threadpool service configuration
 
-threadpool
-----------
+## idle_timeout
 
+Default value
+:   30s
 
-.. _config-threadpool-idle_timeout:
+YAML Path
+:   threadpool.idle_timeout
 
-idle_timeout
-~~~~~~~~~~~~
+Key-Value Path
+:   threadpool/idle_timeout
 
-==================  ===========================
-**YAML Path**       threadpool.idle_timeout
-**Key-Value Path**  threadpool/idle_timeout
-**Environment**     NOC_THREADPOOL_IDLE_TIMEOUT
-**Default Value**   30s
-==================  ===========================
+Environment
+:   NOC_THREADPOOL_IDLE_TIMEOUT
 
+## shutdown_timeout
 
-.. _config-threadpool-shutdown_timeout:
+Default value
+:   1M
 
-shutdown_timeout
-~~~~~~~~~~~~~~~~
+YAML Path
+:   threadpool.shutdown_timeout
 
-==================  ===============================
-**YAML Path**       threadpool.shutdown_timeout
-**Key-Value Path**  threadpool/shutdown_timeout
-**Environment**     NOC_THREADPOOL_SHUTDOWN_TIMEOUT
-**Default Value**   1M
-==================  ===============================
+Key-Value Path
+:   threadpool/shutdown_timeout
 
-
+Environment
+:   NOC_THREADPOOL_SHUTDOWN_TIMEOUT

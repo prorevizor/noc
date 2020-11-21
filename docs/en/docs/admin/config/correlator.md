@@ -1,71 +1,72 @@
-.. _config-correlator:
+# [correlator] section
+Correlator service configuration
 
-correlator
-----------
+## max_threads
 
+Default value
+:   20
 
-.. _config-correlator-max_threads:
+YAML Path
+:   correlator.max_threads
 
-max_threads
-~~~~~~~~~~~
+Key-Value Path
+:   correlator/max_threads
 
-==================  ==========================
-**YAML Path**       correlator.max_threads
-**Key-Value Path**  correlator/max_threads
-**Environment**     NOC_CORRELATOR_MAX_THREADS
-**Default Value**   20
-==================  ==========================
+Environment
+:   NOC_CORRELATOR_MAX_THREADS
 
+## topology_rca_window
 
-.. _config-correlator-topology_rca_window:
+Default value
+:   0
 
-topology_rca_window
-~~~~~~~~~~~~~~~~~~~
+YAML Path
+:   correlator.topology_rca_window
 
-==================  ==================================
-**YAML Path**       correlator.topology_rca_window
-**Key-Value Path**  correlator/topology_rca_window
-**Environment**     NOC_CORRELATOR_TOPOLOGY_RCA_WINDOW
-**Default Value**   0
-==================  ==================================
+Key-Value Path
+:   correlator/topology_rca_window
 
+Environment
+:   NOC_CORRELATOR_TOPOLOGY_RCA_WINDOW
 
-.. _config-correlator-oo_close_delay:
+## oo_close_delay
 
-oo_close_delay
-~~~~~~~~~~~~~~
+Default value
+:   20s
 
-==================  =============================
-**YAML Path**       correlator.oo_close_delay
-**Key-Value Path**  correlator/oo_close_delay
-**Environment**     NOC_CORRELATOR_OO_CLOSE_DELAY
-**Default Value**   20s
-==================  =============================
+YAML Path
+:   correlator.oo_close_delay
 
+Key-Value Path
+:   correlator/oo_close_delay
 
-.. _config-correlator-discovery_delay:
+Environment
+:   NOC_CORRELATOR_OO_CLOSE_DELAY
 
-discovery_delay
-~~~~~~~~~~~~~~~
+## discovery_delay
 
-==================  ==============================
-**YAML Path**       correlator.discovery_delay
-**Key-Value Path**  correlator/discovery_delay
-**Environment**     NOC_CORRELATOR_DISCOVERY_DELAY
-**Default Value**   10M
-==================  ==============================
+Default value
+:   10M
 
+YAML Path
+:   correlator.discovery_delay
 
-.. _config-correlator-auto_escalation:
+Key-Value Path
+:   correlator/discovery_delay
 
-auto_escalation
-~~~~~~~~~~~~~~~
+Environment
+:   NOC_CORRELATOR_DISCOVERY_DELAY
 
-==================  ==============================
-**YAML Path**       correlator.auto_escalation
-**Key-Value Path**  correlator/auto_escalation
-**Environment**     NOC_CORRELATOR_AUTO_ESCALATION
-**Default Value**   True
-==================  ==============================
+## auto_escalation
 
+Default value
+:   True
 
+YAML Path
+:   correlator.auto_escalation
+
+Key-Value Path
+:   correlator/auto_escalation
+
+Environment
+:   NOC_CORRELATOR_AUTO_ESCALATION

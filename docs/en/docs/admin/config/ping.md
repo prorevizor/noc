@@ -1,95 +1,89 @@
-.. _config-ping:
+# [ping] section
+Ping service configuration
 
-ping
-----
+## throttle_threshold
 
+Default value
+:   None
 
-.. _config-ping-throttle_threshold:
+YAML Path
+:   ping.throttle_threshold
 
-throttle_threshold
-~~~~~~~~~~~~~~~~~~
+Key-Value Path
+:   ping/throttle_threshold
 
-==================  ===========================
-**YAML Path**       ping.throttle_threshold
-**Key-Value Path**  ping/throttle_threshold
-**Environment**     NOC_PING_THROTTLE_THRESHOLD
-**Default Value**   FloatParameter()
-==================  ===========================
+Environment
+:   NOC_PING_THROTTLE_THRESHOLD
 
+## restore_threshold
 
-.. _config-ping-restore_threshold:
+Default value
+:   None
 
-restore_threshold
-~~~~~~~~~~~~~~~~~
+YAML Path
+:   ping.restore_threshold
 
-==================  ==========================
-**YAML Path**       ping.restore_threshold
-**Key-Value Path**  ping/restore_threshold
-**Environment**     NOC_PING_RESTORE_THRESHOLD
-**Default Value**   FloatParameter()
-==================  ==========================
+Key-Value Path
+:   ping/restore_threshold
 
+Environment
+:   NOC_PING_RESTORE_THRESHOLD
 
-.. _config-ping-tos:
+## tos
 
-tos
-~~~
+Default value
+:   0
 
-==================  =======================================
-**YAML Path**       ping.tos
-**Key-Value Path**  ping/tos
-**Environment**     NOC_PING_TOS
-**Default Value**   0
-==================  =======================================
+Possible values
+:   0..255
 
-Possible values:
+YAML Path
+:   ping.tos
 
-* min = 0
-* max = 255
+Key-Value Path
+:   ping/tos
 
+Environment
+:   NOC_PING_TOS
 
-.. _config-ping-send_buffer:
+## send_buffer
 
-send_buffer
-~~~~~~~~~~~
+Default value
+:   4 * 1048576
 
-Recommended send buffer size, 4M by default
+YAML Path
+:   ping.send_buffer
 
-==================  ====================
-**YAML Path**       ping.send_buffer
-**Key-Value Path**  ping/send_buffer
-**Environment**     NOC_PING_SEND_BUFFER
-**Default Value**   4 * 1048576
-==================  ====================
+Key-Value Path
+:   ping/send_buffer
 
+Environment
+:   NOC_PING_SEND_BUFFER
 
-.. _config-ping-receive_buffer:
+## receive_buffer
 
-receive_buffer
-~~~~~~~~~~~~~~
+Default value
+:   4 * 1048576
 
-Recommended receive buffer size, 4M by default
+YAML Path
+:   ping.receive_buffer
 
-==================  =======================
-**YAML Path**       ping.receive_buffer
-**Key-Value Path**  ping/receive_buffer
-**Environment**     NOC_PING_RECEIVE_BUFFER
-**Default Value**   4 * 1048576
-==================  =======================
+Key-Value Path
+:   ping/receive_buffer
 
+Environment
+:   NOC_PING_RECEIVE_BUFFER
 
-.. _config-ping-ds_limit:
+## ds_limit
 
-ds_limit
-~~~~~~~~
+Default value
+:   1000
 
-DataStream request limit
+YAML Path
+:   ping.ds_limit
 
-==================  =================
-**YAML Path**       ping.ds_limit
-**Key-Value Path**  ping/ds_limit
-**Environment**     NOC_PING_DS_LIMIT
-**Default Value**   1000
-==================  =================
+Key-Value Path
+:   ping/ds_limit
 
-
+Environment
+:   NOC_PING_DS_LIMIT

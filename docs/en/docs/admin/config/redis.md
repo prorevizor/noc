@@ -1,45 +1,44 @@
-.. _config-redis:
+# [redis] section
+Redis service configuration
 
-redis
------
+## addresses
 
+Default value
+:   service="redis", wait=True, full_result=True
 
-.. _config-redis-addresses:
+YAML Path
+:   redis.addresses
 
-addresses
-~~~~~~~~~
+Key-Value Path
+:   redis/addresses
 
-==================  ==============================================================
-**YAML Path**       redis.addresses
-**Key-Value Path**  redis/addresses
-**Environment**     NOC_REDIS_ADDRESSES
-**Default Value**   ServiceParameter(service="redis", wait=True, full_result=True)
-==================  ==============================================================
+Environment
+:   NOC_REDIS_ADDRESSES
 
+## db
 
-.. _config-redis-db:
+Default value
+:   0
 
-db
-~~
+YAML Path
+:   redis.db
 
-==================  ============
-**YAML Path**       redis.db
-**Key-Value Path**  redis/db
-**Environment**     NOC_REDIS_DB
-**Default Value**   0
-==================  ============
+Key-Value Path
+:   redis/db
 
+Environment
+:   NOC_REDIS_DB
 
-.. _config-redis-default_ttl:
+## default_ttl
 
-default_ttl
-~~~~~~~~~~~
+Default value
+:   1d
 
-==================  =====================
-**YAML Path**       redis.default_ttl
-**Key-Value Path**  redis/default_ttl
-**Environment**     NOC_REDIS_DEFAULT_TTL
-**Default Value**   1d
-==================  =====================
+YAML Path
+:   redis.default_ttl
 
+Key-Value Path
+:   redis/default_ttl
 
+Environment
+:   NOC_REDIS_DEFAULT_TTL

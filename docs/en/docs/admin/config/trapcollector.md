@@ -1,60 +1,58 @@
-.. _config-trapcollector:
+# [trapcollector] section
+Trapcollector service configuration
 
-trapcollector
--------------
+## listen
 
+Default value
+:   0.0.0.0:162
 
-.. _config-trapcollector-listen:
+YAML Path
+:   trapcollector.listen
 
-listen
-~~~~~~
+Key-Value Path
+:   trapcollector/listen
 
-==================  ========================
-**YAML Path**       trapcollector.listen
-**Key-Value Path**  trapcollector/listen
-**Environment**     NOC_TRAPCOLLECTOR_LISTEN
-**Default Value**   0.0.0.0:162
-==================  ========================
+Environment
+:   NOC_TRAPCOLLECTOR_LISTEN
 
+## enable_reuseport
 
-.. _config-trapcollector-enable_reuseport:
+Default value
+:   True
 
-enable_reuseport
-~~~~~~~~~~~~~~~~
+YAML Path
+:   trapcollector.enable_reuseport
 
-==================  ==================================
-**YAML Path**       trapcollector.enable_reuseport
-**Key-Value Path**  trapcollector/enable_reuseport
-**Environment**     NOC_TRAPCOLLECTOR_ENABLE_REUSEPORT
-**Default Value**   True
-==================  ==================================
+Key-Value Path
+:   trapcollector/enable_reuseport
 
+Environment
+:   NOC_TRAPCOLLECTOR_ENABLE_REUSEPORT
 
-.. _config-trapcollector-enable_freebind:
+## enable_freebind
 
-enable_freebind
-~~~~~~~~~~~~~~~
+Default value
+:   False
 
-==================  =================================
-**YAML Path**       trapcollector.enable_freebind
-**Key-Value Path**  trapcollector/enable_freebind
-**Environment**     NOC_TRAPCOLLECTOR_ENABLE_FREEBIND
-**Default Value**   False
-==================  =================================
+YAML Path
+:   trapcollector.enable_freebind
 
+Key-Value Path
+:   trapcollector/enable_freebind
 
-.. _config-trapcollector-ds_limit:
+Environment
+:   NOC_TRAPCOLLECTOR_ENABLE_FREEBIND
 
-ds_limit
-~~~~~~~~
+## ds_limit
 
-DataStream request limit
+Default value
+:   1000
 
-==================  ==========================
-**YAML Path**       trapcollector.ds_limit
-**Key-Value Path**  trapcollector/ds_limit
-**Environment**     NOC_TRAPCOLLECTOR_DS_LIMIT
-**Default Value**   1000
-==================  ==========================
+YAML Path
+:   trapcollector.ds_limit
 
+Key-Value Path
+:   trapcollector/ds_limit
 
+Environment
+:   NOC_TRAPCOLLECTOR_DS_LIMIT

@@ -1,142 +1,204 @@
-.. _config-nsqd:
+# [nsqd] section
+Nsqd service configuration
 
-nsqd
-----
+## addresses
 
+Default value
+:   service="nsqd", wait=True, near=True, full_result=False
 
-.. _config-nsqd-addresses:
+YAML Path
+:   nsqd.addresses
 
-addresses
-~~~~~~~~~
+Key-Value Path
+:   nsqd/addresses
 
-==================  =========================================================================
-**YAML Path**       nsqd.addresses
-**Key-Value Path**  nsqd/addresses
-**Environment**     NOC_NSQD_ADDRESSES
-**Default Value**   ServiceParameter(service='nsqd', wait=True, near=True, full_result=False)
-==================  =========================================================================
+Environment
+:   NOC_NSQD_ADDRESSES
 
+## http_addresses
 
-.. _config-nsqd-http_addresses:
+Default value
+:   service="nsqdhttp", wait=True, near=True, full_result=False
 
-http_addresses
-~~~~~~~~~~~~~~
+YAML Path
+:   nsqd.http_addresses
 
-==================  =============================================================================
-**YAML Path**       nsqd.http_addresses
-**Key-Value Path**  nsqd/http_addresses
-**Environment**     NOC_NSQD_HTTP_ADDRESSES
-**Default Value**   ServiceParameter(service='nsqdhttp', wait=True, near=True, full_result=False)
-==================  =============================================================================
+Key-Value Path
+:   nsqd/http_addresses
 
+Environment
+:   NOC_NSQD_HTTP_ADDRESSES
 
-.. _config-nsqd-pub_retry_delay:
+## pub_retries
 
-pub_retry_delay
-~~~~~~~~~~~~~~~
+Default value
+:   5
 
-==================  ========================
-**YAML Path**       nsqd.pub_retry_delay
-**Key-Value Path**  nsqd/pub_retry_delay
-**Environment**     NOC_NSQD_PUB_RETRY_DELAY
-**Default Value**   0.1
-==================  ========================
+YAML Path
+:   nsqd.pub_retries
 
+Key-Value Path
+:   nsqd/pub_retries
 
-.. _config-nsqd-ch_chunk_size:
+Environment
+:   NOC_NSQD_PUB_RETRIES
 
-ch_chunk_size
-~~~~~~~~~~~~~
+## pub_retry_delay
 
-==================  ======================
-**YAML Path**       nsqd.ch_chunk_size
-**Key-Value Path**  nsqd/ch_chunk_size
-**Environment**     NOC_NSQD_CH_CHUNK_SIZE
-**Default Value**   4000
-==================  ======================
+Default value
+:   1.0
 
+YAML Path
+:   nsqd.pub_retry_delay
 
-.. _config-nsqd-connect_timeout:
+Key-Value Path
+:   nsqd/pub_retry_delay
 
-connect_timeout
-~~~~~~~~~~~~~~~
+Environment
+:   NOC_NSQD_PUB_RETRY_DELAY
 
-==================  ========================
-**YAML Path**       nsqd.connect_timeout
-**Key-Value Path**  nsqd/connect_timeout
-**Environment**     NOC_NSQD_CONNECT_TIMEOUT
-**Default Value**   3s
-==================  ========================
+## mpub_messages
 
+Default value
+:   10000
 
-.. _config-nsqd-request_timeout:
+YAML Path
+:   nsqd.mpub_messages
 
-request_timeout
-~~~~~~~~~~~~~~~
+Key-Value Path
+:   nsqd/mpub_messages
 
-==================  ========================
-**YAML Path**       nsqd.request_timeout
-**Key-Value Path**  nsqd/request_timeout
-**Environment**     NOC_NSQD_REQUEST_TIMEOUT
-**Default Value**   30s
-==================  ========================
+Environment
+:   NOC_NSQD_MPUB_MESSAGES
 
+## mpub_size
 
-.. _config-nsqd-reconnect_interval:
+Default value
+:   1048576
 
-reconnect_interval
-~~~~~~~~~~~~~~~~~~
+YAML Path
+:   nsqd.mpub_size
 
-==================  ===========================
-**YAML Path**       nsqd.reconnect_interval
-**Key-Value Path**  nsqd/reconnect_interval
-**Environment**     NOC_NSQD_RECONNECT_INTERVAL
-**Default Value**   15
-==================  ===========================
+Key-Value Path
+:   nsqd/mpub_size
 
+Environment
+:   NOC_NSQD_MPUB_SIZE
 
-.. _config-nsqd-compression:
+## topic_mpub_rate
 
-compression
-~~~~~~~~~~~
+Default value
+:   10
 
-==================  ====================
-**YAML Path**       nsqd.compression
-**Key-Value Path**  nsqd/compression
-**Environment**     NOC_NSQD_COMPRESSION
-**Default Value**
-==================  ====================
+YAML Path
+:   nsqd.topic_mpub_rate
 
-Possible values:
+Key-Value Path
+:   nsqd/topic_mpub_rate
 
-*
+Environment
+:   NOC_NSQD_TOPIC_MPUB_RATE
+
+## ch_chunk_size
+
+Default value
+:   4000
+
+YAML Path
+:   nsqd.ch_chunk_size
+
+Key-Value Path
+:   nsqd/ch_chunk_size
+
+Environment
+:   NOC_NSQD_CH_CHUNK_SIZE
+
+## connect_timeout
+
+Default value
+:   3s
+
+YAML Path
+:   nsqd.connect_timeout
+
+Key-Value Path
+:   nsqd/connect_timeout
+
+Environment
+:   NOC_NSQD_CONNECT_TIMEOUT
+
+## request_timeout
+
+Default value
+:   30s
+
+YAML Path
+:   nsqd.request_timeout
+
+Key-Value Path
+:   nsqd/request_timeout
+
+Environment
+:   NOC_NSQD_REQUEST_TIMEOUT
+
+## reconnect_interval
+
+Default value
+:   15
+
+YAML Path
+:   nsqd.reconnect_interval
+
+Key-Value Path
+:   nsqd/reconnect_interval
+
+Environment
+:   NOC_NSQD_RECONNECT_INTERVAL
+
+## compression
+
+Default value
+:   
+
+Possible values
+:
+* 
 * deflate
 * snappy
 
+YAML Path
+:   nsqd.compression
 
-.. _config-nsqd-compression_level:
+Key-Value Path
+:   nsqd/compression
 
-compression_level
-~~~~~~~~~~~~~~~~~
+Environment
+:   NOC_NSQD_COMPRESSION
 
-==================  ==========================
-**YAML Path**       nsqd.compression_level
-**Key-Value Path**  nsqd/compression_level
-**Environment**     NOC_NSQD_COMPRESSION_LEVEL
-**Default Value**   6
-==================  ==========================
+## compression_level
 
+Default value
+:   6
 
-.. _config-nsqd-max_in_flight:
+YAML Path
+:   nsqd.compression_level
 
-max_in_flight
-~~~~~~~~~~~~~
+Key-Value Path
+:   nsqd/compression_level
 
-==================  ======================
-**YAML Path**       nsqd.max_in_flight
-**Key-Value Path**  nsqd/max_in_flight
-**Environment**     NOC_NSQD_MAX_IN_FLIGHT
-**Default Value**   1
-==================  ======================
+Environment
+:   NOC_NSQD_COMPRESSION_LEVEL
 
+## max_in_flight
 
+Default value
+:   1
+
+YAML Path
+:   nsqd.max_in_flight
+
+Key-Value Path
+:   nsqd/max_in_flight
+
+Environment
+:   NOC_NSQD_MAX_IN_FLIGHT

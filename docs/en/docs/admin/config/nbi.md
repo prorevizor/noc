@@ -1,37 +1,30 @@
-.. _config-nbi:
+# [nbi] section
+Nbi service configuration
 
-nbi
----
+## max_threads
 
-:ref:`nbi<services-nbi>` service configuration
+Default value
+:   10
 
-.. _config-nbi-max_threads:
+YAML Path
+:   nbi.max_threads
 
-max_threads
-~~~~~~~~~~~
+Key-Value Path
+:   nbi/max_threads
 
-==================  =======================
-**YAML Path**       nbi.max_threads
-**Key-Value Path**  nbi/max_threads
-**Environment**     NOC_NBI_MAX_THREADS
-**Default Value**   10
-==================  =======================
+Environment
+:   NOC_NBI_MAX_THREADS
 
-NBI process' threadpool size. Roughly - amount of concurrent
-requests can be served by single :ref:`nbi<services-nbi>` instance.
+## objectmetrics_max_interval
 
-.. _config-nbi-objectmetrics_max_interval:
+Default value
+:   3h
 
-objectmetrics_max_interval
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+YAML Path
+:   nbi.objectmetrics_max_interval
 
-==================  ===================================
-**YAML Path**       nbi.objectmetrics_max_interval
-**Key-Value Path**  nbi/objectmetrics_max_interval
-**Environment**     NOC_NBI_objectmetrics_max_interval
-**Default Value**   3h
-==================  ===================================
+Key-Value Path
+:   nbi/objectmetrics_max_interval
 
-Maximal time span (in seconds) which can be requested via
-:ref:`NBI objectmetrics API<api-nbi-objectmetrics>`.
-
+Environment
+:   NOC_NBI_OBJECTMETRICS_MAX_INTERVAL

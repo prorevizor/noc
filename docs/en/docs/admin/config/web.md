@@ -1,111 +1,142 @@
-.. _config-web:
+# [web] section
+Web service configuration
 
-web
----
+## theme
 
+Default value
+:   gray
 
-.. _config-web-theme:
+YAML Path
+:   web.theme
 
-theme
-~~~~~
+Key-Value Path
+:   web/theme
 
-==================  =============
-**YAML Path**       web.theme
-**Key-Value Path**  web/theme
-**Environment**     NOC_WEB_THEME
-**Default Value**   gray
-==================  =============
+Environment
+:   NOC_WEB_THEME
 
+## api_row_limit
 
-.. _config-web-api_row_limit:
+Default value
+:   0
 
-api_row_limit
-~~~~~~~~~~~~~
+YAML Path
+:   web.api_row_limit
 
-==================  =====================
-**YAML Path**       web.api_row_limit
-**Key-Value Path**  web/api_row_limit
-**Environment**     NOC_WEB_API_ROW_LIMIT
-**Default Value**   0
-==================  =====================
+Key-Value Path
+:   web/api_row_limit
 
-.. _config-web-max_upload_size:
+Environment
+:   NOC_WEB_API_ROW_LIMIT
 
-max_upload_size
-~~~~~~~~~~~~~~~
+## api_unlimited_row_limit
 
-==================  =======================
-**YAML Path**       web.max_upload_size
-**Key-Value Path**  web/max_upload_size
-**Environment**     NOC_WEB_MAX_UPLOAD_SIZE
-**Default Value**   0
-==================  =======================
+Default value
+:   1000
 
-The maximum size in bytes that a request body may be
-before a RequestDataTooBig is raised.
+YAML Path
+:   web.api_unlimited_row_limit
 
-.. _config-web-api_arch_alarm_limit:
+Key-Value Path
+:   web/api_unlimited_row_limit
 
-api_arch_alarm_limit
-~~~~~~~~~~~~~~~~~~~~
+Environment
+:   NOC_WEB_API_UNLIMITED_ROW_LIMIT
 
-==================  ============================
-**YAML Path**       web.api_arch_alarm_limit
-**Key-Value Path**  web/api_arch_alarm_limit
-**Environment**     NOC_WEB_API_ARCH_ALARM_LIMIT
-**Default Value**   4 * 86400
-==================  ============================
+## api_arch_alarm_limit
 
+Default value
+:   4 * 86400
 
-.. _config-web-language:
+YAML Path
+:   web.api_arch_alarm_limit
 
-language
-~~~~~~~~
+Key-Value Path
+:   web/api_arch_alarm_limit
 
-==================  ================
-**YAML Path**       web.language
-**Key-Value Path**  web/language
-**Environment**     NOC_WEB_LANGUAGE
-**Default Value**   en
-==================  ================
+Environment
+:   NOC_WEB_API_ARCH_ALARM_LIMIT
 
+## max_upload_size
 
-.. _config-web-install_collection:
+Default value
+:   16777216
 
-install_collection
-~~~~~~~~~~~~~~~~~~
+YAML Path
+:   web.max_upload_size
 
-==================  ==========================
-**YAML Path**       web.install_collection
-**Key-Value Path**  web/install_collection
-**Environment**     NOC_WEB_INSTALL_COLLECTION
-**Default Value**   False
-==================  ==========================
+Key-Value Path
+:   web/max_upload_size
 
+Environment
+:   NOC_WEB_MAX_UPLOAD_SIZE
 
-.. _config-web-max_threads:
+## language
 
-max_threads
-~~~~~~~~~~~
+Default value
+:   en
 
-==================  ===================
-**YAML Path**       web.max_threads
-**Key-Value Path**  web/max_threads
-**Environment**     NOC_WEB_MAX_THREADS
-**Default Value**   10
-==================  ===================
+YAML Path
+:   web.language
 
+Key-Value Path
+:   web/language
 
-.. _config-web-macdb_window:
+Environment
+:   NOC_WEB_LANGUAGE
 
-macdb_window
-~~~~~~~~~~~~
+## install_collection
 
-==================  ====================
-**YAML Path**       web.macdb_window
-**Key-Value Path**  web/macdb_window
-**Environment**     NOC_WEB_MACDB_WINDOW
-**Default Value**   4 * 86400
-==================  ====================
+Default value
+:   False
 
+YAML Path
+:   web.install_collection
 
+Key-Value Path
+:   web/install_collection
+
+Environment
+:   NOC_WEB_INSTALL_COLLECTION
+
+## max_threads
+
+Default value
+:   10
+
+YAML Path
+:   web.max_threads
+
+Key-Value Path
+:   web/max_threads
+
+Environment
+:   NOC_WEB_MAX_THREADS
+
+## macdb_window
+
+Default value
+:   4 * 86400
+
+YAML Path
+:   web.macdb_window
+
+Key-Value Path
+:   web/macdb_window
+
+Environment
+:   NOC_WEB_MACDB_WINDOW
+
+## enable_remote_system_last_extract_info
+
+Default value
+:   False
+
+YAML Path
+:   web.enable_remote_system_last_extract_info
+
+Key-Value Path
+:   web/enable_remote_system_last_extract_info
+
+Environment
+:   NOC_WEB_ENABLE_REMOTE_SYSTEM_LAST_EXTRACT_INFO

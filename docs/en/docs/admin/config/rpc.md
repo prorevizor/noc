@@ -1,110 +1,114 @@
-.. _config-rpc:
+# [rpc] section
+Rpc service configuration
 
-rpc
----
+## retry_timeout
 
+Default value
+:   0.1,0.5,1,3,10,30
 
-.. _config-rpc-retry_timeout:
+YAML Path
+:   rpc.retry_timeout
 
-retry_timeout
-~~~~~~~~~~~~~
+Key-Value Path
+:   rpc/retry_timeout
 
-==================  =====================
-**YAML Path**       rpc.retry_timeout
-**Key-Value Path**  rpc/retry_timeout
-**Environment**     NOC_RPC_RETRY_TIMEOUT
-**Default Value**   0.1,0.5,1,3,10,30
-==================  =====================
+Environment
+:   NOC_RPC_RETRY_TIMEOUT
 
+## sync_connect_timeout
 
-.. _config-rpc-sync_connect_timeout:
+Default value
+:   20s
 
-sync_connect_timeout
-~~~~~~~~~~~~~~~~~~~~
+YAML Path
+:   rpc.sync_connect_timeout
 
-==================  ============================
-**YAML Path**       rpc.sync_connect_timeout
-**Key-Value Path**  rpc/sync_connect_timeout
-**Environment**     NOC_RPC_SYNC_CONNECT_TIMEOUT
-**Default Value**   20s
-==================  ============================
+Key-Value Path
+:   rpc/sync_connect_timeout
 
+Environment
+:   NOC_RPC_SYNC_CONNECT_TIMEOUT
 
-.. _config-rpc-sync_request_timeout:
+## sync_request_timeout
 
-sync_request_timeout
-~~~~~~~~~~~~~~~~~~~~
+Default value
+:   1h
 
-==================  ============================
-**YAML Path**       rpc.sync_request_timeout
-**Key-Value Path**  rpc/sync_request_timeout
-**Environment**     NOC_RPC_SYNC_REQUEST_TIMEOUT
-**Default Value**   1h
-==================  ============================
+YAML Path
+:   rpc.sync_request_timeout
 
+Key-Value Path
+:   rpc/sync_request_timeout
 
-.. _config-rpc-sync_retry_timeout:
+Environment
+:   NOC_RPC_SYNC_REQUEST_TIMEOUT
 
-sync_retry_timeout
-~~~~~~~~~~~~~~~~~~
+## sync_retry_timeout
 
-==================  ==========================
-**YAML Path**       rpc.sync_retry_timeout
-**Key-Value Path**  rpc/sync_retry_timeout
-**Environment**     NOC_RPC_SYNC_RETRY_TIMEOUT
-**Default Value**   1.0
-==================  ==========================
+Default value
+:   1.0
 
+YAML Path
+:   rpc.sync_retry_timeout
 
-.. _config-rpc-sync_retry_delta:
+Key-Value Path
+:   rpc/sync_retry_timeout
 
-sync_retry_delta
-~~~~~~~~~~~~~~~~
+Environment
+:   NOC_RPC_SYNC_RETRY_TIMEOUT
 
-==================  ========================
-**YAML Path**       rpc.sync_retry_delta
-**Key-Value Path**  rpc/sync_retry_delta
-**Environment**     NOC_RPC_SYNC_RETRY_DELTA
-**Default Value**   2.0
-==================  ========================
+## sync_retry_delta
 
+Default value
+:   2.0
 
-.. _config-rpc-sync_retries:
+YAML Path
+:   rpc.sync_retry_delta
 
-sync_retries
-~~~~~~~~~~~~
+Key-Value Path
+:   rpc/sync_retry_delta
 
-==================  ====================
-**YAML Path**       rpc.sync_retries
-**Key-Value Path**  rpc/sync_retries
-**Environment**     NOC_RPC_SYNC_RETRIES
-**Default Value**   5
-==================  ====================
+Environment
+:   NOC_RPC_SYNC_RETRY_DELTA
 
+## sync_retries
 
-.. _config-rpc-async_connect_timeout:
+Default value
+:   5
 
-async_connect_timeout
-~~~~~~~~~~~~~~~~~~~~~
+YAML Path
+:   rpc.sync_retries
 
-==================  =============================
-**YAML Path**       rpc.async_connect_timeout
-**Key-Value Path**  rpc/async_connect_timeout
-**Environment**     NOC_RPC_ASYNC_CONNECT_TIMEOUT
-**Default Value**   20s
-==================  =============================
+Key-Value Path
+:   rpc/sync_retries
 
+Environment
+:   NOC_RPC_SYNC_RETRIES
 
-.. _config-rpc-async_request_timeout:
+## async_connect_timeout
 
-async_request_timeout
-~~~~~~~~~~~~~~~~~~~~~
+Default value
+:   20s
 
-==================  =============================
-**YAML Path**       rpc.async_request_timeout
-**Key-Value Path**  rpc/async_request_timeout
-**Environment**     NOC_RPC_ASYNC_REQUEST_TIMEOUT
-**Default Value**   1h
-==================  =============================
+YAML Path
+:   rpc.async_connect_timeout
 
+Key-Value Path
+:   rpc/async_connect_timeout
 
+Environment
+:   NOC_RPC_ASYNC_CONNECT_TIMEOUT
+
+## async_request_timeout
+
+Default value
+:   1h
+
+YAML Path
+:   rpc.async_request_timeout
+
+Key-Value Path
+:   rpc/async_request_timeout
+
+Environment
+:   NOC_RPC_ASYNC_REQUEST_TIMEOUT

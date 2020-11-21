@@ -1,84 +1,86 @@
-.. _config-audit:
+# [audit] section
+Audit service configuration
 
-audit
------
+## command_ttl
 
+Default value
+:   1m
 
-.. _config-audit-command_ttl:
+YAML Path
+:   audit.command_ttl
 
-command_ttl
-~~~~~~~~~~~
+Key-Value Path
+:   audit/command_ttl
 
-==================  =====================
-**YAML Path**       audit.command_ttl
-**Key-Value Path**  audit/command_ttl
-**Environment**     NOC_AUDIT_COMMAND_TTL
-**Default Value**   1m
-==================  =====================
+Environment
+:   NOC_AUDIT_COMMAND_TTL
 
+## login_ttl
 
-.. _config-audit-login_ttl:
+Default value
+:   1m
 
-login_ttl
-~~~~~~~~~
+YAML Path
+:   audit.login_ttl
 
-==================  ===================
-**YAML Path**       audit.login_ttl
-**Key-Value Path**  audit/login_ttl
-**Environment**     NOC_AUDIT_LOGIN_TTL
-**Default Value**   1m
-==================  ===================
+Key-Value Path
+:   audit/login_ttl
 
+Environment
+:   NOC_AUDIT_LOGIN_TTL
 
-.. _config-audit-reboot_ttl:
+## reboot_ttl
 
-reboot_ttl
-~~~~~~~~~~
+Default value
+:   0
 
-==================  ====================
-**YAML Path**       audit.reboot_ttl
-**Key-Value Path**  audit/reboot_ttl
-**Environment**     NOC_AUDIT_REBOOT_TTL
-**Default Value**   0
-==================  ====================
+YAML Path
+:   audit.reboot_ttl
 
+Key-Value Path
+:   audit/reboot_ttl
 
-.. _config-audit-config_ttl:
+Environment
+:   NOC_AUDIT_REBOOT_TTL
 
-config_ttl
-~~~~~~~~~~
+## config_ttl
 
-==================  ====================
-**YAML Path**       audit.config_ttl
-**Key-Value Path**  audit/config_ttl
-**Environment**     NOC_AUDIT_CONFIG_TTL
-**Default Value**   1y
-==================  ====================
+Default value
+:   1y
 
+YAML Path
+:   audit.config_ttl
 
-.. _config-audit-db_ttl:
+Key-Value Path
+:   audit/config_ttl
 
-db_ttl
-~~~~~~
+Environment
+:   NOC_AUDIT_CONFIG_TTL
 
-==================  ================
-**YAML Path**       audit.db_ttl
-**Key-Value Path**  audit/db_ttl
-**Environment**     NOC_AUDIT_DB_TTL
-**Default Value**   5y
-==================  ================
+## db_ttl
 
+Default value
+:   5y
 
-.. _config-audit-config_changed_ttl:
+YAML Path
+:   audit.db_ttl
 
-config_changed_ttl
-~~~~~~~~~~~~~~~~~~
+Key-Value Path
+:   audit/db_ttl
 
-==================  ============================
-**YAML Path**       audit.config_changed_ttl
-**Key-Value Path**  audit/config_changed_ttl
-**Environment**     NOC_AUDIT_CONFIG_CHANGED_TTL
-**Default Value**   1y
-==================  ============================
+Environment
+:   NOC_AUDIT_DB_TTL
 
+## config_changed_ttl
 
+Default value
+:   1y
+
+YAML Path
+:   audit.config_changed_ttl
+
+Key-Value Path
+:   audit/config_changed_ttl
+
+Environment
+:   NOC_AUDIT_CONFIG_CHANGED_TTL

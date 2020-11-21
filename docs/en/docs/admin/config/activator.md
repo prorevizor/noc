@@ -22,93 +22,100 @@ Environment
 
 ## script_threads
 
-==================  ============================
-**YAML Path**       activator.script_threads
-**Key-Value Path**  activator/script_threads
-**Environment**     NOC_ACTIVATOR_SCRIPT_THREADS
-**Default Value**   10
-==================  ============================
+Default value
+:   10
 
+YAML Path
+:   activator.script_threads
 
-.. _config-activator-buffer_size:
+Key-Value Path
+:   activator/script_threads
 
-buffer_size
-~~~~~~~~~~~
+Environment
+:   NOC_ACTIVATOR_SCRIPT_THREADS
 
-==================  =========================
-**YAML Path**       activator.buffer_size
-**Key-Value Path**  activator/buffer_size
-**Environment**     NOC_ACTIVATOR_BUFFER_SIZE
-**Default Value**   1048576
-==================  =========================
+## buffer_size
 
+Default value
+:   1048576
 
-.. _config-activator-connect_retries:
+YAML Path
+:   activator.buffer_size
 
-connect_retries
-~~~~~~~~~~~~~~~
+Key-Value Path
+:   activator/buffer_size
 
+Environment
+:   NOC_ACTIVATOR_BUFFER_SIZE
+
+## connect_retries
 retries on immediate disconnect
 
-==================  =============================
-**YAML Path**       activator.connect_retries
-**Key-Value Path**  activator/connect_retries
-**Environment**     NOC_ACTIVATOR_CONNECT_RETRIES
-**Default Value**   3
-==================  =============================
+Default value
+:   3
 
+YAML Path
+:   activator.connect_retries
 
-.. _config-activator-connect_timeout:
+Key-Value Path
+:   activator/connect_retries
 
-connect_timeout
-~~~~~~~~~~~~~~~
+Environment
+:   NOC_ACTIVATOR_CONNECT_RETRIES
 
+## connect_timeout
 timeout after immediate disconnect
 
-==================  =============================
-**YAML Path**       activator.connect_timeout
-**Key-Value Path**  activator/connect_timeout
-**Environment**     NOC_ACTIVATOR_CONNECT_TIMEOUT
-**Default Value**   3
-==================  =============================
+Default value
+:   3
 
+YAML Path
+:   activator.connect_timeout
 
-.. _config-activator-http_connect_timeout:
+Key-Value Path
+:   activator/connect_timeout
 
-http_connect_timeout
-~~~~~~~~~~~~~~~~~~~~
+Environment
+:   NOC_ACTIVATOR_CONNECT_TIMEOUT
 
-==================  ==================================
-**YAML Path**       activator.http_connect_timeout
-**Key-Value Path**  activator/http_connect_timeout
-**Environment**     NOC_ACTIVATOR_HTTP_CONNECT_TIMEOUT
-**Default Value**   20
-==================  ==================================
+## http_connect_timeout
 
+Default value
+:   20
 
-.. _config-activator-http_request_timeout:
+YAML Path
+:   activator.http_connect_timeout
 
-http_request_timeout
-~~~~~~~~~~~~~~~~~~~~
+Key-Value Path
+:   activator/http_connect_timeout
 
-==================  ==================================
-**YAML Path**       activator.http_request_timeout
-**Key-Value Path**  activator/http_request_timeout
-**Environment**     NOC_ACTIVATOR_HTTP_REQUEST_TIMEOUT
-**Default Value**   30
-==================  ==================================
+Environment
+:   NOC_ACTIVATOR_HTTP_CONNECT_TIMEOUT
 
+## http_request_timeout
 
-.. _config-activator-http_validate_cert:
+Default value
+:   30
 
-http_validate_cert
-~~~~~~~~~~~~~~~~~~
+YAML Path
+:   activator.http_request_timeout
 
-==================  ================================
-**YAML Path**       activator.http_validate_cert
-**Key-Value Path**  activator/http_validate_cert
-**Environment**     NOC_ACTIVATOR_HTTP_VALIDATE_CERT
-**Default Value**   False
-==================  ================================
+Key-Value Path
+:   activator/http_request_timeout
 
+Environment
+:   NOC_ACTIVATOR_HTTP_REQUEST_TIMEOUT
 
+## http_validate_cert
+
+Default value
+:   False
+
+YAML Path
+:   activator.http_validate_cert
+
+Key-Value Path
+:   activator/http_validate_cert
+
+Environment
+:   NOC_ACTIVATOR_HTTP_VALIDATE_CERT

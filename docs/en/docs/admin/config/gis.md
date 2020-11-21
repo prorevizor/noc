@@ -1,86 +1,87 @@
-.. _config-gis:
+# [gis] section
+Gis service configuration
 
-gis
----
+## ellipsoid
 
+Default value
+:   PZ-90
 
-.. _config-gis-ellipsoid:
+YAML Path
+:   gis.ellipsoid
 
-ellipsoid
-~~~~~~~~~
+Key-Value Path
+:   gis/ellipsoid
 
-==================  =================
-**YAML Path**       gis.ellipsoid
-**Key-Value Path**  gis/ellipsoid
-**Environment**     NOC_GIS_ELLIPSOID
-**Default Value**   PZ-90
-==================  =================
+Environment
+:   NOC_GIS_ELLIPSOID
 
+## enable_osm
 
-.. _config-gis-enable_osm:
+Default value
+:   True
 
-enable_osm
-~~~~~~~~~~
+YAML Path
+:   gis.enable_osm
 
-==================  ==================
-**YAML Path**       gis.enable_osm
-**Key-Value Path**  gis/enable_osm
-**Environment**     NOC_GIS_ENABLE_OSM
-**Default Value**   True
-==================  ==================
+Key-Value Path
+:   gis/enable_osm
 
+Environment
+:   NOC_GIS_ENABLE_OSM
 
-.. _config-gis-enable_google_sat:
+## enable_google_sat
 
-enable_google_sat
-~~~~~~~~~~~~~~~~~
+Default value
+:   False
 
-==================  =========================
-**YAML Path**       gis.enable_google_sat
-**Key-Value Path**  gis/enable_google_sat
-**Environment**     NOC_GIS_ENABLE_GOOGLE_SAT
-**Default Value**   False
-==================  =========================
+YAML Path
+:   gis.enable_google_sat
 
+Key-Value Path
+:   gis/enable_google_sat
 
-.. _config-gis-enable_google_roadmap:
+Environment
+:   NOC_GIS_ENABLE_GOOGLE_SAT
 
-enable_google_roadmap
-~~~~~~~~~~~~~~~~~~~~~
+## enable_google_roadmap
 
-==================  =============================
-**YAML Path**       gis.enable_google_roadmap
-**Key-Value Path**  gis/enable_google_roadmap
-**Environment**     NOC_GIS_ENABLE_GOOGLE_ROADMAP
-**Default Value**   False
-==================  =============================
+Default value
+:   False
 
+YAML Path
+:   gis.enable_google_roadmap
 
-.. _config-gis-tile_size:
+Key-Value Path
+:   gis/enable_google_roadmap
 
-tile_size
-~~~~~~~~~
+Environment
+:   NOC_GIS_ENABLE_GOOGLE_ROADMAP
 
+## tile_size
 Tile size 256x256
 
-==================  =================
-**YAML Path**       gis.tile_size
-**Key-Value Path**  gis/tile_size
-**Environment**     NOC_GIS_TILE_SIZE
-**Default Value**   256
-==================  =================
+Default value
+:   256
 
+YAML Path
+:   gis.tile_size
 
-.. _config-gis-tilecache_padding:
+Key-Value Path
+:   gis/tile_size
 
-tilecache_padding
-~~~~~~~~~~~~~~~~~
+Environment
+:   NOC_GIS_TILE_SIZE
 
-==================  =========================
-**YAML Path**       gis.tilecache_padding
-**Key-Value Path**  gis/tilecache_padding
-**Environment**     NOC_GIS_TILECACHE_PADDING
-**Default Value**   0
-==================  =========================
+## tilecache_padding
 
+Default value
+:   0
 
+YAML Path
+:   gis.tilecache_padding
+
+Key-Value Path
+:   gis/tilecache_padding
+
+Environment
+:   NOC_GIS_TILECACHE_PADDING

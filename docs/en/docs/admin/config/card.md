@@ -1,32 +1,30 @@
-.. _config-card:
+# [card] section
+Card service configuration
 
-card
-----
+## language
 
+Default value
+:   en
 
-.. _config-card-language:
+YAML Path
+:   card.language
 
-language
-~~~~~~~~
+Key-Value Path
+:   card/language
 
-==================  =================
-**YAML Path**       card.language
-**Key-Value Path**  card/language
-**Environment**     NOC_CARD_LANGUAGE
-**Default Value**   en
-==================  =================
+Environment
+:   NOC_CARD_LANGUAGE
 
+## alarmheat_tooltip_limit
 
-.. _config-card-alarmheat_tooltip_limit:
+Default value
+:   5
 
-alarmheat_tooltip_limit
-~~~~~~~~~~~~~~~~~~~~~~~
+YAML Path
+:   card.alarmheat_tooltip_limit
 
-==================  ================================
-**YAML Path**       card.alarmheat_tooltip_limit
-**Key-Value Path**  card/alarmheat_tooltip_limit
-**Environment**     NOC_CARD_ALARMHEAT_TOOLTIP_LIMIT
-**Default Value**   5
-==================  ================================
+Key-Value Path
+:   card/alarmheat_tooltip_limit
 
-
+Environment
+:   NOC_CARD_ALARMHEAT_TOOLTIP_LIMIT

@@ -1,71 +1,72 @@
-.. _config-backup:
+# [backup] section
+Backup service configuration
 
-backup
-------
+## keep_days
 
+Default value
+:   14d
 
-.. _config-backup-keep_days:
+YAML Path
+:   backup.keep_days
 
-keep_days
-~~~~~~~~~
+Key-Value Path
+:   backup/keep_days
 
-==================  ====================
-**YAML Path**       backup.keep_days
-**Key-Value Path**  backup/keep_days
-**Environment**     NOC_BACKUP_KEEP_DAYS
-**Default Value**   14d
-==================  ====================
+Environment
+:   NOC_BACKUP_KEEP_DAYS
 
+## keep_weeks
 
-.. _config-backup-keep_weeks:
+Default value
+:   12w
 
-keep_weeks
-~~~~~~~~~~
+YAML Path
+:   backup.keep_weeks
 
-==================  =====================
-**YAML Path**       backup.keep_weeks
-**Key-Value Path**  backup/keep_weeks
-**Environment**     NOC_BACKUP_KEEP_WEEKS
-**Default Value**   12w
-==================  =====================
+Key-Value Path
+:   backup/keep_weeks
 
+Environment
+:   NOC_BACKUP_KEEP_WEEKS
 
-.. _config-backup-keep_day_of_week:
+## keep_day_of_week
 
-keep_day_of_week
-~~~~~~~~~~~~~~~~
+Default value
+:   6
 
-==================  ===========================
-**YAML Path**       backup.keep_day_of_week
-**Key-Value Path**  backup/keep_day_of_week
-**Environment**     NOC_BACKUP_KEEP_DAY_OF_WEEK
-**Default Value**   6
-==================  ===========================
+YAML Path
+:   backup.keep_day_of_week
 
+Key-Value Path
+:   backup/keep_day_of_week
 
-.. _config-backup-keep_months:
+Environment
+:   NOC_BACKUP_KEEP_DAY_OF_WEEK
 
-keep_months
-~~~~~~~~~~~
+## keep_months
 
-==================  ======================
-**YAML Path**       backup.keep_months
-**Key-Value Path**  backup/keep_months
-**Environment**     NOC_BACKUP_KEEP_MONTHS
-**Default Value**   12
-==================  ======================
+Default value
+:   12
 
+YAML Path
+:   backup.keep_months
 
-.. _config-backup-keep_day_of_month:
+Key-Value Path
+:   backup/keep_months
 
-keep_day_of_month
-~~~~~~~~~~~~~~~~~
+Environment
+:   NOC_BACKUP_KEEP_MONTHS
 
-==================  ============================
-**YAML Path**       backup.keep_day_of_month
-**Key-Value Path**  backup/keep_day_of_month
-**Environment**     NOC_BACKUP_KEEP_DAY_OF_MONTH
-**Default Value**   1
-==================  ============================
+## keep_day_of_month
 
+Default value
+:   1
 
+YAML Path
+:   backup.keep_day_of_month
+
+Key-Value Path
+:   backup/keep_day_of_month
+
+Environment
+:   NOC_BACKUP_KEEP_DAY_OF_MONTH

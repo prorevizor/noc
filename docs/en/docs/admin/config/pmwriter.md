@@ -1,84 +1,86 @@
-.. _config-pmwriter:
+# [pmwriter] section
+Pmwriter service configuration
 
-pmwriter
---------
+## batch_size
 
+Default value
+:   2500
 
-.. _config-pmwriter-batch_size:
+YAML Path
+:   pmwriter.batch_size
 
-batch_size
-~~~~~~~~~~
+Key-Value Path
+:   pmwriter/batch_size
 
-==================  =======================
-**YAML Path**       pmwriter.batch_size
-**Key-Value Path**  pmwriter/batch_size
-**Environment**     NOC_PMWRITER_BATCH_SIZE
-**Default Value**   2500
-==================  =======================
+Environment
+:   NOC_PMWRITER_BATCH_SIZE
 
+## metrics_buffer
 
-.. _config-pmwriter-metrics_buffer:
+Default value
+:   50000
 
-metrics_buffer
-~~~~~~~~~~~~~~
+YAML Path
+:   pmwriter.metrics_buffer
 
-==================  ===========================
-**YAML Path**       pmwriter.metrics_buffer
-**Key-Value Path**  pmwriter/metrics_buffer
-**Environment**     NOC_PMWRITER_METRICS_BUFFER
-**Default Value**   50000
-==================  ===========================
+Key-Value Path
+:   pmwriter/metrics_buffer
 
+Environment
+:   NOC_PMWRITER_METRICS_BUFFER
 
-.. _config-pmwriter-read_from:
+## read_from
 
-read_from
-~~~~~~~~~
+Default value
+:   pmwriter
 
-==================  ======================
-**YAML Path**       pmwriter.read_from
-**Key-Value Path**  pmwriter/read_from
-**Environment**     NOC_PMWRITER_READ_FROM
-**Default Value**   pmwriter
-==================  ======================
+YAML Path
+:   pmwriter.read_from
 
+Key-Value Path
+:   pmwriter/read_from
 
-.. _config-pmwriter-write_to:
+Environment
+:   NOC_PMWRITER_READ_FROM
 
-write_to
-~~~~~~~~
+## write_to
 
-==================  =====================
-**YAML Path**       pmwriter.write_to
-**Key-Value Path**  pmwriter/write_to
-**Environment**     NOC_PMWRITER_WRITE_TO
-**Default Value**   influxdb
-==================  =====================
+Default value
+:   influxdb
 
+YAML Path
+:   pmwriter.write_to
 
-.. _config-pmwriter-write_to_port:
+Key-Value Path
+:   pmwriter/write_to
 
-write_to_port
-~~~~~~~~~~~~~
+Environment
+:   NOC_PMWRITER_WRITE_TO
 
-==================  ==========================
-**YAML Path**       pmwriter.write_to_port
-**Key-Value Path**  pmwriter/write_to_port
-**Environment**     NOC_PMWRITER_WRITE_TO_PORT
-**Default Value**   8086
-==================  ==========================
+## write_to_port
 
+Default value
+:   8086
 
-.. _config-pmwriter-max_delay:
+YAML Path
+:   pmwriter.write_to_port
 
-max_delay
-~~~~~~~~~
+Key-Value Path
+:   pmwriter/write_to_port
 
-==================  ======================
-**YAML Path**       pmwriter.max_delay
-**Key-Value Path**  pmwriter/max_delay
-**Environment**     NOC_PMWRITER_MAX_DELAY
-**Default Value**   1.0
-==================  ======================
+Environment
+:   NOC_PMWRITER_WRITE_TO_PORT
 
+## max_delay
 
+Default value
+:   1.0
+
+YAML Path
+:   pmwriter.max_delay
+
+Key-Value Path
+:   pmwriter/max_delay
+
+Environment
+:   NOC_PMWRITER_MAX_DELAY

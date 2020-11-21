@@ -1,207 +1,234 @@
-# Global configuration
+# [global] section
+Global service configuration
 
-Global settings applicable to all services
+## loglevel
 
+Default value
+:   info
 
-loglevel
-~~~~~~~~
-
-==================  ===================
-**YAML Path**       loglevel
-**Key-Value Path**  loglevel
-**Environment**     NOC_LOGLEVEL
-**Default Value**   info
-==================  ===================
-
-Possible values:
-
+Possible values
+:
 * critical
 * error
 * warning
 * info
 * debug
 
-.. _config-brand:
+YAML Path
+:   global.loglevel
 
-brand
-~~~~~
+Key-Value Path
+:   global/loglevel
 
-==================  =========
-**YAML Path**       brand
-**Key-Value Path**  brand
-**Environment**     NOC_BRAND
-**Default Value**   NOC
-==================  =========
+Environment
+:   NOC_GLOBAL_LOGLEVEL
 
+## brand
 
-.. _config-global_n_instances:
+Default value
+:   NOC
 
-global_n_instances
-~~~~~~~~~~~~~~~~~~
+YAML Path
+:   global.brand
 
-==================  ======================
-**YAML Path**       global_n_instances
-**Key-Value Path**  global_n_instances
-**Environment**     NOC_GLOBAL_N_INSTANCES
-**Default Value**   1
-==================  ======================
+Key-Value Path
+:   global/brand
 
+Environment
+:   NOC_GLOBAL_BRAND
 
-.. _config-installation_name:
+## global_n_instances
 
-installation_name
-~~~~~~~~~~~~~~~~~
+Default value
+:   1
 
-==================  =========================
-**YAML Path**       installation_name
-**Key-Value Path**  installation_name
-**Environment**     NOC_INSTALLATION_NAME
-**Default Value**   Unconfigured installation
-==================  =========================
+YAML Path
+:   global.global_n_instances
 
+Key-Value Path
+:   global/global_n_instances
 
-.. _config-instance:
+Environment
+:   NOC_GLOBAL_GLOBAL_N_INSTANCES
 
-instance
-~~~~~~~~
+## installation_name
 
-==================  ============
-**YAML Path**       instance
-**Key-Value Path**  instance
-**Environment**     NOC_INSTANCE
-**Default Value**   0
-==================  ============
+Default value
+:   Unconfigured installation
 
+YAML Path
+:   global.installation_name
 
-.. _config-language:
+Key-Value Path
+:   global/installation_name
 
-language
-~~~~~~~~
+Environment
+:   NOC_GLOBAL_INSTALLATION_NAME
 
-==================  ============
-**YAML Path**       language
-**Key-Value Path**  language
-**Environment**     NOC_LANGUAGE
-**Default Value**   en
-==================  ============
+## installation_id
 
+Default value
+:   
 
-.. _config-language_code:
+YAML Path
+:   global.installation_id
 
-language_code
-~~~~~~~~~~~~~
+Key-Value Path
+:   global/installation_id
 
-==================  =================
-**YAML Path**       language_code
-**Key-Value Path**  language_code
-**Environment**     NOC_LANGUAGE_CODE
-**Default Value**   en-us
-==================  =================
+Environment
+:   NOC_GLOBAL_INSTALLATION_ID
 
+## instance
 
-.. _config-listen:
+Default value
+:   0
 
-listen
-~~~~~~
+YAML Path
+:   global.instance
 
-==================  ==========
-**YAML Path**       listen
-**Key-Value Path**  listen
-**Environment**     NOC_LISTEN
-**Default Value**   auto:0
-==================  ==========
+Key-Value Path
+:   global/instance
 
+Environment
+:   NOC_GLOBAL_INSTANCE
 
-.. _config-log_format:
+## language
 
-log_format
-~~~~~~~~~~
+Default value
+:   en
 
-==================  ==================================
-**YAML Path**       log_format
-**Key-Value Path**  log_format
-**Environment**     NOC_LOG_FORMAT
-**Default Value**   %(asctime)s [%(name)s] %(message)s
-==================  ==================================
+YAML Path
+:   global.language
 
+Key-Value Path
+:   global/language
 
-.. _config-thread_stack_size:
+Environment
+:   NOC_GLOBAL_LANGUAGE
 
-thread_stack_size
-~~~~~~~~~~~~~~~~~
+## language_code
 
-==================  =====================
-**YAML Path**       thread_stack_size
-**Key-Value Path**  thread_stack_size
-**Environment**     NOC_THREAD_STACK_SIZE
-**Default Value**   0
-==================  =====================
+Default value
+:   en
 
+YAML Path
+:   global.language_code
 
-.. _config-gitlab_url:
+Key-Value Path
+:   global/language_code
 
-gitlab_url
-~~~~~~~~~~
+Environment
+:   NOC_GLOBAL_LANGUAGE_CODE
 
-==================  ========================
-**YAML Path**       gitlab_url
-**Key-Value Path**  gitlab_url
-**Environment**     NOC_GITLAB_URL
-**Default Value**   https://code.getnoc.com/
-==================  ========================
+## listen
 
+Default value
+:   auto:0
 
-.. _config-node:
+YAML Path
+:   global.listen
 
-node
-~~~~
+Key-Value Path
+:   global/listen
 
-==================  ====================
-**YAML Path**       node
-**Key-Value Path**  node
-**Environment**     NOC_NODE
-**Default Value**   socket.gethostname()
-==================  ====================
+Environment
+:   NOC_GLOBAL_LISTEN
 
+## log_format
 
-.. _config-pool:
+Default value
+:   %(asctime)s [%(name)s] %(message)s
 
-pool
-~~~~
+YAML Path
+:   global.log_format
 
-==================  ==============================
-**YAML Path**       pool
-**Key-Value Path**  pool
-**Environment**     NOC_POOL
-**Default Value**   os.environ.get("NOC_POOL", "")
-==================  ==============================
+Key-Value Path
+:   global/log_format
 
+Environment
+:   NOC_GLOBAL_LOG_FORMAT
 
-.. _config-secret_key:
+## thread_stack_size
 
-secret_key
-~~~~~~~~~~
+Default value
+:   0
 
-==================  ==============
-**YAML Path**       secret_key
-**Key-Value Path**  secret_key
-**Environment**     NOC_SECRET_KEY
-**Default Value**   12345
-==================  ==============
+YAML Path
+:   global.thread_stack_size
 
+Key-Value Path
+:   global/thread_stack_size
 
-.. _config-timezone:
+Environment
+:   NOC_GLOBAL_THREAD_STACK_SIZE
 
-timezone
-~~~~~~~~
+## version_format
 
-==================  =============
-**YAML Path**       timezone
-**Key-Value Path**  timezone
-**Environment**     NOC_TIMEZONE
-**Default Value**   Europe/Moscow
-==================  =============
+Default value
+:   %(version)s+%(branch)s.%(number)s.%(changeset)s
 
+YAML Path
+:   global.version_format
 
+Key-Value Path
+:   global/version_format
 
+Environment
+:   NOC_GLOBAL_VERSION_FORMAT
 
+## node
+
+Default value
+:   socket.gethostname()
+
+YAML Path
+:   global.node
+
+Key-Value Path
+:   global/node
+
+Environment
+:   NOC_GLOBAL_NODE
+
+## pool
+
+Default value
+:   os.environ.get("NOC_POOL", ")
+
+YAML Path
+:   global.pool
+
+Key-Value Path
+:   global/pool
+
+Environment
+:   NOC_GLOBAL_POOL
+
+## secret_key
+
+Default value
+:   12345
+
+YAML Path
+:   global.secret_key
+
+Key-Value Path
+:   global/secret_key
+
+Environment
+:   NOC_GLOBAL_SECRET_KEY
+
+## timezone
+
+Default value
+:   Europe/Moscow
+
+YAML Path
+:   global.timezone
+
+Key-Value Path
+:   global/timezone
+
+Environment
+:   NOC_GLOBAL_TIMEZONE

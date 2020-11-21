@@ -1,71 +1,72 @@
-.. _config-pg:
+# [pg] section
+Pg service configuration
 
-pg
---
+## addresses
 
+Default value
+:   service="postgres", wait=True, near=True, full_result=False
 
-.. _config-pg-addresses:
+YAML Path
+:   pg.addresses
 
-addresses
-~~~~~~~~~
+Key-Value Path
+:   pg/addresses
 
-==================  =============================================================================
-**YAML Path**       pg.addresses
-**Key-Value Path**  pg/addresses
-**Environment**     NOC_PG_ADDRESSES
-**Default Value**   ServiceParameter(service='postgres', wait=True, near=True, full_result=False)
-==================  =============================================================================
+Environment
+:   NOC_PG_ADDRESSES
 
+## db
 
-.. _config-pg-db:
+Default value
+:   noc
 
-db
-~~
+YAML Path
+:   pg.db
 
-==================  =========
-**YAML Path**       pg.db
-**Key-Value Path**  pg/db
-**Environment**     NOC_PG_DB
-**Default Value**   noc
-==================  =========
+Key-Value Path
+:   pg/db
 
+Environment
+:   NOC_PG_DB
 
-.. _config-pg-user:
+## user
 
-user
-~~~~
+Default value
+:   
 
-==================  =================
-**YAML Path**       pg.user
-**Key-Value Path**  pg/user
-**Environment**     NOC_PG_USER
-**Default Value**   StringParameter()
-==================  =================
+YAML Path
+:   pg.user
 
+Key-Value Path
+:   pg/user
 
-.. _config-pg-password:
+Environment
+:   NOC_PG_USER
 
-password
-~~~~~~~~
+## password
 
-==================  =================
-**YAML Path**       pg.password
-**Key-Value Path**  pg/password
-**Environment**     NOC_PG_PASSWORD
-**Default Value**   SecretParameter()
-==================  =================
+Default value
+:   None
 
+YAML Path
+:   pg.password
 
-.. _config-pg-connect_timeout:
+Key-Value Path
+:   pg/password
 
-connect_timeout
-~~~~~~~~~~~~~~~
+Environment
+:   NOC_PG_PASSWORD
 
-==================  ======================
-**YAML Path**       pg.connect_timeout
-**Key-Value Path**  pg/connect_timeout
-**Environment**     NOC_PG_CONNECT_TIMEOUT
-**Default Value**   5
-==================  ======================
+## connect_timeout
 
+Default value
+:   5
 
+YAML Path
+:   pg.connect_timeout
+
+Key-Value Path
+:   pg/connect_timeout
+
+Environment
+:   NOC_PG_CONNECT_TIMEOUT

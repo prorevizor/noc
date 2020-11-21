@@ -1,161 +1,190 @@
-.. _config-login:
+# [login] section
+Login service configuration
 
-login
------
+## methods
 
+Default value
+:   local
 
-.. _config-login-methods:
+YAML Path
+:   login.methods
 
-methods
-~~~~~~~
+Key-Value Path
+:   login/methods
 
-==================  =================
-**YAML Path**       login.methods
-**Key-Value Path**  login/methods
-**Environment**     NOC_LOGIN_METHODS
-**Default Value**   local
-==================  =================
+Environment
+:   NOC_LOGIN_METHODS
 
+## session_ttl
 
-.. _config-login-session_ttl:
+Default value
+:   7d
 
-session_ttl
-~~~~~~~~~~~
+YAML Path
+:   login.session_ttl
 
-==================  =====================
-**YAML Path**       login.session_ttl
-**Key-Value Path**  login/session_ttl
-**Environment**     NOC_LOGIN_SESSION_TTL
-**Default Value**   7d
-==================  =====================
+Key-Value Path
+:   login/session_ttl
 
+Environment
+:   NOC_LOGIN_SESSION_TTL
 
-.. _config-login-language:
+## language
 
-language
-~~~~~~~~
+Default value
+:   en
 
-==================  ==================
-**YAML Path**       login.language
-**Key-Value Path**  login/language
-**Environment**     NOC_LOGIN_LANGUAGE
-**Default Value**   en
-==================  ==================
+YAML Path
+:   login.language
 
+Key-Value Path
+:   login/language
 
-.. _config-login-restrict_to_group:
+Environment
+:   NOC_LOGIN_LANGUAGE
 
-restrict_to_group
-~~~~~~~~~~~~~~~~~
+## restrict_to_group
 
-==================  ===========================
-**YAML Path**       login.restrict_to_group
-**Key-Value Path**  login/restrict_to_group
-**Environment**     NOC_LOGIN_RESTRICT_TO_GROUP
-**Default Value**
-==================  ===========================
+Default value
+:   
 
+YAML Path
+:   login.restrict_to_group
 
-.. _config-login-single_session_group:
+Key-Value Path
+:   login/restrict_to_group
 
-single_session_group
-~~~~~~~~~~~~~~~~~~~~
+Environment
+:   NOC_LOGIN_RESTRICT_TO_GROUP
 
-==================  ==============================
-**YAML Path**       login.single_session_group
-**Key-Value Path**  login/single_session_group
-**Environment**     NOC_LOGIN_SINGLE_SESSION_GROUP
-**Default Value**
-==================  ==============================
+## single_session_group
 
+Default value
+:   
 
-.. _config-login-mutual_exclusive_group:
+YAML Path
+:   login.single_session_group
 
-mutual_exclusive_group
-~~~~~~~~~~~~~~~~~~~~~~
+Key-Value Path
+:   login/single_session_group
 
-==================  ================================
-**YAML Path**       login.mutual_exclusive_group
-**Key-Value Path**  login/mutual_exclusive_group
-**Environment**     NOC_LOGIN_MUTUAL_EXCLUSIVE_GROUP
-**Default Value**
-==================  ================================
+Environment
+:   NOC_LOGIN_SINGLE_SESSION_GROUP
 
+## mutual_exclusive_group
 
-.. _config-login-idle_timeout:
+Default value
+:   
 
-idle_timeout
-~~~~~~~~~~~~
+YAML Path
+:   login.mutual_exclusive_group
 
-==================  ======================
-**YAML Path**       login.idle_timeout
-**Key-Value Path**  login/idle_timeout
-**Environment**     NOC_LOGIN_IDLE_TIMEOUT
-**Default Value**   1w
-==================  ======================
+Key-Value Path
+:   login/mutual_exclusive_group
 
+Environment
+:   NOC_LOGIN_MUTUAL_EXCLUSIVE_GROUP
 
-.. _config-login-pam_service:
+## idle_timeout
 
-pam_service
-~~~~~~~~~~~
+Default value
+:   1w
 
-==================  =====================
-**YAML Path**       login.pam_service
-**Key-Value Path**  login/pam_service
-**Environment**     NOC_LOGIN_PAM_SERVICE
-**Default Value**   noc
-==================  =====================
+YAML Path
+:   login.idle_timeout
 
+Key-Value Path
+:   login/idle_timeout
 
-.. _config-login-radius_secret:
+Environment
+:   NOC_LOGIN_IDLE_TIMEOUT
 
-radius_secret
-~~~~~~~~~~~~~
+## pam_service
 
-==================  =======================
-**YAML Path**       login.radius_secret
-**Key-Value Path**  login/radius_secret
-**Environment**     NOC_LOGIN_RADIUS_SECRET
-**Default Value**   noc
-==================  =======================
+Default value
+:   noc
 
+YAML Path
+:   login.pam_service
 
-.. _config-login-radius_server:
+Key-Value Path
+:   login/pam_service
 
-radius_server
-~~~~~~~~~~~~~
+Environment
+:   NOC_LOGIN_PAM_SERVICE
 
-==================  =======================
-**YAML Path**       login.radius_server
-**Key-Value Path**  login/radius_server
-**Environment**     NOC_LOGIN_RADIUS_SERVER
-**Default Value**   StringParameter()
-==================  =======================
+## radius_secret
 
+Default value
+:   noc
 
-.. _config-login-user_cookie_ttl:
+YAML Path
+:   login.radius_secret
 
-user_cookie_ttl
-~~~~~~~~~~~~~~~
+Key-Value Path
+:   login/radius_secret
 
-==================  =========================
-**YAML Path**       login.user_cookie_ttl
-**Key-Value Path**  login/user_cookie_ttl
-**Environment**     NOC_LOGIN_USER_COOKIE_TTL
-**Default Value**   1
-==================  =========================
+Environment
+:   NOC_LOGIN_RADIUS_SECRET
 
-.. _config-login-register_last_login:
+## radius_server
 
-register_last_login
-~~~~~~~~~~~~~~~~~~~
+Default value
+:   
 
-==================  =============================
-**YAML Path**       login.register_last_login
-**Key-Value Path**  login/register_last_login
-**Environment**     NOC_LOGIN_REGISTER_LAST_LOGIN
-**Default Value**   True
-==================  =============================
+YAML Path
+:   login.radius_server
 
-Write each successful login into User's last_login field
+Key-Value Path
+:   login/radius_server
+
+Environment
+:   NOC_LOGIN_RADIUS_SERVER
+
+## register_last_login
+
+Default value
+:   True
+
+YAML Path
+:   login.register_last_login
+
+Key-Value Path
+:   login/register_last_login
+
+Environment
+:   NOC_LOGIN_REGISTER_LAST_LOGIN
+
+## jwt_cookie_name
+
+Default value
+:   noc_jwt
+
+YAML Path
+:   login.jwt_cookie_name
+
+Key-Value Path
+:   login/jwt_cookie_name
+
+Environment
+:   NOC_LOGIN_JWT_COOKIE_NAME
+
+## jwt_algorithm
+
+Default value
+:   HS256
+
+Possible values
+:
+* HS256
+* HS384
+* HS512
+
+YAML Path
+:   login.jwt_algorithm
+
+Key-Value Path
+:   login/jwt_algorithm
+
+Environment
+:   NOC_LOGIN_JWT_ALGORITHM

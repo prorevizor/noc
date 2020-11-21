@@ -1,110 +1,121 @@
-.. _config-chwriter:
+# [chwriter] section
+Chwriter service configuration
 
-chwriter
---------
+## batch_size
+Size of one portion from queue
 
+Default value
+:   50000
 
-.. _config-chwriter-batch_size:
+YAML Path
+:   chwriter.batch_size
 
-batch_size
-~~~~~~~~~~
+Key-Value Path
+:   chwriter/batch_size
 
-==================  =======================
-**YAML Path**       chwriter.batch_size
-**Key-Value Path**  chwriter/batch_size
-**Environment**     NOC_CHWRITER_BATCH_SIZE
-**Default Value**   50000
-==================  =======================
+Environment
+:   NOC_CHWRITER_BATCH_SIZE
 
+## records_buffer
+Own buffer of messages from queue
 
-.. _config-chwriter-records_buffer:
+Default value
+:   1000000
 
-records_buffer
-~~~~~~~~~~~~~~
+YAML Path
+:   chwriter.records_buffer
 
-==================  ===========================
-**YAML Path**       chwriter.records_buffer
-**Key-Value Path**  chwriter/records_buffer
-**Environment**     NOC_CHWRITER_RECORDS_BUFFER
-**Default Value**   1000000
-==================  ===========================
+Key-Value Path
+:   chwriter/records_buffer
 
+Environment
+:   NOC_CHWRITER_RECORDS_BUFFER
 
-.. _config-chwriter-batch_delay_ms:
+## batch_delay_ms
+Send every period time
 
-batch_delay_ms
-~~~~~~~~~~~~~~
+Default value
+:   10000
 
-==================  ===========================
-**YAML Path**       chwriter.batch_delay_ms
-**Key-Value Path**  chwriter/batch_delay_ms
-**Environment**     NOC_CHWRITER_BATCH_DELAY_MS
-**Default Value**   10000
-==================  ===========================
+YAML Path
+:   chwriter.batch_delay_ms
 
+Key-Value Path
+:   chwriter/batch_delay_ms
 
-.. _config-chwriter-channel_expire_interval:
+Environment
+:   NOC_CHWRITER_BATCH_DELAY_MS
 
-channel_expire_interval
-~~~~~~~~~~~~~~~~~~~~~~~
+## channel_expire_interval
+Close channel when no messages in this time
 
-==================  ====================================
-**YAML Path**       chwriter.channel_expire_interval
-**Key-Value Path**  chwriter/channel_expire_interval
-**Environment**     NOC_CHWRITER_CHANNEL_EXPIRE_INTERVAL
-**Default Value**   5M
-==================  ====================================
+Default value
+:   5M
 
+YAML Path
+:   chwriter.channel_expire_interval
 
-.. _config-chwriter-suspend_timeout_ms:
+Key-Value Path
+:   chwriter/channel_expire_interval
 
-suspend_timeout_ms
-~~~~~~~~~~~~~~~~~~
+Environment
+:   NOC_CHWRITER_CHANNEL_EXPIRE_INTERVAL
 
-==================  ===============================
-**YAML Path**       chwriter.suspend_timeout_ms
-**Key-Value Path**  chwriter/suspend_timeout_ms
-**Environment**     NOC_CHWRITER_SUSPEND_TIMEOUT_MS
-**Default Value**   3000
-==================  ===============================
+## suspend_timeout_ms
+How much time to sleep before continue
 
+Default value
+:   3000
 
-.. _config-chwriter-topic:
+YAML Path
+:   chwriter.suspend_timeout_ms
 
-topic
-~~~~~
+Key-Value Path
+:   chwriter/suspend_timeout_ms
 
-==================  ==================
-**YAML Path**       chwriter.topic
-**Key-Value Path**  chwriter/topic
-**Environment**     NOC_CHWRITER_TOPIC
-**Default Value**   chwriter
-==================  ==================
+Environment
+:   NOC_CHWRITER_SUSPEND_TIMEOUT_MS
 
+## topic
+Topic in queue to listen to
 
-.. _config-chwriter-write_to:
+Default value
+:   chwriter
 
-write_to
-~~~~~~~~
+YAML Path
+:   chwriter.topic
 
-==================  =====================
-**YAML Path**       chwriter.write_to
-**Key-Value Path**  chwriter/write_to
-**Environment**     NOC_CHWRITER_WRITE_TO
-**Default Value**   StringParameter()
-==================  =====================
+Key-Value Path
+:   chwriter/topic
 
+Environment
+:   NOC_CHWRITER_TOPIC
 
-.. _config-chwriter-max_in_flight:
+## write_to
 
-max_in_flight
-~~~~~~~~~~~~~
+Default value
+:   
 
-==================  ==========================
-**YAML Path**       chwriter.max_in_flight
-**Key-Value Path**  chwriter/max_in_flight
-**Environment**     NOC_CHWRITER_MAX_IN_FLIGHT
-**Default Value**   10
-==================  ==========================
+YAML Path
+:   chwriter.write_to
 
+Key-Value Path
+:   chwriter/write_to
 
+Environment
+:   NOC_CHWRITER_WRITE_TO
+
+## max_in_flight
+How many parts read simultaneously from queue
+
+Default value
+:   10
+
+YAML Path
+:   chwriter.max_in_flight
+
+Key-Value Path
+:   chwriter/max_in_flight
+
+Environment
+:   NOC_CHWRITER_MAX_IN_FLIGHT

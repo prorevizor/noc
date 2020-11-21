@@ -1,197 +1,204 @@
-.. _config-clickhouse:
+# [clickhouse] section
+Clickhouse service configuration
 
-clickhouse
-----------
+## rw_addresses
 
+Default value
+:   service="clickhouse", wait=True
 
-.. _config-clickhouse-rw_addresses:
+YAML Path
+:   clickhouse.rw_addresses
 
-rw_addresses
-~~~~~~~~~~~~
+Key-Value Path
+:   clickhouse/rw_addresses
 
-==================  =================================================
-**YAML Path**       clickhouse.rw_addresses
-**Key-Value Path**  clickhouse/rw_addresses
-**Environment**     NOC_CLICKHOUSE_RW_ADDRESSES
-**Default Value**   ServiceParameter(service='clickhouse', wait=True)
-==================  =================================================
+Environment
+:   NOC_CLICKHOUSE_RW_ADDRESSES
 
+## db
 
-.. _config-clickhouse-db:
+Default value
+:   noc
 
-db
---
+YAML Path
+:   clickhouse.db
 
-==================  =================
-**YAML Path**       clickhouse.db
-**Key-Value Path**  clickhouse/db
-**Environment**     NOC_CLICKHOUSE_DB
-**Default Value**   noc
-==================  =================
+Key-Value Path
+:   clickhouse/db
 
+Environment
+:   NOC_CLICKHOUSE_DB
 
-.. _config-clickhouse-rw_user:
+## rw_user
 
-rw_user
-~~~~~~~
+Default value
+:   default
 
-==================  ======================
-**YAML Path**       clickhouse.rw_user
-**Key-Value Path**  clickhouse/rw_user
-**Environment**     NOC_CLICKHOUSE_RW_USER
-**Default Value**   default
-==================  ======================
+YAML Path
+:   clickhouse.rw_user
 
+Key-Value Path
+:   clickhouse/rw_user
 
-.. _config-clickhouse-rw_password:
+Environment
+:   NOC_CLICKHOUSE_RW_USER
 
-rw_password
-~~~~~~~~~~~
+## rw_password
 
-==================  ==========================
-**YAML Path**       clickhouse.rw_password
-**Key-Value Path**  clickhouse/rw_password
-**Environment**     NOC_CLICKHOUSE_RW_PASSWORD
-**Default Value**   SecretParameter()
-==================  ==========================
+Default value
+:   None
 
+YAML Path
+:   clickhouse.rw_password
 
-.. _config-clickhouse-ro_addresses:
+Key-Value Path
+:   clickhouse/rw_password
 
-ro_addresses
-~~~~~~~~~~~~
+Environment
+:   NOC_CLICKHOUSE_RW_PASSWORD
 
-==================  =================================================
-**YAML Path**       clickhouse.ro_addresses
-**Key-Value Path**  clickhouse/ro_addresses
-**Environment**     NOC_CLICKHOUSE_RO_ADDRESSES
-**Default Value**   ServiceParameter(service='clickhouse', wait=True)
-==================  =================================================
+## ro_addresses
 
+Default value
+:   service="clickhouse", wait=True
 
-.. _config-clickhouse-ro_user:
+YAML Path
+:   clickhouse.ro_addresses
 
-ro_user
-~~~~~~~
+Key-Value Path
+:   clickhouse/ro_addresses
 
-==================  ======================
-**YAML Path**       clickhouse.ro_user
-**Key-Value Path**  clickhouse/ro_user
-**Environment**     NOC_CLICKHOUSE_RO_USER
-**Default Value**   readonly
-==================  ======================
+Environment
+:   NOC_CLICKHOUSE_RO_ADDRESSES
 
+## ro_user
 
-.. _config-clickhouse-ro_password:
+Default value
+:   readonly
 
-ro_password
-~~~~~~~~~~~
+YAML Path
+:   clickhouse.ro_user
 
-==================  ==========================
-**YAML Path**       clickhouse.ro_password
-**Key-Value Path**  clickhouse/ro_password
-**Environment**     NOC_CLICKHOUSE_RO_PASSWORD
-**Default Value**   SecretParameter()
-==================  ==========================
+Key-Value Path
+:   clickhouse/ro_user
 
+Environment
+:   NOC_CLICKHOUSE_RO_USER
 
-.. _config-clickhouse-request_timeout:
+## ro_password
 
-request_timeout
-~~~~~~~~~~~~~~~
+Default value
+:   None
 
-==================  ==============================
-**YAML Path**       clickhouse.request_timeout
-**Key-Value Path**  clickhouse/request_timeout
-**Environment**     NOC_CLICKHOUSE_REQUEST_TIMEOUT
-**Default Value**   1h
-==================  ==============================
+YAML Path
+:   clickhouse.ro_password
 
+Key-Value Path
+:   clickhouse/ro_password
 
-.. _config-clickhouse-connect_timeout:
+Environment
+:   NOC_CLICKHOUSE_RO_PASSWORD
 
-connect_timeout
-~~~~~~~~~~~~~~~
+## request_timeout
 
-==================  ==============================
-**YAML Path**       clickhouse.connect_timeout
-**Key-Value Path**  clickhouse/connect_timeout
-**Environment**     NOC_CLICKHOUSE_CONNECT_TIMEOUT
-**Default Value**   10s
-==================  ==============================
+Default value
+:   1h
 
+YAML Path
+:   clickhouse.request_timeout
 
-.. _config-clickhouse-default_merge_tree_granularity:
+Key-Value Path
+:   clickhouse/request_timeout
 
-default_merge_tree_granularity
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Environment
+:   NOC_CLICKHOUSE_REQUEST_TIMEOUT
 
-==================  =============================================
-**YAML Path**       clickhouse.default_merge_tree_granularity
-**Key-Value Path**  clickhouse/default_merge_tree_granularity
-**Environment**     NOC_CLICKHOUSE_DEFAULT_MERGE_TREE_GRANULARITY
-**Default Value**   8192
-==================  =============================================
+## connect_timeout
 
+Default value
+:   10s
 
-.. _config-clickhouse-encoding:
+YAML Path
+:   clickhouse.connect_timeout
 
-encoding
-~~~~~~~~
+Key-Value Path
+:   clickhouse/connect_timeout
 
-==================  ===================================
-**YAML Path**       clickhouse.encoding
-**Key-Value Path**  clickhouse/encoding
-**Environment**     NOC_CLICKHOUSE_ENCODING
-**Default Value**
-==================  ===================================
+Environment
+:   NOC_CLICKHOUSE_CONNECT_TIMEOUT
 
-Possible values:
+## default_merge_tree_granularity
 
-*
+Default value
+:   8192
+
+YAML Path
+:   clickhouse.default_merge_tree_granularity
+
+Key-Value Path
+:   clickhouse/default_merge_tree_granularity
+
+Environment
+:   NOC_CLICKHOUSE_DEFAULT_MERGE_TREE_GRANULARITY
+
+## encoding
+
+Default value
+:   
+
+Possible values
+:
+* 
 * deflate
 * gzip
 
-.. _config-clickhouse-cluster:
+YAML Path
+:   clickhouse.encoding
 
-cluster
-~~~~~~~
+Key-Value Path
+:   clickhouse/encoding
 
-Cluster name for sharded/replicated configuration
-Matches appropriative <remote_servers> part
+Environment
+:   NOC_CLICKHOUSE_ENCODING
 
-==================  ======================
-**YAML Path**       clickhouse.cluster
-**Key-Value Path**  clickhouse/cluster
-**Environment**     NOC_CLICKHOUSE_CLUSTER
-**Default Value**   StringParameter()
-==================  ======================
+## enable_low_cardinality
 
+Default value
+:   False
 
-.. _config-clickhouse-cluster_topology:
+YAML Path
+:   clickhouse.enable_low_cardinality
 
-cluster_topology
-~~~~~~~~~~~~~~~~
+Key-Value Path
+:   clickhouse/enable_low_cardinality
 
-==================  ===============================
-**YAML Path**       clickhouse.cluster_topology
-**Key-Value Path**  clickhouse/cluster_topology
-**Environment**     NOC_CLICKHOUSE_CLUSTER_TOPOLOGY
-**Default Value**   1
-==================  ===============================
+Environment
+:   NOC_CLICKHOUSE_ENABLE_LOW_CARDINALITY
 
-Examples:
+## cluster
 
-+-------+----------------------------------------------------------------------------------+
-| Value | Description                                                                      |
-+=======+==================================================================================+
-| 1     | non-replicated, non-sharded configuration                                        |
-+-------+----------------------------------------------------------------------------------+
-| 1,1   | 2 shards, non-replicated                                                         |
-+-------+----------------------------------------------------------------------------------+
-| 2,2   | 2 shards, 2 replicas in each                                                     |
-+-------+----------------------------------------------------------------------------------+
-| 3:2,2 | first shard has 2 replicas an weight 3, second shard has 2 replicas and weight 1 |
-+-------+----------------------------------------------------------------------------------+
+Default value
+:   
 
+YAML Path
+:   clickhouse.cluster
 
+Key-Value Path
+:   clickhouse/cluster
+
+Environment
+:   NOC_CLICKHOUSE_CLUSTER
+
+## cluster_topology
+
+Default value
+:   1
+
+YAML Path
+:   clickhouse.cluster_topology
+
+Key-Value Path
+:   clickhouse/cluster_topology
+
+Environment
+:   NOC_CLICKHOUSE_CLUSTER_TOPOLOGY

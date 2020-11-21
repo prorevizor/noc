@@ -1,96 +1,100 @@
-.. _config-peer:
+# [peer] section
+Peer service configuration
 
-peer
-----
+## enable_ripe
 
+Default value
+:   True
 
-.. _config-peer-enable_ripe:
+YAML Path
+:   peer.enable_ripe
 
-enable_ripe
-~~~~~~~~~~~
+Key-Value Path
+:   peer/enable_ripe
 
-==================  ====================
-**YAML Path**       peer.enable_ripe
-**Key-Value Path**  peer/enable_ripe
-**Environment**     NOC_PEER_ENABLE_RIPE
-**Default Value**   True
-==================  ====================
+Environment
+:   NOC_PEER_ENABLE_RIPE
 
+## enable_arin
 
-.. _config-peer-enable_arin:
+Default value
+:   True
 
-enable_arin
-~~~~~~~~~~~
+YAML Path
+:   peer.enable_arin
 
-==================  ====================
-**YAML Path**       peer.enable_arin
-**Key-Value Path**  peer/enable_arin
-**Environment**     NOC_PEER_ENABLE_ARIN
-**Default Value**   True
-==================  ====================
+Key-Value Path
+:   peer/enable_arin
 
+Environment
+:   NOC_PEER_ENABLE_ARIN
 
-.. _config-peer-enable_radb:
+## enable_radb
 
-enable_radb
-~~~~~~~~~~~
+Default value
+:   True
 
-==================  ====================
-**YAML Path**       peer.enable_radb
-**Key-Value Path**  peer/enable_radb
-**Environment**     NOC_PEER_ENABLE_RADB
-**Default Value**   True
-==================  ====================
+YAML Path
+:   peer.enable_radb
 
+Key-Value Path
+:   peer/enable_radb
 
-.. _config-peer-prefix_list_optimization:
+Environment
+:   NOC_PEER_ENABLE_RADB
 
-prefix_list_optimization
-~~~~~~~~~~~~~~~~~~~~~~~~
+## prefix_list_optimization
 
-==================  =================================
-**YAML Path**       peer.prefix_list_optimization
-**Key-Value Path**  peer/prefix_list_optimization
-**Environment**     NOC_PEER_PREFIX_LIST_OPTIMIZATION
-**Default Value**   True
-==================  =================================
+Default value
+:   True
 
+YAML Path
+:   peer.prefix_list_optimization
 
-.. _config-peer-prefix_list_optimization_threshold:
+Key-Value Path
+:   peer/prefix_list_optimization
 
-prefix_list_optimization_threshold
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Environment
+:   NOC_PEER_PREFIX_LIST_OPTIMIZATION
 
-==================  ===========================================
-**YAML Path**       peer.prefix_list_optimization_threshold
-**Key-Value Path**  peer/prefix_list_optimization_threshold
-**Environment**     NOC_PEER_PREFIX_LIST_OPTIMIZATION_THRESHOLD
-**Default Value**   1000
-==================  ===========================================
+## prefix_list_optimization_threshold
 
+Default value
+:   1000
 
-.. _config-peer-max_prefix_length:
+YAML Path
+:   peer.prefix_list_optimization_threshold
 
-max_prefix_length
-~~~~~~~~~~~~~~~~~
+Key-Value Path
+:   peer/prefix_list_optimization_threshold
 
-==================  ==========================
-**YAML Path**       peer.max_prefix_length
-**Key-Value Path**  peer/max_prefix_length
-**Environment**     NOC_PEER_MAX_PREFIX_LENGTH
-**Default Value**   24
-==================  ==========================
+Environment
+:   NOC_PEER_PREFIX_LIST_OPTIMIZATION_THRESHOLD
 
+## max_prefix_length
 
-.. _config-peer-rpsl_inverse_pref_style:
+Default value
+:   24
 
-rpsl_inverse_pref_style
-~~~~~~~~~~~~~~~~~~~~~~~
+YAML Path
+:   peer.max_prefix_length
 
-==================  ================================
-**YAML Path**       peer.rpsl_inverse_pref_style
-**Key-Value Path**  peer/rpsl_inverse_pref_style
-**Environment**     NOC_PEER_RPSL_INVERSE_PREF_STYLE
-**Default Value**   False
-==================  ================================
+Key-Value Path
+:   peer/max_prefix_length
 
+Environment
+:   NOC_PEER_MAX_PREFIX_LENGTH
+
+## rpsl_inverse_pref_style
+
+Default value
+:   False
+
+YAML Path
+:   peer.rpsl_inverse_pref_style
+
+Key-Value Path
+:   peer/rpsl_inverse_pref_style
+
+Environment
+:   NOC_PEER_RPSL_INVERSE_PREF_STYLE

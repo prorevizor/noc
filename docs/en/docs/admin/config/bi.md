@@ -1,195 +1,213 @@
-.. _config-bi:
+# [bi] section
+Bi service configuration
 
-bi
---
+## language
+Language BI interface
 
+Default value
+:   en
 
-.. _config-bi-language:
+YAML Path
+:   bi.language
 
-language
-~~~~~~~~
+Key-Value Path
+:   bi/language
 
-==================  ===============
-**YAML Path**       bi.language
-**Key-Value Path**  bi/language
-**Environment**     NOC_BI_LANGUAGE
-**Default Value**   en
-==================  ===============
+Environment
+:   NOC_BI_LANGUAGE
 
+## query_threads
 
-.. _config-bi-query_threads:
+Default value
+:   10
 
-query_threads
-~~~~~~~~~~~~~
+YAML Path
+:   bi.query_threads
 
-==================  ====================
-**YAML Path**       bi.query_threads
-**Key-Value Path**  bi/query_threads
-**Environment**     NOC_BI_QUERY_THREADS
-**Default Value**   10
-==================  ====================
+Key-Value Path
+:   bi/query_threads
 
+Environment
+:   NOC_BI_QUERY_THREADS
 
-.. _config-bi-extract_delay_alarms:
+## extract_delay_alarms
 
-extract_delay_alarms
-~~~~~~~~~~~~~~~~~~~~
+Default value
+:   1h
 
-==================  ===========================
-**YAML Path**       bi.extract_delay_alarms
-**Key-Value Path**  bi/extract_delay_alarms
-**Environment**     NOC_BI_EXTRACT_DELAY_ALARMS
-**Default Value**   1h
-==================  ===========================
+YAML Path
+:   bi.extract_delay_alarms
 
+Key-Value Path
+:   bi/extract_delay_alarms
 
-.. _config-bi-clean_delay_alarms:
+Environment
+:   NOC_BI_EXTRACT_DELAY_ALARMS
 
-clean_delay_alarms
-~~~~~~~~~~~~~~~~~~
+## clean_delay_alarms
 
-==================  =========================
-**YAML Path**       bi.clean_delay_alarms
-**Key-Value Path**  bi/clean_delay_alarms
-**Environment**     NOC_BI_CLEAN_DELAY_ALARMS
-**Default Value**   1d
-==================  =========================
+Default value
+:   1d
 
+YAML Path
+:   bi.clean_delay_alarms
 
-.. _config-bi-reboot_interval:
+Key-Value Path
+:   bi/clean_delay_alarms
 
-reboot_interval
-~~~~~~~~~~~~~~~
+Environment
+:   NOC_BI_CLEAN_DELAY_ALARMS
 
-==================  ======================
-**YAML Path**       bi.reboot_interval
-**Key-Value Path**  bi/reboot_interval
-**Environment**     NOC_BI_REBOOT_INTERVAL
-**Default Value**   1M
-==================  ======================
+## reboot_interval
 
+Default value
+:   1M
 
-.. _config-bi-extract_delay_reboots:
+YAML Path
+:   bi.reboot_interval
 
-extract_delay_reboots
-~~~~~~~~~~~~~~~~~~~~~
+Key-Value Path
+:   bi/reboot_interval
 
-==================  ============================
-**YAML Path**       bi.extract_delay_reboots
-**Key-Value Path**  bi/extract_delay_reboots
-**Environment**     NOC_BI_EXTRACT_DELAY_REBOOTS
-**Default Value**   1h
-==================  ============================
+Environment
+:   NOC_BI_REBOOT_INTERVAL
 
+## extract_delay_reboots
 
-.. _config-bi-clean_delay_reboots:
+Default value
+:   1h
 
-clean_delay_reboots
-~~~~~~~~~~~~~~~~~~~
+YAML Path
+:   bi.extract_delay_reboots
 
-==================  ==========================
-**YAML Path**       bi.clean_delay_reboots
-**Key-Value Path**  bi/clean_delay_reboots
-**Environment**     NOC_BI_CLEAN_DELAY_REBOOTS
-**Default Value**   1d
-==================  ==========================
+Key-Value Path
+:   bi/extract_delay_reboots
 
+Environment
+:   NOC_BI_EXTRACT_DELAY_REBOOTS
 
-.. _config-bi-chunk_size:
+## clean_delay_reboots
 
-chunk_size
-~~~~~~~~~~
+Default value
+:   1d
 
-==================  =================
-**YAML Path**       bi.chunk_size
-**Key-Value Path**  bi/chunk_size
-**Environment**     NOC_BI_CHUNK_SIZE
-**Default Value**   3000
-==================  =================
+YAML Path
+:   bi.clean_delay_reboots
 
+Key-Value Path
+:   bi/clean_delay_reboots
 
-.. _config-bi-extract_window:
+Environment
+:   NOC_BI_CLEAN_DELAY_REBOOTS
 
-extract_window
-~~~~~~~~~~~~~~
+## chunk_size
 
-==================  =====================
-**YAML Path**       bi.extract_window
-**Key-Value Path**  bi/extract_window
-**Environment**     NOC_BI_EXTRACT_WINDOW
-**Default Value**   1d
-==================  =====================
+Default value
+:   500
 
+YAML Path
+:   bi.chunk_size
 
-.. _config-bi-enable_alarms:
+Key-Value Path
+:   bi/chunk_size
 
-enable_alarms
-~~~~~~~~~~~~~
+Environment
+:   NOC_BI_CHUNK_SIZE
 
-==================  ====================
-**YAML Path**       bi.enable_alarms
-**Key-Value Path**  bi/enable_alarms
-**Environment**     NOC_BI_ENABLE_ALARMS
-**Default Value**   False
-==================  ====================
+## extract_window
 
+Default value
+:   1d
 
-.. _config-bi-enable_reboots:
+YAML Path
+:   bi.extract_window
 
-enable_reboots
-~~~~~~~~~~~~~~
+Key-Value Path
+:   bi/extract_window
 
-==================  =====================
-**YAML Path**       bi.enable_reboots
-**Key-Value Path**  bi/enable_reboots
-**Environment**     NOC_BI_ENABLE_REBOOTS
-**Default Value**   False
-==================  =====================
+Environment
+:   NOC_BI_EXTRACT_WINDOW
 
+## enable_alarms
 
-.. _config-bi-enable_managedobjects:
+Default value
+:   False
 
-enable_managedobjects
-~~~~~~~~~~~~~~~~~~~~~
+YAML Path
+:   bi.enable_alarms
 
-==================  ============================
-**YAML Path**       bi.enable_managedobjects
-**Key-Value Path**  bi/enable_managedobjects
-**Environment**     NOC_BI_ENABLE_MANAGEDOBJECTS
-**Default Value**   False
-==================  ============================
+Key-Value Path
+:   bi/enable_alarms
 
+Environment
+:   NOC_BI_ENABLE_ALARMS
 
-.. _config-bi-alarms_archive_policy:
+## enable_reboots
 
-alarms_archive_policy
-~~~~~~~~~~~~~~~~~~~~~
+Default value
+:   False
 
-==================  ============================
-**YAML Path**       bi.alarms_archive_policy
-**Key-Value Path**  bi/alarms_archive_policy
-**Environment**     NOC_BI_ALARMS_ARCHIVE_POLICY
-**Default Value**   "weekly"
-==================  ============================
+YAML Path
+:   bi.enable_reboots
 
-Possible values:
+Key-Value Path
+:   bi/enable_reboots
 
-* "weekly"
-* "monthly"
-* "quarterly"
-* "yearly"
+Environment
+:   NOC_BI_ENABLE_REBOOTS
 
+## enable_managedobjects
 
-.. _config-bi-alarms_archive_batch_limit:
+Default value
+:   False
 
-alarms_archive_batch_limit
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+YAML Path
+:   bi.enable_managedobjects
 
-==================  =================================
-**YAML Path**       bi.alarms_archive_batch_limit
-**Key-Value Path**  bi/alarms_archive_batch_limit
-**Environment**     NOC_BI_ALARMS_ARCHIVE_BATCH_LIMIT
-**Default Value**   10000
-==================  =================================
+Key-Value Path
+:   bi/enable_managedobjects
 
+Environment
+:   NOC_BI_ENABLE_MANAGEDOBJECTS
 
+## enable_alarms_archive
+
+Default value
+:   False
+
+YAML Path
+:   bi.enable_alarms_archive
+
+Key-Value Path
+:   bi/enable_alarms_archive
+
+Environment
+:   NOC_BI_ENABLE_ALARMS_ARCHIVE
+
+## alarms_archive_policy
+
+Default value
+:   {{doc["clear_timestamp"].strftime("y%Yw%W")}}
+
+YAML Path
+:   bi.alarms_archive_policy
+
+Key-Value Path
+:   bi/alarms_archive_policy
+
+Environment
+:   NOC_BI_ALARMS_ARCHIVE_POLICY
+
+## alarms_archive_batch_limit
+
+Default value
+:   10000
+
+YAML Path
+:   bi.alarms_archive_batch_limit
+
+Key-Value Path
+:   bi/alarms_archive_batch_limit
+
+Environment
+:   NOC_BI_ALARMS_ARCHIVE_BATCH_LIMIT

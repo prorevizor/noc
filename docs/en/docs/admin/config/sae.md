@@ -1,45 +1,44 @@
-.. _config-sae:
+# [sae] section
+Sae service configuration
 
-sae
----
+## db_threads
 
+Default value
+:   20
 
-.. _config-sae-db_threads:
+YAML Path
+:   sae.db_threads
 
-db_threads
-~~~~~~~~~~
+Key-Value Path
+:   sae/db_threads
 
-==================  ==================
-**YAML Path**       sae.db_threads
-**Key-Value Path**  sae/db_threads
-**Environment**     NOC_SAE_DB_THREADS
-**Default Value**   20
-==================  ==================
+Environment
+:   NOC_SAE_DB_THREADS
 
+## activator_resolution_retries
 
-.. _config-sae-activator_resolution_retries:
+Default value
+:   5
 
-activator_resolution_retries
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+YAML Path
+:   sae.activator_resolution_retries
 
-==================  ====================================
-**YAML Path**       sae.activator_resolution_retries
-**Key-Value Path**  sae/activator_resolution_retries
-**Environment**     NOC_SAE_ACTIVATOR_RESOLUTION_RETRIES
-**Default Value**   5
-==================  ====================================
+Key-Value Path
+:   sae/activator_resolution_retries
 
+Environment
+:   NOC_SAE_ACTIVATOR_RESOLUTION_RETRIES
 
-.. _config-sae-activator_resolution_timeout:
+## activator_resolution_timeout
 
-activator_resolution_timeout
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Default value
+:   2s
 
-==================  ====================================
-**YAML Path**       sae.activator_resolution_timeout
-**Key-Value Path**  sae/activator_resolution_timeout
-**Environment**     NOC_SAE_ACTIVATOR_RESOLUTION_TIMEOUT
-**Default Value**   2s
-==================  ====================================
+YAML Path
+:   sae.activator_resolution_timeout
 
+Key-Value Path
+:   sae/activator_resolution_timeout
 
+Environment
+:   NOC_SAE_ACTIVATOR_RESOLUTION_TIMEOUT

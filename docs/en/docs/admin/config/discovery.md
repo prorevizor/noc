@@ -1,32 +1,30 @@
-.. _config-discovery:
+# [discovery] section
+Discovery service configuration
 
-discovery
----------
+## max_threads
 
+Default value
+:   20
 
-.. _config-discovery-max_threads:
+YAML Path
+:   discovery.max_threads
 
-max_threads
-~~~~~~~~~~~
+Key-Value Path
+:   discovery/max_threads
 
-==================  =========================
-**YAML Path**       discovery.max_threads
-**Key-Value Path**  discovery/max_threads
-**Environment**     NOC_DISCOVERY_MAX_THREADS
-**Default Value**   20
-==================  =========================
+Environment
+:   NOC_DISCOVERY_MAX_THREADS
 
+## sample
 
-.. _config-discovery-sample:
+Default value
+:   0
 
-sample
-~~~~~~
+YAML Path
+:   discovery.sample
 
-==================  ====================
-**YAML Path**       discovery.sample
-**Key-Value Path**  discovery/sample
-**Environment**     NOC_DISCOVERY_SAMPLE
-**Default Value**   0
-==================  ====================
+Key-Value Path
+:   discovery/sample
 
-
+Environment
+:   NOC_DISCOVERY_SAMPLE

@@ -1,84 +1,86 @@
-.. _config-escalator:
+# [escalator] section
+Escalator service configuration
 
-escalator
----------
+## max_threads
 
+Default value
+:   5
 
-.. _config-escalator-max_threads:
+YAML Path
+:   escalator.max_threads
 
-max_threads
-~~~~~~~~~~~
+Key-Value Path
+:   escalator/max_threads
 
-==================  =========================
-**YAML Path**       escalator.max_threads
-**Key-Value Path**  escalator/max_threads
-**Environment**     NOC_ESCALATOR_MAX_THREADS
-**Default Value**   5
-==================  =========================
+Environment
+:   NOC_ESCALATOR_MAX_THREADS
 
+## retry_timeout
 
-.. _config-escalator-retry_timeout:
+Default value
+:   60s
 
-retry_timeout
-~~~~~~~~~~~~~
+YAML Path
+:   escalator.retry_timeout
 
-==================  ===========================
-**YAML Path**       escalator.retry_timeout
-**Key-Value Path**  escalator/retry_timeout
-**Environment**     NOC_ESCALATOR_RETRY_TIMEOUT
-**Default Value**   60s
-==================  ===========================
+Key-Value Path
+:   escalator/retry_timeout
 
+Environment
+:   NOC_ESCALATOR_RETRY_TIMEOUT
 
-.. _config-escalator-tt_escalation_limit:
+## tt_escalation_limit
 
-tt_escalation_limit
-~~~~~~~~~~~~~~~~~~~
+Default value
+:   10
 
-==================  =================================
-**YAML Path**       escalator.tt_escalation_limit
-**Key-Value Path**  escalator/tt_escalation_limit
-**Environment**     NOC_ESCALATOR_TT_ESCALATION_LIMIT
-**Default Value**   10
-==================  =================================
+YAML Path
+:   escalator.tt_escalation_limit
 
+Key-Value Path
+:   escalator/tt_escalation_limit
 
-.. _config-escalator-ets:
+Environment
+:   NOC_ESCALATOR_TT_ESCALATION_LIMIT
 
-ets
-~~~
+## ets
 
-==================  =================
-**YAML Path**       escalator.ets
-**Key-Value Path**  escalator/ets
-**Environment**     NOC_ESCALATOR_ETS
-**Default Value**   60s
-==================  =================
+Default value
+:   60s
 
+YAML Path
+:   escalator.ets
 
-.. _config-escalator-wait_tt_check_interval:
+Key-Value Path
+:   escalator/ets
 
-wait_tt_check_interval
-~~~~~~~~~~~~~~~~~~~~~~
+Environment
+:   NOC_ESCALATOR_ETS
 
-==================  ====================================
-**YAML Path**       escalator.wait_tt_check_interval
-**Key-Value Path**  escalator/wait_tt_check_interval
-**Environment**     NOC_ESCALATOR_WAIT_TT_CHECK_INTERVAL
-**Default Value**   60s
-==================  ====================================
+## wait_tt_check_interval
 
+Default value
+:   60s
 
-.. _config-escalator-sample:
+YAML Path
+:   escalator.wait_tt_check_interval
 
-sample
-~~~~~~
+Key-Value Path
+:   escalator/wait_tt_check_interval
 
-==================  ====================
-**YAML Path**       escalator.sample
-**Key-Value Path**  escalator/sample
-**Environment**     NOC_ESCALATOR_SAMPLE
-**Default Value**   0
-==================  ====================
+Environment
+:   NOC_ESCALATOR_WAIT_TT_CHECK_INTERVAL
 
+## sample
 
+Default value
+:   0
+
+YAML Path
+:   escalator.sample
+
+Key-Value Path
+:   escalator/sample
+
+Environment
+:   NOC_ESCALATOR_SAMPLE

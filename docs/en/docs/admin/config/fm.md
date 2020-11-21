@@ -1,82 +1,86 @@
-.. _config-fm:
+# [fm] section
+Fm service configuration
 
-fm
---
+## active_window
 
+Default value
+:   1d
 
-.. _config-fm-active_window:
+YAML Path
+:   fm.active_window
 
-active_window
-~~~~~~~~~~~~~
+Key-Value Path
+:   fm/active_window
 
-==================  ====================
-**YAML Path**       fm.active_window
-**Key-Value Path**  fm/active_window
-**Environment**     NOC_FM_ACTIVE_WINDOW
-**Default Value**   1d
-==================  ====================
+Environment
+:   NOC_FM_ACTIVE_WINDOW
 
+## keep_events_wo_alarm
 
-.. _config-fm-keep_events_wo_alarm:
+Default value
+:   0
 
-keep_events_wo_alarm
-~~~~~~~~~~~~~~~~~~~~
+YAML Path
+:   fm.keep_events_wo_alarm
 
-==================  ===========================
-**YAML Path**       fm.keep_events_wo_alarm
-**Key-Value Path**  fm/keep_events_wo_alarm
-**Environment**     NOC_FM_KEEP_EVENTS_WO_ALARM
-**Default Value**   0
-==================  ===========================
+Key-Value Path
+:   fm/keep_events_wo_alarm
 
+Environment
+:   NOC_FM_KEEP_EVENTS_WO_ALARM
 
-.. _config-fm-keep_events_with_alarm:
+## keep_events_with_alarm
 
-keep_events_with_alarm
-~~~~~~~~~~~~~~~~~~~~~~
+Default value
+:   -1
 
-==================  =============================
-**YAML Path**       fm.keep_events_with_alarm
-**Key-Value Path**  fm/keep_events_with_alarm
-**Environment**     NOC_FM_KEEP_EVENTS_WITH_ALARM
-**Default Value**   -1
-==================  =============================
+YAML Path
+:   fm.keep_events_with_alarm
 
+Key-Value Path
+:   fm/keep_events_with_alarm
 
-.. _config-fm-alarm_close_retries:
+Environment
+:   NOC_FM_KEEP_EVENTS_WITH_ALARM
 
-alarm_close_retries
-~~~~~~~~~~~~~~~~~~~
+## alarm_close_retries
 
-==================  ==========================
-**YAML Path**       fm.alarm_close_retries
-**Key-Value Path**  fm/alarm_close_retries
-**Environment**     NOC_FM_ALARM_CLOSE_RETRIES
-**Default Value**   5
-==================  ==========================
+Default value
+:   5
 
+YAML Path
+:   fm.alarm_close_retries
 
-.. _config-fm-outage_refresh:
+Key-Value Path
+:   fm/alarm_close_retries
 
-outage_refresh
-~~~~~~~~~~~~~~
+Environment
+:   NOC_FM_ALARM_CLOSE_RETRIES
 
-==================  =====================
-**YAML Path**       fm.outage_refresh
-**Key-Value Path**  fm/outage_refresh
-**Environment**     NOC_FM_OUTAGE_REFRESH
-**Default Value**   60s
-==================  =====================
+## outage_refresh
 
+Default value
+:   60s
 
-.. _config-fm-total_outage_refresh:
+YAML Path
+:   fm.outage_refresh
 
-total_outage_refresh
-~~~~~~~~~~~~~~~~~~~~
+Key-Value Path
+:   fm/outage_refresh
 
-==================  ===========================
-**YAML Path**       fm.total_outage_refresh
-**Key-Value Path**  fm/total_outage_refresh
-**Environment**     NOC_FM_TOTAL_OUTAGE_REFRESH
-**Default Value**   60s
-==================  ===========================
+Environment
+:   NOC_FM_OUTAGE_REFRESH
+
+## total_outage_refresh
+
+Default value
+:   60s
+
+YAML Path
+:   fm.total_outage_refresh
+
+Key-Value Path
+:   fm/total_outage_refresh
+
+Environment
+:   NOC_FM_TOTAL_OUTAGE_REFRESH
