@@ -1,0 +1,62 @@
+site_name: NOC Docs
+repo_url: https://code.getnoc.com/noc/noc/
+repo_name: Gitlab
+# @todo: edit_uri:
+copyright: 2007-2020, The NOC Project
+nav:
+  - Home: index.md
+  #  - Installation:
+  #  - Admin Guide:
+  #  - Reference:
+  #      - Configuration:
+  #      - Capabilities:
+  #      - Alarm Classes:
+  #      - Event Classes:
+  #      - Metric Types:
+  #      - Model Interfaces:
+  #      - Scripts:
+  #      - Profiles:
+  #      - Platforms:
+  #      - Technologies:
+  - API:
+      - DataStream:
+          - address: api/datastream/address.md
+          - administrativedomain: api/datastream/administrativedomain.md
+          - administrativedomain: api/datastream/alarm.md
+          - cfgping: api/datastream/alarm.md
+          - cfgsyslog: api/datastream/cfgsyslog.md
+          - cfgtrap: api/datastream/cfgtrap.md
+          - dnszone: api/datastream/dnszone.md
+          - managedobject: api/datastream/managedobject.md
+          - dnszone: api/datastream/dnszone.md
+          - prefix: api/datastream/prefix.md
+          - resourcegroup: api/datastream/resourcegroup.md
+          - vrf: api/datastream/vrf.md
+      - NBI:
+          - config: api/nbi/config.md
+          - configrevisions: api/nbi/configrevisions.md
+          - getmappings: api/nbi/getmappings.md
+          - objectmetrics: api/nbi/objectmetrics.md
+          - objectstatus: api/nbi/objectstatus.md
+          - path: api/nbi/path.md
+          - telemetry: api/nbi/telemetry.md
+  #  - Man Pages:
+  - HOWTO:
+      - How to Share Collections: howto/sharing-collection/index.md
+  - Releases:
+      - NOC 0.1 Generation:
+          - NOC 0.1RC1: releases/0.1rc1.md
+          - NOC 0.1RC2: releases/0.1rc2.md
+          - NOC 0.1: releases/0.1.md
+  - About:
+      - License: license.md
+      - Contributing: contributing.md
+      - Documentation Structure: structure.md
+      - Style Guide: style-guide.md
+theme: readthedocs
+use_directory_urls: true
+site_dir: ../../build/docs2/en
+strict: true
+markdown_extensions:
+  - toc:
+      permalink: true
