@@ -9,7 +9,65 @@ nav:
   # - Quickstart
   - Administration Guide:
       - Configuration:
-          - Overview: admin/config/index.html
+          - Overview: admin/config/index.md
+          - Date and Time Formats: admin/config/date_time_formats.md
+          - Global Configuration: admin/config/global.md
+          - "[activator] Section": admin/config/activator.md
+          - "[audit] section": admin/config/audit.md
+          - "[backup] section": admin/config/backup.md
+          - "[bi] section": admin/config/bi.md
+          - "[cache] section": admin/config/cache.md
+          - "[card] section": admin/config/card.md
+          - "[chwriter] section": admin/config/chwriter.md
+          - "[classifier] section": admin/config/classifier.md
+          - "[clickhouse] section": admin/config/clickhouse.md
+          - "[consul] section": admin/config/consul.md
+          - "[correlator] section": admin/config/correlator.md
+          - "[customization] section": admin/config/customization.md
+          - "[datasource] section": admin/config/datasource.md
+          - "[datastream] section": admin/config/datastream.md
+          - "[dcs] section": admin/config/dcs.md
+          - "[discovery] section": admin/config/discovery.md
+          - "[dns] section": admin/config/dns.md
+          - "[escalator] section": admin/config/escalator.md
+          - "[features] section": admin/config/features.md
+          - "[fm] section": admin/config/fm.md
+          - "[geocoding] section": admin/config/geocoding.md
+          - "[gis] section": admin/config/gis.md
+          - "[grafanads] section": admin/config/grafanads.md
+          - "[help] section": admin/config/help.md
+          - "[http_client] section": admin/config/http_client.md
+          - "[initial] section": admin/config/initial.md
+          - "[layout] section": admin/config/layout.md
+          - "[logging] section": admin/config/logging.md
+          - "[login] section": admin/config/login.md
+          - "[mailsender] section": admin/config/mailsender.md
+          - "[memcached] section": admin/config/memcached.md
+          - "[metrics] section": admin/config/metrics.md
+          - "[mongo] section": admin/config/mongo.md
+          - "[mrt] section": admin/config/mrt.md
+          - "[nbi] section": admin/config/nbi.md
+          - "[nsqd] section": admin/config/nsqd.md
+          - "[nsqlookupd] section": admin/config/nsqlookupd.md
+          - "[path] section": admin/config/path.md
+          - "[peer] section": admin/config/peer.md
+          - "[pg] section": admin/config/pg.md
+          - "[ping] section": admin/config/ping.md
+          - "[pmwriter] section": admin/config/pmwriter.md
+          - "[proxy] section": admin/config/proxy.md
+          - "[redis] section": admin/config/redis.md
+          - "[rpc] section": admin/config/rpc.md
+          - "[sae] section": admin/config/sae.md
+          - "[scheduler] section": admin/config/scheduler.md
+          - "[script] section": admin/config/script.md
+          - "[selfmon] section": admin/config/selfmon.md
+          - "[sentry] section": admin/config/sentry.md
+          - "[syslogcollector] section": admin/config/syslogcollector.md
+          - "[tests] section": admin/config/tests.md
+          - "[threadpool] section": admin/config/threadpool.md
+          - "[traceback] section": admin/config/traceback.md
+          - "[trapcollector] section": admin/config/trapcollector.md
+          - "[web] section": admin/config/web.md
   - Reference:
       - Concepts:
           - Administrative Domain: reference/concepts/administrativedomain/index.md
@@ -67,3 +125,4 @@ markdown_extensions:
   - toc:
       permalink: true
   - admonition
+  - def_list
