@@ -1,4 +1,4 @@
-# [global] section
+# Global service configuration
 Global service configuration
 
 ## loglevel
@@ -7,12 +7,11 @@ Default value
 :   info
 
 Possible values
-:
-* critical
-* error
-* warning
-* info
-* debug
+:   * critical
+    * error
+    * warning
+    * info
+    * debug
 
 YAML Path
 :   global.loglevel
@@ -21,7 +20,7 @@ Key-Value Path
 :   global/loglevel
 
 Environment
-:   NOC_GLOBAL_LOGLEVEL
+:   NOC_LOGLEVEL
 
 ## brand
 
@@ -35,7 +34,7 @@ Key-Value Path
 :   global/brand
 
 Environment
-:   NOC_GLOBAL_BRAND
+:   NOC_BRAND
 
 ## global_n_instances
 
@@ -49,7 +48,7 @@ Key-Value Path
 :   global/global_n_instances
 
 Environment
-:   NOC_GLOBAL_GLOBAL_N_INSTANCES
+:   NOC_GLOBAL_N_INSTANCES
 
 ## installation_name
 
@@ -63,7 +62,7 @@ Key-Value Path
 :   global/installation_name
 
 Environment
-:   NOC_GLOBAL_INSTALLATION_NAME
+:   NOC_INSTALLATION_NAME
 
 ## installation_id
 
@@ -77,7 +76,7 @@ Key-Value Path
 :   global/installation_id
 
 Environment
-:   NOC_GLOBAL_INSTALLATION_ID
+:   NOC_INSTALLATION_ID
 
 ## instance
 
@@ -91,7 +90,7 @@ Key-Value Path
 :   global/instance
 
 Environment
-:   NOC_GLOBAL_INSTANCE
+:   NOC_INSTANCE
 
 ## language
 
@@ -105,7 +104,7 @@ Key-Value Path
 :   global/language
 
 Environment
-:   NOC_GLOBAL_LANGUAGE
+:   NOC_LANGUAGE
 
 ## language_code
 
@@ -119,7 +118,7 @@ Key-Value Path
 :   global/language_code
 
 Environment
-:   NOC_GLOBAL_LANGUAGE_CODE
+:   NOC_LANGUAGE_CODE
 
 ## listen
 
@@ -133,7 +132,7 @@ Key-Value Path
 :   global/listen
 
 Environment
-:   NOC_GLOBAL_LISTEN
+:   NOC_LISTEN
 
 ## log_format
 
@@ -147,7 +146,7 @@ Key-Value Path
 :   global/log_format
 
 Environment
-:   NOC_GLOBAL_LOG_FORMAT
+:   NOC_LOG_FORMAT
 
 ## thread_stack_size
 
@@ -161,7 +160,7 @@ Key-Value Path
 :   global/thread_stack_size
 
 Environment
-:   NOC_GLOBAL_THREAD_STACK_SIZE
+:   NOC_THREAD_STACK_SIZE
 
 ## version_format
 
@@ -175,7 +174,7 @@ Key-Value Path
 :   global/version_format
 
 Environment
-:   NOC_GLOBAL_VERSION_FORMAT
+:   NOC_VERSION_FORMAT
 
 ## node
 
@@ -189,7 +188,7 @@ Key-Value Path
 :   global/node
 
 Environment
-:   NOC_GLOBAL_NODE
+:   NOC_NODE
 
 ## pool
 
@@ -203,7 +202,7 @@ Key-Value Path
 :   global/pool
 
 Environment
-:   NOC_GLOBAL_POOL
+:   NOC_POOL
 
 ## secret_key
 
@@ -217,7 +216,7 @@ Key-Value Path
 :   global/secret_key
 
 Environment
-:   NOC_GLOBAL_SECRET_KEY
+:   NOC_SECRET_KEY
 
 ## timezone
 
@@ -231,4 +230,4 @@ Key-Value Path
 :   global/timezone
 
 Environment
-:   NOC_GLOBAL_TIMEZONE
+:   NOC_TIMEZONE
