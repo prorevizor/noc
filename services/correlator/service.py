@@ -47,7 +47,6 @@ class CorrelatorService(TornadoService):
     name = "correlator"
     pooled = True
     use_mongo = True
-    leader_lock_name = "correlator-%(pool)s"
     process_name = "noc-%(name).10s-%(pool).5s"
 
     def __init__(self):
