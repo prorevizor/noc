@@ -1,4 +1,5 @@
 #NOC Internal Metrics
+
 ##Service Metrics
 
 Given to a separate service for reference to the link /mon/
@@ -92,6 +93,7 @@ The client provides the following metrics:
 | error                       | `type:nsqlookupd_invalid_json_<code> `    | reader            | Error decoding a message received from HTTPLookupD
 
 ###NSQ TopicQueue metrics
+
 TopicQueue is the service's internal buffering queue between NSQ
 message producing threads and the NSQ publisher.
 
