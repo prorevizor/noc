@@ -1,6 +1,6 @@
-#NOC Internal Metrics
+# NOC Internal Metrics
 
-##Service Metrics
+## Service Metrics
 
 Given to a separate service for reference to the link /mon/
 
@@ -9,7 +9,7 @@ All metrics are tagged:
 * service - the name of the service. It is fixed in the code
 * pool - in the case of a sharded service, an indication of the pool
 
-###General Service Metrics
+### General Service Metrics
 
 | Metric name   | Tag value                 | A place                                                 | Physical meaning|                                                             
 |---|---|---|---
@@ -27,7 +27,7 @@ All metrics are tagged:
 | unique_errors | x                         | debug                                                   | The number of unique (new) errors in the service (counted from the moment of launch) 
 | `err_<code>`    | x                         | error                                                   | The number of errors by code                                                         
 
-###Cache metrics
+### Cache metrics
 
 Most services provide work with the cache.
 A separate component is responsible for this.
@@ -51,7 +51,7 @@ Each element of the system that uses the cache is assigned a unique key - cache_
 | cache_misses         | cache_key             | cachedmethod | The number of requests past the cache (missed)            
 | cache_locks_acquires | cache_key             | cachedmethod | Number of cache accesses                                  
 
-###HTTP client metrics
+### HTTP client metrics
 
 Built-in HTTP client supports metrics:
 
@@ -61,7 +61,7 @@ Built-in HTTP client supports metrics:
 | httpclient_timeouts       | x                    | http_client.fetch | Number of requests with an error timeout  
 | httpclient_proxy_timeouts | x                    | http_client.fetch | The number of requests with a proxy error 
 
-###Client RPC Metrics
+### Client RPC Metrics
 
 A client RPC used to interact with a part of system services that support the protocol JSON-RPC.
 Supports the following tags:
@@ -73,7 +73,7 @@ Supports the following tags:
 |---|---|---|---
 | rpc_call    | method (method name), called_service (name of the service being called) | http_client.fetch | The number of calls to a specific method in a given service 
 
-###NSQ client metrics
+### NSQ client metrics
 
 The client is used to work with the service queue - NSQD.
 Used for two options:
@@ -92,7 +92,7 @@ The client provides the following metrics:
 | error                       | `type:nsqlookupd_query_error_code_<code>` | reader            | Error when accessing HTTPLookupD                              
 | error                       | `type:nsqlookupd_invalid_json_<code> `    | reader            | Error decoding a message received from HTTPLookupD
 
-###NSQ TopicQueue metrics
+### NSQ TopicQueue metrics
 
 TopicQueue is the service's internal buffering queue between NSQ
 message producing threads and the NSQ publisher.
@@ -108,7 +108,7 @@ The TopicQueue provides following metrics:
 | nsq_msg_requeued      | `topic:<name>` | TopicQueue | Amount of messages returned to TopicQueue due to publishing errors                 
 | nsq_msg_requeued_size | `topic:<name>` | TopicQueue | Total size of messages returned to TopicQueue due to publishing errors (in octets) 
 
-###DCS metrics
+### DCS metrics
 
 DCS client is used to work with the services service Consul.
 Consul is used for:
@@ -129,7 +129,7 @@ The client provides the following metrics:
 | dcs_resolver_success        | x                          | ResolverBase | The number of requests for service, completed success 
 | errors                      | type: dcs_resolver_timeout | ResolverBase | The number of service requests that failed            
 
-###Threadpool metrics
+### Threadpool metrics
 
 In system services using multi-thread processing is used pool of threads( threadpool).
 This component is responsible for managing flows and provides the following metrics:
@@ -149,7 +149,7 @@ This component is responsible for managing flows and provides the following metr
    * query - used by the service BI
    * max - use services Web,NBI
 
-###Scheduler metrics
+### Scheduler metrics
 
 In system services using work with tasks, the scheduler component ( scheduler) is used.
 It is responsible for working with tasks (planning, sending for execution ...).
@@ -164,7 +164,7 @@ Provides the following metrics:
 | `<service>_cache_set_requests`    | x         | Scheduler | Number of Scheduler Cache Saves                            
 | `<service>_cache_set_errors`      | x         | Scheduler | The number of errors while saving the scheduler cache      
 
-###Activator
+### Activator
 
 | Metric name | Tag value              | A place                   | Physical meaning                                        
 |---|---|---|---
@@ -174,15 +174,15 @@ Provides the following metrics:
 |             | type:snmp_v2_error     | ActivatorAPI.snmp_v2c_get | Number of SNMP V2 Request Errors                        
 |             | `type:http_error_<code>` | ActivatorAPI.http_get     | The number of HTTP request errors (divided by code)     
 
-###Discovery
+### Discovery
 
 todo
 
-###SAE
+### SAE
 
 todo
 
-###Ping
+### Ping
 
 | Metric name               | Tag value | A place         | Physical meaning                                                            
 |---|---|---|---
@@ -201,7 +201,7 @@ todo
 | ping_check_success        | x         | Pingservice     | The number of successful checks                                             
 | ping_check_fail           | x         | Pingservice     | The number of failed checks                                                 
 
-###Collectors
+### Collectors
 
 | Metric name     | Tag value                | A place                                                                  | Physical meaning                                        
 |---|---|---|---
@@ -214,7 +214,7 @@ todo
 | error           | type:object_not_found    | TrapCollectorService.lookup_config                                       |                                                         
 | syslog_msg_in   | x                        | SyslogServer.on_read                                                     | The number of incoming UPD syslog packages              
 
-###Classifier
+### Classifier
 
 | Metric name           | Tag value | A place                    | Physical meaning                                                                 
 |---|---|---|---
@@ -237,7 +237,7 @@ todo
 | rules_checked         | x         | RuleSet.find_rule          | The number of checked rules                                                      
 | esm_lookups           | x         | XRuleLookup.lookup_rules   | The number of checked rules XRules                                               
 
-###Correlator
+### Correlator
 
 | Metric name               | Tag value           | A place                               | Physical meaning                                                                                            
 |---|---|---|---
@@ -258,7 +258,7 @@ todo
 | detached_root             | x                   | check.check_close_consequence         | The number of trips of the root cause (in case of closing the main accident and the remaining subordinates) 
 | errors                    | type: alarm_handler | CorrelatorService.correlate           | Runtime Handler Errors                                                                                      
 
-###Escalator
+### Escalator
 
 | Metric name                       | Tag value | A place                | Physical meaning                                                                                                                                   
 |---|---|---|---
@@ -284,17 +284,17 @@ todo
 | maintenance_tt_close              | x         | escalator.maintenance  |                                                                                                                                                    
 | maintenance_tt_close_fail         | x         | escalator.maintenance  |                                                                                                                                                    
 
-###Mailsender
+### Mailsender
 
 | Metric name   | Tag value        | A place                     | Physical meaning                                                
 |---|---|---|---
 | smtp_response | code (SMTP code) | MailSenderService.send_mail | Number of sent messages (divided by SMTP server response codes) 
 
-##System-wide metrics (self-monitoring)
+## System-wide metrics (self-monitoring)
 
 Subsystem metrics are calculated based on information from the database ( Postgres or MongoDB) and require an installed service seflmon.
 
-###Task
+### Task
 
 In many services of the system, tasks are performed with time reference. It is responsible for this scheduler.
 Technically, it is implemented as a queue of tasks in MongoDB.
@@ -316,7 +316,7 @@ Tags are added to all metrics:
 | task_box_time_avg_seconds      | -                    |              | Average task completion time (counted for equipment survey service (discovery)) 
 | task_periodic_time_avg_seconds | -                    |              | Average lead time                                                               
 
-###Inventory
+### Inventory
 
 | Metric name                       | Tag value | A place               | Physical meaning                                                                                         
 |---|---|---|---
@@ -328,7 +328,7 @@ Tags are added to all metrics:
 | inventory_managedobject_managed   | x         |                       | The total number of management objects (ManagedObject) in the active state (ticked is_managed)           
 | inventory_managedobject_unmanaged | x         | selfmon.managedobject |                                                                                                          
 
-###FM
+### FM
 
 For part of the metrics tags are added:
 
