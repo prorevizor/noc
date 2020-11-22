@@ -58,6 +58,8 @@ Environment
 :   NOC_WEB_API_ARCH_ALARM_LIMIT
 
 ## max_upload_size
+The maximum size in bytes that a request body may be
+before a RequestDataTooBig is raised.
 
 Default value
 :   16777216

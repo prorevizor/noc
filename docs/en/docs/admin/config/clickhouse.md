@@ -202,3 +202,13 @@ Key-Value Path
 
 Environment
 :   NOC_CLICKHOUSE_CLUSTER_TOPOLOGY
+
+Examples:
+
+
+| Value | Description                                                                   |
+|---|---|
+| 1     | non-replicated, non-sharded configuration                                        |
+| 1,1   | 2 shards, non-replicated                                                         |
+| 2,2   | 2 shards, 2 replicas in each                                                     |
+| 3:2,2 | first shard has 2 replicas an weight 3, second shard has 2 replicas and weight 1 |

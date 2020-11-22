@@ -44,6 +44,7 @@ Environment
 :   NOC_SYSLOGCOLLECTOR_ENABLE_FREEBIND
 
 ## ds_limit
+DataStream request limit
 
 Default value
 :   1000

@@ -1,5 +1,5 @@
 # Global service configuration
-Global service configuration
+Global settings applicable to all services
 
 ## loglevel
 
