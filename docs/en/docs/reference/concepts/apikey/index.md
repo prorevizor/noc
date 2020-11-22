@@ -4,20 +4,20 @@
 Client *MUST* set `Private-Token` HTTP Request header and set it
 with proper *Key* in order to get access to protected API
 
-Example: `curl  -s -D - -k -H 'Private-Token: 12345'  https://noc_url/api/datastream/managedobject` ,
+Example: `curl  -s -D - -k -H 'Private-Token: 12345'  https://noc_url/dev/api/datastream/managedobject` ,
 where 12345 is an API token key.
 
 ## Roles
 
 ### DataStream API
-Access to [DataStream API](../../../api/datastream/index.md)
+Access to [DataStream API](../../../dev/api/datastream/index.md)
 
 API:Role | Description
 -------- | -----------
-`datastream:administrativedomain` | [administrativedomain DataStream](../../../api/datastream/administrativedomain.md)
-`datastream:alarm` | [administrativedomain DataStream](../../../api/datastream/alarm.md)
-`datastream:resourcegroup` | [resourcegroup DataStream](../../../api/datastream/resourcegroup.md)
-`datastream:managedobject` | [managedobject DataStream](../../../api/datastream/managedobject.md)
+`datastream:administrativedomain` | [administrativedomain DataStream](../../../dev/api/datastream/administrativedomain.md)
+`datastream:alarm` | [administrativedomain DataStream](../../../dev/api/datastream/alarm.md)
+`datastream:resourcegroup` | [resourcegroup DataStream](../../../dev/api/datastream/resourcegroup.md)
+`datastream:managedobject` | [managedobject DataStream](../../../dev/api/datastream/managedobject.md)
 
 +-----------------------------------+------------------------------------------------------------------------------------+
 | `datastream:dnszone`              | :ref:`dnszone datastream <api-datastream-dnszone>` access                          |

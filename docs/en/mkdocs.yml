@@ -1,4 +1,6 @@
 site_name: NOC Docs
+site_description: NOC Documentation Project
+site_author: The NOC Project
 repo_url: https://code.getnoc.com/noc/noc/
 repo_name: Gitlab
 edit_uri: -/edit/master/docs/en
@@ -10,7 +12,7 @@ nav:
   - Administration Guide:
       - Configuration:
           - Overview: admin/config/index.md
-          - Date and Time Formats: admin/config/date_time_formats.md
+          - Date and Time Formats: admin/datetime-format.md
           - Global Configuration: admin/config/global.md
           - "[activator] Section": admin/config/activator.md
           - "[audit] section": admin/config/audit.md
@@ -68,11 +70,12 @@ nav:
           - "[traceback] section": admin/config/traceback.md
           - "[trapcollector] section": admin/config/trapcollector.md
           - "[web] section": admin/config/web.md
+      - Internal Metrics: admin/internal-metrics.md
   - Reference:
       - Concepts:
           - Administrative Domain: reference/concepts/administrativedomain/index.md
           - API Key: reference/concepts/apikey/index.md
-  #   - Capabilities:
+  #    - Capabilities:
   #   - Alarm Classes:
   #   - Event Classes:
   #   - Metric Types:
@@ -81,33 +84,59 @@ nav:
   #   - Profiles:
   #   - Platforms:
   #   - Technologies:
-  - API:
-      - DataStream:
-          - Overview: api/datastream/index.md
-          - address: api/datastream/address.md
-          - administrativedomain: api/datastream/administrativedomain.md
-          - administrativedomain: api/datastream/alarm.md
-          - cfgping: api/datastream/cfgping.md
-          - cfgsyslog: api/datastream/cfgsyslog.md
-          - cfgtrap: api/datastream/cfgtrap.md
-          - dnszone: api/datastream/dnszone.md
-          - managedobject: api/datastream/managedobject.md
-          - dnszone: api/datastream/dnszone.md
-          - prefix: api/datastream/prefix.md
-          - resourcegroup: api/datastream/resourcegroup.md
-          - vrf: api/datastream/vrf.md
-      - NBI:
-          - config: api/nbi/config.md
-          - configrevisions: api/nbi/configrevisions.md
-          - getmappings: api/nbi/getmappings.md
-          - objectmetrics: api/nbi/objectmetrics.md
-          - objectstatus: api/nbi/objectstatus.md
-          - path: api/nbi/path.md
-          - telemetry: api/nbi/telemetry.md
+  - Developer's Guide:
+      - API:
+          - Merge Request Labels: dev/mr-labels.md
+          - DataStream:
+              - Overview: dev/api/datastream/index.md
+              - address: dev/api/datastream/address.md
+              - administrativedomain: dev/api/datastream/administrativedomain.md
+              - administrativedomain: dev/api/datastream/alarm.md
+              - cfgping: dev/api/datastream/cfgping.md
+              - cfgsyslog: dev/api/datastream/cfgsyslog.md
+              - cfgtrap: dev/api/datastream/cfgtrap.md
+              - dnszone: dev/api/datastream/dnszone.md
+              - managedobject: dev/api/datastream/managedobject.md
+              - dnszone: dev/api/datastream/dnszone.md
+              - prefix: dev/api/datastream/prefix.md
+              - resourcegroup: dev/api/datastream/resourcegroup.md
+              - vrf: dev/api/datastream/vrf.md
+          - NBI:
+              - Overview: dev/api/nbi/index.md
+              - config: dev/api/nbi/config.md
+              - configrevisions: dev/api/nbi/configrevisions.md
+              - getmappings: dev/api/nbi/getmappings.md
+              - objectmetrics: dev/api/nbi/objectmetrics.md
+              - objectstatus: dev/api/nbi/objectstatus.md
+              - path: dev/api/nbi/path.md
+              - telemetry: dev/api/nbi/telemetry.md
+      - BI:
+          - Dictionaries:
+              - administrativedomain: dev/bi/dict/administrativedomain.md
+              - alarmclass: dev/bi/dict/alarmclass.md
+              - container: dev/bi/dict/container.md
+              - interfacedescription: dev/bi/dict/interfacedescription.md
+              - interfaceprofile: dev/bi/dict/interfaceprofile.md
+              - managedobject: dev/bi/dict/managedobject.md
+              - networksegment: dev/bi/dict/networksegment.md
+              - platform: dev/bi/dict/platform.md
+              - pool: dev/bi/dict/pool.md
+              - profile: dev/bi/dict/profile.md
+              - vendor: dev/bi/dict/vendor.md
+              - version: dev/bi/dict/version.md
+          - Models:
+              - alarms: dev/bi/model/alarms.md
+              - mac: dev/bi/model/mac.md
+              - managedobjects: dev/bi/model/managedobjects.md
+              - reboots: dev/bi/model/reboots.md
+              - routingneighbors: dev/bi/model/routingneighbors.md
+              - span: dev/bi/model/span.md
+      - Inventory Protocols: dev/inventory-protocols.md
   #  - Man Pages:
   - HOWTO:
       - How to Share Collections: howto/sharing-collections/index.md
   - Releases:
+      - NOC Release and Tagging Policy: releases/policy.md
       - NOC 0.1 Generation:
           - NOC 0.1RC1: releases/0.1rc1.md
           - NOC 0.1RC2: releases/0.1rc2.md
