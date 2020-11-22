@@ -208,7 +208,7 @@ py:test:
         - "*.py"
         - "**/*.py"
         - requirements.txt
-        - collections/**/*.json
+        - "**/*.json"
   tags:
     - shell
   allow_failure: false
