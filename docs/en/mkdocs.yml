@@ -18,11 +18,13 @@ nav:
           - "[audit] section": admin/config/audit.md
           - "[backup] section": admin/config/backup.md
           - "[bi] section": admin/config/bi.md
+          - "[biosegmentation] section": admin/config/biosegmentation.md
           - "[cache] section": admin/config/cache.md
           - "[card] section": admin/config/card.md
           - "[chwriter] section": admin/config/chwriter.md
           - "[classifier] section": admin/config/classifier.md
           - "[clickhouse] section": admin/config/clickhouse.md
+          - "[collections] section": admin/config/collections.md
           - "[consul] section": admin/config/consul.md
           - "[correlator] section": admin/config/correlator.md
           - "[customization] section": admin/config/customization.md
@@ -32,6 +34,7 @@ nav:
           - "[discovery] section": admin/config/discovery.md
           - "[dns] section": admin/config/dns.md
           - "[escalator] section": admin/config/escalator.md
+          - "[etl] section": admin/config/etl.md
           - "[features] section": admin/config/features.md
           - "[fm] section": admin/config/fm.md
           - "[geocoding] section": admin/config/geocoding.md
@@ -39,12 +42,16 @@ nav:
           - "[grafanads] section": admin/config/grafanads.md
           - "[help] section": admin/config/help.md
           - "[http_client] section": admin/config/http_client.md
+          - "[icqsender] section": admin/config/icqsender.md
           - "[initial] section": admin/config/initial.md
+          - "[kafkasender] section": admin/config/kafkasender.md
           - "[layout] section": admin/config/layout.md
+          - "[liftbridge] section": admin/config/liftbridge.md
           - "[logging] section": admin/config/logging.md
           - "[login] section": admin/config/login.md
           - "[mailsender] section": admin/config/mailsender.md
           - "[memcached] section": admin/config/memcached.md
+          - "[message] section": admin/config/message.md
           - "[metrics] section": admin/config/metrics.md
           - "[mongo] section": admin/config/mongo.md
           - "[mrt] section": admin/config/mrt.md
@@ -66,6 +73,7 @@ nav:
           - "[sentry] section": admin/config/sentry.md
           - "[syslogcollector] section": admin/config/syslogcollector.md
           - "[tests] section": admin/config/tests.md
+          - "[tgsender] section": admin/config/tgsender.md
           - "[threadpool] section": admin/config/threadpool.md
           - "[traceback] section": admin/config/traceback.md
           - "[trapcollector] section": admin/config/trapcollector.md

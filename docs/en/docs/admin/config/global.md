@@ -14,10 +14,10 @@ Possible values
     * debug
 
 YAML Path
-:   global.loglevel
+:   loglevel
 
 Key-Value Path
-:   global/loglevel
+:   loglevel
 
 Environment
 :   NOC_LOGLEVEL
@@ -28,10 +28,10 @@ Default value
 :   NOC
 
 YAML Path
-:   global.brand
+:   brand
 
 Key-Value Path
-:   global/brand
+:   brand
 
 Environment
 :   NOC_BRAND
@@ -42,10 +42,10 @@ Default value
 :   1
 
 YAML Path
-:   global.global_n_instances
+:   global_n_instances
 
 Key-Value Path
-:   global/global_n_instances
+:   global_n_instances
 
 Environment
 :   NOC_GLOBAL_N_INSTANCES
@@ -56,10 +56,10 @@ Default value
 :   Unconfigured installation
 
 YAML Path
-:   global.installation_name
+:   installation_name
 
 Key-Value Path
-:   global/installation_name
+:   installation_name
 
 Environment
 :   NOC_INSTALLATION_NAME
@@ -70,10 +70,10 @@ Default value
 :   
 
 YAML Path
-:   global.installation_id
+:   installation_id
 
 Key-Value Path
-:   global/installation_id
+:   installation_id
 
 Environment
 :   NOC_INSTALLATION_ID
@@ -84,10 +84,10 @@ Default value
 :   0
 
 YAML Path
-:   global.instance
+:   instance
 
 Key-Value Path
-:   global/instance
+:   instance
 
 Environment
 :   NOC_INSTANCE
@@ -98,10 +98,10 @@ Default value
 :   en
 
 YAML Path
-:   global.language
+:   language
 
 Key-Value Path
-:   global/language
+:   language
 
 Environment
 :   NOC_LANGUAGE
@@ -112,10 +112,10 @@ Default value
 :   en
 
 YAML Path
-:   global.language_code
+:   language_code
 
 Key-Value Path
-:   global/language_code
+:   language_code
 
 Environment
 :   NOC_LANGUAGE_CODE
@@ -126,10 +126,10 @@ Default value
 :   auto:0
 
 YAML Path
-:   global.listen
+:   listen
 
 Key-Value Path
-:   global/listen
+:   listen
 
 Environment
 :   NOC_LISTEN
@@ -140,10 +140,10 @@ Default value
 :   %(asctime)s [%(name)s] %(message)s
 
 YAML Path
-:   global.log_format
+:   log_format
 
 Key-Value Path
-:   global/log_format
+:   log_format
 
 Environment
 :   NOC_LOG_FORMAT
@@ -154,10 +154,10 @@ Default value
 :   0
 
 YAML Path
-:   global.thread_stack_size
+:   thread_stack_size
 
 Key-Value Path
-:   global/thread_stack_size
+:   thread_stack_size
 
 Environment
 :   NOC_THREAD_STACK_SIZE
@@ -168,10 +168,10 @@ Default value
 :   %(version)s+%(branch)s.%(number)s.%(changeset)s
 
 YAML Path
-:   global.version_format
+:   version_format
 
 Key-Value Path
-:   global/version_format
+:   version_format
 
 Environment
 :   NOC_VERSION_FORMAT
@@ -182,10 +182,10 @@ Default value
 :   socket.gethostname()
 
 YAML Path
-:   global.node
+:   node
 
 Key-Value Path
-:   global/node
+:   node
 
 Environment
 :   NOC_NODE
@@ -196,10 +196,10 @@ Default value
 :   os.environ.get("NOC_POOL", ")
 
 YAML Path
-:   global.pool
+:   pool
 
 Key-Value Path
-:   global/pool
+:   pool
 
 Environment
 :   NOC_POOL
@@ -210,10 +210,10 @@ Default value
 :   12345
 
 YAML Path
-:   global.secret_key
+:   secret_key
 
 Key-Value Path
-:   global/secret_key
+:   secret_key
 
 Environment
 :   NOC_SECRET_KEY
@@ -224,10 +224,10 @@ Default value
 :   Europe/Moscow
 
 YAML Path
-:   global.timezone
+:   timezone
 
 Key-Value Path
-:   global/timezone
+:   timezone
 
 Environment
 :   NOC_TIMEZONE

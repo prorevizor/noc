@@ -187,7 +187,14 @@ Environment
 ## alarms_archive_policy
 
 Default value
-:   {{doc["clear_timestamp"].strftime("y%Yw%W")}}
+:   weekly
+
+Possible values
+:
+* weekly
+* monthly
+* quarterly
+* yearly
 
 YAML Path
 :   bi.alarms_archive_policy
