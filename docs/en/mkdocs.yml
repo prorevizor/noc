@@ -10,6 +10,30 @@ nav:
   # - Installation:
   # - Quickstart
   - Administration Guide:
+      - Services:
+          - activator: admin/services/activator.md
+          - bi: admin/services/bi.md
+          - card: admin/services/card.md
+          - chwriter: admin/services/chwriter.md
+          - classifier: admin/services/classifier.md
+          - correlator: admin/services/correlator.md
+          - datasource: admin/services/datasource.md
+          - datastream: admin/services/datastream.md
+          - discovery: admin/services/discovery.md
+          - escalator: admin/services/escalator.md
+          - grafanads: admin/services/grafanads.md
+          - icqsender: admin/services/icqsender.md
+          - login: admin/services/login.md
+          - mailsender: admin/services/mailsender.md
+          - mrt: admin/services/mrt.md
+          - nbi: admin/services/nbi.md
+          - ping: admin/services/ping.md
+          - sae: admin/services/sae.md
+          - scheduler: admin/services/scheduler.md
+          - syslogcollector: admin/services/syslogcollector.md
+          - tgsender: admin/services/tgsender.md
+          - trapcollector: admin/services/trapcollector.md
+          - web: admin/services/web.md
       - Configuration:
           - Configuration System Overview: admin/config/index.md
           - Date and Time Formats: admin/datetime-format.md
@@ -125,6 +149,8 @@ nav:
       - Concepts:
           - Administrative Domain: reference/concepts/administrativedomain/index.md
           - API Key: reference/concepts/apikey/index.md
+          - Resource Group: reference/concepts/resourcegroup/index.md
+          - Technologies: reference/concepts/technology/index.md
   #    - Capabilities:
   #   - Alarm Classes:
   #   - Event Classes:
@@ -133,7 +159,6 @@ nav:
   #   - Scripts:
   #   - Profiles:
   #   - Platforms:
-  #   - Technologies:
   - Developer's Guide:
       - Merge Request Labels: dev/mr-labels.md
       - API:
@@ -187,7 +212,7 @@ nav:
           - Storage: dev/confdb/storage.md
           - Tokenizer: dev/confdb/tokenizer.md
           - Normalizer: dev/confdb/normalizer.md
-          - Query: dev/condb/query.md
+          - Query: dev/confdb/query.md
       - Handlers:
           - Config Filter: dev/handlers/config-filter.md
           - Config Diff Filter: dev/handlers/config-diff-filter.md
@@ -215,6 +240,9 @@ nav:
           - weight: dev/modelinterface/weight.md
       - Inventory Protocols: dev/inventory-protocols.md
       - ObjectModel Tags: dev/objectmodel-tags.md
+      - Technologies:
+          - Group: dev/technology/group.md
+          - "Network | CGNAT Termination": dev/technology/Network/cgnat-termination.md
       - Tools: dev/tools.md
   #  - Man Pages:
   - HOWTO:
