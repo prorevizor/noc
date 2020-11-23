@@ -176,7 +176,33 @@ nav:
               - reboots: dev/bi/model/reboots.md
               - routingneighbors: dev/bi/model/routingneighbors.md
               - span: dev/bi/model/span.md
+      - Handlers:
+          - Config Filter: dev/handlers/config-filter.md
+          - Config Diff Filter: dev/handlers/config-diff-filter.md
+          - Window Function: dev/handlers/window-function.md
+      - Model Interfaces:
+          - airflow: dev/modelinterface/airflow.md
+          - asset: dev/modelinterface/asset.md
+          - contacts: dev/modelinterface/contacts.md
+          - container: dev/modelinterface/container.md
+          - cpu: dev/modelinterface/cpu.md
+          - dimensions: dev/modelinterface/dimensions.md
+          - geopint: dev/modelinterface/geopint.md
+          - length: dev/modelinterface/length.md
+          - management: dev/modelinterface/management.md
+          - optical: dev/modelinterface/optical.md
+          - plan: dev/modelinterface/plan.md
+          - pop: dev/modelinterface/pop.md
+          - power: dev/modelinterface/power.md
+          - rack: dev/modelinterface/rack.md
+          - rackmount: dev/modelinterface/rackmount.md
+          - sector: dev/modelinterface/sector.md
+          - splitter: dev/modelinterface/splitter.md
+          - stack: dev/modelinterface/stack.md
+          - twinax: dev/modelinterface/twinax.md
+          - weight: dev/modelinterface/weight.md
       - Inventory Protocols: dev/inventory-protocols.md
+      - ObjectModel Tags: dev/objectmodel-tags.md
   #  - Man Pages:
   - HOWTO:
       - How to Share Collections: howto/sharing-collections/index.md
