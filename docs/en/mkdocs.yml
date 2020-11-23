@@ -181,6 +181,13 @@ nav:
               - reboots: dev/bi/model/reboots.md
               - routingneighbors: dev/bi/model/routingneighbors.md
               - span: dev/bi/model/span.md
+      - ConfDB:
+          - Overview: dev/confdb/overview.md
+          - Config Fetching: dev/confdb/fetching.md
+          - Storage: dev/confdb/storage.md
+          - Tokenizer: dev/confdb/tokenizer.md
+          - Normalizer: dev/confdb/normalizer.md
+          - Query: dev/condb/query.md
       - Handlers:
           - Config Filter: dev/handlers/config-filter.md
           - Config Diff Filter: dev/handlers/config-diff-filter.md
@@ -192,7 +199,7 @@ nav:
           - container: dev/modelinterface/container.md
           - cpu: dev/modelinterface/cpu.md
           - dimensions: dev/modelinterface/dimensions.md
-          - geopint: dev/modelinterface/geopint.md
+          - geopoint: dev/modelinterface/geopoint.md
           - length: dev/modelinterface/length.md
           - management: dev/modelinterface/management.md
           - optical: dev/modelinterface/optical.md
