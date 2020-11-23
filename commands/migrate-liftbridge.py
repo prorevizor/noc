@@ -26,7 +26,6 @@ class Command(BaseCommand):
     POOLED_STREAMS = [
         # slot name, stream name
         ("classifier-%s", "events.%s"),
-        ("correlator-%s", "dispose.%s"),
     ]
     CURSOR_STREAM = {
         "events": "classifier",
@@ -137,7 +136,6 @@ class Command(BaseCommand):
                         current_offset = (
                             min(current_offset, newest_offset) - 1
                         )  # check cursor properly
-                        # current_offset -= 1
                         self.print(
                             "Start copying from current_offset: %s to newest offset: %s"
                             % (current_offset, newest_offset)
