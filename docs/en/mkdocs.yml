@@ -147,15 +147,49 @@ nav:
       - Internal Metrics: admin/internal-metrics.md
   - Reference:
       - Concepts:
-          - Administrative Domain: reference/concepts/administrativedomain/index.md
+          - Administrative Domain: reference/concepts/administrative-domain/index.md
+          - Allocation Group: reference/concepts/allocation-group/index.md
           - API Key: reference/concepts/apikey/index.md
-          - Resource Group: reference/concepts/resourcegroup/index.md
-          - Technologies: reference/concepts/technology/index.md
+          - Container: reference/concepts/container/index.md
+          - Dialplan: reference/concepts/dialplan/index.md
+          - DNS Zone: reference/concepts/dns-zone/index.md
+          - External Storage: reference/concepts/external-storage/index.md
+          - Group: reference/concepts/group/index.md
+          - Handler: reference/concepts/handler/index.md
+          - Interface: reference/concepts/interface/index.md
+          - Interface Profile: reference/concepts/interface-profile/index.md
+          - Managed Object: reference/concepts/managed-object/index.md
+          - Managed Object Profile: reference/concepts/managed-object-profile/index.md
+          - Network Segment: reference/concepts/network-segment/index.md
+          - Network Segment Profile: reference/concepts/network-segment-profile/index.md
+          - Notification Group: reference/concepts/notification-group/index.md
+          - Phone Number: reference/concepts/phone-number/index.md
+          - Phone Number Profile: reference/concepts/phone-number-profile/index.md
+          - Phone Range: reference/concepts/phone-range/index.md
+          - Phone Range Profile: reference/concepts/phone-range-profile/index.md
+          - Pool: reference/concepts/pool/index.md
+          - Prefix: reference/concepts/prefix/index.md
+          - Prefix Profile: reference/concepts/prefix-profile/index.md
+          - Remote System: reference/concepts/remote-system/index.md
+          - Resource Group: reference/concepts/resource-group/index.md
+          - Service: reference/concepts/service/index.md
+          - Service Profile: reference/concepts/service-profile/index.md
+          - Subscriber: reference/concepts/subscriber/index.md
+          - Subscriber Profile: reference/concepts/subscriber-profile/index.md
+          - Technology: reference/concepts/technology/index.md
+          - Template: reference/concepts/template/index.md
+          - Threshold Profile: reference/concepts/threshold-profile/index.md
+          - User: reference/concepts/user/index.md
+          - VC Filter: reference/concepts/vc-filter/index.md
+          - VLAN: reference/concepts/vlan/index.md
+          - VLAN Profile: reference/concepts/vlan-profile/index.md
+          - VPN: reference/concepts/vpn/index.md
+          - VPN Profile: reference/concepts/vpn-profile/index.md
+          - Workflow: reference/concepts/workflow/index.md
   #    - Capabilities:
   #   - Alarm Classes:
   #   - Event Classes:
   #   - Metric Types:
-  #   - Model Interfaces:
   #   - Scripts:
   #   - Profiles:
   #   - Platforms:
@@ -166,7 +200,7 @@ nav:
               - Overview: dev/api/datastream/index.md
               - address: dev/api/datastream/address.md
               - administrativedomain: dev/api/datastream/administrativedomain.md
-              - administrativedomain: dev/api/datastream/alarm.md
+              - alarm: dev/api/datastream/alarm.md
               - cfgping: dev/api/datastream/cfgping.md
               - cfgsyslog: dev/api/datastream/cfgsyslog.md
               - cfgtrap: dev/api/datastream/cfgtrap.md
