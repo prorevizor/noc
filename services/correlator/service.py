@@ -19,7 +19,7 @@ import orjson
 
 # NOC modules
 from noc.config import config
-from noc.core.service.fastapi import FastAPIService
+from noc.core.service.tornado import TornadoService
 from noc.core.scheduler.scheduler import Scheduler
 from noc.core.mongo.connection import connect
 from services.correlator.rule import Rule
@@ -44,7 +44,7 @@ from noc.core.liftbridge.message import Message
 from noc.services.correlator.rcalock import RCALock
 
 
-class CorrelatorService(FastAPIService):
+class CorrelatorService(TornadoService):
     name = "correlator"
     pooled = True
     use_mongo = True

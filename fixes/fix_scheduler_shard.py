@@ -16,7 +16,7 @@ def fix() -> None:
             continue
         print(f"Fixing {cname}:")
         coll = db[cname]
-        r = coll.update_many({"shard": {"$exists": False}}, {"shard": 0})
+        r = coll.update_many({"shard": {"$exists": False}}, {"$set": {"shard": 0}})
         if r.modified_count:
             print(f"  {r.modified_count} schedules have been fixed")
         else:
