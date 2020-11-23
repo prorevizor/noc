@@ -30,7 +30,8 @@ class Command(BaseCommand):
     ]
     CURSOR_STREAM = {
         "events": "classifier",
-        "dispose": "correlator",
+        "mx": "mx",
+        "kafkasender": "kafkasender",
     }
 
     def handle(self, *args, **options):
@@ -116,7 +117,7 @@ class Command(BaseCommand):
                         subject=tmp_stream,
                         name=tmp_stream,
                         partitions=old_partitions,
-                        replication_factor=replication_factor,
+                        replication_factor=1,
                     )
                     # Copy all unread data to temporary stream as is
                     for partition in range(old_partitions):
@@ -126,15 +127,17 @@ class Command(BaseCommand):
                         )
                         n_msg[partition] = 0
                         # Get current offset
-                        # @todo: fetch_partition_metadata
+                        newest_offset = stream_meta.partitions[partition].newest_offset or 0
                         # Fetch cursor
                         current_offset = await client.fetch_cursor(
                             stream=stream,
                             partition=partition,
                             cursor_id=self.CURSOR_STREAM[name.split(".")[0]],
                         )
-                        current_offset -= 1
-                        newest_offset = stream_meta.partitions[partition].newest_offset or 0
+                        current_offset = (
+                            min(current_offset, newest_offset) - 1
+                        )  # check cursor properly
+                        # current_offset -= 1
                         self.print(
                             "Start copying from current_offset: %s to newest offset: %s"
                             % (current_offset, newest_offset)
@@ -168,7 +171,9 @@ class Command(BaseCommand):
                     for partition in range(old_partitions):
                         self.print("Restoring partition %s:%s" % (tmp_stream, partition))
                         # Re-route dropped partitions to partition 0
-                        dest_partition = new_partitions - 1 if partition < new_partitions else 0
+                        dest_partition = (
+                            min(new_partitions - 1, 0) if partition < new_partitions else 0
+                        )
                         n = n_msg[partition]
                         if n > 0:
                             async for msg in client.subscribe(
