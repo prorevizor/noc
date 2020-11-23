@@ -109,6 +109,11 @@ nav:
               - HouseKeeping: admin/discovery/box/hk.md
           - Periodic Discovery:
               - Overview: admin/discovery/periodic/index.md
+              - interfacestatus: admin/discovery/periodic/interfacestatus.md
+              - uptime: admin/discovery/periodic/uptime.md
+              - mac: admin/discovery/periodic/mac.md
+              - metrics: admin/discovery/periodic/metrics.md
+              - cpestatus: admin/discovery/periodic/cpestatus.md
           - AS Discovery:
               - Overview: admin/discovery/as/index.md
               - Prefix Discovery: admin/discovery/as/prefix.md
@@ -203,6 +208,7 @@ nav:
           - weight: dev/modelinterface/weight.md
       - Inventory Protocols: dev/inventory-protocols.md
       - ObjectModel Tags: dev/objectmodel-tags.md
+      - Tools: dev/tools.md
   #  - Man Pages:
   - HOWTO:
       - How to Share Collections: howto/sharing-collections/index.md
@@ -302,6 +308,9 @@ markdown_extensions:
       permalink: true
   - admonition
   - def_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
 plugins:
   - search
   - macros:
