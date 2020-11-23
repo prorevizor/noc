@@ -187,6 +187,7 @@ class Config(BaseConfig):
         base = StringParameter(default="noc", help="kv lookup base")
 
     class correlator(ConfigSection):
+        max_threads = IntParameter(default=20)
         topology_rca_window = IntParameter(default=0)
         discovery_delay = SecondsParameter(default="10M")
         auto_escalation = BooleanParameter(default=True)

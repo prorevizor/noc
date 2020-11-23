@@ -48,6 +48,7 @@ class Command(BaseCommand):
         # Index datasource cache
         self.index_datasource_cache()
         # Index RCA lock
+        self.index_rca_lock()
         # @todo: Detect changes
         self.print("OK")
 

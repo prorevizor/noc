@@ -19,7 +19,8 @@ import orjson
 
 # NOC modules
 from noc.config import config
-from noc.core.service.tornado import TornadoService
+from noc.core.service.fastapi import FastAPIService
+from noc.core.scheduler.scheduler import Scheduler
 from noc.core.mongo.connection import connect
 from services.correlator.rule import Rule
 from services.correlator.rcacondition import RCACondition
@@ -43,7 +44,7 @@ from noc.core.liftbridge.message import Message
 from noc.services.correlator.rcalock import RCALock
 
 
-class CorrelatorService(TornadoService):
+class CorrelatorService(FastAPIService):
     name = "correlator"
     pooled = True
     use_mongo = True
@@ -61,16 +62,39 @@ class CorrelatorService(TornadoService):
         self.slot_number = 0
         self.total_slots = 0
         self.is_distributed = False
-        #
+        # Scheduler
+        self.scheduler: Optional[Scheduler] = None
+        # Locks
         self.topo_rca_lock: Optional[RCALock] = None
 
     async def on_activate(self):
-        # Subscribe stream
         self.slot_number, self.total_slots = await self.acquire_slot()
         self.is_distributed = self.total_slots > 1
+        # Prepare scheduler
+        if self.is_distributed:
+            self.logger.info(
+                "Enabling distributed mode: Slot %d/%d", self.slot_number, self.total_slots
+            )
+            ifilter = {"shard": {"$mod": [self.total_slots, self.slot_number]}}
+        else:
+            self.logger.info("Enabling standalone mode")
+            ifilter = None
+        self.scheduler = Scheduler(
+            self.name,
+            pool=config.pool,
+            reset_running=True,
+            max_threads=config.correlator.max_threads,
+            # @fixme have to be configured ?
+            submit_threshold=100,
+            max_chunk=100,
+            filter=ifilter,
+        )
+        self.scheduler.correlator = self
+        # Subscribe stream
         await self.subscribe_stream(
             "dispose.%s" % config.pool, self.slot_number, self.on_dispose_event
         )
+        self.scheduler.run()
 
     def on_start(self):
         """
