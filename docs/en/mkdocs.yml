@@ -22,7 +22,7 @@ nav:
           - discovery: admin/services/discovery.md
           - escalator: admin/services/escalator.md
           - grafanads: admin/services/grafanads.md
-          - icqsender: admin/services/icqsender.md
+          - icqsender: admin/services/icqsender/index.md
           - login: admin/services/login.md
           - mailsender: admin/services/mailsender.md
           - mrt: admin/services/mrt.md
