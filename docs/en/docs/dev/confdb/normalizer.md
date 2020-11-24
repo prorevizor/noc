@@ -65,7 +65,7 @@ Normalizers must be subclass of `BaseNormalizer` and must be located
 in profile's `confdb.normalizer` subpackage (`noc.sa.profiles.X.Y.confdb.normalizer`,
 where `X.Y` is profile name).
 
-.. note::
+!!! note
 
     Ensure the `sa/profiles/X/Y/confdb/__init__.py` file exists and empty.
 

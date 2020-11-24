@@ -637,6 +637,7 @@ nav:
           - Normalizer: dev/confdb/normalizer.md
           - Query: dev/confdb/query.md
       - Handlers:
+          - Handlers Overview: dev/handlers/index.md
           - Config Filter: dev/handlers/config-filter.md
           - Config Diff Filter: dev/handlers/config-diff-filter.md
           - Window Function: dev/handlers/window-function.md
@@ -757,7 +758,10 @@ nav:
       - Contributing: contributing.md
       - Documentation Structure: structure.md
       - Style Guide: style-guide.md
-theme: material
+theme:
+  name: material
+  pallete:
+    scheme: preference
 use_directory_urls: true
 site_dir: ../../build/docs2/en
 # strict: true

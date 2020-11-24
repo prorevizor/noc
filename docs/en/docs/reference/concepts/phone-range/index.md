@@ -1,19 +1,4 @@
-.. _reference-phone-range:
+# Phone Range
 
-===========
-Phone Range
-===========
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
-
-Group Settings
---------------
-Group settings for *Phone Ranges* are contained in :doc:`/reference/phone-range-profile`
-
-.. todo::
-    Describe Phone Range
-
+## Group Settings
+Group settings for `Phone Ranges` are contained in [Phone Range Profile](../phone-range-profile/index.md)

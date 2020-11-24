@@ -1,11 +1,11 @@
 # API Key
 
 ## Usage
-Client *MUST* set `Private-Token` HTTP Request header and set it
+Client **MUST** set `Private-Token` HTTP Request header and set it
 with proper *Key* in order to get access to protected API
 
 Example: `curl  -s -D - -k -H 'Private-Token: 12345'  https://noc_url/dev/api/datastream/managedobject` ,
-where 12345 is an API token key.
+where `12345` is an API token key.
 
 ## Roles
 
@@ -18,42 +18,25 @@ API:Role | Description
 `datastream:alarm` | [administrativedomain DataStream](../../../dev/api/datastream/alarm.md)
 `datastream:resourcegroup` | [resourcegroup DataStream](../../../dev/api/datastream/resourcegroup.md)
 `datastream:managedobject` | [managedobject DataStream](../../../dev/api/datastream/managedobject.md)
-
-+-----------------------------------+------------------------------------------------------------------------------------+
-| `datastream:dnszone`              | :ref:`dnszone datastream <api-datastream-dnszone>` access                          |
-+-----------------------------------+------------------------------------------------------------------------------------+
-| `datastream:cfgping`              | :ref:`cfgping datastream <api-datastream-cfgping>` access                          |
-+-----------------------------------+------------------------------------------------------------------------------------+
-| `datastream:cfgsyslog`            | :ref:`cfgsyslog datastream <api-datastream-cfgsyslog>` access                      |
-+-----------------------------------+------------------------------------------------------------------------------------+
-| `datastream:cfgtrap`              | :ref:`cfgtrap datastream <api-datastream-cfgtrap>` access                          |
-+-----------------------------------+------------------------------------------------------------------------------------+
-| `datastream:vrf`                  | :ref:`vrf datastream <api-datastream-vrf>` access                                  |
-+-----------------------------------+------------------------------------------------------------------------------------+
-| `datastream:prefix`               | :ref:`prefix datastream <api-datastream-prefix>` access                            |
-+-----------------------------------+------------------------------------------------------------------------------------+
-| `datastream:address`              | :ref:`address datastream <api-datastream-address>` access                          |
-+-----------------------------------+------------------------------------------------------------------------------------+
+`datastream:dnszone`              | [dnszone DataStream](../../../dev/api/datastream/dnszone.md) access                          
+`datastream:cfgping`              | [cfgping DataStream](../../../dev/api/datastream/cfgping.md) access                          
+`datastream:cfgsyslog`            | [cfgsyslog DataStream](../../../dev/api/datastream/cfgsyslog.md) access                      
+`datastream:cfgtrap`              | [cfgtrap DataStream](../../../dev/api/datastream/cfgtrap.md) access                          
+`datastream:vrf`                  | [vrf DataStream](../../../dev/api/datastream/vrf.md) access                                  
+`datastream:prefix`               | [prefix DataStream](../../../dev/api/datastream/prefix.md) access                            
+`datastream:address`              | [address DataStream](../../../dev/api/datastream/address.md) access                          
 
 ### NBI API
 
-+-----------------------+----------------------------------------------------------------+
-| API:Role              | Description                                                    |
-+=======================+================================================================+
-| `nbi:config`          | :ref:`NBI config API <api-nbi-config>` access                  |
-+-----------------------+----------------------------------------------------------------+
-| `nbi:configrevisions` | :ref:`NBI configrevisions API <api-nbi-configrevisions>` access|
-+-----------------------+----------------------------------------------------------------+
-| `nbi:getmappings`     | :ref:`NBI getmappings API <api-nbi-getmappings>` access        |
-+-----------------------+----------------------------------------------------------------+
-| `nbi:objectmetrics`   | :ref:`NBI objectmetrics API <api-nbi-objectmetrics>` access    |
-+-----------------------+----------------------------------------------------------------+
-| `nbi:objectstatus`    | :ref:`NBI objectstatus API <api-nbi-objectstatus>` access      |
-+-----------------------+----------------------------------------------------------------+
-| `nbi:path`            | :ref:`NBI path API <api-nbi-path>` access                      |
-+-----------------------+----------------------------------------------------------------+
-| `nbi:telemetry`       | :ref:`NBI telemetry API <api-nbi-telemetry>` access            |
-+-----------------------+----------------------------------------------------------------+
+API:Role | Description
+-------- | -----------
+`nbi:config`          | [NBI config API](../../../dev/api/nbi/config.md) access                  
+`nbi:configrevisions` | [NBI configrevisions API](../../../dev/api/nbi/configrevisions.md) access
+`nbi:getmappings`     | [NBI getmappings API](../../../dev/api/nbi/getmappings.md) access        
+`nbi:objectmetrics`   | [NBI objectmetrics API](../../../dev/api/nbi/objectmetrics.md) access    
+`nbi:objectstatus`    | [NBI objectstatus API](../../../dev/api/nbi/objectstatus.md) access      
+`nbi:path`            | [NBI path API](../../../dev/api/nbi/path.md) access                      
+`nbi:telemetry`       | [NBI telemetry API](../../../dev/api/nbi/telemetry.md) access            
 
 ## Web interface example
 You should fill `Name` and `API key` as required fields.

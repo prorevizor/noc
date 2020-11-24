@@ -1,18 +1,4 @@
-.. _reference-service:
+# Service
 
-=======
-Service
-=======
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
-
-Group Settings
---------------
-Group settings for *Services* are contained in :ref:`Service Profiles<reference-service-profile>`
-
-.. todo::
-    Describe Services
+## Group Settings
+Group settings for `Services` are contained in [Service Profile](../service-profile/index.md)

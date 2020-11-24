@@ -1,37 +1,23 @@
-.. _reference-managed-object:
+# Managed Object
 
-==============
-Managed Object
-==============
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
-
-Managed Object is a core concept for NOC. Shortly it is the entity
-which can be *managed* by NOC by any means as actively (via CLI, SNMP or HTTP)
+`Managed Object` is a core concept for NOC. Shortly it is the entity
+which can be _managed_ by NOC by any means as actively (via CLI, SNMP or HTTP)
 or passively (SYSLOG, SNMP Traps, Netflow)
 
-Group Settings
---------------
-Group settings for Managed Object are contained in :ref:`Managed Object Profile<reference-managed-object-profile>`
+## Group Settings
 
-Divisions
----------
+Group settings for Managed Object are contained in [Managed Object Profile](../managed-object-profile/index.md)
 
-Managed Object is participating in several independed *divisions*, each
+## Divisions
+
+Managed Object is participating in several independent _divisions_, each
 answering particular question:
 
-* **Administrative:** *Who is responsible for object?*
-  See :doc:`/reference/administrative-domain`
-* **Network Segment:** *What position in network hierarchy object holds?*
-  See :doc:`/reference/network-segment`
-* **Container:** *Where object is located?*
-  See :doc:`/reference/container`
+- **Administrative:** _Who is responsible for object?_
+  See [Administrative Domain](../administrative-domain/index.md)
+- **Network Segment:** _What position in network hierarchy object holds?_
+  See [Network Segment](../network-segment/index.md)
+- **Container:** _Where object is located?_
+  See [Container](../container/index.md)
 
 Managed Object must belong to only one division of particular type
-
-.. todo::
-    Complete documentation

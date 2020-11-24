@@ -1,43 +1,17 @@
-.. _reference-network-segment:
-
-===============
-Network Segment
-===============
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
+# Network Segment
 
 Large networks tend to be hierarchical by nature, separating to various
 layers. i. e. core, aggregation, access e.t.c. Therefore the network can
 be considered as hierarchy of interconnected parts, called
-*Network Segments*.
+`Network Segments`
 
-Network Segment is a group of :ref:`Managed Objects<reference-managed-object>`
-taking specific part in network hierarchy. Each Managed Object *MUST*
+Network Segment is a group of [Managed Objects](../managed-object/index.md)
+taking specific part in network hierarchy. Each Managed Object **MUST**
 belong to one Network Segment. Typical Network Segment hierarchy:
 
-.. mermaid::
+![Hierarchy example](example-hier.svg)
 
-    graph TB
-        CORE(Core)
-        AGG1(Aggregation #1)
-        AGG2(Aggregation #2)
-        ACC11(Access #1-1)
-        ACC12(Access #1-2)
-        ACC21(Access #2-1)
-        ACC22(Access #2-2)
-        CORE --- AGG1
-        CORE --- AGG2
-        AGG1 --- ACC11
-        AGG1 --- ACC12
-        AGG2 --- ACC21
-        AGG2 --- ACC22
-
-.. note::
-
+!!! note
     NOC considers that is Managed Object belongs to segment, not the link.
     So in terms of network separation NOC uses IS-IS approach, not OSPF one.
 
@@ -52,29 +26,24 @@ Proper segmentation is the key concept for various areas:
 * VLAN management
 * Configuration generation and checking
 
-.. note::
-
+!!! note
     NOC considers that proper segmentation is performing during network
     design and planning stage. Sometimes it's not true and segmentation
     is *implicit* or *ad-hoc*. Despite it considered *Bad Practice*
     NOC offers various methods for :ref:`automatical segmentation<network-segment-autosegmentation>`
 
 
-Group Settings
---------------
+## Group Settings
 Group settings for Network Segments are contained in :ref:`Network Segment Profiles<reference-network-segment-profile>`
 
-.. _network-segment-segment-topology:
 
-Segment Topology
-----------------
+## Segment Topology
 Segment is the set of *Managed Objects* and links between them so
 it can be considered a *Graph*. NOC extends Graph with all *Managed Objects*
 from adjacent segments, connected to given segment to build
 *Segment Topology*. NOC automatically recognizes following topologies
 
-Tree
-^^^^
+### Tree
 Tree topology contains exactly one path between any Object.
 
 .. mermaid::
@@ -116,8 +85,7 @@ unavailable.
 
 NOC performs auto-layout of *Tree* segment maps and proper :term:`RCA`
 
-Forest
-^^^^^^
+### Forest
 *Forest* is common case with two-or-more independ trees. Like a *Tree*
 
 .. mermaid::
@@ -136,8 +104,7 @@ Forest
 unavailable.
 NOC performs auto-layout of *Forest* segment maps and proper :term:`RCA`
 
-.. note::
-
+!!! note
     *Forest* segments should be split to several *Tree* segment
     unless you have explicit reason to use *Forest*
 
@@ -201,8 +168,7 @@ NOC performs neat auto-layout of *Ring* segment maps and proper :term:`RCA`
 
 .. _network-segment-topology-mesh:
 
-Mesh
-^^^^
+### Mesh
 *Mesh* is the common graph which is not *Tree*, *Forest* or *Ring*
 
 .. mermaid::
@@ -218,10 +184,7 @@ Mesh
 NOC performs probabilistic spring layout for mesh networks which may
 require manual correction and performs proper :term:`RCA` in most cases
 
-.. _network-segment-object-uplinks:
-
-Object Uplinks
---------------
+## Object Uplinks
 Except in rare cases *Managed Objects* should have one or more *Paths*
 to upper levels of network (to establish *Connectivity* with all network)
 or to the NOC's probes (to be monitored and managed at all).
@@ -240,18 +203,14 @@ can be configured via :ref:`Network Segment Profiles'<reference-network-segment-
 
 It is advised to avoid very large segments (>100 Objects)
 
-.. _reference_network-segment-object-segment-uplinks:
-
-Segment Uplinks
----------------
+## Segment Uplinks
 *Segment Uplinks* is the objects providing *Connectivity* for any of
 Segment's objects. *Segment Uplinks* can belong to segment itself,
 or may belong to any neighbor segment
 
 .. _network-segment-horizontal-transit:
 
-Horizontal Transit
-------------------
+## Horizontal Transit
 Sometimes network segments of same level connected together
 for backup purposes. So in case of uplink failure one segment
 can use other as temporary uplink (*S2* - *S3* dotted link).
@@ -276,10 +235,7 @@ configured on per-segment and per- Network Segment Profile basis via
 NOC adjust RCA behavior in according to *Horizontal Transit Policy*,
 considering neighbor segment as additional *Uplink Path*.
 
-.. _network-segment-sibling-segments:
-
-Sibling Segments
-----------------
+## Sibling Segments
 Network topology may change over time. Consider typical scheme
 of broadband access network:
 
@@ -372,8 +328,7 @@ map, though remaining two separate segments in database and reporting.
 
 .. _networksegment-vlan-domains:
 
-VLAN Domains
-------------
+## VLAN Domains
 *Network Segments* are closely tied with *VLAN* concept. VLANs are
 not obliged to be network-wise, so VLAN 100 in one part of network
 may not be same VLAN 100 from other part so VLAN space may be *overlapped*.
@@ -415,7 +370,7 @@ consist of S1, S2, S3, S4, S5, S7, S8 and S9. Second VLAN domain (green):
 S6, S10 and S11. Though S6 is descendant of S1 it is marked as VLAN border,
 so it starts its own domain.
 
-.. note::
+!!! note
     Though *VLAN domains* are groups of *Network Segments* and
     *VLAN domain* is a set of *Managed Object*, empty network segments
     can be attached to *Subinterfaces*, so one *Managed Object* can
@@ -426,8 +381,7 @@ VLANs to appropriative *VLAN border*.
 
 .. _network-segment-vlan-translation:
 
-VLAN Translation
-----------------
+## VLAN Translation
 NOC consider any implicit VLAN passing stops at *VLAN border*. Though it
 possible to propagate VLAN further via *VLAN Translation Rules*.
 Consider scheme:
@@ -453,8 +407,7 @@ Rules are processed in definition order. First matching rule wins.
 
 NOC supports two kind of rules: *Map* and *Push*.
 
-Map
-^^^
+### Map
 *Map* rule converts VLAN 802.1Q tag from target *VLAN domain* to
 802.1Q tag from parent's segment.
 
@@ -476,8 +429,7 @@ Or *extended* (rewritten to same tag)
         MO1 ->> Border: Tag=100
         Border ->> MO2: Tag=100
 
-Push
-^^^^
+### Push
 *Push* rule appends additional 802.1Q tag in top of existing 802.1Q tag,
 allowing Q-in-Q tunneling.
 
@@ -490,31 +442,22 @@ allowing Q-in-Q tunneling.
 
 .. _network-segment-vlan-allocation-group:
 
-VLAN Allocation Group
----------------------
-.. todo::
-    Describe VLAN allocation group
+## VLAN Allocation Group
 
-.. _network-segment-mac-discovery:
+## MAC Discovery
 
-MAC Discovery
--------------
 MAC topology discovery can be used as last resort when other
 methods are failed. Contrary to other per-object methods MAC
 discovery performed is per-segment basis using previously collected
 MAC addresses. See :ref:`discovery-segment-mac` for details.
 
-.. _network-segment-autosegmentation:
-
-Autosegmentation
-----------------
+## Autosegmentation
 Segmentation may be performed automatically during box discovery.
 See :ref:`discovery-box-segmentation` for details
 
 .. _network-segment-redundancy:
 
-Redundancy
-----------
+## Redundancy
 :ref:`network-segment-topology-ring` and :ref:`network-segment-topology-mesh`
 offer path redundancy. NOC detects segment redundancy automatically.
 Outages in redundant segments can leave to *Lost of Redundancy*.
@@ -524,19 +467,15 @@ During the outage NOC calculates affected services and services
 with *Lost of Redundancy* and provides information to escalated
 *Trouble Tickets*.
 
-.. _network-segment-settings:
-
-Object Settings
----------------
+## Object Settings
 Segments can hold Managed Object's recommended settings for config generation
 and validation Settings can be either scalar (defined once)
 or list (can be declared multiple times).
 Omitted settings are inherited from parent segment, allowing to define
 global settings at top level and refine them on lower levels
 
-================= ===== ====================================================
-Key               Multi Description
-================= ===== ====================================================
+Key|               Multi |Description
+--- | --- | ---
 domain_name       No    Default domain name
 dns               Yes   DNS server's address
 ntp               Yes   NTP server's address
@@ -548,12 +487,8 @@ radius_collector  Yes   RADIUS collector's address
 aaa_tacacs        Yes   TACACS+ AAA server's address used for authentication
 tacacs_collector  Yes   TACACS+ collector's address
 netflow_collector Yes   NetFlow collector's address
-================= ===== ====================================================
 
-.. _network-segment-l2-mtu:
-
-L2 MTU
-------
+## L2 MTU
 Network Segment's L2 MTU is minimal ethernet payload size guaranteed
 to pass via Segment. MTU is accounted without 802.3 ethernet header
 (which is 14 bytes in length) but with all other encapsulation headers (802.1Q, MPLS, etc).
@@ -576,14 +511,7 @@ ethernet transit services. Transit interface with improper MTU may lead
 to occasional packet drops. Such drops can lead to hard-to-diagnose
 disruption of services.
 
-.. note::
-    Automatic detection of segment's L2 MTU is work-in-progress
-    See :issue:`#624 <624>` for details
-
-.. _network-segment-network-map-settings:
-
-Network Map Settings
---------------------
+## Network Map Settings
 NOC displays Network Map on per-segment basis. To provide seamless
 navigation along segment hierarchy in additional to segment's objects
 NOC shows all connected objects from adjacent segments. Sometimes is
@@ -592,13 +520,10 @@ on network map.
 
 *Network Segment* has following settings for network map tuning
 
-=================== ======= ============================================================================
-Name                Default Description
-=================== ======= ============================================================================
-max_shown_downlinks 1000    Collapse object's downlinks on network map when count is above the threshold
-=================== ======= ============================================================================
+Name |                Default | Description
+--- | --- | ---
+max_shown_downlinks | 1000 |    Collapse object's downlinks on network map when count is above the threshold
 
-.. note::
-
+!!! note
     When Network Map contains over 300 objects "Too many objects" message
     will be shown. Larger maps may cause browser freeze or crash.

@@ -1,20 +1,4 @@
-.. _reference-vlan:
+# VLAN
 
-====
-VLAN
-====
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
-
-Group Settings
---------------
-Group settings for *VLAN* are contained in :ref:`VLAN Profile<reference-vlan-profile>`
-
-.. todo::
-    Describe VLAN
-
-
+## Group Settings
+Group settings for `VLAN` are contained in [VLAN Profile](../vlan-profile/index.md)

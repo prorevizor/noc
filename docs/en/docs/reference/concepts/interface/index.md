@@ -1,22 +1,7 @@
-.. _reference-interface:
+# Interface
 
-=========
-Interface
-=========
+## Group Settings
+Group settings for `Interfaces` are contained in [Interface Profile](../interface-profile/index.md)
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
-
-Group Settings
---------------
-Group settings for *Interfaces* are contained in :ref:`Interface Profiles<reference-interface-profile>`
-
-.. todo::
-    Describe interface
-
-Interface Classification
-------------------------
+## Interface Classification
 
