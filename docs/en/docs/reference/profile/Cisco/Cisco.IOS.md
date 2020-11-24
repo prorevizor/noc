@@ -1,123 +1,85 @@
 ---
 uuid: e44b7697-b75c-49b5-9df2-5e9021ce77a0
 ---
-.. _profile-Cisco.IOS:
-
-=================
-Cisco.IOS Profile
-=================
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 2
-    :class: singlecol
+# Cisco.IOS Profile
 
 `Cisco.IOS` profile supports wide range of
 :ref:`Cisco Systems <profiles-vendor-Cisco>` network equipment running Cisco IOS software.
 
-.. versionadded:: 0.1
+!!! info "Added in version"
+    0.1
 
-.. _profile-Cisco.IOS-configuration:
+## Configuration
 
-Configuration
--------------
+### Show firmware version
 
-Show firmware version
-^^^^^^^^^^^^^^^^^^^^^
+```
+show version
+```
 
-.. code-block:: text
+### Show platform
 
-    show version
+```
+show version
+```
 
-Show platform
-^^^^^^^^^^^^^
+### Show configuration
 
-.. code-block:: text
-
-    show version
-
-Show configuration
-^^^^^^^^^^^^^^^^^^
 Show current running configuration
 
-.. code-block:: text
-
-    show running-config
+```
+show running-config
+```
 
 Show startup configuration
 
-.. code-block:: text
+```
+show startup-config
+```
 
-    show startup-config
-
-Entering Configuration Mode
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+### Entering Configuration Mode
 
 All configuration commands are entered in the configuration mode.
 To enter configuration mode type
 
-.. code-block:: text
+```
+configure terminal
+```
 
-    configure terminal
-
-Save Configuration
-^^^^^^^^^^^^^^^^^^
+### Save Configuration
 
 To save configuration changes type
 
-.. code-block:: text
+```
+copy running-config startup-config
+```
 
-    copy running-config startup-config
+### Create Local User
 
+```
+username <name> privelege 15 password <password>
+```
 
-Create Local User
-^^^^^^^^^^^^^^^^^
+### Enable SNMP
 
-.. code-block:: text
+### Enable SSH
 
-    username <name> privelege 15 password <password>
+### Enable CDP
 
-Enable SNMP
-^^^^^^^^^^^
+### Enable LLDP
 
-Enable SSH
-^^^^^^^^^^
+## Supported Scripts
 
-Enable CDP
-^^^^^^^^^^
+{{ supported_scripts("Cisco.IOS") }}
 
-Enable LLDP
-^^^^^^^^^^^
-
-.. _profile-Cisco.IOS-scripts:
-
-Supported Scripts
------------------
-
-.. include:: ../include/auto/supported-scripts-Cisco.IOS.rst
-
-.. _profile-Cisco.IOS-issues:
-
-Known Issues
-------------
+## Known Issues
 
 * IOS 12.2SE got LLDP support starting from 12.2(33)SE, but
   due to several bugs it is recommended to use 12.2(50)SE or later
   if you planning to use LLDP discovery.
 
-.. _profile-Cisco.IOS-platforms:
-
-Supported Platforms
--------------------
-
-.. include:: ../include/auto/supported-profile-platforms-Cisco.IOS.rst
-
-.. _profile-Cisco.IOS-used:
-
-Used Commands
--------------
-`Cisco.IOS` profile emmits following commands. Ensure they are
+## Used Commands
+`Cisco.IOS` profile emits following commands. Ensure they are
 available for NOC user:
 
 * show version

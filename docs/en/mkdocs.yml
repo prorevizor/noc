@@ -636,6 +636,65 @@ nav:
           - Tokenizer: dev/confdb/tokenizer.md
           - Normalizer: dev/confdb/normalizer.md
           - Query: dev/confdb/query.md
+      - Scripts:
+          - add_vlan: dev/scripts/add_vlan.md
+          - commands: dev/scripts/commands.md
+          - configure: dev/scripts/configure.md
+          - get_arp: dev/scripts/get_arp.md
+          - get_bfd_sessions: dev/scripts/get_bfd_sessions.md
+          - get_capabilities: dev/scripts/get_capabilities.md
+          - get_cdp_neighbors: dev/scripts/get_cdp_neighbors.md
+          - get_chassis_id: dev/scripts/get_chassis_id.md
+          - get_config: dev/scripts/get_config.md
+          - get_copper_tdr_diag: dev/scripts/get_copper_tdr_diag.md
+          - get_cpe: dev/scripts/get_cpe.md
+          - get_dhcp_binding: dev/scripts/get_dhcp_binding.md
+          - get_discovery_id: dev/scripts/get_discovery_id.md
+          - get_dom_status: dev/scripts/get_dom_status.md
+          - get_dot11_associations: dev/scripts/get_dot11_associations.md
+          - get_fdp_neighbors: dev/scripts/get_fdp_neighbors.md
+          - get_fqdn: dev/scripts/get_fqdn.md
+          - get_huawei_ndp_neighbors: dev/scripts/get_huawei_ndp_neighbors.md
+          - get_ifindexes: dev/scripts/get_ifindexes.md
+          - get_interface_index: dev/scripts/get_interface_index.md
+          - get_interface_status: dev/scripts/get_interface_status.md
+          - get_interface_status_ex: dev/scripts/get_interface_status_ex.md
+          - get_interfaces: dev/scripts/get_interfaces.md
+          - get_inventory: dev/scripts/get_inventory.md
+          - get_ip_discovery: dev/scripts/get_ip_discovery.md
+          - get_ipv6_neighbor: dev/scripts/get_ipv6_neighbor.md
+          - get_lacp_neighbors: dev/scripts/get_lacp_neighbors.md
+          - get_license: dev/scripts/get_license.md
+          - get_lldp_neighbors: dev/scripts/get_lldp_neighbors.md
+          - get_local_users: dev/scripts/get_local_users.md
+          - get_mac_address_table: dev/scripts/get_mac_address_table.md
+          - get_metrics: dev/scripts/get_metrics.md
+          - get_mpls_vpn: dev/scripts/get_mpls_vpn.md
+          - get_oam_status: dev/scripts/get_oam_status.md
+          - get_portchannel: dev/scripts/get_portchannel.md
+          - get_rep_topology: dev/scripts/get_rep_topology.md
+          - get_resolver_config: dev/scripts/get_resolver_config.md
+          - get_sla_probes: dev/scripts/get_sla_probes.md
+          - get_snmp_get: dev/scripts/get_snmp_get.md
+          - get_snmp_getnext: dev/scripts/get_snmp_getnext.md
+          - get_spanning_tree: dev/scripts/get_spanning_tree.md
+          - get_switch: dev/scripts/get_switch.md
+          - get_switchport: dev/scripts/get_switchport.md
+          - get_system: dev/scripts/get_system.md
+          - get_tech_support: dev/scripts/get_tech_support.md
+          - get_udld_neighbors: dev/scripts/get_udld_neighbors.md
+          - get_uptime: dev/scripts/get_uptime.md
+          - get_version: dev/scripts/get_version.md
+          - get_vlans: dev/scripts/get_vlans.md
+          - has_vlan: dev/scripts/has_vlan.md
+          - index: dev/scripts/index.md
+          - login: dev/scripts/login.md
+          - ping: dev/scripts/ping.md
+          - reboot: dev/scripts/reboot.md
+          - remove_vlan: dev/scripts/remove_vlan.md
+          - set_switchport: dev/scripts/set_switchport.md
+          - sync_prefix_lists: dev/scripts/sync_prefix_lists.md
+          - sync_vlans: dev/scripts/sync_vlans.md
       - Handlers:
           - Handlers Overview: dev/handlers/index.md
           - Config Filter: dev/handlers/config-filter.md
