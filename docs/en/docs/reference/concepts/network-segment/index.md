@@ -46,59 +46,21 @@ from adjacent segments, connected to given segment to build
 ### Tree
 Tree topology contains exactly one path between any Object.
 
-.. mermaid::
-
-    graph TB
-        MO1 --- MO2
-        MO1 --- MO3
-        MO1 --- MO4
-        MO2 --- MO5
-        MO2 --- MO6
-        MO6 --- MO7
-        MO3 --- MO8
-        MO3 --- MO9
-        MO4 --- MO10
-        MO4 --- MO11
-        MO10 --- MO12
+![Tree example](example-tree-1.svg)
 
 *Tree* offers no redundancy. Any failed Object makes its children
 unavailable. Following example shows failed *MO3* makes *MO8* and *MO9*
 unavailable.
 
-.. mermaid::
+![Tree2 example](example-tree-2.svg)
 
-    graph TB
-        style MO3 fill:#c0392b
-        style MO8 fill:#7f8c8d
-        style MO9 fill:#7f8c8d
-        MO1 --- MO2
-        MO1 --- MO3
-        MO1 --- MO4
-        MO2 --- MO5
-        MO2 --- MO6
-        MO6 --- MO7
-        MO3 --- MO8
-        MO3 --- MO9
-        MO4 --- MO10
-        MO4 --- MO11
-        MO10 --- MO12
 
 NOC performs auto-layout of *Tree* segment maps and proper :term:`RCA`
 
 ### Forest
 *Forest* is common case with two-or-more independ trees. Like a *Tree*
 
-.. mermaid::
-
-    graph TB
-        MO1 --- MO4
-        MO1 --- MO5
-        MO5 --- MO6
-        MO2 --- MO7
-        MO2 --- MO8
-        MO3 --- MO9
-        MO3 --- MO10
-        MO9 --- MO11
+![Forest example](example-forest.svg)
 
 *Forest* offers no redundancy. Any failed Object makes its children
 unavailable.
@@ -115,44 +77,16 @@ Ring
 Common *Ring* topology considers each object connected with exactly two
 neighbors
 
-.. mermaid::
-
-    graph TB
-        MO1 --- MO2
-        MO1 --- MO5
-        MO2 --- MO3
-        MO3 --- MO4
-        MO5 --- MO6
-        MO6 --- MO4
+![Ring-1 example](example-ring-1.svg)
 
 *Ring* offers protection against single node failure. Following example
 shows *MO3* failure not affects other objects
 
-.. mermaid::
-
-    graph TB
-        style MO3 fill:#c0392b
-        MO1 --- MO2
-        MO1 --- MO5
-        MO2 --- MO3
-        MO3 --- MO4
-        MO5 --- MO6
-        MO6 --- MO4
+![Ring-2 example](example-ring-2.svg)
 
 Though additional failure of *MO6* leads to *MO4* unavailability
 
-.. mermaid::
-
-    graph TB
-        style MO3 fill:#c0392b
-        style MO6 fill:#c0392b
-        style MO4 fill:#7f8c8d
-        MO1 --- MO2
-        MO1 --- MO5
-        MO2 --- MO3
-        MO3 --- MO4
-        MO5 --- MO6
-        MO6 --- MO4
+![Ring-3 example](example-ring-3.svg)
 
 Pure *Ring* topology is rather expensive, as any Object must be
 capable of forwarding all ring's traffic and is not very flexible
@@ -171,15 +105,7 @@ NOC performs neat auto-layout of *Ring* segment maps and proper :term:`RCA`
 ### Mesh
 *Mesh* is the common graph which is not *Tree*, *Forest* or *Ring*
 
-.. mermaid::
-
-    graph TB
-        MO1 --- MO2
-        MO1 --- MO3
-        MO2 --- MO3
-        MO3 --- MO4
-        MO4 --- MO5
-        MO1 --- MO5
+![Mesh example](example-mesh.svg)
 
 NOC performs probabilistic spring layout for mesh networks which may
 require manual correction and performs proper :term:`RCA` in most cases
@@ -215,12 +141,7 @@ Sometimes network segments of same level connected together
 for backup purposes. So in case of uplink failure one segment
 can use other as temporary uplink (*S2* - *S3* dotted link).
 
-.. mermaid::
-
-    graph TB
-        S1 --- S2
-        S1 --- S3
-        S2 -.- S3
+![Horizontal transit example](example-horizontal-transit.svg)
 
 NOC offers additional Network Segment setting to specify whether
 such horizontal traffic flow is acceptable. *Horizontal Transit Policy*
@@ -239,40 +160,7 @@ considering neighbor segment as additional *Uplink Path*.
 Network topology may change over time. Consider typical scheme
 of broadband access network:
 
-.. mermaid::
-
-    graph TB
-        subgraph Parent
-        AGG1
-        end
-        subgraph ODF
-        P1
-        P2
-        P3
-        P4
-        end
-        subgraph Segment1
-        MO11
-        MO12
-        MO13
-        end
-        subgraph Segment2
-        MO21
-        MO22
-        MO23
-        end
-        AGG1 --- P1
-        P1   --- MO11
-        AGG1 --- P2
-        P2   --- MO13
-        MO11 --- MO12
-        MO13 --- MO12
-        AGG1 --- P3
-        P3   --- MO21
-        AGG1 --- P4
-        P4   --- MO23
-        MO21 --- MO22
-        MO23 --- MO22
+![Sibling-1 example](example-sibling-1.svg)
 
 Two separate optic cables build two access ring and terminated on
 four ports on aggregation switch. Consider we'd overestimated
@@ -282,39 +170,7 @@ ports in *AGG1*. We'd decided to connect *MO13* and *MO21* directly
 bypassing *AGG1*, so we'd disconnected two ports on *AGG1* and shorted
 ports *P2* and *P3* on *ODF* by optical patch-cord:
 
-.. mermaid::
-
-    graph TB
-        subgraph Parent
-        AGG1
-        end
-        subgraph ODF
-        P1
-        P2
-        P3
-        P4
-        end
-        subgraph Segment1
-        MO11
-        MO12
-        MO13
-        end
-        subgraph Segment2
-        MO21
-        MO22
-        MO23
-        end
-        AGG1 --- P1
-        P1   --- MO11
-        P2   -.- P3
-        P2   --- MO13
-        MO11 --- MO12
-        MO13 --- MO12
-        P3   --- MO21
-        AGG1 --- P4
-        P4   --- MO23
-        MO21 --- MO22
-        MO23 --- MO22
+![Sibling-2 example](example-sibling-2.svg)
 
 Technically, we'd merged *Segment1* and *Segment2* building larger
 segment. We can simple move *MO21*, *MO22* and *MO23* to *Segment1*
@@ -347,23 +203,7 @@ to split segments tree to *VLAN Domain*. *VLAN Domain* covers
 
 Consider example:
 
-.. mermaid::
-
-    graph TB
-        style S1 stroke-width:4px
-        style S6 fill:#0f0,stroke-width:4px
-        style S10 fill:#0f0
-        style S11 fill:#0f0
-        S1 --- S2
-        S1 --- S3
-        S1 --- S4
-        S2 --- S5
-        S2 --- S6
-        S3 --- S7
-        S3 --- S8
-        S4 --- S9
-        S6 --- S10
-        S6 --- S11
+![Vlan-domain example](example-vlan-domain.svg)
 
 VLAN borders marked by thick frame: S1 and S6. First VLAN domain (blue)
 consist of S1, S2, S3, S4, S5, S7, S8 and S9. Second VLAN domain (green):
@@ -386,12 +226,7 @@ NOC consider any implicit VLAN passing stops at *VLAN border*. Though it
 possible to propagate VLAN further via *VLAN Translation Rules*.
 Consider scheme:
 
-.. mermaid::
-
-    graph TB
-        style S1 stroke-width:4px
-        style S2 fill:#0f0,stroke-width:4px
-        S1 --- S2
+![Vlan-translation example](example-vlan-translation.svg)
 
 S1 and S2 both *VLAN borders*. *Managed Objects* MO1 and MO2 belongs to
 S1 and S2 respectively.
@@ -413,32 +248,20 @@ NOC supports two kind of rules: *Map* and *Push*.
 
 VLANs can be either *rewritten*
 
-.. mermaid::
-    :caption: filter=2-200,rule=map,parent_vlan=200
-
-    sequenceDiagram
-        MO1 ->> Border: Tag=100
-        Border ->> MO2: Tag=200
+![Map-1 example](example-map-1.svg)
+`filter=2-200,rule=map,parent_vlan=200`
 
 Or *extended* (rewritten to same tag)
 
-.. mermaid::
-    :caption: filter=2-200,rule=map,parent_vlan=100
-
-    sequenceDiagram
-        MO1 ->> Border: Tag=100
-        Border ->> MO2: Tag=100
+![Map-2 example](example-map-2.svg)
+`filter=2-200,rule=map,parent_vlan=100`
 
 ### Push
 *Push* rule appends additional 802.1Q tag in top of existing 802.1Q tag,
 allowing Q-in-Q tunneling.
 
-.. mermaid::
-    :caption: filter=2-200,rule=push,parent_vlan=300
-
-    sequenceDiagram
-        MO1 ->> Border: Tag=100
-        Border ->> MO2: Tag=300,100
+![Push example](example-push.svg)
+`filter=2-200,rule=push,parent_vlan=300`
 
 .. _network-segment-vlan-allocation-group:
 
