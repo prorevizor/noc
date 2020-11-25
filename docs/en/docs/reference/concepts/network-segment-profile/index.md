@@ -16,8 +16,6 @@ from parent segment having links to segment.
 
 Consider the scheme:
 
-.. mermaid::
-
 ![Hier example](example-hier.svg)
 
 Lets *MO1* belong to *Parent Segment*, while *MO2*, *MO3* and *MO4* are
