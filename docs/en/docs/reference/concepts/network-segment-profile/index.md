@@ -18,19 +18,7 @@ Consider the scheme:
 
 .. mermaid::
 
-    graph TB
-        subgraph Parent
-        MO1
-        end
-        subgraph Segment
-        MO2
-        MO3
-        MO4
-        end
-        MO1 --- MO2
-        MO1 --- MO3
-        MO2 --- MO4
-        MO3 --- MO4
+![Hier example](example-hier.svg)
 
 Lets *MO1* belong to *Parent Segment*, while *MO2*, *MO3* and *MO4* are
 in current *Segment*. The table of *Uplinks* and *Downlinks*:
