@@ -5,12 +5,15 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
+# Python modules
 import os
+from collections import defaultdict
+import json
 
 
 def define_env(env):
     @env.macro
-    def mr(iid):
+    def mr(iid: int):
         """
         Link to Merge Request. Usage:
 
@@ -21,7 +24,7 @@ def define_env(env):
         return f"[MR{iid}](https://code.getnoc.com/noc/noc/merge_requests/{iid})"
 
     @env.macro
-    def supported_scripts(profile):
+    def supported_scripts(profile: str):
         nonlocal scripts
         r = ["Script | Support", "--- | ---"]
         if not scripts:
@@ -46,9 +49,39 @@ def define_env(env):
                 mark = ":material-check:"
             else:
                 mark = ":material-close:"
-            r += [f"{script} | {mark}"]
+            r += [f"[{script}](../../../dev/scripts/{script}.md) | {mark}"]
         r += [""]
         return "\n".join(r)
 
+    @env.macro
+    def supported_platforms(vendor: str):
+        nonlocal platforms
+
+        if not platforms:
+            # Load platforms
+            for root, _, files in os.walk("collections/inv.platforms"):
+                for fn in files:
+                    if not fn.endswith(".json") or fn.startswith("."):
+                        continue
+                    with open(os.path.join(root, fn)) as f:
+                        data = json.loads(f.read())
+                    platforms[data["vendor__code"]].add(data["name"])
+        v_platforms = list(sorted(platforms[vendor]))
+        r = []
+        if v_platforms:
+            r += ["| Platform |", "| --- |"]
+            r += [f"| {x} | " for x in v_platforms]
+        else:
+            r += [
+                "!!! note",
+                "",
+                "Platform collection is not populated still.",
+                "",
+                "You may be first to [contribute](../../../howto/sharing-collections/index.md)",
+                "",
+            ]
+        return "\n".join(r)
+
     scripts = []  # Ordered list of scripts
+    platforms = defaultdict(set)  # vendor -> {platform}
     doc_root = "docs/en/docs"

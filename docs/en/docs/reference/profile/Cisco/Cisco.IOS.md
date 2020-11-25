@@ -85,4 +85,3 @@ available for NOC user:
 * show version
 * show running-config
 * show startup-config
-...
