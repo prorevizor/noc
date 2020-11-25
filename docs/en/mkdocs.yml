@@ -902,6 +902,7 @@ nav:
           - NOC 0.1.7: releases/0.1.7.md
           - NOC 0.1.8: releases/0.1.8.md
           - NOC 0.1.9: releases/0.1.9.md
+  - Glossary: glossary.md
   - About:
       - License: license.md
       - Contributing: contributing.md
@@ -909,8 +910,9 @@ nav:
       - Style Guide: style-guide.md
 theme:
   name: material
-  pallete:
-    scheme: preference
+  palette:
+    scheme: slate
+  logo: _static/logo.svg
 use_directory_urls: true
 site_dir: ../../build/docs2/en
 # strict: true
@@ -918,6 +920,7 @@ markdown_extensions:
   - toc:
       permalink: true
   - admonition
+  - attr_list
   - def_list
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji

@@ -1,0 +1,145 @@
+# Glossary
+
+!!! note
+    Link to other glossary terms when possible.
+    Reserve the "See" text at the link of the entry to link to topics in the manual
+
+AC
+: [Alternating Current](https://en.wikipedia.org/wiki/Alternating_current)
+
+BFD
+: [Bidirectional Forwarding Detection](https://en.wikipedia.org/wiki/Bidirectional_Forwarding_Detection)
+
+CDP
+: [Cisco Discovery Protocol](https://en.wikipedia.org/wiki/Cisco_Discovery_Protocol)
+
+CLI {: #cli }
+: Command Line Interface
+
+ClickHouse
+: See :doc:`/reference/clickhouse`.
+
+Consul
+: See :doc:`/reference/consul`.
+
+CPE
+: Customer-Premises Equipment. Associated equipment located
+at subscriber's premises used to provide service
+
+box discovery
+: todo
+
+periodic discovery
+: Describe periodic discovery
+
+DC
+: [Direct Current](https://en.wikipedia.org/wiki/Direct_current)
+
+discovery
+: See :doc:`/reference/discovery`.
+
+FRU
+: Field Replaceable Unit. Vendor's identification
+
+G.703
+: [ITU-T G.703 standard](https://en.wikipedia.org/wiki/G.703)
+
+LACP
+: .. todo::
+
+LLDP
+: .. todo::
+
+NDP (Huawei)
+: Describe
+
+NRI
+: Network Resource Inventory
+
+Netflow
+: .. todo::
+
+network segment
+: See :doc:`/reference/network-segment`.
+
+network segment profile
+: See :doc:`/reference/network-segment-profile`.
+
+Network Element
+: See :doc:`/reference/managed-object`.
+
+managed object
+: See :doc:`/reference/managed-object`.
+
+managed object profile
+: See :doc:`/reference/managed-object-profile`.
+
+management VLAN
+: .. todo::
+
+MIB
+: Management Information Base. NOC uses MIB to .....
+
+MTU
+: Maximum Transmission Unit
+
+mongodb
+: See :doc:`/reference/mongodb`.
+
+multicast VLAN
+: Describe
+
+ethernet OAM
+: Describe
+
+PoE
+: [Power over Ethernet](https://en.wikipedia.org/wiki/Power_over_Ethernet)
+
+pool
+: See :doc:`/reference/pool`.
+
+PoP
+: Point of Presence.
+
+postgres
+: See :doc:`/reference/postgres`.
+
+RCA
+: See :term:`Root-Cause Analysis`
+
+Root-Cause Analysys
+: A process of problems correlation in order to separate
+real problems (or root problems) and their inferred consequences.
+
+RS-232
+: [RS-232 serial communications standard](https://en.wikipedia.org/wiki/RS-232)
+
+RS-485
+: [RS-485 serial communications standard](https://en.wikipedia.org/wiki/RS-485)
+
+selector
+: See :doc:`/reference/selector`.
+
+service
+: See :doc:`/reference/service`.
+
+SSH
+: Secure Shell. Encrypted [CLI](#cli) protocol
+
+STP
+: Spanning Tree Protocol
+
+subscriber
+: See :doc:`/reference/subscriber`.
+
+telnet
+: Describe
+
+topology
+: See :doc:`/reference/topology`.
+
+UDLD
+: .. todo::
+
+VLAN
+: .. todo::
