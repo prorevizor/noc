@@ -913,10 +913,14 @@ class TopologyDiscoveryCheck(DiscoveryCheck):
             n = None
             if len(hosts) == 1:
                 n = hosts[0].object
-            elif "." not in hostname:
+            else:
                 # Sometimes, domain part is truncated.
                 # Try to resolve anyway
-                m = list(DiscoveryID.objects.filter(hostname__startswith=hostname + "."))
+                m = list(
+                    DiscoveryID.objects.filter(
+                        hostname__istartswith=hostname + "." if "." not in hostname else hostname
+                    )
+                )
                 if len(m) == 1:
                     n = m[0].object  # Exact match
             self.neighbor_hostname_cache[hostname] = n
