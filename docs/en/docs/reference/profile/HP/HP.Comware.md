@@ -1,7 +1,7 @@
 ---
 uuid: b88195ec-0bb2-4a5c-89ee-37031bc20efc
 ---
-.. _profile-HP.Comware:
+
 
 ==========
 HP.Comware

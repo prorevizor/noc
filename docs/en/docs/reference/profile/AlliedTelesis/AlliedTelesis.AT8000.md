@@ -1,7 +1,7 @@
 ---
 uuid: fa45d4f2-af6b-41a6-ab10-2723d454cabc
 ---
-.. _profile-AlliedTelesis.AT8000:
+
 
 ====================
 AlliedTelesis.AT8000

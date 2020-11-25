@@ -1,4 +1,4 @@
-.. _bi-model-reboots:
+
 
 =============
 reboots model

@@ -1,4 +1,4 @@
-.. _bi-model-mac:
+
 
 =========
 mac model

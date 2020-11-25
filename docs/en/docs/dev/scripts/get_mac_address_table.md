@@ -1,4 +1,4 @@
-.. _script-get_mac_address_table:
+
 
 =======================================
 get_mac_address_table

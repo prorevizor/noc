@@ -1,4 +1,4 @@
-.. _dev-confdb-normalizer:
+
 
 =================
 Config Normalizer
@@ -25,7 +25,7 @@ Normalizer performs normalization and emits ConfDB syntax after
 matching. Ability to work in pipelines greatly reduces memory
 footprint of ConfDB processing, avoiding multiple copies of same data.
 
-.. _dev-confdb-normalizer-profile-integration:
+
 
 Profile Integration
 -------------------
@@ -57,7 +57,7 @@ Following profile parameters are responsible for normalizer configuration:
     :returns: tuple of (config tokenizer name, config tokenizer settings).
         Must return (None, None) if platform is not supported.
 
-.. _dev-confdb-normalizer-api:
+
 
 Normalizer API
 --------------
@@ -69,7 +69,7 @@ where `X.Y` is profile name).
 
     Ensure the `sa/profiles/X/Y/confdb/__init__.py` file exists and empty.
 
-.. _dev-confdb-normalizer-code-boilerplate:
+
 
 Code boilerplate
 ^^^^^^^^^^^^^^^^
@@ -83,7 +83,7 @@ Normalizer code boilerplate::
     class MyNormalizer(BaseNormalizer):
         ...
 
-.. _dev-confdb-normalizer-match-decorator:
+
 
 @match decorator
 ^^^^^^^^^^^^^^^^
@@ -112,7 +112,7 @@ Will match `["no", "lldp"]` or `["no", "lldp", "protocol"]`.
 Note, the match is `exact` for the whole line. Previous example will
 not match the `["no", "lldp", "status"]` line.
 
-.. _dev-confdb-normalizer-match-macros:
+
 
 @match macros
 ^^^^^^^^^^^^^
@@ -137,7 +137,7 @@ All macros must be imported from `noc.core.confdb.normalizer.base` module.
 
 Multiple occurencies and various combination of macros are possible
 
-.. _dev-confdb-normalizer-confdb-generator:
+
 
 Generator functions
 ^^^^^^^^^^^^^^^^^^^
@@ -191,7 +191,7 @@ must be rewritten as::
             description=" ".join(tokens[3:])
         )
 
-.. _dev-confdb-normalizer-defer:
+
 
 deferrable generators
 ^^^^^^^^^^^^^^^^^^^^^
@@ -245,7 +245,7 @@ Generator lookups pending deferrables by keys and applies `interface` parameter.
 As deferrable became fully resolved, it converts to actual
 `make_unit_inet_address` and yield output tokens immediately.
 
-.. _dev-confdb-normalizer-context:
+
 
 Contexts
 ^^^^^^^^
@@ -257,7 +257,7 @@ for context manipulation are available:
 * `get_context`
 * `has_context`
 
-.. _dev-confdb-normalizer-methods:
+
 
 Normalizer methods
 ^^^^^^^^^^^^^^^^^^

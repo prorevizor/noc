@@ -1,4 +1,4 @@
-.. _discovery-periodic-uptime:
+
 
 ============
 uptime check

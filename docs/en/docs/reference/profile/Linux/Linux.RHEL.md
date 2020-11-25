@@ -1,7 +1,7 @@
 ---
 uuid: bc36c119-3111-49cb-a1a9-0210be512de6
 ---
-.. _profile-Linux.RHEL:
+
 
 ==========
 Linux.RHEL

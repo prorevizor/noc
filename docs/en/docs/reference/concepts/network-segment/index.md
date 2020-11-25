@@ -70,7 +70,7 @@ NOC performs auto-layout of *Forest* segment maps and proper :term:`RCA`
     *Forest* segments should be split to several *Tree* segment
     unless you have explicit reason to use *Forest*
 
-.. _network-segment-topology-ring:
+
 
 Ring
 ^^^^
@@ -100,7 +100,7 @@ is performed with cheap switches contained within same PoP with backbone nodes.
 
 NOC performs neat auto-layout of *Ring* segment maps and proper :term:`RCA`
 
-.. _network-segment-topology-mesh:
+
 
 ### Mesh
 *Mesh* is the common graph which is not *Tree*, *Forest* or *Ring*
@@ -134,7 +134,7 @@ It is advised to avoid very large segments (>100 Objects)
 Segment's objects. *Segment Uplinks* can belong to segment itself,
 or may belong to any neighbor segment
 
-.. _network-segment-horizontal-transit:
+
 
 ## Horizontal Transit
 Sometimes network segments of same level connected together
@@ -182,7 +182,7 @@ to declare *Segment1* and *Segment2* as the *Sibling Segments*.
 processed as one in *Uplinks* calculations and shown as a single
 map, though remaining two separate segments in database and reporting.
 
-.. _networksegment-vlan-domains:
+
 
 ## VLAN Domains
 *Network Segments* are closely tied with *VLAN* concept. VLANs are
@@ -219,7 +219,7 @@ so it starts its own domain.
 For ease of maintenance NOC automatically attaches all *VLAN domain's*
 VLANs to appropriative *VLAN border*.
 
-.. _network-segment-vlan-translation:
+
 
 ## VLAN Translation
 NOC consider any implicit VLAN passing stops at *VLAN border*. Though it
@@ -263,7 +263,7 @@ allowing Q-in-Q tunneling.
 ![Push example](example-push.svg)
 `filter=2-200,rule=push,parent_vlan=300`
 
-.. _network-segment-vlan-allocation-group:
+
 
 ## VLAN Allocation Group
 
@@ -278,7 +278,7 @@ MAC addresses. See :ref:`discovery-segment-mac` for details.
 Segmentation may be performed automatically during box discovery.
 See :ref:`discovery-box-segmentation` for details
 
-.. _network-segment-redundancy:
+
 
 ## Redundancy
 :ref:`network-segment-topology-ring` and :ref:`network-segment-topology-mesh`

@@ -9,217 +9,6 @@ nav:
   - Home: index.md
   # - Installation:
   # - Quickstart
-  - Administration Guide:
-      - Services:
-          - activator: admin/services/activator.md
-          - bi: admin/services/bi.md
-          - card: admin/services/card.md
-          - chwriter: admin/services/chwriter.md
-          - classifier: admin/services/classifier.md
-          - correlator: admin/services/correlator.md
-          - datasource: admin/services/datasource.md
-          - datastream: admin/services/datastream.md
-          - discovery: admin/services/discovery.md
-          - escalator: admin/services/escalator.md
-          - grafanads: admin/services/grafanads.md
-          - icqsender: admin/services/icqsender/index.md
-          - login: admin/services/login.md
-          - mailsender: admin/services/mailsender.md
-          - mrt: admin/services/mrt.md
-          - nbi: admin/services/nbi.md
-          - ping: admin/services/ping.md
-          - sae: admin/services/sae.md
-          - scheduler: admin/services/scheduler.md
-          - syslogcollector: admin/services/syslogcollector.md
-          - tgsender: admin/services/tgsender.md
-          - trapcollector: admin/services/trapcollector.md
-          - web: admin/services/web.md
-      - Configuration:
-          - Configuration System Overview: admin/config/index.md
-          - Date and Time Formats: admin/datetime-format.md
-          - Global Configuration: admin/config/global.md
-          - "[activator] Section": admin/config/activator.md
-          - "[audit] section": admin/config/audit.md
-          - "[backup] section": admin/config/backup.md
-          - "[bi] section": admin/config/bi.md
-          - "[biosegmentation] section": admin/config/biosegmentation.md
-          - "[cache] section": admin/config/cache.md
-          - "[card] section": admin/config/card.md
-          - "[chwriter] section": admin/config/chwriter.md
-          - "[classifier] section": admin/config/classifier.md
-          - "[clickhouse] section": admin/config/clickhouse.md
-          - "[collections] section": admin/config/collections.md
-          - "[consul] section": admin/config/consul.md
-          - "[correlator] section": admin/config/correlator.md
-          - "[customization] section": admin/config/customization.md
-          - "[datasource] section": admin/config/datasource.md
-          - "[datastream] section": admin/config/datastream.md
-          - "[dcs] section": admin/config/dcs.md
-          - "[discovery] section": admin/config/discovery.md
-          - "[dns] section": admin/config/dns.md
-          - "[escalator] section": admin/config/escalator.md
-          - "[etl] section": admin/config/etl.md
-          - "[features] section": admin/config/features.md
-          - "[fm] section": admin/config/fm.md
-          - "[geocoding] section": admin/config/geocoding.md
-          - "[gis] section": admin/config/gis.md
-          - "[grafanads] section": admin/config/grafanads.md
-          - "[help] section": admin/config/help.md
-          - "[http_client] section": admin/config/http_client.md
-          - "[icqsender] section": admin/config/icqsender.md
-          - "[initial] section": admin/config/initial.md
-          - "[kafkasender] section": admin/config/kafkasender.md
-          - "[layout] section": admin/config/layout.md
-          - "[liftbridge] section": admin/config/liftbridge.md
-          - "[logging] section": admin/config/logging.md
-          - "[login] section": admin/config/login.md
-          - "[mailsender] section": admin/config/mailsender.md
-          - "[memcached] section": admin/config/memcached.md
-          - "[message] section": admin/config/message.md
-          - "[metrics] section": admin/config/metrics.md
-          - "[mongo] section": admin/config/mongo.md
-          - "[mrt] section": admin/config/mrt.md
-          - "[nbi] section": admin/config/nbi.md
-          - "[nsqd] section": admin/config/nsqd.md
-          - "[nsqlookupd] section": admin/config/nsqlookupd.md
-          - "[path] section": admin/config/path.md
-          - "[peer] section": admin/config/peer.md
-          - "[pg] section": admin/config/pg.md
-          - "[ping] section": admin/config/ping.md
-          - "[pmwriter] section": admin/config/pmwriter.md
-          - "[proxy] section": admin/config/proxy.md
-          - "[redis] section": admin/config/redis.md
-          - "[rpc] section": admin/config/rpc.md
-          - "[sae] section": admin/config/sae.md
-          - "[scheduler] section": admin/config/scheduler.md
-          - "[script] section": admin/config/script.md
-          - "[selfmon] section": admin/config/selfmon.md
-          - "[sentry] section": admin/config/sentry.md
-          - "[syslogcollector] section": admin/config/syslogcollector.md
-          - "[tests] section": admin/config/tests.md
-          - "[tgsender] section": admin/config/tgsender.md
-          - "[threadpool] section": admin/config/threadpool.md
-          - "[traceback] section": admin/config/traceback.md
-          - "[trapcollector] section": admin/config/trapcollector.md
-          - "[web] section": admin/config/web.md
-      - Discovery:
-          - Box Discovery:
-              - Overview: admin/discovery/box/index.md
-              - Suggest SNMP: admin/discovery/box/suggestsnmp.md
-              - Suggest CLI: admin/discovery/box/suggestcli.md
-              - Profile: admin/discovery/box/profile.md
-              - Version: admin/discovery/box/version.md
-              - Caps: admin/discovery/box/caps.md
-              - Asset: admin/discovery/box/asset.md
-              - Interface: admin/discovery/box/interface.md
-              - VRF: admin/discovery/box/vrf.md
-              - VLAN: admin/discovery/box/vlan.md
-              - SLA: admin/discovery/box/sla.md
-              - ID: admin/discovery/box/id.md
-              - Config: admin/discovery/box/config.md
-              - CPE: admin/discovery/box/cpe.md
-              - Segmentation: admin/discovery/box/segmentation.md
-              - LLDP: admin/discovery/box/lldp.md
-              - BFD: admin/discovery/box/bfd.md
-              - CDP: admin/discovery/box/cdp.md
-              - LACP: admin/discovery/box/lacp.md
-              - OAM: admin/discovery/box/oam.md
-              - FDP: admin/discovery/box/fdp.md
-              - STP: admin/discovery/box/stp.md
-              - REP: admin/discovery/box/rep.md
-              - UDLD: admin/discovery/box/udld.md
-              - Huawei NDP: admin/discovery/box/huawei_ndp.md
-              - NRI: admin/discovery/box/nri.md
-              - HouseKeeping: admin/discovery/box/hk.md
-          - Periodic Discovery:
-              - Overview: admin/discovery/periodic/index.md
-              - interfacestatus: admin/discovery/periodic/interfacestatus.md
-              - uptime: admin/discovery/periodic/uptime.md
-              - mac: admin/discovery/periodic/mac.md
-              - metrics: admin/discovery/periodic/metrics.md
-              - cpestatus: admin/discovery/periodic/cpestatus.md
-          - AS Discovery:
-              - Overview: admin/discovery/as/index.md
-              - Prefix Discovery: admin/discovery/as/prefix.md
-          - Segment Discovery:
-              - Overview: admin/discovery/segment/index.md
-              - MAC Discovery: admin/discovery/segment/mac.md
-      - Internal Metrics: admin/internal-metrics.md
-      - Man Pages:
-          - about: admin/man/about.md
-          - beef: admin/man/beef.md
-          - bi: admin/man/bi.md
-          - clean-asset: admin/man/clean-asset.md
-          - collection: admin/man/collection.md
-          - compile-mib: admin/man/compile-mib.md
-          - confdb: admin/man/confdb.md
-          - config: admin/man/config.md
-          - convert-moin: admin/man/convert-moin.md
-          - crashinfo: admin/man/crashinfo.md
-          - csv-export: admin/man/csv-export.md
-          - csv-import: admin/man/csv-import.md
-          - ctl: admin/man/ctl.md
-          - datastream: admin/man/datastream.md
-          - discovery: admin/man/discovery.md
-          - dump-addr: admin/man/dump-addr.md
-          - dump-crashinfo: admin/man/dump-crashinfo.md
-          - ensure-indexes: admin/man/ensure-indexes.md
-          - escalation: admin/man/escalation.md
-          - etl: admin/man/etl.md
-          - events: admin/man/events.md
-          - fix: admin/man/fix.md
-          - get-device-identity: admin/man/get-device-identity.md
-          - get-device-sample: admin/man/get-device-sample.md
-          - get-uuid: admin/man/get-uuid.md
-          - gridvcs: admin/man/gridvcs.md
-          - import-mib: admin/man/import-mib.md
-          - import-rancid: admin/man/import-rancid.md
-          - import-zone: admin/man/import-zone.md
-          - index: admin/man/index.md
-          - inject-event: admin/man/inject-event.md
-          - interface-profile: admin/man/interface-profile.md
-          - job: admin/man/job.md
-          - l3-topology: admin/man/l3-topology.md
-          - link: admin/man/link.md
-          - login: admin/man/login.md
-          - lookup-mib: admin/man/lookup-mib.md
-          - make-cmib: admin/man/make-cmib.md
-          - metrics: admin/man/metrics.md
-          - migrate-ch: admin/man/migrate-ch.md
-          - migrate: admin/man/migrate.md
-          - mongo: admin/man/mongo.md
-          - newapp: admin/man/newapp.md
-          - notify: admin/man/notify.md
-          - nri-link: admin/man/nri-link.md
-          - nri: admin/man/nri.md
-          - parse-events: admin/man/parse-events.md
-          - ping: admin/man/ping.md
-          - prefix-list: admin/man/prefix-list.md
-          - pretty: admin/man/pretty.md
-          - psql: admin/man/psql.md
-          - pythonpath: admin/man/pythonpath.md
-          - rca-debug: admin/man/rca-debug.md
-          - rpc: admin/man/rpc.md
-          - run: admin/man/run.md
-          - script: admin/man/script.md
-          - service: admin/man/service.md
-          - shell: admin/man/shell.md
-          - snmp: admin/man/snmp.md
-          - stencil: admin/man/stencil.md
-          - sync-doc: admin/man/sync-doc.md
-          - sync-mibs: admin/man/sync-mibs.md
-          - sync-perm: admin/man/sync-perm.md
-          - sync-refbooks: admin/man/sync-refbooks.md
-          - sync: admin/man/sync.md
-          - test: admin/man/test.md
-          - todos: admin/man/todos.md
-          - translation: admin/man/translation.md
-          - update-addr: admin/man/update-addr.md
-          - user: admin/man/user.md
-          - verify-model: admin/man/verify-model.md
-          - whois: admin/man/whois.md
-          - wipe: admin/man/wipe.md
-          - workflow: admin/man/workflow.md
   - Reference:
       - Concepts:
           - Administrative Domain: reference/concepts/administrative-domain/index.md
@@ -667,6 +456,217 @@ nav:
           - f5:
               - Overview: reference/profile/f5/index.md
               - f5.BIGIP: reference/profile/f5/f5.BIGIP.md
+  - Administration Guide:
+      - Services:
+          - activator: admin/services/activator.md
+          - bi: admin/services/bi.md
+          - card: admin/services/card.md
+          - chwriter: admin/services/chwriter.md
+          - classifier: admin/services/classifier.md
+          - correlator: admin/services/correlator.md
+          - datasource: admin/services/datasource.md
+          - datastream: admin/services/datastream.md
+          - discovery: admin/services/discovery.md
+          - escalator: admin/services/escalator.md
+          - grafanads: admin/services/grafanads.md
+          - icqsender: admin/services/icqsender/index.md
+          - login: admin/services/login.md
+          - mailsender: admin/services/mailsender.md
+          - mrt: admin/services/mrt.md
+          - nbi: admin/services/nbi.md
+          - ping: admin/services/ping.md
+          - sae: admin/services/sae.md
+          - scheduler: admin/services/scheduler.md
+          - syslogcollector: admin/services/syslogcollector.md
+          - tgsender: admin/services/tgsender.md
+          - trapcollector: admin/services/trapcollector.md
+          - web: admin/services/web.md
+      - Configuration:
+          - Configuration System Overview: admin/config/index.md
+          - Date and Time Formats: admin/datetime-format.md
+          - Global Configuration: admin/config/global.md
+          - "[activator] Section": admin/config/activator.md
+          - "[audit] section": admin/config/audit.md
+          - "[backup] section": admin/config/backup.md
+          - "[bi] section": admin/config/bi.md
+          - "[biosegmentation] section": admin/config/biosegmentation.md
+          - "[cache] section": admin/config/cache.md
+          - "[card] section": admin/config/card.md
+          - "[chwriter] section": admin/config/chwriter.md
+          - "[classifier] section": admin/config/classifier.md
+          - "[clickhouse] section": admin/config/clickhouse.md
+          - "[collections] section": admin/config/collections.md
+          - "[consul] section": admin/config/consul.md
+          - "[correlator] section": admin/config/correlator.md
+          - "[customization] section": admin/config/customization.md
+          - "[datasource] section": admin/config/datasource.md
+          - "[datastream] section": admin/config/datastream.md
+          - "[dcs] section": admin/config/dcs.md
+          - "[discovery] section": admin/config/discovery.md
+          - "[dns] section": admin/config/dns.md
+          - "[escalator] section": admin/config/escalator.md
+          - "[etl] section": admin/config/etl.md
+          - "[features] section": admin/config/features.md
+          - "[fm] section": admin/config/fm.md
+          - "[geocoding] section": admin/config/geocoding.md
+          - "[gis] section": admin/config/gis.md
+          - "[grafanads] section": admin/config/grafanads.md
+          - "[help] section": admin/config/help.md
+          - "[http_client] section": admin/config/http_client.md
+          - "[icqsender] section": admin/config/icqsender.md
+          - "[initial] section": admin/config/initial.md
+          - "[kafkasender] section": admin/config/kafkasender.md
+          - "[layout] section": admin/config/layout.md
+          - "[liftbridge] section": admin/config/liftbridge.md
+          - "[logging] section": admin/config/logging.md
+          - "[login] section": admin/config/login.md
+          - "[mailsender] section": admin/config/mailsender.md
+          - "[memcached] section": admin/config/memcached.md
+          - "[message] section": admin/config/message.md
+          - "[metrics] section": admin/config/metrics.md
+          - "[mongo] section": admin/config/mongo.md
+          - "[mrt] section": admin/config/mrt.md
+          - "[nbi] section": admin/config/nbi.md
+          - "[nsqd] section": admin/config/nsqd.md
+          - "[nsqlookupd] section": admin/config/nsqlookupd.md
+          - "[path] section": admin/config/path.md
+          - "[peer] section": admin/config/peer.md
+          - "[pg] section": admin/config/pg.md
+          - "[ping] section": admin/config/ping.md
+          - "[pmwriter] section": admin/config/pmwriter.md
+          - "[proxy] section": admin/config/proxy.md
+          - "[redis] section": admin/config/redis.md
+          - "[rpc] section": admin/config/rpc.md
+          - "[sae] section": admin/config/sae.md
+          - "[scheduler] section": admin/config/scheduler.md
+          - "[script] section": admin/config/script.md
+          - "[selfmon] section": admin/config/selfmon.md
+          - "[sentry] section": admin/config/sentry.md
+          - "[syslogcollector] section": admin/config/syslogcollector.md
+          - "[tests] section": admin/config/tests.md
+          - "[tgsender] section": admin/config/tgsender.md
+          - "[threadpool] section": admin/config/threadpool.md
+          - "[traceback] section": admin/config/traceback.md
+          - "[trapcollector] section": admin/config/trapcollector.md
+          - "[web] section": admin/config/web.md
+      - Discovery:
+          - Box Discovery:
+              - Overview: admin/discovery/box/index.md
+              - Suggest SNMP: admin/discovery/box/suggestsnmp.md
+              - Suggest CLI: admin/discovery/box/suggestcli.md
+              - Profile: admin/discovery/box/profile.md
+              - Version: admin/discovery/box/version.md
+              - Caps: admin/discovery/box/caps.md
+              - Asset: admin/discovery/box/asset.md
+              - Interface: admin/discovery/box/interface.md
+              - VRF: admin/discovery/box/vrf.md
+              - VLAN: admin/discovery/box/vlan.md
+              - SLA: admin/discovery/box/sla.md
+              - ID: admin/discovery/box/id.md
+              - Config: admin/discovery/box/config.md
+              - CPE: admin/discovery/box/cpe.md
+              - Segmentation: admin/discovery/box/segmentation.md
+              - LLDP: admin/discovery/box/lldp.md
+              - BFD: admin/discovery/box/bfd.md
+              - CDP: admin/discovery/box/cdp.md
+              - LACP: admin/discovery/box/lacp.md
+              - OAM: admin/discovery/box/oam.md
+              - FDP: admin/discovery/box/fdp.md
+              - STP: admin/discovery/box/stp.md
+              - REP: admin/discovery/box/rep.md
+              - UDLD: admin/discovery/box/udld.md
+              - Huawei NDP: admin/discovery/box/huawei_ndp.md
+              - NRI: admin/discovery/box/nri.md
+              - HouseKeeping: admin/discovery/box/hk.md
+          - Periodic Discovery:
+              - Overview: admin/discovery/periodic/index.md
+              - interfacestatus: admin/discovery/periodic/interfacestatus.md
+              - uptime: admin/discovery/periodic/uptime.md
+              - mac: admin/discovery/periodic/mac.md
+              - metrics: admin/discovery/periodic/metrics.md
+              - cpestatus: admin/discovery/periodic/cpestatus.md
+          - AS Discovery:
+              - Overview: admin/discovery/as/index.md
+              - Prefix Discovery: admin/discovery/as/prefix.md
+          - Segment Discovery:
+              - Overview: admin/discovery/segment/index.md
+              - MAC Discovery: admin/discovery/segment/mac.md
+      - Internal Metrics: admin/internal-metrics.md
+      - Man Pages:
+          - about: admin/man/about.md
+          - beef: admin/man/beef.md
+          - bi: admin/man/bi.md
+          - clean-asset: admin/man/clean-asset.md
+          - collection: admin/man/collection.md
+          - compile-mib: admin/man/compile-mib.md
+          - confdb: admin/man/confdb.md
+          - config: admin/man/config.md
+          - convert-moin: admin/man/convert-moin.md
+          - crashinfo: admin/man/crashinfo.md
+          - csv-export: admin/man/csv-export.md
+          - csv-import: admin/man/csv-import.md
+          - ctl: admin/man/ctl.md
+          - datastream: admin/man/datastream.md
+          - discovery: admin/man/discovery.md
+          - dump-addr: admin/man/dump-addr.md
+          - dump-crashinfo: admin/man/dump-crashinfo.md
+          - ensure-indexes: admin/man/ensure-indexes.md
+          - escalation: admin/man/escalation.md
+          - etl: admin/man/etl.md
+          - events: admin/man/events.md
+          - fix: admin/man/fix.md
+          - get-device-identity: admin/man/get-device-identity.md
+          - get-device-sample: admin/man/get-device-sample.md
+          - get-uuid: admin/man/get-uuid.md
+          - gridvcs: admin/man/gridvcs.md
+          - import-mib: admin/man/import-mib.md
+          - import-rancid: admin/man/import-rancid.md
+          - import-zone: admin/man/import-zone.md
+          - index: admin/man/index.md
+          - inject-event: admin/man/inject-event.md
+          - interface-profile: admin/man/interface-profile.md
+          - job: admin/man/job.md
+          - l3-topology: admin/man/l3-topology.md
+          - link: admin/man/link.md
+          - login: admin/man/login.md
+          - lookup-mib: admin/man/lookup-mib.md
+          - make-cmib: admin/man/make-cmib.md
+          - metrics: admin/man/metrics.md
+          - migrate-ch: admin/man/migrate-ch.md
+          - migrate: admin/man/migrate.md
+          - mongo: admin/man/mongo.md
+          - newapp: admin/man/newapp.md
+          - notify: admin/man/notify.md
+          - nri-link: admin/man/nri-link.md
+          - nri: admin/man/nri.md
+          - parse-events: admin/man/parse-events.md
+          - ping: admin/man/ping.md
+          - prefix-list: admin/man/prefix-list.md
+          - pretty: admin/man/pretty.md
+          - psql: admin/man/psql.md
+          - pythonpath: admin/man/pythonpath.md
+          - rca-debug: admin/man/rca-debug.md
+          - rpc: admin/man/rpc.md
+          - run: admin/man/run.md
+          - script: admin/man/script.md
+          - service: admin/man/service.md
+          - shell: admin/man/shell.md
+          - snmp: admin/man/snmp.md
+          - stencil: admin/man/stencil.md
+          - sync-doc: admin/man/sync-doc.md
+          - sync-mibs: admin/man/sync-mibs.md
+          - sync-perm: admin/man/sync-perm.md
+          - sync-refbooks: admin/man/sync-refbooks.md
+          - sync: admin/man/sync.md
+          - test: admin/man/test.md
+          - todos: admin/man/todos.md
+          - translation: admin/man/translation.md
+          - update-addr: admin/man/update-addr.md
+          - user: admin/man/user.md
+          - verify-model: admin/man/verify-model.md
+          - whois: admin/man/whois.md
+          - wipe: admin/man/wipe.md
+          - workflow: admin/man/workflow.md
   #    - Capabilities:
   #   - Alarm Classes:
   #   - Event Classes:

@@ -1,4 +1,4 @@
-.. _discovery-box-cpe:
+
 
 =========
 cpe check

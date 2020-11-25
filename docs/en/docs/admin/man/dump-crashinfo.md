@@ -1,4 +1,4 @@
-.. _man-dump-crashinfo:
+
 
 ======================================
 dump-crashinfo

@@ -1,4 +1,4 @@
-.. _script-get_copper_tdr_diag:
+
 
 =======================================
 get_copper_tdr_diag

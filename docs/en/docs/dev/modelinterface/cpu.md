@@ -1,4 +1,4 @@
-.. _dev-modelinterface-cpu:
+
 
 ===================
 cpu Model Interface

@@ -1,4 +1,4 @@
-.. _script-get_interface_index:
+
 
 =======================================
 get_interface_index

@@ -1,4 +1,4 @@
-.. _dev-modelinterface-weight:
+
 
 ======================
 weight Model Interface

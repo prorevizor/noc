@@ -1,4 +1,4 @@
-.. _man-get-device-identity:
+
 
 ======================================
 get-device-identity

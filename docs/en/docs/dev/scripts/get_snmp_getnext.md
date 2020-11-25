@@ -1,4 +1,4 @@
-.. _script-get_snmp_getnext:
+
 
 =======================================
 get_snmp_getnext

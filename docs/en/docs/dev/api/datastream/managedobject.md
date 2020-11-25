@@ -1,4 +1,4 @@
-.. _api-datastream-managedobject:
+
 
 ========================
 managedobject DataStream

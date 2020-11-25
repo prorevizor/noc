@@ -1,4 +1,4 @@
-.. _profile-Eltex.SMG:
+
 
 =========
 Eltex.SMG

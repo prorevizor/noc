@@ -1,4 +1,4 @@
-.. _bi-model-span:
+
 
 ==========
 span model

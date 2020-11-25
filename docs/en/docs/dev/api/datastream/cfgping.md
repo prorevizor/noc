@@ -1,4 +1,4 @@
-.. _api-datastream-cfgping:
+
 
 ==================
 cfgping DataStream

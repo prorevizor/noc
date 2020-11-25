@@ -1,4 +1,4 @@
-.. _script-get_cdp_neighbors:
+
 
 =======================================
 get_cdp_neighbors

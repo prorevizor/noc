@@ -1,4 +1,4 @@
-.. _bi-dict-version:
+
 
 ==================
 version Dictionary

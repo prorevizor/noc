@@ -1,4 +1,4 @@
-.. _dev-confdb-storage:
+
 
 ==============
 Config Storage

@@ -1,7 +1,7 @@
 ---
 uuid: da811a75-3fd7-46ab-bb52-336423dd0146
 ---
-.. _profile-Qtech.BFC_PBIC_S:
+
 
 ================
 Qtech.BFC_PBIC_S

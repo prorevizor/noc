@@ -1,4 +1,4 @@
-.. _script-get_dom_status:
+
 
 =======================================
 get_dom_status

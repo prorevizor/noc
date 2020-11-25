@@ -1,7 +1,7 @@
 ---
 uuid: 65935063-cdc7-4573-8110-011d65ecdc07
 ---
-.. _profile-Eltex.LTP:
+
 
 =========
 Eltex.LTP

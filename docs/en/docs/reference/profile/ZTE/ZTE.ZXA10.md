@@ -1,7 +1,7 @@
 ---
 uuid: b42cac34-caf1-4360-8bb1-fa4cf813b915
 ---
-.. _profile-ZTE.ZXA10:
+
 
 =========
 ZTE.ZXA10

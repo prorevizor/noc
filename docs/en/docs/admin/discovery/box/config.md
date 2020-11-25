@@ -1,4 +1,4 @@
-.. _discovery-check-config:
+
 
 ============
 config check

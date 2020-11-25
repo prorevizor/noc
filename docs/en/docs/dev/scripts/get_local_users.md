@@ -1,4 +1,4 @@
-.. _script-get_local_users:
+
 
 =======================================
 get_local_users

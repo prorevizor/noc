@@ -1,7 +1,7 @@
 ---
 uuid: c4be34fc-bb81-4b77-b3bf-db919488c0cf
 ---
-.. _profile-Eltex.MES24xx:
+
 
 =============
 Eltex.MES24xx

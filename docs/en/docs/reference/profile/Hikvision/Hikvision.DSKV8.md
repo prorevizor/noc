@@ -1,7 +1,7 @@
 ---
 uuid: 194ec171-ea0f-461a-b7a0-e37446fbeb5d
 ---
-.. _profile-Hikvision.DSKV8:
+
 
 ===============
 Hikvision.DSKV8

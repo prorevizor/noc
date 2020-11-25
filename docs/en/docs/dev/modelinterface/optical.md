@@ -1,4 +1,4 @@
-.. _dev-modelinterface-optical:
+
 
 =====================
 optical Model Interface

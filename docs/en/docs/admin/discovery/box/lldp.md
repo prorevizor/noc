@@ -1,4 +1,4 @@
-.. _discovery-box-lldp:
+
 
 ==========
 lldp check

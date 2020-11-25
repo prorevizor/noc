@@ -1,7 +1,7 @@
 ---
 uuid: 3b68c918-b420-47fb-b519-35046f7085d2
 ---
-.. _profile-Brocade.ADX:
+
 
 ===========
 Brocade.ADX

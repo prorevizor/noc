@@ -1,4 +1,4 @@
-.. _script-get_chassis_id:
+
 
 =======================================
 get_chassis_id

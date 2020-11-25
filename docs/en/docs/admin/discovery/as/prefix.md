@@ -1,4 +1,4 @@
-.. _discovery-as-prefix:
+
 
 ============
 prefix check

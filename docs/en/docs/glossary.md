@@ -4,7 +4,7 @@
     Link to other glossary terms when possible.
     Reserve the "See" text at the link of the entry to link to topics in the manual
 
-AC
+AC {: #ac }
 : [Alternating Current](https://en.wikipedia.org/wiki/Alternating_current)
 
 BFD
@@ -32,7 +32,7 @@ box discovery
 periodic discovery
 : Describe periodic discovery
 
-DC
+DC {: #dc }
 : [Direct Current](https://en.wikipedia.org/wiki/Direct_current)
 
 discovery
@@ -41,7 +41,7 @@ discovery
 FRU
 : Field Replaceable Unit. Vendor's identification
 
-G.703
+G.703 {: g-703 }
 : [ITU-T G.703 standard](https://en.wikipedia.org/wiki/G.703)
 
 LACP
@@ -92,7 +92,7 @@ multicast VLAN
 ethernet OAM
 : Describe
 
-PoE
+PoE {: #poe }
 : [Power over Ethernet](https://en.wikipedia.org/wiki/Power_over_Ethernet)
 
 pool
@@ -111,10 +111,10 @@ Root-Cause Analysys
 : A process of problems correlation in order to separate
 real problems (or root problems) and their inferred consequences.
 
-RS-232
+RS-232 {: #rs-232 }
 : [RS-232 serial communications standard](https://en.wikipedia.org/wiki/RS-232)
 
-RS-485
+RS-485 {: #rs-485 }
 : [RS-485 serial communications standard](https://en.wikipedia.org/wiki/RS-485)
 
 selector

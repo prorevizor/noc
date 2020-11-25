@@ -1,4 +1,4 @@
-.. _dev-modelinterface-splitter:
+
 
 ========================
 splitter Model Interface

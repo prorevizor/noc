@@ -1,4 +1,4 @@
-.. _man-config:
+
 
 ======
 config

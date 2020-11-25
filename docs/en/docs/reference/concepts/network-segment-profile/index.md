@@ -2,7 +2,7 @@
 
 Network Segment Profile is a group settings for :ref:`Network Segment<reference-network-segment>`
 
-.. _reference-network-segment-profile-uplink-policy:
+
 
 ## Uplink Policy
 :ref:`Segment Uplinks <reference_network-segment-object-segment-uplinks>` calculation

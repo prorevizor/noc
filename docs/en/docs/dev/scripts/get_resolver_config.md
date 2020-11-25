@@ -1,4 +1,4 @@
-.. _script-get_resolver_config:
+
 
 =======================================
 get_resolver_config

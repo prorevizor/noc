@@ -1,4 +1,4 @@
-.. _bi-dict-vendor:
+
 
 =================
 vendor Dictionary

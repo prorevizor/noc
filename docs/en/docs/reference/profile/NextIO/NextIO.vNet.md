@@ -1,7 +1,7 @@
 ---
 uuid: a502875e-1820-4aea-bcda-41f21b335a45
 ---
-.. _profile-NextIO.vNet:
+
 
 ===========
 NextIO.vNet

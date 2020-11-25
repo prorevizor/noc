@@ -1,4 +1,4 @@
-.. _discovery-box-cpestatus:
+
 
 ===============
 cpestatus check

@@ -1,4 +1,4 @@
-.. _script-get_spanning_tree:
+
 
 =======================================
 get_spanning_tree

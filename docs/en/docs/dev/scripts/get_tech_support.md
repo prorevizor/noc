@@ -1,4 +1,4 @@
-.. _script-get_tech_support:
+
 
 =======================================
 get_tech_support

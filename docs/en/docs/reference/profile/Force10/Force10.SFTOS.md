@@ -1,7 +1,7 @@
 ---
 uuid: a24b255e-6112-40da-b522-13ce1e8c82e4
 ---
-.. _profile-Force10.SFTOS:
+
 
 =============
 Force10.SFTOS

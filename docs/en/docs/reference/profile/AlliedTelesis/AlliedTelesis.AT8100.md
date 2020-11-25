@@ -1,4 +1,4 @@
-.. _profile-AlliedTelesis.AT8100:
+
 
 ====================
 AlliedTelesis.AT8100

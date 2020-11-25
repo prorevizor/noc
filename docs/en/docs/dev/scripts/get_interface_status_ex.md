@@ -1,4 +1,4 @@
-.. _script-get_interface_status_ex:
+
 
 =======================================
 get_interface_status_ex

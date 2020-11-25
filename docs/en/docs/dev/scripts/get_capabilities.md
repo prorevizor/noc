@@ -1,4 +1,4 @@
-.. _script-get_capabilities:
+
 
 =======================================
 get_capabilities

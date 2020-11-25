@@ -1,4 +1,4 @@
-.. _script-get_inventory:
+
 
 =======================================
 get_inventory

@@ -1,4 +1,4 @@
-.. _script-get_portchannel:
+
 
 =======================================
 get_portchannel

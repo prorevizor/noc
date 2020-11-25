@@ -1,4 +1,4 @@
-.. _script-get_dhcp_binding:
+
 
 =======================================
 get_dhcp_binding

@@ -1,4 +1,4 @@
-.. _script-get_lldp_neighbors:
+
 
 =======================================
 get_lldp_neighbors

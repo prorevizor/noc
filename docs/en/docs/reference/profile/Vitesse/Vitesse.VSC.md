@@ -1,7 +1,7 @@
 ---
 uuid: 6b7700c5-ab44-455f-be35-e489d8d8db1c
 ---
-.. _profile-Vitesse.VSC:
+
 
 ===========
 Vitesse.VSC

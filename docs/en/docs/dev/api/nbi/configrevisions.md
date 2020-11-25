@@ -1,4 +1,4 @@
-.. _api-nbi-configrevisions:
+
 
 =======================
 NBI configrevisions API
@@ -13,7 +13,7 @@ NBI configrevisions API
 NBI configrevisions API allows remote system to fetch full history
 of Managed Object's config revisions.
 
-.. _api-nbi-configrevisions-usage:
+
 
 Usage
 -----

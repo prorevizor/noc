@@ -1,4 +1,4 @@
-.. _script-get_discovery_id:
+
 
 =======================================
 get_discovery_id

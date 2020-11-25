@@ -1,4 +1,4 @@
-.. _discovery-periodic-metrics:
+
 
 =============
 metrics check

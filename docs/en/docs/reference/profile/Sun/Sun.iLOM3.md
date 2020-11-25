@@ -1,7 +1,7 @@
 ---
 uuid: 06eda666-a9e8-4212-9ed1-a05fe2210c05
 ---
-.. _profile-Sun.iLOM3:
+
 
 =========
 Sun.iLOM3

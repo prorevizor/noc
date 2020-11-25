@@ -1,7 +1,7 @@
 ---
 uuid: dc660593-7c46-4291-a0ab-790877288906
 ---
-.. _profile-Angtel.Topaz:
+
 
 ============
 Angtel.Topaz

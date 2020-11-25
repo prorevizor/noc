@@ -1,4 +1,4 @@
-.. _script-get_oam_status:
+
 
 =======================================
 get_oam_status

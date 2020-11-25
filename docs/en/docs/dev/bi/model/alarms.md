@@ -1,4 +1,4 @@
-.. _bi-model-alarms:
+
 
 ============
 alarms model

@@ -1,4 +1,4 @@
-.. _discovery-box-suggestcli:
+
 
 ================
 suggestcli check

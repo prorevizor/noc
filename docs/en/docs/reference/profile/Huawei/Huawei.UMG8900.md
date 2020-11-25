@@ -1,7 +1,7 @@
 ---
 uuid: 8afb5736-d7a1-4fd5-8754-5f4a64890e9d
 ---
-.. _profile-Huawei.UMG8900:
+
 
 ==============
 Huawei.UMG8900

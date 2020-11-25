@@ -1,4 +1,4 @@
-.. _discovery-box-cdp:
+
 
 =========
 cdp check

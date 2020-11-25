@@ -1,4 +1,4 @@
-.. _man-import-rancid:
+
 
 ======================================
 import-rancid

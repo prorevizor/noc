@@ -1,4 +1,4 @@
-.. _script-get_fdp_neighbors:
+
 
 =======================================
 get_fdp_neighbors

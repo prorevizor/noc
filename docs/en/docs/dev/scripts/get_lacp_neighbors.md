@@ -1,4 +1,4 @@
-.. _script-get_lacp_neighbors:
+
 
 =======================================
 get_lacp_neighbors

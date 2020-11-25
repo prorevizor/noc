@@ -147,7 +147,7 @@ Deleted records remains in stream and marked with `$deleted` key
       ...
     }
 
-.. _api-datastream-filters:
+
 
 ### Filters
 

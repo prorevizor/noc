@@ -1,4 +1,4 @@
-.. _api-nbi-getmappings:
+
 
 ===================
 NBI getmappings API
@@ -20,7 +20,7 @@ system maintains own ID space, so NOC stores necessary mapping information.
 * local ID
 * remote system and remote ID
 
-.. _api-nbi-getmappings-scopes:
+
 
 Request Scopes
 --------------
@@ -28,12 +28,12 @@ Scope is a kind of mappings to request. Possible values:
 
 * `managedobject` - Managed Object mappings
 
-.. _api-nbi-getmappings-usage:
+
 
 Usage
 -----
 
-.. _api-nbi-getmappings-usage-get-local:
+
 
 Query by local id (GET)
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -78,7 +78,7 @@ Query by local id (GET)
     :statuscode 404: Object not found.
     :statuscode 500: Internal error.
 
-.. _api-nbi-getmappings-usage-get-remote:
+
 
 Query by remote id (GET)
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -124,7 +124,7 @@ Query by remote id (GET)
     :statuscode 404: Object not found.
     :statuscode 500: Internal error.
 
-.. _api-nbi-getmappings-usage-multi-get:
+
 
 Query by multiple local and remote ids (GET)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -180,7 +180,7 @@ Query by multiple local and remote ids (GET)
     :statuscode 404: Object not found.
     :statuscode 500: Internal error.
 
-.. _api-nbi-getmappings-usage-post-local:
+
 
 Query by local id (POST)
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -231,7 +231,7 @@ Query by local id (POST)
     :statuscode 404: Object not found.
     :statuscode 500: Internal error.
 
-.. _api-nbi-getmappings-usage-post-remote:
+
 
 Query by remote id (POST)
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -283,7 +283,7 @@ Query by remote id (POST)
     :statuscode 404: Object not found.
     :statuscode 500: Internal error.
 
-.. _api-nbi-getmappings-usage-post-remote:
+
 
 Query by multiple local and remote ids (POST)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

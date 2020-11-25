@@ -1,4 +1,4 @@
-.. _bi-dict-networksegment:
+
 
 =========================
 networksegment Dictionary

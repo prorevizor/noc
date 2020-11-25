@@ -1,7 +1,7 @@
 ---
 uuid: e824609e-27d8-4975-86c5-b356c2b73724
 ---
-.. _profile-Alcatel.OS62xx:
+
 
 ==============
 Alcatel.OS62xx

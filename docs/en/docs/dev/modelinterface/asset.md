@@ -1,4 +1,4 @@
-.. _dev-modelinterface-asset:
+
 
 =====================
 asset Model Interface

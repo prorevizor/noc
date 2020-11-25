@@ -1,4 +1,4 @@
-.. _man-sync-refbooks:
+
 
 ======================================
 sync-refbooks

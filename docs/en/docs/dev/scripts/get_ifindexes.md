@@ -1,4 +1,4 @@
-.. _script-get_ifindexes:
+
 
 =======================================
 get_ifindexes

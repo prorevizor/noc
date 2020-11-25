@@ -1,7 +1,7 @@
 ---
 uuid: 8cea7a31-cbbc-4000-bbd5-c532ce0ac0f0
 ---
-.. _profile-HP.ProCurve9xxx:
+
 
 ===============
 HP.ProCurve9xxx

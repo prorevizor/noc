@@ -1,4 +1,4 @@
-.. _script-get_ipv6_neighbor:
+
 
 =======================================
 get_ipv6_neighbor

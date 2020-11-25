@@ -1,4 +1,4 @@
-.. _api-nbi-path:
+
 
 ============
 NBI path API
@@ -13,7 +13,7 @@ NBI path API
 NBI path API allows to trace possible paths in discovered network
 topology considering extra constraints.
 
-.. _api-nbi-path-usage:
+
 
 Usage
 -----
@@ -102,7 +102,7 @@ Usage
     :reqheader Private-Token: :ref:`reference-apikey` with `nbi:path` API access
     :statuscode 200: Success
 
-.. _api-nbi-path-from:
+
 
 Path Start Specification
 ------------------------
@@ -240,7 +240,7 @@ Or:
 
 The same, but restricted to remote system id `5678`
 
-.. _api-nbi-path-to:
+
 
 Path End Specification
 ----------------------
@@ -375,7 +375,7 @@ By Object Level
 Specify path end by reaching Managed Object :ref:`Level <reference-managed-object-profile-level>`
 greater than specified.
 
-.. _api-nbi-path-config:
+
 
 Path Config Specification
 -------------------------
@@ -394,7 +394,7 @@ Where:
 * `max_depth` - Restrict search depth up to `max_depth` nodes.
 * `n_shortest` - Return up to `n_shortest` paths.
 
-.. _api-nbi-path-constraints:
+
 
 Path Constraints Specification
 ------------------------------

@@ -1,7 +1,7 @@
 ---
 uuid: 3eb28789-fda4-4f29-817a-6760d0e461d1
 ---
-.. _profile-NSN.hiX56xx:
+
 
 ===========
 NSN.hiX56xx

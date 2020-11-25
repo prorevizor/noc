@@ -1,7 +1,7 @@
 ---
 uuid: 09dfbf3d-dad6-4e59-a0e8-9aa6932570c2
 ---
-.. _profile-STerra.Gate:
+
 
 =======
 STerra.Gate

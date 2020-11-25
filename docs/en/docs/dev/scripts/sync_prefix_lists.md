@@ -1,4 +1,4 @@
-.. _script-sync_prefix_lists:
+
 
 =======================================
 sync_prefix_lists

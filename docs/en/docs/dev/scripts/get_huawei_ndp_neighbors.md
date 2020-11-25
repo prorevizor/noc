@@ -1,4 +1,4 @@
-.. _script-get_huawei_ndp_neighbors:
+
 
 =======================================
 get_huawei_ndp_neighbors

@@ -1,4 +1,4 @@
-.. _dev-modelinterface-geopoint:
+
 
 ========================
 geopoint Model Interface

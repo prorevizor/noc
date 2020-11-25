@@ -1,4 +1,4 @@
-.. _script-get_switchport:
+
 
 =======================================
 get_switchport

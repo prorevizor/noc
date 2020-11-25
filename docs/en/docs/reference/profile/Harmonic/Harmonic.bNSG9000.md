@@ -1,4 +1,4 @@
-.. _profile-Harmonic.bNSG9000:
+
 
 =================
 Harmonic.bNSG9000

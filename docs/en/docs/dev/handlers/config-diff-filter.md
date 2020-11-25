@@ -1,4 +1,4 @@
-.. _dev-handlers-config-diff-filter:
+
 
 ==========================
 Config Diff Filter Handler

@@ -1,7 +1,7 @@
 ---
 uuid: ae626782-ed2d-489a-9c02-3ae618aaa1d3
 ---
-.. _profile-Cisco.CatOS:
+
 
 ===========
 Cisco.CatOS

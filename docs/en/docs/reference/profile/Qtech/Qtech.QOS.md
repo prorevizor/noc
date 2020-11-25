@@ -1,7 +1,7 @@
 ---
 uuid: cb7ddfe8-bba4-43dd-b01d-2ce0335b9e5f
 ---
-.. _profile-Qtech.QOS:
+
 
 =========
 Qtech.QOS

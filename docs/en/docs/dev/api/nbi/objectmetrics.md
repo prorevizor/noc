@@ -1,4 +1,4 @@
-.. _api-nbi-objectmetrics:
+
 
 =====================
 NBI objectmetrics API
@@ -13,7 +13,7 @@ NBI objectmetrics API
 NBI objectmetrics API allows to request specified metrics
 for particular :ref:`Managed Objects<reference-managed-object>`.
 
-.. _api-nbi-objectmetrics-usage:
+
 
 Usage
 -----

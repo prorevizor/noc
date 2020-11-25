@@ -1,4 +1,4 @@
-.. _bi-dict-platform:
+
 
 ===================
 platform Dictionary

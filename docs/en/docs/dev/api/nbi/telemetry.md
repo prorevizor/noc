@@ -1,4 +1,4 @@
-.. _api-nbi-telemetry:
+
 
 =================
 NBI telemetry API
@@ -14,7 +14,7 @@ NBI telemetry API allows remote agents to push collected metrics
 to NOC. Refer to :ref:`NBI Objectmetrics API<api-nbi-objectmetrics>`
 for details on metrics retrieval.
 
-.. _api-nbi-telemetry-usage:
+
 
 Usage
 -----

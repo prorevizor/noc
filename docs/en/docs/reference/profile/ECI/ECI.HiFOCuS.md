@@ -1,4 +1,4 @@
-.. _profile-ECI.HiFOCuS:
+
 
 ===========
 ECI.HiFOCuS

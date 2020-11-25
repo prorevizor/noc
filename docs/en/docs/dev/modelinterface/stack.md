@@ -1,4 +1,4 @@
-.. _dev-modelinterface-stack:
+
 
 =====================
 stack Model Interface

@@ -1,4 +1,4 @@
-.. _script-get_udld_neighbors:
+
 
 =======================================
 get_udld_neighbors

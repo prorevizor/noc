@@ -8,7 +8,7 @@ of the site are listed in `NOC Manual Translation
 NOC documentation is distributed under a
 `Attribution-NonCommercial-ShareAlike 4.0 International`_ license.
 
-.. _`Attribution-NonCommercial-ShareAlike 4.0 International`: http://creativecommons.org/licenses/by-nc-sa/4.0/
+ http://creativecommons.org/licenses/by-nc-sa/4.0/
 
 Please review the following documents for our style, conventions,
 processes and practices for the NOC Documentation:
@@ -20,6 +20,6 @@ processes and practices for the NOC Documentation:
 Do not hesitate to open a ticket in our `GitLab`_ project
 or to contact the `documentation team`_ if you have any questions.
 
-.. _`GitLab`: https://code.getnoc.com/noc/noc
-.. _`documentation team`: http://t.me/nocdocs
+ https://code.getnoc.com/noc/noc
+ http://t.me/nocdocs
 

@@ -1,4 +1,4 @@
-.. _script-get_dot11_associations:
+
 
 =======================================
 get_dot11_associations

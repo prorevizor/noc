@@ -1,4 +1,4 @@
-.. _api-nbi-objectstatus:
+
 
 ====================
 NBI objectstatus API
@@ -13,7 +13,7 @@ NBI objectstatus API
 NBI objectstatus API allows to request current statuses for
 specified :ref:`Managed Objects<reference-managed-object>`.
 
-.. _api-nbi-objectstatus-usage:
+
 
 Usage
 -----

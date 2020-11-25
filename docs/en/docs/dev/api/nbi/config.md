@@ -1,4 +1,4 @@
-.. _api-nbi-config:
+
 
 ==============
 NBI config API
@@ -13,7 +13,7 @@ NBI config API
 NBI config API allows remote system to fetch Managed Object's
 configuration, eigther last of specified revision
 
-.. _api-nbi-config-usage:
+
 
 Usage
 -----

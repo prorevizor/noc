@@ -1,4 +1,4 @@
-.. _man-ensure-indexes:
+
 
 ======================================
 ensure-indexes

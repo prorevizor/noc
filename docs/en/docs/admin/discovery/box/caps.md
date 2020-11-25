@@ -1,4 +1,4 @@
-.. _discovery-box-caps:
+
 
 ==========
 caps check

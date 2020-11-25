@@ -1,4 +1,4 @@
-.. _script-get_bfd_sessions:
+
 
 =======================================
 get_bfd_sessions

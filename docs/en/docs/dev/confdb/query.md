@@ -1,4 +1,4 @@
-.. _dev-confdb-query:
+
 
 =====================
 ConfDB Query Language
@@ -14,7 +14,7 @@ ConfDB offers flexible query language based on predicate logic. ConfDB
 queries may be used for config processing, including fetching, classification
 and validation.
 
-.. _dev-confdb-query-concepts:
+
 
 Common Concepts
 ---------------
@@ -123,7 +123,7 @@ Chains can be grouped using brackets
 
     (P1() and P2()) or P3() or (P4() and P5())
 
-.. _confdb-query-builtin-predicates:
+
 
 Built-in predicates
 -------------------

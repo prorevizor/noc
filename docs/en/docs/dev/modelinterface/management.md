@@ -1,4 +1,4 @@
-.. _dev-modelinterface-management:
+
 
 ==========================
 management Model Interface

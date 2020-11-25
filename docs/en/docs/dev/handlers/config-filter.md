@@ -1,4 +1,4 @@
-.. _dev-handlers-config-filter:
+
 
 =====================
 Config Filter Handler

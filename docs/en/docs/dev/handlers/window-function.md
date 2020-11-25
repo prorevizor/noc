@@ -1,4 +1,4 @@
-.. _dev-handlers-window-function:
+
 
 =======================
 Window Function Handler

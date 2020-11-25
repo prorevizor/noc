@@ -1,4 +1,4 @@
-.. _dev-confdb-tokenizer:
+
 
 ================
 Config Tokenizer
@@ -43,7 +43,7 @@ are groupped in large syntax families with very few exceptions. Usually you can
 choose one of existing tokenizers and apply some configuration rather than
 create own tokenizer for a new platform from zero ground.
 
-.. _dev-confdb-tokenizers:
+
 
 Tokenizers
 ----------
@@ -61,7 +61,7 @@ Tokenizer classes form an hierarchy:
         line --> routeros
 
 
-.. _dev-confdb-tokenizer-line:
+
 
 line
 ^^^^
@@ -95,7 +95,7 @@ line
     :param rewrite: List of tuples of (compiled regular expression, replacement)
         to fix input formatting glitches.
 
-.. _dev-confdb-tokenizer-context:
+
 
 context
 ^^^^^^^
@@ -120,7 +120,7 @@ context
         line the new context is automatically created and pushed to
         the top of the stack
 
-.. _dev-confdb-tokenizer-indent:
+
 
 indent
 ^^^^^^
@@ -134,7 +134,7 @@ indent
     Accepts all parameters of :ref:`line<dev-confdb-tokenizer-context>`
     but forcefully sets `keep_indent` parameter.
 
-.. _dev-confdb-tokenizer-indent:
+
 
 curly
 ^^^^^
@@ -155,7 +155,7 @@ curly
     :param start_of_context: Explicit start of context sequence (Like `{`)
     :param end_of_context: Explicit end of context sequence (Like `}`)
 
-.. _dev-confdb-tokenizer-ini:
+
 
 ini
 ^^^
@@ -175,7 +175,7 @@ routeros
     adapted to handle :ref:`MikroTik RouterOS<profile-MikroTik.RouterOS>`
     config
 
-.. _dev-confdb-tokenizer-profile-integration:
+
 
 Profile Integration
 -------------------
@@ -209,7 +209,7 @@ Following profile parameters are responsible for tokenizer configuration:
     :returns: tuple of (config tokenizer name, config tokenizer settings).
         Must return (None, None) if platform is not supported.
 
-.. _dev-confdb-tokenizer-api:
+
 
 Custom Tokenizer API
 --------------------

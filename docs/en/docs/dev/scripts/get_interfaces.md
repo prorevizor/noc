@@ -1,4 +1,4 @@
-.. _script-get_interfaces:
+
 
 =======================================
 get_interfaces

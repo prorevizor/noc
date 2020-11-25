@@ -1,7 +1,7 @@
 ---
 uuid: 5e33b9c5-d7bb-460d-865b-efedc94599dc
 ---
-.. _profile-Vector.Lambda:
+
 
 =============
 Vector.Lambda
