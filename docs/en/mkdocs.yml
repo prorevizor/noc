@@ -911,7 +911,7 @@ nav:
 theme:
   name: material
   palette:
-    scheme: slate
+    scheme: default
   logo: _static/logo.svg
 use_directory_urls: true
 site_dir: ../../build/docs2/en

@@ -124,7 +124,7 @@ service
 : See :doc:`/reference/service`.
 
 SSH
-: Secure Shell. Encrypted [CLI](#cli) protocol
+: [Secure Shell](https://en.wikipedia.org/wiki/SSH_(Secure_Shell)). Encrypted [CLI](#cli) protocol
 
 STP
 : Spanning Tree Protocol
@@ -132,8 +132,8 @@ STP
 subscriber
 : See :doc:`/reference/subscriber`.
 
-telnet
-: Describe
+Telnet
+: [Telnet](https://en.wikipedia.org/wiki/Telnet) Protocol. Unencrypted [CLI](#cli) protocol
 
 topology
 : See :doc:`/reference/topology`.
