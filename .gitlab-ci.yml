@@ -220,7 +220,7 @@ py:test:
     expire_in: 7 days
 
 build:Docs:
-  stage: Build
+  stage: Test
   environment: docs
   image: registry.getnoc.com/infrastructure/mkdocs:master
   script:
