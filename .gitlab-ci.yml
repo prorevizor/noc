@@ -222,41 +222,15 @@ py:test:
 build:Docs:
   stage: Build
   environment: docs
-  image: registry.getnoc.com/infrastructure/docs3:master
-  script:
-    - set -x
-    - FLIST=$(git --no-pager diff --name-only $CI_COMMIT_SHA $(git merge-base --fork-point origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME) | egrep "^docs/" || true)
-    - >
-      if [ ! -z "$FLIST" ];
-      then
-        cd docs/
-        python3 ./scripts/build-auto-include.py
-        sphinx-build -j auto -a -E -b html src/en ../build/docs/en
-        python3 ./scripts/build-go.py ../build/docs/en/objects.inv
-      else
-        echo "No doc changes to build"
-        true;
-      fi
-  tags:
-    - docker
-  artifacts:
-    paths:
-      - build/docs/en
-    expire_in: 2 hours
-  only:
-    - merge_requests
-
-build:Docs2:
-  stage: Build
-  environment: docs
   image: registry.getnoc.com/infrastructure/mkdocs:master
   script:
+    - set -x
     - mkdocs build --config-file=docs/en/mkdocs.yml
   tags:
     - docker
   artifacts:
     paths:
-      - build/docs2/en
+      - build/docs/en
     expire_in: 2 hours
   only:
     refs:
@@ -268,13 +242,10 @@ build:Docs2:
 build:Master Docs:
   stage: Build
   environment: docs
-  image: registry.getnoc.com/infrastructure/docs3:master
+  image: registry.getnoc.com/infrastructure/mkdocs:master
   script:
     - set -x
-    - cd docs/
-    - python3 ./scripts/build-auto-include.py
-    - sphinx-build -j auto -a -E -b html src/en ../build/docs/en
-    - python3 ./scripts/build-go.py ../build/docs/en/objects.inv
+    - mkdocs build --config-file=docs/en/mkdocs.yml
   tags:
     - docker
   artifacts:

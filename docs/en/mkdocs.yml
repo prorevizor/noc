@@ -456,6 +456,371 @@ nav:
           - f5:
               - Overview: reference/profile/f5/index.md
               - f5.BIGIP: reference/profile/f5/f5.BIGIP.md
+      - Event Classes:
+          - "Chassis":
+              - "CPU":
+                  - "CPU Usage Above Threshold": reference/event-classes/chassis/cpu/cpu-usage-above-threshold.md
+                  - "CPU Usage Drops Below Threshold": reference/event-classes/chassis/cpu/cpu-usage-drops-below-threshold.md
+                  - "CoPP Drop": reference/event-classes/chassis/cpu/copp-drop.md
+              - "Clock":
+                  - "Clock Failed": reference/event-classes/chassis/clock/clock-failed.md
+                  - "Clock Recovered": reference/event-classes/chassis/clock/clock-recovered.md
+              - "Fabric":
+                  - "CRC Errors": reference/event-classes/chassis/fabric/crc-errors.md
+              - "Fan":
+                  - "Fan Failed": reference/event-classes/chassis/fan/fan-failed.md
+                  - "Fan Inserted": reference/event-classes/chassis/fan/fan-inserted.md
+                  - "Fan Recovered": reference/event-classes/chassis/fan/fan-recovered.md
+                  - "Fan Removed": reference/event-classes/chassis/fan/fan-removed.md
+              - "Hardware":
+                  - "Hardware Error": reference/event-classes/chassis/hardware/hardware-error.md
+                  - "Hardware Port Error": reference/event-classes/chassis/hardware/hardware-port-error.md
+                  - "Hardware Port Error Recover": reference/event-classes/chassis/hardware/hardware-port-error-recover.md
+                  - "Hardware Port Warning": reference/event-classes/chassis/hardware/hardware-port-warning.md
+                  - "Hardware Port Warning Recover": reference/event-classes/chassis/hardware/hardware-port-warning-recover.md
+                  - "Hardware Warning": reference/event-classes/chassis/hardware/hardware-warning.md
+                  - "Module":
+                      - "Invalid Module": reference/event-classes/chassis/hardware/module/invalid-module.md
+                      - "Module Error": reference/event-classes/chassis/hardware/module/module-error.md
+                      - "Module Inserted": reference/event-classes/chassis/hardware/module/module-inserted.md
+                      - "Module Present": reference/event-classes/chassis/hardware/module/module-present.md
+                      - "Module Removed": reference/event-classes/chassis/hardware/module/module-removed.md
+                      - "Module not Present": reference/event-classes/chassis/hardware/module/module-not-present.md
+              - "Linecard":
+                  - "LC Down": reference/event-classes/chassis/linecard/lc-down.md
+                  - "LC Up": reference/event-classes/chassis/linecard/lc-up.md
+              - "PSU":
+                  - "Internal Voltage Out of Range": reference/event-classes/chassis/psu/internal-voltage-out-of-range.md
+                  - "PSU Changed": reference/event-classes/chassis/psu/psu-changed.md
+                  - "PSU Failed": reference/event-classes/chassis/psu/psu-failed.md
+                  - "PSU Recovered": reference/event-classes/chassis/psu/psu-recovered.md
+                  - "Power Failed": reference/event-classes/chassis/psu/power-failed.md
+              - "RAM":
+                  - "Insufficient Memory": reference/event-classes/chassis/ram/insufficient-memory.md
+                  - "RAM Failed": reference/event-classes/chassis/ram/ram-failed.md
+              - "Stack":
+                  - "Stack Degraded": reference/event-classes/chassis/stack/stack-degraded.md
+                  - "Stack is Raised": reference/event-classes/chassis/stack/stack-is-raised.md
+              - "Supervisor":
+                  - "Supervisor Down": reference/event-classes/chassis/supervisor/supervisor-down.md
+                  - "Supervisor Up": reference/event-classes/chassis/supervisor/supervisor-up.md
+              - "TCAM":
+                  - "TCAM Entry Capacity Exceeded": reference/event-classes/chassis/tcam/tcam-entry-capacity-exceeded.md
+                  - "TCAM Error": reference/event-classes/chassis/tcam/tcam-error.md
+          - "Config":
+              - "Config Changed": reference/event-classes/config/config-changed.md
+              - "Config Corrected": reference/event-classes/config/config-corrected.md
+              - "Config Download Failed": reference/event-classes/config/config-download-failed.md
+              - "Config Downloaded Successfully": reference/event-classes/config/config-downloaded-successfully.md
+              - "Config Sync Failed": reference/event-classes/config/config-sync-failed.md
+              - "Config Synced": reference/event-classes/config/config-synced.md
+              - "Config Upload Failed": reference/event-classes/config/config-upload-failed.md
+              - "Config Uploaded Successfully": reference/event-classes/config/config-uploaded-successfully.md
+              - "Entering Configuration Mode": reference/event-classes/config/entering-configuration-mode.md
+              - "Exiting Configuration Mode": reference/event-classes/config/exiting-configuration-mode.md
+              - "Invalid Config": reference/event-classes/config/invalid-config.md
+          - "Environment":
+              - "AC Voltage Out of Range": reference/event-classes/environment/ac-voltage-out-of-range.md
+              - "AC Voltage Returned to Normal Range": reference/event-classes/environment/ac-voltage-returned-to-normal-range.md
+              - "Chassis Voltage Out of Range": reference/event-classes/environment/chassis-voltage-out-of-range.md
+              - "Chassis Voltage Returned to Normal Range": reference/event-classes/environment/chassis-voltage-returned-to-normal-range.md
+              - "DC Voltage Out of Range": reference/event-classes/environment/dc-voltage-out-of-range.md
+              - "DC Voltage Returned to Normal Range": reference/event-classes/environment/dc-voltage-returned-to-normal-range.md
+              - "Humidity Out of Range": reference/event-classes/environment/humidity-out-of-range.md
+              - "Humidity Returned to Normal Range": reference/event-classes/environment/humidity-returned-to-normal-range.md
+              - "Module Voltage Out of Range": reference/event-classes/environment/module-voltage-out-of-range.md
+              - "Module Voltage Returned to Normal Range": reference/event-classes/environment/module-voltage-returned-to-normal-range.md
+              - "Temperature Out of Range": reference/event-classes/environment/temperature-out-of-range.md
+              - "Temperature Returned to Normal Range": reference/event-classes/environment/temperature-returned-to-normal-range.md
+              - "UPS":
+                  - "Battery Power Low": reference/event-classes/environment/ups/battery-power-low.md
+                  - "Battery Power Normal": reference/event-classes/environment/ups/battery-power-normal.md
+                  - "Battery Replaced": reference/event-classes/environment/ups/battery-replaced.md
+                  - "Input Power Failed": reference/event-classes/environment/ups/input-power-failed.md
+                  - "Input Power Low": reference/event-classes/environment/ups/input-power-low.md
+                  - "Input Power OK": reference/event-classes/environment/ups/input-power-ok.md
+                  - "Self-Test Failed": reference/event-classes/environment/ups/self-test-failed.md
+                  - "Self-Test Passed": reference/event-classes/environment/ups/self-test-passed.md
+                  - "Self-Test Started": reference/event-classes/environment/ups/self-test-started.md
+          - "NOC":
+              - "IPAM":
+                  - "VRF Group Address Collision": reference/event-classes/noc/ipam/vrf-group-address-collision.md
+              - "Managed Object":
+                  - "Ping Failed": reference/event-classes/noc/managed-object/ping-failed.md
+                  - "Ping OK": reference/event-classes/noc/managed-object/ping-ok.md
+              - "Periodic":
+                  - "Periodic Failed": reference/event-classes/noc/periodic/periodic-failed.md
+                  - "Periodic OK": reference/event-classes/noc/periodic/periodic-ok.md
+              - "SA":
+                  - "Join Activator Pool": reference/event-classes/noc/sa/join-activator-pool.md
+                  - "Leave Activator Pool": reference/event-classes/noc/sa/leave-activator-pool.md
+              - "Unhandled Exception": reference/event-classes/noc/unhandled-exception.md
+              - "Unknown Event Source": reference/event-classes/noc/unknown-event-source.md
+          - "Network":
+              - "802.11":
+                  - "Associated": reference/event-classes/network/802.11/associated.md
+                  - "Disassociated": reference/event-classes/network/802.11/disassociated.md
+                  - "Max Retries": reference/event-classes/network/802.11/max-retries.md
+                  - "Roamed": reference/event-classes/network/802.11/roamed.md
+              - "BFD":
+                  - "Session Down": reference/event-classes/network/bfd/session-down.md
+                  - "Session Up": reference/event-classes/network/bfd/session-up.md
+              - "BGP":
+                  - "Backward Transition": reference/event-classes/network/bgp/backward-transition.md
+                  - "Established": reference/event-classes/network/bgp/established.md
+                  - "Max Prefixes Exceeds": reference/event-classes/network/bgp/max-prefixes-exceeds.md
+                  - "Max Prefixes Warning": reference/event-classes/network/bgp/max-prefixes-warning.md
+                  - "Peer Down": reference/event-classes/network/bgp/peer-down.md
+                  - "Peer State Changed": reference/event-classes/network/bgp/peer-state-changed.md
+                  - "Prefix Limit Exceeded": reference/event-classes/network/bgp/prefix-limit-exceeded.md
+              - "DHCP":
+                  - "Untrusted Server": reference/event-classes/network/dhcp/untrusted-server.md
+              - "DNS":
+                  - "Bad Query": reference/event-classes/network/dns/bad-query.md
+              - "DOCSIS":
+                  - "BPI Unautorized": reference/event-classes/network/docsis/bpi-unautorized.md
+                  - "Bad Timing Offset": reference/event-classes/network/docsis/bad-timing-offset.md
+                  - "Channel Width Changed": reference/event-classes/network/docsis/channel-width-changed.md
+                  - "Invalid CoS": reference/event-classes/network/docsis/invalid-cos.md
+                  - "Invalid DOCSIS Message": reference/event-classes/network/docsis/invalid-docsis-message.md
+                  - "Invalid QoS": reference/event-classes/network/docsis/invalid-qos.md
+                  - "Invalid Shared Secret": reference/event-classes/network/docsis/invalid-shared-secret.md
+                  - "Max CPE Reached": reference/event-classes/network/docsis/max-cpe-reached.md
+                  - "Maximum Capacity Reached": reference/event-classes/network/docsis/maximum-capacity-reached.md
+                  - "Maximum SIDs": reference/event-classes/network/docsis/maximum-sids.md
+                  - "Unregistered Modem Deleted": reference/event-classes/network/docsis/unregistered-modem-deleted.md
+                  - "Upstream Frequency Changed": reference/event-classes/network/docsis/upstream-frequency-changed.md
+                  - "Upstream Input Power Level Changed": reference/event-classes/network/docsis/upstream-input-power-level-changed.md
+              - "EIGRP":
+                  - "Neighbor Down": reference/event-classes/network/eigrp/neighbor-down.md
+                  - "Neighbor Up": reference/event-classes/network/eigrp/neighbor-up.md
+              - "IMPB":
+                  - "Dynamic IMPB entry is conflicting with static": reference/event-classes/network/impb/dynamic-impb-entry-is-conflicting-with-static.md
+                  - "Recover IMPB stop learning state": reference/event-classes/network/impb/recover-impb-stop-learning-state.md
+                  - "Unauthenticated IP-MAC": reference/event-classes/network/impb/unauthenticated-ip-mac.md
+              - "IP":
+                  - "ARP Moved": reference/event-classes/network/ip/arp-moved.md
+                  - "ARP Zero MAC": reference/event-classes/network/ip/arp-zero-mac.md
+                  - "Address Conflict": reference/event-classes/network/ip/address-conflict.md
+                  - "IP Flap": reference/event-classes/network/ip/ip-flap.md
+                  - "Port Exhaustion": reference/event-classes/network/ip/port-exhaustion.md
+                  - "Route Limit Exceeded": reference/event-classes/network/ip/route-limit-exceeded.md
+                  - "Route Limit Warning": reference/event-classes/network/ip/route-limit-warning.md
+              - "IS-IS":
+                  - "Adjacency Down": reference/event-classes/network/is-is/adjacency-down.md
+                  - "Adjacency Up": reference/event-classes/network/is-is/adjacency-up.md
+              - "LAG":
+                  - "Bundle": reference/event-classes/network/lag/bundle.md
+                  - "Unbundle": reference/event-classes/network/lag/unbundle.md
+              - "LBD":
+                  - "Loop Cleared": reference/event-classes/network/lbd/loop-cleared.md
+                  - "Loop Detected": reference/event-classes/network/lbd/loop-detected.md
+                  - "Vlan Loop Cleared": reference/event-classes/network/lbd/vlan-loop-cleared.md
+                  - "Vlan Loop Detected": reference/event-classes/network/lbd/vlan-loop-detected.md
+              - "LLDP":
+                  - "Created New Neighbor": reference/event-classes/network/lldp/created-new-neighbor.md
+                  - "LLDP Aged Out": reference/event-classes/network/lldp/lldp-aged-out.md
+                  - "Native Vlan Not Match": reference/event-classes/network/lldp/native-vlan-not-match.md
+                  - "Remote Tables Change": reference/event-classes/network/lldp/remote-tables-change.md
+              - "Link":
+                  - "Connection Problem": reference/event-classes/network/link/connection-problem.md
+                  - "DOM":
+                      - "Alarm: Out of Threshold": reference/event-classes/network/link/dom/alarm:-out-of-threshold.md
+                      - "Alarm: Out of Threshold Recovered": reference/event-classes/network/link/dom/alarm:-out-of-threshold-recovered.md
+                      - "Warning: Out of Threshold": reference/event-classes/network/link/dom/warning:-out-of-threshold.md
+                      - "Warning: Out of Threshold Recovered": reference/event-classes/network/link/dom/warning:-out-of-threshold-recovered.md
+                  - "Duplex Mismatch": reference/event-classes/network/link/duplex-mismatch.md
+                  - "Err-Disable": reference/event-classes/network/link/err-disable.md
+                  - "Full-Duplex": reference/event-classes/network/link/full-duplex.md
+                  - "Half-Duplex": reference/event-classes/network/link/half-duplex.md
+                  - "Link Down": reference/event-classes/network/link/link-down.md
+                  - "Link Flap Error Detected": reference/event-classes/network/link/link-flap-error-detected.md
+                  - "Link Flap Error Recovery": reference/event-classes/network/link/link-flap-error-recovery.md
+                  - "Link Up": reference/event-classes/network/link/link-up.md
+              - "MAC":
+                  - "Duplicate MAC": reference/event-classes/network/mac/duplicate-mac.md
+                  - "Invalid MAC": reference/event-classes/network/mac/invalid-mac.md
+                  - "MAC Aged": reference/event-classes/network/mac/mac-aged.md
+                  - "MAC Flap": reference/event-classes/network/mac/mac-flap.md
+                  - "MAC Flood": reference/event-classes/network/mac/mac-flood.md
+                  - "MAC Learned": reference/event-classes/network/mac/mac-learned.md
+                  - "MAC Moved": reference/event-classes/network/mac/mac-moved.md
+              - "MPLS":
+                  - "LDP Neighbor Down": reference/event-classes/network/mpls/ldp-neighbor-down.md
+                  - "LDP Neighbor Up": reference/event-classes/network/mpls/ldp-neighbor-up.md
+                  - "LSP Down": reference/event-classes/network/mpls/lsp-down.md
+                  - "LSP Up": reference/event-classes/network/mpls/lsp-up.md
+                  - "Path Down": reference/event-classes/network/mpls/path-down.md
+                  - "Path Up": reference/event-classes/network/mpls/path-up.md
+                  - "TDP Neighbor Down": reference/event-classes/network/mpls/tdp-neighbor-down.md
+                  - "TDP Neighbor Up": reference/event-classes/network/mpls/tdp-neighbor-up.md
+              - "MSDP":
+                  - "Peer Down": reference/event-classes/network/msdp/peer-down.md
+                  - "Peer Up": reference/event-classes/network/msdp/peer-up.md
+              - "Monitor":
+                  - "CRC Error Cleared": reference/event-classes/network/monitor/crc-error-cleared.md
+                  - "CRC Error Detected": reference/event-classes/network/monitor/crc-error-detected.md
+              - "NTP":
+                  - "Lost synchronization": reference/event-classes/network/ntp/lost-synchronization.md
+                  - "NTP Server Reachable": reference/event-classes/network/ntp/ntp-server-reachable.md
+                  - "NTP Server Unreachable": reference/event-classes/network/ntp/ntp-server-unreachable.md
+                  - "System Clock Adjusted": reference/event-classes/network/ntp/system-clock-adjusted.md
+                  - "System Clock Synchronized": reference/event-classes/network/ntp/system-clock-synchronized.md
+              - "OAM":
+                  - "Client Clear Remote Failure": reference/event-classes/network/oam/client-clear-remote-failure.md
+                  - "Client Recieved Remote Failure": reference/event-classes/network/oam/client-recieved-remote-failure.md
+                  - "Discovery Timeout": reference/event-classes/network/oam/discovery-timeout.md
+                  - "Enter Session": reference/event-classes/network/oam/enter-session.md
+                  - "Entering Master Loopback Mode": reference/event-classes/network/oam/entering-master-loopback-mode.md
+                  - "Entering Slave Loopback Mode": reference/event-classes/network/oam/entering-slave-loopback-mode.md
+                  - "Exit Session": reference/event-classes/network/oam/exit-session.md
+                  - "Exiting Master Loopback Mode": reference/event-classes/network/oam/exiting-master-loopback-mode.md
+                  - "Exiting Slave Loopback Mode": reference/event-classes/network/oam/exiting-slave-loopback-mode.md
+                  - "Monitoring Error": reference/event-classes/network/oam/monitoring-error.md
+              - "OSPF":
+                  - "Neighbor Down": reference/event-classes/network/ospf/neighbor-down.md
+                  - "Neighbor Up": reference/event-classes/network/ospf/neighbor-up.md
+              - "PIM":
+                  - "DR Change": reference/event-classes/network/pim/dr-change.md
+                  - "Invalid RP": reference/event-classes/network/pim/invalid-rp.md
+                  - "MSDP Peer Down": reference/event-classes/network/pim/msdp-peer-down.md
+                  - "MSDP Peer Up": reference/event-classes/network/pim/msdp-peer-up.md
+                  - "Neighbor Down": reference/event-classes/network/pim/neighbor-down.md
+                  - "Neighbor Up": reference/event-classes/network/pim/neighbor-up.md
+              - "Port Security":
+                  - "Port Security Violation": reference/event-classes/network/port-security/port-security-violation.md
+              - "RSVP":
+                  - "Neighbor Down": reference/event-classes/network/rsvp/neighbor-down.md
+                  - "Neighbor Up": reference/event-classes/network/rsvp/neighbor-up.md
+              - "STP":
+                  - "BPDU Guard Recovery": reference/event-classes/network/stp/bpdu-guard-recovery.md
+                  - "BPDU Guard Violation": reference/event-classes/network/stp/bpdu-guard-violation.md
+                  - "BPDU Root Violation": reference/event-classes/network/stp/bpdu-root-violation.md
+                  - "Root Changed": reference/event-classes/network/stp/root-changed.md
+                  - "Root Guard Recovery": reference/event-classes/network/stp/root-guard-recovery.md
+                  - "STP Loop Cleared": reference/event-classes/network/stp/stp-loop-cleared.md
+                  - "STP Loop Detected": reference/event-classes/network/stp/stp-loop-detected.md
+                  - "STP Port Role Changed": reference/event-classes/network/stp/stp-port-role-changed.md
+                  - "STP Port State Changed": reference/event-classes/network/stp/stp-port-state-changed.md
+                  - "STP Vlan Loop Cleared": reference/event-classes/network/stp/stp-vlan-loop-cleared.md
+                  - "STP Vlan Loop Detected": reference/event-classes/network/stp/stp-vlan-loop-detected.md
+                  - "STP instances exceeded": reference/event-classes/network/stp/stp-instances-exceeded.md
+                  - "Topology Changed": reference/event-classes/network/stp/topology-changed.md
+              - "Storm Control":
+                  - "Broadcast Storm Cleared": reference/event-classes/network/storm-control/broadcast-storm-cleared.md
+                  - "Broadcast Storm Detected": reference/event-classes/network/storm-control/broadcast-storm-detected.md
+                  - "Multicast Storm Cleared": reference/event-classes/network/storm-control/multicast-storm-cleared.md
+                  - "Multicast Storm Detected": reference/event-classes/network/storm-control/multicast-storm-detected.md
+                  - "Storm Cleared": reference/event-classes/network/storm-control/storm-cleared.md
+                  - "Storm Detected": reference/event-classes/network/storm-control/storm-detected.md
+                  - "Unicast Storm Cleared": reference/event-classes/network/storm-control/unicast-storm-cleared.md
+                  - "Unicast Storm Detected": reference/event-classes/network/storm-control/unicast-storm-detected.md
+              - "UDLD":
+                  - "UDLD Protocol Error Detected": reference/event-classes/network/udld/udld-protocol-error-detected.md
+                  - "UDLD Protocol Recovery": reference/event-classes/network/udld/udld-protocol-recovery.md
+              - "VLAN":
+                  - "VLAN Created": reference/event-classes/network/vlan/vlan-created.md
+                  - "VLAN Deleted": reference/event-classes/network/vlan/vlan-deleted.md
+          - "PM":
+              - "Out of Thresholds": reference/event-classes/pm/out-of-thresholds.md
+              - "Returned to Normal Range": reference/event-classes/pm/returned-to-normal-range.md
+          - "Phone":
+              - "SCCP":
+                  - "Register": reference/event-classes/phone/sccp/register.md
+                  - "Register Alarm": reference/event-classes/phone/sccp/register-alarm.md
+                  - "Register New": reference/event-classes/phone/sccp/register-new.md
+                  - "Unregister Abnormal": reference/event-classes/phone/sccp/unregister-abnormal.md
+                  - "Unregister Normal": reference/event-classes/phone/sccp/unregister-normal.md
+          - "Security":
+              - "ACL":
+                  - "ACL Deny": reference/event-classes/security/acl/acl-deny.md
+                  - "ACL Permit": reference/event-classes/security/acl/acl-permit.md
+              - "Access":
+                  - "Case Close": reference/event-classes/security/access/case-close.md
+                  - "Case Open": reference/event-classes/security/access/case-open.md
+                  - "Door Close": reference/event-classes/security/access/door-close.md
+                  - "Door Open": reference/event-classes/security/access/door-open.md
+              - "Accounting":
+                  - "WebVPN":
+                      - "Assigned": reference/event-classes/security/accounting/webvpn/assigned.md
+                      - "Disconnected": reference/event-classes/security/accounting/webvpn/disconnected.md
+              - "Attack":
+                  - "Attack": reference/event-classes/security/attack/attack.md
+                  - "Blat Attack": reference/event-classes/security/attack/blat-attack.md
+                  - "IP Spoofing": reference/event-classes/security/attack/ip-spoofing.md
+                  - "Land Attack": reference/event-classes/security/attack/land-attack.md
+                  - "Ping Of Death": reference/event-classes/security/attack/ping-of-death.md
+                  - "Smurf Attack": reference/event-classes/security/attack/smurf-attack.md
+                  - "TCP SYNFIN Scan": reference/event-classes/security/attack/tcp-synfin-scan.md
+                  - "Teardrop Attack": reference/event-classes/security/attack/teardrop-attack.md
+              - "Audit":
+                  - "Clearing Counters": reference/event-classes/security/audit/clearing-counters.md
+                  - "Command": reference/event-classes/security/audit/command.md
+                  - "Cron": reference/event-classes/security/audit/cron.md
+              - "Authentication":
+                  - "802.1x failed": reference/event-classes/security/authentication/802.1x-failed.md
+                  - "Authentication Failed": reference/event-classes/security/authentication/authentication-failed.md
+                  - "Login": reference/event-classes/security/authentication/login.md
+                  - "Login Failed": reference/event-classes/security/authentication/login-failed.md
+                  - "Logout": reference/event-classes/security/authentication/logout.md
+                  - "Privilege Level Change Fail": reference/event-classes/security/authentication/privilege-level-change-fail.md
+                  - "Privilege Level Changed": reference/event-classes/security/authentication/privilege-level-changed.md
+                  - "RADIUS server failed": reference/event-classes/security/authentication/radius-server-failed.md
+                  - "RADIUS server recovered": reference/event-classes/security/authentication/radius-server-recovered.md
+                  - "Rejected": reference/event-classes/security/authentication/rejected.md
+                  - "SNMP Authentication Failure": reference/event-classes/security/authentication/snmp-authentication-failure.md
+                  - "TACACS+ server failed": reference/event-classes/security/authentication/tacacs+-server-failed.md
+                  - "TACACS+ server recovered": reference/event-classes/security/authentication/tacacs+-server-recovered.md
+          - "System":
+              - "Halt": reference/event-classes/system/halt.md
+              - "Process Crashed": reference/event-classes/system/process-crashed.md
+              - "Process Exited": reference/event-classes/system/process-exited.md
+              - "Process Started": reference/event-classes/system/process-started.md
+              - "Reboot": reference/event-classes/system/reboot.md
+              - "Started": reference/event-classes/system/started.md
+          - "Unknown":
+              - "Default": reference/event-classes/unknown/default.md
+              - "Ignore": reference/event-classes/unknown/ignore.md
+              - "SNMP Trap": reference/event-classes/unknown/snmp-trap.md
+              - "Syslog": reference/event-classes/unknown/syslog.md
+          - "Vendor":
+              - "Arista":
+                  - "EOS":
+                      - "VMTracer":
+                          - "Failed to connect to vCenter": reference/event-classes/vendor/arista/eos/vmtracer/failed-to-connect-to-vcenter.md
+              - "Cisco":
+                  - "ASA":
+                      - "Network":
+                          - "Flow Accounting":
+                              - "Built Flow": reference/event-classes/vendor/cisco/asa/network/flow-accounting/built-flow.md
+                              - "Duplicate TCP SYN": reference/event-classes/vendor/cisco/asa/network/flow-accounting/duplicate-tcp-syn.md
+                              - "Teardown Flow": reference/event-classes/vendor/cisco/asa/network/flow-accounting/teardown-flow.md
+                  - "IOS":
+                      - "Network":
+                          - "Load Balance":
+                              - "Server Farm Degraded": reference/event-classes/vendor/cisco/ios/network/load-balance/server-farm-degraded.md
+                              - "Server Farm is Operate": reference/event-classes/vendor/cisco/ios/network/load-balance/server-farm-is-operate.md
+                              - "vserver In Service": reference/event-classes/vendor/cisco/ios/network/load-balance/vserver-in-service.md
+                              - "vserver Out of Service": reference/event-classes/vendor/cisco/ios/network/load-balance/vserver-out-of-service.md
+                  - "SCOS":
+                      - "Security":
+                          - "Attack":
+                              - "Attack Detected": reference/event-classes/vendor/cisco/scos/security/attack/attack-detected.md
+                              - "End-of-attack detected": reference/event-classes/vendor/cisco/scos/security/attack/end-of-attack-detected.md
+              - "DLink":
+                  - "DxS":
+                      - "Chassis":
+                          - "CPU":
+                              - "Safeguard Engine enters EXHAUSTED mode": reference/event-classes/vendor/dlink/dxs/chassis/cpu/safeguard-engine-enters-exhausted-mode.md
+                              - "Safeguard Engine enters NORMAL mode": reference/event-classes/vendor/dlink/dxs/chassis/cpu/safeguard-engine-enters-normal-mode.md
+              - "f5":
+                  - "BIGIP":
+                      - "Network":
+                          - "Load Balance":
+                              - "Node Down": reference/event-classes/vendor/f5/bigip/network/load-balance/node-down.md
+                              - "Node Up": reference/event-classes/vendor/f5/bigip/network/load-balance/node-up.md
+                              - "Service Down": reference/event-classes/vendor/f5/bigip/network/load-balance/service-down.md
+                              - "Service Up": reference/event-classes/vendor/f5/bigip/network/load-balance/service-up.md
   - Administration Guide:
       - Services:
           - activator: admin/services/activator.md
@@ -669,9 +1034,7 @@ nav:
           - workflow: admin/man/workflow.md
   #    - Capabilities:
   #   - Alarm Classes:
-  #   - Event Classes:
   #   - Metric Types:
-  #   - Platforms:
   - Developer's Guide:
       - Merge Request Labels: dev/mr-labels.md
       - API:
@@ -914,7 +1277,7 @@ theme:
     scheme: slate
   logo: _static/logo.svg
 use_directory_urls: true
-site_dir: ../../build/docs2/en
+site_dir: ../../build/docs/en
 # strict: true
 markdown_extensions:
   - toc:
