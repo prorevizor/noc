@@ -8,6 +8,11 @@
 # Python modules
 import orjson
 import bson
+import uuid
+
+# Third-party modules
+from django.http import HttpResponse
+from mongoengine.errors import ValidationError
 
 # NOC modules
 from noc.lib.app.extdocapplication import ExtDocApplication, view
@@ -28,6 +33,28 @@ class MaintenanceApplication(ExtDocApplication):
     model = Maintenance
     query_condition = "icontains"
     query_fields = ["subject"]
+
+    ONLY = [
+        "id",
+        "description",
+        "contacts",
+        "type",
+        "type__label",
+        "stop",
+        "start",
+        "suppress_alarms",
+        "escalate_managed_object",
+        "escalate_managed_object__label",
+        "escalation_tt",
+        "is_completed",
+        "auto_confirm",
+        "template",
+        "direct_objects",
+        "direct_segments",
+        "subject",
+        "time_pattern",
+        "time_pattern__label",
+    ]
 
     def queryset(self, request, query=None):
         """
@@ -83,32 +110,44 @@ class MaintenanceApplication(ExtDocApplication):
         """
         Returns dict with object's fields and values
         """
-        only = [
-            "id",
-            "description",
-            "contacts",
-            "type",
-            "type__label",
-            "stop",
-            "start",
-            "suppress_alarms",
-            "escalate_managed_object",
-            "escalate_managed_object__label",
-            "escalation_tt",
-            "is_completed",
-            "auto_confirm",
-            "template",
-            "direct_objects",
-            "direct_segments",
-            "subject",
-            "time_pattern",
-            "time_pattern__label",
-        ]
         o = self.queryset(request).get(**{self.pk: id})
-        data = request.GET.get(self.only_param)
-        if data:
-            only.append(data.split(","))
-        return self.response(self.instance_to_dict(o, fields=only), status=self.OK)
+        return self.response(self.instance_to_dict(o, fields=self.ONLY), status=self.OK)
+
+    @view(
+        method=["PUT"],
+        url=r"^(?P<id>[0-9a-f]{24}|\d+|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/?$",
+        access="update",
+        api=True,
+    )
+    def api_update(self, request, id):
+        try:
+            attrs = self.clean(self.deserialize(request.body))
+        except ValueError as e:
+            self.logger.info("Bad request: %r (%s)", request.body, e)
+            return self.response(str(e), status=self.BAD_REQUEST)
+        try:
+            o = self.queryset(request).get(**{self.pk: id})
+        except self.model.DoesNotExist:
+            return HttpResponse("", status=self.NOT_FOUND)
+        if self.has_uuid and not attrs.get("uuid") and not o.uuid:
+            attrs["uuid"] = uuid.uuid4()
+
+        for k in attrs:
+            if not self.has_field_editable(k):
+                continue
+            if k != self.pk and "__" not in k:
+                setattr(o, k, attrs[k])
+        try:
+            o.save()
+        except ValidationError as e:
+            return self.response({"message": str(e)}, status=self.BAD_REQUEST)
+        # Reread result
+        o = self.model.objects.get(**{self.pk: id})
+        if request.is_extjs:
+            r = {"success": True, "data": self.instance_to_dict(o, fields=self.ONLY)}
+        else:
+            r = self.instance_to_dict(o, fields=self.ONLY)
+        return self.response(r, status=self.OK)
 
     @view(method=["GET"], url="^$", access="read", api=True)
     def api_list(self, request):
@@ -119,23 +158,9 @@ class MaintenanceApplication(ExtDocApplication):
 
     def instance_to_dict_list(self, o, fields=None):
         only = [
-            "id",
-            "description",
-            "contacts",
-            "type",
-            "type__label",
-            "stop",
-            "start",
-            "suppress_alarms",
-            "escalate_managed_object",
-            "escalate_managed_object__label",
-            "escalation_tt",
-            "is_completed",
-            "auto_confirm",
-            "template",
-            "subject",
-            "time_pattern",
-            "time_pattern__label",
+            res
+            for res in self.ONLY
+            if res not in ["direct_objects", "direct_segments", "affected_objects"]
         ]
         return self.instance_to_dict(o, fields=only)
 
@@ -169,4 +194,5 @@ class MaintenanceApplication(ExtDocApplication):
                     "tags": mo.get("tags"),
                 }
             ]
-        return self.response(r, status=self.OK)
+        out = {"total": len(r), "success": True, "data": r}
+        return self.response(out, status=self.OK)
