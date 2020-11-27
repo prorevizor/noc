@@ -162,7 +162,7 @@ class MaintenanceApplication(ExtDocApplication):
             for res in self.ONLY
             if res not in ["direct_objects", "direct_segments", "affected_objects"]
         ]
-        return self.instance_to_dict(o, fields=only)
+        return super().instance_to_dict(o, fields=only)
 
     @view(url="(?P<id>[0-9a-f]{24})/objects/", method=["GET"], access="read", api=True)
     def api_test(self, request, id):
@@ -185,13 +185,13 @@ class MaintenanceApplication(ExtDocApplication):
         ):
             r += [
                 {
-                    "id": mo.get("id"),
-                    "name": mo.get("name"),
-                    "is_managed": mo.get("is_managed"),
-                    "profile": Profile.get_by_id(mo.get("profile")).name,
-                    "address": mo.get("address"),
-                    "description": mo.get("description"),
-                    "tags": mo.get("tags"),
+                    "id": mo["id"],
+                    "name": mo["name"],
+                    "is_managed": mo["is_managed"],
+                    "profile": Profile.get_by_id(mo["profile"]).name,
+                    "address": mo["address"],
+                    "description": mo["description"],
+                    "tags": mo["tags"],
                 }
             ]
         out = {"total": len(r), "success": True, "data": r}
