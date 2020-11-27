@@ -8,12 +8,13 @@
 # Python modules
 import logging
 import time
+from typing import Tuple
 
 # NOC modules
 from noc.config import config
 from noc.core.perf import metrics
 from noc.core.ioloop.udpserver import UDPServer
-from noc.core.comp import smart_bytes, smart_text
+from noc.core.comp import smart_text
 
 logger = logging.getLogger(__name__)
 
@@ -29,17 +30,17 @@ class SyslogServer(UDPServer):
     def enable_freebind(self):
         return config.syslogcollector.enable_freebind
 
-    def on_read(self, data, address):
+    def on_read(self, data: bytes, address: Tuple[str, int]):
         metrics["syslog_msg_in"] += 1
         cfg = self.service.lookup_config(address[0])
         if not cfg:
             return  # Invalid event source
         # Convert data to valid UTF8
-        data = smart_bytes(smart_text(data, errors="ignore"))
+        data = smart_text(data, errors="ignore")
         # Parse priority
         priority = 0
-        if data.startswith(b"<"):
-            idx = data.find(b">")
+        if data.startswith("<"):
+            idx = data.find(">")
             if idx == -1:
                 return
             try:
