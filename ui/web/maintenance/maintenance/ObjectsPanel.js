@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------
 // sa.managedobjectselector ObjectsPanel
 //---------------------------------------------------------------------
-// Copyright (C) 2007-2020 The NOC Project
+// Copyright (C) 2007-2013 The NOC Project
 // See LICENSE for details
 //---------------------------------------------------------------------
 console.debug("Defining NOC.maintenance.maintenance.ObjectsPanel");
@@ -17,6 +17,14 @@ Ext.define("NOC.maintenance.maintenance.ObjectsPanel", {
 
     initComponent: function() {
         var me = this;
+
+        me.refreshButton = Ext.create("Ext.button.Button", {
+            text: __("Refresh"),
+            glyph: NOC.glyph.refresh,
+            scope: me,
+            handler: me.onRefresh
+        });
+
         me.exportButton = Ext.create("Ext.button.Button", {
             tooltip: __("Export"),
             text: __("Export"),
@@ -74,9 +82,11 @@ Ext.define("NOC.maintenance.maintenance.ObjectsPanel", {
                     xtype: "toolbar",
                     dock: "top",
                     items: [
-                        me.totalField,
                         me.getCloseButton(),
-                        me.exportButton
+                        me.refreshButton,
+                        me.exportButton,
+                        "->",
+                        me.totalField
                     ]
                 }
             ]
@@ -91,7 +101,6 @@ Ext.define("NOC.maintenance.maintenance.ObjectsPanel", {
         var me = this;
         me.callParent(arguments);
         me.grid.mask(__('Loading...'));
-
         Ext.Ajax.request({
             url: "/maintenance/maintenance/" + record.get("id") + "/objects/",
             method: "GET",
@@ -99,8 +108,8 @@ Ext.define("NOC.maintenance.maintenance.ObjectsPanel", {
             success: function(response) {
                 var data = Ext.decode(response.responseText);
                 me.grid.setTitle(record.get("subject") + " " + __("objects"));
-                me.store.loadData(data.data);
-                me.totalField.setValue(__("Total: ") + data.total);
+                me.store.loadData(data);
+                me.totalField.setValue(__("Total: ") + data.length);
                 me.grid.unmask();
             },
             failure: function() {
