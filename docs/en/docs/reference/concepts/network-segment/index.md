@@ -9,7 +9,22 @@ Network Segment is a group of [Managed Objects](../managed-object/index.md)
 taking specific part in network hierarchy. Each Managed Object **MUST**
 belong to one Network Segment. Typical Network Segment hierarchy:
 
-![Hierarchy example](example-hier.svg)
+```mermaid
+graph TB
+    CORE(Core)
+    AGG1(Aggregation #1)
+    AGG2(Aggregation #2)
+    ACC11(Access #1-1)
+    ACC12(Access #1-2)
+    ACC21(Access #2-1)
+    ACC22(Access #2-2)
+    CORE --- AGG1
+    CORE --- AGG2
+    AGG1 --- ACC11
+    AGG1 --- ACC12
+    AGG2 --- ACC21
+    AGG2 --- ACC22
+```
 
 !!! note
     NOC considers that is Managed Object belongs to segment, not the link.
@@ -32,10 +47,8 @@ Proper segmentation is the key concept for various areas:
     is *implicit* or *ad-hoc*. Despite it considered *Bad Practice*
     NOC offers various methods for :ref:`automatical segmentation<network-segment-autosegmentation>`
 
-
 ## Group Settings
 Group settings for Network Segments are contained in :ref:`Network Segment Profiles<reference-network-segment-profile>`
-
 
 ## Segment Topology
 Segment is the set of *Managed Objects* and links between them so
@@ -46,13 +59,42 @@ from adjacent segments, connected to given segment to build
 ### Tree
 Tree topology contains exactly one path between any Object.
 
-![Tree example](example-tree-1.svg)
+```mermaid
+graph TB
+    MO1 --- MO2
+    MO1 --- MO3
+    MO1 --- MO4
+    MO2 --- MO5
+    MO2 --- MO6
+    MO6 --- MO7
+    MO3 --- MO8
+    MO3 --- MO9
+    MO4 --- MO10
+    MO4 --- MO11
+    MO10 --- MO12
+```
 
 *Tree* offers no redundancy. Any failed Object makes its children
 unavailable. Following example shows failed *MO3* makes *MO8* and *MO9*
 unavailable.
 
-![Tree2 example](example-tree-2.svg)
+```mermaid
+graph TB
+    style MO3 fill:#c0392b
+    style MO8 fill:#7f8c8d
+    style MO9 fill:#7f8c8d
+    MO1 --- MO2
+    MO1 --- MO3
+    MO1 --- MO4
+    MO2 --- MO5
+    MO2 --- MO6
+    MO6 --- MO7
+    MO3 --- MO8
+    MO3 --- MO9
+    MO4 --- MO10
+    MO4 --- MO11
+    MO10 --- MO12
+```
 
 
 NOC performs auto-layout of *Tree* segment maps and proper :term:`RCA`
@@ -60,7 +102,17 @@ NOC performs auto-layout of *Tree* segment maps and proper :term:`RCA`
 ### Forest
 *Forest* is common case with two-or-more independ trees. Like a *Tree*
 
-![Forest example](example-forest.svg)
+```mermaid
+graph TB
+    MO1 --- MO4
+    MO1 --- MO5
+    MO5 --- MO6
+    MO2 --- MO7
+    MO2 --- MO8
+    MO3 --- MO9
+    MO3 --- MO10
+    MO9 --- MO11
+```
 
 *Forest* offers no redundancy. Any failed Object makes its children
 unavailable.
@@ -71,22 +123,49 @@ NOC performs auto-layout of *Forest* segment maps and proper :term:`RCA`
     unless you have explicit reason to use *Forest*
 
 
-
 Ring
 ^^^^
 Common *Ring* topology considers each object connected with exactly two
 neighbors
 
-![Ring-1 example](example-ring-1.svg)
+```mermaid
+graph TB
+    MO1 --- MO2
+    MO1 --- MO5
+    MO2 --- MO3
+    MO3 --- MO4
+    MO5 --- MO6
+    MO6 --- MO4
+```
 
 *Ring* offers protection against single node failure. Following example
 shows *MO3* failure not affects other objects
 
-![Ring-2 example](example-ring-2.svg)
+```mermaid
+graph TB
+    style MO3 fill:#c0392b
+    MO1 --- MO2
+    MO1 --- MO5
+    MO2 --- MO3
+    MO3 --- MO4
+    MO5 --- MO6
+    MO6 --- MO4
+```
 
 Though additional failure of *MO6* leads to *MO4* unavailability
 
-![Ring-3 example](example-ring-3.svg)
+```mermaid
+graph TB
+    style MO3 fill:#c0392b
+    style MO6 fill:#c0392b
+    style MO4 fill:#7f8c8d
+    MO1 --- MO2
+    MO1 --- MO5
+    MO2 --- MO3
+    MO3 --- MO4
+    MO5 --- MO6
+    MO6 --- MO4
+```
 
 Pure *Ring* topology is rather expensive, as any Object must be
 capable of forwarding all ring's traffic and is not very flexible
@@ -101,11 +180,18 @@ is performed with cheap switches contained within same PoP with backbone nodes.
 NOC performs neat auto-layout of *Ring* segment maps and proper :term:`RCA`
 
 
-
 ### Mesh
 *Mesh* is the common graph which is not *Tree*, *Forest* or *Ring*
 
-![Mesh example](example-mesh.svg)
+```mermaid
+graph TB
+    MO1 --- MO2
+    MO1 --- MO3
+    MO2 --- MO3
+    MO3 --- MO4
+    MO4 --- MO5
+    MO1 --- MO5
+```
 
 NOC performs probabilistic spring layout for mesh networks which may
 require manual correction and performs proper :term:`RCA` in most cases
@@ -135,13 +221,17 @@ Segment's objects. *Segment Uplinks* can belong to segment itself,
 or may belong to any neighbor segment
 
 
-
 ## Horizontal Transit
 Sometimes network segments of same level connected together
 for backup purposes. So in case of uplink failure one segment
 can use other as temporary uplink (*S2* - *S3* dotted link).
 
-![Horizontal transit example](example-horizontal-transit.svg)
+```mermaid
+graph TB
+    S1 --- S2
+    S1 --- S3
+    S2 -.- S3
+```
 
 NOC offers additional Network Segment setting to specify whether
 such horizontal traffic flow is acceptable. *Horizontal Transit Policy*
@@ -160,7 +250,41 @@ considering neighbor segment as additional *Uplink Path*.
 Network topology may change over time. Consider typical scheme
 of broadband access network:
 
-![Sibling-1 example](example-sibling-1.svg)
+```mermaid
+graph TB
+    subgraph Parent
+    AGG1
+    end
+    subgraph ODF
+    P1
+    P2
+    P3
+    P4
+    end
+    subgraph Segment1
+    MO11
+    MO12
+    MO13
+    end
+    subgraph Segment2
+    MO21
+    MO22
+    MO23
+    end
+    AGG1 --- P1
+    P1   --- MO11
+    AGG1 --- P2
+    P2   --- MO13
+    MO11 --- MO12
+    MO13 --- MO12
+    AGG1 --- P3
+    P3   --- MO21
+    AGG1 --- P4
+    P4   --- MO23
+    MO21 --- MO22
+    MO23 --- MO22
+
+```
 
 Two separate optic cables build two access ring and terminated on
 four ports on aggregation switch. Consider we'd overestimated
@@ -170,7 +294,40 @@ ports in *AGG1*. We'd decided to connect *MO13* and *MO21* directly
 bypassing *AGG1*, so we'd disconnected two ports on *AGG1* and shorted
 ports *P2* and *P3* on *ODF* by optical patch-cord:
 
-![Sibling-2 example](example-sibling-2.svg)
+```mermaid
+graph TB
+    subgraph Parent
+    AGG1
+    end
+    subgraph ODF
+    P1
+    P2
+    P3
+    P4
+    end
+    subgraph Segment1
+    MO11
+    MO12
+    MO13
+    end
+    subgraph Segment2
+    MO21
+    MO22
+    MO23
+    end
+    AGG1 --- P1
+    P1   --- MO11
+    P2   -.- P3
+    P2   --- MO13
+    MO11 --- MO12
+    MO13 --- MO12
+    P3   --- MO21
+    AGG1 --- P4
+    P4   --- MO23
+    MO21 --- MO22
+    MO23 --- MO22
+
+```
 
 Technically, we'd merged *Segment1* and *Segment2* building larger
 segment. We can simple move *MO21*, *MO22* and *MO23* to *Segment1*
@@ -181,7 +338,6 @@ to declare *Segment1* and *Segment2* as the *Sibling Segments*.
 *Sibling Segments* considered as single segment in hierarchy,
 processed as one in *Uplinks* calculations and shown as a single
 map, though remaining two separate segments in database and reporting.
-
 
 
 ## VLAN Domains
@@ -203,7 +359,23 @@ to split segments tree to *VLAN Domain*. *VLAN Domain* covers
 
 Consider example:
 
-![Vlan-domain example](example-vlan-domain.svg)
+```mermaid
+graph TB
+    style S1 stroke-width:4px
+    style S6 fill:#0f0,stroke-width:4px
+    style S10 fill:#0f0
+    style S11 fill:#0f0
+    S1 --- S2
+    S1 --- S3
+    S1 --- S4
+    S2 --- S5
+    S2 --- S6
+    S3 --- S7
+    S3 --- S8
+    S4 --- S9
+    S6 --- S10
+    S6 --- S11
+```
 
 VLAN borders marked by thick frame: S1 and S6. First VLAN domain (blue)
 consist of S1, S2, S3, S4, S5, S7, S8 and S9. Second VLAN domain (green):
@@ -220,13 +392,17 @@ For ease of maintenance NOC automatically attaches all *VLAN domain's*
 VLANs to appropriative *VLAN border*.
 
 
-
 ## VLAN Translation
 NOC consider any implicit VLAN passing stops at *VLAN border*. Though it
 possible to propagate VLAN further via *VLAN Translation Rules*.
 Consider scheme:
 
-![Vlan-translation example](example-vlan-translation.svg)
+```mermaid
+graph TB
+    style S1 stroke-width:4px
+    style S2 fill:#0f0,stroke-width:4px
+    S1 --- S2
+```
 
 S1 and S2 both *VLAN borders*. *Managed Objects* MO1 and MO2 belongs to
 S1 and S2 respectively.
@@ -248,21 +424,35 @@ NOC supports two kind of rules: *Map* and *Push*.
 
 VLANs can be either *rewritten*
 
-![Map-1 example](example-map-1.svg)
+```mermaid
+sequenceDiagram
+    MO1 ->> Border: Tag=100
+    Border ->> MO2: Tag=200
+```
+
 `filter=2-200,rule=map,parent_vlan=200`
 
 Or *extended* (rewritten to same tag)
 
-![Map-2 example](example-map-2.svg)
+```mermaid
+sequenceDiagram
+    MO1 ->> Border: Tag=100
+    Border ->> MO2: Tag=100
+```
+
 `filter=2-200,rule=map,parent_vlan=100`
 
 ### Push
 *Push* rule appends additional 802.1Q tag in top of existing 802.1Q tag,
 allowing Q-in-Q tunneling.
 
-![Push example](example-push.svg)
-`filter=2-200,rule=push,parent_vlan=300`
+```mermaid
+sequenceDiagram
+    MO1 ->> Border: Tag=100
+    Border ->> MO2: Tag=300,100
+```
 
+`filter=2-200,rule=push,parent_vlan=300`
 
 
 ## VLAN Allocation Group
@@ -277,7 +467,6 @@ MAC addresses. See :ref:`discovery-segment-mac` for details.
 ## Autosegmentation
 Segmentation may be performed automatically during box discovery.
 See :ref:`discovery-box-segmentation` for details
-
 
 
 ## Redundancy

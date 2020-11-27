@@ -3,7 +3,6 @@
 Network Segment Profile is a group settings for :ref:`Network Segment<reference-network-segment>`
 
 
-
 ## Uplink Policy
 :ref:`Segment Uplinks <reference_network-segment-object-segment-uplinks>` calculation
 is configured via *Uplink Policy* setting. *Uplink Policy* is the
@@ -16,7 +15,21 @@ from parent segment having links to segment.
 
 Consider the scheme:
 
-![Hier example](example-hier.svg)
+```mermaid
+graph TB
+    subgraph Parent
+    MO1
+    end
+    subgraph Segment
+    MO2
+    MO3
+    MO4
+    end
+    MO1 --- MO2
+    MO1 --- MO3
+    MO2 --- MO4
+    MO3 --- MO4
+```
 
 Lets *MO1* belong to *Parent Segment*, while *MO2*, *MO3* and *MO4* are
 in current *Segment*. The table of *Uplinks* and *Downlinks*:

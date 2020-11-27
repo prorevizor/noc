@@ -42,7 +42,16 @@ to the right and may be reused.
 ## ConfDB pipeline stages
 Config processing pipeline and stages are represented on chart below
 
-![Pipeline](pipeline.svg)
+```mermaid
+graph TD
+    Fetching --> Storing
+    Storing --> Tokenizer
+    Tokenizer --> Normalizer
+    Normalizer --> Applicator
+    Applicator --> ConfDB
+    ConfDB --> Queries
+
+```
 
 
 * :ref:`Fetching<dev-confdb-fetching>`
