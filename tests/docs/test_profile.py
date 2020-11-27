@@ -52,6 +52,16 @@ def test_vendor_doc_exists(vendor):
     assert os.path.exists(path), "Vendor '%s' must be documented in '%s'" % (vendor, path)
 
 
+@pytest.mark.parametrize("vendor", all_vendors())
+def test_vendor_doc_toc(toc, vendor):
+    if vendor in XFAIL_VENDORS:
+        pytest.xfail("Excluded")
+    path = ["Reference", "Profiles", vendor, "Overview"]
+    assert path in toc
+    v = toc[path].split("/")
+    assert v == ["reference", "profiles", vendor, "index.md"]
+
+
 @pytest.mark.parametrize("profile", all_profiles())
 def test_profile_doc_exists(profile):
     vendor = profile.split(".")[0]

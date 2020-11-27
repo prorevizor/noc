@@ -1,0 +1,32 @@
+---
+uuid: cb604666-2f9d-4ba3-8906-bfc7a1f587f3
+---
+# Chassis | Fan | Fan Removed
+
+## Symptoms
+
+## Probable Causes
+
+## Recommended Actions
+
+## Variables
+
+Variable | Description | Default
+--- | --- | ---
+name | Fan Name | `:material-close:`
+
+## Events
+
+### Opening Events
+`Chassis | Fan | Fan Removed` may be raised by events
+
+Event Class | Description
+--- | ---
+`Chassis | Fan | Fan Removed` | dispose
+
+### Closing Events
+`Chassis | Fan | Fan Removed` may be cleared by events
+
+Event Class | Description
+--- | ---
+`Chassis | Fan | Fan Inserted` | dispose

@@ -50,7 +50,6 @@ nav:
           - VPN: reference/concepts/vpn/index.md
           - VPN Profile: reference/concepts/vpn-profile/index.md
           - Workflow: reference/concepts/workflow/index.md
-      # - Scripts:
       - Profiles:
           - 3Com:
               - Overview: reference/profiles/3Com/index.md
@@ -380,8 +379,10 @@ nav:
               - Overview: reference/profiles/SKS/index.md
               - SKS.SKS: reference/profiles/SKS/SKS.SKS.md
           - STerra:
+              - Overview: reference/profiles/STerra/index.md
               - STerra.Gate: reference/profiles/STerra/STerra.Gate.md
           - SecurityCode:
+              - Overview: reference/profiles/SecurityCode/index.md
               - SecurityCode.Kontinent: reference/profiles/SecurityCode/SecurityCode.Kontinent.md
           - Sencore:
               - Overview: reference/profiles/Sencore/index.md
@@ -415,6 +416,7 @@ nav:
               - Overview: reference/profiles/Terayon/index.md
               - Terayon.BW: reference/profiles/Terayon/Terayon.BW.md
           - Ttronics:
+              - Overview: reference/profiles/Ttronics/index.md
               - Ttronics.KUB: reference/profiles/Ttronics/Ttronics.KUB.md
           - UTST:
               - Overview: reference/profiles/UTST/index.md
@@ -457,6 +459,214 @@ nav:
           - f5:
               - Overview: reference/profiles/f5/index.md
               - f5.BIGIP: reference/profiles/f5/f5.BIGIP.md
+      - Alarm Classes:
+          - "Chassis":
+              - "CPU":
+                  - "CPU Exhausted": reference/alarm-classes/chassis/cpu/cpu-exhausted.md
+              - "Clock":
+                  - "Clock Failed": reference/alarm-classes/chassis/clock/clock-failed.md
+              - "Fabric":
+                  - "CRC Errors": reference/alarm-classes/chassis/fabric/crc-errors.md
+              - "Fan":
+                  - "Fan Failed": reference/alarm-classes/chassis/fan/fan-failed.md
+                  - "Fan Removed": reference/alarm-classes/chassis/fan/fan-removed.md
+              - "Hardware":
+                  - "Hardware Error": reference/alarm-classes/chassis/hardware/hardware-error.md
+                  - "Hardware Port Error": reference/alarm-classes/chassis/hardware/hardware-port-error.md
+                  - "Hardware Port Warning": reference/alarm-classes/chassis/hardware/hardware-port-warning.md
+                  - "Hardware Warning": reference/alarm-classes/chassis/hardware/hardware-warning.md
+                  - "Module":
+                      - "Invalid Module": reference/alarm-classes/chassis/hardware/module/invalid-module.md
+                      - "Module Error": reference/alarm-classes/chassis/hardware/module/module-error.md
+              - "Linecard":
+                  - "LC Down": reference/alarm-classes/chassis/linecard/lc-down.md
+              - "PSU":
+                  - "PSU Failed": reference/alarm-classes/chassis/psu/psu-failed.md
+                  - "Power Failed": reference/alarm-classes/chassis/psu/power-failed.md
+              - "RAM":
+                  - "Insufficient Memory": reference/alarm-classes/chassis/ram/insufficient-memory.md
+                  - "RAM Failed": reference/alarm-classes/chassis/ram/ram-failed.md
+              - "Stack":
+                  - "Stack Degraded": reference/alarm-classes/chassis/stack/stack-degraded.md
+              - "Supervisor":
+                  - "Supervisor Down": reference/alarm-classes/chassis/supervisor/supervisor-down.md
+              - "TCAM":
+                  - "TCAM Entry Capacity Exceeded": reference/alarm-classes/chassis/tcam/tcam-entry-capacity-exceeded.md
+                  - "TCAM Error": reference/alarm-classes/chassis/tcam/tcam-error.md
+          - "Config":
+              - "Config Download Failed": reference/alarm-classes/config/config-download-failed.md
+              - "Config Sync Failed": reference/alarm-classes/config/config-sync-failed.md
+              - "Config Upload Failed": reference/alarm-classes/config/config-upload-failed.md
+              - "Invalid Config": reference/alarm-classes/config/invalid-config.md
+              - "Policy Violation": reference/alarm-classes/config/policy-violation.md
+              - "Policy Violations": reference/alarm-classes/config/policy-violations.md
+          - "Discovery":
+              - "Error":
+                  - "Auth Failed": reference/alarm-classes/discovery/error/auth-failed.md
+                  - "Connection Refused": reference/alarm-classes/discovery/error/connection-refused.md
+                  - "Low Privileges": reference/alarm-classes/discovery/error/low-privileges.md
+                  - "No Super": reference/alarm-classes/discovery/error/no-super.md
+                  - "SSH Protocol": reference/alarm-classes/discovery/error/ssh-protocol.md
+                  - "Service Not Available": reference/alarm-classes/discovery/error/service-not-available.md
+                  - "Unhandled Exception": reference/alarm-classes/discovery/error/unhandled-exception.md
+              - "Guess":
+                  - "CLI Credentials": reference/alarm-classes/discovery/guess/cli-credentials.md
+                  - "Profile": reference/alarm-classes/discovery/guess/profile.md
+                  - "SNMP Community": reference/alarm-classes/discovery/guess/snmp-community.md
+              - "Job":
+                  - "Box": reference/alarm-classes/discovery/job/box.md
+                  - "Periodic": reference/alarm-classes/discovery/job/periodic.md
+          - "Environment":
+              - "AC Voltage Out of Range": reference/alarm-classes/environment/ac-voltage-out-of-range.md
+              - "Chassis Voltage Out of Range": reference/alarm-classes/environment/chassis-voltage-out-of-range.md
+              - "DC Voltage Out of Range": reference/alarm-classes/environment/dc-voltage-out-of-range.md
+              - "Humidity Out of Range": reference/alarm-classes/environment/humidity-out-of-range.md
+              - "Module Voltage Out of Range": reference/alarm-classes/environment/module-voltage-out-of-range.md
+              - "Temperature Out of Range": reference/alarm-classes/environment/temperature-out-of-range.md
+              - "Total Power Loss": reference/alarm-classes/environment/total-power-loss.md
+              - "UPS":
+                  - "Battery Power Low": reference/alarm-classes/environment/ups/battery-power-low.md
+                  - "Input Power Failed": reference/alarm-classes/environment/ups/input-power-failed.md
+                  - "Input Power Low": reference/alarm-classes/environment/ups/input-power-low.md
+                  - "Self-Test Failed": reference/alarm-classes/environment/ups/self-test-failed.md
+          - "NOC":
+              - "IPAM":
+                  - "VRF Group Address Collision": reference/alarm-classes/noc/ipam/vrf-group-address-collision.md
+              - "Managed Object":
+                  - "Configuration Errors":
+                      - "Misconfigured SNMP": reference/alarm-classes/noc/managed-object/configuration-errors/misconfigured-snmp.md
+                  - "Denied Firmware": reference/alarm-classes/noc/managed-object/denied-firmware.md
+                  - "New Platform": reference/alarm-classes/noc/managed-object/new-platform.md
+                  - "Ping Failed": reference/alarm-classes/noc/managed-object/ping-failed.md
+              - "PM":
+                  - "High Error": reference/alarm-classes/noc/pm/high-error.md
+                  - "High Warning": reference/alarm-classes/noc/pm/high-warning.md
+                  - "Low Error": reference/alarm-classes/noc/pm/low-error.md
+                  - "Low Warning": reference/alarm-classes/noc/pm/low-warning.md
+                  - "Out of Thresholds": reference/alarm-classes/noc/pm/out-of-thresholds.md
+              - "Periodic":
+                  - "Periodic Failed": reference/alarm-classes/noc/periodic/periodic-failed.md
+              - "SA":
+                  - "Activator Pool Degraded": reference/alarm-classes/noc/sa/activator-pool-degraded.md
+          - "Network":
+              - "BFD":
+                  - "Session Down": reference/alarm-classes/network/bfd/session-down.md
+              - "BGP":
+                  - "Peer Down": reference/alarm-classes/network/bgp/peer-down.md
+                  - "Prefix Limit Exceeded": reference/alarm-classes/network/bgp/prefix-limit-exceeded.md
+              - "DHCP":
+                  - "Untrusted Server": reference/alarm-classes/network/dhcp/untrusted-server.md
+              - "DNS":
+                  - "Bad Query": reference/alarm-classes/network/dns/bad-query.md
+              - "DOCSIS":
+                  - "BPI Unautorized": reference/alarm-classes/network/docsis/bpi-unautorized.md
+                  - "Bad Timing Offset": reference/alarm-classes/network/docsis/bad-timing-offset.md
+                  - "Invalid CoS": reference/alarm-classes/network/docsis/invalid-cos.md
+                  - "Invalid DOCSIS Message": reference/alarm-classes/network/docsis/invalid-docsis-message.md
+                  - "Invalid QoS": reference/alarm-classes/network/docsis/invalid-qos.md
+                  - "Invalid Shared Secret": reference/alarm-classes/network/docsis/invalid-shared-secret.md
+                  - "Max CPE Reached": reference/alarm-classes/network/docsis/max-cpe-reached.md
+                  - "Maximum Capacity Reached": reference/alarm-classes/network/docsis/maximum-capacity-reached.md
+                  - "Maximum SIDs": reference/alarm-classes/network/docsis/maximum-sids.md
+              - "EIGRP":
+                  - "Neighbor Down": reference/alarm-classes/network/eigrp/neighbor-down.md
+              - "IMPB":
+                  - "Unauthenticated IP-MAC": reference/alarm-classes/network/impb/unauthenticated-ip-mac.md
+              - "IP":
+                  - "ARP Moved": reference/alarm-classes/network/ip/arp-moved.md
+                  - "Address Conflict": reference/alarm-classes/network/ip/address-conflict.md
+                  - "IP Flap": reference/alarm-classes/network/ip/ip-flap.md
+              - "IS-IS":
+                  - "Adjacency Down": reference/alarm-classes/network/is-is/adjacency-down.md
+              - "LBD":
+                  - "Loop Detected": reference/alarm-classes/network/lbd/loop-detected.md
+                  - "Vlan Loop Detected": reference/alarm-classes/network/lbd/vlan-loop-detected.md
+              - "Link":
+                  - "DOM":
+                      - "Alarm: Out of Threshold": reference/alarm-classes/network/link/dom/alarm-out-of-threshold.md
+                      - "Warning: Out of Threshold": reference/alarm-classes/network/link/dom/warning-out-of-threshold.md
+                  - "Duplex Mismatch": reference/alarm-classes/network/link/duplex-mismatch.md
+                  - "Err-Disable": reference/alarm-classes/network/link/err-disable.md
+                  - "Half-Duplex": reference/alarm-classes/network/link/half-duplex.md
+                  - "Link Down": reference/alarm-classes/network/link/link-down.md
+              - "MAC":
+                  - "Duplicate MAC": reference/alarm-classes/network/mac/duplicate-mac.md
+                  - "Invalid MAC": reference/alarm-classes/network/mac/invalid-mac.md
+                  - "MAC Flap": reference/alarm-classes/network/mac/mac-flap.md
+                  - "MAC Flood": reference/alarm-classes/network/mac/mac-flood.md
+              - "MPLS":
+                  - "LDP Neighbor Down": reference/alarm-classes/network/mpls/ldp-neighbor-down.md
+                  - "LSP Down": reference/alarm-classes/network/mpls/lsp-down.md
+                  - "Path Down": reference/alarm-classes/network/mpls/path-down.md
+                  - "TDP Neighbor Down": reference/alarm-classes/network/mpls/tdp-neighbor-down.md
+              - "MSDP":
+                  - "Peer Down": reference/alarm-classes/network/msdp/peer-down.md
+              - "Monitor":
+                  - "CRC Error Detected": reference/alarm-classes/network/monitor/crc-error-detected.md
+              - "OSPF":
+                  - "Neighbor Down": reference/alarm-classes/network/ospf/neighbor-down.md
+              - "PIM":
+                  - "DR Change": reference/alarm-classes/network/pim/dr-change.md
+                  - "Invalid RP": reference/alarm-classes/network/pim/invalid-rp.md
+                  - "MSDP Peer Down": reference/alarm-classes/network/pim/msdp-peer-down.md
+                  - "Neighbor Down": reference/alarm-classes/network/pim/neighbor-down.md
+              - "Port Security":
+                  - "Port Security Violation": reference/alarm-classes/network/port-security/port-security-violation.md
+              - "RSVP":
+                  - "Neighbor Down": reference/alarm-classes/network/rsvp/neighbor-down.md
+              - "STP":
+                  - "BPDU Guard Violation": reference/alarm-classes/network/stp/bpdu-guard-violation.md
+                  - "Root Guard Violation": reference/alarm-classes/network/stp/root-guard-violation.md
+                  - "STP Loop Detected": reference/alarm-classes/network/stp/stp-loop-detected.md
+                  - "STP Vlan Loop Detected": reference/alarm-classes/network/stp/stp-vlan-loop-detected.md
+              - "Storm Control":
+                  - "Broadcast Storm Detected": reference/alarm-classes/network/storm-control/broadcast-storm-detected.md
+                  - "Multicast Storm Detected": reference/alarm-classes/network/storm-control/multicast-storm-detected.md
+                  - "Storm Detected": reference/alarm-classes/network/storm-control/storm-detected.md
+                  - "Unicast Storm Detected": reference/alarm-classes/network/storm-control/unicast-storm-detected.md
+              - "UDLD":
+                  - "UDLD Protocol Error Detected": reference/alarm-classes/network/udld/udld-protocol-error-detected.md
+          - "Security":
+              - "Access":
+                  - "Case Open": reference/alarm-classes/security/access/case-open.md
+                  - "Door Open": reference/alarm-classes/security/access/door-open.md
+              - "Attack":
+                  - "Attack": reference/alarm-classes/security/attack/attack.md
+                  - "Blat Attack": reference/alarm-classes/security/attack/blat-attack.md
+                  - "IP Spoofing": reference/alarm-classes/security/attack/ip-spoofing.md
+                  - "Land Attack": reference/alarm-classes/security/attack/land-attack.md
+                  - "Ping Of Death": reference/alarm-classes/security/attack/ping-of-death.md
+                  - "Smurf Attack": reference/alarm-classes/security/attack/smurf-attack.md
+                  - "TCP SYNFIN Scan": reference/alarm-classes/security/attack/tcp-synfin-scan.md
+                  - "Teardrop Attack": reference/alarm-classes/security/attack/teardrop-attack.md
+              - "Authentication":
+                  - "RADIUS server failed": reference/alarm-classes/security/authentication/radius-server-failed.md
+                  - "TACACS+ server failed": reference/alarm-classes/security/authentication/tacacs+-server-failed.md
+          - "System":
+              - "Insufficient Memory": reference/alarm-classes/system/insufficient-memory.md
+              - "Process Crashed": reference/alarm-classes/system/process-crashed.md
+              - "Reboot": reference/alarm-classes/system/reboot.md
+          - "Vendor":
+              - "Arista":
+                  - "EOS":
+                      - "VMTracer":
+                          - "Failed to connect to vCenter": reference/alarm-classes/vendor/arista/eos/vmtracer/failed-to-connect-to-vcenter.md
+              - "Cisco":
+                  - "IOS":
+                      - "Network":
+                          - "Load Balance":
+                              - "Server Farm Degraded": reference/alarm-classes/vendor/cisco/ios/network/load-balance/server-farm-degraded.md
+                              - "vserver Out of Service": reference/alarm-classes/vendor/cisco/ios/network/load-balance/vserver-out-of-service.md
+                  - "SCOS":
+                      - "Security":
+                          - "Attack":
+                              - "Attack Detected": reference/alarm-classes/vendor/cisco/scos/security/attack/attack-detected.md
+              - "f5":
+                  - "BIGIP":
+                      - "Network":
+                          - "Load Balance":
+                              - "Node Down": reference/alarm-classes/vendor/f5/bigip/network/load-balance/node-down.md
+                              - "Service Down": reference/alarm-classes/vendor/f5/bigip/network/load-balance/service-down.md
       - Event Classes:
           - "Chassis":
               - "CPU":
@@ -626,10 +836,10 @@ nav:
               - "Link":
                   - "Connection Problem": reference/event-classes/network/link/connection-problem.md
                   - "DOM":
-                      - "Alarm: Out of Threshold": reference/event-classes/network/link/dom/alarm:-out-of-threshold.md
-                      - "Alarm: Out of Threshold Recovered": reference/event-classes/network/link/dom/alarm:-out-of-threshold-recovered.md
-                      - "Warning: Out of Threshold": reference/event-classes/network/link/dom/warning:-out-of-threshold.md
-                      - "Warning: Out of Threshold Recovered": reference/event-classes/network/link/dom/warning:-out-of-threshold-recovered.md
+                      - "Alarm: Out of Threshold": reference/event-classes/network/link/dom/alarm-out-of-threshold.md
+                      - "Alarm: Out of Threshold Recovered": reference/event-classes/network/link/dom/alarm-out-of-threshold-recovered.md
+                      - "Warning: Out of Threshold": reference/event-classes/network/link/dom/warning-out-of-threshold.md
+                      - "Warning: Out of Threshold Recovered": reference/event-classes/network/link/dom/warning-out-of-threshold-recovered.md
                   - "Duplex Mismatch": reference/event-classes/network/link/duplex-mismatch.md
                   - "Err-Disable": reference/event-classes/network/link/err-disable.md
                   - "Full-Duplex": reference/event-classes/network/link/full-duplex.md
@@ -1033,9 +1243,6 @@ nav:
           - whois: admin/man/whois.md
           - wipe: admin/man/wipe.md
           - workflow: admin/man/workflow.md
-  #    - Capabilities:
-  #   - Alarm Classes:
-  #   - Metric Types:
   - Developer's Guide:
       - Merge Request Labels: dev/mr-labels.md
       - API:
@@ -1181,7 +1388,6 @@ nav:
           - Group: dev/technology/group.md
           - "Network | CGNAT Termination": dev/technology/Network/cgnat-termination.md
       - Tools: dev/tools.md
-  #  - Man Pages:
   - HOWTO:
       - How to Share Collections: howto/sharing-collections/index.md
   - Releases:
@@ -1189,6 +1395,7 @@ nav:
       - NOC 20.4 Generation:
           - NOC 20.4: releases/20.4.md
           - NOC 20.4.1: releases/20.4.1.md
+          - NOC 20.4.2: releases/20.4.2.md
       - NOC 20.3 Generation:
           - NOC 20.3: releases/20.3.md
           - NOC 20.3.1: releases/20.3.1.md
@@ -1289,7 +1496,15 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid
 plugins:
   - search
+  - mermaid2:
+      arguments:
+        theme: dark
   - macros:
       module_name: macros

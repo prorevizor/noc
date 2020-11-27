@@ -1,0 +1,27 @@
+---
+uuid: 0d2c70a7-27c6-4027-8ee2-5e44c378f0f6
+---
+# Config | Config Upload Failed
+
+## Symptoms
+
+## Probable Causes
+
+## Recommended Actions
+
+## Variables
+
+Variable | Description | Default
+--- | --- | ---
+ip | Server IP | `:material-close:`
+service | Service name (ftp, tftp) | `:material-close:`
+user | User name | `:material-close:`
+
+## Events
+
+### Opening Events
+`Config | Config Upload Failed` may be raised by events
+
+Event Class | Description
+--- | ---
+`Config | Config Upload Failed` | dispose
