@@ -6,4 +6,4 @@ Data Type: `bool`
 
 ## Prerequisite for
 
-- [`discovery-box-udld`](../../../admin/discovery/box/udld.md)
+- [udld discovery](../../../admin/discovery/box/udld.md)

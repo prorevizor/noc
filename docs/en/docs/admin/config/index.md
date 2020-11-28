@@ -36,6 +36,7 @@ environment variables.
 You can set own `NOC_CONFIG` environment variable passed to process
 to apply custom configuration processing order.
 
+<!-- prettier-ignore -->
 !!! note
     Configuration is loaded once on NOC's processes start.
     NOC doesn't track configuration changes.
@@ -61,6 +62,7 @@ Example:
 yaml:///opt/noc/etc/settings.yml
 ```
 
+<!-- prettier-ignore -->
 !!! note
 First two slashes after colon belongs to schema delimiter, while
 third slash is a root directory
@@ -97,14 +99,12 @@ env:///NOC
 
 Then following environment will be processed as:
 
-========================== =============================================
-Environment Configuration
-========================== =============================================
-NOC_FEATURE_UVLOOP=1 feature.uvloop=True
-NOC_TIMEZONE=Europe/Moscow timezone=Europe/Moscow
-NOC_FOOBAR _ignored_
-MYVAR_FEATURE_UVLOOP=1 _ignored_
-========================== =============================================
+Environment | Configuration
+--- | ---
+NOC_FEATURE_UVLOOP=1 |feature.uvloop=True
+NOC_TIMEZONE=Europe/Moscow | timezone=Europe/Moscow
+NOC_FOOBAR | _ignored_
+MYVAR_FEATURE_UVLOOP=1 | _ignored_
 
 If we'll change URL to:
 ```
@@ -113,15 +113,14 @@ env:///MYVAR
 
 Then previous example will be processed as:
 
-========================== =============================================
-Environment Configuration
-========================== =============================================
-NOC_FEATURE_UVLOOP=1 _ignored_
-NOC_TIMEZONE=Europe/Moscow _ignored_
-NOC_FOOBAR _ignored_
-MYVAR_FEATURE_UVLOOP=1 feature.uvloop=True
-========================== =============================================
+Environment | Configuration
+--- | ---
+NOC_FEATURE_UVLOOP=1 | _ignored_
+NOC_TIMEZONE=Europe/Moscow | _ignored_
+NOC_FOOBAR | _ignored_
+MYVAR_FEATURE_UVLOOP=1 | feature.uvloop=True
 
+<!-- prettier-ignore -->
 !!! note
     See :ref:`admin-config` for possible environment variable names.
     Note that names given considered *NOC* prefix
@@ -199,6 +198,7 @@ legacy:///
 legacy:///opt/noc/etc/noc.yml
 ```
 
+<!-- prettier-ignore -->
 !!! note
 First two slashes after colon belongs to schema delimiter, while
 third slash is a root directory

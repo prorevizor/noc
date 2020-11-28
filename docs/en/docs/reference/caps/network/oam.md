@@ -6,4 +6,4 @@ Data Type:  `bool`
 
 ## Prerequisite for
 
-- [`discovery-box-oam`](../../../admin/discovery/box/oam.md)
+- [oam discovery](../../../admin/discovery/box/oam.md)

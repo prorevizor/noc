@@ -24,7 +24,7 @@ Query context is the couple of variables and their values. It is
 a simple key-value structure implemented over python's `dict`.
 Context represents a `possible state` of pipeline. Contexts are
 grouped together representing `possibilities` on each stage of pipeline.
-Within the possibilities, each context is independent on each other.
+Within the possibilities, each context is independentent on each other.
 
 Variables can be either `bound` (known values) or `unbound` (superposition
 of possible values).
@@ -33,7 +33,7 @@ Predicates
 ^^^^^^^^^^
 `Predicate` is the logic function, defined by its arguments and accepting
 `possibilities` on input, evaluating them and passing `outcomes` as output.
-Predicates evaluate input context independently. Each input context
+Predicates evaluate input context independentently. Each input context
 may be evaluated to one or more output context.
 
 .. mermaid::
@@ -98,7 +98,7 @@ Sequential chain can contain more than two operators like
 
 Parallel chain
 ^^^^^^^^^^^^^^
-Parallel chain consists of two or more predicates independently accepting
+Parallel chain consists of two or more predicates independentently accepting
 same input and combining and deduplicating resulting outputs
 
 .. mermaid::

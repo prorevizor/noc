@@ -10,7 +10,7 @@ Group settings for Managed Object are contained in [Managed Object Profile](../m
 
 ## Divisions
 
-Managed Object is participating in several independent _divisions_, each
+Managed Object is participating in several independentent _divisions_, each
 answering particular question:
 
 - **Administrative:** _Who is responsible for object?_

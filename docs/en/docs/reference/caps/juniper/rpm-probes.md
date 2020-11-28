@@ -6,4 +6,4 @@ Data Type: `int`
 
 ## Prerequisite for
 
-- [`discovery-box-sla`](../../../admin/discovery/box/sla.md)
+- [sla discovery](../../../admin/discovery/box/sla.md)

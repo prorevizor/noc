@@ -29,14 +29,14 @@ separation of common functions, suitable for all target platforms,
 and of specific functions, addressed for single platform. Common functions
 moved to the left (Code -> VM translation), while specific moved to
 the right (VM -> Target platform translation). Hence VM represents
-clean contract between hardware-dependent and hardware independent functions.
+clean contract between hardware-dependent and hardware independentent functions.
 
 Device configuration is the programming language of target platform.
 So we can split the task of configuration analysis by applying
-clean barrier between hardware-dependent and hardware-independent parts.
+clean barrier between hardware-dependent and hardware-independentent parts.
 Just like `Virtual Machine` NOC introduces fictional configuration
 language for non-existing (yet?) network equipment. All hardware-dependent
-parts are moved to the left. All hardware-independent parts are moved
+parts are moved to the left. All hardware-independentent parts are moved
 to the right and may be reused.
 
 ## ConfDB pipeline stages

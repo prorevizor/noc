@@ -6,4 +6,4 @@ Data Type:  `bool`
 
 ## Prerequisite for
 
-- [`discovery-box-cdp`](../../../admin/discovery/box/cdp.md)
+- [cdp discovery](../../../admin/discovery/box/cdp.md)

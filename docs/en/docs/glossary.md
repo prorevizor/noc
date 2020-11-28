@@ -1,5 +1,6 @@
 # Glossary
 
+<!-- prettier-ignore -->
 !!! note
     Link to other glossary terms when possible.
     Reserve the "See" text at the link of the entry to link to topics in the manual
@@ -38,7 +39,7 @@ DC {: #dc }
 discovery
 : See :doc:`/reference/discovery`.
 
-FRU
+FRU {: fru }
 : Field Replaceable Unit. Vendor's identification
 
 G.703 {: g-703 }
@@ -105,9 +106,9 @@ postgres
 : See :doc:`/reference/postgres`.
 
 RCA
-: See :term:`Root-Cause Analysis`
+: See [Root-Cause Analysis](#root-cause-analysis)
 
-Root-Cause Analysys
+Root-Cause Analysis {: #root-cause-analysis }
 : A process of problems correlation in order to separate
 real problems (or root problems) and their inferred consequences.
 

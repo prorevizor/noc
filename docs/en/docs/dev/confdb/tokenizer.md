@@ -32,7 +32,7 @@ Tokenizer must fulfill following requirements:
   like a tape. Forward and backward rewinds must be avoided.
 * Output tokens should be grouped and analyzed easy
 * Original context should be preserved whenever possible. See at expanding `interface Fa0/1` in following lines
-* Each line of tokens should be further processed independently of each other
+* Each line of tokens should be further processed independentently of each other
 
 It may seems that you need separate tokenizer per each platform. Luckily you are not.
 Though various configuration format have different meaning, almost all

@@ -21,7 +21,7 @@ Variables
 | part_no         | String List | Internal vendor's part number             | Yes      | Yes      |         |
 |                 |             | as shown by diagnostic commands           |          |          |         |
 +-----------------+-------------+-------------------------------------------+----------+----------+---------+
-| order_part_no   | String List | Vendor's :term:`FRU` as shown             | No       | Yes      |         |
+| order_part_no   | String List | Vendor's [FRU](../../glossary.md#fru) as shown             | No       | Yes      |         |
 |                 |             | in catalogues and price lists             |          |          |         |
 +-----------------+-------------+-------------------------------------------+----------+----------+---------+
 | serial          | String      | Item's serial number                      | No       |          |         |

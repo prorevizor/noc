@@ -6,4 +6,4 @@ Data Type:  `bool`
 
 ## Prerequisite for
 
-- [`discovery-box-rep`](../../../admin/discovery/box/rep.md)
+- [rep discovery](../../../admin/discovery/box/rep.md)

@@ -26,6 +26,7 @@ is not given explicitly. Proper *Workflow* determined via *Resource's*
 ### Productive State
 *State* may be marked as *Productive*.
 
+<!-- prettier-ignore -->
 !!! note
     Further versions of NOC will use *Productive State* to indicate
     that *Managed Object* may be discovered and monitored

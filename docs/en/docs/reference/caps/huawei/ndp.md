@@ -6,4 +6,4 @@ Data Type: `bool`
 
 ## Prerequisite for
 
-- [`discovery-box-huawei_ndp`](../../../admin/discovery/box/huawei_ndp.md)
+- [huawei_ndp discovery](../../../admin/discovery/box/huawei_ndp.md)

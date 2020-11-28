@@ -6,4 +6,4 @@ Data Type: `bool`
 
 ## Prerequisite for
 
-- [`discovery-box-lacp`](../../../admin/discovery/box/lacp.md)
+- [lacp discovery](../../../admin/discovery/box/lacp.md)

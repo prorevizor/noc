@@ -6,4 +6,4 @@ Data Type:  `bool`
 
 ## Prerequisite for
 
-- [`discovery-box-lldp`](../../../admin/discovery/box/lldp.md)
+- [lldp discovery](../../../admin/discovery/box/lldp.md)

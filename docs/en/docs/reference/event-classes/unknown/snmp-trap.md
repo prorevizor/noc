@@ -15,7 +15,7 @@ No matching classification rule found
 
 ## Recommended Actions
 
-Grab this event, create appropriative classification rule and reclassify the event again
+Grab this event, create appropriate classification rule and reclassify the event again
 
 ## Variables
 

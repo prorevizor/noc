@@ -6,4 +6,4 @@ Data Type:  `bool`
 
 ## Prerequisite for
 
-- [`discovery-box-fdp`](../../../admin/discovery/box/fdp.md)
+- [fdp discovery](../../../admin/discovery/box/fdp.md)

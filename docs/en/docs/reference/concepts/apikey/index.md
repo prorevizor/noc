@@ -4,7 +4,11 @@
 Client **MUST** set `Private-Token` HTTP Request header and set it
 with proper *Key* in order to get access to protected API
 
-Example: `curl  -s -D - -k -H 'Private-Token: 12345'  https://noc_url/dev/api/datastream/managedobject` ,
+Example:
+
+```
+curl  -s -D - -k -H 'Private-Token: 12345'  https://noc_url/dev/api/datastream/managedobject`
+```
 where `12345` is an API token key.
 
 ## Roles

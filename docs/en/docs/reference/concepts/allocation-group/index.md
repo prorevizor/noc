@@ -19,9 +19,9 @@ and imply additional network processing, namely:
 - Voice
 - Mobile data
 
-Prefixes and address allocation in each VRF performed independently by
+Prefixes and address allocation in each VRF performed independentently by
 default. So its easy to allocate same prefixes and addresses in
-different VRFs. While the address plan independence is a core concept of VRF,
+different VRFs. While the address plan independentence is a core concept of VRF,
 it can lead to various practical problems:
 
 - Network equipment may not be aware of VRFs at all and cannot reuse

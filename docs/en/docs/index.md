@@ -8,7 +8,8 @@ service and content providers
 Getting involved in the NOC community is a great way to build relationships 
 with other talented and like minded engineers, increase awareness
 for the interesting work that you are doing, and sharpen your skills.
-Join Telegram channel and project’s Gitlab tracker.
+Join [Telegram channel](https://t.me/nocproject)
+and project’s [Gitlab](https://code.getnoc.com/noc/noc/) tracker.
 
 ## License
-This Manual is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](license.md).
+This Manual is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](doc-license.md).

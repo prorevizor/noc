@@ -162,7 +162,7 @@ Default filters set available to all DataStreams
 .. function:: shard(instance, n_instances)
 
     Perform stream sharding, splitting stream to *n_instances*
-    independed parts
+    independented parts
 
     :param instance: Number of instance `[0 .. n_instances - 1]`
     :param n_instances: Total amount of instances
