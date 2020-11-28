@@ -1,0 +1,27 @@
+graph TD
+    Transport
+    IT
+    T/West[West]
+    T/East[East]
+    T/Branch1[Branch1]
+    T/Branch2[Branch2]
+    T/Branch3[Branch3]
+    T/Branch4[Branch4]
+    IT/West[West]
+    IT/East[East]
+    IT/Branch1[Branch1]
+    IT/Branch2[Branch2]
+    IT/Branch3[Branch3]
+    IT/Branch4[Branch4]
+    Transport --> T/West
+    Transport --> T/East
+    T/West --> T/Branch1
+    T/West --> T/Branch2
+    T/East --> T/Branch3
+    T/East --> T/Branch4
+    IT --> IT/West
+    IT --> IT/East
+    IT/West --> IT/Branch1
+    IT/West --> IT/Branch2
+    IT/East --> IT/Branch3
+    IT/East --> IT/Branch4

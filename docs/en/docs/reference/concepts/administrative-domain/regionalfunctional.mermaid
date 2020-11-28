@@ -1,0 +1,29 @@
+graph TD
+    W/Transport[Transport]
+    W/IT[IT]
+    E/Transport[Transport]
+    E/IT[IT]
+    1/Transport[Transport]
+    1/IT[IT]
+    2/Transport[Transport]
+    2/IT[IT]
+    3/Transport[Transport]
+    3/IT[IT]
+    4/Transport[Transport]
+    4/IT[IT]
+    West --> Branch1
+    West --> Branch2
+    West --> W/Transport
+    West --> W/IT
+    East --> Branch3
+    East --> Branch4
+    East --> E/Transport
+    East --> E/IT
+    Branch1 --> 1/Transport
+    Branch1 --> 1/IT
+    Branch2 --> 2/Transport
+    Branch2 --> 2/IT
+    Branch3 --> 3/Transport
+    Branch3 --> 3/IT
+    Branch4 --> 4/Transport
+    Branch4 --> 4/IT

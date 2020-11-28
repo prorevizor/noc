@@ -1,0 +1,14 @@
+graph TB
+    CORE(Core)
+    AGG1(Aggregation #1)
+    AGG2(Aggregation #2)
+    ACC11(Access #1-1)
+    ACC12(Access #1-2)
+    ACC21(Access #2-1)
+    ACC22(Access #2-2)
+    CORE --- AGG1
+    CORE --- AGG2
+    AGG1 --- ACC11
+    AGG1 --- ACC12
+    AGG2 --- ACC21
+    AGG2 --- ACC22
