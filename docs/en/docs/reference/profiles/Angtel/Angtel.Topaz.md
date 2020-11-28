@@ -5,12 +5,6 @@ uuid: dc660593-7c46-4291-a0ab-790877288906
 
 # Angtel.Topaz
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-.. todo::
-    Describe *Angtel.Topaz* profile
+#TODO: ## Describe *Angtel.Topaz* profile
 

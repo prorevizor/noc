@@ -69,7 +69,7 @@ Predicate is coded as python function call
 
     Match('interface', X, 'description', Y)
 
-See :ref:`confdb-query-builtin-predicates` for possible predicates and examples
+See [Query Builtin-predicates](#built-in-predicates) for possible predicates and examples
 
 Sequential chain
 ^^^^^^^^^^^^^^^^

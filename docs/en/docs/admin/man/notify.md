@@ -1,19 +1,12 @@
-
-
 # notify
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
-*notify*: Send notification to :ref:`reference-notification-group`
+## Name
 
-Synopsis
---------
+*notify*: Send notification to [reference-notification-group](../../reference/concepts/notification-group/index.md)
+
+## Synopsis
+
 ::
 
     noc notify [--debug] [--dry-run]
@@ -23,16 +16,16 @@ Synopsis
         [--body=<body>]
         [--body-file=<file_name>]
 
-Description
------------
+## Description
+
 *notify* renders body and subject and sends to given notification groups
 
 Arguments:
 * --debug - Print debugging message
 * --dry-run - Do not really send message
-* --notification-group=*group_name* - Send message to :ref:`reference-notification-group`.
+* --notification-group=*group_name* - Send message to [reference-notification-group](../../reference/concepts/notification-group/index.md).
   Multiple *Notification Groups* may be set
-* --template=*template_name* - Render subject and body from :ref:`reference-template`.
+* --template=*template_name* - Render subject and body from [reference-template](../../reference/concepts/template/index.md).
   Template variables may be set via additional *--var* parameters
 * --var=*key*=*value* - Set template's context variable *key* to value *value*.
   Used with *--template* parameter
@@ -40,8 +33,8 @@ Arguments:
 * --body=*body* - Set message body directly. Overrides *--template* option
 * --body-file=*file_name* - Read body from file *file_name*. Overrides *--body* and *--template* options
 
-Examples
---------
+## Examples
+
 Send message from template *t1*. Set *host* variable to *myhost* and
 *reason* variable to *testing*
 
@@ -78,7 +71,7 @@ Read body from stdin
         --subject=Test\ from\ file \
         --body-file=/dev/stdin
 
-See also
---------
-* :ref:`reference-template`
-* :ref:`reference-notification-group`
+## See also
+
+* [reference-template](../../reference/concepts/template/index.md)
+* [reference-notification-group](../../reference/concepts/notification-group/index.md)

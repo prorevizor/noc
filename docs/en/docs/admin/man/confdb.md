@@ -38,42 +38,42 @@ Dump part of ConfDB syntax:
 
     ./noc confdb syntax intefaces x
 
-Dump result of object's :ref:`tokenizer<dev-confdb-tokenizer>`.
+Dump result of object's [tokenizer](../../dev/confdb/tokenizer.md).
 Managed Object ID is 120:
 
 .. code-block:: text
 
     ./noc confdb tokenizer --object=120
 
-Dump result of object's :ref:`tokenizer<dev-confdb-tokenizer>`,
+Dump result of object's [tokenizer](../../dev/confdb/tokenizer.md),
 applied to arbitrary file:
 
 .. code-block:: text
 
     ./noc confdb tokenizer --object=120 --config=config.txt
 
-Dump result of profile's :ref:`tokenizer<dev-confdb-tokenizer>`,
+Dump result of profile's [tokenizer](../../dev/confdb/tokenizer.md),
 applied to arbitrary file:
 
 .. code-block:: text
 
     ./noc confdb tokenizer --profile=Cisco.IOS --config=config.txt
 
-Dump result of object's :ref:`normalizer<dev-confdb-normalizer>`.
+Dump result of object's [normalizer](../../dev/confdb/normalizer.md).
 Managed Object ID is 120:
 
 .. code-block:: text
 
     ./noc confdb normalizer --object=120
 
-Dump result of object's :ref:`normalizer<dev-confdb-normalizer>`,
+Dump result of object's [normalizer](../../dev/confdb/normalizer.md),
 applied to arbitrary file:
 
 .. code-block:: text
 
     ./noc confdb normalizer --object=120 --config=config.txt
 
-Dump result of profile's :ref:`normalizer<dev-confdb-normalizer>`,
+Dump result of profile's [normalizer](../../dev/confdb/normalizer.md),
 applied to arbitrary file:
 
 .. code-block:: text
@@ -82,6 +82,6 @@ applied to arbitrary file:
 
 See also
 --------
-* :ref:`ConfDB Syntax Reference <dev-confdb-syntax>`
-* :ref:`ConfDB Normalizers <dev-confdb-normalizer>`
-* :ref:`ConfDB Tokenizers <dev-confdb-tokenizer>`
+* [ConfDB Syntax Reference](../../dev/confdb/overview.md)
+* [ConfDB Normalizers](../../dev/confdb/normalizer.md)
+* [ConfDB Tokenizers](../../dev/confdb/tokenizer.md)

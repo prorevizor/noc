@@ -54,10 +54,10 @@ graph TD
 ```
 
 
-* :ref:`Fetching<dev-confdb-fetching>`
-* :ref:`Storing<dev-confdb-storage>`
-* :ref:`Tokenizer<dev-confdb-tokenizer>`
-* :ref:`Normalizer<dev-confdb-normalizer>`
+* [Fetching](fetching.md)
+* [Storing](storage.md)
+* [Tokenizer](tokenizer.md)
+* [Normalizer](normalizer.md)
 * Applicator
 * ConfDB engine
-* ConfDB queries
+* [ConfDB queries](query.md)

@@ -2,12 +2,6 @@
 
 # NOC.SAE
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-.. todo::
-    Describe *NOC.SAE* profile
+#TODO: ## Describe *NOC.SAE* profile
 

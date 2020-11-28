@@ -5,11 +5,5 @@ uuid: b03ac316-47b1-4df2-ab6b-2b73eabbd30e
 
 # GWD.GFA
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-.. todo::
-    Describe *GWD.GFA* profile
+#TODO: ## Describe *GWD.GFA* profile

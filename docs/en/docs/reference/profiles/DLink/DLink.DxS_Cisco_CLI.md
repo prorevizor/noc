@@ -5,12 +5,6 @@ uuid: 9be3ce1f-3df7-4a31-8ad6-ce3f34b4f3c6
 
 # DLink.DxS_Cisco_CLI
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-.. todo::
-    Describe *DLink.DxS_Cisco_CLI* profile
+#TODO: ## Describe *DLink.DxS_Cisco_CLI* profile
 

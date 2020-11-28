@@ -47,4 +47,4 @@ Examples
 
 See also
 --------
-* :ref:`api-datastream`
+* [api-datastream](../../dev/api/datastream/index.md)

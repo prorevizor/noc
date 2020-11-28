@@ -21,8 +21,8 @@ Synopsis
 Description
 -----------
 *config* loads effective configuration and dumps it in YAML format to stdout.
-Effective configuration defined by :ref:`noc_config` environment variable.
-Refer to :ref:`admin-configuration` for details.
+Effective configuration defined by [noc_config](../config/index.md#noc_config) environment variable.
+Refer to [admin-configuration](../config/index.md) for details.
 
 Examples
 --------
@@ -33,5 +33,5 @@ Examples
 
 See also
 --------
-* :ref:`noc_config`
-* :ref:`admin-configuration`
+*  [noc_config](../config/index.md#noc_config)
+* [admin-configuration](../config/index.md)

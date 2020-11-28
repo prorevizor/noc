@@ -1,19 +1,19 @@
 # Config Fetching
 
 `Fetching` is the process of retrieving of device configuration.
-Performed by :ref:`config check<discovery-check-config>` of :ref:`box discovery<discovery-box>`.
-According to the `Config Policy` setting in :ref:`Managed Object Profile<reference-managed-object-profile>`
+Performed by [config check](../../admin/discovery/box/config.md) of [box discovery](../../admin/discovery/box/index.md).
+According to the `Config Policy` setting in [Managed Object Profile](../../reference/concepts/managed-object-profile/index.md)
 there are two method possible:
 
 * Script
 * Download from external storage
 
 # Fetching via script
-:ref:`get_config<script-get_config>` script for target platform is necessary.
-Usually it is the second script besides :ref:`get_version<script-get_version>` to implement.
+[get_config](../../dev/scripts/get_config.md) script for target platform is necessary.
+Usually it is the second script besides [get_version](../../dev/scripts/get_version.md) to implement.
 
 # Fetching from external storage
-`Discovery` can download configuration from :ref:`External Storage<reference-external-storage>`.
+`Discovery` can download configuration from [External Storage](../../reference/concepts/external-storage/index.md).
 Supposed that configuration supplied to storage via external process:
 device uploads config by itself or some third-party system (like RANCID),
 performs all dirty work for us. Fetching from external storage is

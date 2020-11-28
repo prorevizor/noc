@@ -1,13 +1,8 @@
-
-
-# segmentation
-
-.. toctree::
-    :titlesonly:
+# segmentation check
 
 .. todo::
     Describe *segmentation* check
 
-Requirements
-------------
-* segmentation check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* segmentation check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)
