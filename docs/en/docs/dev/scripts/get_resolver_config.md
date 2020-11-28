@@ -1,8 +1,6 @@
 
 
-=======================================
-get_resolver_config
-=======================================
+# get_resolver_config
 
 .. contents:: On this page
     :local:

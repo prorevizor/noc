@@ -1,8 +1,6 @@
 
 
-=======================================
-get_copper_tdr_diag
-=======================================
+# get_copper_tdr_diag
 
 .. contents:: On this page
     :local:

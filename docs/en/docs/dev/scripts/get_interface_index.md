@@ -1,8 +1,6 @@
 
 
-=======================================
-get_interface_index
-=======================================
+# get_interface_index
 
 .. contents:: On this page
     :local:

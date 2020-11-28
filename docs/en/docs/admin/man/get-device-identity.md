@@ -1,8 +1,6 @@
 
 
-======================================
-get-device-identity
-======================================
+# get-device-identity
 
 .. contents:: On this page
     :local:

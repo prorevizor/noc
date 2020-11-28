@@ -1,8 +1,6 @@
 
 
-=======================================
-get_lldp_neighbors
-=======================================
+# get_lldp_neighbors
 
 .. contents:: On this page
     :local:

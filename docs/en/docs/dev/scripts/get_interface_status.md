@@ -1,8 +1,6 @@
 
 
-=======================================
-get_interface_status
-=======================================
+# get_interface_status
 
 .. contents:: On this page
     :local:

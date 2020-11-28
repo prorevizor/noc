@@ -1,8 +1,6 @@
 
 
-=======================================
-get_switchport
-=======================================
+# get_switchport
 
 .. contents:: On this page
     :local:

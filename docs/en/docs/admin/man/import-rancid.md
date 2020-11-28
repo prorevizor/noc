@@ -1,8 +1,6 @@
 
 
-======================================
-import-rancid
-======================================
+# import-rancid
 
 .. contents:: On this page
     :local:

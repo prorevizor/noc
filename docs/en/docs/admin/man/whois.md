@@ -1,8 +1,6 @@
 
 
-=====
-whois
-=====
+# whois
 
 .. contents:: On this page
     :local:

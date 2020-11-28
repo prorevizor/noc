@@ -1,8 +1,6 @@
 
 
-======================================
-dump-crashinfo
-======================================
+# dump-crashinfo
 
 .. contents:: On this page
     :local:

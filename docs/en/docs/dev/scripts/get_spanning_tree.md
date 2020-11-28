@@ -1,8 +1,6 @@
 
 
-=======================================
-get_spanning_tree
-=======================================
+# get_spanning_tree
 
 .. contents:: On this page
     :local:

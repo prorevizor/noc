@@ -1,8 +1,6 @@
 
 
-=======================================
-get_dom_status
-=======================================
+# get_dom_status
 
 .. contents:: On this page
     :local:

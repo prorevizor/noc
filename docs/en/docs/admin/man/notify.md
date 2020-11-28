@@ -1,8 +1,6 @@
 
 
-======
-notify
-======
+# notify
 
 .. contents:: On this page
     :local:

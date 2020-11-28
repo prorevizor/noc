@@ -1,8 +1,6 @@
 
 
-=======================================
-get_ipv6_neighbor
-=======================================
+# get_ipv6_neighbor
 
 .. contents:: On this page
     :local:

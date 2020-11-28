@@ -1,8 +1,6 @@
 
 
-=======================================
-get_chassis_id
-=======================================
+# get_chassis_id
 
 .. contents:: On this page
     :local:

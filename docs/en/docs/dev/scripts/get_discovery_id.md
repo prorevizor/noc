@@ -1,8 +1,6 @@
 
 
-=======================================
-get_discovery_id
-=======================================
+# get_discovery_id
 
 .. contents:: On this page
     :local:

@@ -3,9 +3,7 @@ uuid: 053f36d6-eaa2-456e-bc0d-5968a0bfe994
 ---
 
 
-===============
-3Com.SuperStack
-===============
+# 3Com.SuperStack
 
 .. contents:: On this page
     :local:

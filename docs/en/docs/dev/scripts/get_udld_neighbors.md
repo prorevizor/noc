@@ -1,8 +1,6 @@
 
 
-=======================================
-get_udld_neighbors
-=======================================
+# get_udld_neighbors
 
 .. contents:: On this page
     :local:

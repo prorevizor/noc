@@ -1,8 +1,6 @@
 
 
-======================================
-parse-events
-======================================
+# parse-events
 
 .. contents:: On this page
     :local:

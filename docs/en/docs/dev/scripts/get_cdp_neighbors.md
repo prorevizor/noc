@@ -1,8 +1,6 @@
 
 
-=======================================
-get_cdp_neighbors
-=======================================
+# get_cdp_neighbors
 
 .. contents:: On this page
     :local:

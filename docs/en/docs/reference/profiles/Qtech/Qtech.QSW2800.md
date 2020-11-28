@@ -3,9 +3,7 @@ uuid: f167ec74-c387-43d4-ac70-89049146b673
 ---
 
 
-=============
-Qtech.QSW2800
-=============
+# Qtech.QSW2800
 
 .. contents:: On this page
     :local:

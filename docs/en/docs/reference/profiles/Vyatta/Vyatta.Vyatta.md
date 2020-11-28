@@ -3,9 +3,7 @@ uuid: d03b8621-baa2-401f-bf30-0334839a8603
 ---
 
 
-=============
-Vyatta.Vyatta
-=============
+# Vyatta.Vyatta
 
 .. contents:: On this page
     :local:

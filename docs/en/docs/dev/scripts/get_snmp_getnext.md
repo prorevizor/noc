@@ -1,8 +1,6 @@
 
 
-=======================================
-get_snmp_getnext
-=======================================
+# get_snmp_getnext
 
 .. contents:: On this page
     :local:

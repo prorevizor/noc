@@ -1,8 +1,6 @@
 
 
-======================================
-pythonpath
-======================================
+# pythonpath
 
 .. contents:: On this page
     :local:

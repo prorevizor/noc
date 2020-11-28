@@ -1,8 +1,6 @@
 
 
-======================================
-get-device-sample
-======================================
+# get-device-sample
 
 .. contents:: On this page
     :local:

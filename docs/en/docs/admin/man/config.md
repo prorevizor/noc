@@ -1,8 +1,6 @@
 
 
-======
-config
-======
+# config
 
 .. contents:: On this page
     :local:

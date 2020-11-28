@@ -1,8 +1,6 @@
 
 
-=======================================
-get_interfaces
-=======================================
+# get_interfaces
 
 .. contents:: On this page
     :local:

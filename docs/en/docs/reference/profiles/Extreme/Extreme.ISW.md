@@ -1,8 +1,6 @@
 
 
-===========
-Extreme.ISW
-===========
+# Extreme.ISW
 
 .. contents:: On this page
     :local:

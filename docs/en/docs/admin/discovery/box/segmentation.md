@@ -1,8 +1,6 @@
 
 
-=============================
-segmentation
-=============================
+# segmentation
 
 .. toctree::
     :titlesonly:

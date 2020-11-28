@@ -1,8 +1,6 @@
 
 
-===========
-ECI.HiFOCuS
-===========
+# ECI.HiFOCuS
 
 .. contents:: On this page
     :local:

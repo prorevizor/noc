@@ -1,8 +1,6 @@
 
 
-=========
-3Com.4500
-=========
+# 3Com.4500
 
 .. contents:: On this page
     :local:

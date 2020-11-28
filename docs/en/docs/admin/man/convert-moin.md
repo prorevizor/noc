@@ -1,8 +1,6 @@
 
 
-======================================
-convert-moin
-======================================
+# convert-moin
 
 .. contents:: On this page
     :local:

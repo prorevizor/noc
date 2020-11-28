@@ -3,9 +3,7 @@ uuid: 9140360c-ccad-4578-bbe1-1ffd34186d89
 ---
 
 
-===========
-EdgeCore.ES
-===========
+# EdgeCore.ES
 
 .. contents:: On this page
     :local:

@@ -1,8 +1,6 @@
 
 
-======================================
-verify-model
-======================================
+# verify-model
 
 .. contents:: On this page
     :local:

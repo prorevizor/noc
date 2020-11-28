@@ -1,8 +1,6 @@
 
 
-=======================================
-get_portchannel
-=======================================
+# get_portchannel
 
 .. contents:: On this page
     :local:

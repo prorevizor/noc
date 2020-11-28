@@ -1,8 +1,6 @@
 
 
-======================================
-sync-refbooks
-======================================
+# sync-refbooks
 
 .. contents:: On this page
     :local:

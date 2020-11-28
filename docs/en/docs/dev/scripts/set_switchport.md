@@ -1,8 +1,6 @@
 
 
-=======================================
-set_switchport
-=======================================
+# set_switchport
 
 .. contents:: On this page
     :local:

@@ -1,8 +1,6 @@
 
 
-======================================
-inject-event
-======================================
+# inject-event
 
 .. contents:: On this page
     :local:

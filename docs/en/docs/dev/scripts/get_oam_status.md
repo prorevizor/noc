@@ -1,8 +1,6 @@
 
 
-=======================================
-get_oam_status
-=======================================
+# get_oam_status
 
 .. contents:: On this page
     :local:

@@ -1,8 +1,6 @@
 
 
-======================================
-interface-profile
-======================================
+# interface-profile
 
 .. contents:: On this page
     :local:

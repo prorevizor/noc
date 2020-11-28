@@ -1,8 +1,6 @@
 
 
-======================================
-translation
-======================================
+# translation
 
 .. contents:: On this page
     :local:

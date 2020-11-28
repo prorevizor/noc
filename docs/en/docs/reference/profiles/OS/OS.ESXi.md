@@ -1,8 +1,6 @@
 
 
-=======
-OS.ESXi
-=======
+# OS.ESXi
 
 .. contents:: On this page
     :local:

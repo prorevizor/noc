@@ -1,6 +1,4 @@
-=======
-Scripts
-=======
+# Scripts
 
 .. toctree::
     :titlesonly:

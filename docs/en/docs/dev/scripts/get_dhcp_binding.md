@@ -1,8 +1,6 @@
 
 
-=======================================
-get_dhcp_binding
-=======================================
+# get_dhcp_binding
 
 .. contents:: On this page
     :local:

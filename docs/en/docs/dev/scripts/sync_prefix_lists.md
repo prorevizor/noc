@@ -1,8 +1,6 @@
 
 
-=======================================
-sync_prefix_lists
-=======================================
+# sync_prefix_lists
 
 .. contents:: On this page
     :local:

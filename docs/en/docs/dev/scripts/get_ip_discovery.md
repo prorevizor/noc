@@ -1,8 +1,6 @@
 
 
-=======================================
-get_ip_discovery
-=======================================
+# get_ip_discovery
 
 .. contents:: On this page
     :local:

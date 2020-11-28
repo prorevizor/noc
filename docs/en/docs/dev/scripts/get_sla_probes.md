@@ -1,8 +1,6 @@
 
 
-=======================================
-get_sla_probes
-=======================================
+# get_sla_probes
 
 .. contents:: On this page
     :local:

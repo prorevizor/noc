@@ -1,8 +1,6 @@
 
 
-==========
-datastream
-==========
+# datastream
 
 .. contents:: On this page
     :local:

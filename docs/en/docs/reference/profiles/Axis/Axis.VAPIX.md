@@ -1,8 +1,6 @@
 
 
-==========
-Axis.VAPIX
-==========
+# Axis.VAPIX
 
 .. contents:: On this page
     :local:

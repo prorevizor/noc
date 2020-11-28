@@ -1,8 +1,6 @@
 
 
-=======================================
-get_bfd_sessions
-=======================================
+# get_bfd_sessions
 
 .. contents:: On this page
     :local:

@@ -1,8 +1,6 @@
 
 
-=======================================
-get_tech_support
-=======================================
+# get_tech_support
 
 .. contents:: On this page
     :local:

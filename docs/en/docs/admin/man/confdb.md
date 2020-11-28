@@ -1,8 +1,6 @@
 
 
-======
-confdb
-======
+# confdb
 
 .. contents:: On this page
     :local:

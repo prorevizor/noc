@@ -80,7 +80,7 @@ class AlarmClassVar(object):
     @property
     def default_mark(self) -> str:
         if self.default:
-            return str(self.default)
+            return f"`{self.default}`"
         return ":material-close:"
 
 
@@ -445,7 +445,7 @@ class CollectionDoc(object):
                     "Variable | Description | Default",
                     "--- | --- | ---",
                 ]
-                data += [f"{v.name} | {v.description} | `{v.default_mark}`" for v in ac.vars]
+                data += [f"{v.name} | {v.description} | {v.default_mark}" for v in ac.vars]
             if ac.root_causes or ac.consequences:
                 # Build scheme
                 data += [

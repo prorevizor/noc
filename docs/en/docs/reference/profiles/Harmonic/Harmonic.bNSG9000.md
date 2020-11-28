@@ -1,8 +1,6 @@
 
 
-=================
-Harmonic.bNSG9000
-=================
+# Harmonic.bNSG9000
 
 .. contents:: On this page
     :local:

@@ -1,8 +1,6 @@
 
 
-=======================================
-get_dot11_associations
-=======================================
+# get_dot11_associations
 
 .. contents:: On this page
     :local:

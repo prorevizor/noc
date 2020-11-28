@@ -1,8 +1,6 @@
 
 
-=======================================
-get_ifindexes
-=======================================
+# get_ifindexes
 
 .. contents:: On this page
     :local:

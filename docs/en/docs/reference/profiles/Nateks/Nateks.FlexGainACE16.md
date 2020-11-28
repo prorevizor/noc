@@ -1,8 +1,6 @@
 
 
-====================
-Nateks.FlexGainACE16
-====================
+# Nateks.FlexGainACE16
 
 .. contents:: On this page
     :local:

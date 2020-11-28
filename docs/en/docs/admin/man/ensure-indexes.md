@@ -1,8 +1,6 @@
 
 
-======================================
-ensure-indexes
-======================================
+# ensure-indexes
 
 .. contents:: On this page
     :local:

@@ -3,9 +3,7 @@ uuid: b06891f3-8d6c-41ef-ac35-469d734c7e57
 ---
 
 
-===========
-Polygon.IOS
-===========
+# Polygon.IOS
 
 .. contents:: On this page
     :local:

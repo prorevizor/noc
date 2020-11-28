@@ -1,8 +1,6 @@
 
 
-======================================
-collection
-======================================
+# collection
 
 .. contents:: On this page
     :local:

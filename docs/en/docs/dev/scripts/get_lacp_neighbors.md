@@ -1,8 +1,6 @@
 
 
-=======================================
-get_lacp_neighbors
-=======================================
+# get_lacp_neighbors
 
 .. contents:: On this page
     :local:

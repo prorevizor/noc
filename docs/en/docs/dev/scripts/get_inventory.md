@@ -1,8 +1,6 @@
 
 
-=======================================
-get_inventory
-=======================================
+# get_inventory
 
 .. contents:: On this page
     :local:

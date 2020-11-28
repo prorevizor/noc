@@ -1,8 +1,6 @@
 
 
-======================================
-escalation
-======================================
+# escalation
 
 .. contents:: On this page
     :local:

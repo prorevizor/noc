@@ -1,8 +1,6 @@
 
 
-=========
-Eltex.SMG
-=========
+# Eltex.SMG
 
 .. contents:: On this page
     :local:

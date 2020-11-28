@@ -1,8 +1,6 @@
 
 
-====================
-AlliedTelesis.AT8100
-====================
+# AlliedTelesis.AT8100
 
 .. contents:: On this page
     :local:

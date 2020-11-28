@@ -1,8 +1,6 @@
 
 
-=======================================
-get_capabilities
-=======================================
+# get_capabilities
 
 .. contents:: On this page
     :local:

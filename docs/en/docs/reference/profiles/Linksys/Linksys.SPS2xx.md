@@ -3,9 +3,7 @@ uuid: b70775d1-d55e-491b-84d4-1ed58d92aa89
 ---
 
 
-==============
-Linksys.SPS2xx
-==============
+# Linksys.SPS2xx
 
 .. contents:: On this page
     :local:

@@ -1,8 +1,6 @@
 
 
-=======================================
-get_rep_topology
-=======================================
+# get_rep_topology
 
 .. contents:: On this page
     :local:
