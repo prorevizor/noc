@@ -138,11 +138,16 @@ class Command(BaseCommand):
     def iter_db(self, db_objects, model):
         for d in db_objects:
             d["id"] = d["remote_id"]
-            # d["object_profile"] = d["object_profile_id"]
-            # d["administrative_domain"] = d["administrative_domain_id"]
+            # @todo Fix required fields, perhaps pyDantic alias
+            if "object_profile_id" in d:
+                d["object_profile"] = d["object_profile_id"]
+            if "administrative_domain_id" in d:
+                d["administrative_domain"] = d["administrative_domain_id"]
             yield model(**d)
 
     def handle_db_diff(self, *args, **options):
+        from noc.sa.models.managedobject import ManagedObject
+
         remote_system = RemoteSystem.get_by_name(options["system"])
         if not remote_system:
             self.die("Invalid remote system: %s" % options["system"])
@@ -155,20 +160,34 @@ class Command(BaseCommand):
         ls = line.get_new_state()
         if not ls:
             ls = line.get_current_state()
-        iter_db = (
-            line.model.objects.filter(remote_system=remote_system).values().order_by("remote_id")
-        )
+        iter_db = line.model.objects.filter(remote_system=remote_system)
+        deleted_filter = {}
+        if line.model is ManagedObject:
+            # On delete ManagedObject is set is_managed False
+            self.print("Apply is_managed filter")
+            deleted_filter = set(
+                iter_db.filter(is_managed=False).values_list("remote_id", flat=True)
+            )
+            iter_db = iter_db.filter(is_managed=True)
         for o, n in line.diff(
             line.iter_jsonl(ls),
-            self.iter_db(iter_db, line.data_model),
+            self.iter_db(iter_db.values().order_by("remote_id"), line.data_model),
             include_fields=include_fields,
         ):
             if o is None and n:
                 print("New:", n.id, n.name)
             elif o and n is None:
+                if deleted_filter and o.id in deleted_filter:
+                    continue
                 print("Deleted:", o.id, o.name)
             else:
-                print("Changed:", o.dict(include=include_fields), n.dict(include=include_fields))
+                print(
+                    "Changed:",
+                    o.id,
+                    o.name,
+                    o.dict(include=include_fields),
+                    n.dict(include=include_fields),
+                )
 
 
 if __name__ == "__main__":
