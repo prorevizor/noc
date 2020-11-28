@@ -1,0 +1,31 @@
+graph TB
+    subgraph Parent
+    AGG1
+    end
+    subgraph ODF
+    P1
+    P2
+    P3
+    P4
+    end
+    subgraph Segment1
+    MO11
+    MO12
+    MO13
+    end
+    subgraph Segment2
+    MO21
+    MO22
+    MO23
+    end
+    AGG1 --- P1
+    P1   --- MO11
+    P2   -.- P3
+    P2   --- MO13
+    MO11 --- MO12
+    MO13 --- MO12
+    P3   --- MO21
+    AGG1 --- P4
+    P4   --- MO23
+    MO21 --- MO22
+    MO23 --- MO22

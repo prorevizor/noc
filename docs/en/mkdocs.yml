@@ -459,6 +459,58 @@ nav:
           - f5:
               - Overview: reference/profiles/f5/index.md
               - f5.BIGIP: reference/profiles/f5/f5.BIGIP.md
+      - Capabilities:
+          - Bras:
+              - IPoE: reference/caps/bras/ipoe.md
+              - L2TP: reference/caps/bras/l2tp.md
+              - PPPoE: reference/caps/bras/pppoe.md
+              - PPtP: reference/caps/bras/pptp.md
+          - Cisco:
+              - ASA security context mode: reference/caps/cisco/asa-security-context-mode.md
+              - IOS syntax IP SLA: reference/caps/cisco/ios-syntax-ip-sla.md
+              - IP SLA probes: reference/caps/cisco/ip-sla-probes.md
+              - IP SLA responder: reference/caps/cisco/ip-sla-responder.md
+          - CPE:
+              - Controller: reference/caps/cpe/controller.md
+              - CPE: reference/caps/cpe/cpe.md
+          - DB:
+              - Interfaces: reference/caps/db/interfaces.md
+          - Huawei:
+              - NDP: reference/caps/huawei/ndp.md
+          - Juniper:
+              - RPM probes: reference/caps/juniper/rpm-probes.md
+          - Management:
+              - Allow sessions: reference/caps/management/allow-sessions.md
+          - Mikrotik:
+              - Routeros license level: reference/caps/mikrotik/routeros-license-level.md
+              - Routeros license softwareid: reference/caps/mikrotik/routeros-license-softwareid.md
+              - Routeros license upgradable to: reference/caps/mikrotik/routeros-license-upgradable-to.md
+          - Network:
+              - BFD: reference/caps/network/bfd.md
+              - CDP: reference/caps/network/cdp.md
+              - FDP: reference/caps/network/fdp.md
+              - IPv6: reference/caps/network/ipv6.md
+              - LACP: reference/caps/network/lacp.md
+              - LLDP: reference/caps/network/lldp.md
+              - OAM: reference/caps/network/oam.md
+              - REP: reference/caps/network/rep.md
+              - STP: reference/caps/network/stp.md
+              - UDLD: reference/caps/network/udld.md
+          - Oneaccess:
+              - IP SLA probes: reference/caps/oneaccess/ip-sla-probes.md
+              - IP SLA responder: reference/caps/oneaccess/ip-sla-responder.md
+          - Slot:
+              - Member IDs: reference/caps/slot/member-ids.md
+              - Members: reference/caps/slot/members.md
+          - Snmp:
+              - Bulk: reference/caps/snmp/bulk.md
+              - If MIB HC: reference/caps/snmp/if-mib-hc.md
+              - v1: reference/caps/snmp/v1.md
+              - v2c: reference/caps/snmp/v2c.md
+              - v3: reference/caps/snmp/v3.md
+          - Stack:
+              - Member IDs: reference/caps/stack/member-ids.md
+              - Members: reference/caps/stack/members.md
       - Alarm Classes:
           - "Chassis":
               - "CPU":
