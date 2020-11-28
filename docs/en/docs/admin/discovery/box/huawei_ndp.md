@@ -1,18 +1,11 @@
-
-
-================
-huawei_ndp check
-================
-
-.. toctree::
-    :titlesonly:
+# huawei_ndp check
 
 .. todo::
     Describe *huawei_ndp* check
 
-Requirements
-------------
-* :ref:`get_huawei_ndp_neighbors`
-* :ref:`caps-huawei-ndp`
-* Huawei NDP check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [get_huawei_ndp_neighbors](../../../dev/scripts/get_huawei_ndp_neighbors.md)
+* [Huawei NDP caps](../../../reference/caps/huawei/ndp.md)
+* Huawei NDP check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)
 

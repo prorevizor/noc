@@ -16,7 +16,7 @@ Config filters are used to alter configuration before further processing.
 Altering may include any text manipulation, including section removing
 and sensitive data protection.
 
-Config filters are applied before :ref:`dev-handlers-config-diff-filter`.
+Config filters are applied before [Config Diff Filter](config-diff-filter.md).
 
 .. function:: config_filter(managed_object, config)
 

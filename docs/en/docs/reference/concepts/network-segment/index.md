@@ -46,11 +46,11 @@ Proper segmentation is the key concept for various areas:
     NOC considers that proper segmentation is performing during network
     design and planning stage. Sometimes it's not true and segmentation
     is *implicit* or *ad-hoc*. Despite it considered *Bad Practice*
-    NOC offers various methods for :ref:`automatic segmentation<network-segment-autosegmentation>`
+    NOC offers various methods for [Automatic Segmentation](#autosegmentation)
 
 ## Group Settings
 
-Group settings for Network Segments are contained in :ref:`Network Segment Profiles<reference-network-segment-profile>`
+Group settings for Network Segments are contained in [Network Segment Profiles](../network-segment-profile/index.md)
 
 ## Segment Topology
 
@@ -215,8 +215,8 @@ _Uplinks_ are key concept for [RCA](../../../glossary.md#rca). _Managed Object_ 
 uplinks looses _Connectivity_ and problem lies somewhere on the _Uplink Paths_.
 
 NOC perform automatic uplinks calculation on topology changes. The proccess
-can be configured via :ref:`Network Segment Profiles'<reference-network-segment-profile>`
-:ref:`Uplink Policy <reference-network-segment-profile-uplink-policy>` setting.
+can be configured via [Network Segment Profiles](../network-segment-profile/index.md)
+[Uplink Policy](../network-segment-profile/index.md#uplink-policy) setting.
 
 It is advised to avoid very large segments (>100 Objects)
 
@@ -471,16 +471,16 @@ sequenceDiagram
 MAC topology discovery can be used as last resort when other
 methods are failed. Contrary to other per-object methods MAC
 discovery performed is per-segment basis using previously collected
-MAC addresses. See :ref:`discovery-segment-mac` for details.
+MAC addresses. See [Discovery Segment MAC](../../../admin/discovery/segment/index.md) for details.
 
 ## Autosegmentation
 
 Segmentation may be performed automatically during box discovery.
-See :ref:`discovery-box-segmentation` for details
+See [Discovery Box Segmentation](../../../admin/discovery/box/segmentation.md) for details
 
 ## Redundancy
 
-:ref:`network-segment-topology-ring` and :ref:`network-segment-topology-mesh`
+[Network Segment Topology Ring](#ring) and [Network Segment Topology Mesh](../network-segment/index.md#mesh)
 offer path redundancy. NOC detects segment redundancy automatically.
 Outages in redundant segments can leave to _Lost of Redundancy_.
 _Lost of Redundancy_ means that currently working services are left

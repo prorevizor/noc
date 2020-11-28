@@ -1,17 +1,10 @@
-
-
-=========
-cpe check
-=========
-
-.. toctree::
-    :titlesonly:
+# cpe check
 
 .. todo::
     Describe *cpe* check
 
-Requirements
-------------
-* :ref:`caps-cpe-controller`
-* :ref:`script-get_cpe`
-* CPE check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [CPE Controller caps](../../../reference/caps/cpe/controller.md)
+* [get_cpe](../../../dev/scripts/get_cpe.md)
+* CPE check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)

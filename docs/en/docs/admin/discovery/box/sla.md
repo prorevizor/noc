@@ -1,25 +1,17 @@
-
-
-=========
-sla check
-=========
-
-.. toctree::
-    :titlesonly:
+# sla check
 
 .. todo::
     Describe *SLA* check
 
-Requirements
-------------
-* :ref:`script-get_sla_probes`
-* sla check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [get_sla_probes](../../../dev/scripts/get_sla_probes.md)
+* sla check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)
 * Any of following capabilities
 
-============== ===================================
-Profile        Capability
-============== ===================================
-Cisco.IOS      :ref:`caps-cisco-ip-sla-probes`
-Juniper.JUNOS  :ref:`caps-juniper-rpm-probes`
-OneAccess.TDRE :ref:`caps-oneaccess-ip-sla-probes`
-============== ===================================
+| Profile       | Capability |
+| ------------- | --------------------------------- |
+| Cisco.IOS      | [Cisco IP SLA Probes](../../../reference/caps/cisco/ip-sla-probes.md) |
+| Juniper.JUNOS  | [juniper RPM Probes](../../../reference/caps/juniper/rpm-probes.md) |
+| OneAccess.TDRE | [OneAccess IP SLA Probes](../../../reference/caps/oneaccess/ip-sla-probes.md) |
+

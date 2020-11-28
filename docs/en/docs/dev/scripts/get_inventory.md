@@ -2,12 +2,6 @@
 
 # get_inventory
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
-
 .. todo::
     Describe get_inventory script
 
@@ -25,4 +19,4 @@ Supported Profiles
 
 Used in
 -------
-* :ref:`discovery-box-asset`
+* [Discovery Box Asset](../../admin/discovery/box/asset.md)

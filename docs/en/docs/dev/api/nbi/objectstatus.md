@@ -11,7 +11,7 @@ NBI objectstatus API
     :class: singlecol
 
 NBI objectstatus API allows to request current statuses for
-specified :ref:`Managed Objects<reference-managed-object>`.
+specified [Managed Objects](../../../reference/concepts/managed-object/index.md).
 
 
 

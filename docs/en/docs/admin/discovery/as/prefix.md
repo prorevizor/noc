@@ -1,8 +1,4 @@
-
-
-============
-prefix check
-============
+# prefix check
 
 .. toctree::
     :titlesonly:

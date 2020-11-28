@@ -1,17 +1,10 @@
-
-
-=========
-fdp check
-=========
-
-.. toctree::
-    :titlesonly:
+# fdp check
 
 .. todo::
     Describe *fdp* check
 
-Requirements
-------------
-* :ref:`script-get_fdp_neighbors`
-* :ref:`caps-network-fdp`
-* FDP check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [get_fdp_neighbors](../../../dev/scripts/get_fdp_neighbors.md)
+* [Network FDP caps](../../../reference/caps/network/fdp.md)
+* FDP check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)

@@ -45,20 +45,20 @@ is not given explicitly. Proper *Workflow* determined via *Resource's*
 
 ### Resource
 
-* Managed Object (WIP)
+* [Managed Object](../managed-object/index.md)
 * Interface (WIP)
 * Prefix (WIP)
 * Address (WIP)
 * SubInterface (WIP)
-* Phone Range (WIP)
-* Phone Number (WIP)
-* DNS Zone (WIP)
-* VPN
-* :ref:`reference-vlan`
+* [Phone Range](../phone-range/index.md)
+* [Phone Number](../phone-number/index.md)
+* [DNS Zone](../dns-zone/index.md)
+* [VPN](../vpn/index.md)
+* [VLAN](../vlan/index.md)
 * Project (WIP)
-* Subscriber (WIP)
+* [Subscriber](../subscriber/index.md)
 * Supplier (WIP)
-* Service (WIP)
+* [Service](../service/index.md)
 
 ## Migration
 .. todo::

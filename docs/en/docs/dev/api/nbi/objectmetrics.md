@@ -11,7 +11,7 @@ NBI objectmetrics API
     :class: singlecol
 
 NBI objectmetrics API allows to request specified metrics
-for particular :ref:`Managed Objects<reference-managed-object>`.
+for particular [Managed Objects](../../../reference/concepts/managed-object/index.md).
 
 
 

@@ -1,19 +1,12 @@
-
-
-==========
-vlan check
-==========
-
-.. toctree::
-    :titlesonly:
+# vlan check
 
 .. todo::
     Describe *vlan* check
 
-Requirements
-------------
-* :ref:`script-get_vlan`
-* VLAN check is enabled in :ref:`reference-managed-object-profile`
-* VLAN discovery is enabled for :ref:`reference-network-segment-profile`
+## Requirements
+
+* [get_vlan](../../../dev/scripts/get_vlans.md)
+* VLAN check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)
+* VLAN discovery is enabled for [Network Segment Profile](../../../reference/concepts/network-segment-profile/index.md)
 
 

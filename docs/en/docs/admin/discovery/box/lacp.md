@@ -1,17 +1,10 @@
-
-
-==========
-lacp check
-==========
-
-.. toctree::
-    :titlesonly:
+# lacp check
 
 .. todo::
     Describe *lacp* check
 
-Requirements
-------------
-* :ref:`script-get_lacp_neighbors`
-* :ref:`caps-network-lacp`
-* LACP check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [get_lacp_neighbors](../../../dev/scripts/get_lacp_neighbors.md)
+* [Network LACP caps](../../../reference/caps/network/lacp.md)
+* LACP check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)

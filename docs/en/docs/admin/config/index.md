@@ -214,4 +214,4 @@ $ NOC_CONFIG=legacy:/// ./noc config dump > etc/settings.yml
 
 ## Tools
 
-Refer to :ref:`man-config` command for usage details
+Refer to [config](../man/config.md) command for usage details

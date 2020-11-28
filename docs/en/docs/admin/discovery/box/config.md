@@ -1,16 +1,9 @@
-
-
-============
-config check
-============
-
-.. toctree::
-    :titlesonly:
+# config check
 
 .. todo::
     Describe *config* check
 
-Requirements
-------------
-* :ref:`script-get_config`
-* config check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [get_config](../../../dev/scripts/get_config.md)
+* config check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)

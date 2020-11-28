@@ -1,20 +1,10 @@
-
-
-=========
-bfd check
-=========
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
+# bfd check 
 
 .. todo::
     Describe *bfd* check
 
-Requirements
-------------
-* :ref:`script-get_bfd_sessions`
-* :ref:`caps-network-bfd`
-* bfd check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [get_bfd_sessions](../../../dev/scripts/get_bfd_sessions.md)
+* [Network BFD](../../../reference/caps/network/bfd.md)
+* bfd check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)

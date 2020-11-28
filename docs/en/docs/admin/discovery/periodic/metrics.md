@@ -1,16 +1,9 @@
-
-
-=============
-metrics check
-=============
-
-.. toctree::
-    :titlesonly:
+# metrics check
 
 .. todo::
     Describe *metrics* check
 
-Requirements
-------------
-* :ref:`script-get_metrics`
-* Metrics check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [get_metrics](../../../dev/scripts/get_metrics.md)
+* Metrics check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)

@@ -1,17 +1,10 @@
-
-
-=========
-rep check
-=========
-
-.. toctree::
-    :titlesonly:
+# rep check
 
 .. todo::
     Describe *rep* check
 
-Requirements
-------------
-* :ref:`script-get_rep_neighbors`
-* :ref:`caps-network-rep`
-* REP check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [get_rep_neighbors](../../../dev/scripts/get_rep_topology.md)
+* [Network REP caps](../../../reference/caps/network/rep.md)
+* REP check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)

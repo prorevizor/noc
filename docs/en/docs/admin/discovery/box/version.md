@@ -1,16 +1,9 @@
-
-
-=============
-version check
-=============
-
-.. toctree::
-    :titlesonly:
+# version check
 
 .. todo::
     Describe *version* check
 
-Requirements
-------------
-* :ref:`script-get_version`
-* version check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [get_version](../../../dev/scripts/get_version.md)
+* version check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)

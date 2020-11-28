@@ -1,17 +1,10 @@
-
-
-==========
-udld check
-==========
-
-.. toctree::
-    :titlesonly:
+# udld check
 
 .. todo::
     Describe *udld* check
 
-Requirements
-------------
-* :ref:`script-get_udld_neighbors`
-* :ref:`caps-network-udld`
-* UDLD check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [get_udld_neighbors](../../../dev/scripts/get_udld_neighbors.md)
+* [Network UDLD caps](../../../reference/caps/network/udld.md)
+* UDLD check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)

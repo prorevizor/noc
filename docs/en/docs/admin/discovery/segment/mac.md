@@ -1,9 +1,4 @@
-
-
-# mac
-
-.. toctree::
-    :titlesonly:
+# mac check
 
 .. todo::
     Describe *mac* check

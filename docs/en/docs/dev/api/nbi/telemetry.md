@@ -11,7 +11,7 @@ NBI telemetry API
     :class: singlecol
 
 NBI telemetry API allows remote agents to push collected metrics
-to NOC. Refer to :ref:`NBI Objectmetrics API<api-nbi-objectmetrics>`
+to NOC. Refer to [NBI Objectmetrics API](objectmetrics.md)
 for details on metrics retrieval.
 
 

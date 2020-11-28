@@ -1,17 +1,10 @@
-
-
-=========
-stp check
-=========
-
-.. toctree::
-    :titlesonly:
+# stp check
 
 .. todo::
     Describe *stp* check
 
-Requirements
-------------
-* :ref:`script-get_spanning_tree`
-* :ref:`caps-network-stp`
-* STP check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [get_spanning_tree](../../../dev/scripts/get_spanning_tree.md)
+* [Network STP caps](../../../reference/caps/network/stp.md)
+* STP check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)

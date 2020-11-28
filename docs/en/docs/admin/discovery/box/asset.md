@@ -1,8 +1,4 @@
-
-
-===========
-asset check
-===========
+# asset check
 
 .. toctree::
     :titlesonly:
@@ -10,9 +6,9 @@ asset check
 .. todo::
     Describe *asset* check
 
-Requirements
-------------
-* :ref:`script-get_inventory`
-* asset check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [get_inventory](../../../dev/scripts/get_inventory.md)
+* asset check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)
 
 

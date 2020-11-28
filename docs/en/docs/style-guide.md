@@ -5,7 +5,7 @@ documentation stored in this repository. The overarching goal of this style guid
 is to provide an accessible base style to ensure that our documentation is easy to read,
 simple to use, and straightforward to maintain.
 
-For information regarding the NOC Manual organization, see :ref:`meta-organization`.
+For information regarding the NOC Manual organization, see [Structure](structure.md).
 
 ## Naming Conventions
 
@@ -28,7 +28,7 @@ This section contains guidelines on naming files, sections, documents and other 
   without needing them to read the content. This shortens the amount of time
   that people spend looking for answers, and improves search/scanning, and possibly "SEO."
 - Prefer titles and headers in the form of "Using foo" over "How to Foo."
-  When using target references (i.e. :ref: references in documents),
+  When using target references (i.e. [references](#referencing) in documents),
   use names that include enough context to be intelligible through all documentation.
   For example, use "replica-set-secondary-only-node” as opposed to
   "secondary-only-node”. This makes the source more usable and easier to maintain.

@@ -1,14 +1,9 @@
-
-
-# interface
-
-.. toctree::
-    :titlesonly:
+# interface check
 
 .. todo::
     Describe *interface* check
 
-Requirements
-------------
-* :ref:`script-get_interfaces`
-* interface check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [get_interfaces](../../../dev/scripts/get_interfaces.md)
+* interface check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)

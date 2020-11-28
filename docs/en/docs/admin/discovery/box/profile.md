@@ -1,15 +1,8 @@
-
-
-=============
-profile check
-=============
-
-.. toctree::
-    :titlesonly:
+# profile check
 
 .. todo::
     Describe *profile* check
 
-Requirements
-------------
-* Profile check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* Profile check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)

@@ -1,17 +1,10 @@
-
-
-=========
-oam check
-=========
-
-.. toctree::
-    :titlesonly:
+# oam check
 
 .. todo::
     Describe *oam* check
 
-Requirements
-------------
-* :ref:`script-get_oam_status`
-* :ref:`caps-network-oam`
-* OAM check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [get_oam_status](../../../dev/scripts/get_oam_status.md)
+* [Network OAM](../../../reference/caps/network/oam.md)
+* OAM check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)

@@ -1,17 +1,10 @@
-
-
-=========
-cdp check
-=========
-
-.. toctree::
-    :titlesonly:
+# cdp check
 
 .. todo::
     Describe *cdp* check
 
-Requirements
-------------
-* :ref:`script-get_cdp_neighbors`
-* :ref:`caps-network-cdp`
-* CDP check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [get_cdp_neighbors](../../../dev/scripts/get_cdp_neighbors)
+* [Network CDP caps](../../../reference/caps/network/cdp.md)
+* CDP check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)

@@ -1,16 +1,9 @@
-
-
-=========
-mac check
-=========
-
-.. toctree::
-    :titlesonly:
+# mac check
 
 .. todo::
     Describe *mac* check
 
-Requirements
-------------
-* :ref:`script-get_mac_address_table`
-* MAC check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [get_mac_address_table](../../../dev/scripts/get_mac_address_table.md)
+* MAC check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)

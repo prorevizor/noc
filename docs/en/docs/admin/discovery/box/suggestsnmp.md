@@ -1,15 +1,8 @@
-
-
-=================
-suggestsnmp check
-=================
-
-.. toctree::
-    :titlesonly:
+# SuggestSNMP check
 
 .. todo::
     Describe *suggestsnmp* check
 
-Requirements
-------------
-* suggestsnmp check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* suggestsnmp check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)

@@ -1,17 +1,10 @@
-
-
-================
-suggestcli check
-================
-
-.. toctree::
-    :titlesonly:
+# SuggestCLI check
 
 .. todo::
     Describe *suggestcli* check
 
-Requirements
-------------
-* :ref:`script-login`
-* suggestcli check is enabled in :ref:`reference-managed-object-profile`
+## Requirements
+
+* [login](../../../dev/scripts/login.md)
+* suggestcli check is enabled in [Managed Object Profile](../../../reference/concepts/managed-object-profile/index.md)
 
