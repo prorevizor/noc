@@ -1,14 +1,5 @@
+# Config Filter Handler
 
-
-=====================
-Config Filter Handler
-=====================
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
 Interface for configuration filter. Configuration filters are
 applied during Managed Object configuration save to GridVCS.
@@ -18,20 +9,20 @@ and sensitive data protection.
 
 Config filters are applied before [Config Diff Filter](config-diff-filter.md).
 
-.. function:: config_filter(managed_object, config)
+ 
+    config_filter(managed_object, config):
+        Implements config filter
+    
+        :param managed_object: Managed Object instance
+        :param config: Config
+        :returns: altered config
 
-    Implements config filter
+## Examples
 
-    :param managed_object: Managed Object instance
-    :param config: Config
-    :returns: altered config
 
-Examples
---------
+### Hide Passwords
 
-Hide Passwords
-^^^^^^^^^^^^^^
-Replace *password <mypass>* with *password xxx*::
+Replace *password <mypass>* with *password xxx*
 
     import re
 

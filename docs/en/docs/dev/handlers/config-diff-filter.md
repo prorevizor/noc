@@ -1,14 +1,5 @@
+# Config Diff Filter Handler
 
-
-==========================
-Config Diff Filter Handler
-==========================
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
 Interface for configuration comparison filter. Config diff filters
 are applied both to last and current config to avoid misdetection
@@ -16,22 +7,21 @@ of configuration changes due to constantly changing parts.
 Results of Config Diff Filter don't stored in GridVCS and used for
 comparison only.
 
-Config filters are applied after :ref:`dev-handlers-config-diff-filter`.
+Config filters are applied after [Config Filter](config-filter.md).
 
-.. function:: config_diff_filter(managed_object, config)
+    config_diff_filter(managed_object, config):
+        Implements config diff filter
+    
+        :param managed_object: Managed Object instance
+        :param config: Config
+        :returns: altered config
 
-    Implements config diff filter
+## Examples
 
-    :param managed_object: Managed Object instance
-    :param config: Config
-    :returns: altered config
 
-Examples
---------
+### Hide altering part
 
-Hide altering part
-^^^^^^^^^^^^^^^^^^
-Remove *ntp date XXX*::
+Remove *ntp date XXX*
 
     import re
 
