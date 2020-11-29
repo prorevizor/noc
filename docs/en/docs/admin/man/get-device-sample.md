@@ -6,13 +6,19 @@
 ## Name
 get-device-sample - 
 
-#TODO: ## Short description for get-device-sample
+<!-- prettier-ignore -->
+!!! todo
+     Short description for get-device-sample
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe get-device-sample
+<!-- prettier-ignore -->
+!!! todo
+    Describe get-device-sample
 
 ## Examples
 

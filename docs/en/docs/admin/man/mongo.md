@@ -6,13 +6,19 @@
 ## Name
 mongo - 
 
-#TODO: ## Short description for mongo
+<!-- prettier-ignore -->
+!!! todo
+     Short description for mongo
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe mongo
+<!-- prettier-ignore -->
+!!! todo
+    Describe mongo
 
 ## Examples
 

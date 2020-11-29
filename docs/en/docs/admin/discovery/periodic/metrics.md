@@ -1,6 +1,8 @@
 # metrics check
 
-#TODO: ## Describe *metrics* check
+<!-- prettier-ignore -->
+!!! todo
+    Describe *metrics* check
 
 ## Requirements
 

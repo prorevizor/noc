@@ -6,13 +6,19 @@
 ## Name
 ping - 
 
-#TODO: ## Short description for ping
+<!-- prettier-ignore -->
+!!! todo
+     Short description for ping
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe ping
+<!-- prettier-ignore -->
+!!! todo
+    Describe ping
 
 ## Examples
 

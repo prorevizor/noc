@@ -6,13 +6,19 @@
 ## Name
 parse-events - 
 
-#TODO: ## Short description for parse-events
+<!-- prettier-ignore -->
+!!! todo
+     Short description for parse-events
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe parse-events
+<!-- prettier-ignore -->
+!!! todo
+    Describe parse-events
 
 ## Examples
 

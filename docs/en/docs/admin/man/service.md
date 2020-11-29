@@ -6,13 +6,19 @@
 ## Name
 service - 
 
-#TODO: ## Short description for service
+<!-- prettier-ignore -->
+!!! todo
+     Short description for service
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe service
+<!-- prettier-ignore -->
+!!! todo
+    Describe service
 
 ## Examples
 

@@ -1,6 +1,8 @@
 # hk check
 
-#TODO: ## Describe *hk* check
+<!-- prettier-ignore -->
+!!! todo
+    Describe *hk* check
 
 ## Requirements
 

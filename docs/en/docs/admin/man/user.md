@@ -6,13 +6,19 @@
 ## Name
 user - 
 
-#TODO: ## Short description for user
+<!-- prettier-ignore -->
+!!! todo
+     Short description for user
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe user
+<!-- prettier-ignore -->
+!!! todo
+    Describe user
 
 ## Examples
 

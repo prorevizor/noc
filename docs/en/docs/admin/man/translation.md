@@ -6,13 +6,19 @@
 ## Name
 translation - 
 
-#TODO: ## Short description for translation
+<!-- prettier-ignore -->
+!!! todo
+     Short description for translation
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe translation
+<!-- prettier-ignore -->
+!!! todo
+    Describe translation
 
 ## Examples
 

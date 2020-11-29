@@ -6,13 +6,19 @@
 ## Name
 update-addr - 
 
-#TODO: ## Short description for update-addr
+<!-- prettier-ignore -->
+!!! todo
+     Short description for update-addr
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe update-addr
+<!-- prettier-ignore -->
+!!! todo
+    Describe update-addr
 
 ## Examples
 

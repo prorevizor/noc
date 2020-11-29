@@ -7,15 +7,21 @@
 
 discovery - 
 
-#TODO: ## Short description for discovery
+<!-- prettier-ignore -->
+!!! todo
+     Short description for discovery
 
 ## Synopsis
 
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
 
-#TODO: ## Describe discovery
+<!-- prettier-ignore -->
+!!! todo
+    Describe discovery
 
 ## Examples
 

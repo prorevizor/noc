@@ -1,6 +1,8 @@
 # cpestatus check
 
-#TODO: ## Describe *cpestatus* check
+<!-- prettier-ignore -->
+!!! todo
+    Describe *cpestatus* check
 
 ## Requirements
 

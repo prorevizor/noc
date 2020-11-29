@@ -6,4 +6,6 @@ uuid: e0d1ba1d-1b84-49c0-927b-d0ab9ad47fd2
 # IRE-Polus.Taros
 
 
-#TODO: ## Describe *IRE-Polus.Taros* profile
+<!-- prettier-ignore -->
+!!! todo
+    Describe *IRE-Polus.Taros* profile

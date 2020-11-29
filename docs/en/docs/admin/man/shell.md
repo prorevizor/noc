@@ -6,13 +6,19 @@
 ## Name
 shell - 
 
-#TODO: ## Short description for shell
+<!-- prettier-ignore -->
+!!! todo
+     Short description for shell
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe shell
+<!-- prettier-ignore -->
+!!! todo
+    Describe shell
 
 ## Examples
 

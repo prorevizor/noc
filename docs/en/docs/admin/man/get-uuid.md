@@ -6,13 +6,19 @@
 ## Name
 get-uuid - 
 
-#TODO: ## Short description for get-uuid
+<!-- prettier-ignore -->
+!!! todo
+     Short description for get-uuid
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe get-uuid
+<!-- prettier-ignore -->
+!!! todo
+    Describe get-uuid
 
 ## Examples
 

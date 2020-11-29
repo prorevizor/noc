@@ -1,6 +1,8 @@
 # config check
 
-#TODO: ## Describe *config* check
+<!-- prettier-ignore -->
+!!! todo
+    Describe *config* check
 
 ## Requirements
 

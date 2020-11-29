@@ -6,13 +6,19 @@
 ## Name
 snmp - 
 
-#TODO: ## Short description for snmp
+<!-- prettier-ignore -->
+!!! todo
+     Short description for snmp
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe snmp
+<!-- prettier-ignore -->
+!!! todo
+    Describe snmp
 
 ## Examples
 

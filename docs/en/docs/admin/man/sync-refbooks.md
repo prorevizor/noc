@@ -6,13 +6,19 @@
 ## Name
 sync-refbooks - 
 
-#TODO: ## Short description for sync-refbooks
+<!-- prettier-ignore -->
+!!! todo
+     Short description for sync-refbooks
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe sync-refbooks
+<!-- prettier-ignore -->
+!!! todo
+    Describe sync-refbooks
 
 ## Examples
 

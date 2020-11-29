@@ -3,5 +3,7 @@
 # OS.ESXi
 
 
-#TODO: ## Describe *OS.ESXi* profile
+<!-- prettier-ignore -->
+!!! todo
+    Describe *OS.ESXi* profile
 

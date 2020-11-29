@@ -6,13 +6,19 @@
 ## Name
 crashinfo - 
 
-#TODO: ## Short description for crashinfo
+<!-- prettier-ignore -->
+!!! todo
+     Short description for crashinfo
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe crashinfo
+<!-- prettier-ignore -->
+!!! todo
+    Describe crashinfo
 
 ## Examples
 

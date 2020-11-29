@@ -6,13 +6,19 @@
 ## Name
 pythonpath - 
 
-#TODO: ## Short description for pythonpath
+<!-- prettier-ignore -->
+!!! todo
+     Short description for pythonpath
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe pythonpath
+<!-- prettier-ignore -->
+!!! todo
+    Describe pythonpath
 
 ## Examples
 

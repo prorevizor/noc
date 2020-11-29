@@ -3,13 +3,19 @@
 ## Name
 beef - 
 
-#TODO: ## Short description for beef
+<!-- prettier-ignore -->
+!!! todo
+     Short description for beef
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe beef
+<!-- prettier-ignore -->
+!!! todo
+    Describe beef
 
 ## Examples
 

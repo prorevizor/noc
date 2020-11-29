@@ -6,13 +6,19 @@
 ## Name
 import-rancid - 
 
-#TODO: ## Short description for import-rancid
+<!-- prettier-ignore -->
+!!! todo
+     Short description for import-rancid
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe import-rancid
+<!-- prettier-ignore -->
+!!! todo
+    Describe import-rancid
 
 ## Examples
 

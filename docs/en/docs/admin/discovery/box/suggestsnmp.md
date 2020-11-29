@@ -1,6 +1,8 @@
 # SuggestSNMP check
 
-#TODO: ## Describe *suggestsnmp* check
+<!-- prettier-ignore -->
+!!! todo
+    Describe *suggestsnmp* check
 
 ## Requirements
 

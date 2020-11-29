@@ -1,6 +1,8 @@
 # rep check
 
-#TODO: ## Describe *rep* check
+<!-- prettier-ignore -->
+!!! todo
+    Describe *rep* check
 
 ## Requirements
 

@@ -6,13 +6,19 @@
 ## Name
 sync-perm - 
 
-#TODO: ## Short description for sync-perm
+<!-- prettier-ignore -->
+!!! todo
+     Short description for sync-perm
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe sync-perm
+<!-- prettier-ignore -->
+!!! todo
+    Describe sync-perm
 
 ## Examples
 

@@ -3,5 +3,7 @@
 # Harmonic.bNSG9000
 
 
-#TODO: ## Describe *Harmonic.bNSG9000* profile
+<!-- prettier-ignore -->
+!!! todo
+    Describe *Harmonic.bNSG9000* profile
 

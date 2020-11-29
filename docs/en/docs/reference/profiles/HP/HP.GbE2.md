@@ -6,5 +6,7 @@ uuid: d707db00-3c69-424a-943b-25b9b73e8312
 # HP.GbE2
 
 
-#TODO: ## Describe *HP.GbE2* profile
+<!-- prettier-ignore -->
+!!! todo
+    Describe *HP.GbE2* profile
 

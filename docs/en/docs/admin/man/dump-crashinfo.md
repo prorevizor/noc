@@ -6,13 +6,19 @@
 ## Name
 dump-crashinfo - 
 
-#TODO: ## Short description for dump-crashinfo
+<!-- prettier-ignore -->
+!!! todo
+     Short description for dump-crashinfo
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe dump-crashinfo
+<!-- prettier-ignore -->
+!!! todo
+    Describe dump-crashinfo
 
 ## Examples
 

@@ -1,6 +1,8 @@
 # stp check
 
-#TODO: ## Describe *stp* check
+<!-- prettier-ignore -->
+!!! todo
+    Describe *stp* check
 
 ## Requirements
 

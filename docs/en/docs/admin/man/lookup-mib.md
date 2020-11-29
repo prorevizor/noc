@@ -6,13 +6,19 @@
 ## Name
 lookup-mib - 
 
-#TODO: ## Short description for lookup-mib
+<!-- prettier-ignore -->
+!!! todo
+     Short description for lookup-mib
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe lookup-mib
+<!-- prettier-ignore -->
+!!! todo
+    Describe lookup-mib
 
 ## Examples
 

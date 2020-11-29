@@ -3,5 +3,7 @@
 # AlliedTelesis.AT8100
 
 
-#TODO: ##Describe *AlliedTelesis.AT8100* profile
+<!-- prettier-ignore -->
+!!! todo
+    Describe *AlliedTelesis.AT8100* profile
 

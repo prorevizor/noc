@@ -6,13 +6,19 @@
 ## Name
 newapp - 
 
-#TODO: ## Short description for newapp
+<!-- prettier-ignore -->
+!!! todo
+     Short description for newapp
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe newapp
+<!-- prettier-ignore -->
+!!! todo
+    Describe newapp
 
 ## Examples
 

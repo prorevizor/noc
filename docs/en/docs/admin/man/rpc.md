@@ -6,13 +6,19 @@
 ## Name
 rpc - 
 
-#TODO: ## Short description for rpc
+<!-- prettier-ignore -->
+!!! todo
+     Short description for rpc
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe rpc
+<!-- prettier-ignore -->
+!!! todo
+    Describe rpc
 
 ## Examples
 

@@ -6,13 +6,19 @@
 ## Name
 collection - 
 
-#TODO: ## Short description for collection
+<!-- prettier-ignore -->
+!!! todo
+     Short description for collection
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe collection
+<!-- prettier-ignore -->
+!!! todo
+    Describe collection
 
 ## Examples
 

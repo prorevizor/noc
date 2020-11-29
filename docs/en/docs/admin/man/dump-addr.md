@@ -6,13 +6,19 @@
 ## Name
 dump-addr - 
 
-#TODO: ## Short description for dump-addr
+<!-- prettier-ignore -->
+!!! todo
+     Short description for dump-addr
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe dump-addr
+<!-- prettier-ignore -->
+!!! todo
+    Describe dump-addr
 
 ## Examples
 

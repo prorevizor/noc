@@ -6,13 +6,19 @@
 ## Name
 l3-topology - 
 
-#TODO: ## Short description for l3-topology
+<!-- prettier-ignore -->
+!!! todo
+     Short description for l3-topology
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe l3-topology
+<!-- prettier-ignore -->
+!!! todo
+    Describe l3-topology
 
 ## Examples
 

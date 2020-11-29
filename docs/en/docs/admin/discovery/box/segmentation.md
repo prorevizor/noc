@@ -1,6 +1,8 @@
 # segmentation check
 
-#TODO: ## Describe *segmentation* check
+<!-- prettier-ignore -->
+!!! todo
+    Describe *segmentation* check
 
 ## Requirements
 

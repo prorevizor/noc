@@ -8,7 +8,9 @@
     :depth: 1
     :class: singlecol
 
-.. todo::
+<!-- prettier-ignore -->
+!!! todo
+
     Describe get_metrics script
 
 Input Arguments

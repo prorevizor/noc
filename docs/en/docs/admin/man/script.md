@@ -6,13 +6,19 @@
 ## Name
 script - 
 
-#TODO: ## Short description for script
+<!-- prettier-ignore -->
+!!! todo
+     Short description for script
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe script
+<!-- prettier-ignore -->
+!!! todo
+    Describe script
 
 ## Examples
 

@@ -6,13 +6,19 @@
 ## Name
 nri - 
 
-#TODO: ## Short description for nri
+<!-- prettier-ignore -->
+!!! todo
+     Short description for nri
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe nri
+<!-- prettier-ignore -->
+!!! todo
+    Describe nri
 
 ## Examples
 

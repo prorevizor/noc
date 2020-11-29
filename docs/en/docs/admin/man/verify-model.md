@@ -6,13 +6,19 @@
 ## Name
 verify-model - 
 
-#TODO: ## Short description for verify-model
+<!-- prettier-ignore -->
+!!! todo
+     Short description for verify-model
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe verify-model
+<!-- prettier-ignore -->
+!!! todo
+    Describe verify-model
 
 ## Examples
 

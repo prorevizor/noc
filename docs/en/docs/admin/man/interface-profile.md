@@ -6,13 +6,19 @@
 ## Name
 interface-profile - 
 
-#TODO: ## Short description for interface-profile
+<!-- prettier-ignore -->
+!!! todo
+     Short description for interface-profile
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe interface-profile
+<!-- prettier-ignore -->
+!!! todo
+    Describe interface-profile
 
 ## Examples
 

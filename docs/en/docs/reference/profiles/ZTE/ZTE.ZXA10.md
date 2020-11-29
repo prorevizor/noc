@@ -6,4 +6,6 @@ uuid: b42cac34-caf1-4360-8bb1-fa4cf813b915
 # ZTE.ZXA10
 
 
-#TODO: ## Describe *ZTE.ZXA10* profile
+<!-- prettier-ignore -->
+!!! todo
+    Describe *ZTE.ZXA10* profile

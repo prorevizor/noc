@@ -8,7 +8,9 @@
     :depth: 1
     :class: singlecol
 
-.. todo::
+<!-- prettier-ignore -->
+!!! todo
+
     Describe get_mac_address_table script
 
 Input Arguments

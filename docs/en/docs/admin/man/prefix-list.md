@@ -6,13 +6,19 @@
 ## Name
 prefix-list - 
 
-#TODO: ## Short description for prefix-list
+<!-- prettier-ignore -->
+!!! todo
+     Short description for prefix-list
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe prefix-list
+<!-- prettier-ignore -->
+!!! todo
+    Describe prefix-list
 
 ## Examples
 

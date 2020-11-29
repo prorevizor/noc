@@ -6,13 +6,19 @@
 ## Name
 wipe - 
 
-#TODO: ## Short description for wipe
+<!-- prettier-ignore -->
+!!! todo
+     Short description for wipe
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe wipe
+<!-- prettier-ignore -->
+!!! todo
+    Describe wipe
 
 ## Examples
 

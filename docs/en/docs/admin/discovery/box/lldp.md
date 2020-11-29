@@ -1,6 +1,8 @@
 # lldp check
 
-#TODO: ## Describe *lldp* check
+<!-- prettier-ignore -->
+!!! todo
+    Describe *lldp* check
 
 ## Requirements
 

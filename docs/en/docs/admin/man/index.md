@@ -6,13 +6,19 @@
 ## Name
 index - 
 
-#TODO: ## Short description for index
+<!-- prettier-ignore -->
+!!! todo
+     Short description for index
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe index
+<!-- prettier-ignore -->
+!!! todo
+    Describe index
 
 ## Examples
 

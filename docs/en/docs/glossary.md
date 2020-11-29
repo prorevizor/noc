@@ -46,10 +46,14 @@ G.703 {: g-703 }
 : [ITU-T G.703 standard](https://en.wikipedia.org/wiki/G.703)
 
 LACP
-#TODO: ## Describe
+<!-- prettier-ignore -->
+!!! todo
+     Describe
 
 LLDP
-#TODO: ## Describe
+<!-- prettier-ignore -->
+!!! todo
+     Describe
 
 NDP (Huawei)
 : Describe
@@ -58,7 +62,9 @@ NRI
 : Network Resource Inventory
 
 Netflow
-#TODO: ## 
+<!-- prettier-ignore -->
+!!! todo
+     
 
 network segment
 : See :doc:`/reference/network-segment`.
@@ -76,7 +82,9 @@ managed object profile
 : See :doc:`/reference/managed-object-profile`.
 
 management VLAN
-#TODO: ## Describe
+<!-- prettier-ignore -->
+!!! todo
+     Describe
 
 MIB
 : Management Information Base. NOC uses MIB to .....
@@ -88,10 +96,14 @@ mongodb
 : See :doc:`/reference/mongodb`.
 
 multicast VLAN
-#TODO: ## Describe
+<!-- prettier-ignore -->
+!!! todo
+     Describe
 
 ethernet OAM
-#TODO: ## Describe
+<!-- prettier-ignore -->
+!!! todo
+     Describe
 
 PoE {: #poe }
 : [Power over Ethernet](https://en.wikipedia.org/wiki/Power_over_Ethernet)
@@ -140,7 +152,11 @@ topology
 : See :doc:`/reference/topology`.
 
 UDLD
-#TODO: ## Describe
+<!-- prettier-ignore -->
+!!! todo
+     Describe
 
 VLAN
-#TODO: ## Describe
+<!-- prettier-ignore -->
+!!! todo
+     Describe

@@ -1,6 +1,8 @@
 # interfacestatus check
 
-#TODO: ## Describe *interfacestatus* check
+<!-- prettier-ignore -->
+!!! todo
+    Describe *interfacestatus* check
 
 ## Requirements
 

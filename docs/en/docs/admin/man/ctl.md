@@ -6,13 +6,19 @@
 ## Name
 ctl - 
 
-#TODO: ## Short description for ctl
+<!-- prettier-ignore -->
+!!! todo
+     Short description for ctl
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe ctl
+<!-- prettier-ignore -->
+!!! todo
+    Describe ctl
 
 ## Examples
 

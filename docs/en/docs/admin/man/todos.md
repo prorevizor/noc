@@ -6,13 +6,19 @@
 ## Name
 todos - 
 
-#TODO: ## Short description for todos
+<!-- prettier-ignore -->
+!!! todo
+     Short description for todos
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe todos
+<!-- prettier-ignore -->
+!!! todo
+    Describe todos
 
 ## Examples
 

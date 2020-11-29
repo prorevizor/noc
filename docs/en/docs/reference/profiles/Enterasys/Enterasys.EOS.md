@@ -6,4 +6,6 @@ uuid: dcd2baec-9bc2-4ed5-88da-552728d65315
 # Enterasys.EOS
 
 
-#TODO: ## Describe *Enterasys.EOS* profile
+<!-- prettier-ignore -->
+!!! todo
+    Describe *Enterasys.EOS* profile

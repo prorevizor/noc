@@ -6,13 +6,19 @@
 ## Name
 job - 
 
-#TODO: ## Short description for job
+<!-- prettier-ignore -->
+!!! todo
+     Short description for job
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe job
+<!-- prettier-ignore -->
+!!! todo
+    Describe job
 
 ## Examples
 

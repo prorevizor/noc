@@ -6,13 +6,19 @@
 ## Name
 compile-mib - 
 
-#TODO: ## Short description for compile-mib
+<!-- prettier-ignore -->
+!!! todo
+     Short description for compile-mib
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe compile-mib
+<!-- prettier-ignore -->
+!!! todo
+    Describe compile-mib
 
 ## Examples
 

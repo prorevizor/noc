@@ -5,13 +5,19 @@
 ## Name
 bi - 
 
-#TODO: ## Short description for bi
+<!-- prettier-ignore -->
+!!! todo
+     Short description for bi
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe bi
+<!-- prettier-ignore -->
+!!! todo
+    Describe bi
 
 ## Examples
 

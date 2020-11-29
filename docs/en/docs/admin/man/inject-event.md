@@ -6,13 +6,19 @@
 ## Name
 inject-event - 
 
-#TODO: ## Short description for inject-event
+<!-- prettier-ignore -->
+!!! todo
+     Short description for inject-event
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe inject-event
+<!-- prettier-ignore -->
+!!! todo
+    Describe inject-event
 
 ## Examples
 

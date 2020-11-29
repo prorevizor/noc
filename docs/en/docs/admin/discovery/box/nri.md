@@ -1,6 +1,8 @@
 # nri check
 
-#TODO: ## Describe *nri* check
+<!-- prettier-ignore -->
+!!! todo
+    Describe *nri* check
 
 ## Requirements
 

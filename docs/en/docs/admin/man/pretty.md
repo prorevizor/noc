@@ -6,13 +6,19 @@
 ## Name
 pretty - 
 
-#TODO: ## Short description for pretty
+<!-- prettier-ignore -->
+!!! todo
+     Short description for pretty
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe pretty
+<!-- prettier-ignore -->
+!!! todo
+    Describe pretty
 
 ## Examples
 

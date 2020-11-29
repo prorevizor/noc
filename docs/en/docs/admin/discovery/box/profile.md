@@ -1,6 +1,8 @@
 # profile check
 
-#TODO: ## Describe *profile* check
+<!-- prettier-ignore -->
+!!! todo
+    Describe *profile* check
 
 ## Requirements
 

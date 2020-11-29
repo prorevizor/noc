@@ -6,13 +6,19 @@
 ## Name
 get-device-identity - 
 
-#TODO: ## Short description for get-device-identity
+<!-- prettier-ignore -->
+!!! todo
+     Short description for get-device-identity
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe get-device-identity
+<!-- prettier-ignore -->
+!!! todo
+    Describe get-device-identity
 
 ## Examples
 

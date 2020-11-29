@@ -6,13 +6,19 @@
 ## Name
 psql - 
 
-#TODO: ## Short description for psql
+<!-- prettier-ignore -->
+!!! todo
+     Short description for psql
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe psql
+<!-- prettier-ignore -->
+!!! todo
+    Describe psql
 
 ## Examples
 

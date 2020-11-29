@@ -6,13 +6,19 @@
 ## Name
 rca-debug - 
 
-#TODO: ## Short description for rca-debug
+<!-- prettier-ignore -->
+!!! todo
+     Short description for rca-debug
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe rca-debug
+<!-- prettier-ignore -->
+!!! todo
+    Describe rca-debug
 
 ## Examples
 

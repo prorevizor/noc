@@ -73,11 +73,9 @@ def define_env(env):
             r += [f"| {x} | " for x in v_platforms]
         else:
             r += [
-                "!!! note",
-                "",
-                "Platform collection is not populated still.",
-                "",
-                "You may be first to [contribute](../../../howto/sharing-collections/index.md)",
+                "!!! todo",
+                "    Platform collection is not populated still.",
+                "    You may be first to [contribute](../../../howto/sharing-collections/index.md)",
                 "",
             ]
         return "\n".join(r)

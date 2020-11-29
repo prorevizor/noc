@@ -6,13 +6,19 @@
 ## Name
 metrics - 
 
-#TODO: ## Short description for metrics
+<!-- prettier-ignore -->
+!!! todo
+     Short description for metrics
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe metrics
+<!-- prettier-ignore -->
+!!! todo
+    Describe metrics
 
 ## Examples
 

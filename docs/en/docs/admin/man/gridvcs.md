@@ -6,13 +6,19 @@
 ## Name
 gridvcs - 
 
-#TODO: ## Short description for gridvcs
+<!-- prettier-ignore -->
+!!! todo
+     Short description for gridvcs
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe gridvcs
+<!-- prettier-ignore -->
+!!! todo
+    Describe gridvcs
 
 ## Examples
 

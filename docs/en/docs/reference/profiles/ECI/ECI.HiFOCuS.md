@@ -3,5 +3,7 @@
 # ECI.HiFOCuS
 
 
-#TODO: ## Describe *ECI.HiFOCuS* profile
+<!-- prettier-ignore -->
+!!! todo
+    Describe *ECI.HiFOCuS* profile
 

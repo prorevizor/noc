@@ -13,7 +13,7 @@ This section contains guidelines on naming files, sections, documents and other 
 
 - File naming convention:
 
-  - For Sphinx, all files should have a .rst extension.
+  - For Markdown, all files should have a .md extension.
   - Separate words in file names with hyphens (i.e. -.)
   - For most documents, file names should have a terse one or two word name
     that describes the material covered in the document.

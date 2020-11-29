@@ -6,13 +6,19 @@
 ## Name
 events - 
 
-#TODO: ## Short description for events
+<!-- prettier-ignore -->
+!!! todo
+     Short description for events
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe events
+<!-- prettier-ignore -->
+!!! todo
+    Describe events
 
 ## Examples
 

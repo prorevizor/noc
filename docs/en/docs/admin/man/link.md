@@ -6,13 +6,19 @@
 ## Name
 link - 
 
-#TODO: ## Short description for link
+<!-- prettier-ignore -->
+!!! todo
+     Short description for link
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe link
+<!-- prettier-ignore -->
+!!! todo
+    Describe link
 
 ## Examples
 

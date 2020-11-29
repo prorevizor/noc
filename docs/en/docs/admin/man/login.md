@@ -4,13 +4,19 @@
 ## Name
 login - 
 
-#TODO: ## Short description for login
+<!-- prettier-ignore -->
+!!! todo
+     Short description for login
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe login
+<!-- prettier-ignore -->
+!!! todo
+    Describe login
 
 ## Examples
 

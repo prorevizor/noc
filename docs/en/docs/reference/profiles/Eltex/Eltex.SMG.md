@@ -3,5 +3,7 @@
 # Eltex.SMG
 
 
-#TODO: ## Describe *Eltex.SMG* profile
+<!-- prettier-ignore -->
+!!! todo
+    Describe *Eltex.SMG* profile
 

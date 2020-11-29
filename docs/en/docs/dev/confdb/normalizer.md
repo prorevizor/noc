@@ -29,7 +29,9 @@ footprint of ConfDB processing, avoiding multiple copies of same data.
 
 Profile Integration
 -------------------
-.. todo::
+<!-- prettier-ignore -->
+!!! todo
+
     Refer to Profile API
 
 Following profile parameters are responsible for normalizer configuration:

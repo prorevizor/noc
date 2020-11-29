@@ -6,7 +6,9 @@
 ## Name
 stencil - Network stencils manipulation utility
 
-#TODO: ## Short description for service
+<!-- prettier-ignore -->
+!!! todo
+     Short description for service
 
 ## Synopsis
 
@@ -16,7 +18,9 @@ Generate
 
 
 ## Description
-#TODO: ## Describe service
+<!-- prettier-ignore -->
+!!! todo
+    Describe service
 
 ## Examples
 Generate stencils index page

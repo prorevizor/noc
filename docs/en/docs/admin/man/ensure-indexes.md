@@ -6,13 +6,19 @@
 ## Name
 ensure-indexes - 
 
-#TODO: ## Short description for ensure-indexes
+<!-- prettier-ignore -->
+!!! todo
+     Short description for ensure-indexes
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe ensure-indexes
+<!-- prettier-ignore -->
+!!! todo
+    Describe ensure-indexes
 
 ## Examples
 

@@ -6,13 +6,19 @@
 ## Name
 sync-mibs - 
 
-#TODO: ## Short description for sync-mibs
+<!-- prettier-ignore -->
+!!! todo
+     Short description for sync-mibs
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe sync-mibs
+<!-- prettier-ignore -->
+!!! todo
+    Describe sync-mibs
 
 ## Examples
 

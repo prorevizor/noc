@@ -1,7 +1,11 @@
 # uptime check
-#TODO: ## Describe *uptime* check
+<!-- prettier-ignore -->
+!!! todo
+    Describe *uptime* check
 
-#TODO: ## Describe reboots
+<!-- prettier-ignore -->
+!!! todo
+    Describe reboots
 
 # Requirements
 

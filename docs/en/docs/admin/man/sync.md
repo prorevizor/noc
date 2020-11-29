@@ -6,13 +6,19 @@
 ## Name
 sync - 
 
-#TODO: ## Short description for sync
+<!-- prettier-ignore -->
+!!! todo
+     Short description for sync
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe sync
+<!-- prettier-ignore -->
+!!! todo
+    Describe sync
 
 ## Examples
 

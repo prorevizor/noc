@@ -6,13 +6,19 @@
 ## Name
 import-mib - 
 
-#TODO: ## Short description for import-mib
+<!-- prettier-ignore -->
+!!! todo
+     Short description for import-mib
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe import-mib
+<!-- prettier-ignore -->
+!!! todo
+    Describe import-mib
 
 ## Examples
 

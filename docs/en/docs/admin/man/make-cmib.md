@@ -6,13 +6,19 @@
 ## Name
 make-cmib - 
 
-#TODO: ## Short description for make-cmib
+<!-- prettier-ignore -->
+!!! todo
+     Short description for make-cmib
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe make-cmib
+<!-- prettier-ignore -->
+!!! todo
+    Describe make-cmib
 
 ## Examples
 

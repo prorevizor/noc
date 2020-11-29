@@ -2,7 +2,9 @@
 
 # get_inventory
 
-.. todo::
+<!-- prettier-ignore -->
+!!! todo
+
     Describe get_inventory script
 
 Input Arguments

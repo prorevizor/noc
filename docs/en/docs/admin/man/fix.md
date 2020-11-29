@@ -6,13 +6,19 @@
 ## Name
 fix - 
 
-#TODO: ## Short description for fix
+<!-- prettier-ignore -->
+!!! todo
+     Short description for fix
 
 ## Synopsis
-#TODO: ## Describe syntax here
+<!-- prettier-ignore -->
+!!! todo
+    Describe syntax here
 
 ## Description
-#TODO: ## Describe fix
+<!-- prettier-ignore -->
+!!! todo
+    Describe fix
 
 ## Examples
 
