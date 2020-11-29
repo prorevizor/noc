@@ -9,9 +9,7 @@ integrate it into the existing resource.
 If you have questions, don't hesitate to open a ticket in the
 `Documentation GitLab Project <https://code.getnoc.com/noc/docs/issues>`_.
 
-.. todo::
-
-    Describe documentation telegram channel
+#TODO: ## Describe documentation telegram channel
 
 ## Global Organization
 

@@ -1,7 +1,6 @@
 # oam check
 
-.. todo::
-    Describe *oam* check
+#TODO: ## Describe *oam* check
 
 ## Requirements
 

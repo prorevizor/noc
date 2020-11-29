@@ -1,7 +1,6 @@
 # cpestatus check
 
-.. todo::
-    Describe *cpestatus* check
+#TODO: ## Describe *cpestatus* check
 
 ## Requirements
 

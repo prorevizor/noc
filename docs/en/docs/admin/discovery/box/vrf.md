@@ -1,7 +1,6 @@
 # vrf check
 
-.. todo::
-    Describe *vrf* check
+#TODO: ## Describe *vrf* check
 
 ## Requirements
 

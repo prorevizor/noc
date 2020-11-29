@@ -1,7 +1,6 @@
 # rep check
 
-.. todo::
-    Describe *rep* check
+#TODO: ## Describe *rep* check
 
 ## Requirements
 

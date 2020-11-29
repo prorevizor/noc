@@ -1,7 +1,6 @@
 # hk check
 
-.. todo::
-    Describe *hk* check
+#TODO: ## Describe *hk* check
 
 ## Requirements
 

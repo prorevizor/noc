@@ -1,7 +1,6 @@
 # id check
 
-.. todo::
-    Describe *id* check
+#TODO: ## Describe *id* check
 
 ## Requirements
 

@@ -1,7 +1,6 @@
 # fdp check
 
-.. todo::
-    Describe *fdp* check
+#TODO: ## Describe *fdp* check
 
 ## Requirements
 

@@ -1,7 +1,6 @@
 # lldp check
 
-.. todo::
-    Describe *lldp* check
+#TODO: ## Describe *lldp* check
 
 ## Requirements
 

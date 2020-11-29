@@ -1,7 +1,6 @@
 # version check
 
-.. todo::
-    Describe *version* check
+#TODO: ## Describe *version* check
 
 ## Requirements
 

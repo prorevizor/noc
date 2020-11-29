@@ -1,7 +1,6 @@
 # interface check
 
-.. todo::
-    Describe *interface* check
+#TODO: ## Describe *interface* check
 
 ## Requirements
 

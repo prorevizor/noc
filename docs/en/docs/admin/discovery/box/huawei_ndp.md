@@ -1,7 +1,6 @@
 # huawei_ndp check
 
-.. todo::
-    Describe *huawei_ndp* check
+#TODO: ## Describe *huawei_ndp* check
 
 ## Requirements
 

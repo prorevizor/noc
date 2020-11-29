@@ -1,10 +1,7 @@
 # asset check
 
-.. toctree::
-    :titlesonly:
 
-.. todo::
-    Describe *asset* check
+#TODO: ## Describe *asset* check
 
 ## Requirements
 

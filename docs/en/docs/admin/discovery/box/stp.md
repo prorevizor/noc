@@ -1,7 +1,6 @@
 # stp check
 
-.. todo::
-    Describe *stp* check
+#TODO: ## Describe *stp* check
 
 ## Requirements
 

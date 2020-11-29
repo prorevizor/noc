@@ -1,7 +1,6 @@
 # caps check
 
-.. todo::
-    Describe *caps* check
+#TODO: ## Describe *caps* check
 
 ## Requirements
 

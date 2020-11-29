@@ -1,7 +1,6 @@
 # segmentation check
 
-.. todo::
-    Describe *segmentation* check
+#TODO: ## Describe *segmentation* check
 
 ## Requirements
 

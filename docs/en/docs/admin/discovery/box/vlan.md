@@ -1,7 +1,6 @@
 # vlan check
 
-.. todo::
-    Describe *vlan* check
+#TODO: ## Describe *vlan* check
 
 ## Requirements
 

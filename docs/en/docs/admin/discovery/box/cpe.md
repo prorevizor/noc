@@ -1,7 +1,6 @@
 # cpe check
 
-.. todo::
-    Describe *cpe* check
+#TODO: ## Describe *cpe* check
 
 ## Requirements
 

@@ -1,7 +1,6 @@
 # nri check
 
-.. todo::
-    Describe *nri* check
+#TODO: ## Describe *nri* check
 
 ## Requirements
 

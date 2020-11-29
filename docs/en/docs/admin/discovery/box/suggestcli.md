@@ -1,7 +1,6 @@
 # SuggestCLI check
 
-.. todo::
-    Describe *suggestcli* check
+#TODO: ## Describe *suggestcli* check
 
 ## Requirements
 

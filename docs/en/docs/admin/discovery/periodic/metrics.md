@@ -1,7 +1,6 @@
 # metrics check
 
-.. todo::
-    Describe *metrics* check
+#TODO: ## Describe *metrics* check
 
 ## Requirements
 

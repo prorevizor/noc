@@ -1,7 +1,6 @@
 # profile check
 
-.. todo::
-    Describe *profile* check
+#TODO: ## Describe *profile* check
 
 ## Requirements
 

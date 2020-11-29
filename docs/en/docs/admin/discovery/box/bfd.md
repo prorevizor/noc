@@ -1,7 +1,6 @@
 # bfd check 
 
-.. todo::
-    Describe *bfd* check
+#TODO: ## Describe *bfd* check
 
 ## Requirements
 

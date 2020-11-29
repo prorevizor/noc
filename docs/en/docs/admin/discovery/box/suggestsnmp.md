@@ -1,7 +1,6 @@
 # SuggestSNMP check
 
-.. todo::
-    Describe *suggestsnmp* check
+#TODO: ## Describe *suggestsnmp* check
 
 ## Requirements
 

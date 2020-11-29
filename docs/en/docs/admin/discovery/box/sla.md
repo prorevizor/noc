@@ -1,7 +1,6 @@
 # sla check
 
-.. todo::
-    Describe *SLA* check
+#TODO: ## Describe *SLA* check
 
 ## Requirements
 

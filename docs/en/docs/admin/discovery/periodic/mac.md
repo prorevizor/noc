@@ -1,7 +1,6 @@
 # mac check
 
-.. todo::
-    Describe *mac* check
+#TODO: ## Describe *mac* check
 
 ## Requirements
 

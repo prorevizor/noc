@@ -1,7 +1,6 @@
 # cdp check
 
-.. todo::
-    Describe *cdp* check
+#TODO: ## Describe *cdp* check
 
 ## Requirements
 

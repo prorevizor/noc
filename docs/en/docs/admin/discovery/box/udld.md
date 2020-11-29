@@ -1,7 +1,6 @@
 # udld check
 
-.. todo::
-    Describe *udld* check
+#TODO: ## Describe *udld* check
 
 ## Requirements
 

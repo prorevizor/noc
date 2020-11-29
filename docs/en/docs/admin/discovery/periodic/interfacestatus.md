@@ -1,7 +1,6 @@
 # interfacestatus check
 
-.. todo::
-    Describe *interfacestatus* check
+#TODO: ## Describe *interfacestatus* check
 
 ## Requirements
 

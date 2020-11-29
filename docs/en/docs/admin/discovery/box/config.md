@@ -1,7 +1,6 @@
 # config check
 
-.. todo::
-    Describe *config* check
+#TODO: ## Describe *config* check
 
 ## Requirements
 

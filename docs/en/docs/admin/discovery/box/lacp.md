@@ -1,7 +1,6 @@
 # lacp check
 
-.. todo::
-    Describe *lacp* check
+#TODO: ## Describe *lacp* check
 
 ## Requirements
 

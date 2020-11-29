@@ -1,9 +1,7 @@
 # uptime check
-.. todo::
-    Describe *uptime* check
+#TODO: ## Describe *uptime* check
 
-.. todo::
-    Describe reboots
+#TODO: ## Describe reboots
 
 # Requirements
 
