@@ -1,33 +1,25 @@
+---
+ba30451d-61f6-4fff-9443-f3ebfe30bbfe
+---
 
-
-======================
-length Model Interface
-======================
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
+# length Model Interface
 
 Cable length
 
-Variables
----------
+## Variables
 
-+--------+--------+------------------------+------------+------------+-----------+
-| Name   | type   | Description            | Required   | Constant   | Default   |
-+========+========+========================+============+============+===========+
-| length | float  | Cable length in meters | True       | False      |           |
-+--------+--------+------------------------+------------+------------+-----------+
+| Name   | type   | Description            | Required         | Constant         | Default   |
+| ------ | ------ | ---------------------- | ---------------- | ---------------- | --------- |
+| length | float  | Cable length in meters | :material-check: | :material-close: |           |
 
 
 
-Examples
---------
+## Examples
 
-::
-
-   "length": {
-        "length": "1"
-   }
+```json
+{
+  "length": {
+    "length": "1"
+  }
+}
+```

@@ -1,33 +1,24 @@
+---
+c3cb0577-9ed2-4edb-b3e3-eaca6f1fed38
+---
 
-
-=====================
-stack Model Interface
-=====================
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
+# stack Model Interface
 
 Indication of stack/virtual chassis/cluster
 
-Variables
----------
+## Variables
 
-+-----------+--------+-----------------------+------------+-------------+-----------+
-| Name      | Type   | Description           | Required   | Conastant   | Default   |
-+===========+========+=======================+============+=============+===========+
-| stackable | bool   | Object can be stacked | False      | True        |           |
-+-----------+--------+-----------------------+------------+-------------+-----------+
-| member    | str    | Stack member id       | False      | False       |           |
-+-----------+--------+-----------------------+------------+-------------+-----------+
+| Name      | Type   | Description           | Required         | Conastant        | Default   |
+| --------- | ------ | --------------------- | ---------------- | ---------------- | --------- |
+| stackable | bool   | Object can be stacked | :material-close: | :material-check: |           |
+| member    | str    | Stack member id       | :material-close: | :material-close: |           |
 
-Examples
---------
+## Examples
 
-::
-
-    "stack": {
-        "stackable": true
-    }
+```json
+{
+  "stack": {
+    "stackable": true
+  }
+}
+```

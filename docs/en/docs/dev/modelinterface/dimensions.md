@@ -1,41 +1,27 @@
+---
+6aa71d8c-c4c7-4cca-91a5-3fc1af708f65
+---
 
-
-==========================
-dimensions Model Interface
-==========================
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
+# dimensions Model Interface
 
 A measurement of equipment in a particular direction, especially its height, length, or width:
 
-Variables
----------
+## Variables
 
-+---------+--------+---------------------------+----------+----------+---------+
-| Name    | Type   | Description               | Required | Constant | Default |
-+---------+--------+---------------------------+----------+----------+---------+
-|width    | Int    | width in mm               | True     | True     |         |
-|         |        |                           |          |          |         |
-+---------+--------+---------------------------+----------+----------+---------+
-|depth    | Int    | depth in mm               | True     | True     |         |
-|         |        |                           |          |          |         |
-+---------+--------+---------------------------+----------+----------+---------+
-|height   | Int    | height in mm              | True     | True     |         |
-|         |        |                           |          |          |         |
-+---------+--------+---------------------------+----------+----------+---------+
+| Name    | Type   | Description               | Required         | Constant         | Default |
+| ------- | ------ | ------------------------- | ---------------- | ---------------- | --------|
+|width    | Int    | width in mm               | :material-check: | :material-check: |         |
+|depth    | Int    | depth in mm               | :material-check: | :material-check: |         |
+|height   | Int    | height in mm              | :material-check: | :material-check: |         |
 
+## Examples
 
-Examples
---------
-
-::
-
-    "dimensions": {
-        "depth": 220,
-        "height": 43.6,
-        "width": 442
-    }
+```json
+{
+  "dimensions": {
+    "depth": 220,
+    "height": 43.6,
+    "width": 442
+  }
+}
+```

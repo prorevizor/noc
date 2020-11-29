@@ -1,14 +1,8 @@
+---
+0aef5942-e41a-4acf-ab3e-5bc406aaee08
+---
 
-
-=========================
-container Model Interface
-=========================
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
+# container Model Interface
 
 Denotes *Container* as an object capable of holding another object,
 bypassing *Connections*. Containers may represent logical groups,
@@ -23,21 +17,19 @@ field. Following rules are applied:
 * When object beeing connected to other object using *o* direction connection,
   its been withdraw from container (having .container field reset)
 
-Variables
----------
+## Variables
 
-+---------------+-------------+---------------------------------+----------+----------+---------+
-| Name          | Type        | Description                     | Required | Constant | Default |
-+---------------+-------------+---------------------------------+----------+----------+---------+
-| container     | Boolean     | Object is container             | Yes      | Yes      |         |
-|               |             | (Can hold another objects)      |          |          |         |
-+---------------+-------------+---------------------------------+----------+----------+---------+
+| Name          | Type        | Description                     | Required         | Constant         | Default |
+| ------------- | ----------- | ------------------------------- | ---------------- | ---------------- | ------- |
+| container     | Boolean     | Object is container             | :material-check: | :material-check: |         |
+|               |             | (Can hold another objects)      |                  |                  |         |
 
-Examples
---------
+## Examples
 
-::
-
-    "container": {
-        "container": true
-    }
+```json
+{
+  "container": {
+    "container": true
+  }
+}
+```

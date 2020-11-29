@@ -1,56 +1,44 @@
+---
+a15da7b7-98de-4843-b256-0da049137833
+---
 
-
-====================
-rack Model Interface
-====================
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
+# rack Model Interface
 
 Rack enclosures
 
-Variables
----------
+## Variables
 
-+------------+--------+-------------------------------------------+------------+------------+-----------+
-| Name       | Type   | Description                               | Required   | Constant   | Default   |
-+============+========+===========================================+============+============+===========+
-| units      | int    | Internal height in units                  | True       | True       |           |
-+------------+--------+-------------------------------------------+------------+------------+-----------+
-| width      | int    | Max. equipment width in mm                | True       | True       |           |
-+------------+--------+-------------------------------------------+------------+------------+-----------+
-| depth      | int    | Max. equipment depth in mm                | True       | True       |           |
-+------------+--------+-------------------------------------------+------------+------------+-----------+
-| front_door | str    | Front door configuration                  | True       | True       |           |
-|            |        |                                           |            |            |           |
-|            |        |  o - open, hasn't door                    |            |            |           |
-|            |        |  c - closed, blank door                   |            |            |           |
-|            |        |  l - one section, opens on the left side  |            |            |           |
-|            |        |  r - one section, opens on the right side |            |            |           |
-|            |        |  2 - two sections                         |            |            |           |
-+------------+--------+-------------------------------------------+------------+------------+-----------+
-| rear_door  | str    | Rear door configuration                   | True       | True       |           |
-|            |        |                                           |            |            |           |
-|            |        |  o - open, hasn't door                    |            |            |           |
-|            |        |  c - closed, blank door                   |            |            |           |
-|            |        |  l - one section, opens on the left side  |            |            |           |
-|            |        |  r - one section, opens on the right side |            |            |           |
-|            |        |  2 - two sections                         |            |            |           |
-+------------+--------+-------------------------------------------+------------+------------+-----------+
+| Name       | Type   | Description                               | Required         | Constant         | Default   |
+| ---------- | ------ | ----------------------------------------- | ---------------- | ---------------- | --------- |
+| units      | int    | Internal height in units                  | :material-check: | :material-check: |           |
+| width      | int    | Max. equipment width in mm                | :material-check: | :material-check: |           |
+| depth      | int    | Max. equipment depth in mm                | :material-check: | :material-check: |           |
+| front_door | str    | Front door configuration                  | :material-check: | :material-check: |           |
+|            |        |                                           |                  |                  |           |
+|            |        |  `o` - open, hasn't door                    |                |                  |           |
+|            |        |  `c` - closed, blank door                   |                |                  |           |
+|            |        |  `l` - one section, opens on the left side  |                |                  |           |
+|            |        |  `r` - one section, opens on the right side |                |                  |           |
+|            |        |  `2` - two sections                         |                |                  |           |
+| rear_door  | str    | Rear door configuration                   | :material-check: | :material-check: |           |
+|            |        |                                           |                  |                  |           |
+|            |        |  `o` - open, hasn't door                    |                |                  |           |
+|            |        |  `c` - closed, blank door                   |                |                  |           |
+|            |        |  `l` - one section, opens on the left side  |                |                  |           |
+|            |        |  `r` - one section, opens on the right side |                |                  |           |
+|            |        |  `2` - two sections                         |                |                  |           |
 
 
-Examples
---------
+## Examples
 
-::
-
-        "rack": {
-            "depth": 600,
-            "front_door": "l",
-            "rear_door": "c",
-            "units": 4,
-            "width": 600
-        }
+```json
+{
+  "rack": {
+    "depth": 600,
+    "front_door": "l",
+    "rear_door": "c",
+    "units": 4,
+    "width": 600
+  }
+}
+```

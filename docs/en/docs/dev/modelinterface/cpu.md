@@ -1,46 +1,29 @@
+---
+---
 
-
-===================
-cpu Model Interface
-===================
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
+# cpu Model Interface
 
 CPU capabilities
 
-Variables
----------
+## Variables
 
-+---------------+-------------+---------------------------------+----------+----------+---------+
-| Name          | Type        | Description                     | Required | Constant | Default |
-+---------------+-------------+---------------------------------+----------+----------+---------+
-| arch          | String      | Architecture:                   | Yes      | Yes      |         |
-|               |             |                                 |          |          |         |
-|               |             | * x86                           |          |          |         |
-|               |             | * x86_64                        |          |          |         |
-|               |             | * PPC                           |          |          |         |
-|               |             | * PPC64                         |          |          |         |
-|               |             | * ARM7                          |          |          |         |
-|               |             | * MIPS                          |          |          |         |
-+---------------+-------------+---------------------------------+----------+----------+---------+
-| cores         | Integer     | Effective number of cores.      | Yes      | Yes      |         |
-|               |             | For bigLITTLE and similar,      |          |          |         |
-|               |             | effective number of cores is 2  |          |          |         |
-|               |             | rather than 4                   |          |          |         |
-+---------------+-------------+---------------------------------+----------+----------+---------+
-| ht            | Boolean     | Hyper Theading support          | No       | Yes      |         |
-+---------------+-------------+---------------------------------+----------+----------+---------+
-| freq          | Integer     | Nominal frequence in MHz        | No       | Yes      |         |
-+---------------+-------------+---------------------------------+----------+----------+---------+
-| turbo_freq    | Integer     | Maximal frequence in MHz        | No       | Yes      |         |
-+---------------+-------------+---------------------------------+----------+----------+---------+
-| l1_cache      | Integer     | L1 cache size in kb             | No       | Yes      |         |
-+---------------+-------------+---------------------------------+----------+----------+---------+
-| l2_cache      | Integer     | L2 cache size in kb             | No       | Yes      |         |
-+---------------+-------------+---------------------------------+----------+----------+---------+
-| l3_cache      | Integer     | L3 cache size in kb             | No       | Yes      |         |
-+---------------+-------------+---------------------------------+----------+----------+---------+
+| Name          | Type        | Description                     | Required         | Constant         | Default |
+| ------------- | ----------- | ------------------------------- | ---------------- | ---------------- | ------- |
+| arch          | String      | Architecture:                   | :material-check: | :material-check: |         |
+|               |             |                                 |                  |                  |         |
+|               |             | * `x86`                         |                  |                  |         |
+|               |             | * `x86_64`                      |                  |                  |         |
+|               |             | * `PPC`                         |                  |                  |         |
+|               |             | * `PPC64`                       |                  |                  |         |
+|               |             | * `ARM7`                        |                  |                  |         |
+|               |             | * `MIPS`                        |                  |                  |         |
+| cores         | Integer     | Effective number of cores.      | :material-check: | :material-check: |         |
+|               |             | For bigLITTLE and similar,      |                  |                  |         |
+|               |             | effective number of cores is 2  |                  |                  |         |
+|               |             | rather than 4                   |                  |                  |         |
+| ht            | Boolean     | Hyper Theading support          | :material-close: | :material-check: |         |
+| freq          | Integer     | Nominal frequence in MHz        | :material-close: | :material-check: |         |
+| turbo_freq    | Integer     | Maximal frequence in MHz        | :material-close: | :material-check: |         |
+| l1_cache      | Integer     | L1 cache size in kb             | :material-close: | :material-check: |         |
+| l2_cache      | Integer     | L2 cache size in kb             | :material-close: | :material-check: |         |
+| l3_cache      | Integer     | L3 cache size in kb             | :material-close: | :material-check: |         |

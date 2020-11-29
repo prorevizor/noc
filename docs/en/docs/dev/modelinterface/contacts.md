@@ -1,43 +1,32 @@
+---
+91a24e0e-7d19-49f8-b127-c8a1bfa1c853
+---
 
-
-========================
-contacts Model Interface
-========================
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
+# contacts Model Interface
 
 Administrative, billing and technical contacts for container
 (PoP, Room, Rack)
 
-Variables
----------
+## Variables
 
-+------------------+---------+-------------------------------+----------+----------+---------+
-| Name             | Type    | Description                   | Required | Constant | Default |
-+------------------+---------+-------------------------------+----------+----------+---------+
-| has_contacts     | Boolean | Object can hold               | Yes      | Yes      | true    |
-|                  |         | contact information           |          |          |         |
-+------------------+---------+-------------------------------+----------+----------+---------+
-| administrative   | String  | Administrative contacts       | No       | No       |         |
-|                  |         | including access and passes   |          |          |         |
-+------------------+---------+-------------------------------+----------+----------+---------+
-| billing          | String  | Billing contacts, including   | No       | No       |         |
-|                  |         | agreement negotiations,       |          |          |         |
-|                  |         | bills and payments            |          |          |         |
-+------------------+---------+-------------------------------+----------+----------+---------+
-| technical        | String  | Technical contacts,           | No       | No       |         |
-|                  |         | including on-site engineering |          |          |         |
-+------------------+---------+-------------------------------+----------+----------+---------+
+| Name             | Type    | Description                   | Required         |  Constant        | Default |
+| ---------------- | ------- | ----------------------------- | ---------------- | ---------------- | ------- |
+| has_contacts     | Boolean | Object can hold               | :material-check: | :material-check: | true    |
+|                  |         | contact information           |                  |                  |        |
+| administrative   | String  | Administrative contacts       | :material-close: | :material-close: |         |
+|                  |         | including access and passes   |                  |                  |         |
+| billing          | String  | Billing contacts, including   | :material-close: | :material-close: |         |
+|                  |         | agreement negotiations,       |                  |                  |         |
+|                  |         | bills and payments            |                  |                  |         |
+| technical        | String  | Technical contacts,           | :material-close: | :material-close: |         |
+|                  |         | including on-site engineering |                  |                  |         |
 
-Examples
---------
+## Examples
 
-::
-
-    "contacts": {
-        "has_contacts": "true"
-    }
+```json
+{
+  "contacts": {
+    "has_contacts": "true"
+  }
+}
+```
