@@ -1,57 +1,34 @@
+# dnszone DataStream
 
-
-==================
-dnszone DataStream
-==================
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
-
-dnszone DataStream contains summarized :ref:`DNS Zone<reference-dns-zone>`
+`dnszone` [DataStream](index.md) contains summarized :ref:`DNS Zone<reference-dns-zone>`
 state, including zone's serial and Resource Records.
 
-Fields
-------
+## Fields
 
-+------------+------------------+-----------------------------------------------+
-| Name       | Type             | Description                                   |
-+============+==================+===============================================+
-| id         | String           | :ref:`DNS Zone's<reference-dns-zone>` ID      |
-+------------+------------------+-----------------------------------------------+
-| name       | String           | Zone Name (Domain name)                       |
-+------------+------------------+-----------------------------------------------+
-| serial     | String           | Zone's serial                                 |
-+------------+------------------+-----------------------------------------------+
-| masters    | Array of String  | List of master nameservers                    |
-+------------+------------------+-----------------------------------------------+
-| slaves     | Array of String  | List of slave nameservers                     |
-+------------+------------------+-----------------------------------------------+
-| records    | Array of Object  | List of zone's resource records               |
-+------------+------------------+-----------------------------------------------+
-| * name     | String           | Record name                                   |
-+------------+------------------+-----------------------------------------------+
-| * type     | String           | Record type (i.e. A, NS, CNAME, ...)          |
-+------------+------------------+-----------------------------------------------+
-| * rdata    | String           | Record value                                  |
-+------------+------------------+-----------------------------------------------+
-| * ttl      | Integer          | (Optional) Record's time-to-live              |
-+------------+------------------+-----------------------------------------------+
-| * priority | Integer          | (Optional) Record's priority (for MX and SRV) |
-+------------+------------------+-----------------------------------------------+
+| Name                            | Type                                  | Description                                   |
+| ------------------------------- | ------------------------------------- | --------------------------------------------- |
+| id                              | String                                | :ref:`DNS Zone's<reference-dns-zone>` ID      |
+| name                            | String                                | Zone Name (Domain name)                       |
+| serial                          | String                                | Zone's serial                                 |
+| masters                         | Array of String                       | List of master nameservers                    |
+| slaves                          | Array of String                       | List of slave nameservers                     |
+| records                         | Array of Object :material-arrow-down: | List of zone's resource records               |
+| :material-arrow-right: name     | String                                | Record name                                   |
+| :material-arrow-right: type     | String                                | Record type (i.e. A, NS, CNAME, ...)          |
+| :material-arrow-right: rdata    | String                                | Record value                                  |
+| :material-arrow-right: ttl      | Integer                               | (Optional) Record's time-to-live              |
+| :material-arrow-right: priority | Integer                               | (Optional) Record's priority (for MX and SRV) |
 
-Filters
--------
+## Filters
 
-.. function:: server(name)
+### server(name)
 
-    Restrict stream to zones belonging to server `name`
+Restrict stream to zones belonging to server `name`
 
-    :param name: Server name (i.e. `ns1.example.com`)
+name
+: Server name (i.e. `ns1.example.com`)
 
-Access
-------
-:ref:`API Key<reference-apikey>` with `datastream:dnszone` permissions
+## Access
+
+[API Key](../../../reference/concepts/apikey/index.md) with `datastream:dnszone` permissions
 required.

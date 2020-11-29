@@ -1,34 +1,19 @@
+# administrativedomain DataStream
 
-
-===============================
-administrativedomain DataStream
-===============================
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
-
-administrativedomain DataStream contains summarized :ref:`Admninistrative Domain<reference-administrative-domain>`
+`administrativedomain` [DataStream](index.md) contains summarized
+[Administrative Domain](../../../reference/concepts/administrative-domain/index.md)
 state
 
-Fields
-------
+## Fields
 
-+--------+-----------------+--------------------------------------------------------------------+
-| Name   | Type            | Description                                                        |
-+========+=================+====================================================================+
-| id     | String          | :ref:`Administrative Domain's<reference-administrative-domain>` ID |
-+--------+-----------------+--------------------------------------------------------------------+
-| name   | String          | Name                                                               |
-+--------+-----------------+--------------------------------------------------------------------+
-| parent | String          | Parent's ID (if exists)                                            |
-+--------+-----------------+--------------------------------------------------------------------+
-| tags   | Array of String | List of tags                                                       |
-+--------+-----------------+--------------------------------------------------------------------+
+| Name   | Type            | Description                                                                              |
+| ------ | --------------- | ---------------------------------------------------------------------------------------- |
+| id     | String          | [Administrative Domain's](../../../reference/concepts/administrative-domain/index.md) ID |
+| name   | String          | Name                                                                                     |
+| parent | String          | Parent's ID (if exists)                                                                  |
+| tags   | Array of String | List of tags                                                                             |
 
-Access
-------
-:ref:`API Key<reference-apikey>` with `datastream:administrativedomain` permissions
+## Access
+
+[API Key](../../../reference/concepts/apikey/index.md) with `datastream:administrativedomain` permissions
 required.
