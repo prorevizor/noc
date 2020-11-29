@@ -1,84 +1,92 @@
-
-
-==============
-NBI config API
-==============
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
+# NBI config API
 
 NBI config API allows remote system to fetch Managed Object's
 configuration, eigther last of specified revision
 
+## Get Last Config
+```
+GET /api/nbi/config/(int:object_id)
+```
 
+Get last configuration for Managed Object with id `object_id`
 
-Usage
------
+<!-- prettier-ignore -->
+!!! example "Example Request"
+    ```
+    GET /api/nbi/config/333 HTTP/1.1
+    Host: noc.example.com
+    Private-Token: 12345
+    ```
 
-Get last config
-^^^^^^^^^^^^^^^
+<!-- prettier-ignore -->
+!!! example "Example Response"
+    ```
+    HTTP/1.1 200 OK
+    Content-Type: text/plain
 
-.. http:get:: /api/nbi/config/(int:object_id)
+    !
+    hostname Switch
+    ...
+    ```
 
-    Get last configuration for Managed Object with id `object_id`
+### Request Parameters
+object_id
+: Managed Object's id.
 
-    **Example Request**
+### Request Headers
+Private-Token
+: [API Key](../../../reference/concepts/apikey/index.md) with `nbi:config` API access.
 
-    .. sourcecode:: http
+### HTTP Status Code
+200
+: Success.
 
-        GET /api/nbi/config/333 HTTP/1.1
-        Host: noc.example.com
-        Private-Token: 12345
+204
+: No Content. Config has not been read yet.
 
-    **Example Response**
+404
+: Object not found.
 
-    .. sourcecode:: http
+## Get Config by Revision
+```
+GET /api/nbi/config/(int:object_id)/(str:revision id)
+```
+Get configuration revision `revision_id`
+for Managed Object with id `object_id`
 
-        HTTP/1.1 200 OK
-        Content-Type: text/plain
+<!-- prettier-ignore -->
+!!! example "Example Request"
+    ```
+    GET /api/nbi/config/333/5c03cb4cc04567000830be73 HTTP/1.1
+    Host: noc.example.com
+    Private-Token: 12345
+    ```
 
-        !
-        hostname Switch
-        ...
+<!-- prettier-ignore -->
+!!! example "Example Response"
+    ```
+    HTTP/1.1 200 OK
+    Content-Type: text/plain
 
-    :param object_id: Managed Object's id.
-    :reqheader Private-Token: :ref:`reference-apikey` with `nbi:config` API access.
-    :statuscode 200: Success.
-    :statuscode 204: No Content. Config has not been read yet.
-    :statuscode 404: Object not found.
+    !
+    hostname Switch
+    ...
+    ```
 
-Get config by revision
-^^^^^^^^^^^^^^^^^^^^^^
+### Request Parameters
+object_id
+: Managed Object's id
 
-.. http:get:: /api/nbi/config/(int:object_id)/(str:revision id)
+revision
+: Config revision. Can be obtained via [configrevisions API](configrevisions.md)
 
-    Get configuration revision `revision_id`
-    for Managed Object with id `object_id`
+### Request Headers
+Private-Token
+: [API Key](../../../reference/concepts/apikey/index.md) with `nbi:config` API access
 
-    **Example Request**
+### HTTP Status Codes
+200
+: Success.
 
-    .. sourcecode:: http
-
-        GET /api/nbi/config/333/5c03cb4cc04567000830be73 HTTP/1.1
-        Host: noc.example.com
-        Private-Token: 12345
-
-    **Example Response**
-
-    .. sourcecode:: http
-
-        HTTP/1.1 200 OK
-        Content-Type: text/plain
-
-        !
-        hostname Switch
-        ...
-
-    :param object_id: Managed Object's id
-    :param revision: Config revision. Can be obtained via :ref:`configrevisions API<api-nbi-configrevisions>`
-    :reqheader Private-Token: :ref:`reference-apikey` with `nbi:config` API access
-    :statuscode 200: Success
-    :statuscode 404: Object or revision not found
+404
+: Object not found.
