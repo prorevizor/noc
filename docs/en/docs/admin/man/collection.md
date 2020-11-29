@@ -2,32 +2,19 @@
 
 # collection
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 collection - 
 
-.. todo::
-    Short description for collection
+#TODO: ## Short description for collection
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe collection
+## Description
+#TODO: ## Describe collection
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

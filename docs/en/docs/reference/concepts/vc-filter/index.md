@@ -11,8 +11,7 @@
 <range> ::= <vlan> '-' <vlan>
 ```
 
-## Examples
---------
+## ## Examples
 ```
 1
 1-100

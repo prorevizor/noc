@@ -2,32 +2,19 @@
 
 # sync-mibs
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 sync-mibs - 
 
-.. todo::
-    Short description for sync-mibs
+#TODO: ## Short description for sync-mibs
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe sync-mibs
+## Description
+#TODO: ## Describe sync-mibs
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

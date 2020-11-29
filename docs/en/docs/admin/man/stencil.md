@@ -2,42 +2,27 @@
 
 # stencil
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 stencil - Network stencils manipulation utility
 
-.. todo::
-    Short description for service
+#TODO: ## Short description for service
 
-Synopsis
---------
-::
+## Synopsis
 
     noc stencil htmlindex -o <outfile>
 
 Generate
 
 
-Description
------------
-.. todo::
-    Describe service
+## Description
+#TODO: ## Describe service
 
-Examples
---------
+## Examples
 Generate stencils index page
-
-::
 
     noc stencil htmlindex -o ui/pkg/stencils/index.html
 
 
-See also
---------
+## See also
 

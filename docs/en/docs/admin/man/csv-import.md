@@ -2,32 +2,19 @@
 
 # csv-import
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 csv-import - 
 
-.. todo::
-    Short description for csv-import
+#TODO: ## Short description for csv-import
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe csv-import
+## Description
+#TODO: ## Describe csv-import
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

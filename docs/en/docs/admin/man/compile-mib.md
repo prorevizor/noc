@@ -2,32 +2,19 @@
 
 # compile-mib
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 compile-mib - 
 
-.. todo::
-    Short description for compile-mib
+#TODO: ## Short description for compile-mib
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe compile-mib
+## Description
+#TODO: ## Describe compile-mib
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

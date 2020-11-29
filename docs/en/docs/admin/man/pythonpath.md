@@ -2,32 +2,19 @@
 
 # pythonpath
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 pythonpath - 
 
-.. todo::
-    Short description for pythonpath
+#TODO: ## Short description for pythonpath
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe pythonpath
+## Description
+#TODO: ## Describe pythonpath
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

@@ -2,32 +2,19 @@
 
 # get-uuid
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 get-uuid - 
 
-.. todo::
-    Short description for get-uuid
+#TODO: ## Short description for get-uuid
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe get-uuid
+## Description
+#TODO: ## Describe get-uuid
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

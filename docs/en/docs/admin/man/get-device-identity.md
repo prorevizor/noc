@@ -2,32 +2,19 @@
 
 # get-device-identity
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 get-device-identity - 
 
-.. todo::
-    Short description for get-device-identity
+#TODO: ## Short description for get-device-identity
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe get-device-identity
+## Description
+#TODO: ## Describe get-device-identity
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

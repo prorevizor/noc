@@ -2,32 +2,19 @@
 
 # pretty
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 pretty - 
 
-.. todo::
-    Short description for pretty
+#TODO: ## Short description for pretty
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe pretty
+## Description
+#TODO: ## Describe pretty
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

@@ -2,32 +2,19 @@
 
 # l3-topology
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 l3-topology - 
 
-.. todo::
-    Short description for l3-topology
+#TODO: ## Short description for l3-topology
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe l3-topology
+## Description
+#TODO: ## Describe l3-topology
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

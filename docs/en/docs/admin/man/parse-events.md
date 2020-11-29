@@ -2,32 +2,19 @@
 
 # parse-events
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 parse-events - 
 
-.. todo::
-    Short description for parse-events
+#TODO: ## Short description for parse-events
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe parse-events
+## Description
+#TODO: ## Describe parse-events
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

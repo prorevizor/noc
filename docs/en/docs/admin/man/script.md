@@ -2,32 +2,19 @@
 
 # script
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 script - 
 
-.. todo::
-    Short description for script
+#TODO: ## Short description for script
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe script
+## Description
+#TODO: ## Describe script
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

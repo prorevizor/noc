@@ -2,32 +2,19 @@
 
 # crashinfo
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 crashinfo - 
 
-.. todo::
-    Short description for crashinfo
+#TODO: ## Short description for crashinfo
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe crashinfo
+## Description
+#TODO: ## Describe crashinfo
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

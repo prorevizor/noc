@@ -2,32 +2,19 @@
 
 # nri
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 nri - 
 
-.. todo::
-    Short description for nri
+#TODO: ## Short description for nri
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe nri
+## Description
+#TODO: ## Describe nri
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

@@ -46,10 +46,10 @@ G.703 {: g-703 }
 : [ITU-T G.703 standard](https://en.wikipedia.org/wiki/G.703)
 
 LACP
-: .. todo::
+#TODO: ## Describe
 
 LLDP
-: .. todo::
+#TODO: ## Describe
 
 NDP (Huawei)
 : Describe
@@ -58,7 +58,7 @@ NRI
 : Network Resource Inventory
 
 Netflow
-: .. todo::
+#TODO: ## 
 
 network segment
 : See :doc:`/reference/network-segment`.
@@ -76,7 +76,7 @@ managed object profile
 : See :doc:`/reference/managed-object-profile`.
 
 management VLAN
-: .. todo::
+#TODO: ## Describe
 
 MIB
 : Management Information Base. NOC uses MIB to .....
@@ -88,10 +88,10 @@ mongodb
 : See :doc:`/reference/mongodb`.
 
 multicast VLAN
-: Describe
+#TODO: ## Describe
 
 ethernet OAM
-: Describe
+#TODO: ## Describe
 
 PoE {: #poe }
 : [Power over Ethernet](https://en.wikipedia.org/wiki/Power_over_Ethernet)
@@ -131,7 +131,7 @@ STP
 : Spanning Tree Protocol
 
 subscriber
-: See :doc:`/reference/subscriber`.
+: See [subscriber](reference/concepts/subscriber/index.md)
 
 Telnet
 : [Telnet](https://en.wikipedia.org/wiki/Telnet) Protocol. Unencrypted [CLI](#cli) protocol
@@ -140,7 +140,7 @@ topology
 : See :doc:`/reference/topology`.
 
 UDLD
-: .. todo::
+#TODO: ## Describe
 
 VLAN
-: .. todo::
+#TODO: ## Describe

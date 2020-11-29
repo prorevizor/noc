@@ -2,32 +2,19 @@
 
 # shell
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 shell - 
 
-.. todo::
-    Short description for shell
+#TODO: ## Short description for shell
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe shell
+## Description
+#TODO: ## Describe shell
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

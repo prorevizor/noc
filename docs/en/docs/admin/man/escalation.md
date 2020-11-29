@@ -2,32 +2,19 @@
 
 # escalation
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 escalation - 
 
-.. todo::
-    Short description for escalation
+#TODO: ## Short description for escalation
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe escalation
+## Description
+#TODO: ## Describe escalation
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

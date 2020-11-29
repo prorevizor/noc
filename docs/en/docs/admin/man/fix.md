@@ -2,32 +2,19 @@
 
 # fix
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 fix - 
 
-.. todo::
-    Short description for fix
+#TODO: ## Short description for fix
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe fix
+## Description
+#TODO: ## Describe fix
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

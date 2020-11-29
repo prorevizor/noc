@@ -2,32 +2,19 @@
 
 # import-mib
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 import-mib - 
 
-.. todo::
-    Short description for import-mib
+#TODO: ## Short description for import-mib
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe import-mib
+## Description
+#TODO: ## Describe import-mib
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

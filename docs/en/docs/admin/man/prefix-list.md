@@ -2,32 +2,19 @@
 
 # prefix-list
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 prefix-list - 
 
-.. todo::
-    Short description for prefix-list
+#TODO: ## Short description for prefix-list
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe prefix-list
+## Description
+#TODO: ## Describe prefix-list
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

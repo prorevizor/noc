@@ -7,8 +7,6 @@
 
 ## Synopsis
 
-::
-
     noc notify [--debug] [--dry-run]
         [--notification-group=<group_name>]
         [--template=<template name>] [--var=*key*=<value>]
@@ -38,14 +36,10 @@ Arguments:
 Send message from template *t1*. Set *host* variable to *myhost* and
 *reason* variable to *testing*
 
-::
-
     /opt/noc$ ./noc notify --notification-group=mygroup\
         --template=t1 --var=host=myhost --var=reason=testing
 
 Send message to notification groups *mygroup1* and *mygroup2*
-
-::
 
     /opt/noc$ ./noc notify \
         --notification-group=mygroup1 \
@@ -55,16 +49,12 @@ Send message to notification groups *mygroup1* and *mygroup2*
 
 Send message from file
 
-::
-
     /opt/noc$ ./noc notify \
         --notification-group=mygroup \
         --subject=Test\ from\ file \
         --body-file=/path/to/file.txt
 
 Read body from stdin
-
-::
 
     /opt/noc$ ./noc notify \
         --notification-group=mygroup \

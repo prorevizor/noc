@@ -2,18 +2,11 @@
 
 # test
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 `noc test` - Run testing suite
 
-Synopsis
---------
+## Synopsis
 
     noc test run [-v|--verbose]
                  [--test-db=DBNAME]
@@ -23,8 +16,7 @@ Synopsis
                  [TEST_NAME ...]
 
 
-Description
------------
+## Description
 Runs testing suite and reports errors or warnings.
 Options:
 
@@ -43,21 +35,13 @@ Options:
   * `path` - Run all tests from python file `path`
   * `path::func` - Run single testing function `func` from python file `path`
 
-Examples
---------
-
-.. code-block:: text
+## Examples
 
     $ ./noc test
 
-.. code-block:: text
-
     $ ./noc test --summary
-
-.. code-block:: text
 
     $ ./noc test -v tests/test_0001_migrate.py::test_database_migrations
 
-See also
---------
+## See also
 * `pytest documentation <https://docs.pytest.org/en/latest/>`_

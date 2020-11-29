@@ -2,32 +2,19 @@
 
 # run
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 run - 
 
-.. todo::
-    Short description for run
+#TODO: ## Short description for run
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe run
+## Description
+#TODO: ## Describe run
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

@@ -1,33 +1,17 @@
-
-
 # beef
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
-
-Name
-----
+## Name
 beef - 
 
-.. todo::
-    Short description for beef
+#TODO: ## Short description for beef
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe beef
+## Description
+#TODO: ## Describe beef
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

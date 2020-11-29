@@ -2,32 +2,19 @@
 
 # migrate-ch
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 migrate-ch - 
 
-.. todo::
-    Short description for migrate-ch
+#TODO: ## Short description for migrate-ch
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe migrate-ch
+## Description
+#TODO: ## Describe migrate-ch
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

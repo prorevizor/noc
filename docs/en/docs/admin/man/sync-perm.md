@@ -2,32 +2,19 @@
 
 # sync-perm
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 sync-perm - 
 
-.. todo::
-    Short description for sync-perm
+#TODO: ## Short description for sync-perm
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe sync-perm
+## Description
+#TODO: ## Describe sync-perm
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

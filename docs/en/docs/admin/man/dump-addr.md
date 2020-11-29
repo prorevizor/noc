@@ -2,32 +2,19 @@
 
 # dump-addr
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 dump-addr - 
 
-.. todo::
-    Short description for dump-addr
+#TODO: ## Short description for dump-addr
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe dump-addr
+## Description
+#TODO: ## Describe dump-addr
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

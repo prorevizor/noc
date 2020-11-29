@@ -2,32 +2,19 @@
 
 # ensure-indexes
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 ensure-indexes - 
 
-.. todo::
-    Short description for ensure-indexes
+#TODO: ## Short description for ensure-indexes
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe ensure-indexes
+## Description
+#TODO: ## Describe ensure-indexes
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

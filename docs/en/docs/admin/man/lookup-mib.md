@@ -2,32 +2,19 @@
 
 # lookup-mib
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 lookup-mib - 
 
-.. todo::
-    Short description for lookup-mib
+#TODO: ## Short description for lookup-mib
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe lookup-mib
+## Description
+#TODO: ## Describe lookup-mib
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

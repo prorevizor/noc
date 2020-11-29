@@ -2,32 +2,19 @@
 
 # newapp
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 newapp - 
 
-.. todo::
-    Short description for newapp
+#TODO: ## Short description for newapp
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe newapp
+## Description
+#TODO: ## Describe newapp
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

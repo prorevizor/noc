@@ -2,32 +2,19 @@
 
 # sync
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 sync - 
 
-.. todo::
-    Short description for sync
+#TODO: ## Short description for sync
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe sync
+## Description
+#TODO: ## Describe sync
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

@@ -2,32 +2,19 @@
 
 # workflow
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 workflow - 
 
-.. todo::
-    Short description for workflow
+#TODO: ## Short description for workflow
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe workflow
+## Description
+#TODO: ## Describe workflow
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

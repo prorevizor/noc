@@ -2,32 +2,19 @@
 
 # clean-asset
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 clean-asset - 
 
-.. todo::
-    Short description for clean-asset
+#TODO: ## Short description for clean-asset
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe clean-asset
+## Description
+#TODO: ## Describe clean-asset
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

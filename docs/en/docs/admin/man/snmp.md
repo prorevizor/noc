@@ -2,32 +2,19 @@
 
 # snmp
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 snmp - 
 
-.. todo::
-    Short description for snmp
+#TODO: ## Short description for snmp
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe snmp
+## Description
+#TODO: ## Describe snmp
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

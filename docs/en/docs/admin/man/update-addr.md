@@ -2,32 +2,19 @@
 
 # update-addr
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 update-addr - 
 
-.. todo::
-    Short description for update-addr
+#TODO: ## Short description for update-addr
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe update-addr
+## Description
+#TODO: ## Describe update-addr
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

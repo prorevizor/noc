@@ -2,32 +2,19 @@
 
 # interface-profile
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 interface-profile - 
 
-.. todo::
-    Short description for interface-profile
+#TODO: ## Short description for interface-profile
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe interface-profile
+## Description
+#TODO: ## Describe interface-profile
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

@@ -2,32 +2,24 @@
 
 # discovery
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
+
 discovery - 
 
-.. todo::
-    Short description for discovery
+#TODO: ## Short description for discovery
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
 
-Description
------------
-.. todo::
-    Describe discovery
+#TODO: ## Describe syntax here
 
-Examples
---------
+## Description
 
-See also
---------
+#TODO: ## Describe discovery
+
+## Examples
+
+
+## See also
+
 

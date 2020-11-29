@@ -1,33 +1,18 @@
-
-
 # login
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 login - 
 
-.. todo::
-    Short description for login
+#TODO: ## Short description for login
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe login
+## Description
+#TODO: ## Describe login
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

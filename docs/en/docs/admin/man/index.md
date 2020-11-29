@@ -2,32 +2,19 @@
 
 # index
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 index - 
 
-.. todo::
-    Short description for index
+#TODO: ## Short description for index
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe index
+## Description
+#TODO: ## Describe index
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

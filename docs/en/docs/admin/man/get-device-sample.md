@@ -2,32 +2,19 @@
 
 # get-device-sample
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 get-device-sample - 
 
-.. todo::
-    Short description for get-device-sample
+#TODO: ## Short description for get-device-sample
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe get-device-sample
+## Description
+#TODO: ## Describe get-device-sample
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

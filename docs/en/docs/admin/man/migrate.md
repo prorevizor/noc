@@ -2,32 +2,19 @@
 
 # migrate
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 migrate - 
 
-.. todo::
-    Short description for migrate
+#TODO: ## Short description for migrate
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe migrate
+## Description
+#TODO: ## Describe migrate
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

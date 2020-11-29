@@ -2,32 +2,19 @@
 
 # dump-crashinfo
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 dump-crashinfo - 
 
-.. todo::
-    Short description for dump-crashinfo
+#TODO: ## Short description for dump-crashinfo
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe dump-crashinfo
+## Description
+#TODO: ## Describe dump-crashinfo
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

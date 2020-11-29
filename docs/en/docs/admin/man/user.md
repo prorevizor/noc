@@ -2,32 +2,19 @@
 
 # user
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 user - 
 
-.. todo::
-    Short description for user
+#TODO: ## Short description for user
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe user
+## Description
+#TODO: ## Describe user
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

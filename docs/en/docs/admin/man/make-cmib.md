@@ -2,32 +2,19 @@
 
 # make-cmib
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 make-cmib - 
 
-.. todo::
-    Short description for make-cmib
+#TODO: ## Short description for make-cmib
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe make-cmib
+## Description
+#TODO: ## Describe make-cmib
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

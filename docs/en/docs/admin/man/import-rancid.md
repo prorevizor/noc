@@ -2,32 +2,19 @@
 
 # import-rancid
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 import-rancid - 
 
-.. todo::
-    Short description for import-rancid
+#TODO: ## Short description for import-rancid
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe import-rancid
+## Description
+#TODO: ## Describe import-rancid
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

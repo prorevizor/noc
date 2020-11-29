@@ -2,32 +2,19 @@
 
 # inject-event
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 inject-event - 
 
-.. todo::
-    Short description for inject-event
+#TODO: ## Short description for inject-event
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe inject-event
+## Description
+#TODO: ## Describe inject-event
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

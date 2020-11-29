@@ -2,32 +2,19 @@
 
 # link
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 link - 
 
-.. todo::
-    Short description for link
+#TODO: ## Short description for link
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe link
+## Description
+#TODO: ## Describe link
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

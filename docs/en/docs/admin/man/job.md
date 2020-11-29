@@ -2,32 +2,19 @@
 
 # job
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 job - 
 
-.. todo::
-    Short description for job
+#TODO: ## Short description for job
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe job
+## Description
+#TODO: ## Describe job
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

@@ -2,32 +2,19 @@
 
 # service
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 service - 
 
-.. todo::
-    Short description for service
+#TODO: ## Short description for service
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe service
+## Description
+#TODO: ## Describe service
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

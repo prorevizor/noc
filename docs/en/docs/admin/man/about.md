@@ -33,5 +33,4 @@ Where:
 15.05.1+dv-ensure-indexes.8268.b7bbd896
 ```
 
-See also
---------
+## See also

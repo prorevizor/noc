@@ -2,32 +2,19 @@
 
 # rpc
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 rpc - 
 
-.. todo::
-    Short description for rpc
+#TODO: ## Short description for rpc
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe rpc
+## Description
+#TODO: ## Describe rpc
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

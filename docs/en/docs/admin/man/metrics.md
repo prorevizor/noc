@@ -2,32 +2,19 @@
 
 # metrics
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 metrics - 
 
-.. todo::
-    Short description for metrics
+#TODO: ## Short description for metrics
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe metrics
+## Description
+#TODO: ## Describe metrics
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

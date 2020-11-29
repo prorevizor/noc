@@ -2,36 +2,27 @@
 
 # config
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
+
 *config*: Config manipulation tool
 
-Synopsis
---------
-::
+## Synopsis
 
     noc config dump
 
-Description
------------
+## Description
+
 *config* loads effective configuration and dumps it in YAML format to stdout.
 Effective configuration defined by [noc_config](../config/index.md#noc_config) environment variable.
 Refer to [admin-configuration](../config/index.md) for details.
 
-Examples
---------
-::
+## Examples
 
     /opt/noc$ ./noc config dump
     /opt/noc$ NOC_CONFIG=legacy:/// ./noc config dump
 
-See also
---------
-*  [noc_config](../config/index.md#noc_config)
+## See also
+
+* [noc_config](../config/index.md#noc_config)
 * [admin-configuration](../config/index.md)

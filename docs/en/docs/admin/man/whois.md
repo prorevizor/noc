@@ -2,58 +2,43 @@
 
 # whois
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 *whois* - WhoisCache manipulation utility
 
-Synopsis
---------
-::
+## Synopsis
 
     noc whois update-cache
     noc whois prefix-list [--name=<name>] [--profile=<profile>] <as-set>
 
 
-Description
------------
-update-cache
-~~~~~~~~~~~~
+## Description
+#### update-cache
+
 Download and update whois cache
 
-prefix-list
-~~~~~~~~~~~
-Prefix-list builder. Where
-* <name> - Name of prefix list to generate
-* <profile> - SA Profile to use as formatter (:ref:`profile-Cisco.IOS` by default)
-* <as-set> - AS-set name
+#### prefix-list
 
-Examples
---------
+Prefix-list builder. Where
+* `<name>` - Name of prefix list to generate
+* `<profile>` - SA Profile to use as formatter ([Cisco.IOS](../../reference/profiles/Cisco/Cisco.IOS.md) by default)
+* `<as-set>` - AS-set name
+
+## Examples
 
 Download and fill whois cache
 
-::
 
     noc whois update-cache
 
 Build Cisco-style prefix list
 
-::
 
     noc whois prefix-list --name=my-prefix-list --profile=Cisco.IOS AS-EXAMPLE
 
 Build JUNOS-style prefix list
 
-::
-
     noc whois prefix-list --name=my-prefix-list --profile=Juniper.JUNOS AS-EXAMPLE
 
 
-See also
---------
+## See also

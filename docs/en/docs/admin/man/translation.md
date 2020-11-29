@@ -2,32 +2,19 @@
 
 # translation
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 translation - 
 
-.. todo::
-    Short description for translation
+#TODO: ## Short description for translation
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe translation
+## Description
+#TODO: ## Describe translation
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

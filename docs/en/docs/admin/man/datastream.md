@@ -2,49 +2,36 @@
 
 # datastream
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
+
 *datastream*: DataStream manipulation tool
 
-Synopsis
---------
-::
+## Synopsis
 
     noc datastream list
     noc datastream rebuild --datastream=<name>
 
-Description
------------
-list
-^^^^
+## Description
+
+#### list
+
 List all existent datastreams
 
-::
-
     noc datastream list
 
-rebuild
-^^^^^^^
-Recalculate datastream `<name>`
+#### rebuild
 
-::
+Recalculate datastream `<name>`
 
     noc datastream rebuild --datastream=<name>
 
 
-Examples
---------
-::
+## Examples
 
     /opt/noc$ ./noc datastream list
     /opt/noc$ ./noc datastream rebuild --datastream=cfgping
 
-See also
---------
+## See also
+
 * [api-datastream](../../dev/api/datastream/index.md)

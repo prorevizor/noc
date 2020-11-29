@@ -2,32 +2,19 @@
 
 # wipe
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 wipe - 
 
-.. todo::
-    Short description for wipe
+#TODO: ## Short description for wipe
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe wipe
+## Description
+#TODO: ## Describe wipe
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

@@ -2,32 +2,19 @@
 
 # ping
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 ping - 
 
-.. todo::
-    Short description for ping
+#TODO: ## Short description for ping
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe ping
+## Description
+#TODO: ## Describe ping
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

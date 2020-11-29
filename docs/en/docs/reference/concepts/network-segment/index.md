@@ -178,8 +178,7 @@ _Tree_ topology, while segment's backbone is the common _Ring_ combined
 with small _expansion trees_, attached to _Ring_ nodes. Port expansion
 is performed with cheap switches contained within same PoP with backbone nodes.
 
-.. todo::
-Show Ring-and-Tree topology and describe fault propagation
+#TODO: ## Show Ring-and-Tree topology and describe fault propagation
 
 NOC performs neat auto-layout of _Ring_ segment maps and proper [RCA](../../../glossary.md#rca)
 

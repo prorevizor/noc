@@ -2,32 +2,19 @@
 
 # import-zone
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 import-zone - 
 
-.. todo::
-    Short description for import-zone
+#TODO: ## Short description for import-zone
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe import-zone
+## Description
+#TODO: ## Describe import-zone
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 

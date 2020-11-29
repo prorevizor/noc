@@ -2,32 +2,19 @@
 
 # verify-model
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
 
-Name
-----
+## Name
 verify-model - 
 
-.. todo::
-    Short description for verify-model
+#TODO: ## Short description for verify-model
 
-Synopsis
---------
-.. todo::
-   Describe syntax here
+## Synopsis
+#TODO: ## Describe syntax here
 
-Description
------------
-.. todo::
-    Describe verify-model
+## Description
+#TODO: ## Describe verify-model
 
-Examples
---------
+## Examples
 
-See also
---------
+## See also
 
