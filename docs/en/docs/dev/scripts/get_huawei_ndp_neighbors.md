@@ -2,12 +2,6 @@
 
 # get_huawei_ndp_neighbors
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
-
 <!-- prettier-ignore -->
 !!! todo
 

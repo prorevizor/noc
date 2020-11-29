@@ -2,12 +2,6 @@
 
 # get_copper_tdr_diag
 
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
-
 <!-- prettier-ignore -->
 !!! todo
 
