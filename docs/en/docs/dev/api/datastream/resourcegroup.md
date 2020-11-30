@@ -1,17 +1,17 @@
 # resourcegroup DataStream
 
-`resourcegroup` [DataStream](index.md) contains summarized :ref:`Resource Group<reference-resource-group>`
+`resourcegroup` [DataStream](index.md) contains summarized [Resource Group](../../../reference/concepts/resource-group/index.md)
 state
 
 ## Fields
 
 | Name           | Type                 | Description                                                        |
 | -------------- | -------------------- | ------------------------------------------------------------------ |
-| id             | String               | :ref:`Administrative Domain's<reference-administrative-domain>` ID |
+| id             | String               | [Administrative Domain's](../../../reference/concepts/administrative-domain/index.md) ID |
 | name           | String               | Name                                                               |
 | parent         | String               | Parent's ID (if exists)                                            |
-| technology     | Object {{ complex }} | Resource Group's :ref:`Technology<reference-technology>`           |
-| remote_system  | Object {{ complex }} | Source :ref:`remote system<reference-remote-system>` for object    |
+| technology     | Object {{ complex }} | Resource Group's [Technology](../../../reference/concepts/technology/index.md)           |
+| remote_system  | Object {{ complex }} | Source [remote system](../../../reference/concepts/remote-system/index.md) for object    |
 | {{ tab }} id   | String               | External system's id                                               |
 | {{ tab }} name | String               | External system's name                                             |
 | remote_id      | String               | External system's id (Opaque attribute)                            |

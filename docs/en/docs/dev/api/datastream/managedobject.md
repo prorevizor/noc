@@ -1,15 +1,15 @@
 # managedobject DataStream
 
-`managedobject` [DataStream](index.md) contains summarized :ref:`Managed Object<reference-managed-object>`
+`managedobject` [DataStream](index.md) contains summarized [Managed Object](../../../reference/concepts/managed-object/index.md)
 state, including capabilities, interfaces and topology
 
 ## Fields
 
 | Name                           | Type                          | Description                                                            |
 | ------------------------------ | ----------------------------- | ---------------------------------------------------------------------- |
-| id                             | String                        | :ref:`Managed Object's<reference-managed-object>` id                   |
+| id                             | String                        | [Managed Object's](../../../reference/concepts/managed-object/index.md) id                   |
 | change_id                      | String                        | [Record's Change Id](index.md#change-id)                               |
-| remote_system                  | Object {{ complex }}          | Source :ref:`remote system<reference-remote-system>` for object        |
+| remote_system                  | Object {{ complex }}          | Source [remote system](../../../reference/concepts/remote-system/index.md) for object        |
 | {{ tab }} id                   | String                        | External system's id                                                   |
 | {{ tab }} name                 | String                        | External system's name                                                 |
 | remote_id                      | String                        | External system's id (Opaque attribbute)                               |
@@ -23,30 +23,30 @@ state, including capabilities, interfaces and topology
 | description                    | String                        | Managed Object description                                             |
 | tags                           | Array of String               | Managed Object tags                                                    |
 | is_managed                     | Boolean                       | Object is managed                                                      |
-| object_profile                 | Object {{ complex }}          | :ref:`Managed Object Profile's data<reference-managed-object-profile>` |
+| object_profile                 | Object {{ complex }}          | [Managed Object Profile's data](../../../reference/concepts/managed-object/index.md#level)     |
 | {{ tab }} id                   | String                        | Profile's ID                                                           |
 | {{ tab }} name                 | String                        | Profile's Name                                                         |
-| {{ tab }} level                | Integer                       | Managed Object's :ref:`level<reference-managed-object-profile-level>`  |
+| {{ tab }} level                | Integer                       | Managed Object's [level](../../../reference/concepts/managed-object-profile/index.md)  |
 | {{ tab }} enable_ping          | Boolean                       | Ping probe is enabled                                                  |
-| {{ tab }} enable_box           | Boolean                       | :ref:`Box discovery<discovery-box>` is enabled                         |
-| {{ tab }} enable_periodic      | Boolean                       | :ref:`Periodic discovery<discovery-periodic>` is enabled               |
+| {{ tab }} enable_box           | Boolean                       | [Box discovery](../../../admin/discovery/box/index.md) is enabled              |
+| {{ tab }} enable_periodic      | Boolean                       | [Periodic discovery](../../../admin/discovery/periodic/index.md) is enabled    |
 | {{ tab }} tags                 | Array of String               | Managed Object Profile tags                                            |
 | config                         | Object {{ complex }}          | Optional Object's config metadata (if any)                             |
 | {{ tab }} revision             | String                        | Config revision ID                                                     |
 | {{ tab }} size                 | Integer                       | Config size in octets                                                  |
 | {{ tab }} updated              | String                        | Last modification timestamp in ISO 8601 format                         |
-| capabilities                   | Array of Object {{ complex }} | List of object's :ref:`capabilities<caps>`                             |
+| capabilities                   | Array of Object {{ complex }} | List of object's [capabilities](#caps)                             |
 | {{ tab }} name                 | String                        | Capability's name                                                      |
 | {{ tab }} value                | String                        | Capabbility's value                                                    |
-| service_groups                 | Array of Object {{ complex }} | Service :ref:`Resource Groups<reference-resource-group>`               |
-| {{ tab }} id                   | String                        | :ref:`Resource Group's<reference-resource-group>` id                   |
-| {{ tab }} name                 | String                        | :ref:`Resource Group's<reference-resource-group>` id                   |
-| {{ tab }} technology           | String                        | :ref:`Technology's<reference-technology>` name                         |
+| service_groups                 | Array of Object {{ complex }} | Service [Resource Groups](../../../reference/concepts/resource-group/index.md) |
+| {{ tab }} id                   | String                        | [Resource Group's](../../../reference/concepts/resource-group/index.md) id     |
+| {{ tab }} name                 | String                        | [Resource Group's](../../../reference/concepts/resource-group/index.md) id     |
+| {{ tab }} technology           | String                        | [Technology's](../../../reference/concepts/technology/index.md) name           |
 | {{ tab }} static               | Boolean                       | true if group is static                                                |
-| client_groups                  | Array of Object {{ complex }} | Client :ref:`Resource Groups<reference-resource-group>`                |
-| {{ tab }} id                   | String                        | :ref:`Resource Group's<reference-resource-group>` id                   |
-| {{ tab }} name                 | String                        | :ref:`Resource Group's<reference-resource-group>` id                   |
-| {{ tab }} technology           | String                        | :ref:`Technology's<reference-technology>` name                         |
+| client_groups                  | Array of Object {{ complex }} | Client [Resource Groups](../../../reference/concepts/resource-group/index.md)  |
+| {{ tab }} id                   | String                        | [Resource Group's](../../../reference/concepts/resource-group/index.md) id     |
+| {{ tab }} name                 | String                        | [Resource Group's](../../../reference/concepts/resource-group/index.md) id   |
+| {{ tab }} technology           | String                        | [Technology's](../../../reference/concepts/technology/index.md) name        |
 | {{ tab }} static               | Boolean                       | true if group is static                                                |
 | forwarding-instances           | Array of Object {{ complex }} | List of VPNs and virtual tables                                        |
 | {{ tab }} name                 | String                        | Forwarding instance name                                               |
@@ -89,7 +89,7 @@ state, including capabilities, interfaces and topology
 | {{ tab2 }} is_uplink           | Boolean                       | True, if link is uplink                                                |
 | {{ tab }} services             | Array of Object {{ complex }} | Services related to the port                                           |
 | {{ tab2 }} id                  | String                        | Service\'s ID                                                          |
-| {{ tab2 }} remote_system       | Object                        | Source :ref:`remote system<reference-remote-system>` for service       |
+| {{ tab2 }} remote_system       | Object                        | Source [remote system](../../../reference/concepts/remote-system/index.md) for service       |
 | {{ tab3 }} id                  | String                        | External system's id                                                   |
 | {{ tab3 }} name                | String                        | External system's name                                                 |
 | {{ tab2 }} remote_id           | String                        | Service id in External system (Opaque attribute)                       |
@@ -98,13 +98,13 @@ state, including capabilities, interfaces and topology
 | {{ tab }} model                | Object {{ complex }}          | Inventory model (Object model)                                         |
 | {{ tab2 }} id                  | String                        | Inventory model\'s ID                                                  |
 | {{ tab2 }} name                | String                        | Inventory model\'s name                                                |
-| {{ tab2 }} tags                | Array of String               | :ref:`Object model's tags<dev-objectmodel-tags>`                       |
+| {{ tab2 }} tags                | Array of String               | [Object model's](../../../dev/objectmodel-tags.md)                     |
 | {{ tab2 }} vendor              | Object {{ complex }}          | Inventory model\'s vendor                                              |
 | {{ tab3 }} id                  | String                        | Vendor\'s ID                                                           |
 | {{ tab3 }} name                | String                        | Vendor\'s Name                                                         |
 | {{ tab }} serial               | String                        | Inventory object's serial number                                       |
 | {{ tab }} revision             | String                        | Inventory object's hardware revision                                   |
-| {{ tab }} data                 | Object {{ complex }}          | Attached data (see :ref:`Model Interfaces<dev-modelinterface>`)        |
+| {{ tab }} data                 | Object {{ complex }}          | Attached data (see `Model Interfaces`)        |
 | {{ tab }} slots                | Array of Object {{ complex }} | Object's slots configuration                                           |
 | {{ tab2 }} name                | String                        | Name of slot                                                           |
 | {{ tab2 }} direction           | String                        | Slot's direction:                                                      |
@@ -112,7 +112,7 @@ state, including capabilities, interfaces and topology
 |                                |                               | &bull; i - inner (nested object)                                       |
 |                                |                               | &bull; s - same level (horizontal connection)                          |
 | {{ tab2 }} protocols           | Array of String               | List of protocols, supported by slot                                   |
-|                                |                               | (see :ref:`Inventory Protocols <dev-inventory-protocols>`)             |
+|                                |                               | (see [Inventory Protocols](../../../dev/inventory-protocols.md))       |
 | {{ tab2 }} interface           | String                        | Optional interface name related to the slot                            |
 | {{ tab2 }} slots               | Array of Object {{ complex }} | List of inner slots for `i` direction, same structure as `slots`       |
 

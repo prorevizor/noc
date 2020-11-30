@@ -4,7 +4,7 @@ uuid: e44b7697-b75c-49b5-9df2-5e9021ce77a0
 # Cisco.IOS Profile
 
 `Cisco.IOS` profile supports wide range of
-:ref:`Cisco Systems <profiles-vendor-Cisco>` network equipment running Cisco IOS software.
+[Cisco Systems](index.md) network equipment running Cisco IOS software.
 
 !!! info "Added in version"
     0.1

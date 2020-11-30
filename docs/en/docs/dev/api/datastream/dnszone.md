@@ -1,13 +1,13 @@
 # dnszone DataStream
 
-`dnszone` [DataStream](index.md) contains summarized :ref:`DNS Zone<reference-dns-zone>`
+`dnszone` [DataStream](index.md) contains summarized [DNS Zone](../../../reference/concepts/dns-zone/index.md)
 state, including zone's serial and Resource Records.
 
 ## Fields
 
 | Name               | Type                          | Description                                   |
 | ------------------ | ----------------------------- | --------------------------------------------- |
-| id                 | String                        | :ref:`DNS Zone's<reference-dns-zone>` ID      |
+| id                 | String                        | [DNS Zone](../../../reference/concepts/dns-zone/index.md) ID      |
 | name               | String                        | Zone Name (Domain name)                       |
 | serial             | String                        | Zone's serial                                 |
 | masters            | Array of String               | List of master nameservers                    |

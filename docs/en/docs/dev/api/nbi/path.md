@@ -132,7 +132,7 @@ either Managed Object, interface or service reference.
 }
 ```
 
-Where `12345` is the :ref:`reference-managed-object` Id
+Where `12345` is the [Managed Object](../../../reference/concepts/managed-object/index.md) Id
 
 ### Managed Object By Id and Interface Name
 
@@ -147,7 +147,7 @@ Where `12345` is the :ref:`reference-managed-object` Id
 }
 ```
 
-Where `12345` is the :ref:`reference-managed-object` Id and `Gi O/1`
+Where `12345` is the [Managed Object](../../../reference/concepts/managed-object/index.md) Id and `Gi O/1`
 is the normalized interface name.
 
 ### Managed Object By Remote Id
@@ -161,8 +161,8 @@ is the normalized interface name.
 }
 ```
 
-Where `6789` is the :ref:`reference-remote-system` Id and
-`1011` is the :ref:`reference-managed-object` Id in Remote System.
+Where `6789` is the [Remote System](../../../reference/concepts/remote-system/index.md) Id and
+`1011` is the [Managed Object](../../../reference/concepts/managed-object/index.md) Id in Remote System.
 
 ### Managed Object By Remote Id and Interface
 
@@ -178,8 +178,8 @@ Where `6789` is the :ref:`reference-remote-system` Id and
 }
 ```
 
-Where `6789` is the :ref:`reference-remote-system` Id,
-`1011` is the :ref:`reference-managed-object` Id in Remote System
+Where `6789` is the [Remote System](../../../reference/concepts/remote-system/index.md) Id,
+`1011` is the [Managed Object](../../../reference/concepts/managed-object/index.md) Id in Remote System
 and `Gi O/1` is the normalized interface name.
 
 ### Interface by Id
@@ -204,7 +204,7 @@ Where `1234567` is the Interface Id
 }
 ```
 
-Where `12345` is the :ref:`reference-service` Id
+Where `12345` is the [Service](../../../reference/concepts/service/index.md) Id
 
 ### Service by Remote Id
 
@@ -217,8 +217,8 @@ Where `12345` is the :ref:`reference-service` Id
 }
 ```
 
-Where `6789` is the :ref:`reference-service` Id and
-`1011` is the :ref:`reference-service` Id in Remote System.
+Where `6789` is the [Service](../../../reference/concepts/service/index.md) Id and
+`1011` is the [Service](../../../reference/concepts/service/index.md) Id in Remote System.
 
 ### Service by Order Id
 
@@ -271,7 +271,7 @@ Path End specified as value of `to` request key.
 }
 ```
 
-Where `12345` is the :ref:`reference-managed-object` Id
+Where `12345` is the [Managed Object](../../../reference/concepts/managed-object/index.md) Id
 
 ### Managed Object By Id and Interface Name
 
@@ -286,7 +286,7 @@ Where `12345` is the :ref:`reference-managed-object` Id
 }
 ```
 
-Where `12345` is the :ref:`reference-managed-object` Id and `Gi O/1`
+Where `12345` is the [Managed Object](../../../reference/concepts/managed-object/index.md) Id and `Gi O/1`
 is the normalized interface name.
 
 ### Managed Object By Remote Id
@@ -300,8 +300,8 @@ is the normalized interface name.
 }
 ```
 
-Where `6789` is the :ref:`reference-remote-system` Id and
-`1011` is the :ref:`reference-managed-object` Id in Remote System.
+Where `6789` is the [Remote Service](../../../reference/concepts/remote-system/index.md) Id and
+`1011` is the [Managed Object](../../../reference/concepts/managed-object/index.md) Id in Remote System.
 
 ### Managed Object By Remote Id and Interface
 
@@ -317,8 +317,8 @@ Where `6789` is the :ref:`reference-remote-system` Id and
 }
 ```
 
-Where `6789` is the :ref:`reference-remote-system` Id,
-`1011` is the :ref:`reference-managed-object` Id in Remote System
+Where `6789` is the [Remote System](../../../reference/concepts/remote-system/index.md) Id,
+`1011` is the [Managed Object](../../../reference/concepts/managed-object/index.md) Id in Remote System
 and `Gi O/1` is the normalized interface name.
 
 ### Interface by Id
@@ -343,7 +343,7 @@ Where `1234567` is the Interface Id
 }
 ```
 
-Where `12345` is the :ref:`reference-service` Id
+Where `12345` is the [Service](../../../reference/concepts/service/index.md) Id
 
 ### Service by Remote Id
 
@@ -356,8 +356,8 @@ Where `12345` is the :ref:`reference-service` Id
 }
 ```
 
-Where `6789` is the :ref:`reference-service` Id and
-`1011` is the :ref:`reference-service` Id in Remote System.
+Where `6789` is the [Service](../../../reference/concepts/service/index.md) Id and
+`1011` is the [Service](../../../reference/concepts/service/index.md) Id in Remote System.
 
 ### By Object Level
 
@@ -367,7 +367,7 @@ Where `6789` is the :ref:`reference-service` Id and
 }
 ```
 
-Specify path end by reaching Managed Object :ref:`Level <reference-managed-object-profile-level>`
+Specify path end by reaching Managed Object [Level](../../../reference/concepts/managed-object-profile/index.md#level)
 greater than specified.
 
 ## Path Config Specification
@@ -437,7 +437,7 @@ to links having this VLAN, either tagged or untagged.
 ```
 
 Forces upward direction of path.
-i.e. Managed Object :ref:`Level <reference-managed-object-profile-level>`
+i.e. Managed Object [Level](../../../reference/concepts/managed-object-profile/index.md#level)
 of each next object of the path may not be less that level of current
 object. Effectively speed-ups path finding by denying descending to
 lower levels of networks.

@@ -77,10 +77,10 @@ object (string)
 : [Managed Object's](../../../reference/concepts/managed-object/index.md) ID
 
 interfaces (array of string)
-: List of requested interfaces (Only for :ref:`Interface Scope<metric-scope-interface>`).
+: List of requested interfaces (Only for [Interface Scope](../../../dev/metrics/scopes/index.md)).
 
 metric_types (array of string)
-: List of requested :ref:`Metric Types'<metrics>` names
+: List of requested [Metric Types](../../../dev/metrics/types/index.md) names
 
 
 ### Request Headers
@@ -105,7 +105,7 @@ path (array of strings)
 : Metric path
 
 interface (string):
-Interface (Only for :ref:`Interface Scope<metric-scope-interface>`).
+Interface (Only for [Interface Scope](../../../dev/metrics/scopes/index.md)).
 
 values (array of arrays)
 : Measured values as pairs of (`timestamp`, `value`)

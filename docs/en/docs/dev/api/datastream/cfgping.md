@@ -1,16 +1,16 @@
 # cfgping DataStream
 
 `cfgping` [DataStream](index.md) contains configuration
-for :ref:`ping<services-ping>` service
+for [ping](../../../admin/services/ping.md) service
 
 ## Fields
 
 | Name            | Type    | Description                                                                    |
 | --------------- | ------- | ------------------------------------------------------------------------------ |
-| id              | String  | :ref:`Managed Object's<reference-managed-object>` id                           |
+| id              | String  | [Managed Object's](../../../reference/concepts/managed-object/index.md) id     |
 | change_id       | String  | [Record's Change Id](index.md#change-id)                                       |
-| pool            | String  | :ref:`Pool's name<reference-pool>`                                             |
-| fm_pool         | String  | :ref:`Pool's name<reference-pool>` for FM event processing                     |
+| pool            | String  | [Pool's](../../../reference/concepts/pool/index.md) name                       |
+| fm_pool         | String  | [Pool's](../../../reference/concepts/pool/index.md) for FM event processing    |
 | interval        | Integer | Probing rounds interval in seconds                                             |
 | policy          | String  | Probing policy:                                                                |
 |                 |         | \* f - Success on first successful try                                         |
@@ -18,8 +18,8 @@ for :ref:`ping<services-ping>` service
 | size            | Integer | ICMP Echo-Request packet size                                                  |
 | count           | Integer | Probe attempts per round                                                       |
 | timeout         | Integer | Probe timeout in seconds                                                       |
-| report_rtt      | Boolean | Report :ref:`Ping | RTT<metric-type-ping-rtt>` metric per each round           |
-| report_attempts | Boolean | Report :ref:`Ping | Attempts<metric-type-ping-attempts>` metric per each round |
+| report_rtt      | Boolean | Report [Ping  RTT](../../../dev/metrics/types/index.md) metric per each round           |
+| report_attempts | Boolean | Report [Ping  Attempts](../../../dev/metrics/types/index.md) metric per each round |
 | status          | Null    | Reserved                                                                       |
 | name            | String  | [Managed Object's](../../../reference/concepts/managed-object/index.md) name   |
 | bi_id           | Integer | [Managed Object's](../../../reference/concepts/managed-object/index.md) BI Id  |

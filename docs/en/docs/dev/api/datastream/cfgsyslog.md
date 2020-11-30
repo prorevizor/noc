@@ -1,16 +1,16 @@
 # cfgsyslog DataStream
 
 `cfgsyslog` [DataStream](index.md) contains configuration
-for :ref:`syslogcollector<services-syslogcollector>` service
+for [syslogcollector](../../../admin/services/syslogcollector.md) service
 
 ## Fields
 
 | Name      | Type            | Description                                                |
 | --------- | --------------- | ---------------------------------------------------------- |
-| id        | String          | :ref:`Managed Object's<reference-managed-object>` id       |
+| id        | String          | [Managed Object's](../../../reference/concepts/managed-object/index.md) id       |
 | change_id | String          | [Record's Change Id](index.md#change-id)                   |
-| pool      | String          | :ref:`Pool's name<reference-pool>`                         |
-| fm_pool   | String          | :ref:`Pool's name<reference-pool>` for FM event processing |
+| pool      | String          | [Pool's](../../../reference/concepts/pool/index.md)                         |
+| fm_pool   | String          | [Pool's](../../../reference/concepts/pool/index.md) for FM event processing |
 | addresses | Array of String | List of syslog sources' IP addresses                       |
 
 ## Filters

@@ -55,16 +55,16 @@ Push bunch of metrics to NOC.
 
 ### Request Parameters
 bi_id (string)
-: :ref:`Managed Object's<reference-managed-object>` BI ID
+: [Managed Object's](../../../reference/concepts/managed-object/index.md)` BI ID
 
 metrics (array of objects)
 : List of metrics
 
 metric_type (string)
-: Name of :ref:`Metric Type<metric-types>`
+: Name of [Metric Type](../../../dev/metrics/types/index.md)
 
 path (array of string)
-: Metric Path. Refer to :ref:`Metric Scopes<metrics-scopes>` for details
+: Metric Path. Refer to [Metric Scopes](../../../dev/metrics/scopes/index.md) for details
 
 values (array of array)
 : Array of pairs (`timestamp`, `value`). Where timestamp is in ISO 8601 format (i.e. YYYY-MM-DDTHH:MM:SS)
