@@ -8,7 +8,7 @@ and override configuration on per-process basis.
 Config sources and their preference are defined in `NOC_CONFIG`
 environment variable. `NOC_CONFIG` contains comma-separated list of source URLs.
 Sources are loaded and processed in enumerated order.
-Refer to :ref:`admin-configuration-sources` section for full list of possible
+Refer to [Sources](#sources) section for full list of possible
 sources and their configuration.
 
 Each source may provide couple of configuration variables. During loading
@@ -25,9 +25,9 @@ NOC_CONFIG=legacy:///,yaml:///opt/noc/etc/settings.yml,env:///NOC
 
 Which means:
 
-1. Load legacy config "noc.yml" if exist (See :ref:`admin-configuration-sources-legacy` for details)
-2. Load new YAML config from "settings.yml", provisioned by `Tower` (See :ref:`admin-configuration-sources-yaml` for details)
-3. Apply NOC_xxx environment variables passed to process (See :ref:`admin-configuration-sources-env` for details)
+1. Load legacy config "noc.yml" if exist (See [legacy](#legacy) for details)
+2. Load new YAML config from "settings.yml", provisioned by `Tower` (See [yaml](#yaml) for details)
+3. Apply NOC_xxx environment variables passed to process (See [env](#env) for details)
 
 Proposed approach allows to start with legacy config, if exists, override
 it with *Tower* config and, finally, apply per-process tweaks via
@@ -70,7 +70,7 @@ third slash is a root directory
 "settings.yml" file usually deployed by `Tower`.
 `yaml` source yields empty config if file is not found or not accessible.
 
-See :ref:`admin-config` for possible configuration variable names.
+See [admin-config](../../admin/config/index.md) for possible configuration variable names.
 i.e. _web.language_ written in YAML as:
 
 ```yaml
@@ -122,7 +122,7 @@ MYVAR_FEATURE_UVLOOP=1 | feature.uvloop=True
 
 <!-- prettier-ignore -->
 !!! note
-    See :ref:`admin-config` for possible environment variable names.
+    See [admin-config](../../admin/config/index.md) for possible environment variable names.
     Note that names given considered *NOC* prefix
 
 ### consul

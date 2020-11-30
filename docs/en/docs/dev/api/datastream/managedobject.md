@@ -15,7 +15,7 @@ state, including capabilities, interfaces and topology
 | remote_id                      | String                        | External system's id (Opaque attribbute)                               |
 | bi_id                          | Integer                       | BI Database id (metrics)                                               |
 | name                           | String                        | Object's name                                                          |
-| profile                        | String                        | :ref:`SA Profile<profiles>`                                            |
+| profile                        | String                        | [SA Profile](../../../reference/concepts/sa-profile/index.md)          |
 | vendor                         | String                        | Vendor                                                                 |
 | platform                       | String                        | Platform                                                               |
 | version                        | String                        | Firmware version                                                       |
