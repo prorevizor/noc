@@ -15,8 +15,8 @@ SCCP phone normal unregister sequence
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | Device name
-type | str | :material-close: | Device type
-sn | str | :material-close: | Device Serial Number
-ip | ip_address | :material-close: | Device IP address
-socket | int | :material-close: | Socket number
+name | str | {{ yes }} | Device name
+type | str | {{ yes }} | Device type
+sn | str | {{ yes }} | Device Serial Number
+ip | ip_address | {{ yes }} | Device IP address
+socket | int | {{ yes }} | Socket number

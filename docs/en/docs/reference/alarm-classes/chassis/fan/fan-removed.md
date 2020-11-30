@@ -13,7 +13,7 @@ uuid: cb604666-2f9d-4ba3-8906-bfc7a1f587f3
 
 Variable | Description | Default
 --- | --- | ---
-name | Fan Name | `:material-close:`
+name | Fan Name | {{ no }}
 
 ## Events
 
@@ -22,11 +22,11 @@ name | Fan Name | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Chassis | Fan | Fan Removed` | dispose
+[Chassis \| Fan \| Fan Removed](../../../event-classes/chassis/fan/fan-removed.md) | dispose
 
 ### Closing Events
 `Chassis | Fan | Fan Removed` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Chassis | Fan | Fan Inserted` | dispose
+[Chassis \| Fan \| Fan Inserted](../../../event-classes/chassis/fan/fan-inserted.md) | dispose

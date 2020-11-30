@@ -13,7 +13,7 @@ uuid: e02309ba-800f-4da8-94a4-5bbb060457a6
 
 Variable | Description | Default
 --- | --- | ---
-reason | Reason | `:material-close:`
+reason | Reason | {{ no }}
 
 ## Events
 
@@ -22,4 +22,4 @@ reason | Reason | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Chassis | RAM | Insufficient Memory` | dispose
+[Chassis \| RAM \| Insufficient Memory](../../../event-classes/chassis/ram/insufficient-memory.md) | dispose

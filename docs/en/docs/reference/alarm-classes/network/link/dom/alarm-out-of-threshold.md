@@ -15,11 +15,11 @@ Connection lost
 
 Variable | Description | Default
 --- | --- | ---
-interface | Physical port | `:material-close:`
-threshold | Threshold type | `:material-close:`
-sensor | Measured name | `:material-close:`
-ovalue | Operating value | `:material-close:`
-tvalue | Threshold value | `:material-close:`
+interface | Physical port | {{ no }}
+threshold | Threshold type | {{ no }}
+sensor | Measured name | {{ no }}
+ovalue | Operating value | {{ no }}
+tvalue | Threshold value | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Alarm Correlation
@@ -41,14 +41,14 @@ graph TD
 
 Alarm Class | Description
 --- | ---
-`Network | Link | DOM | Warning: Out of Threshold` | Warning: Out of Threshold
+[Network \| Link \| DOM \| Warning: Out of Threshold](warning-out-of-threshold.md) | Warning: Out of Threshold
 
-### Root Causes
+### Consequences
 `Network | Link | DOM | Alarm: Out of Threshold` alarm may be root cause of
 
 Alarm Class | Description
 --- | ---
-`Network | Link | Link Down` | DOM Out of Threshold
+[Network \| Link \| Link Down](../link-down.md) | DOM Out of Threshold
 
 ## Events
 
@@ -57,11 +57,11 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`Network | Link | DOM | Alarm: Out of Threshold` | dispose
+[Network \| Link \| DOM \| Alarm: Out of Threshold](../../../../event-classes/network/link/dom/alarm-out-of-threshold.md) | dispose
 
 ### Closing Events
 `Network | Link | DOM | Alarm: Out of Threshold` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | Link | DOM | Alarm: Out of Threshold Recovered` | dispose
+[Network \| Link \| DOM \| Alarm: Out of Threshold Recovered](../../../../event-classes/network/link/dom/alarm-out-of-threshold-recovered.md) | dispose

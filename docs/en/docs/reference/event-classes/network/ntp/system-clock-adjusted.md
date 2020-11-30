@@ -15,6 +15,6 @@ System clock was adjusted
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-adjustment_ms | int | :material-check: | Time adjustment in msec
-server_name | str | :material-check: | NTP server name
-server_address | ip_address | :material-check: | NTP server IP address
+adjustment_ms | int | {{ no }} | Time adjustment in msec
+server_name | str | {{ no }} | NTP server name
+server_address | ip_address | {{ no }} | NTP server IP address

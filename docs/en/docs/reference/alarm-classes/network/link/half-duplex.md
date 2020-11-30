@@ -13,7 +13,7 @@ uuid: 2b7c3501-a858-4296-afa5-512131a51cc9
 
 Variable | Description | Default
 --- | --- | ---
-interface | interface name | `:material-close:`
+interface | interface name | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Events
@@ -23,11 +23,11 @@ description | Interface description | `=InterfaceDS.description`
 
 Event Class | Description
 --- | ---
-`Network | Link | Half-Duplex` | dispose
+[Network \| Link \| Half-Duplex](../../../event-classes/network/link/half-duplex.md) | dispose
 
 ### Closing Events
 `Network | Link | Half-Duplex` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | Link | Full-Duplex` | dispose
+[Network \| Link \| Full-Duplex](../../../event-classes/network/link/full-duplex.md) | dispose

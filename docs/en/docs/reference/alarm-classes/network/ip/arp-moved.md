@@ -13,10 +13,10 @@ uuid: 1fa45f6c-385c-421e-97fc-6b5310056418
 
 Variable | Description | Default
 --- | --- | ---
-interface | BFD interface | `:material-close:`
-ip | IP | `:material-close:`
-from_mac | From MAC | `:material-close:`
-to_mac | To MAC | `:material-close:`
+interface | BFD interface | {{ no }}
+ip | IP | {{ no }}
+from_mac | From MAC | {{ no }}
+to_mac | To MAC | {{ no }}
 
 ## Events
 
@@ -25,4 +25,4 @@ to_mac | To MAC | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Network | IP | ARP Moved` | dispose
+[Network \| IP \| ARP Moved](../../../event-classes/network/ip/arp-moved.md) | dispose

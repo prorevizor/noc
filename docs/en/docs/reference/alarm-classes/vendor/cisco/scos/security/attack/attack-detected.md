@@ -19,13 +19,13 @@ Negotiate the source if it is your customer, or ignore
 
 Variable | Description | Default
 --- | --- | ---
-from_ip | From IP | `:material-close:`
-to_ip | To IP | `:material-close:`
-from_side | From Side | `:material-close:`
-proto | Protocol | `:material-close:`
-open_flows | Open Flows | `:material-close:`
-suspected_flows | Suspected Flows | `:material-close:`
-action | Action | `:material-close:`
+from_ip | From IP | {{ no }}
+to_ip | To IP | {{ no }}
+from_side | From Side | {{ no }}
+proto | Protocol | {{ no }}
+open_flows | Open Flows | {{ no }}
+suspected_flows | Suspected Flows | {{ no }}
+action | Action | {{ no }}
 
 ## Events
 
@@ -34,11 +34,11 @@ action | Action | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Vendor | Cisco | SCOS | Security | Attack | Attack Detected` | Attack Detected
+[Vendor \| Cisco \| SCOS \| Security \| Attack \| Attack Detected](../../../../../../event-classes/vendor/cisco/scos/security/attack/attack-detected.md) | Attack Detected
 
 ### Closing Events
 `Vendor | Cisco | SCOS | Security | Attack | Attack Detected` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Vendor | Cisco | SCOS | Security | Attack | End-of-attack detected` | Clear Attack Detected
+[Vendor \| Cisco \| SCOS \| Security \| Attack \| End-of-attack detected](../../../../../../event-classes/vendor/cisco/scos/security/attack/end-of-attack-detected.md) | Clear Attack Detected

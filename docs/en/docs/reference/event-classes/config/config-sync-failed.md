@@ -15,4 +15,4 @@ Configuration synchronization failed with redundant module
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-config | str | :material-check: | Config type
+config | str | {{ no }} | Config type

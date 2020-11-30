@@ -13,11 +13,11 @@ uuid: bb4ae098-e4f6-4fa2-b618-03af9de53443
 
 Variable | Description | Default
 --- | --- | ---
-name | Name | `:material-close:`
-measure | Current State | `:material-close:`
-min | Min State | `:material-close:`
-max | Max State | `:material-close:`
-threshold | Threshold | `:material-close:`
+name | Name | {{ no }}
+measure | Current State | {{ no }}
+min | Min State | {{ no }}
+max | Max State | {{ no }}
+threshold | Threshold | {{ no }}
 
 ## Events
 
@@ -26,11 +26,11 @@ threshold | Threshold | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Environment | AC Voltage Out of Range` | dispose
+[Environment \| AC Voltage Out of Range](../../event-classes/environment/ac-voltage-out-of-range.md) | dispose
 
 ### Closing Events
 `Environment | AC Voltage Out of Range` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Environment | AC Voltage Returned to Normal Range` | dispose
+[Environment \| AC Voltage Returned to Normal Range](../../event-classes/environment/ac-voltage-returned-to-normal-range.md) | dispose

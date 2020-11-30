@@ -15,7 +15,7 @@ MPLS Path Down
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | Path name
+name | str | {{ yes }} | Path name
 
 ## Alarms
 
@@ -25,4 +25,4 @@ name | str | :material-close: | Path name
 
 Alarm Class | Description
 --- | ---
-`Network | MPLS | Path Down` | dispose
+[Network \| MPLS \| Path Down](../../../alarm-classes/network/mpls/path-down.md) | dispose

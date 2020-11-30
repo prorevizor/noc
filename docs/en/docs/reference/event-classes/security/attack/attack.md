@@ -21,11 +21,11 @@ Negotiate the source if it is your customer, or ignore
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | Attack name
-interface | interface_name | :material-check: | Interface
-src_ip | ip_address | :material-check: | Source IP
-src_mac | mac | :material-check: | Source MAC
-vlan | int | :material-check: | Vlan ID
+name | str | {{ yes }} | Attack name
+interface | interface_name | {{ no }} | Interface
+src_ip | ip_address | {{ no }} | Source IP
+src_mac | mac | {{ no }} | Source MAC
+vlan | int | {{ no }} | Vlan ID
 
 ## Alarms
 
@@ -35,4 +35,4 @@ vlan | int | :material-check: | Vlan ID
 
 Alarm Class | Description
 --- | ---
-`Security | Attack | Attack` | dispose
+[Security \| Attack \| Attack](../../../alarm-classes/security/attack/attack.md) | dispose

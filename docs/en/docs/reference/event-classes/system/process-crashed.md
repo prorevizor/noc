@@ -13,9 +13,9 @@ uuid: 60740366-04b9-41e0-b9b9-33f083276c89
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | Process name
-pid | str | :material-check: | Process PID
-status | str | :material-check: | Exit status
+name | str | {{ yes }} | Process name
+pid | str | {{ no }} | Process PID
+status | str | {{ no }} | Exit status
 
 ## Alarms
 
@@ -25,4 +25,4 @@ status | str | :material-check: | Exit status
 
 Alarm Class | Description
 --- | ---
-`System | Process Crashed` | dispose
+[System \| Process Crashed](../../alarm-classes/system/process-crashed.md) | dispose

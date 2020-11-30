@@ -13,9 +13,9 @@ uuid: 8a0ffe77-c3c0-4327-b52b-7b482e710aec
 
 Variable | Description | Default
 --- | --- | ---
-peer | BGP Peer | `:material-close:`
-vrf | VRF | `:material-close:`
-as | BGP Peer AS | `:material-close:`
+peer | BGP Peer | {{ no }}
+vrf | VRF | {{ no }}
+as | BGP Peer AS | {{ no }}
 
 ## Events
 
@@ -24,12 +24,12 @@ as | BGP Peer AS | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Network | BGP | Prefix Limit Exceeded` | dispose
+[Network \| BGP \| Prefix Limit Exceeded](../../../event-classes/network/bgp/prefix-limit-exceeded.md) | dispose
 
 ### Closing Events
 `Network | BGP | Prefix Limit Exceeded` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | BGP | Established` | dispose
-`Network | BGP | Peer State Changed` | clear_maxprefix
+[Network \| BGP \| Established](../../../event-classes/network/bgp/established.md) | dispose
+[Network \| BGP \| Peer State Changed](../../../event-classes/network/bgp/peer-state-changed.md) | clear_maxprefix

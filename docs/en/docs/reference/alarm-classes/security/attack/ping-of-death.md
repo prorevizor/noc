@@ -13,9 +13,9 @@ uuid: 52b4012f-83cf-4fe8-a35b-1e850d3a34ef
 
 Variable | Description | Default
 --- | --- | ---
-interface | Interface | `:material-close:`
-src_ip | Source IP | `:material-close:`
-src_mac | Source MAC | `:material-close:`
+interface | Interface | {{ no }}
+src_ip | Source IP | {{ no }}
+src_mac | Source MAC | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Events
@@ -25,4 +25,4 @@ description | Interface description | `=InterfaceDS.description`
 
 Event Class | Description
 --- | ---
-`Security | Attack | Ping Of Death` | dispose
+[Security \| Attack \| Ping Of Death](../../../event-classes/security/attack/ping-of-death.md) | dispose

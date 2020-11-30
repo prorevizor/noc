@@ -15,8 +15,8 @@ BFD Session Down
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | BFD interface
-peer | ip_address | :material-close: | BFD Peer
+interface | interface_name | {{ yes }} | BFD interface
+peer | ip_address | {{ yes }} | BFD Peer
 
 ## Alarms
 
@@ -26,4 +26,4 @@ peer | ip_address | :material-close: | BFD Peer
 
 Alarm Class | Description
 --- | ---
-`Network | BFD | Session Down` | dispose
+[Network \| BFD \| Session Down](../../../alarm-classes/network/bfd/session-down.md) | dispose

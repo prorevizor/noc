@@ -19,10 +19,10 @@ Check links and local and neighbor router configuration
 
 Variable | Description | Default
 --- | --- | ---
-interface | Interface | `:material-close:`
-neighbor | Neighbor's IP | `:material-close:`
-vrf | VRF | `:material-close:`
-reason | Reason | `:material-close:`
+interface | Interface | {{ no }}
+neighbor | Neighbor's IP | {{ no }}
+vrf | VRF | {{ no }}
+reason | Reason | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Alarm Correlation
@@ -44,8 +44,8 @@ graph TD
 
 Alarm Class | Description
 --- | ---
-`Network | Link | Link Down` | Link Down
-`Network | BFD | Session Down` | Link Down
+[Network \| Link \| Link Down](../link/link-down.md) | Link Down
+[Network \| BFD \| Session Down](../bfd/session-down.md) | Link Down
 
 ## Events
 
@@ -54,11 +54,11 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`Network | PIM | Neighbor Down` | dispose
+[Network \| PIM \| Neighbor Down](../../../event-classes/network/pim/neighbor-down.md) | dispose
 
 ### Closing Events
 `Network | PIM | Neighbor Down` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | PIM | Neighbor Up` | dispose
+[Network \| PIM \| Neighbor Up](../../../event-classes/network/pim/neighbor-up.md) | dispose

@@ -15,5 +15,5 @@ Process started
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | Process name
-pid | str | :material-check: | Process PID
+name | str | {{ yes }} | Process name
+pid | str | {{ no }} | Process PID

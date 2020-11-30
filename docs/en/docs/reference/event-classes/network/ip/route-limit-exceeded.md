@@ -15,4 +15,4 @@ Route Limit Exceeded
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-reason | str | :material-check: | Reason
+reason | str | {{ no }} | Reason

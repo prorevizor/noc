@@ -10,8 +10,8 @@ Indication of stack/virtual chassis/cluster
 
 | Name      | Type   | Description           | Required         | Conastant        | Default   |
 | --------- | ------ | --------------------- | ---------------- | ---------------- | --------- |
-| stackable | bool   | Object can be stacked | :material-close: | :material-check: |           |
-| member    | str    | Stack member id       | :material-close: | :material-close: |           |
+| stackable | bool   | Object can be stacked | {{ no }} | {{ yes }} |           |
+| member    | str    | Stack member id       | {{ no }} | {{ no }} |           |
 
 ## Examples
 

@@ -15,13 +15,13 @@ End-of-attack detected
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-from_ip | ip_address | :material-close: | From IP
-to_ip | ip_address | :material-check: | To IP
-from_side | str | :material-close: | From Side
-proto | str | :material-close: | Protocol
-flows | int | :material-close: | Flows
-duration | str | :material-close: | Duration
-action | str | :material-close: | Action
+from_ip | ip_address | {{ yes }} | From IP
+to_ip | ip_address | {{ no }} | To IP
+from_side | str | {{ yes }} | From Side
+proto | str | {{ yes }} | Protocol
+flows | int | {{ yes }} | Flows
+duration | str | {{ yes }} | Duration
+action | str | {{ yes }} | Action
 
 ## Alarms
 
@@ -31,4 +31,4 @@ action | str | :material-close: | Action
 
 Alarm Class | Description
 --- | ---
-`Vendor | Cisco | SCOS | Security | Attack | Attack Detected` | Clear Attack Detected
+[Vendor \| Cisco \| SCOS \| Security \| Attack \| Attack Detected](../../../../../../alarm-classes/vendor/cisco/scos/security/attack/attack-detected.md) | Clear Attack Detected

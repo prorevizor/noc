@@ -15,5 +15,5 @@ NTP Server reachable
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-server_name | str | :material-check: | NTP server name
-server_address | ip_address | :material-check: | NTP server IP address
+server_name | str | {{ no }} | NTP server name
+server_address | ip_address | {{ no }} | NTP server IP address

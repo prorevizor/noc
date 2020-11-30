@@ -15,8 +15,8 @@ TCP SYNFIN Scan detected
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
-src_ip | ip_address | :material-check: | Source IP
+interface | interface_name | {{ yes }} | Interface
+src_ip | ip_address | {{ no }} | Source IP
 
 ## Alarms
 
@@ -26,4 +26,4 @@ src_ip | ip_address | :material-check: | Source IP
 
 Alarm Class | Description
 --- | ---
-`Security | Attack | TCP SYNFIN Scan` | dispose
+[Security \| Attack \| TCP SYNFIN Scan](../../../alarm-classes/security/attack/tcp-synfin-scan.md) | dispose

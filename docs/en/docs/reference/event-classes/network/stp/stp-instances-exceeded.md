@@ -15,4 +15,4 @@ Platform limit of STP instances exceeded
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-limit | int | :material-check: | Platform limit
+limit | int | {{ no }} | Platform limit

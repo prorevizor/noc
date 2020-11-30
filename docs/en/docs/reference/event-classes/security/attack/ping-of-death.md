@@ -15,9 +15,9 @@ Ping Of Death detected
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
-src_ip | ip_address | :material-close: | Source IP
-src_mac | mac | :material-check: | Source MAC
+interface | interface_name | {{ yes }} | Interface
+src_ip | ip_address | {{ yes }} | Source IP
+src_mac | mac | {{ no }} | Source MAC
 
 ## Alarms
 
@@ -27,4 +27,4 @@ src_mac | mac | :material-check: | Source MAC
 
 Alarm Class | Description
 --- | ---
-`Security | Attack | Ping Of Death` | dispose
+[Security \| Attack \| Ping Of Death](../../../alarm-classes/security/attack/ping-of-death.md) | dispose

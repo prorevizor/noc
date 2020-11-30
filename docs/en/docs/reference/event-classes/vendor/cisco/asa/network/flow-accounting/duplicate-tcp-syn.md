@@ -15,9 +15,9 @@ Duplicate TCP SYN
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-src_interface | interface_name | :material-check: | Source Interface
-src_ip | ip_address | :material-check: | Source IP
-src_port | int | :material-check: | Source port
-dst_interface | interface_name | :material-check: | Destination Interface
-dst_ip | ip_address | :material-check: | Destination IP
-dst_port | int | :material-check: | Destination port
+src_interface | interface_name | {{ no }} | Source Interface
+src_ip | ip_address | {{ no }} | Source IP
+src_port | int | {{ no }} | Source port
+dst_interface | interface_name | {{ no }} | Destination Interface
+dst_ip | ip_address | {{ no }} | Destination IP
+dst_port | int | {{ no }} | Destination port

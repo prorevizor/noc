@@ -13,8 +13,8 @@ uuid: f73e3a58-e792-4a3e-99ca-88247247bf7d
 
 Variable | Description | Default
 --- | --- | ---
-interface | Interface | `:material-close:`
-src_ip | Source IP | `:material-close:`
+interface | Interface | {{ no }}
+src_ip | Source IP | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Events
@@ -24,4 +24,4 @@ description | Interface description | `=InterfaceDS.description`
 
 Event Class | Description
 --- | ---
-`Security | Attack | Smurf Attack` | dispose
+[Security \| Attack \| Smurf Attack](../../../event-classes/security/attack/smurf-attack.md) | dispose

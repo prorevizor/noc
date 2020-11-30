@@ -15,7 +15,7 @@ MPLS LSP Down
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | LSP name
+name | str | {{ yes }} | LSP name
 
 ## Alarms
 
@@ -25,4 +25,4 @@ name | str | :material-close: | LSP name
 
 Alarm Class | Description
 --- | ---
-`Network | MPLS | LSP Down` | dispose
+[Network \| MPLS \| LSP Down](../../../alarm-classes/network/mpls/lsp-down.md) | dispose

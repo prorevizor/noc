@@ -17,6 +17,6 @@ Unexpected MAC address table cleanups, short-time traffic disruptions
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
-vlan | int | :material-check: | VLAN ID
-instance | int | :material-check: | MST instance
+interface | interface_name | {{ yes }} | Interface
+vlan | int | {{ no }} | VLAN ID
+instance | int | {{ no }} | MST instance

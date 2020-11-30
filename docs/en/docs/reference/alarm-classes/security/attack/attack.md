@@ -19,11 +19,11 @@ Negotiate the source if it is your customer, or ignore
 
 Variable | Description | Default
 --- | --- | ---
-name | Attack name | `:material-close:`
-interface | Interface | `:material-close:`
-src_ip | Source IP | `:material-close:`
-src_mac | Source MAC | `:material-close:`
-vlan | Vlan ID | `:material-close:`
+name | Attack name | {{ no }}
+interface | Interface | {{ no }}
+src_ip | Source IP | {{ no }}
+src_mac | Source MAC | {{ no }}
+vlan | Vlan ID | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 vlan_name | Vlan name | `=VCDS.name`
 
@@ -34,4 +34,4 @@ vlan_name | Vlan name | `=VCDS.name`
 
 Event Class | Description
 --- | ---
-`Security | Attack | Attack` | dispose
+[Security \| Attack \| Attack](../../../event-classes/security/attack/attack.md) | dispose

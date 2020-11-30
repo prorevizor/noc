@@ -21,5 +21,5 @@ Check SNMP configuration
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-ip | ip_address | :material-close: | Request source address
-community | str | :material-check: | Request SNMP community
+ip | ip_address | {{ yes }} | Request source address
+community | str | {{ no }} | Request SNMP community

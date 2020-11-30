@@ -17,10 +17,10 @@ Examine the network for possible loops.
 
 Variable | Description | Default
 --- | --- | ---
-mac | MAC Address | `:material-close:`
-vlan | VLAN | `:material-close:`
-from_interface | From interface | `:material-close:`
-to_interface | To interface | `:material-close:`
+mac | MAC Address | {{ no }}
+vlan | VLAN | {{ no }}
+from_interface | From interface | {{ no }}
+to_interface | To interface | {{ no }}
 from_description | Interface description | `=fromInterfaceDS.description`
 to_description | Interface description | `=toInterfaceDS.description`
 vlan_name | Vlan name | `=VCDS.name`
@@ -34,4 +34,4 @@ vlan_vc_domain | VC domain | `=VCDS.vc_domain`
 
 Event Class | Description
 --- | ---
-`Network | MAC | MAC Flap` | dispose
+[Network \| MAC \| MAC Flap](../../../event-classes/network/mac/mac-flap.md) | dispose

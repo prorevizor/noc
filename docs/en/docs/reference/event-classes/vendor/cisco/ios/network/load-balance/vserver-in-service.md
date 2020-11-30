@@ -15,9 +15,9 @@ vserver in service
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-module | str | :material-close: | Module name
-name | str | :material-close: | vserver name
-farm | str | :material-check: | serverfarm name
+module | str | {{ yes }} | Module name
+name | str | {{ yes }} | vserver name
+farm | str | {{ no }} | serverfarm name
 
 ## Alarms
 
@@ -27,4 +27,4 @@ farm | str | :material-check: | serverfarm name
 
 Alarm Class | Description
 --- | ---
-`Vendor | Cisco | IOS | Network | Load Balance | vserver Out of Service` | dispose
+[Vendor \| Cisco \| IOS \| Network \| Load Balance \| vserver Out of Service](../../../../../../alarm-classes/vendor/cisco/ios/network/load-balance/vserver-out-of-service.md) | dispose

@@ -15,7 +15,7 @@ Insufficient Memory
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-reason | str | :material-check: | Reason
+reason | str | {{ no }} | Reason
 
 ## Alarms
 
@@ -25,4 +25,4 @@ reason | str | :material-check: | Reason
 
 Alarm Class | Description
 --- | ---
-`Chassis | RAM | Insufficient Memory` | dispose
+[Chassis \| RAM \| Insufficient Memory](../../../alarm-classes/chassis/ram/insufficient-memory.md) | dispose

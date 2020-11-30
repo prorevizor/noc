@@ -21,5 +21,5 @@ Check ACL settings on device and it availability
 
 Variable | Description | Default
 --- | --- | ---
-path | Path to alarm | `:material-close:`
-message | Error detail message | `:material-close:`
+path | Path to alarm | {{ no }}
+message | Error detail message | {{ no }}

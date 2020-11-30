@@ -21,13 +21,13 @@ Check links and local and neighbor router configuration
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-area | str | :material-check: | OSPF area
-interface | interface_name | :material-close: | Interface
-neighbor | ip_address | :material-close: | Neighbor's Router ID
-reason | str | :material-check: | Adjacency lost reason
-from_state | str | :material-check: | from state
-to_state | str | :material-check: | to state
-vrf | str | :material-check: | VRF
+area | str | {{ no }} | OSPF area
+interface | interface_name | {{ yes }} | Interface
+neighbor | ip_address | {{ yes }} | Neighbor's Router ID
+reason | str | {{ no }} | Adjacency lost reason
+from_state | str | {{ no }} | from state
+to_state | str | {{ no }} | to state
+vrf | str | {{ no }} | VRF
 
 ## Alarms
 
@@ -37,4 +37,4 @@ vrf | str | :material-check: | VRF
 
 Alarm Class | Description
 --- | ---
-`Network | OSPF | Neighbor Down` | dispose
+[Network \| OSPF \| Neighbor Down](../../../alarm-classes/network/ospf/neighbor-down.md) | dispose

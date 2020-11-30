@@ -15,4 +15,4 @@ Self-Test Passed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-check: | Test name
+name | str | {{ no }} | Test name

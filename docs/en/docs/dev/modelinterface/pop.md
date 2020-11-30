@@ -10,7 +10,7 @@ Point of present
 
 | Name   | Type   | Description   | Required         | Constant         | Default   |
 | ------ | ------ | ------------- | ---------------- | ---------------- | --------- |
-| level  | int    | PoP level     | :material-check: | :material-check: |           |
+| level  | int    | PoP level     | {{ yes }} | {{ yes }} |           |
 
 Levels of PoP:
 

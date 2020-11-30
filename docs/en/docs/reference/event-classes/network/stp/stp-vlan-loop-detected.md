@@ -15,8 +15,8 @@ STP Vlan Loop Detected
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
-vlan | int | :material-close: | vlan
+interface | interface_name | {{ yes }} | Interface
+vlan | int | {{ yes }} | vlan
 
 ## Alarms
 
@@ -26,4 +26,4 @@ vlan | int | :material-close: | vlan
 
 Alarm Class | Description
 --- | ---
-`Network | STP | STP Vlan Loop Detected` | dispose
+[Network \| STP \| STP Vlan Loop Detected](../../../alarm-classes/network/stp/stp-vlan-loop-detected.md) | dispose

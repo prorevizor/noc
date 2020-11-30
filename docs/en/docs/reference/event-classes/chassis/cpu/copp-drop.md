@@ -17,6 +17,6 @@ CoPP protects control plane by dropping traffic exceeding thresholds
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-cpu | str | :material-check: | CPU Name
-proto | str | :material-check: | Dropped packets protocol
-count | int | :material-check: | Dropped packets count
+cpu | str | {{ no }} | CPU Name
+proto | str | {{ no }} | Dropped packets protocol
+count | int | {{ no }} | Dropped packets count

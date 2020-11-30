@@ -13,9 +13,9 @@ uuid: a4ecaee2-e7cb-4f80-928e-ccf92e374e85
 
 Variable | Description | Default
 --- | --- | ---
-name | Process name | `:material-close:`
-pid | Process PID | `:material-close:`
-status | Exit status | `:material-close:`
+name | Process name | {{ no }}
+pid | Process PID | {{ no }}
+status | Exit status | {{ no }}
 
 ## Events
 
@@ -24,4 +24,4 @@ status | Exit status | `:material-close:`
 
 Event Class | Description
 --- | ---
-`System | Process Crashed` | dispose
+[System \| Process Crashed](../../event-classes/system/process-crashed.md) | dispose

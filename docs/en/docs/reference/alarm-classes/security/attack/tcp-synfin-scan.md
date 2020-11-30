@@ -13,8 +13,8 @@ uuid: b5db13a5-ec54-4296-bac6-c296aa985d12
 
 Variable | Description | Default
 --- | --- | ---
-interface | Interface | `:material-close:`
-src_ip | Source IP | `:material-close:`
+interface | Interface | {{ no }}
+src_ip | Source IP | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Events
@@ -24,4 +24,4 @@ description | Interface description | `=InterfaceDS.description`
 
 Event Class | Description
 --- | ---
-`Security | Attack | TCP SYNFIN Scan` | dispose
+[Security \| Attack \| TCP SYNFIN Scan](../../../event-classes/security/attack/tcp-synfin-scan.md) | dispose

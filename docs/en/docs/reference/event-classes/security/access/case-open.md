@@ -15,7 +15,7 @@ Case or cover is open
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | Name
+name | str | {{ yes }} | Name
 
 ## Alarms
 
@@ -25,4 +25,4 @@ name | str | :material-close: | Name
 
 Alarm Class | Description
 --- | ---
-`Security | Access | Case Open` | dispose
+[Security \| Access \| Case Open](../../../alarm-classes/security/access/case-open.md) | dispose

@@ -15,9 +15,9 @@ SLB Server Farm Degraded
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-farm | str | :material-close: | SLB server farm name
-real | ip_address | :material-close: | Real IP
-state | str | :material-close: | Real state
+farm | str | {{ yes }} | SLB server farm name
+real | ip_address | {{ yes }} | Real IP
+state | str | {{ yes }} | Real state
 
 ## Alarms
 
@@ -27,4 +27,4 @@ state | str | :material-close: | Real state
 
 Alarm Class | Description
 --- | ---
-`Vendor | Cisco | IOS | Network | Load Balance | Server Farm Degraded` | dispose
+[Vendor \| Cisco \| IOS \| Network \| Load Balance \| Server Farm Degraded](../../../../../../alarm-classes/vendor/cisco/ios/network/load-balance/server-farm-degraded.md) | dispose

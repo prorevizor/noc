@@ -17,9 +17,9 @@ Locate the cable modem based on the MAC address and report the initial timing of
 
 Variable | Description | Default
 --- | --- | ---
-mac | Cable Modem MAC | `:material-close:`
-sid | Cable Modem SID | `:material-close:`
-offset | Time offset | `:material-close:`
+mac | Cable Modem MAC | {{ no }}
+sid | Cable Modem SID | {{ no }}
+offset | Time offset | {{ no }}
 
 ## Events
 
@@ -28,4 +28,4 @@ offset | Time offset | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Network | DOCSIS | Bad Timing Offset` | dispose
+[Network \| DOCSIS \| Bad Timing Offset](../../../event-classes/network/docsis/bad-timing-offset.md) | dispose

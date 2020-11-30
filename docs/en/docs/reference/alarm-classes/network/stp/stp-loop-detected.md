@@ -13,7 +13,7 @@ uuid: a9c7d32b-9640-4755-a05b-8095b33eaa80
 
 Variable | Description | Default
 --- | --- | ---
-interface | interface | `:material-close:`
+interface | interface | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Alarm Correlation
@@ -28,12 +28,12 @@ graph TD
   A --> C1
 ```
 
-### Root Causes
+### Consequences
 `Network | STP | STP Loop Detected` alarm may be root cause of
 
 Alarm Class | Description
 --- | ---
-`Network | Link | Link Down` | STP Loop Detected
+[Network \| Link \| Link Down](../link/link-down.md) | STP Loop Detected
 
 ## Events
 
@@ -42,11 +42,11 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`Network | STP | STP Loop Detected` | dispose
+[Network \| STP \| STP Loop Detected](../../../event-classes/network/stp/stp-loop-detected.md) | dispose
 
 ### Closing Events
 `Network | STP | STP Loop Detected` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | STP | STP Loop Cleared` | dispose
+[Network \| STP \| STP Loop Cleared](../../../event-classes/network/stp/stp-loop-cleared.md) | dispose

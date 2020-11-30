@@ -19,5 +19,5 @@ Input power returned to normal state
 
 Alarm Class | Description
 --- | ---
-`Environment | UPS | Input Power Failed` | dispose
-`Environment | UPS | Input Power Low` | dispose
+[Environment \| UPS \| Input Power Failed](../../../alarm-classes/environment/ups/input-power-failed.md) | dispose
+[Environment \| UPS \| Input Power Low](../../../alarm-classes/environment/ups/input-power-low.md) | dispose

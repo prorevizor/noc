@@ -19,7 +19,7 @@ Check noc-activator processes. Check network connectivity
 
 Variable | Description | Default
 --- | --- | ---
-name | Pool Name | `:material-close:`
+name | Pool Name | {{ no }}
 
 ## Events
 
@@ -28,13 +28,13 @@ name | Pool Name | `:material-close:`
 
 Event Class | Description
 --- | ---
-`NOC | SA | Leave Activator Pool` | raise
-`NOC | SA | Join Activator Pool` | raise
+[NOC \| SA \| Leave Activator Pool](../../../event-classes/noc/sa/leave-activator-pool.md) | raise
+[NOC \| SA \| Join Activator Pool](../../../event-classes/noc/sa/join-activator-pool.md) | raise
 
 ### Closing Events
 `NOC | SA | Activator Pool Degraded` may be cleared by events
 
 Event Class | Description
 --- | ---
-`NOC | SA | Leave Activator Pool` | clear
-`NOC | SA | Join Activator Pool` | clear
+[NOC \| SA \| Leave Activator Pool](../../../event-classes/noc/sa/leave-activator-pool.md) | clear
+[NOC \| SA \| Join Activator Pool](../../../event-classes/noc/sa/join-activator-pool.md) | clear

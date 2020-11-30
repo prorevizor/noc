@@ -15,5 +15,5 @@ Hardware module not present
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-module | str | :material-close: | Module type
-interface | str | :material-check: | Hardware port or slot
+module | str | {{ yes }} | Module type
+interface | str | {{ no }} | Hardware port or slot

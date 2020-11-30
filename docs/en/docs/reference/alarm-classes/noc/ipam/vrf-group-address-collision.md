@@ -17,11 +17,11 @@ Check address allocation and equipment configuration
 
 Variable | Description | Default
 --- | --- | ---
-address | Address | `:material-close:`
-vrf | VRF | `:material-close:`
-interface | Interface | `:material-close:`
-existing_vrf | Existing VRF | `:material-close:`
-existing_object | Existing Object | `:material-close:`
+address | Address | {{ no }}
+vrf | VRF | {{ no }}
+interface | Interface | {{ no }}
+existing_vrf | Existing VRF | {{ no }}
+existing_object | Existing Object | {{ no }}
 
 ## Events
 
@@ -30,4 +30,4 @@ existing_object | Existing Object | `:material-close:`
 
 Event Class | Description
 --- | ---
-`NOC | IPAM | VRF Group Address Collision` | dispose
+[NOC \| IPAM \| VRF Group Address Collision](../../../event-classes/noc/ipam/vrf-group-address-collision.md) | dispose

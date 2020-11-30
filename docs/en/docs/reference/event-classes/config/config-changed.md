@@ -21,4 +21,4 @@ No specific action needed unless the change caused unexpected consequences
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-user | str | :material-check: | Username
+user | str | {{ no }} | Username

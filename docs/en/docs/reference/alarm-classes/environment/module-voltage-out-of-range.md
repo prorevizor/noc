@@ -13,11 +13,11 @@ uuid: 5c83ad07-4a96-4322-a945-af801ff95207
 
 Variable | Description | Default
 --- | --- | ---
-name | Name | `:material-close:`
-measure | Current State | `:material-close:`
-min | Min State | `:material-close:`
-max | Max State | `:material-close:`
-threshold | Threshold | `:material-close:`
+name | Name | {{ no }}
+measure | Current State | {{ no }}
+min | Min State | {{ no }}
+max | Max State | {{ no }}
+threshold | Threshold | {{ no }}
 
 ## Events
 
@@ -26,11 +26,11 @@ threshold | Threshold | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Environment | Module Voltage Out of Range` | dispose
+[Environment \| Module Voltage Out of Range](../../event-classes/environment/module-voltage-out-of-range.md) | dispose
 
 ### Closing Events
 `Environment | Module Voltage Out of Range` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Environment | Module Voltage Returned to Normal Range` | dispose
+[Environment \| Module Voltage Returned to Normal Range](../../event-classes/environment/module-voltage-returned-to-normal-range.md) | dispose

@@ -23,7 +23,7 @@ Large amount of deletes may indicate instable link
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-table_inserts | int | :material-close: | Number of insers per interval
-table_deletes | int | :material-close: | Number of deletes per interval
-table_drops | int | :material-close: | Number of drops per interval
-table_ageouts | int | :material-close: | Number of aged entries per interval
+table_inserts | int | {{ yes }} | Number of insers per interval
+table_deletes | int | {{ yes }} | Number of deletes per interval
+table_drops | int | {{ yes }} | Number of drops per interval
+table_ageouts | int | {{ yes }} | Number of aged entries per interval

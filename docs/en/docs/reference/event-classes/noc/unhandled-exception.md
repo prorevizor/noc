@@ -21,7 +21,7 @@ Grab this event, clear valuable data and submit an issue at http://nocproject.or
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-component | str | :material-close: | NOC's component
-traceback | str | :material-close: | Exception traceback
-file | str | :material-check: | Failed module
-line | int | :material-check: | Failed line
+component | str | {{ yes }} | NOC's component
+traceback | str | {{ yes }} | Exception traceback
+file | str | {{ no }} | Failed module
+line | int | {{ no }} | Failed line

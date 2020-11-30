@@ -15,7 +15,7 @@ Exessive number of CRC errors on fabric module
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | Farbic module
+name | str | {{ yes }} | Farbic module
 
 ## Alarms
 
@@ -25,4 +25,4 @@ name | str | :material-close: | Farbic module
 
 Alarm Class | Description
 --- | ---
-`Chassis | Fabric | CRC Errors` | dispose
+[Chassis \| Fabric \| CRC Errors](../../../alarm-classes/chassis/fabric/crc-errors.md) | dispose

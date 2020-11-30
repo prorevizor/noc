@@ -15,11 +15,11 @@ No matching classification rule found
 
 ## Recommended Actions
 
-Grab this event, create appropriate classification rule and reclassify the event again
+Grab this event, create appropriative classification rule and reclassify the event again
 
 ## Variables
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-trap_oid | oid | :material-close: | SNMP Trap OID
-trap_name | str | :material-check: | SNMP Trap name
+trap_oid | oid | {{ yes }} | SNMP Trap OID
+trap_name | str | {{ no }} | SNMP Trap name

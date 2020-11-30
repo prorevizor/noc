@@ -15,7 +15,7 @@ BPDU Guard Recovery
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
+interface | interface_name | {{ yes }} | Interface
 
 ## Alarms
 
@@ -25,4 +25,4 @@ interface | interface_name | :material-close: | Interface
 
 Alarm Class | Description
 --- | ---
-`Network | STP | BPDU Guard Violation` | dispose
+[Network \| STP \| BPDU Guard Violation](../../../alarm-classes/network/stp/bpdu-guard-violation.md) | dispose

@@ -17,8 +17,8 @@ Connection lost on a specific vlan
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | LBD interface
-vlan | int | :material-close: | Vlan
+interface | interface_name | {{ yes }} | LBD interface
+vlan | int | {{ yes }} | Vlan
 
 ## Alarms
 
@@ -28,4 +28,4 @@ vlan | int | :material-close: | Vlan
 
 Alarm Class | Description
 --- | ---
-`Network | LBD | Vlan Loop Detected` | dispose
+[Network \| LBD \| Vlan Loop Detected](../../../alarm-classes/network/lbd/vlan-loop-detected.md) | dispose

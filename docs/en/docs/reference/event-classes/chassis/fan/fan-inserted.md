@@ -15,7 +15,7 @@ Fan inserted
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | Fan Name
+name | str | {{ yes }} | Fan Name
 
 ## Alarms
 
@@ -25,4 +25,4 @@ name | str | :material-close: | Fan Name
 
 Alarm Class | Description
 --- | ---
-`Chassis | Fan | Fan Removed` | dispose
+[Chassis \| Fan \| Fan Removed](../../../alarm-classes/chassis/fan/fan-removed.md) | dispose

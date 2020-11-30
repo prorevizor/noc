@@ -19,4 +19,4 @@ No action is required.
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
+interface | interface_name | {{ yes }} | Interface

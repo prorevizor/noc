@@ -17,9 +17,9 @@ Ensure that the QoS fields in the configuration file are set correctly.
 
 Variable | Description | Default
 --- | --- | ---
-mac | Cable Modem MAC | `:material-close:`
-sid | Cable Modem SID | `:material-close:`
-interface | Cable interface | `:material-close:`
+mac | Cable Modem MAC | {{ no }}
+sid | Cable Modem SID | {{ no }}
+interface | Cable interface | {{ no }}
 
 ## Events
 
@@ -28,4 +28,4 @@ interface | Cable interface | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Network | DOCSIS | Invalid QoS` | dispose
+[Network \| DOCSIS \| Invalid QoS](../../../event-classes/network/docsis/invalid-qos.md) | dispose

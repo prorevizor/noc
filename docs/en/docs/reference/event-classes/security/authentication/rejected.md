@@ -21,7 +21,7 @@ No reaction needed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-reason | str | :material-check: | Reason
-server | ip_address | :material-check: | Server
-user | str | :material-check: | User
-src_ip | ip_address | :material-check: | Outside user ip
+reason | str | {{ no }} | Reason
+server | ip_address | {{ no }} | Server
+user | str | {{ no }} | User
+src_ip | ip_address | {{ no }} | Outside user ip

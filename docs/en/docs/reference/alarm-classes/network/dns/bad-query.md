@@ -13,7 +13,7 @@ uuid: df739179-a360-422b-9f38-efd8c898a0e2
 
 Variable | Description | Default
 --- | --- | ---
-ip | Source IP | `:material-close:`
+ip | Source IP | {{ no }}
 
 ## Events
 
@@ -22,4 +22,4 @@ ip | Source IP | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Network | DNS | Bad Query` | dispose
+[Network \| DNS \| Bad Query](../../../event-classes/network/dns/bad-query.md) | dispose

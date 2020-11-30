@@ -21,10 +21,10 @@ Check links and local and neighbor's router configuration
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
-neighbor | ip_address | :material-close: | Neighbor's IP
-vrf | str | :material-check: | VRF
-reason | str | :material-check: | Reason
+interface | interface_name | {{ yes }} | Interface
+neighbor | ip_address | {{ yes }} | Neighbor's IP
+vrf | str | {{ no }} | VRF
+reason | str | {{ no }} | Reason
 
 ## Alarms
 
@@ -34,4 +34,4 @@ reason | str | :material-check: | Reason
 
 Alarm Class | Description
 --- | ---
-`Network | PIM | Neighbor Down` | dispose
+[Network \| PIM \| Neighbor Down](../../../alarm-classes/network/pim/neighbor-down.md) | dispose

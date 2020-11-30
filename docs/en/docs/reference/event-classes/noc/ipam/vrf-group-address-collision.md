@@ -19,11 +19,11 @@ Check address allocation and equipment configuration
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-address | str | :material-close: | Address
-vrf | str | :material-close: | VRF
-interface | str | :material-check: | Interface
-existing_vrf | str | :material-close: | Existing VRF
-existing_object | str | :material-check: | Existing Object
+address | str | {{ yes }} | Address
+vrf | str | {{ yes }} | VRF
+interface | str | {{ no }} | Interface
+existing_vrf | str | {{ yes }} | Existing VRF
+existing_object | str | {{ no }} | Existing Object
 
 ## Alarms
 
@@ -33,4 +33,4 @@ existing_object | str | :material-check: | Existing Object
 
 Alarm Class | Description
 --- | ---
-`NOC | IPAM | VRF Group Address Collision` | dispose
+[NOC \| IPAM \| VRF Group Address Collision](../../../alarm-classes/noc/ipam/vrf-group-address-collision.md) | dispose

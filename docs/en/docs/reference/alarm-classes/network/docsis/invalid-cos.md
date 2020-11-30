@@ -17,9 +17,9 @@ Ensure that the CoS fields in the configuration file are set correctly.
 
 Variable | Description | Default
 --- | --- | ---
-mac | Cable Modem MAC | `:material-close:`
-sid | Cable Modem SID | `:material-close:`
-interface | Cable interface | `:material-close:`
+mac | Cable Modem MAC | {{ no }}
+sid | Cable Modem SID | {{ no }}
+interface | Cable interface | {{ no }}
 
 ## Events
 
@@ -28,4 +28,4 @@ interface | Cable interface | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Network | DOCSIS | Invalid CoS` | dispose
+[Network \| DOCSIS \| Invalid CoS](../../../event-classes/network/docsis/invalid-cos.md) | dispose

@@ -15,7 +15,7 @@ System rebooting
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-user | str | :material-check: | Username
+user | str | {{ no }} | Username
 
 ## Alarms
 
@@ -25,4 +25,4 @@ user | str | :material-check: | Username
 
 Alarm Class | Description
 --- | ---
-`System | Reboot` | dispose
+[System \| Reboot](../../alarm-classes/system/reboot.md) | dispose

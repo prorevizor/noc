@@ -13,8 +13,8 @@ uuid: 94244c8a-d185-4c50-adaa-09fe27a39f92
 
 Variable | Description | Default
 --- | --- | ---
-node | IP or hostname | `:material-close:`
-port | Service port | `:material-close:`
+node | IP or hostname | {{ no }}
+port | Service port | {{ no }}
 
 ## Alarm Correlation
 
@@ -33,7 +33,7 @@ graph TD
 
 Alarm Class | Description
 --- | ---
-`Vendor | f5 | BIGIP | Network | Load Balance | Node Down` | Node down
+[Vendor \| f5 \| BIGIP \| Network \| Load Balance \| Node Down](node-down.md) | Node down
 
 ## Events
 
@@ -42,11 +42,11 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`Vendor | f5 | BIGIP | Network | Load Balance | Service Down` | dispose
+[Vendor \| f5 \| BIGIP \| Network \| Load Balance \| Service Down](../../../../../../event-classes/vendor/f5/bigip/network/load-balance/service-down.md) | dispose
 
 ### Closing Events
 `Vendor | f5 | BIGIP | Network | Load Balance | Service Down` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Vendor | f5 | BIGIP | Network | Load Balance | Service Up` | dispose
+[Vendor \| f5 \| BIGIP \| Network \| Load Balance \| Service Up](../../../../../../event-classes/vendor/f5/bigip/network/load-balance/service-up.md) | dispose

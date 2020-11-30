@@ -21,9 +21,9 @@ Check interfaces on both sides for possible errors
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Affected interface
-speed | str | :material-check: | Link speed
-duplex | str | :material-check: | Duplex mode
+interface | interface_name | {{ yes }} | Affected interface
+speed | str | {{ no }} | Link speed
+duplex | str | {{ no }} | Duplex mode
 
 ## Alarms
 
@@ -33,7 +33,7 @@ duplex | str | :material-check: | Duplex mode
 
 Alarm Class | Description
 --- | ---
-`Network | Link | Link Down` | Clear Link Down
-`Network | Link | Err-Disable` | Clear Err-Disable
-`Network | STP | BPDU Guard Violation` | Clear BPDU Guard Violation
-`Network | STP | Root Guard Violation` | Clear Root Guard Violation
+[Network \| Link \| Link Down](../../../alarm-classes/network/link/link-down.md) | Clear Link Down
+[Network \| Link \| Err-Disable](../../../alarm-classes/network/link/err-disable.md) | Clear Err-Disable
+[Network \| STP \| BPDU Guard Violation](../../../alarm-classes/network/stp/bpdu-guard-violation.md) | Clear BPDU Guard Violation
+[Network \| STP \| Root Guard Violation](../../../alarm-classes/network/stp/root-guard-violation.md) | Clear Root Guard Violation

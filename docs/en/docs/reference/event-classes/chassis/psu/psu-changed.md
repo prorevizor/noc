@@ -15,6 +15,6 @@ Power Suppply Unit Changed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | PSU Name
-from_state | str | :material-check: | Prevoius state
-to_state | str | :material-check: | Current state
+name | str | {{ yes }} | PSU Name
+from_state | str | {{ no }} | Prevoius state
+to_state | str | {{ no }} | Current state

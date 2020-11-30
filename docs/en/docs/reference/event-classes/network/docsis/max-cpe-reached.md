@@ -19,11 +19,11 @@ Locate the specified device and place the device on a different cable modem with
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-mac | mac | :material-check: | CPE MAC
-ip | ip_address | :material-check: | CPE IP
-modem_mac | mac | :material-check: | Cable Modem MAC
-sid | int | :material-check: | Cable Modem SID
-interface | interface_name | :material-check: | Cable interface
+mac | mac | {{ no }} | CPE MAC
+ip | ip_address | {{ no }} | CPE IP
+modem_mac | mac | {{ no }} | Cable Modem MAC
+sid | int | {{ no }} | Cable Modem SID
+interface | interface_name | {{ no }} | Cable interface
 
 ## Alarms
 
@@ -33,4 +33,4 @@ interface | interface_name | :material-check: | Cable interface
 
 Alarm Class | Description
 --- | ---
-`Network | DOCSIS | Max CPE Reached` | dispose
+[Network \| DOCSIS \| Max CPE Reached](../../../alarm-classes/network/docsis/max-cpe-reached.md) | dispose

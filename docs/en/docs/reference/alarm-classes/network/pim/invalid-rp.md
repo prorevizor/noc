@@ -17,8 +17,8 @@ Configure all leaf routers (first-hop routers to multicast sources) with the IP 
 
 Variable | Description | Default
 --- | --- | ---
-pim_router | PIM router IP | `:material-close:`
-invalid_rp | Invalid RP IP | `:material-close:`
+pim_router | PIM router IP | {{ no }}
+invalid_rp | Invalid RP IP | {{ no }}
 
 ## Events
 
@@ -27,4 +27,4 @@ invalid_rp | Invalid RP IP | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Network | PIM | Invalid RP` | dispose
+[Network \| PIM \| Invalid RP](../../../event-classes/network/pim/invalid-rp.md) | dispose

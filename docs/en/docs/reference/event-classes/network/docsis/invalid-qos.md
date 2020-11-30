@@ -19,9 +19,9 @@ Ensure that the QoS fields in the configuration file are set correctly.
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-mac | mac | :material-close: | Cable Modem MAC
-sid | int | :material-check: | Cable Modem SID
-interface | interface_name | :material-check: | Cable interface
+mac | mac | {{ yes }} | Cable Modem MAC
+sid | int | {{ no }} | Cable Modem SID
+interface | interface_name | {{ no }} | Cable interface
 
 ## Alarms
 
@@ -31,4 +31,4 @@ interface | interface_name | :material-check: | Cable interface
 
 Alarm Class | Description
 --- | ---
-`Network | DOCSIS | Invalid QoS` | dispose
+[Network \| DOCSIS \| Invalid QoS](../../../alarm-classes/network/docsis/invalid-qos.md) | dispose

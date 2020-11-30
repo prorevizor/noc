@@ -13,7 +13,7 @@ uuid: d8d98bf5-3a57-48df-80c5-3e67f25f43c9
 
 Variable | Description | Default
 --- | --- | ---
-reason | Reason | `:material-close:`
+reason | Reason | {{ no }}
 
 ## Events
 
@@ -22,4 +22,4 @@ reason | Reason | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Chassis | TCAM | TCAM Entry Capacity Exceeded` | dispose
+[Chassis \| TCAM \| TCAM Entry Capacity Exceeded](../../../event-classes/chassis/tcam/tcam-entry-capacity-exceeded.md) | dispose

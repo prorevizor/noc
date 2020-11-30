@@ -19,5 +19,5 @@ No reaction needed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-user | str | :material-check: | User
-ip | ip_address | :material-check: | User address
+user | str | {{ no }} | User
+ip | ip_address | {{ no }} | User address

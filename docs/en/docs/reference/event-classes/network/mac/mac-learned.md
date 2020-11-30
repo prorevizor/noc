@@ -15,6 +15,6 @@ New MAC learned on switch port
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-mac | mac | :material-close: | MAC Address
-vlan | int | :material-check: | VLAN
-interface | interface_name | :material-check: | Interface
+mac | mac | {{ yes }} | MAC Address
+vlan | int | {{ no }} | VLAN
+interface | interface_name | {{ no }} | Interface

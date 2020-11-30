@@ -19,4 +19,4 @@ Input Power Failed
 
 Alarm Class | Description
 --- | ---
-`Environment | UPS | Input Power Failed` | dispose
+[Environment \| UPS \| Input Power Failed](../../../alarm-classes/environment/ups/input-power-failed.md) | dispose

@@ -21,11 +21,11 @@ Check links and local and neighbor router configuration
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-as | str | :material-check: | EIGRP automonus system
-interface | str | :material-close: | Interface
-neighbor | ip_address | :material-close: | Neighbor's Router ID
-reason | str | :material-check: | Adjacency lost reason
-to_state | str | :material-check: | to state
+as | str | {{ no }} | EIGRP automonus system
+interface | str | {{ yes }} | Interface
+neighbor | ip_address | {{ yes }} | Neighbor's Router ID
+reason | str | {{ no }} | Adjacency lost reason
+to_state | str | {{ no }} | to state
 
 ## Alarms
 
@@ -35,4 +35,4 @@ to_state | str | :material-check: | to state
 
 Alarm Class | Description
 --- | ---
-`Network | EIGRP | Neighbor Down` | dispose
+[Network \| EIGRP \| Neighbor Down](../../../alarm-classes/network/eigrp/neighbor-down.md) | dispose

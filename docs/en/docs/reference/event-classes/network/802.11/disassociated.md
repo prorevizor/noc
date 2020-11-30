@@ -15,6 +15,6 @@ Client disassociated
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-check: | Radio interface
-mac | mac | :material-check: | Station MAC
-reason | str | :material-check: | Reason
+interface | interface_name | {{ no }} | Radio interface
+mac | mac | {{ no }} | Station MAC
+reason | str | {{ no }} | Reason

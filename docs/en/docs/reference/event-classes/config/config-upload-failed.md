@@ -15,9 +15,9 @@ Config Upload Failed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-ip | ip_address | :material-check: | Server IP
-service | str | :material-check: | Service name (ftp, tftp)
-user | str | :material-check: | User name
+ip | ip_address | {{ no }} | Server IP
+service | str | {{ no }} | Service name (ftp, tftp)
+user | str | {{ no }} | User name
 
 ## Alarms
 
@@ -27,4 +27,4 @@ user | str | :material-check: | User name
 
 Alarm Class | Description
 --- | ---
-`Config | Config Upload Failed` | dispose
+[Config \| Config Upload Failed](../../alarm-classes/config/config-upload-failed.md) | dispose

@@ -17,9 +17,9 @@ Check user IP and MAC, check IMPB entry, check topology
 
 Variable | Description | Default
 --- | --- | ---
-ip | User IP | `:material-close:`
-mac | User MAC | `:material-close:`
-interface | Affected interface | `:material-close:`
+ip | User IP | {{ no }}
+mac | User MAC | {{ no }}
+interface | Affected interface | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Events
@@ -29,11 +29,11 @@ description | Interface description | `=InterfaceDS.description`
 
 Event Class | Description
 --- | ---
-`Network | IMPB | Unauthenticated IP-MAC` | dispose
+[Network \| IMPB \| Unauthenticated IP-MAC](../../../event-classes/network/impb/unauthenticated-ip-mac.md) | dispose
 
 ### Closing Events
 `Network | IMPB | Unauthenticated IP-MAC` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | IMPB | Recover IMPB stop learning state` | dispose
+[Network \| IMPB \| Recover IMPB stop learning state](../../../event-classes/network/impb/recover-impb-stop-learning-state.md) | dispose

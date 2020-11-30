@@ -13,9 +13,9 @@ uuid: a0f6d92d-9988-434d-8e3e-f07d6622a5f7
 
 Variable | Description | Default
 --- | --- | ---
-interface | Interface | `:material-close:`
-src_ip | Source IP | `:material-close:`
-src_mac | Source MAC | `:material-close:`
+interface | Interface | {{ no }}
+src_ip | Source IP | {{ no }}
+src_mac | Source MAC | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Events
@@ -25,4 +25,4 @@ description | Interface description | `=InterfaceDS.description`
 
 Event Class | Description
 --- | ---
-`Security | Attack | Teardrop Attack` | dispose
+[Security \| Attack \| Teardrop Attack](../../../event-classes/security/attack/teardrop-attack.md) | dispose

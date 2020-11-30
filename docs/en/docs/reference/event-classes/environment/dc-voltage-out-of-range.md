@@ -15,11 +15,11 @@ DC voltage out of range
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | Name
-measure | str | :material-check: | Current State
-min | str | :material-check: | Min State
-max | str | :material-check: | Max State
-threshold | str | :material-check: | Threshold
+name | str | {{ yes }} | Name
+measure | str | {{ no }} | Current State
+min | str | {{ no }} | Min State
+max | str | {{ no }} | Max State
+threshold | str | {{ no }} | Threshold
 
 ## Alarms
 
@@ -29,4 +29,4 @@ threshold | str | :material-check: | Threshold
 
 Alarm Class | Description
 --- | ---
-`Environment | DC Voltage Out of Range` | dispose
+[Environment \| DC Voltage Out of Range](../../alarm-classes/environment/dc-voltage-out-of-range.md) | dispose

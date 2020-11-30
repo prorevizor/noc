@@ -21,4 +21,4 @@ No specific action needed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-user | str | :material-check: | Username
+user | str | {{ no }} | Username

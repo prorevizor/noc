@@ -13,7 +13,7 @@ uuid: f5da2fd6-f712-43f1-b788-16812f844239
 
 Variable | Description | Default
 --- | --- | ---
-interface | interface | `:material-close:`
+interface | interface | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Alarm Correlation
@@ -28,12 +28,12 @@ graph TD
   A --> C1
 ```
 
-### Root Causes
+### Consequences
 `Network | UDLD | UDLD Protocol Error Detected` alarm may be root cause of
 
 Alarm Class | Description
 --- | ---
-`Network | Link | Err-Disable` | UDLD
+[Network \| Link \| Err-Disable](../link/err-disable.md) | UDLD
 
 ## Events
 
@@ -42,11 +42,11 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`Network | UDLD | UDLD Protocol Error Detected` | dispose
+[Network \| UDLD \| UDLD Protocol Error Detected](../../../event-classes/network/udld/udld-protocol-error-detected.md) | dispose
 
 ### Closing Events
 `Network | UDLD | UDLD Protocol Error Detected` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | UDLD | UDLD Protocol Recovery` | dispose
+[Network \| UDLD \| UDLD Protocol Recovery](../../../event-classes/network/udld/udld-protocol-recovery.md) | dispose

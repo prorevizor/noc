@@ -13,9 +13,9 @@ uuid: 0d2c70a7-27c6-4027-8ee2-5e44c378f0f6
 
 Variable | Description | Default
 --- | --- | ---
-ip | Server IP | `:material-close:`
-service | Service name (ftp, tftp) | `:material-close:`
-user | User name | `:material-close:`
+ip | Server IP | {{ no }}
+service | Service name (ftp, tftp) | {{ no }}
+user | User name | {{ no }}
 
 ## Events
 
@@ -24,4 +24,4 @@ user | User name | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Config | Config Upload Failed` | dispose
+[Config \| Config Upload Failed](../../event-classes/config/config-upload-failed.md) | dispose

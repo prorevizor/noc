@@ -21,13 +21,13 @@ Negotiate the source if it is your customer, or ignore
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-from_ip | ip_address | :material-close: | From IP
-to_ip | ip_address | :material-check: | To IP
-from_side | str | :material-close: | From Side
-proto | str | :material-close: | Protocol
-open_flows | int | :material-close: | Open Flows
-suspected_flows | int | :material-close: | Suspected Flows
-action | str | :material-close: | Action
+from_ip | ip_address | {{ yes }} | From IP
+to_ip | ip_address | {{ no }} | To IP
+from_side | str | {{ yes }} | From Side
+proto | str | {{ yes }} | Protocol
+open_flows | int | {{ yes }} | Open Flows
+suspected_flows | int | {{ yes }} | Suspected Flows
+action | str | {{ yes }} | Action
 
 ## Alarms
 
@@ -37,4 +37,4 @@ action | str | :material-close: | Action
 
 Alarm Class | Description
 --- | ---
-`Vendor | Cisco | SCOS | Security | Attack | Attack Detected` | Attack Detected
+[Vendor \| Cisco \| SCOS \| Security \| Attack \| Attack Detected](../../../../../../alarm-classes/vendor/cisco/scos/security/attack/attack-detected.md) | Attack Detected

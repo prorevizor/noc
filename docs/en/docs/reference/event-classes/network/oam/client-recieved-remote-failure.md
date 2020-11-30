@@ -19,9 +19,9 @@ In the event of a link fault, consider shutting down the link.
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
-reason | str | :material-check: | Failure reason
-action | str | :material-check: | Response action
+interface | interface_name | {{ yes }} | Interface
+reason | str | {{ no }} | Failure reason
+action | str | {{ no }} | Response action
 
 ## Alarms
 
@@ -31,4 +31,4 @@ action | str | :material-check: | Response action
 
 Alarm Class | Description
 --- | ---
-`Environment | Total Power Loss` | Total power loss
+[Environment \| Total Power Loss](../../../alarm-classes/environment/total-power-loss.md) | Total power loss

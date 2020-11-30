@@ -19,11 +19,11 @@ Check links and local and neighbor router configuration
 
 Variable | Description | Default
 --- | --- | ---
-area | OSPF area | `:material-close:`
-interface | Interface | `:material-close:`
-neighbor | Neighbor's Router ID | `:material-close:`
-reason | Adjacency lost reason | `:material-close:`
-vrf | VRF | `:material-close:`
+area | OSPF area | {{ no }}
+interface | Interface | {{ no }}
+neighbor | Neighbor's Router ID | {{ no }}
+reason | Adjacency lost reason | {{ no }}
+vrf | VRF | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Alarm Correlation
@@ -43,7 +43,7 @@ graph TD
 
 Alarm Class | Description
 --- | ---
-`Network | Link | Link Down` | Link Down
+[Network \| Link \| Link Down](../link/link-down.md) | Link Down
 
 ## Events
 
@@ -52,11 +52,11 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`Network | OSPF | Neighbor Down` | dispose
+[Network \| OSPF \| Neighbor Down](../../../event-classes/network/ospf/neighbor-down.md) | dispose
 
 ### Closing Events
 `Network | OSPF | Neighbor Down` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | OSPF | Neighbor Up` | dispose
+[Network \| OSPF \| Neighbor Up](../../../event-classes/network/ospf/neighbor-up.md) | dispose

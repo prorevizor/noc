@@ -13,7 +13,7 @@ uuid: 16c2b30a-4378-40ae-889f-c78e09f5c335
 
 Variable | Description | Default
 --- | --- | ---
-config | Config type | `:material-close:`
+config | Config type | {{ no }}
 
 ## Alarm Correlation
 
@@ -34,5 +34,5 @@ graph TD
 
 Alarm Class | Description
 --- | ---
-`Chassis | Stack | Stack Degraded` | Stack Degraded
-`Chassis | Supervisor | Supervisor Down` | Supervisor Down
+[Chassis \| Stack \| Stack Degraded](../chassis/stack/stack-degraded.md) | Stack Degraded
+[Chassis \| Supervisor \| Supervisor Down](../chassis/supervisor/supervisor-down.md) | Supervisor Down

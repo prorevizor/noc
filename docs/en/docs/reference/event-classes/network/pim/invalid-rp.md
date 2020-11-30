@@ -19,8 +19,8 @@ Configure all leaf routers (first-hop routers to multicast sources) with the IP 
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-pim_router | ip_address | :material-close: | PIM Router IP
-invalid_rp | ip_address | :material-close: | Invalid RP IP
+pim_router | ip_address | {{ yes }} | PIM Router IP
+invalid_rp | ip_address | {{ yes }} | Invalid RP IP
 
 ## Alarms
 
@@ -30,4 +30,4 @@ invalid_rp | ip_address | :material-close: | Invalid RP IP
 
 Alarm Class | Description
 --- | ---
-`Network | PIM | Invalid RP` | dispose
+[Network \| PIM \| Invalid RP](../../../alarm-classes/network/pim/invalid-rp.md) | dispose

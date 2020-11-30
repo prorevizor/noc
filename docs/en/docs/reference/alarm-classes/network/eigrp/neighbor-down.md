@@ -19,10 +19,10 @@ Check links and local and neighbor router configuration
 
 Variable | Description | Default
 --- | --- | ---
-as | EIGRP autonomus system | `:material-close:`
-interface | Interface | `:material-close:`
-neighbor | Neighbor's Router ID | `:material-close:`
-reason | Adjacency lost reason | `:material-close:`
+as | EIGRP autonomus system | {{ no }}
+interface | Interface | {{ no }}
+neighbor | Neighbor's Router ID | {{ no }}
+reason | Adjacency lost reason | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Alarm Correlation
@@ -42,7 +42,7 @@ graph TD
 
 Alarm Class | Description
 --- | ---
-`Network | Link | Link Down` | Link Down
+[Network \| Link \| Link Down](../link/link-down.md) | Link Down
 
 ## Events
 
@@ -51,11 +51,11 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`Network | EIGRP | Neighbor Down` | dispose
+[Network \| EIGRP \| Neighbor Down](../../../event-classes/network/eigrp/neighbor-down.md) | dispose
 
 ### Closing Events
 `Network | EIGRP | Neighbor Down` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | EIGRP | Neighbor Up` | dispose
+[Network \| EIGRP \| Neighbor Up](../../../event-classes/network/eigrp/neighbor-up.md) | dispose

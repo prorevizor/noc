@@ -13,9 +13,9 @@ uuid: 0c6d4a8f-2122-40a7-83c1-00dfa3e74991
 
 Variable | Description | Default
 --- | --- | ---
-farm | SLB server farm name | `:material-close:`
-real | Real IP | `:material-close:`
-state | Real state | `:material-close:`
+farm | SLB server farm name | {{ no }}
+real | Real IP | {{ no }}
+state | Real state | {{ no }}
 
 ## Events
 
@@ -24,11 +24,11 @@ state | Real state | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Vendor | Cisco | IOS | Network | Load Balance | Server Farm Degraded` | dispose
+[Vendor \| Cisco \| IOS \| Network \| Load Balance \| Server Farm Degraded](../../../../../../event-classes/vendor/cisco/ios/network/load-balance/server-farm-degraded.md) | dispose
 
 ### Closing Events
 `Vendor | Cisco | IOS | Network | Load Balance | Server Farm Degraded` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Vendor | Cisco | IOS | Network | Load Balance | Server Farm is Operate` | dispose
+[Vendor \| Cisco \| IOS \| Network \| Load Balance \| Server Farm is Operate](../../../../../../event-classes/vendor/cisco/ios/network/load-balance/server-farm-is-operate.md) | dispose

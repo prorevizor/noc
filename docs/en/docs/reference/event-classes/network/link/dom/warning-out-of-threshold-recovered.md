@@ -15,9 +15,9 @@ DOM above or below threshold recovered
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | str | :material-close: | Physical port
-threshold | str | :material-check: | Threshold type
-sensor | str | :material-check: | Measured name
+interface | str | {{ yes }} | Physical port
+threshold | str | {{ no }} | Threshold type
+sensor | str | {{ no }} | Measured name
 
 ## Alarms
 
@@ -27,4 +27,4 @@ sensor | str | :material-check: | Measured name
 
 Alarm Class | Description
 --- | ---
-`Network | Link | DOM | Warning: Out of Threshold` | dispose
+[Network \| Link \| DOM \| Warning: Out of Threshold](../../../../alarm-classes/network/link/dom/warning-out-of-threshold.md) | dispose

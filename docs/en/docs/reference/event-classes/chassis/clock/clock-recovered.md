@@ -15,7 +15,7 @@ Clock module or linecard recovered
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | Clock Name
+name | str | {{ yes }} | Clock Name
 
 ## Alarms
 
@@ -25,4 +25,4 @@ name | str | :material-close: | Clock Name
 
 Alarm Class | Description
 --- | ---
-`Chassis | Clock | Clock Failed` | dispose
+[Chassis \| Clock \| Clock Failed](../../../alarm-classes/chassis/clock/clock-failed.md) | dispose

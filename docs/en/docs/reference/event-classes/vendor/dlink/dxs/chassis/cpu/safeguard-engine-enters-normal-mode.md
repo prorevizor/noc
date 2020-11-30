@@ -17,7 +17,7 @@ Device returned to work in normal mode
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-unit | int | :material-check: | Unit number in stack
+unit | int | {{ no }} | Unit number in stack
 
 ## Alarms
 
@@ -27,4 +27,4 @@ unit | int | :material-check: | Unit number in stack
 
 Alarm Class | Description
 --- | ---
-`Chassis | CPU | CPU Exhausted` | dispose
+[Chassis \| CPU \| CPU Exhausted](../../../../../../alarm-classes/chassis/cpu/cpu-exhausted.md) | dispose

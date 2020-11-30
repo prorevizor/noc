@@ -11,14 +11,14 @@ Administrative, billing and technical contacts for container
 
 | Name             | Type    | Description                   | Required         |  Constant        | Default |
 | ---------------- | ------- | ----------------------------- | ---------------- | ---------------- | ------- |
-| has_contacts     | Boolean | Object can hold               | :material-check: | :material-check: | true    |
+| has_contacts     | Boolean | Object can hold               | {{ yes }} | {{ yes }} | true    |
 |                  |         | contact information           |                  |                  |        |
-| administrative   | String  | Administrative contacts       | :material-close: | :material-close: |         |
+| administrative   | String  | Administrative contacts       | {{ no }} | {{ no }} |         |
 |                  |         | including access and passes   |                  |                  |         |
-| billing          | String  | Billing contacts, including   | :material-close: | :material-close: |         |
+| billing          | String  | Billing contacts, including   | {{ no }} | {{ no }} |         |
 |                  |         | agreement negotiations,       |                  |                  |         |
 |                  |         | bills and payments            |                  |                  |         |
-| technical        | String  | Technical contacts,           | :material-close: | :material-close: |         |
+| technical        | String  | Technical contacts,           | {{ no }} | {{ no }} |         |
 |                  |         | including on-site engineering |                  |                  |         |
 
 ## Examples

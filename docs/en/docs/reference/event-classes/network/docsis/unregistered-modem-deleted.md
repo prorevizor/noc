@@ -19,4 +19,4 @@ Check the cable modem interface configuration for registration bypass, or check 
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-mac | mac | :material-close: | Cable Modem MAC
+mac | mac | {{ yes }} | Cable Modem MAC

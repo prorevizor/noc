@@ -15,8 +15,8 @@ Service Down
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-node | str | :material-close: | IP or hostname
-port | int | :material-close: | Service port
+node | str | {{ yes }} | IP or hostname
+port | int | {{ yes }} | Service port
 
 ## Alarms
 
@@ -26,4 +26,4 @@ port | int | :material-close: | Service port
 
 Alarm Class | Description
 --- | ---
-`Vendor | f5 | BIGIP | Network | Load Balance | Service Down` | dispose
+[Vendor \| f5 \| BIGIP \| Network \| Load Balance \| Service Down](../../../../../../alarm-classes/vendor/f5/bigip/network/load-balance/service-down.md) | dispose

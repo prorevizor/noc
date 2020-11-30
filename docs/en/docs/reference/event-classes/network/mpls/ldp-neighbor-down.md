@@ -15,9 +15,9 @@ MPLS LDP Neighbor Down
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-neighbor | ip_address | :material-close: | LDP Neighbor
-state | str | :material-check: | state
-reason | str | :material-check: | Reason
+neighbor | ip_address | {{ yes }} | LDP Neighbor
+state | str | {{ no }} | state
+reason | str | {{ no }} | Reason
 
 ## Alarms
 
@@ -27,4 +27,4 @@ reason | str | :material-check: | Reason
 
 Alarm Class | Description
 --- | ---
-`Network | MPLS | LDP Neighbor Down` | dispose
+[Network \| MPLS \| LDP Neighbor Down](../../../alarm-classes/network/mpls/ldp-neighbor-down.md) | dispose

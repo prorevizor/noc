@@ -15,7 +15,7 @@ Node Up
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-node | str | :material-close: | IP or hostname
+node | str | {{ yes }} | IP or hostname
 
 ## Alarms
 
@@ -25,4 +25,4 @@ node | str | :material-close: | IP or hostname
 
 Alarm Class | Description
 --- | ---
-`Vendor | f5 | BIGIP | Network | Load Balance | Node Down` | dispose
+[Vendor \| f5 \| BIGIP \| Network \| Load Balance \| Node Down](../../../../../../alarm-classes/vendor/f5/bigip/network/load-balance/node-down.md) | dispose

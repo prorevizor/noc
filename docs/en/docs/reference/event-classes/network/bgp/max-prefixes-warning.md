@@ -15,8 +15,8 @@ Max prefixes warning
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-peer | ip_address | :material-close: | Peer
-vrf | str | :material-check: | VRF
-as | int | :material-check: | Peer AS
-recv | int | :material-close: | Prefixes recieved
-max | int | :material-check: | Maximum prefixes
+peer | ip_address | {{ yes }} | Peer
+vrf | str | {{ no }} | VRF
+as | int | {{ no }} | Peer AS
+recv | int | {{ yes }} | Prefixes recieved
+max | int | {{ no }} | Maximum prefixes

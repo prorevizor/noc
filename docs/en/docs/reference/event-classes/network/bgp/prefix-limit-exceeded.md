@@ -15,9 +15,9 @@ BGP Prefix Limit Exceeded
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-peer | ip_address | :material-close: | Peer
-vrf | str | :material-check: | VRF
-as | int | :material-check: | Peer AS
+peer | ip_address | {{ yes }} | Peer
+vrf | str | {{ no }} | VRF
+as | int | {{ no }} | Peer AS
 
 ## Alarms
 
@@ -27,4 +27,4 @@ as | int | :material-check: | Peer AS
 
 Alarm Class | Description
 --- | ---
-`Network | BGP | Prefix Limit Exceeded` | dispose
+[Network \| BGP \| Prefix Limit Exceeded](../../../alarm-classes/network/bgp/prefix-limit-exceeded.md) | dispose

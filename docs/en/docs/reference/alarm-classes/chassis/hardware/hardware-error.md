@@ -18,4 +18,4 @@ Device becomes unstable or is not responding
 
 Event Class | Description
 --- | ---
-`Chassis | Hardware | Hardware Error` | dispose
+[Chassis \| Hardware \| Hardware Error](../../../event-classes/chassis/hardware/hardware-error.md) | dispose

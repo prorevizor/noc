@@ -15,4 +15,4 @@ System halted
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-user | str | :material-check: | Username
+user | str | {{ no }} | Username

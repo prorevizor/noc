@@ -15,10 +15,10 @@ ARP Moved
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-check: | BFD interface
-ip | ip_address | :material-close: | IP
-from_mac | mac | :material-close: | From MAC
-to_mac | mac | :material-close: | To MAC
+interface | interface_name | {{ no }} | BFD interface
+ip | ip_address | {{ yes }} | IP
+from_mac | mac | {{ yes }} | From MAC
+to_mac | mac | {{ yes }} | To MAC
 
 ## Alarms
 
@@ -28,4 +28,4 @@ to_mac | mac | :material-close: | To MAC
 
 Alarm Class | Description
 --- | ---
-`Network | IP | ARP Moved` | dispose
+[Network \| IP \| ARP Moved](../../../alarm-classes/network/ip/arp-moved.md) | dispose

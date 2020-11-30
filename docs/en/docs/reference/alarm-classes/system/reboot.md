@@ -21,12 +21,12 @@ graph TD
   A --> C1
 ```
 
-### Root Causes
+### Consequences
 `System | Reboot` alarm may be root cause of
 
 Alarm Class | Description
 --- | ---
-`NOC | Managed Object | Ping Failed` | System Reboot
+[NOC \| Managed Object \| Ping Failed](../noc/managed-object/ping-failed.md) | System Reboot
 
 ## Events
 
@@ -35,11 +35,11 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`System | Reboot` | dispose
+[System \| Reboot](../../event-classes/system/reboot.md) | dispose
 
 ### Closing Events
 `System | Reboot` may be cleared by events
 
 Event Class | Description
 --- | ---
-`System | Started` | dispose
+[System \| Started](../../event-classes/system/started.md) | dispose

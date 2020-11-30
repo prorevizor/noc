@@ -13,9 +13,9 @@ uuid: f3d81e67-27fc-4100-ba8d-4f9f01e772da
 
 Variable | Description | Default
 --- | --- | ---
-module | Module type | `:material-close:`
-interface | Hardware port or slot | `:material-close:`
-reason | Reason | `:material-close:`
+module | Module type | {{ no }}
+interface | Hardware port or slot | {{ no }}
+reason | Reason | {{ no }}
 
 ## Events
 
@@ -24,4 +24,4 @@ reason | Reason | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Chassis | Hardware | Module | Module Error` | dispose
+[Chassis \| Hardware \| Module \| Module Error](../../../../event-classes/chassis/hardware/module/module-error.md) | dispose

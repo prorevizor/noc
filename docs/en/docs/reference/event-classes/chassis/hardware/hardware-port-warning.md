@@ -17,7 +17,7 @@ Link becomes unstable or is not responding
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | str | :material-close: | Hardware port or slot
+interface | str | {{ yes }} | Hardware port or slot
 
 ## Alarms
 
@@ -27,4 +27,4 @@ interface | str | :material-close: | Hardware port or slot
 
 Alarm Class | Description
 --- | ---
-`Chassis | Hardware | Hardware Port Warning` | dispose
+[Chassis \| Hardware \| Hardware Port Warning](../../../alarm-classes/chassis/hardware/hardware-port-warning.md) | dispose

@@ -21,5 +21,5 @@ Add enable password to managed object settings or grant permission for execute c
 
 Variable | Description | Default
 --- | --- | ---
-path | Path to alarms | `:material-close:`
-message | Error detail message | `:material-close:`
+path | Path to alarms | {{ no }}
+message | Error detail message | {{ no }}

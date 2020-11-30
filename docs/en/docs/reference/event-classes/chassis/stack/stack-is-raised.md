@@ -15,7 +15,7 @@ One or more unit is joined to stack
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-unit | int | :material-close: | Unit number
+unit | int | {{ yes }} | Unit number
 
 ## Alarms
 
@@ -25,4 +25,4 @@ unit | int | :material-close: | Unit number
 
 Alarm Class | Description
 --- | ---
-`Chassis | Stack | Stack Degraded` | dispose
+[Chassis \| Stack \| Stack Degraded](../../../alarm-classes/chassis/stack/stack-degraded.md) | dispose

@@ -13,9 +13,9 @@ uuid: e08eedd4-f661-419c-9529-0e475628239a
 
 Variable | Description | Default
 --- | --- | ---
-interface | Interface | `:material-close:`
-src_ip | Source IP | `:material-close:`
-src_mac | Source MAC | `:material-close:`
+interface | Interface | {{ no }}
+src_ip | Source IP | {{ no }}
+src_mac | Source MAC | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Events
@@ -25,4 +25,4 @@ description | Interface description | `=InterfaceDS.description`
 
 Event Class | Description
 --- | ---
-`Security | Attack | IP Spoofing` | dispose
+[Security \| Attack \| IP Spoofing](../../../event-classes/security/attack/ip-spoofing.md) | dispose

@@ -15,9 +15,9 @@ Config Download Failed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-ip | ip_address | :material-check: | Server IP
-service | str | :material-check: | Service name (ftp, tftp)
-user | str | :material-check: | User name
+ip | ip_address | {{ no }} | Server IP
+service | str | {{ no }} | Service name (ftp, tftp)
+user | str | {{ no }} | User name
 
 ## Alarms
 
@@ -27,4 +27,4 @@ user | str | :material-check: | User name
 
 Alarm Class | Description
 --- | ---
-`Config | Config Download Failed` | dispose
+[Config \| Config Download Failed](../../alarm-classes/config/config-download-failed.md) | dispose

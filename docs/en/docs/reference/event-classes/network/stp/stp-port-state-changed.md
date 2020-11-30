@@ -17,7 +17,7 @@ possible start of spanning tree rebuilding or interface oper status change
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
-state | str | :material-close: | Port State
-vlan | int | :material-check: | VLAN ID
-instance | int | :material-check: | MST instance
+interface | interface_name | {{ yes }} | Interface
+state | str | {{ yes }} | Port State
+vlan | int | {{ no }} | VLAN ID
+instance | int | {{ no }} | MST instance

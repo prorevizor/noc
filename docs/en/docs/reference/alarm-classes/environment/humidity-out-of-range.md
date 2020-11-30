@@ -13,11 +13,11 @@ uuid: 331594a3-7e20-40b2-bac4-7cbcad13b9e6
 
 Variable | Description | Default
 --- | --- | ---
-name | Name | `:material-close:`
-measure | Current State | `:material-close:`
-min | Min State | `:material-close:`
-max | Max State | `:material-close:`
-threshold | Threshold | `:material-close:`
+name | Name | {{ no }}
+measure | Current State | {{ no }}
+min | Min State | {{ no }}
+max | Max State | {{ no }}
+threshold | Threshold | {{ no }}
 
 ## Events
 
@@ -26,11 +26,11 @@ threshold | Threshold | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Environment | Humidity Out of Range` | dispose
+[Environment \| Humidity Out of Range](../../event-classes/environment/humidity-out-of-range.md) | dispose
 
 ### Closing Events
 `Environment | Humidity Out of Range` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Environment | Humidity Returned to Normal Range` | dispose
+[Environment \| Humidity Returned to Normal Range](../../event-classes/environment/humidity-returned-to-normal-range.md) | dispose

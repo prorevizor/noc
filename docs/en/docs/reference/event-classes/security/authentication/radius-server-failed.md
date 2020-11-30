@@ -15,7 +15,7 @@ RADIUS server failed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-ip | ip_address | :material-check: | RADIUS server address
+ip | ip_address | {{ no }} | RADIUS server address
 
 ## Alarms
 
@@ -25,4 +25,4 @@ ip | ip_address | :material-check: | RADIUS server address
 
 Alarm Class | Description
 --- | ---
-`Security | Authentication | RADIUS server failed` | dispose
+[Security \| Authentication \| RADIUS server failed](../../../alarm-classes/security/authentication/radius-server-failed.md) | dispose

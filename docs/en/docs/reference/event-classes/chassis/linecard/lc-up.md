@@ -15,7 +15,7 @@ Linecard Up
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-number | str | :material-close: | Slot number
+number | str | {{ yes }} | Slot number
 
 ## Alarms
 
@@ -25,4 +25,4 @@ number | str | :material-close: | Slot number
 
 Alarm Class | Description
 --- | ---
-`Chassis | Linecard | LC Down` | dispose
+[Chassis \| Linecard \| LC Down](../../../alarm-classes/chassis/linecard/lc-down.md) | dispose

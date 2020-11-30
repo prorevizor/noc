@@ -13,8 +13,8 @@ uuid: da287612-26d3-4086-a11b-67b0b52595b1
 
 Variable | Description | Default
 --- | --- | ---
-interface | Interface | `:material-close:`
-src_ip | Source IP | `:material-close:`
+interface | Interface | {{ no }}
+src_ip | Source IP | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Events
@@ -24,4 +24,4 @@ description | Interface description | `=InterfaceDS.description`
 
 Event Class | Description
 --- | ---
-`Security | Attack | Blat Attack` | dispose
+[Security \| Attack \| Blat Attack](../../../event-classes/security/attack/blat-attack.md) | dispose

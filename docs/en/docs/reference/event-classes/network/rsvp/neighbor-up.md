@@ -21,8 +21,8 @@ No reaction needed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
-neighbor | ip_address | :material-close: | Neighbor's NSAP or name
+interface | interface_name | {{ yes }} | Interface
+neighbor | ip_address | {{ yes }} | Neighbor's NSAP or name
 
 ## Alarms
 
@@ -32,4 +32,4 @@ neighbor | ip_address | :material-close: | Neighbor's NSAP or name
 
 Alarm Class | Description
 --- | ---
-`Network | RSVP | Neighbor Down` | dispose
+[Network \| RSVP \| Neighbor Down](../../../alarm-classes/network/rsvp/neighbor-down.md) | dispose

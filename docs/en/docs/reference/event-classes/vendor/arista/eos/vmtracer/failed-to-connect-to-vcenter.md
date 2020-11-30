@@ -15,7 +15,7 @@ Failed to connect to vCenter
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-reason | str | :material-check: | Reason
+reason | str | {{ no }} | Reason
 
 ## Alarms
 
@@ -25,4 +25,4 @@ reason | str | :material-check: | Reason
 
 Alarm Class | Description
 --- | ---
-`Vendor | Arista | EOS | VMTracer | Failed to connect to vCenter` | dispose
+[Vendor \| Arista \| EOS \| VMTracer \| Failed to connect to vCenter](../../../../../alarm-classes/vendor/arista/eos/vmtracer/failed-to-connect-to-vcenter.md) | dispose

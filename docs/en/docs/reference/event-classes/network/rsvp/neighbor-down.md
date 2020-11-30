@@ -21,9 +21,9 @@ Check links and local and neighbor's router configuration
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
-neighbor | ip_address | :material-close: | Neighbor's NSAP or name
-reason | str | :material-check: | Reason
+interface | interface_name | {{ yes }} | Interface
+neighbor | ip_address | {{ yes }} | Neighbor's NSAP or name
+reason | str | {{ no }} | Reason
 
 ## Alarms
 
@@ -33,4 +33,4 @@ reason | str | :material-check: | Reason
 
 Alarm Class | Description
 --- | ---
-`Network | RSVP | Neighbor Down` | dispose
+[Network \| RSVP \| Neighbor Down](../../../alarm-classes/network/rsvp/neighbor-down.md) | dispose

@@ -13,7 +13,7 @@ uuid: 00d2fdb9-6684-4a6b-8ebe-c3c1cf6657b7
 
 Variable | Description | Default
 --- | --- | ---
-name | Fabric Module | `:material-close:`
+name | Fabric Module | {{ no }}
 
 ## Events
 
@@ -22,4 +22,4 @@ name | Fabric Module | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Chassis | Fabric | CRC Errors` | dispose
+[Chassis \| Fabric \| CRC Errors](../../../event-classes/chassis/fabric/crc-errors.md) | dispose

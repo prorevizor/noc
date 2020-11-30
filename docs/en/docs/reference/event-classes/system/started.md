@@ -19,4 +19,4 @@ System started
 
 Alarm Class | Description
 --- | ---
-`System | Reboot` | dispose
+[System \| Reboot](../../alarm-classes/system/reboot.md) | dispose

@@ -19,10 +19,10 @@ Load-balance the modems that are requesting the reserved upstream rate on anothe
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Cable interface
-upstream | str | :material-check: | Upstream
-cur_bps | int | :material-check: | Current bps reservation
-res_bps | int | :material-check: | Reserved bps
+interface | interface_name | {{ yes }} | Cable interface
+upstream | str | {{ no }} | Upstream
+cur_bps | int | {{ no }} | Current bps reservation
+res_bps | int | {{ no }} | Reserved bps
 
 ## Alarms
 
@@ -32,4 +32,4 @@ res_bps | int | :material-check: | Reserved bps
 
 Alarm Class | Description
 --- | ---
-`Network | DOCSIS | Maximum Capacity Reached` | dispose
+[Network \| DOCSIS \| Maximum Capacity Reached](../../../alarm-classes/network/docsis/maximum-capacity-reached.md) | dispose

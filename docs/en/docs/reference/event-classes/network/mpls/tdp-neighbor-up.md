@@ -15,8 +15,8 @@ MPLS TDP Neighbor Up
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-neighbor | ip_address | :material-close: | TDP Neighbor
-reason | str | :material-check: | Reason
+neighbor | ip_address | {{ yes }} | TDP Neighbor
+reason | str | {{ no }} | Reason
 
 ## Alarms
 
@@ -26,4 +26,4 @@ reason | str | :material-check: | Reason
 
 Alarm Class | Description
 --- | ---
-`Network | MPLS | TDP Neighbor Down` | dispose
+[Network \| MPLS \| TDP Neighbor Down](../../../alarm-classes/network/mpls/tdp-neighbor-down.md) | dispose

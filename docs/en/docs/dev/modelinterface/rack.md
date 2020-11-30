@@ -10,17 +10,17 @@ Rack enclosures
 
 | Name       | Type   | Description                               | Required         | Constant         | Default   |
 | ---------- | ------ | ----------------------------------------- | ---------------- | ---------------- | --------- |
-| units      | int    | Internal height in units                  | :material-check: | :material-check: |           |
-| width      | int    | Max. equipment width in mm                | :material-check: | :material-check: |           |
-| depth      | int    | Max. equipment depth in mm                | :material-check: | :material-check: |           |
-| front_door | str    | Front door configuration                  | :material-check: | :material-check: |           |
+| units      | int    | Internal height in units                  | {{ yes }} | {{ yes }} |           |
+| width      | int    | Max. equipment width in mm                | {{ yes }} | {{ yes }} |           |
+| depth      | int    | Max. equipment depth in mm                | {{ yes }} | {{ yes }} |           |
+| front_door | str    | Front door configuration                  | {{ yes }} | {{ yes }} |           |
 |            |        |                                           |                  |                  |           |
 |            |        |  `o` - open, hasn't door                    |                |                  |           |
 |            |        |  `c` - closed, blank door                   |                |                  |           |
 |            |        |  `l` - one section, opens on the left side  |                |                  |           |
 |            |        |  `r` - one section, opens on the right side |                |                  |           |
 |            |        |  `2` - two sections                         |                |                  |           |
-| rear_door  | str    | Rear door configuration                   | :material-check: | :material-check: |           |
+| rear_door  | str    | Rear door configuration                   | {{ yes }} | {{ yes }} |           |
 |            |        |                                           |                  |                  |           |
 |            |        |  `o` - open, hasn't door                    |                |                  |           |
 |            |        |  `c` - closed, blank door                   |                |                  |           |

@@ -13,9 +13,9 @@ uuid: 43445211-53db-4d0f-b559-f299151fdcaa
 
 Variable | Description | Default
 --- | --- | ---
-ip | Server IP | `:material-close:`
-service | Service name (ftp, tftp) | `:material-close:`
-user | User name | `:material-close:`
+ip | Server IP | {{ no }}
+service | Service name (ftp, tftp) | {{ no }}
+user | User name | {{ no }}
 
 ## Events
 
@@ -24,4 +24,4 @@ user | User name | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Config | Config Download Failed` | dispose
+[Config \| Config Download Failed](../../event-classes/config/config-download-failed.md) | dispose

@@ -15,8 +15,8 @@ User assigned to session
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-group | str | :material-check: | Group WebVPN
-user | str | :material-check: | User
-src_ip | ip_address | :material-check: | User outside IP
-dst_ip | ipv4_address | :material-check: | User inside IP
-dst_ipv6 | ipv6_address | :material-check: | User inside ipv6
+group | str | {{ no }} | Group WebVPN
+user | str | {{ no }} | User
+src_ip | ip_address | {{ no }} | User outside IP
+dst_ip | ipv4_address | {{ no }} | User inside IP
+dst_ipv6 | ipv6_address | {{ no }} | User inside ipv6

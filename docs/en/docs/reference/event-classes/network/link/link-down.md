@@ -21,7 +21,7 @@ Check configuration, both sides of links and hardware
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Affected interface
+interface | interface_name | {{ yes }} | Affected interface
 
 ## Alarms
 
@@ -31,4 +31,4 @@ interface | interface_name | :material-close: | Affected interface
 
 Alarm Class | Description
 --- | ---
-`Network | Link | Link Down` | dispose
+[Network \| Link \| Link Down](../../../alarm-classes/network/link/link-down.md) | dispose

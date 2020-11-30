@@ -13,7 +13,7 @@ uuid: 34ceeb58-db4a-401b-a98b-0a446ad8f4bb
 
 Variable | Description | Default
 --- | --- | ---
-node | IP or hostname | `:material-close:`
+node | IP or hostname | {{ no }}
 
 ## Alarm Correlation
 
@@ -27,12 +27,12 @@ graph TD
   A --> C1
 ```
 
-### Root Causes
+### Consequences
 `Vendor | f5 | BIGIP | Network | Load Balance | Node Down` alarm may be root cause of
 
 Alarm Class | Description
 --- | ---
-`Vendor | f5 | BIGIP | Network | Load Balance | Service Down` | Node down
+[Vendor \| f5 \| BIGIP \| Network \| Load Balance \| Service Down](service-down.md) | Node down
 
 ## Events
 
@@ -41,11 +41,11 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`Vendor | f5 | BIGIP | Network | Load Balance | Node Down` | dispose
+[Vendor \| f5 \| BIGIP \| Network \| Load Balance \| Node Down](../../../../../../event-classes/vendor/f5/bigip/network/load-balance/node-down.md) | dispose
 
 ### Closing Events
 `Vendor | f5 | BIGIP | Network | Load Balance | Node Down` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Vendor | f5 | BIGIP | Network | Load Balance | Node Up` | dispose
+[Vendor \| f5 \| BIGIP \| Network \| Load Balance \| Node Up](../../../../../../event-classes/vendor/f5/bigip/network/load-balance/node-up.md) | dispose

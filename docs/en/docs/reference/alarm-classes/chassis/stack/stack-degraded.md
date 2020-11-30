@@ -13,7 +13,7 @@ uuid: ed3566d9-75dc-46e6-a012-1c05387cd5dd
 
 Variable | Description | Default
 --- | --- | ---
-unit | Unit number | `:material-close:`
+unit | Unit number | {{ no }}
 
 ## Alarm Correlation
 
@@ -27,12 +27,12 @@ graph TD
   A --> C1
 ```
 
-### Root Causes
+### Consequences
 `Chassis | Stack | Stack Degraded` alarm may be root cause of
 
 Alarm Class | Description
 --- | ---
-`Config | Config Sync Failed` | Stack Degraded
+[Config \| Config Sync Failed](../../config/config-sync-failed.md) | Stack Degraded
 
 ## Events
 
@@ -41,11 +41,11 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`Chassis | Stack | Stack Degraded` | dispose
+[Chassis \| Stack \| Stack Degraded](../../../event-classes/chassis/stack/stack-degraded.md) | dispose
 
 ### Closing Events
 `Chassis | Stack | Stack Degraded` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Chassis | Stack | Stack is Raised` | dispose
+[Chassis \| Stack \| Stack is Raised](../../../event-classes/chassis/stack/stack-is-raised.md) | dispose

@@ -14,10 +14,41 @@ from dataclasses import dataclass
 import enum
 import re
 import shutil
+import operator
 
 
 def quote_file_name(s: str) -> str:
     return s.strip().lower().replace(" ", "-").replace(":", "")
+
+
+def mq(s: str) -> str:
+    return s.replace("|", r"\|")
+
+
+def rel_ref(from_path: str, to_path: str) -> str:
+    """
+    Calculate related reference
+    :param from_path:
+    :param to_path:
+    :return:
+    """
+    path1 = from_path.split("/")[:-1]
+    path2 = to_path.split("/")
+    fn = path2.pop(-1)
+    common = 0
+    for x, y in zip(path1, path2):
+        if x != y:
+            break
+        common += 1
+    parts = []
+    up = len(path1) - common
+    if up:
+        parts += [".."] * up
+    down = len(path2) - common
+    if down:
+        parts += path2[common:]
+    parts += [fn]
+    return "/".join(parts)
 
 
 @dataclass
@@ -30,9 +61,9 @@ class EventClassVar(object):
     @property
     def is_required_mark(self):
         if self.is_required:
-            return ":material-close:"
+            return "{{ yes }}"
         else:
-            return ":material-check:"
+            return "{{ no }}"
 
 
 class DispositionAction(enum.Enum):
@@ -59,16 +90,17 @@ class EventClass(object):
     vars: Optional[List[EventClassVar]]
     disposition: Optional[List[EventClassDisposition]]
 
-    def quote(self, name: str) -> str:
-        return quote_file_name(name)
-
     @property
     def dir_path(self) -> List[str]:
-        return [self.quote(x) for x in self.name.split(" | ")][:-1]
+        return [quote_file_name(x) for x in self.name.split(" | ")][:-1]
 
     @property
     def file_name(self) -> str:
-        return self.quote(self.name.split(" | ")[-1]) + ".md"
+        return quote_file_name(self.name.split(" | ")[-1]) + ".md"
+
+    @property
+    def rel_path(self) -> str:
+        return f"reference/event-classes/{'/'.join(self.dir_path)}/{self.file_name}"
 
 
 @dataclass
@@ -81,7 +113,7 @@ class AlarmClassVar(object):
     def default_mark(self) -> str:
         if self.default:
             return f"`{self.default}`"
-        return ":material-close:"
+        return "{{ no }}"
 
 
 @dataclass
@@ -110,16 +142,71 @@ class AlarmClass(object):
     opening_events: Optional[List[AlarmEvent]]
     closing_events: Optional[List[AlarmEvent]]
 
-    def quote(self, name: str) -> str:
-        return quote_file_name(name)
-
     @property
     def dir_path(self) -> List[str]:
-        return [self.quote(x) for x in self.name.split(" | ")][:-1]
+        return [quote_file_name(x) for x in self.name.split(" | ")][:-1]
 
     @property
     def file_name(self) -> str:
-        return self.quote(self.name.split(" | ")[-1]) + ".md"
+        return quote_file_name(self.name.split(" | ")[-1]) + ".md"
+
+    @property
+    def rel_path(self) -> str:
+        return f"reference/alarm-classes/{'/'.join(self.dir_path)}/{self.file_name}"
+
+
+@dataclass
+class MetricScopePath(object):
+    name: str
+    is_required: bool
+
+    @property
+    def is_required_mark(self):
+        if self.is_required:
+            return "{{ yes }}"
+        else:
+            return "{{ no }}"
+
+
+@dataclass
+class MetricScope(object):
+    name: str
+    uuid: str
+    table_name: str
+    description: Optional[str]
+    path: List[MetricScopePath]
+    metric_types: List["MetricType"]
+
+    @property
+    def file_name(self) -> str:
+        return quote_file_name(self.name) + ".md"
+
+    @property
+    def rel_path(self) -> str:
+        return f"reference/metrics/scopes/{self.file_name}"
+
+
+@dataclass
+class MetricType(object):
+    name: str
+    uuid: str
+    scope: MetricScope
+    field_name: str
+    field_type: str
+    description: Optional[str]
+    measure: str
+
+    @property
+    def dir_path(self) -> List[str]:
+        return [quote_file_name(x) for x in self.name.split(" | ")][:-1]
+
+    @property
+    def file_name(self) -> str:
+        return quote_file_name(self.name.split(" | ")[-1]) + ".md"
+
+    @property
+    def rel_path(self) -> str:
+        return f"reference/metrics/types/{'/'.join(self.dir_path)}/{self.file_name}"
 
 
 class CollectionDoc(object):
@@ -133,16 +220,22 @@ class CollectionDoc(object):
         self.new_yml_path = f"{self.yml_path}.new"
         self.event_class: Dict[str, EventClass] = {}
         self.alarm_class: Dict[str, AlarmClass] = {}
+        self.metric_scope: Dict[str, MetricScope] = {}
+        self.metric_type: Dict[str, MetricType] = {}
 
     def build(self):
         shutil.copy(self.yml_path, self.new_yml_path)
         self.read_collections()
         self.build_eventclasses()
         self.build_alarmclasses()
+        self.build_metric_scopes()
+        self.build_metric_types()
 
     def read_collections(self):
         self.read_eventclasses()
         self.read_alarmclasses()
+        self.read_metric_scopes()
+        self.read_metric_types()
 
     def iter_jsons(self, path: str) -> Iterable[Dict[str, Any]]:
         for root, _, files in os.walk(path):
@@ -249,6 +342,38 @@ class CollectionDoc(object):
                 else:
                     raise ValueError(f"Unknown disposition: {ed.action}")
 
+    def read_metric_scopes(self):
+        for d in self.iter_jsons(os.path.join("collections", "pm.metricscopes")):
+            metric_scope = MetricScope(
+                name=d["name"],
+                uuid=d["uuid"],
+                path=[],
+                description=d.get("description") or "",
+                table_name=d["table_name"],
+                metric_types=[],
+            )
+            path = d.get("path") or []
+            for p in path:
+                metric_scope.path += [
+                    MetricScopePath(name=p["name"], is_required=bool(p.get("is_required")))
+                ]
+            self.metric_scope[metric_scope.name] = metric_scope
+
+    def read_metric_types(self):
+        for d in self.iter_jsons(os.path.join("collections", "pm.metrictypes")):
+            metric_scope = self.metric_scope[d["scope__name"]]
+            metric_type = MetricType(
+                name=d["name"],
+                uuid=d["uuid"],
+                scope=metric_scope,
+                description=d.get("description") or "",
+                field_name=d["field_name"],
+                field_type=d["field_type"],
+                measure=d.get("measure") or "",
+            )
+            self.metric_type[metric_type.name] = metric_type
+            metric_scope.metric_types += [metric_type]
+
     def ensure_dir(self, path: str) -> None:
         os.makedirs(path, exist_ok=True)
 
@@ -281,6 +406,7 @@ class CollectionDoc(object):
                     else:
                         continue  # Skip replaced part
                 r += [line]
+        r += [""]
         with open(self.new_yml_path, "w") as f:
             f.write("\n".join(r))
 
@@ -353,7 +479,9 @@ class CollectionDoc(object):
                         "Alarm Class | Description",
                         "--- | ---",
                     ]
-                    data += [f"`{d.alarm}` | {d.name}" for d in d_list]
+                    for d in d_list:
+                        alarm_ref = rel_ref(ec.rel_path, self.alarm_class[d.alarm].rel_path)
+                        data += [f"[{mq(d.alarm)}]({alarm_ref}) | {d.name}"]
                 d_list = [d for d in ec.disposition if d.action == DispositionAction.CLEAR]
                 if d_list:
                     data += [
@@ -365,7 +493,9 @@ class CollectionDoc(object):
                         "Alarm Class | Description",
                         "--- | ---",
                     ]
-                    data += [f"`{d.alarm}` | {d.name}" for d in d_list]
+                    for d in d_list:
+                        alarm_ref = rel_ref(ec.rel_path, self.alarm_class[d.alarm].rel_path)
+                        data += [f"[{mq(d.alarm)}]({alarm_ref}) | {d.name}"]
             data += [""]
             page = "\n".join(data)
             #
@@ -383,7 +513,7 @@ class CollectionDoc(object):
                 new_files += 1
                 to_write = True
             if to_write:
-                print(f"Writing: {ec_dir}/{ec.file_name}")
+                print(f"  Writing: {ec_dir}/{ec.file_name}")
                 with open(page_path, "w") as f:
                     f.write(page)
         total_files = new_files + changed_files + unmodified_files
@@ -398,14 +528,14 @@ class CollectionDoc(object):
         changed_files = 0
         unmodified_files = 0
         toc = []
-        ec_root = os.path.join(self.doc_root, "reference", "alarm-classes")
+        ac_root = os.path.join(self.doc_root, "reference", "alarm-classes")
         last_path: List[str] = []
         indent: str = ""
         for ac_name in sorted(self.alarm_class):
             ac = self.alarm_class[ac_name]
             rel_dir = os.path.join(*ac.dir_path)
-            ec_dir = os.path.join(ec_root, rel_dir)
-            self.ensure_dir(ec_dir)
+            ac_dir = os.path.join(ac_root, rel_dir)
+            self.ensure_dir(ac_dir)
             path = [x.strip() for x in ac_name.split(" | ")][:-1]
             if not last_path or path != last_path:
                 level = 0
@@ -482,17 +612,21 @@ class CollectionDoc(object):
                     "Alarm Class | Description",
                     "--- | ---",
                 ]
-                data += [f"`{rc.alarm_class}` | {rc.name}" for rc in ac.root_causes]
+                for rc in ac.root_causes:
+                    a_ref = rel_ref(ac.rel_path, self.alarm_class[rc.alarm_class].rel_path)
+                    data += [f"[{mq(rc.alarm_class)}]({a_ref}) | {rc.name}"]
             if ac.consequences:
                 data += [
                     "",
-                    "### Root Causes",
+                    "### Consequences",
                     f"`{ac.name}` alarm may be root cause of",
                     "",
                     "Alarm Class | Description",
                     "--- | ---",
                 ]
-                data += [f"`{rc.alarm_class}` | {rc.name}" for rc in ac.consequences]
+                for rc in ac.consequences:
+                    a_ref = rel_ref(ac.rel_path, self.alarm_class[rc.alarm_class].rel_path)
+                    data += [f"[{mq(rc.alarm_class)}]({a_ref}) | {rc.name}"]
             if ac.opening_events or ac.closing_events:
                 data += ["", "## Events"]
             if ac.opening_events:
@@ -504,7 +638,9 @@ class CollectionDoc(object):
                     "Event Class | Description",
                     "--- | ---",
                 ]
-                data += [f"`{e.event_class}` | {e.name}" for e in ac.opening_events]
+                for e in ac.opening_events:
+                    e_ref = rel_ref(ac.rel_path, self.event_class[e.event_class].rel_path)
+                    data += [f"[{mq(e.event_class)}]({e_ref}) | {e.name}"]
             if ac.closing_events:
                 data += [
                     "",
@@ -514,11 +650,13 @@ class CollectionDoc(object):
                     "Event Class | Description",
                     "--- | ---",
                 ]
-                data += [f"`{e.event_class}` | {e.name}" for e in ac.closing_events]
+                for e in ac.closing_events:
+                    e_ref = rel_ref(ac.rel_path, self.event_class[e.event_class].rel_path)
+                    data += [f"[{mq(e.event_class)}]({e_ref}) | {e.name}"]
             data += [""]
             page = "\n".join(data)
             #
-            page_path = os.path.join(ec_dir, ac.file_name)
+            page_path = os.path.join(ac_dir, ac.file_name)
             to_write = False
             if os.path.exists(page_path):
                 with open(page_path) as f:
@@ -532,7 +670,7 @@ class CollectionDoc(object):
                 new_files += 1
                 to_write = True
             if to_write:
-                print(f"Writing: {ec_dir}/{ac.file_name}")
+                print(f"  Writing: {ac_dir}/{ac.file_name}")
                 with open(page_path, "w") as f:
                     f.write(page)
         total_files = new_files + changed_files + unmodified_files
@@ -540,6 +678,144 @@ class CollectionDoc(object):
             f"  Pages: new {new_files}, changed {changed_files}, unmodified {unmodified_files}, total {total_files}"
         )
         self.update_toc("Alarm Classes", toc)
+
+    def build_metric_scopes(self):
+        print("# Writing metric scopes doc:")
+        new_files = 0
+        changed_files = 0
+        unmodified_files = 0
+        ms_root = os.path.join(self.doc_root, "reference", "metrics", "scopes")
+        tab = "{{ tab }}"
+        toc = ["- Overview: reference/metrics/scopes/index.md"]
+        for ms_name in sorted(self.metric_scope):
+            ms = self.metric_scope[ms_name]
+            data = ["---", f"uuid: {ms.uuid}", "---", f"# {ms.name} Metric Scope"]
+            if ms.description:
+                data += ["", ms.description]
+            data += [
+                "",
+                "## Data Table",
+                "",
+                f"ClickHouse Table: `{ms.table_name}`",
+                "",
+                "Field | Type | Description",
+                "--- | --- | ---",
+                "date | Date | Measurement Date",
+                "ts | DateTime | Measurement Timestamp",
+            ]
+            if ms.path:
+                data += [
+                    "path | Array of String {complex} | Measurement Path",
+                ]
+                data += [f"{tab} `{p.name}` | {p.is_required_mark} | " for p in ms.path]
+            for mt in sorted(ms.metric_types, key=operator.attrgetter("field_name")):
+                mt_ref = rel_ref(ms.rel_path, mt.rel_path)
+                data += [
+                    f"[{mt.field_name}]({mt_ref}) | {mt.field_type} | [{mq(mt.name)}]({mt_ref})"
+                ]
+            data += [""]
+            toc += [f"- {ms.name}: reference/metrics/scopes/{ms.file_name}"]
+            page = "\n".join(data)
+            page_path = os.path.join(ms_root, ms.file_name)
+            to_write = False
+            if os.path.exists(page_path):
+                with open(page_path) as f:
+                    old_page = f.read()
+                if old_page == page:
+                    unmodified_files += 1
+                else:
+                    changed_files += 1
+                    to_write = 1
+            else:
+                new_files += 1
+                to_write = True
+            if to_write:
+                print(f"  Writing: reference/metrics/scopes/{ms.file_name}")
+                with open(page_path, "w") as f:
+                    f.write(page)
+        total_files = new_files + changed_files + unmodified_files
+        print(
+            f"  Pages: new {new_files}, changed {changed_files}, unmodified {unmodified_files}, total {total_files}"
+        )
+        self.update_toc("Metric Scopes", toc)
+
+    def build_metric_types(self):
+        print("# Writing metric types doc:")
+        new_files = 0
+        changed_files = 0
+        unmodified_files = 0
+        ms_root = os.path.join(self.doc_root, "reference", "metrics", "types")
+        last_path: List[str] = []
+        indent: str = ""
+        toc = ["- Overview: reference/metrics/types/index.md"]
+        for mt_name in sorted(self.metric_type):
+            mt = self.metric_type[mt_name]
+            rel_dir = os.path.join(*mt.dir_path)
+            mt_dir = os.path.join(ms_root, rel_dir)
+            self.ensure_dir(mt_dir)
+            path = [x.strip() for x in mt_name.split(" | ")][:-1]
+            if not last_path or path != last_path:
+                level = 0
+                for last_pc, current_pc in zip(last_path, path):
+                    if last_pc == current_pc:
+                        level += 1
+                    else:
+                        break
+                indent = "    " * (level - 1)
+                for current_pc in path[level:]:
+                    indent = "    " * level
+                    toc += [f'{indent}- "{current_pc}":']
+                    level += 1
+                last_path = path
+            short_name = mt_name.split(" | ")[-1].strip()
+            toc += [
+                f'{indent}    - "{short_name}": reference/metrics/types/{rel_dir}/{mt.file_name}'
+            ]
+            # Render page
+            data = ["---", f"uuid: {mt.uuid}", "---", f"# {mt.name} Metric Type"]
+            if mt.description:
+                data += ["", mt.description]
+            scope_path = rel_ref(mt.rel_path, mt.scope.rel_path)
+            data += [
+                "",
+                "## Data Model",
+                "",
+                "Scope",
+                f": [{mt.scope.name}]({scope_path})",
+                "",
+                "Field",
+                f": `{mt.field_name}`",
+                "",
+                "Type",
+                f": {mt.field_type}",
+                "",
+                "Measure",
+                f": `{mt.measure}`",
+                "",
+            ]
+            page = "\n".join(data)
+            page_path = os.path.join(mt_dir, mt.file_name)
+            to_write = False
+            if os.path.exists(page_path):
+                with open(page_path) as f:
+                    old_page = f.read()
+                if old_page == page:
+                    unmodified_files += 1
+                else:
+                    changed_files += 1
+                    to_write = 1
+            else:
+                new_files += 1
+                to_write = True
+            if to_write:
+                print(f"  Writing: {mt_dir}/{mt.file_name}")
+                with open(page_path, "w") as f:
+                    f.write(page)
+        total_files = new_files + changed_files + unmodified_files
+        print(
+            f"  Pages: new {new_files}, changed {changed_files}, unmodified {unmodified_files}, total {total_files}"
+        )
+        self.update_toc("Metric Types", toc)
 
 
 if __name__ == "__main__":

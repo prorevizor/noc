@@ -10,9 +10,9 @@ A measurement of equipment in a particular direction, especially its height, len
 
 | Name    | Type   | Description               | Required         | Constant         | Default |
 | ------- | ------ | ------------------------- | ---------------- | ---------------- | --------|
-|width    | Int    | width in mm               | :material-check: | :material-check: |         |
-|depth    | Int    | depth in mm               | :material-check: | :material-check: |         |
-|height   | Int    | height in mm              | :material-check: | :material-check: |         |
+|width    | Int    | width in mm               | {{ yes }} | {{ yes }} |         |
+|depth    | Int    | depth in mm               | {{ yes }} | {{ yes }} |         |
+|height   | Int    | height in mm              | {{ yes }} | {{ yes }} |         |
 
 ## Examples
 

@@ -15,8 +15,8 @@ Supervisor Up
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | Supervisor name
-reason | str | :material-check: | Reason
+name | str | {{ yes }} | Supervisor name
+reason | str | {{ no }} | Reason
 
 ## Alarms
 
@@ -26,4 +26,4 @@ reason | str | :material-check: | Reason
 
 Alarm Class | Description
 --- | ---
-`Chassis | Supervisor | Supervisor Down` | dispose
+[Chassis \| Supervisor \| Supervisor Down](../../../alarm-classes/chassis/supervisor/supervisor-down.md) | dispose

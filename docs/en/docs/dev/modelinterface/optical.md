@@ -10,14 +10,14 @@ Additional interface for describing optical part of transceiver
 
 | Name          | Type   | Description                                   | Required         | Constant         | Default   |
 | ------------- | ------ | ----------------------------------------------| ---------------- | ---------------- | --------- |
-| laser_type    | str    | Laser type: FP, VCSEL, DFB                    | :material-close: | :material-check: |           |
-| tx_wavelength | int    | Transmit wavelength, nm                       | :material-check: | :material-check: | false     |
-| rx_wavelength | int    | Receive wavelength, nm                        | :material-check: | :material-check: | false     |
-| min_tx_power  | float  | Minimum transmit level, dBm                   | :material-close: | :material-check: | false     |
-| max_tx_power  | float  | Maximum transmit level, dBm                   | :material-close: | :material-check: | false     |
-| min_rx_power  | float  | Minimum receive level, dBm                    | :material-close: | :material-check: | false     |
-| max_rx_power  | float  | Maximum receive level, dBm                    | :material-close: | :material-check: | false     |
-| bidi          | bool   | True if singlefiber, WDM. Otherwise False     | :material-check: | :material-check: | false     |
+| laser_type    | str    | Laser type: FP, VCSEL, DFB                    | {{ no }} | {{ yes }} |           |
+| tx_wavelength | int    | Transmit wavelength, nm                       | {{ yes }} | {{ yes }} | false     |
+| rx_wavelength | int    | Receive wavelength, nm                        | {{ yes }} | {{ yes }} | false     |
+| min_tx_power  | float  | Minimum transmit level, dBm                   | {{ no }} | {{ yes }} | false     |
+| max_tx_power  | float  | Maximum transmit level, dBm                   | {{ no }} | {{ yes }} | false     |
+| min_rx_power  | float  | Minimum receive level, dBm                    | {{ no }} | {{ yes }} | false     |
+| max_rx_power  | float  | Maximum receive level, dBm                    | {{ no }} | {{ yes }} | false     |
+| bidi          | bool   | True if singlefiber, WDM. Otherwise False     | {{ yes }} | {{ yes }} | false     |
 
 Minimum receive level maybe equal to receiver sensitivity.
 

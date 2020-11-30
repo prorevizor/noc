@@ -15,7 +15,7 @@ Power Suppply Unit failed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | PSU Name
+name | str | {{ yes }} | PSU Name
 
 ## Alarms
 
@@ -25,4 +25,4 @@ name | str | :material-close: | PSU Name
 
 Alarm Class | Description
 --- | ---
-`Chassis | PSU | PSU Failed` | dispose
+[Chassis \| PSU \| PSU Failed](../../../alarm-classes/chassis/psu/psu-failed.md) | dispose

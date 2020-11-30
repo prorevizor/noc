@@ -13,7 +13,7 @@ uuid: cd8a2c67-969e-472a-a32e-624edda8e29a
 
 Variable | Description | Default
 --- | --- | ---
-name | Test name | `:material-close:`
+name | Test name | {{ no }}
 
 ## Events
 
@@ -22,4 +22,4 @@ name | Test name | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Environment | UPS | Self-Test Failed` | dispose
+[Environment \| UPS \| Self-Test Failed](../../../event-classes/environment/ups/self-test-failed.md) | dispose

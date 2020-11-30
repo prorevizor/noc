@@ -15,7 +15,7 @@ Link becomes unstable or is not responding
 
 Variable | Description | Default
 --- | --- | ---
-interface | Hardware port or slot | `:material-close:`
+interface | Hardware port or slot | {{ no }}
 
 ## Events
 
@@ -24,11 +24,11 @@ interface | Hardware port or slot | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Chassis | Hardware | Hardware Port Warning` | dispose
+[Chassis \| Hardware \| Hardware Port Warning](../../../event-classes/chassis/hardware/hardware-port-warning.md) | dispose
 
 ### Closing Events
 `Chassis | Hardware | Hardware Port Warning` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Chassis | Hardware | Hardware Port Warning Recover` | dispose
+[Chassis \| Hardware \| Hardware Port Warning Recover](../../../event-classes/chassis/hardware/hardware-port-warning-recover.md) | dispose

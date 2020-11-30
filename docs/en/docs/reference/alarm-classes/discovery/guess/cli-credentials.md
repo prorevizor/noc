@@ -21,5 +21,5 @@ Check managed object settings for rights credentials. Use it for logged in devic
 
 Variable | Description | Default
 --- | --- | ---
-path | Path to alarms | `:material-close:`
-message | Error detail message  | `:material-close:`
+path | Path to alarms | {{ no }}
+message | Error detail message  | {{ no }}

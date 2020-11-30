@@ -15,6 +15,6 @@ System clock synchronized
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-server_name | str | :material-check: | NTP server name
-server_address | ip_address | :material-check: | NTP server IP address
-stratum | int | :material-check: | NTP server stratum
+server_name | str | {{ no }} | NTP server name
+server_address | ip_address | {{ no }} | NTP server IP address
+stratum | int | {{ no }} | NTP server stratum

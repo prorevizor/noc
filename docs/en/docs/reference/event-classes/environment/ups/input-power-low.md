@@ -19,4 +19,4 @@ Input Power Low
 
 Alarm Class | Description
 --- | ---
-`Environment | UPS | Input Power Low` | dispose
+[Environment \| UPS \| Input Power Low](../../../alarm-classes/environment/ups/input-power-low.md) | dispose

@@ -19,7 +19,7 @@ Check noc-scheduler, noc-sae and noc-activator logs
 
 Variable | Description | Default
 --- | --- | ---
-task | Task name | `:material-close:`
+task | Task name | {{ no }}
 
 ## Events
 
@@ -28,11 +28,11 @@ task | Task name | `:material-close:`
 
 Event Class | Description
 --- | ---
-`NOC | Periodic | Periodic Failed` | dispose
+[NOC \| Periodic \| Periodic Failed](../../../event-classes/noc/periodic/periodic-failed.md) | dispose
 
 ### Closing Events
 `NOC | Periodic | Periodic Failed` may be cleared by events
 
 Event Class | Description
 --- | ---
-`NOC | Periodic | Periodic OK` | dispose
+[NOC \| Periodic \| Periodic OK](../../../event-classes/noc/periodic/periodic-ok.md) | dispose

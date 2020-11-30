@@ -15,8 +15,8 @@ MPLS LSP Up
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | LSP name
-bandwidth | int | :material-check: | Bandwidth (bps)
+name | str | {{ yes }} | LSP name
+bandwidth | int | {{ no }} | Bandwidth (bps)
 
 ## Alarms
 
@@ -26,4 +26,4 @@ bandwidth | int | :material-check: | Bandwidth (bps)
 
 Alarm Class | Description
 --- | ---
-`Network | MPLS | LSP Down` | dispose
+[Network \| MPLS \| LSP Down](../../../alarm-classes/network/mpls/lsp-down.md) | dispose

@@ -21,7 +21,7 @@ No reaction needed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-task | str | :material-close: | Task's name
+task | str | {{ yes }} | Task's name
 
 ## Alarms
 
@@ -31,4 +31,4 @@ task | str | :material-close: | Task's name
 
 Alarm Class | Description
 --- | ---
-`NOC | Periodic | Periodic Failed` | dispose
+[NOC \| Periodic \| Periodic Failed](../../../alarm-classes/noc/periodic/periodic-failed.md) | dispose

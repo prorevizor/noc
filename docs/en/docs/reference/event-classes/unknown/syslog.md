@@ -21,4 +21,4 @@ Grab this event, create appropriative classification rule and reclassify the eve
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-syslog_message | str | :material-close: | Full syslog message
+syslog_message | str | {{ yes }} | Full syslog message

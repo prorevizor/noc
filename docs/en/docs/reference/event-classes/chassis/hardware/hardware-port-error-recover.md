@@ -15,7 +15,7 @@ Hardware port or slot error recovered
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | str | :material-close: | Hardware port
+interface | str | {{ yes }} | Hardware port
 
 ## Alarms
 
@@ -25,4 +25,4 @@ interface | str | :material-close: | Hardware port
 
 Alarm Class | Description
 --- | ---
-`Chassis | Hardware | Hardware Port Error` | dispose
+[Chassis \| Hardware \| Hardware Port Error](../../../alarm-classes/chassis/hardware/hardware-port-error.md) | dispose

@@ -21,10 +21,10 @@ Check links and local and neighbor's router configuration
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-neighbor | str | :material-close: | Neighbor's NSAP or name
-interface | interface_name | :material-close: | Interface
-level | str | :material-check: | Level
-reason | str | :material-check: | Adjacency lost reason
+neighbor | str | {{ yes }} | Neighbor's NSAP or name
+interface | interface_name | {{ yes }} | Interface
+level | str | {{ no }} | Level
+reason | str | {{ no }} | Adjacency lost reason
 
 ## Alarms
 
@@ -34,4 +34,4 @@ reason | str | :material-check: | Adjacency lost reason
 
 Alarm Class | Description
 --- | ---
-`Network | IS-IS | Adjacency Down` | dispose
+[Network \| IS-IS \| Adjacency Down](../../../alarm-classes/network/is-is/adjacency-down.md) | dispose

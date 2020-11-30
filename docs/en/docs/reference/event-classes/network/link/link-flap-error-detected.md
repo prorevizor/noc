@@ -21,7 +21,7 @@ Check both sides of links and hardware
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Affected interface
+interface | interface_name | {{ yes }} | Affected interface
 
 ## Alarms
 
@@ -31,4 +31,4 @@ interface | interface_name | :material-close: | Affected interface
 
 Alarm Class | Description
 --- | ---
-`Network | Link | Err-Disable` | dispose
+[Network \| Link \| Err-Disable](../../../alarm-classes/network/link/err-disable.md) | dispose

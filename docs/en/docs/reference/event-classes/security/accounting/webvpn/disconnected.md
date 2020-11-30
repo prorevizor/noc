@@ -21,11 +21,11 @@ No reaction needed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-group | str | :material-check: | Group WebVPN
-user | str | :material-check: | Username
-ip | ip_address | :material-check: | IP
-type | str | :material-check: | Session type
-duration | int | :material-check: | Duration
-bytes_xmt | int | :material-check: | Bytes xmt
-bytes_rcv | int | :material-check: | Bytes rcv
-reason | str | :material-check: | Reason
+group | str | {{ no }} | Group WebVPN
+user | str | {{ no }} | Username
+ip | ip_address | {{ no }} | IP
+type | str | {{ no }} | Session type
+duration | int | {{ no }} | Duration
+bytes_xmt | int | {{ no }} | Bytes xmt
+bytes_rcv | int | {{ no }} | Bytes rcv
+reason | str | {{ no }} | Reason

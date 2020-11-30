@@ -15,9 +15,9 @@ Check msdp peer aviability, check msdp peer configuration changes
 
 Variable | Description | Default
 --- | --- | ---
-peer | Peer's IP | `:material-close:`
-vrf | VRF | `:material-close:`
-reason | Reason | `:material-close:`
+peer | Peer's IP | {{ no }}
+vrf | VRF | {{ no }}
+reason | Reason | {{ no }}
 
 ## Events
 
@@ -26,11 +26,11 @@ reason | Reason | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Network | MSDP | Peer Down` | dispose
+[Network \| MSDP \| Peer Down](../../../event-classes/network/msdp/peer-down.md) | dispose
 
 ### Closing Events
 `Network | MSDP | Peer Down` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | MSDP | Peer Up` | dispose
+[Network \| MSDP \| Peer Up](../../../event-classes/network/msdp/peer-up.md) | dispose

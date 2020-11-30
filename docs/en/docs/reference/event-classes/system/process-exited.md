@@ -15,6 +15,6 @@ Process exited
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | Process name
-pid | str | :material-check: | Process PID
-status | str | :material-check: | Exit status
+name | str | {{ yes }} | Process name
+pid | str | {{ no }} | Process PID
+status | str | {{ no }} | Exit status

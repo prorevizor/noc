@@ -15,5 +15,5 @@ VLAN Created
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-vlan | int | :material-close: | VLAN ID
-name | str | :material-check: | VLAN Name
+vlan | int | {{ yes }} | VLAN ID
+name | str | {{ no }} | VLAN Name

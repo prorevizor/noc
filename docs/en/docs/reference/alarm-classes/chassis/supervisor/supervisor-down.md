@@ -13,8 +13,8 @@ uuid: e4faaa3f-e50c-4eb2-a420-5ec5143e6512
 
 Variable | Description | Default
 --- | --- | ---
-name | Supervisor name | `:material-close:`
-reason | Reason | `:material-close:`
+name | Supervisor name | {{ no }}
+reason | Reason | {{ no }}
 
 ## Alarm Correlation
 
@@ -28,12 +28,12 @@ graph TD
   A --> C1
 ```
 
-### Root Causes
+### Consequences
 `Chassis | Supervisor | Supervisor Down` alarm may be root cause of
 
 Alarm Class | Description
 --- | ---
-`Config | Config Sync Failed` | Supervisor Down
+[Config \| Config Sync Failed](../../config/config-sync-failed.md) | Supervisor Down
 
 ## Events
 
@@ -42,11 +42,11 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`Chassis | Supervisor | Supervisor Down` | dispose
+[Chassis \| Supervisor \| Supervisor Down](../../../event-classes/chassis/supervisor/supervisor-down.md) | dispose
 
 ### Closing Events
 `Chassis | Supervisor | Supervisor Down` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Chassis | Supervisor | Supervisor Up` | dispose
+[Chassis \| Supervisor \| Supervisor Up](../../../event-classes/chassis/supervisor/supervisor-up.md) | dispose

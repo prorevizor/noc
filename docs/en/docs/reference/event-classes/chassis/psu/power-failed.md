@@ -15,7 +15,7 @@ Power failed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-condition | str | :material-check: | Condition
+condition | str | {{ no }} | Condition
 
 ## Alarms
 
@@ -25,4 +25,4 @@ condition | str | :material-check: | Condition
 
 Alarm Class | Description
 --- | ---
-`Chassis | PSU | Power Failed` | dispose
+[Chassis \| PSU \| Power Failed](../../../alarm-classes/chassis/psu/power-failed.md) | dispose

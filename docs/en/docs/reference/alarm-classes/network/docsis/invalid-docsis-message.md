@@ -17,9 +17,9 @@ Locate the cable modem that sent this message and replace it with DOCSIS-complia
 
 Variable | Description | Default
 --- | --- | ---
-interface | Cable interface | `:material-close:`
-mac | Cable Modem MAC | `:material-close:`
-sid | Cable Modem SID | `:material-close:`
+interface | Cable interface | {{ no }}
+mac | Cable Modem MAC | {{ no }}
+sid | Cable Modem SID | {{ no }}
 
 ## Events
 
@@ -28,4 +28,4 @@ sid | Cable Modem SID | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Network | DOCSIS | Invalid DOCSIS Message` | dispose
+[Network \| DOCSIS \| Invalid DOCSIS Message](../../../event-classes/network/docsis/invalid-docsis-message.md) | dispose

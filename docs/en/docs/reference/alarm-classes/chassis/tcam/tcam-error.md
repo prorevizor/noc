@@ -15,7 +15,7 @@ From random instability to complete operation failure
 
 Variable | Description | Default
 --- | --- | ---
-reason | Reason | `:material-close:`
+reason | Reason | {{ no }}
 
 ## Events
 
@@ -24,4 +24,4 @@ reason | Reason | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Chassis | TCAM | TCAM Error` | dispose
+[Chassis \| TCAM \| TCAM Error](../../../event-classes/chassis/tcam/tcam-error.md) | dispose

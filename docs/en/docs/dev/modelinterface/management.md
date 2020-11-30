@@ -12,8 +12,8 @@ One MO can be associated with several inventory objects(virtual chassis, switche
 
 | Name           | Type   | Description                             | Required         | Constant         | Default   |
 | -------------- | ------ | --------------------------------------- | ---------------- | ---------------- | --------- |
-| managed        | bool   | Object can be bind to the ManagedObject | :material-close: | :material-check: |           |
-| managed_object | int    | Managed Object id                       | :material-close: | :material-close: |           |
+| managed        | bool   | Object can be bind to the ManagedObject | {{ no }} | {{ yes }} |           |
+| managed_object | int    | Managed Object id                       | {{ no }} | {{ no }} |           |
 
 ## Examples
 

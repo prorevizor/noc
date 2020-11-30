@@ -21,7 +21,7 @@ Check applications and aging intervals
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-src_ip | ip_address | :material-check: | Source address
-dst_ip | ip_address | :material-check: | Destination address
-dst_port | int | :material-check: | Destination port
-proto | int | :material-check: | Protocol
+src_ip | ip_address | {{ no }} | Source address
+dst_ip | ip_address | {{ no }} | Destination address
+dst_port | int | {{ no }} | Destination port
+proto | int | {{ no }} | Protocol

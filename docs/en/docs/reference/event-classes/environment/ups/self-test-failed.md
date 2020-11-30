@@ -15,7 +15,7 @@ Self-Test Failed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-check: | Test name
+name | str | {{ no }} | Test name
 
 ## Alarms
 
@@ -25,4 +25,4 @@ name | str | :material-check: | Test name
 
 Alarm Class | Description
 --- | ---
-`Environment | UPS | Self-Test Failed` | dispose
+[Environment \| UPS \| Self-Test Failed](../../../alarm-classes/environment/ups/self-test-failed.md) | dispose

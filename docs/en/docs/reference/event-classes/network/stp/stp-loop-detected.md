@@ -15,7 +15,7 @@ STP Loop Detected
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
+interface | interface_name | {{ yes }} | Interface
 
 ## Alarms
 
@@ -25,4 +25,4 @@ interface | interface_name | :material-close: | Interface
 
 Alarm Class | Description
 --- | ---
-`Network | STP | STP Loop Detected` | dispose
+[Network \| STP \| STP Loop Detected](../../../alarm-classes/network/stp/stp-loop-detected.md) | dispose

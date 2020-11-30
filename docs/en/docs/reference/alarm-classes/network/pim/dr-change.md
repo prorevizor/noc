@@ -19,10 +19,10 @@ Check links and local and neighbor router configuration
 
 Variable | Description | Default
 --- | --- | ---
-interface | Interface | `:material-close:`
-from_dr | From DR | `:material-close:`
-to_dr | To DR | `:material-close:`
-vrf | VRF | `:material-close:`
+interface | Interface | {{ no }}
+from_dr | From DR | {{ no }}
+to_dr | To DR | {{ no }}
+vrf | VRF | {{ no }}
 
 ## Events
 
@@ -31,4 +31,4 @@ vrf | VRF | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Network | PIM | DR Change` | dispose
+[Network \| PIM \| DR Change](../../../event-classes/network/pim/dr-change.md) | dispose

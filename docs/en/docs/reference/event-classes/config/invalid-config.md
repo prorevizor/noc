@@ -19,4 +19,4 @@ Some lines in config are invalid
 
 Alarm Class | Description
 --- | ---
-`Config | Invalid Config` | dispose
+[Config \| Invalid Config](../../alarm-classes/config/invalid-config.md) | dispose

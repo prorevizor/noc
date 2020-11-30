@@ -15,4 +15,4 @@ Maximum retries reached
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-mac | mac | :material-check: | Station MAC
+mac | mac | {{ no }} | Station MAC

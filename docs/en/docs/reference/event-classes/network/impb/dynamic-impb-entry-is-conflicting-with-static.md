@@ -19,6 +19,6 @@ Check user IP and MAC, check DHCP database
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-ip | ip_address | :material-close: | User IP
-mac | mac | :material-close: | User MAC
-interface | interface_name | :material-close: | Affected interface
+ip | ip_address | {{ yes }} | User IP
+mac | mac | {{ yes }} | User MAC
+interface | interface_name | {{ yes }} | Affected interface

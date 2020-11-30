@@ -15,7 +15,7 @@ Door is closed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | Name
+name | str | {{ yes }} | Name
 
 ## Alarms
 
@@ -25,4 +25,4 @@ name | str | :material-close: | Name
 
 Alarm Class | Description
 --- | ---
-`Security | Access | Door Open` | dispose
+[Security \| Access \| Door Open](../../../alarm-classes/security/access/door-open.md) | dispose

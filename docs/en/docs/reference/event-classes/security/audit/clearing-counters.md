@@ -15,6 +15,6 @@ Clearing counters on interface
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-check: | Interface name
-user | str | :material-check: | User
-ip | ip_address | :material-check: | User IP
+interface | interface_name | {{ no }} | Interface name
+user | str | {{ no }} | User
+ip | ip_address | {{ no }} | User IP

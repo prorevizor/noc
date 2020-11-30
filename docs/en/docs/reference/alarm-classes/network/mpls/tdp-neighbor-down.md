@@ -13,8 +13,8 @@ uuid: 9345af7a-41d8-48d7-b6d5-e216b3fbda20
 
 Variable | Description | Default
 --- | --- | ---
-neighbor | TDP Neighbor | `:material-close:`
-reason | Reason | `:material-close:`
+neighbor | TDP Neighbor | {{ no }}
+reason | Reason | {{ no }}
 
 ## Events
 
@@ -23,11 +23,11 @@ reason | Reason | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Network | MPLS | TDP Neighbor Down` | dispose
+[Network \| MPLS \| TDP Neighbor Down](../../../event-classes/network/mpls/tdp-neighbor-down.md) | dispose
 
 ### Closing Events
 `Network | MPLS | TDP Neighbor Down` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | MPLS | TDP Neighbor Up` | dispose
+[Network \| MPLS \| TDP Neighbor Up](../../../event-classes/network/mpls/tdp-neighbor-up.md) | dispose

@@ -19,13 +19,13 @@ Check appropriative process
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | Activator pool name
-instance | str | :material-close: | Activator instance
-sessions | int | :material-close: | Instance's script sessions
-min_members | int | :material-close: | Pool's members lower threshold
-min_sessions | int | :material-close: | Pool's sessions lower threshold
-pool_members | int | :material-close: | Pool's current members
-pool_sessions | int | :material-close: | Pool's current sessions limit
+name | str | {{ yes }} | Activator pool name
+instance | str | {{ yes }} | Activator instance
+sessions | int | {{ yes }} | Instance's script sessions
+min_members | int | {{ yes }} | Pool's members lower threshold
+min_sessions | int | {{ yes }} | Pool's sessions lower threshold
+pool_members | int | {{ yes }} | Pool's current members
+pool_sessions | int | {{ yes }} | Pool's current sessions limit
 
 ## Alarms
 
@@ -35,7 +35,7 @@ pool_sessions | int | :material-close: | Pool's current sessions limit
 
 Alarm Class | Description
 --- | ---
-`NOC | SA | Activator Pool Degraded` | raise
+[NOC \| SA \| Activator Pool Degraded](../../../alarm-classes/noc/sa/activator-pool-degraded.md) | raise
 
 ### Clearing alarms
 
@@ -43,4 +43,4 @@ Alarm Class | Description
 
 Alarm Class | Description
 --- | ---
-`NOC | SA | Activator Pool Degraded` | clear
+[NOC \| SA \| Activator Pool Degraded](../../../alarm-classes/noc/sa/activator-pool-degraded.md) | clear

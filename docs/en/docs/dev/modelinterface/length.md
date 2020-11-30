@@ -10,7 +10,7 @@ Cable length
 
 | Name   | type   | Description            | Required         | Constant         | Default   |
 | ------ | ------ | ---------------------- | ---------------- | ---------------- | --------- |
-| length | float  | Cable length in meters | :material-check: | :material-close: |           |
+| length | float  | Cable length in meters | {{ yes }} | {{ no }} |           |
 
 
 

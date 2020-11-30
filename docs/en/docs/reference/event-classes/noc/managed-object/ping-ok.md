@@ -25,5 +25,5 @@ No reaction needed
 
 Alarm Class | Description
 --- | ---
-`NOC | Managed Object | Ping Failed` | dispose
-`Chassis | PSU | Power Failed` | dispose
+[NOC \| Managed Object \| Ping Failed](../../../alarm-classes/noc/managed-object/ping-failed.md) | dispose
+[Chassis \| PSU \| Power Failed](../../../alarm-classes/chassis/psu/power-failed.md) | dispose

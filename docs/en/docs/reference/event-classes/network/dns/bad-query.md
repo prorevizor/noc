@@ -15,7 +15,7 @@ Bad DNS query
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-ip | ip_address | :material-close: | Source IP
+ip | ip_address | {{ yes }} | Source IP
 
 ## Alarms
 
@@ -25,4 +25,4 @@ ip | ip_address | :material-close: | Source IP
 
 Alarm Class | Description
 --- | ---
-`Network | DNS | Bad Query` | dispose
+[Network \| DNS \| Bad Query](../../../alarm-classes/network/dns/bad-query.md) | dispose

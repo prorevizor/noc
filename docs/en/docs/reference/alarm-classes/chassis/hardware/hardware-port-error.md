@@ -15,7 +15,7 @@ Link becomes unstable or is not responding
 
 Variable | Description | Default
 --- | --- | ---
-interface | Hardware port | `:material-close:`
+interface | Hardware port | {{ no }}
 
 ## Alarm Correlation
 
@@ -29,12 +29,12 @@ graph TD
   A --> C1
 ```
 
-### Root Causes
+### Consequences
 `Chassis | Hardware | Hardware Port Error` alarm may be root cause of
 
 Alarm Class | Description
 --- | ---
-`Network | Link | Link Down` | Hardware Port Error
+[Network \| Link \| Link Down](../../network/link/link-down.md) | Hardware Port Error
 
 ## Events
 
@@ -43,11 +43,11 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`Chassis | Hardware | Hardware Port Error` | dispose
+[Chassis \| Hardware \| Hardware Port Error](../../../event-classes/chassis/hardware/hardware-port-error.md) | dispose
 
 ### Closing Events
 `Chassis | Hardware | Hardware Port Error` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Chassis | Hardware | Hardware Port Error Recover` | dispose
+[Chassis \| Hardware \| Hardware Port Error Recover](../../../event-classes/chassis/hardware/hardware-port-error-recover.md) | dispose

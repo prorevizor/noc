@@ -11,6 +11,6 @@ Plan position.
 
 | Name    | Type   | Description                                               | Required         | Constant         | Default   |
 | ------- | ------ | --------------------------------------------------------- | ---------------- | ---------------- | --------- |
-| x       | float  | x coordinate, in local units                              | :material-check: | :material-close: |           |
-| y       | float  | y coordinate, in local units                              | :material-check: | :material-close: |           |
-| bearing | float  | Rotation angle, in degrees, counterclockwise horizontally | :material-close: | :material-close: | 0.0       |
+| x       | float  | x coordinate, in local units                              | {{ yes }} | {{ no }} |           |
+| y       | float  | y coordinate, in local units                              | {{ yes }} | {{ no }} |           |
+| bearing | float  | Rotation angle, in degrees, counterclockwise horizontally | {{ no }} | {{ no }} | 0.0       |

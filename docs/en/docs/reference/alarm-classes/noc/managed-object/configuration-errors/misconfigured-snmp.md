@@ -19,4 +19,4 @@ Check SNMP configuration
 
 Variable | Description | Default
 --- | --- | ---
-ip | Request source | `:material-close:`
+ip | Request source | {{ no }}

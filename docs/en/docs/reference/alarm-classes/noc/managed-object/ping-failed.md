@@ -34,8 +34,8 @@ graph TD
 
 Alarm Class | Description
 --- | ---
-`Chassis | PSU | Power Failed` | Power Failed
-`System | Reboot` | System Reboot
+[Chassis \| PSU \| Power Failed](../../chassis/psu/power-failed.md) | Power Failed
+[System \| Reboot](../../system/reboot.md) | System Reboot
 
 ## Events
 
@@ -44,11 +44,11 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`NOC | Managed Object | Ping Failed` | dispose
+[NOC \| Managed Object \| Ping Failed](../../../event-classes/noc/managed-object/ping-failed.md) | dispose
 
 ### Closing Events
 `NOC | Managed Object | Ping Failed` may be cleared by events
 
 Event Class | Description
 --- | ---
-`NOC | Managed Object | Ping OK` | dispose
+[NOC \| Managed Object \| Ping OK](../../../event-classes/noc/managed-object/ping-ok.md) | dispose

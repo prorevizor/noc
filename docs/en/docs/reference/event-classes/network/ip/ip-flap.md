@@ -15,10 +15,10 @@ IP Flapped between interfaces
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-ip | ip_address | :material-close: | Flapped IP
-mac | mac | :material-check: | MAC
-from_interface | interface_name | :material-close: | From interface
-to_interface | interface_name | :material-close: | To interface
+ip | ip_address | {{ yes }} | Flapped IP
+mac | mac | {{ no }} | MAC
+from_interface | interface_name | {{ yes }} | From interface
+to_interface | interface_name | {{ yes }} | To interface
 
 ## Alarms
 
@@ -28,4 +28,4 @@ to_interface | interface_name | :material-close: | To interface
 
 Alarm Class | Description
 --- | ---
-`Network | IP | IP Flap` | dispose
+[Network \| IP \| IP Flap](../../../alarm-classes/network/ip/ip-flap.md) | dispose

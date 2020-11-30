@@ -10,7 +10,7 @@ Split optical/electrical input power to outputs with given gain
 
 | Name   | Type   | Description                                                       | Required         | Constant   | Default   |
 | ------ | ------ | ----------------------------------------------------------------- | ---------------- | ---------------- | --------- |
-| split  | str    | Input power division, as comma-separated list of output_Name=gain | :material-check: | :material-check:       |           |
+| split  | str    | Input power division, as comma-separated list of output_Name=gain | {{ yes }} | {{ yes }}       |           |
 
 ## Examples
 

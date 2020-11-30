@@ -19,7 +19,7 @@ Replace faulty RAM module
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-bank | str | :material-close: | Bank Name
+bank | str | {{ yes }} | Bank Name
 
 ## Alarms
 
@@ -29,4 +29,4 @@ bank | str | :material-close: | Bank Name
 
 Alarm Class | Description
 --- | ---
-`Chassis | RAM | RAM Failed` | dispose
+[Chassis \| RAM \| RAM Failed](../../../alarm-classes/chassis/ram/ram-failed.md) | dispose

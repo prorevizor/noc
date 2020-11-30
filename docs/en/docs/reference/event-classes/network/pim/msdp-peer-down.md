@@ -21,9 +21,9 @@ Check links and local and neighbor's router configuration
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-peer | ip_address | :material-close: | Peer's IP
-vrf | str | :material-check: | VRF
-reason | str | :material-check: | Reason
+peer | ip_address | {{ yes }} | Peer's IP
+vrf | str | {{ no }} | VRF
+reason | str | {{ no }} | Reason
 
 ## Alarms
 
@@ -33,4 +33,4 @@ reason | str | :material-check: | Reason
 
 Alarm Class | Description
 --- | ---
-`Network | PIM | MSDP Peer Down` | dispose
+[Network \| PIM \| MSDP Peer Down](../../../alarm-classes/network/pim/msdp-peer-down.md) | dispose

@@ -17,6 +17,6 @@ The upstream channel frequency has been changed.
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Cable interface
-upstream | str | :material-check: | Upstream
-frequency | str | :material-close: | Frequency
+interface | interface_name | {{ yes }} | Cable interface
+upstream | str | {{ no }} | Upstream
+frequency | str | {{ yes }} | Frequency

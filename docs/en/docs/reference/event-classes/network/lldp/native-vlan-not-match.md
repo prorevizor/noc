@@ -19,6 +19,6 @@ check configuration ports
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Affected interface
-vlan | int | :material-close: | VLAN ID
-vlan_neighbor | int | :material-close: | VLAN NEI ID
+interface | interface_name | {{ yes }} | Affected interface
+vlan | int | {{ yes }} | VLAN ID
+vlan_neighbor | int | {{ yes }} | VLAN NEI ID

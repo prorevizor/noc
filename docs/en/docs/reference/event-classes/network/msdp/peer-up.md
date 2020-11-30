@@ -15,8 +15,8 @@ MSDP peer up
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-peer | ip_address | :material-close: | Peer's IP
-vrf | str | :material-check: | VRF
+peer | ip_address | {{ yes }} | Peer's IP
+vrf | str | {{ no }} | VRF
 
 ## Alarms
 
@@ -26,4 +26,4 @@ vrf | str | :material-check: | VRF
 
 Alarm Class | Description
 --- | ---
-`Network | MSDP | Peer Down` | dispose
+[Network \| MSDP \| Peer Down](../../../alarm-classes/network/msdp/peer-down.md) | dispose

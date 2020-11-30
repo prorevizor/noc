@@ -15,8 +15,8 @@ Link in err-disable state
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | interface name
-reason | str | :material-check: | err-disable reason
+interface | interface_name | {{ yes }} | interface name
+reason | str | {{ no }} | err-disable reason
 
 ## Alarms
 
@@ -26,4 +26,4 @@ reason | str | :material-check: | err-disable reason
 
 Alarm Class | Description
 --- | ---
-`Network | Link | Err-Disable` | dispose
+[Network \| Link \| Err-Disable](../../../alarm-classes/network/link/err-disable.md) | dispose

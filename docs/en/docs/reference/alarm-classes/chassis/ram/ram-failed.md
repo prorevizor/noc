@@ -17,7 +17,7 @@ Replace faulty RAM module
 
 Variable | Description | Default
 --- | --- | ---
-bank | Bank Name | `:material-close:`
+bank | Bank Name | {{ no }}
 
 ## Events
 
@@ -26,4 +26,4 @@ bank | Bank Name | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Chassis | RAM | RAM Failed` | dispose
+[Chassis \| RAM \| RAM Failed](../../../event-classes/chassis/ram/ram-failed.md) | dispose

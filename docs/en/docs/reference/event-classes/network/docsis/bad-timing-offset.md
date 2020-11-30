@@ -19,9 +19,9 @@ Locate the cable modem based on the MAC address and report the initial timing of
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-mac | mac | :material-check: | Cable Modem MAC
-sid | int | :material-check: | Cable Modem SID
-offset | str | :material-check: | Time offset
+mac | mac | {{ no }} | Cable Modem MAC
+sid | int | {{ no }} | Cable Modem SID
+offset | str | {{ no }} | Time offset
 
 ## Alarms
 
@@ -31,4 +31,4 @@ offset | str | :material-check: | Time offset
 
 Alarm Class | Description
 --- | ---
-`Network | DOCSIS | Bad Timing Offset` | dispose
+[Network \| DOCSIS \| Bad Timing Offset](../../../alarm-classes/network/docsis/bad-timing-offset.md) | dispose

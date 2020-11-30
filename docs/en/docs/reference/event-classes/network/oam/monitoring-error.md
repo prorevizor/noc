@@ -19,5 +19,5 @@ No action is required.
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
-error | str | :material-close: | Error type
+interface | interface_name | {{ yes }} | Interface
+error | str | {{ yes }} | Error type

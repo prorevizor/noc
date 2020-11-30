@@ -15,4 +15,4 @@ CPU Usage Above Threshold
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-cpu | str | :material-check: | CPU Name
+cpu | str | {{ no }} | CPU Name

@@ -15,9 +15,9 @@ Invalid MAC detected
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-mac | mac | :material-close: | MAC Address
-interface | interface_name | :material-close: | Affected interface
-vlan | int | :material-check: | Affected vlan
+mac | mac | {{ yes }} | MAC Address
+interface | interface_name | {{ yes }} | Affected interface
+vlan | int | {{ no }} | Affected vlan
 
 ## Alarms
 
@@ -27,4 +27,4 @@ vlan | int | :material-check: | Affected vlan
 
 Alarm Class | Description
 --- | ---
-`Network | MAC | Invalid MAC` | dispose
+[Network \| MAC \| Invalid MAC](../../../alarm-classes/network/mac/invalid-mac.md) | dispose

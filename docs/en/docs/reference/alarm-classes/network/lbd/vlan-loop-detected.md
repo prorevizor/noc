@@ -17,8 +17,8 @@ Check topology or use STP to avoid loops
 
 Variable | Description | Default
 --- | --- | ---
-interface | interface | `:material-close:`
-vlan | Vlan | `:material-close:`
+interface | interface | {{ no }}
+vlan | Vlan | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 vlan_name | Vlan name | `=VCDS.name`
 vlan_description | Vlan description | `=VCDS.description`
@@ -31,11 +31,11 @@ vlan_vc_domain | VC domain | `=VCDS.vc_domain`
 
 Event Class | Description
 --- | ---
-`Network | LBD | Vlan Loop Detected` | dispose
+[Network \| LBD \| Vlan Loop Detected](../../../event-classes/network/lbd/vlan-loop-detected.md) | dispose
 
 ### Closing Events
 `Network | LBD | Vlan Loop Detected` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | LBD | Vlan Loop Cleared` | dispose
+[Network \| LBD \| Vlan Loop Cleared](../../../event-classes/network/lbd/vlan-loop-cleared.md) | dispose

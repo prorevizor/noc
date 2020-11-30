@@ -16,4 +16,4 @@ uuid: c818e3e4-24e4-43ce-b85f-10b89b41642b
 
 Event Class | Description
 --- | ---
-`Network | OAM | Client Recieved Remote Failure` | Total power loss
+[Network \| OAM \| Client Recieved Remote Failure](../../event-classes/network/oam/client-recieved-remote-failure.md) | Total power loss

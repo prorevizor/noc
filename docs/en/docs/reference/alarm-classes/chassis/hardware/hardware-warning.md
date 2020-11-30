@@ -18,4 +18,4 @@ Device becomes unstable or is not responding
 
 Event Class | Description
 --- | ---
-`Chassis | Hardware | Hardware Warning` | dispose
+[Chassis \| Hardware \| Hardware Warning](../../../event-classes/chassis/hardware/hardware-warning.md) | dispose

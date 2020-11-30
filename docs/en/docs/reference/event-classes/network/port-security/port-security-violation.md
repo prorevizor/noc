@@ -15,8 +15,8 @@ Port Security Violation
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
-mac | mac | :material-check: | MAC Address
+interface | interface_name | {{ yes }} | Interface
+mac | mac | {{ no }} | MAC Address
 
 ## Alarms
 
@@ -26,4 +26,4 @@ mac | mac | :material-check: | MAC Address
 
 Alarm Class | Description
 --- | ---
-`Network | Port Security | Port Security Violation` | dispose
+[Network \| Port Security \| Port Security Violation](../../../alarm-classes/network/port-security/port-security-violation.md) | dispose

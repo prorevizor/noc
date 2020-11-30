@@ -17,6 +17,6 @@ The upstream channel input power level has been changed.
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Cable interface
-upstream | str | :material-check: | Upstream
-power | int | :material-close: | Input power
+interface | interface_name | {{ yes }} | Cable interface
+upstream | str | {{ no }} | Upstream
+power | int | {{ yes }} | Input power

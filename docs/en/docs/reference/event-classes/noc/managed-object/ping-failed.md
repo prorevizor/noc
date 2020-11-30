@@ -25,4 +25,4 @@ Check object is alive. Check routing to this object. Check firewalls
 
 Alarm Class | Description
 --- | ---
-`NOC | Managed Object | Ping Failed` | dispose
+[NOC \| Managed Object \| Ping Failed](../../../alarm-classes/noc/managed-object/ping-failed.md) | dispose

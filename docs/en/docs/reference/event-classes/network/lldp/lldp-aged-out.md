@@ -17,4 +17,4 @@ LLDP Aged Out
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Affected interface
+interface | interface_name | {{ yes }} | Affected interface

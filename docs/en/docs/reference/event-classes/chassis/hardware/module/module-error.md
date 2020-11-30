@@ -15,9 +15,9 @@ Hardware module error
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-module | str | :material-close: | Module type
-interface | str | :material-check: | Hardware port or slot
-reason | str | :material-check: | Reason
+module | str | {{ yes }} | Module type
+interface | str | {{ no }} | Hardware port or slot
+reason | str | {{ no }} | Reason
 
 ## Alarms
 
@@ -27,4 +27,4 @@ reason | str | :material-check: | Reason
 
 Alarm Class | Description
 --- | ---
-`Chassis | Hardware | Module | Module Error` | dispose
+[Chassis \| Hardware \| Module \| Module Error](../../../../alarm-classes/chassis/hardware/module/module-error.md) | dispose

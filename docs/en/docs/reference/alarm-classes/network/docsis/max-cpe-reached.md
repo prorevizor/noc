@@ -17,11 +17,11 @@ Locate the specified device and place the device on a different cable modem with
 
 Variable | Description | Default
 --- | --- | ---
-mac | CPE MAC | `:material-close:`
-ip | CPE IP | `:material-close:`
-modem_mac | Cable Modem MAC | `:material-close:`
-sid | Cable Modem SID | `:material-close:`
-interface | Cable interface | `:material-close:`
+mac | CPE MAC | {{ no }}
+ip | CPE IP | {{ no }}
+modem_mac | Cable Modem MAC | {{ no }}
+sid | Cable Modem SID | {{ no }}
+interface | Cable interface | {{ no }}
 
 ## Events
 
@@ -30,4 +30,4 @@ interface | Cable interface | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Network | DOCSIS | Max CPE Reached` | dispose
+[Network \| DOCSIS \| Max CPE Reached](../../../event-classes/network/docsis/max-cpe-reached.md) | dispose

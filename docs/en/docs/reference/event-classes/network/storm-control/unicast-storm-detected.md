@@ -17,7 +17,7 @@ Enable DLF (destination lookup failure) filter
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
+interface | interface_name | {{ yes }} | Interface
 
 ## Alarms
 
@@ -27,4 +27,4 @@ interface | interface_name | :material-close: | Interface
 
 Alarm Class | Description
 --- | ---
-`Network | Storm Control | Unicast Storm Detected` | dispose
+[Network \| Storm Control \| Unicast Storm Detected](../../../alarm-classes/network/storm-control/unicast-storm-detected.md) | dispose

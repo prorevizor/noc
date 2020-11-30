@@ -17,11 +17,11 @@ Connection lost
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | str | :material-close: | Physical port
-threshold | str | :material-check: | Threshold type
-sensor | str | :material-check: | Measured name
-ovalue | str | :material-check: | Operating value
-tvalue | str | :material-check: | Threshold value
+interface | str | {{ yes }} | Physical port
+threshold | str | {{ no }} | Threshold type
+sensor | str | {{ no }} | Measured name
+ovalue | str | {{ no }} | Operating value
+tvalue | str | {{ no }} | Threshold value
 
 ## Alarms
 
@@ -31,4 +31,4 @@ tvalue | str | :material-check: | Threshold value
 
 Alarm Class | Description
 --- | ---
-`Network | Link | DOM | Alarm: Out of Threshold` | dispose
+[Network \| Link \| DOM \| Alarm: Out of Threshold](../../../../alarm-classes/network/link/dom/alarm-out-of-threshold.md) | dispose

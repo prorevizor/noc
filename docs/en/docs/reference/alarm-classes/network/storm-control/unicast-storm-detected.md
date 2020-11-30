@@ -15,7 +15,7 @@ Enable DLF (destination lookup failure) filter
 
 Variable | Description | Default
 --- | --- | ---
-interface | interface | `:material-close:`
+interface | interface | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Events
@@ -25,11 +25,11 @@ description | Interface description | `=InterfaceDS.description`
 
 Event Class | Description
 --- | ---
-`Network | Storm Control | Unicast Storm Detected` | dispose
+[Network \| Storm Control \| Unicast Storm Detected](../../../event-classes/network/storm-control/unicast-storm-detected.md) | dispose
 
 ### Closing Events
 `Network | Storm Control | Unicast Storm Detected` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | Storm Control | Unicast Storm Cleared` | dispose
+[Network \| Storm Control \| Unicast Storm Cleared](../../../event-classes/network/storm-control/unicast-storm-cleared.md) | dispose

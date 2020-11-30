@@ -15,8 +15,8 @@ MPLS Path Up
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | Path name
-bandwidth | int | :material-check: | Bandwidth (bps)
+name | str | {{ yes }} | Path name
+bandwidth | int | {{ no }} | Bandwidth (bps)
 
 ## Alarms
 
@@ -26,4 +26,4 @@ bandwidth | int | :material-check: | Bandwidth (bps)
 
 Alarm Class | Description
 --- | ---
-`Network | MPLS | Path Down` | dispose
+[Network \| MPLS \| Path Down](../../../alarm-classes/network/mpls/path-down.md) | dispose

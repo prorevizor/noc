@@ -17,7 +17,7 @@ Assign the cable modem to another line card.
 
 Variable | Description | Default
 --- | --- | ---
-interface | Cable interface | `:material-close:`
+interface | Cable interface | {{ no }}
 
 ## Events
 
@@ -26,4 +26,4 @@ interface | Cable interface | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Network | DOCSIS | Maximum SIDs` | dispose
+[Network \| DOCSIS \| Maximum SIDs](../../../event-classes/network/docsis/maximum-sids.md) | dispose

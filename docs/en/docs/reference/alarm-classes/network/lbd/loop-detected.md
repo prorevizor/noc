@@ -15,7 +15,7 @@ Check hardware link and topology
 
 Variable | Description | Default
 --- | --- | ---
-interface | interface | `:material-close:`
+interface | interface | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Alarm Correlation
@@ -30,12 +30,12 @@ graph TD
   A --> C1
 ```
 
-### Root Causes
+### Consequences
 `Network | LBD | Loop Detected` alarm may be root cause of
 
 Alarm Class | Description
 --- | ---
-`Network | Link | Link Down` | LBD Loop
+[Network \| Link \| Link Down](../link/link-down.md) | LBD Loop
 
 ## Events
 
@@ -44,11 +44,11 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`Network | LBD | Loop Detected` | dispose
+[Network \| LBD \| Loop Detected](../../../event-classes/network/lbd/loop-detected.md) | dispose
 
 ### Closing Events
 `Network | LBD | Loop Detected` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | LBD | Loop Cleared` | dispose
+[Network \| LBD \| Loop Cleared](../../../event-classes/network/lbd/loop-cleared.md) | dispose

@@ -15,9 +15,9 @@ Duplicate MAC detected
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-mac | mac | :material-close: | MAC Address
-one_interface | interface_name | :material-close: | First interface
-two_interface | interface_name | :material-close: | Second interface
+mac | mac | {{ yes }} | MAC Address
+one_interface | interface_name | {{ yes }} | First interface
+two_interface | interface_name | {{ yes }} | Second interface
 
 ## Alarms
 
@@ -27,4 +27,4 @@ two_interface | interface_name | :material-close: | Second interface
 
 Alarm Class | Description
 --- | ---
-`Network | MAC | Duplicate MAC` | dispose
+[Network \| MAC \| Duplicate MAC](../../../alarm-classes/network/mac/duplicate-mac.md) | dispose

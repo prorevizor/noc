@@ -15,7 +15,7 @@ UniDirectional Link Detection (UDLD) Protocol Recovery
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
+interface | interface_name | {{ yes }} | Interface
 
 ## Alarms
 
@@ -25,4 +25,4 @@ interface | interface_name | :material-close: | Interface
 
 Alarm Class | Description
 --- | ---
-`Network | UDLD | UDLD Protocol Error Detected` | dispose
+[Network \| UDLD \| UDLD Protocol Error Detected](../../../alarm-classes/network/udld/udld-protocol-error-detected.md) | dispose

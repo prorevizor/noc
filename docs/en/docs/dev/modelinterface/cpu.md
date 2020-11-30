@@ -9,7 +9,7 @@ CPU capabilities
 
 | Name          | Type        | Description                     | Required         | Constant         | Default |
 | ------------- | ----------- | ------------------------------- | ---------------- | ---------------- | ------- |
-| arch          | String      | Architecture:                   | :material-check: | :material-check: |         |
+| arch          | String      | Architecture:                   | {{ yes }} | {{ yes }} |         |
 |               |             |                                 |                  |                  |         |
 |               |             | * `x86`                         |                  |                  |         |
 |               |             | * `x86_64`                      |                  |                  |         |
@@ -17,13 +17,13 @@ CPU capabilities
 |               |             | * `PPC64`                       |                  |                  |         |
 |               |             | * `ARM7`                        |                  |                  |         |
 |               |             | * `MIPS`                        |                  |                  |         |
-| cores         | Integer     | Effective number of cores.      | :material-check: | :material-check: |         |
+| cores         | Integer     | Effective number of cores.      | {{ yes }} | {{ yes }} |         |
 |               |             | For bigLITTLE and similar,      |                  |                  |         |
 |               |             | effective number of cores is 2  |                  |                  |         |
 |               |             | rather than 4                   |                  |                  |         |
-| ht            | Boolean     | Hyper Theading support          | :material-close: | :material-check: |         |
-| freq          | Integer     | Nominal frequence in MHz        | :material-close: | :material-check: |         |
-| turbo_freq    | Integer     | Maximal frequence in MHz        | :material-close: | :material-check: |         |
-| l1_cache      | Integer     | L1 cache size in kb             | :material-close: | :material-check: |         |
-| l2_cache      | Integer     | L2 cache size in kb             | :material-close: | :material-check: |         |
-| l3_cache      | Integer     | L3 cache size in kb             | :material-close: | :material-check: |         |
+| ht            | Boolean     | Hyper Theading support          | {{ no }} | {{ yes }} |         |
+| freq          | Integer     | Nominal frequence in MHz        | {{ no }} | {{ yes }} |         |
+| turbo_freq    | Integer     | Maximal frequence in MHz        | {{ no }} | {{ yes }} |         |
+| l1_cache      | Integer     | L1 cache size in kb             | {{ no }} | {{ yes }} |         |
+| l2_cache      | Integer     | L2 cache size in kb             | {{ no }} | {{ yes }} |         |
+| l3_cache      | Integer     | L3 cache size in kb             | {{ no }} | {{ yes }} |         |

@@ -17,7 +17,7 @@ Connection restored
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | LBD interface
+interface | interface_name | {{ yes }} | LBD interface
 
 ## Alarms
 
@@ -27,4 +27,4 @@ interface | interface_name | :material-close: | LBD interface
 
 Alarm Class | Description
 --- | ---
-`Network | LBD | Loop Detected` | dispose
+[Network \| LBD \| Loop Detected](../../../alarm-classes/network/lbd/loop-detected.md) | dispose

@@ -15,7 +15,7 @@ TACACS+ server recovered
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-ip | ip_address | :material-check: | TACACS+ server address
+ip | ip_address | {{ no }} | TACACS+ server address
 
 ## Alarms
 
@@ -25,4 +25,4 @@ ip | ip_address | :material-check: | TACACS+ server address
 
 Alarm Class | Description
 --- | ---
-`Security | Authentication | TACACS+ server failed` | dispose
+[Security \| Authentication \| TACACS+ server failed](../../../alarm-classes/security/authentication/tacacs+-server-failed.md) | dispose

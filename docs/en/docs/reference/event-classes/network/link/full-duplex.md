@@ -15,7 +15,7 @@ Link going into full-duplex state
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | interface name
+interface | interface_name | {{ yes }} | interface name
 
 ## Alarms
 
@@ -25,4 +25,4 @@ interface | interface_name | :material-close: | interface name
 
 Alarm Class | Description
 --- | ---
-`Network | Link | Half-Duplex` | dispose
+[Network \| Link \| Half-Duplex](../../../alarm-classes/network/link/half-duplex.md) | dispose

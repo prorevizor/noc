@@ -17,7 +17,7 @@ From random instability to complete operation failure
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-reason | str | :material-check: | Reason
+reason | str | {{ no }} | Reason
 
 ## Alarms
 
@@ -27,4 +27,4 @@ reason | str | :material-check: | Reason
 
 Alarm Class | Description
 --- | ---
-`Chassis | TCAM | TCAM Error` | dispose
+[Chassis \| TCAM \| TCAM Error](../../../alarm-classes/chassis/tcam/tcam-error.md) | dispose

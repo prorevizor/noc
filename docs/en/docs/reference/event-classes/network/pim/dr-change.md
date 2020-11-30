@@ -21,10 +21,10 @@ Check links and local and neighbor's router configuration
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
-from_dr | ip_address | :material-close: | From DR
-to_dr | ip_address | :material-close: | To DR
-vrf | str | :material-check: | VRF
+interface | interface_name | {{ yes }} | Interface
+from_dr | ip_address | {{ yes }} | From DR
+to_dr | ip_address | {{ yes }} | To DR
+vrf | str | {{ no }} | VRF
 
 ## Alarms
 
@@ -34,4 +34,4 @@ vrf | str | :material-check: | VRF
 
 Alarm Class | Description
 --- | ---
-`Network | PIM | DR Change` | dispose
+[Network \| PIM \| DR Change](../../../alarm-classes/network/pim/dr-change.md) | dispose

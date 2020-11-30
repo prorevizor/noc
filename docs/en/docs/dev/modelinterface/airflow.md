@@ -12,14 +12,14 @@ constructive air movement
 
 | Name    | Type   | Description               | Required         | Constant         | Default |
 | ------- | ------ | ------------------------- | ---------------- | ---------------- | ------- |
-| inlet   | String | Direction of cold inlet:  | :material-close: | :material-close: |         |
+| inlet   | String | Direction of cold inlet:  | {{ no }} | {{ no }} |         |
 |         |        | `f` - forward          |                  |                  |         |
 |         |        | `r` - rear             |                  |                  |         |
 |         |        | `b` - bottom           |                  |                  |         |
 |         |        | `t` - top              |                  |                  |         |
 |         |        | `l` - left             |                  |                  |         |
 |         |        | `r` - right            |                  |                  |         |
-| exhaust | String | Direction of hot exhaust: | :material-close: | :material-close: |         |
+| exhaust | String | Direction of hot exhaust: | {{ no }} | {{ no }} |         |
 |         |        | `f` - forward          |                  |                  |         |
 |         |        | `r` - rear             |                  |                  |         |
 |         |        | `b` - bottom           |                  |                  |         |

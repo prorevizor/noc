@@ -15,5 +15,5 @@ Interface joined LAG
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Port
-lag_interface | interface_name | :material-close: | LAG interface
+interface | interface_name | {{ yes }} | Port
+lag_interface | interface_name | {{ yes }} | LAG interface

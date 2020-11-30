@@ -15,8 +15,8 @@ Linecard Down
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-number | str | :material-close: | Slot number
-reason | str | :material-check: | Reason
+number | str | {{ yes }} | Slot number
+reason | str | {{ no }} | Reason
 
 ## Alarms
 
@@ -26,4 +26,4 @@ reason | str | :material-check: | Reason
 
 Alarm Class | Description
 --- | ---
-`Chassis | Linecard | LC Down` | dispose
+[Chassis \| Linecard \| LC Down](../../../alarm-classes/chassis/linecard/lc-down.md) | dispose

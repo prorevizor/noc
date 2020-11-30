@@ -19,10 +19,10 @@ Check links and local and neighbor router configuration
 
 Variable | Description | Default
 --- | --- | ---
-interface | Interface | `:material-close:`
-neighbor | Neighbor's NSAP or name | `:material-close:`
-level | Level | `:material-close:`
-reason | Adjacency lost reason | `:material-close:`
+interface | Interface | {{ no }}
+neighbor | Neighbor's NSAP or name | {{ no }}
+level | Level | {{ no }}
+reason | Adjacency lost reason | {{ no }}
 
 ## Alarm Correlation
 
@@ -43,8 +43,8 @@ graph TD
 
 Alarm Class | Description
 --- | ---
-`Network | Link | Link Down` | Link Down
-`Network | BFD | Session Down` | Link Down
+[Network \| Link \| Link Down](../link/link-down.md) | Link Down
+[Network \| BFD \| Session Down](../bfd/session-down.md) | Link Down
 
 ## Events
 
@@ -53,11 +53,11 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`Network | IS-IS | Adjacency Down` | dispose
+[Network \| IS-IS \| Adjacency Down](../../../event-classes/network/is-is/adjacency-down.md) | dispose
 
 ### Closing Events
 `Network | IS-IS | Adjacency Down` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | IS-IS | Adjacency Up` | dispose
+[Network \| IS-IS \| Adjacency Up](../../../event-classes/network/is-is/adjacency-up.md) | dispose

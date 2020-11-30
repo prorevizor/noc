@@ -13,9 +13,9 @@ uuid: c7ecc87a-070b-469a-9434-ffe3e924a76b
 
 Variable | Description | Default
 --- | --- | ---
-mac | MAC Address | `:material-close:`
-one_interface | First interface | `:material-close:`
-two_interface | Second interface | `:material-close:`
+mac | MAC Address | {{ no }}
+one_interface | First interface | {{ no }}
+two_interface | Second interface | {{ no }}
 one_description | Interface description | `=oneInterfaceDS.description`
 two_description | Interface description | `=twoInterfaceDS.description`
 
@@ -26,4 +26,4 @@ two_description | Interface description | `=twoInterfaceDS.description`
 
 Event Class | Description
 --- | ---
-`Network | MAC | Duplicate MAC` | dispose
+[Network \| MAC \| Duplicate MAC](../../../event-classes/network/mac/duplicate-mac.md) | dispose

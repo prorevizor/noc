@@ -13,7 +13,7 @@ uuid: ca261ef8-3d29-4270-8fd2-eb616d9e6e76
 
 Variable | Description | Default
 --- | --- | ---
-interface | interface | `:material-close:`
+interface | interface | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Events
@@ -23,12 +23,12 @@ description | Interface description | `=InterfaceDS.description`
 
 Event Class | Description
 --- | ---
-`Network | STP | BPDU Root Violation` | dispose
+[Network \| STP \| BPDU Root Violation](../../../event-classes/network/stp/bpdu-root-violation.md) | dispose
 
 ### Closing Events
 `Network | STP | Root Guard Violation` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | STP | Root Guard Recovery` | dispose
-`Network | Link | Link Up` | Clear Root Guard Violation
+[Network \| STP \| Root Guard Recovery](../../../event-classes/network/stp/root-guard-recovery.md) | dispose
+[Network \| Link \| Link Up](../../../event-classes/network/link/link-up.md) | Clear Root Guard Violation

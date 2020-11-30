@@ -17,9 +17,9 @@ Check the modem interface configuration for privacy mandatory, or check for erro
 
 Variable | Description | Default
 --- | --- | ---
-mac | Cable Modem MAC | `:material-close:`
-sid | Cable Modem SID | `:material-close:`
-interface | Cable interface | `:material-close:`
+mac | Cable Modem MAC | {{ no }}
+sid | Cable Modem SID | {{ no }}
+interface | Cable interface | {{ no }}
 
 ## Events
 
@@ -28,4 +28,4 @@ interface | Cable interface | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Network | DOCSIS | BPI Unautorized` | dispose
+[Network \| DOCSIS \| BPI Unautorized](../../../event-classes/network/docsis/bpi-unautorized.md) | dispose

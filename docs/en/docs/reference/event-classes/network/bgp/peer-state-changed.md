@@ -15,11 +15,11 @@ BGP Peer State Changed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-peer | ip_address | :material-close: | Peer
-vrf | str | :material-check: | VRF
-as | int | :material-check: | Peer AS
-from_state | str | :material-check: | Initial state
-to_state | str | :material-check: | Final state
+peer | ip_address | {{ yes }} | Peer
+vrf | str | {{ no }} | VRF
+as | int | {{ no }} | Peer AS
+from_state | str | {{ no }} | Initial state
+to_state | str | {{ no }} | Final state
 
 ## Alarms
 
@@ -29,7 +29,7 @@ to_state | str | :material-check: | Final state
 
 Alarm Class | Description
 --- | ---
-`Network | BGP | Peer Down` | raise
+[Network \| BGP \| Peer Down](../../../alarm-classes/network/bgp/peer-down.md) | raise
 
 ### Clearing alarms
 
@@ -37,5 +37,5 @@ Alarm Class | Description
 
 Alarm Class | Description
 --- | ---
-`Network | BGP | Peer Down` | clear_peer_down
-`Network | BGP | Prefix Limit Exceeded` | clear_maxprefix
+[Network \| BGP \| Peer Down](../../../alarm-classes/network/bgp/peer-down.md) | clear_peer_down
+[Network \| BGP \| Prefix Limit Exceeded](../../../alarm-classes/network/bgp/prefix-limit-exceeded.md) | clear_maxprefix

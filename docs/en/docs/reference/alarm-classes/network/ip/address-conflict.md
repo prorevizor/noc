@@ -13,9 +13,9 @@ uuid: ef2b8f0a-3959-4bce-99b8-5eb5298409b9
 
 Variable | Description | Default
 --- | --- | ---
-ip | Conflicting IP | `:material-close:`
-mac | MAC | `:material-close:`
-interface | Interface | `:material-close:`
+ip | Conflicting IP | {{ no }}
+mac | MAC | {{ no }}
+interface | Interface | {{ no }}
 
 ## Alarm Correlation
 
@@ -36,14 +36,14 @@ graph TD
 
 Alarm Class | Description
 --- | ---
-`Network | IP | Address Conflict` | Address Conflict
+[Network \| IP \| Address Conflict](address-conflict.md) | Address Conflict
 
-### Root Causes
+### Consequences
 `Network | IP | Address Conflict` alarm may be root cause of
 
 Alarm Class | Description
 --- | ---
-`Network | IP | Address Conflict` | Address Conflict
+[Network \| IP \| Address Conflict](address-conflict.md) | Address Conflict
 
 ## Events
 
@@ -52,4 +52,4 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`Network | IP | Address Conflict` | dispose
+[Network \| IP \| Address Conflict](../../../event-classes/network/ip/address-conflict.md) | dispose

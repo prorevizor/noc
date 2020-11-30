@@ -13,8 +13,8 @@ uuid: 86a5bbc4-803e-4eb9-906a-fb358e27d7ac
 
 Variable | Description | Default
 --- | --- | ---
-ip | Source IP | `:material-close:`
-interface | Source interface | `:material-close:`
+ip | Source IP | {{ no }}
+interface | Source interface | {{ no }}
 
 ## Events
 
@@ -23,4 +23,4 @@ interface | Source interface | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Network | DHCP | Untrusted Server` | dispose
+[Network \| DHCP \| Untrusted Server](../../../event-classes/network/dhcp/untrusted-server.md) | dispose

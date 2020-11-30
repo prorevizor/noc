@@ -15,5 +15,5 @@ ARP Zero MAC
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-ip | ip_address | :material-close: | IP
-interface | interface_name | :material-check: | Affected interface
+ip | ip_address | {{ yes }} | IP
+interface | interface_name | {{ no }} | Affected interface

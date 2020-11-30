@@ -18,8 +18,8 @@ for [ping](../../../admin/services/ping.md) service
 | size            | Integer | ICMP Echo-Request packet size                                                  |
 | count           | Integer | Probe attempts per round                                                       |
 | timeout         | Integer | Probe timeout in seconds                                                       |
-| report_rtt      | Boolean | Report [Ping  RTT](../../../dev/metrics/types/index.md) metric per each round           |
-| report_attempts | Boolean | Report [Ping  Attempts](../../../dev/metrics/types/index.md) metric per each round |
+| report_rtt      | Boolean | Report [Ping  RTT](../../../reference/metrics/types/index.md) metric per each round           |
+| report_attempts | Boolean | Report [Ping  Attempts](../../../reference/metrics/types/index.md) metric per each round |
 | status          | Null    | Reserved                                                                       |
 | name            | String  | [Managed Object's](../../../reference/concepts/managed-object/index.md) name   |
 | bi_id           | Integer | [Managed Object's](../../../reference/concepts/managed-object/index.md) BI Id  |

@@ -19,5 +19,5 @@ Update firmware on device.
 
 Variable | Description | Default
 --- | --- | ---
-path | Path to alarms | `:material-close:`
-message | Error detail message  | `:material-close:`
+path | Path to alarms | {{ no }}
+message | Error detail message  | {{ no }}

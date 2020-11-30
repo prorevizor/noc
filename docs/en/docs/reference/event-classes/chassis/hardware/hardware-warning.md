@@ -21,4 +21,4 @@ Device becomes unstable or is not responding
 
 Alarm Class | Description
 --- | ---
-`Chassis | Hardware | Hardware Warning` | dispose
+[Chassis \| Hardware \| Hardware Warning](../../../alarm-classes/chassis/hardware/hardware-warning.md) | dispose

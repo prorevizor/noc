@@ -17,11 +17,11 @@ Values are out of first threshold value.
 
 Variable | Description | Default
 --- | --- | ---
-metric | Metric name | `:material-close:`
-scope | Metric scope | `:material-close:`
-path | Path to component raising alarm | `:material-close:`
-value | Metric value | `:material-close:`
-threshold | Threshold value | `:material-close:`
-window_type | Type of window (time or count) | `:material-close:`
-window | Window size | `:material-close:`
-window_function | Function apply to window | `:material-close:`
+metric | Metric name | {{ no }}
+scope | Metric scope | {{ no }}
+path | Path to component raising alarm | {{ no }}
+value | Metric value | {{ no }}
+threshold | Threshold value | {{ no }}
+window_type | Type of window (time or count) | {{ no }}
+window | Window size | {{ no }}
+window_function | Function apply to window | {{ no }}

@@ -15,7 +15,7 @@ TCAM entry capacity exceeded
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-reason | str | :material-check: | Reason
+reason | str | {{ no }} | Reason
 
 ## Alarms
 
@@ -25,4 +25,4 @@ reason | str | :material-check: | Reason
 
 Alarm Class | Description
 --- | ---
-`Chassis | TCAM | TCAM Entry Capacity Exceeded` | dispose
+[Chassis \| TCAM \| TCAM Entry Capacity Exceeded](../../../alarm-classes/chassis/tcam/tcam-entry-capacity-exceeded.md) | dispose

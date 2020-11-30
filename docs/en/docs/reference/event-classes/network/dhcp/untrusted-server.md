@@ -15,8 +15,8 @@ Untrusted DHCP server detected
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-ip | ip_address | :material-close: | Source IP
-interface | interface_name | :material-check: | Source interface
+ip | ip_address | {{ yes }} | Source IP
+interface | interface_name | {{ no }} | Source interface
 
 ## Alarms
 
@@ -26,4 +26,4 @@ interface | interface_name | :material-check: | Source interface
 
 Alarm Class | Description
 --- | ---
-`Network | DHCP | Untrusted Server` | dispose
+[Network \| DHCP \| Untrusted Server](../../../alarm-classes/network/dhcp/untrusted-server.md) | dispose

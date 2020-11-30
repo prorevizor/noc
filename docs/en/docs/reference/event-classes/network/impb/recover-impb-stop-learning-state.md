@@ -19,7 +19,7 @@ Check IMPB entry, check topology
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Affected interface
+interface | interface_name | {{ yes }} | Affected interface
 
 ## Alarms
 
@@ -29,4 +29,4 @@ interface | interface_name | :material-close: | Affected interface
 
 Alarm Class | Description
 --- | ---
-`Network | IMPB | Unauthenticated IP-MAC` | dispose
+[Network \| IMPB \| Unauthenticated IP-MAC](../../../alarm-classes/network/impb/unauthenticated-ip-mac.md) | dispose

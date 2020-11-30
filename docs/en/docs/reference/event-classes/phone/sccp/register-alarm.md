@@ -15,7 +15,7 @@ SCCP phone registration alarm
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-sn | str | :material-close: | Device Serial Number
-socket | int | :material-check: | Socket number
-image | str | :material-close: | Load image
-reason | str | :material-close: | Alarm reason
+sn | str | {{ yes }} | Device Serial Number
+socket | int | {{ no }} | Socket number
+image | str | {{ yes }} | Load image
+reason | str | {{ yes }} | Alarm reason

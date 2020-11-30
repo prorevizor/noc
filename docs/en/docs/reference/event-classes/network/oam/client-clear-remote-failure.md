@@ -17,5 +17,5 @@ The remote client received a message to clear a link fault, or a dying gasp (an 
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
-reason | str | :material-check: | Failure reason
+interface | interface_name | {{ yes }} | Interface
+reason | str | {{ no }} | Failure reason

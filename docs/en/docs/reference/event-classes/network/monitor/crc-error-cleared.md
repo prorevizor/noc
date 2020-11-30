@@ -13,7 +13,7 @@ uuid: 71654052-0cdc-4e5f-833d-7a744a41e99e
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
+interface | interface_name | {{ yes }} | Interface
 
 ## Alarms
 
@@ -23,4 +23,4 @@ interface | interface_name | :material-close: | Interface
 
 Alarm Class | Description
 --- | ---
-`Network | Monitor | CRC Error Detected` | dispose
+[Network \| Monitor \| CRC Error Detected](../../../alarm-classes/network/monitor/crc-error-detected.md) | dispose

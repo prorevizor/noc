@@ -21,7 +21,7 @@ Add appropriative Managed Object or fix trap_source
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-ip | ip_address | :material-close: | Event SRC IP
-collector_ip | ip_address | :material-close: | Collector's IP address
-collector_port | int | :material-close: | Collector's port
-activator | str | :material-close: | Activator pool
+ip | ip_address | {{ yes }} | Event SRC IP
+collector_ip | ip_address | {{ yes }} | Collector's IP address
+collector_port | int | {{ yes }} | Collector's port
+activator | str | {{ yes }} | Activator pool

@@ -15,5 +15,5 @@ Client roamed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-mac | mac | :material-check: | Station MAC
-station | mac | :material-check: | Receiving station's MAC
+mac | mac | {{ no }} | Station MAC
+station | mac | {{ no }} | Receiving station's MAC

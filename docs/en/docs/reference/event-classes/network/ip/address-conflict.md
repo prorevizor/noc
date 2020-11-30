@@ -15,9 +15,9 @@ Conflicted addresses
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-ip | ip_address | :material-close: | Conflicting IP
-mac | mac | :material-check: | MAC
-interface | interface_name | :material-check: | Interface
+ip | ip_address | {{ yes }} | Conflicting IP
+mac | mac | {{ no }} | MAC
+interface | interface_name | {{ no }} | Interface
 
 ## Alarms
 
@@ -27,4 +27,4 @@ interface | interface_name | :material-check: | Interface
 
 Alarm Class | Description
 --- | ---
-`Network | IP | Address Conflict` | dispose
+[Network \| IP \| Address Conflict](../../../alarm-classes/network/ip/address-conflict.md) | dispose

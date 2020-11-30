@@ -13,9 +13,9 @@ uuid: 1b01710e-b3e7-4ff5-b718-2b6925bc6537
 
 Variable | Description | Default
 --- | --- | ---
-peer | BGP Peer | `:material-close:`
-vrf | VRF | `:material-close:`
-reason | Reason | `:material-close:`
+peer | BGP Peer | {{ no }}
+vrf | VRF | {{ no }}
+reason | Reason | {{ no }}
 as | BGP Peer AS | `=PeerDS.remote_asn`
 local_as | Local AS | `=PeerDS.local_asn`
 description | BGP Peer Description | `=PeerDS.description`
@@ -29,14 +29,14 @@ export_filter | BGP Export Filter | `=PeerDS.export_filter`
 
 Event Class | Description
 --- | ---
-`Network | BGP | Peer Down` | dispose
-`Network | BGP | Backward Transition` | dispose
-`Network | BGP | Peer State Changed` | raise
+[Network \| BGP \| Peer Down](../../../event-classes/network/bgp/peer-down.md) | dispose
+[Network \| BGP \| Backward Transition](../../../event-classes/network/bgp/backward-transition.md) | dispose
+[Network \| BGP \| Peer State Changed](../../../event-classes/network/bgp/peer-state-changed.md) | raise
 
 ### Closing Events
 `Network | BGP | Peer Down` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | BGP | Established` | dispose
-`Network | BGP | Peer State Changed` | clear_peer_down
+[Network \| BGP \| Established](../../../event-classes/network/bgp/established.md) | dispose
+[Network \| BGP \| Peer State Changed](../../../event-classes/network/bgp/peer-state-changed.md) | clear_peer_down

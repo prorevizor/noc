@@ -21,7 +21,7 @@ No reaction needed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-user | str | :material-check: | User
-ip | ip_address | :material-check: | User address
-from_priv | str | :material-check: | Old privilegies
-to_priv | str | :material-check: | Current privilegies
+user | str | {{ no }} | User
+ip | ip_address | {{ no }} | User address
+from_priv | str | {{ no }} | Old privilegies
+to_priv | str | {{ no }} | Current privilegies

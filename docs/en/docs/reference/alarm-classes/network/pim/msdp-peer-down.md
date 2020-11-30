@@ -19,9 +19,9 @@ Check links and local and neighbor router configuration
 
 Variable | Description | Default
 --- | --- | ---
-peer | Peer's IP | `:material-close:`
-vrf | VRF | `:material-close:`
-reason | Reason | `:material-close:`
+peer | Peer's IP | {{ no }}
+vrf | VRF | {{ no }}
+reason | Reason | {{ no }}
 
 ## Events
 
@@ -30,11 +30,11 @@ reason | Reason | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Network | PIM | MSDP Peer Down` | dispose
+[Network \| PIM \| MSDP Peer Down](../../../event-classes/network/pim/msdp-peer-down.md) | dispose
 
 ### Closing Events
 `Network | PIM | MSDP Peer Down` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | PIM | MSDP Peer Up` | dispose
+[Network \| PIM \| MSDP Peer Up](../../../event-classes/network/pim/msdp-peer-up.md) | dispose

@@ -13,8 +13,8 @@ uuid: a567754e-8be6-498b-a790-97f34aa4d52b
 
 Variable | Description | Default
 --- | --- | ---
-interface | interface name | `:material-close:`
-reason | err-disable reason | `:material-close:`
+interface | interface name | {{ no }}
+reason | err-disable reason | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Alarm Correlation
@@ -36,14 +36,14 @@ graph TD
 
 Alarm Class | Description
 --- | ---
-`Network | UDLD | UDLD Protocol Error Detected` | UDLD
+[Network \| UDLD \| UDLD Protocol Error Detected](../udld/udld-protocol-error-detected.md) | UDLD
 
-### Root Causes
+### Consequences
 `Network | Link | Err-Disable` alarm may be root cause of
 
 Alarm Class | Description
 --- | ---
-`Network | Link | Link Down` | err-disable
+[Network \| Link \| Link Down](link-down.md) | err-disable
 
 ## Events
 
@@ -52,13 +52,13 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`Network | Link | Err-Disable` | dispose
-`Network | Link | Link Flap Error Detected` | dispose
+[Network \| Link \| Err-Disable](../../../event-classes/network/link/err-disable.md) | dispose
+[Network \| Link \| Link Flap Error Detected](../../../event-classes/network/link/link-flap-error-detected.md) | dispose
 
 ### Closing Events
 `Network | Link | Err-Disable` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Network | Link | Link Flap Error Recovery` | dispose
-`Network | Link | Link Up` | Clear Err-Disable
+[Network \| Link \| Link Flap Error Recovery](../../../event-classes/network/link/link-flap-error-recovery.md) | dispose
+[Network \| Link \| Link Up](../../../event-classes/network/link/link-up.md) | Clear Err-Disable

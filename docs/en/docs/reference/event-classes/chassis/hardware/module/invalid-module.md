@@ -13,9 +13,9 @@ uuid: 6cbad313-b948-440c-9271-750375b6a116
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-module | str | :material-close: | Module type
-interface | str | :material-check: | Hardware port or slot
-reason | str | :material-check: | Reason
+module | str | {{ yes }} | Module type
+interface | str | {{ no }} | Hardware port or slot
+reason | str | {{ no }} | Reason
 
 ## Alarms
 
@@ -25,4 +25,4 @@ reason | str | :material-check: | Reason
 
 Alarm Class | Description
 --- | ---
-`Chassis | Hardware | Module | Invalid Module` | dispose
+[Chassis \| Hardware \| Module \| Invalid Module](../../../../alarm-classes/chassis/hardware/module/invalid-module.md) | dispose

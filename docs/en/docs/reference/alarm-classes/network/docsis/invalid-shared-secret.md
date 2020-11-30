@@ -17,9 +17,9 @@ Ensure that the shared secret that is in the configuration file is the same as t
 
 Variable | Description | Default
 --- | --- | ---
-mac | Cable Modem MAC | `:material-close:`
-sid | Cable Modem SID | `:material-close:`
-interface | Cable interface | `:material-close:`
+mac | Cable Modem MAC | {{ no }}
+sid | Cable Modem SID | {{ no }}
+interface | Cable interface | {{ no }}
 
 ## Events
 
@@ -28,4 +28,4 @@ interface | Cable interface | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Network | DOCSIS | Invalid Shared Secret` | dispose
+[Network \| DOCSIS \| Invalid Shared Secret](../../../event-classes/network/docsis/invalid-shared-secret.md) | dispose

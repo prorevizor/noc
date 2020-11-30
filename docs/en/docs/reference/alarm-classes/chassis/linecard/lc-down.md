@@ -13,8 +13,8 @@ uuid: c79bdd80-f835-42e3-b6bc-e44ad60bb04b
 
 Variable | Description | Default
 --- | --- | ---
-number | Slot number | `:material-close:`
-reason | Reason | `:material-close:`
+number | Slot number | {{ no }}
+reason | Reason | {{ no }}
 
 ## Alarm Correlation
 
@@ -28,12 +28,12 @@ graph TD
   A --> C1
 ```
 
-### Root Causes
+### Consequences
 `Chassis | Linecard | LC Down` alarm may be root cause of
 
 Alarm Class | Description
 --- | ---
-`Network | Link | Link Down` | Linecard Down
+[Network \| Link \| Link Down](../../network/link/link-down.md) | Linecard Down
 
 ## Events
 
@@ -42,11 +42,11 @@ Alarm Class | Description
 
 Event Class | Description
 --- | ---
-`Chassis | Linecard | LC Down` | dispose
+[Chassis \| Linecard \| LC Down](../../../event-classes/chassis/linecard/lc-down.md) | dispose
 
 ### Closing Events
 `Chassis | Linecard | LC Down` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Chassis | Linecard | LC Up` | dispose
+[Chassis \| Linecard \| LC Up](../../../event-classes/chassis/linecard/lc-up.md) | dispose

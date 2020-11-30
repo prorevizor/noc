@@ -15,7 +15,7 @@ Multicast Storm Cleared
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
+interface | interface_name | {{ yes }} | Interface
 
 ## Alarms
 
@@ -25,4 +25,4 @@ interface | interface_name | :material-close: | Interface
 
 Alarm Class | Description
 --- | ---
-`Network | Storm Control | Multicast Storm Detected` | dispose
+[Network \| Storm Control \| Multicast Storm Detected](../../../alarm-classes/network/storm-control/multicast-storm-detected.md) | dispose

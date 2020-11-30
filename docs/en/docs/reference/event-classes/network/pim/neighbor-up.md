@@ -21,9 +21,9 @@ No reaction needed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Interface
-neighbor | ip_address | :material-close: | Neighbor's IP
-vrf | str | :material-check: | VRF
+interface | interface_name | {{ yes }} | Interface
+neighbor | ip_address | {{ yes }} | Neighbor's IP
+vrf | str | {{ no }} | VRF
 
 ## Alarms
 
@@ -33,4 +33,4 @@ vrf | str | :material-check: | VRF
 
 Alarm Class | Description
 --- | ---
-`Network | PIM | Neighbor Down` | dispose
+[Network \| PIM \| Neighbor Down](../../../alarm-classes/network/pim/neighbor-down.md) | dispose

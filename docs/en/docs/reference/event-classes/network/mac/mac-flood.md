@@ -15,9 +15,9 @@ Flooding MAC Detected
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-mac | mac | :material-close: | MAC Address
-vlan | int | :material-close: | VLAN
-interface | interface_name | :material-check: | Interface
+mac | mac | {{ yes }} | MAC Address
+vlan | int | {{ yes }} | VLAN
+interface | interface_name | {{ no }} | Interface
 
 ## Alarms
 
@@ -27,4 +27,4 @@ interface | interface_name | :material-check: | Interface
 
 Alarm Class | Description
 --- | ---
-`Network | MAC | MAC Flood` | dispose
+[Network \| MAC \| MAC Flood](../../../alarm-classes/network/mac/mac-flood.md) | dispose

@@ -15,7 +15,7 @@ Fan recovered
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-name | str | :material-close: | Fan Name
+name | str | {{ yes }} | Fan Name
 
 ## Alarms
 
@@ -25,4 +25,4 @@ name | str | :material-close: | Fan Name
 
 Alarm Class | Description
 --- | ---
-`Chassis | Fan | Fan Failed` | dispose
+[Chassis \| Fan \| Fan Failed](../../../alarm-classes/chassis/fan/fan-failed.md) | dispose

@@ -21,5 +21,5 @@ No reaction needed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-user | str | :material-check: | User
-command | str | :material-close: | Command
+user | str | {{ no }} | User
+command | str | {{ yes }} | Command

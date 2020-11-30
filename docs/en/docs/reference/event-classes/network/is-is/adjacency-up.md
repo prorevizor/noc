@@ -21,9 +21,9 @@ No reaction needed
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-neighbor | str | :material-close: | Neighbor's NSAP or name
-interface | interface_name | :material-close: | Interface
-level | str | :material-check: | Level
+neighbor | str | {{ yes }} | Neighbor's NSAP or name
+interface | interface_name | {{ yes }} | Interface
+level | str | {{ no }} | Level
 
 ## Alarms
 
@@ -33,4 +33,4 @@ level | str | :material-check: | Level
 
 Alarm Class | Description
 --- | ---
-`Network | IS-IS | Adjacency Down` | dispose
+[Network \| IS-IS \| Adjacency Down](../../../alarm-classes/network/is-is/adjacency-down.md) | dispose

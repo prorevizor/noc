@@ -21,7 +21,7 @@ field. Following rules are applied:
 
 | Name          | Type        | Description                     | Required         | Constant         | Default |
 | ------------- | ----------- | ------------------------------- | ---------------- | ---------------- | ------- |
-| container     | Boolean     | Object is container             | :material-check: | :material-check: |         |
+| container     | Boolean     | Object is container             | {{ yes }} | {{ yes }} |         |
 |               |             | (Can hold another objects)      |                  |                  |         |
 
 ## Examples

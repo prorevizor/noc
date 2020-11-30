@@ -13,7 +13,7 @@ uuid: fa641bed-9f72-49b6-b95d-b33936dc3690
 
 Variable | Description | Default
 --- | --- | ---
-ip | RADIUS server address | `:material-close:`
+ip | RADIUS server address | {{ no }}
 
 ## Events
 
@@ -22,11 +22,11 @@ ip | RADIUS server address | `:material-close:`
 
 Event Class | Description
 --- | ---
-`Security | Authentication | RADIUS server failed` | dispose
+[Security \| Authentication \| RADIUS server failed](../../../event-classes/security/authentication/radius-server-failed.md) | dispose
 
 ### Closing Events
 `Security | Authentication | RADIUS server failed` may be cleared by events
 
 Event Class | Description
 --- | ---
-`Security | Authentication | RADIUS server recovered` | dispose
+[Security \| Authentication \| RADIUS server recovered](../../../event-classes/security/authentication/radius-server-recovered.md) | dispose

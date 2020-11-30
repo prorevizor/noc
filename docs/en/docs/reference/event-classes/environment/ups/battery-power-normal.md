@@ -19,4 +19,4 @@ Battery Power Normal
 
 Alarm Class | Description
 --- | ---
-`Environment | UPS | Battery Power Low` | dispose
+[Environment \| UPS \| Battery Power Low](../../../alarm-classes/environment/ups/battery-power-low.md) | dispose

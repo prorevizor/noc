@@ -13,8 +13,8 @@ uuid: 35e9d7f3-b6ba-483b-8fb1-d504d6c29295
 
 Variable | Description | Default
 --- | --- | ---
-interface | Interface | `:material-close:`
-src_ip | Source IP | `:material-close:`
+interface | Interface | {{ no }}
+src_ip | Source IP | {{ no }}
 description | Interface description | `=InterfaceDS.description`
 
 ## Events
@@ -24,4 +24,4 @@ description | Interface description | `=InterfaceDS.description`
 
 Event Class | Description
 --- | ---
-`Security | Attack | Land Attack` | dispose
+[Security \| Attack \| Land Attack](../../../event-classes/security/attack/land-attack.md) | dispose

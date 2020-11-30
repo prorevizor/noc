@@ -19,7 +19,7 @@ Assign the cable modem to another line card.
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-interface | interface_name | :material-close: | Cable interface
+interface | interface_name | {{ yes }} | Cable interface
 
 ## Alarms
 
@@ -29,4 +29,4 @@ interface | interface_name | :material-close: | Cable interface
 
 Alarm Class | Description
 --- | ---
-`Network | DOCSIS | Maximum SIDs` | dispose
+[Network \| DOCSIS \| Maximum SIDs](../../../alarm-classes/network/docsis/maximum-sids.md) | dispose

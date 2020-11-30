@@ -19,10 +19,10 @@ Examine the network for possible loops.
 
 Variable | Type | Required | Description
 --- | --- | --- | ---
-mac | mac | :material-close: | MAC Address
-vlan | int | :material-close: | VLAN
-from_interface | interface_name | :material-close: | From interface
-to_interface | interface_name | :material-close: | To interface
+mac | mac | {{ yes }} | MAC Address
+vlan | int | {{ yes }} | VLAN
+from_interface | interface_name | {{ yes }} | From interface
+to_interface | interface_name | {{ yes }} | To interface
 
 ## Alarms
 
@@ -32,4 +32,4 @@ to_interface | interface_name | :material-close: | To interface
 
 Alarm Class | Description
 --- | ---
-`Network | MAC | MAC Flap` | dispose
+[Network \| MAC \| MAC Flap](../../../alarm-classes/network/mac/mac-flap.md) | dispose

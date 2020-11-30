@@ -12,13 +12,13 @@ Used to store position in rack.
 
 | Name     | Type   | Description                                      | Required         | Constant         | Default   |
 | -------- | ------ | ------------------------------------------------ | ---------------- | ---------------- | --------- |
-| units    | float  | Size in units                                    | :material-check: | :material-check: |           |
-| position | int    | Bottom rack position (in units)                  | :material-close: | :material-close: |           |
-| side     | str    | Mounting side (f/r)                              | :material-close: | :material-close: |           |
+| units    | float  | Size in units                                    | {{ yes }} | {{ yes }} |           |
+| position | int    | Bottom rack position (in units)                  | {{ no }} | {{ no }} |           |
+| side     | str    | Mounting side (f/r)                              | {{ no }} | {{ no }} |           |
 |          |        |                                                  |                  |                  |           |
 |          |        | f - mounted at the front side                    |                  |                  |           |
 |          |        | r - mounted at the rear side                     |                  |                  |           |
-| shift    | int    | Shift 0/1/2 holes up                             | :material-close: | :material-close: |           |
+| shift    | int    | Shift 0/1/2 holes up                             | {{ no }} | {{ no }} |           |
 |          |        |                                                  |                  |                  |           |
 |          |        | 0 - fit to the unit                              |                  |                  |           |
 |          |        | 1 - displacement 1 hole up relative to the unit  |                  |                  |           |
