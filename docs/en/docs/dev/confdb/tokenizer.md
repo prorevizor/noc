@@ -1,14 +1,4 @@
-
-
-================
-Config Tokenizer
-================
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 2
-    :class: singlecol
+# Config Tokenizer
 
 `Tokenizing` is the process of transforming input device configuration
 to a stream of the `tokens`. Tokenizer accepts raw config and yields
@@ -45,8 +35,8 @@ create own tokenizer for a new platform from zero ground.
 
 
 
-Tokenizers
-----------
+## Tokenizers
+
 Builtin tokenizers are collected in the `noc.core.confdb.tokenizer` package.
 Tokenizer classes form an hierarchy:
 
@@ -63,10 +53,9 @@ Tokenizer classes form an hierarchy:
 
 
 
-line
-^^^^
+#### line
 
-.. py:function:: line(eol="\n", tab_width=0, line_comment=None, inline_comment=None, keep_indent=False, string_quote=None, rewrite=None)
+**line**(eol="\n", tab_width=0, line_comment=None, inline_comment=None, keep_indent=False, string_quote=None, rewrite=None)
 
     Basic tokenizer, converting line of config into line of tokens,
     separating by spaces and
@@ -97,10 +86,9 @@ line
 
 
 
-context
-^^^^^^^
+#### context
 
-.. py:function:: context(end_of_context=None, contexts=None, **kwargs)
+**context**(end_of_context=None, contexts=None, **kwargs)
 
     Descendant of :ref:`line<dev-confdb-tokenizer-line>` tokenizer.
     Adds extra ability to determine and stack current
@@ -122,10 +110,9 @@ context
 
 
 
-indent
-^^^^^^
+#### indent
 
-.. py:function:: indent(end_of_context=None, **kwargs)
+**indent**(end_of_context=None, **kwargs)
 
     Descendant of :ref:`context<dev-confdb-tokenizer-context>`. Context
     are detected by start of line indents, like the Python programming
@@ -136,10 +123,9 @@ indent
 
 
 
-curly
-^^^^^
+#### curly
 
-.. py:function:: curly(start_of_context="{", end_of_context="}", explicit_eol=None, **kwargs)
+**curly**(start_of_context="{", end_of_context="}", explicit_eol=None, **kwargs)
 
     Descendant of :ref:`line<dev-confdb-tokenizer-line>` tokenizer.
     Adds extra ability to determine and stack current
@@ -157,19 +143,17 @@ curly
 
 
 
-ini
-^^^
+#### ini
 
-.. py:function:: ini()
+**ini**()
 
     Basic tokenizer capable of parsing Microsoft Windows INI files.
     See Python's `ConfigParser <https://docs.python.org/2.7/library/configparser.html>`_
     module for details
 
-routeros
-^^^^^^^^
+#### routeros
 
-.. py:function:: routeros()
+**routeros**()
 
     Descendant of :ref:`line<dev-confdb-tokenizer-line>` tokenizer
     adapted to handle :ref:`MikroTik RouterOS<profile-MikroTik.RouterOS>`
@@ -177,8 +161,8 @@ routeros
 
 
 
-Profile Integration
--------------------
+#### Profile Integration
+
 <!-- prettier-ignore -->
 !!! todo
 
@@ -186,20 +170,20 @@ Profile Integration
 
 Following profile parameters are responsible for tokenizer configuration:
 
-.. py:attribute:: config_tokenizer
+**config_tokenizer**
 
     String containing name of config tokenizer to use. Refer to
     :ref:`Tokenizers<dev-confdb-tokenizers>` section for possible values
     and for recommendations.
 
-.. py:attribute:: config_tokenizer_settings
+**config_tokenizer_settings**
 
     Optional dict, containing config tokenizer settings.
     Refer to
     :ref:`Tokenizers<dev-confdb-tokenizers>` section for possible
     values explanation.
 
-.. py:classmethod:: get_config_tokenizer(cls, object):
+**get_config_tokenizer**(cls, object):
 
     Classmethod returning actual config tokenizer name and its
     settings for selected managed object. Returns
@@ -213,14 +197,16 @@ Following profile parameters are responsible for tokenizer configuration:
 
 
 
-Custom Tokenizer API
---------------------
+#### Custom Tokenizer API
+
 Custom tokenizers must be inherited from `noc.core.confdb.tokenizer.base.BaseTokenizer` class
 or any of its descendancies. First you must define tokenizer name
 
-.. py:attribute:: name
 
+```
+ name
     Unique name of tokenizer.
+```
 
 Example::
 
@@ -229,11 +215,13 @@ Example::
 
 Tokenizer configuration passed as parameters to class constructor.
 
-.. py:method:: __init__(self, data, param1=default1, .., paramN=defaultN)
 
+**__init__**(self, data, param1=default1, .., paramN=defaultN)
+```
     :param data: String containing device configuration
     :param param1: Custom configuration parameter #1 with default value
     :param paramN: Custom configuration parameter #N with default value
+```
 
 It is advised to call superclass' constructor::
 
@@ -245,9 +233,9 @@ It is advised to call superclass' constructor::
 
 The actual tokenizer must be implemented in `__iter__` method
 
-.. py:method:: __iter__(self):
-
+**__iter__**(self):
+```
     Iterator yielding tuples of tokens per each line. Tokenizer
     should analyze `self.data` variable and call `yield` operator
     per each matched line of tokens
-
+```

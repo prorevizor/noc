@@ -1,14 +1,4 @@
-
-
-==============
-Config Storage
-==============
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
+# Config Storage
 
 `Storing` is the process of storing device configuration in long-term storage.
 NOC uses own `GridVCS` storage to store device configuration.

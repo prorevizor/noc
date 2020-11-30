@@ -1,14 +1,4 @@
-
-
-=================
-Config Normalizer
-=================
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 2
-    :class: singlecol
+# Config Normalizer
 
 `Normalizing` is the process of converting stream of input tokens,
 received from `Tokenizer`, to the stream of output tokens,
@@ -27,8 +17,8 @@ footprint of ConfDB processing, avoiding multiple copies of same data.
 
 
 
-Profile Integration
--------------------
+## Profile Integration
+
 <!-- prettier-ignore -->
 !!! todo
 
@@ -36,18 +26,18 @@ Profile Integration
 
 Following profile parameters are responsible for normalizer configuration:
 
-.. py:attribute:: config_normalizer
+**config_normalizer**
 
     String containing name of config normalizer to use. Contains
     normalizer class name. Normalizer must be subclass of :ref:`BaseNormalizer<dev-confdb-normalizer-api>`
     and must be located in the `noc.sa.profiles.X.Y.confdb.normalizer` module.
 
-.. py:attribute:: config_normalizer_settings
+**config_normalizer_settings**
 
     Optional dict, containing config normalizer settings to be passed
     to Normalizer's constructor. Depends upon normalizer implementation.
 
-.. py:classmethod:: get_config_normalizer(cls, object):
+**get_config_normalizer**(cls, object):
 
     Classmethod returning actual config normalizer name and its
     settings for selected managed object. Returns
@@ -61,8 +51,8 @@ Following profile parameters are responsible for normalizer configuration:
 
 
 
-Normalizer API
---------------
+## Normalizer API
+
 Normalizers must be subclass of `BaseNormalizer` and must be located
 in profile's `confdb.normalizer` subpackage (`noc.sa.profiles.X.Y.confdb.normalizer`,
 where `X.Y` is profile name).
@@ -74,8 +64,7 @@ where `X.Y` is profile name).
 
 
 
-Code boilerplate
-^^^^^^^^^^^^^^^^
+#### Code boilerplate
 
 Normalizer code boilerplate::
 
@@ -88,8 +77,7 @@ Normalizer code boilerplate::
 
 
 
-@match decorator
-^^^^^^^^^^^^^^^^
+#### @match decorator
 
 Normalizer contains `generator functions` (python functions, containing
 `yield` statement) annotated by `@match` decorators. Example::
@@ -117,18 +105,18 @@ not match the `["no", "lldp", "status"]` line.
 
 
 
-@match macros
-^^^^^^^^^^^^^
+#### @match macros
+
 `@match` decorator allows to use one of following wildcard macros instead of exact string.
 All macros must be imported from `noc.core.confdb.normalizer.base` module.
 
-+-------+------------------------------------------+
+
 | Macro | Description                              |
-+=======+==========================================+
+| ----- | ---------------------------------------- |
 | ANY   | Match any string in given position       |
-+-------+------------------------------------------+
+|------ | ---------------------------------------- |
 | REST  | Match all tokens to the rest of the line |
-+-------+------------------------------------------+
+
 
 `tokens` parameter can be used to get real value of matched tokens::
 
@@ -142,8 +130,8 @@ Multiple occurencies and various combination of macros are possible
 
 
 
-Generator functions
-^^^^^^^^^^^^^^^^^^^
+#### Generator functions
+
 Generator functions behind `@match` decorator must be python generators
 containing at least one `yield` statement. Generator must yield tuples of
 full paths of ConfDB syntax. Example::
@@ -196,8 +184,8 @@ must be rewritten as::
 
 
 
-deferrable generators
-^^^^^^^^^^^^^^^^^^^^^
+#### deferrable generators
+
 In rare case single tokenized line does not contain all necessary information
 and normalized line must be constructed from several lines. To handle
 such cases `@match` generator may `yield` the `deferrable` expression.
@@ -250,8 +238,8 @@ As deferrable became fully resolved, it converts to actual
 
 
 
-Contexts
-^^^^^^^^
+#### Contexts
+
 Sometimes is a good practice to set some flags, representing global
 status, to alter behavior of following matches. Three methods
 for context manipulation are available:
@@ -262,10 +250,9 @@ for context manipulation are available:
 
 
 
-Normalizer methods
-^^^^^^^^^^^^^^^^^^
+#### Normalizer methods
 
-.. py:method:: __init__(self, param1=default1, .., paramN=defaultN)
+**__init__**(self, param1=default1, .., paramN=defaultN)
 
     Constructor. Should be overriden if Normalizer accepts
     additional configuration from profile. Refer to `config_normalizer_settings` for details.
@@ -273,7 +260,7 @@ Normalizer methods
     :param param1: Custom configuration parameter #1 with default value
     :param paramN: Custom configuration parameter #N with default value
 
-.. py:method:: set_context(self, name, value)
+**set_context**(self, name, value)
 
     Set context flag `name` to `value`
 
@@ -281,7 +268,7 @@ Normalizer methods
     :param value: Flag value
     :returns: None
 
-.. py:method:: get_context(self, name, default=None)
+**get_context**(self, name, default=None)
 
     Get context flag `name`, returning its value or `default`
 
@@ -289,21 +276,21 @@ Normalizer methods
     :param default: Default value
     :returns: Key value or `default` if key not found
 
-.. py:method:: has_context(self, name)
+**has_context**(self, name)
 
     Check context has flag `name`
 
     :param name: String containing flag name
     :returns: True if context has key `name`, False otherwise
 
-.. py:method:: interface_name(self, *args)
+**interface_name**(self, *args)
 
     Convert interface name using profile's `convert_interface_name` method
 
     :param *args: Parts of interface name
     :returns: String containing normalized interface name
 
-.. py:method:: to_prefix(self, address, netmask)
+**to_prefix**(self, address, netmask)
 
     Convert IPv4 address and netmask to prefix form (`address/bits`
 
@@ -311,7 +298,7 @@ Normalizer methods
     :param netmask: IPv4 netmask
     :returns: IP address in prefix form
 
-.. py:method:: defer(context, gen=None, **kwargs)
+**defer**(context, gen=None, **kwargs)
 
     Create deferable with name `context`. Return actual `gen`
     call when all prerequisites are met.

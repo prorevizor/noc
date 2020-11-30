@@ -16,7 +16,7 @@ Following labels shows subsystems affected by MR. Any combination of labels is p
 * `ansible` - Ansible Playbook
 * `collections` - collections
 * `core` - core modules
-* `confdb` - :ref:`ConfDB syntax<dev-confdb-syntax>`
+* `confdb` - [ConfDB syntax](../dev/confdb/query.md)
 * `documentation` - documentation
 * `ui` - User Interface
 * `profiles` - SA Profiles
