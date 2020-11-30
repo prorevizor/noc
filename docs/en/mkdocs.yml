@@ -1439,6 +1439,11 @@ nav:
       - Technologies:
           - Group: dev/technology/group.md
           - "Network | CGNAT Termination": dev/technology/Network/cgnat-termination.md
+      - Metrics:
+          - Metric Scopes:
+              - Overview: dev/metrics/scopes/index.md
+          - Metric Types:
+              - Overview: dev/metrics/types/index.md
       - Tools: dev/tools.md
   - HOWTO:
       - How to Share Collections: howto/sharing-collections/index.md
