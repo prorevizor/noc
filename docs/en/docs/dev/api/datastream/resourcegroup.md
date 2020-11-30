@@ -5,16 +5,16 @@ state
 
 ## Fields
 
-| Name                        | Type                         | Description                                                        |
-| --------------------------- | ---------------------------- | ------------------------------------------------------------------ |
-| id                          | String                       | :ref:`Administrative Domain's<reference-administrative-domain>` ID |
-| name                        | String                       | Name                                                               |
-| parent                      | String                       | Parent's ID (if exists)                                            |
-| technology                  | Object :material-arrow-down: | Resource Group's :ref:`Technology<reference-technology>`           |
-| remote_system               | Object :material-arrow-down: | Source :ref:`remote system<reference-remote-system>` for object    |
-| :material-arrow-right: id   | String                       | External system's id                                               |
-| :material-arrow-right: name | String                       | External system's name                                             |
-| remote_id                   | String                       | External system's id (Opaque attribute)                            |
+| Name           | Type                 | Description                                                        |
+| -------------- | -------------------- | ------------------------------------------------------------------ |
+| id             | String               | :ref:`Administrative Domain's<reference-administrative-domain>` ID |
+| name           | String               | Name                                                               |
+| parent         | String               | Parent's ID (if exists)                                            |
+| technology     | Object {{ complex }} | Resource Group's :ref:`Technology<reference-technology>`           |
+| remote_system  | Object {{ complex }} | Source :ref:`remote system<reference-remote-system>` for object    |
+| {{ tab }} id   | String               | External system's id                                               |
+| {{ tab }} name | String               | External system's name                                             |
+| remote_id      | String               | External system's id (Opaque attribute)                            |
 
 ## Access
 

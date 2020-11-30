@@ -1560,3 +1560,8 @@ plugins:
         theme: dark
   - macros:
       module_name: macros
+extra:
+  tab: ":material-arrow-right:"
+  tab2: ":material-arrow-right: :material-arrow-right:"
+  tab3: ":material-arrow-right: :material-arrow-right: :material-arrow-right:"
+  complex: ":material-arrow-down:"

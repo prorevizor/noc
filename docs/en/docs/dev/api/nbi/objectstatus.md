@@ -1,58 +1,64 @@
-
-
-====================
-NBI objectstatus API
-====================
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
+# NBI objectstatus API
 
 NBI objectstatus API allows to request current statuses for
 specified [Managed Objects](../../../reference/concepts/managed-object/index.md).
 
+## Get Object Status
 
+```
+POST /api/nbi/objectstatus
+```
 
-Usage
------
+Get current statuses for one or more [Managed Objects](../../../reference/concepts/managed-object/index.md).
 
-.. http:post:: /api/nbi/objectstatus
+<!-- prettier-ignore -->
+!!! example "Example Request"
+    ```
+    POST /api/nbi/objectstatus HTTP/1.1
+    Host: noc.example.com
+    Private-Token: 12345
 
-    Get current statuses for one or more :ref:`Managed Objects<reference-managed-object>`.
+    {
+        "objects": ["10", "11", "12", "13"]
+    }
+    ```
 
-    **Example Request**:
+<!-- prettier-ignore -->
+!!! example "Example Response"
+    ```
+    HTTP/1.1 200 OK
+    Content-Type: text/json
 
-    .. sourcecode:: http
+    {
+        "statuses": [
+            {"id": "10", "status": True},
+            {"id": "11", "status": True},
+            {"id": "12", "status": True},
+            {"id": "13", "status": False}
+        ]
+    }
+    ```
 
-        POST /api/nbi/objectstatus HTTP/1.1
-        Host: noc.example.com
-        Private-Token: 12345
+### Request Parameters
+objects
+: Array of [Managed Objects'](../../../reference/concepts/managed-object/index.md) ID.
 
-        {
-            "objects": ["10", "11", "12", "13"]
-        }
+### Request Headers
 
-    **Example Response**:
+Private-Token
+: [API Key](../../../reference/concepts/apikey/index.md) with `nbi:objectstatus` API access
 
-    .. sourcecode:: http
+### Response Parameters
+id (string)
+: [Managed Objects](../../../reference/concepts/managed-object/index.md) ID.
 
-        HTTP/1.1 200 OK
-        Content-Type: text/json
+status (bool)
+: true if object is up, false otherwise.
 
-        {
-            "statuses": [
-                {"id": "10", "status": True},
-                {"id": "11", "status": True},
-                {"id": "12", "status": True},
-                {"id": "13", "status": False}
-            ]
-        }
+### HTTP Response Codes
 
-    :<jsonarr string objects: Array of :ref:`Managed Object's<reference-managed-object>` ID.
-    :>jsonarr statuses string id: :ref:`Managed Object's<reference-managed-object>` ID.
-    :>jsonarr statuses bool string: true if object is up, false otherwise.
-    :statuscode 200: Success
-    :statuscode 400: Bad request
+200
+: Success
 
+400
+: Bad request

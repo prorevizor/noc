@@ -175,3 +175,25 @@ Verb tense and mood preferences, with examples:
 - Use angle brackets to denote areas that users should input the relevant path, as in **--dbpath <path>**.
 - When including sample hostnames, use example.com, example.net, or example.org,
   which are reserved for documentation purposes. See [RFC2606](https://tools.ietf.org/html/rfc2606) and [RFC6761](https://tools.ietf.org/html/rfc6761) for more information.
+
+### Examples
+Use *example* admonition to add an example.
+
+<!-- prettier-ignore -->
+!!! example "Example"
+    ```
+    <!-- prettier-ignore -->
+    !!! example "Example Name"
+        example text
+    ```
+
+### Todos
+Use *todo* admonition to denote work in progress
+
+<!-- prettier-ignore -->
+!!! example "Example"
+    ```
+    <!-- prettier-ignore -->
+    !!! todo
+        To do something later
+    ```

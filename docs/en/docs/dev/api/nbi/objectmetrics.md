@@ -1,93 +1,115 @@
-
-
-=====================
-NBI objectmetrics API
-=====================
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
+# NBI objectmetrics API
 
 NBI objectmetrics API allows to request specified metrics
 for particular [Managed Objects](../../../reference/concepts/managed-object/index.md).
 
+## Get Object Metrics
+
+```
+POST /api/nbi/objectmetrics
+```
+
+Get metrics for one or more [Managed Objects](../../../reference/concepts/managed-object/index.md).
+Maximal allowed time range is limited by
+[nbi.objectmetrics_max_interval](../../../admin/config/nbi.md#objectmetrics_max_interval)
+configuration setting.
+
+<!-- prettier-ignore -->
+!!! example "Example Request"
+    ```
+    POST /api/nbi/objectmetrics?limit=1 HTTP/1.1
+    Host: noc.example.com
+    Private-Token: 12345
+
+    {
+        "from": "2018-09-01T00:00:00",
+        "to": "2018-09-01T01:00:00",
+        "metrics": [
+            {
+                "object": "660",
+                "interfaces": ["Fa0/1", "Fa0/2"],
+                "metric_types": ["Interface | Load | In", "Interface | Load | Out"]
+            },
+            {
+                "object": "661",
+                "interfaces": ["Gi0/1"],
+                "metric_types": ["Interface | Load | In", "Interface | Load | Out"]
+            }
+        ]
+    }
+    ```
+
+<!-- prettier-ignore -->
+!!! example "Example Response"
+    ```
+    HTTP/1.1 200 OK
+    Content-Type: text/json
+
+    {
+        "from": "2018-09-01T00:00:00",
+        "to": "2018-09-01T01:00:00",
+        "metrics": [
+            {
+                "object": 660,
+                "metric_type": "Interface | Load | In",
+                "path": ["", "", "", "Fa0/1"],
+                "interface": "Fa0/1",
+                "values": [
+                    ["2018-09-01T00:00:15", 10],
+                    ["2018-09-01T00:05:15", 12],
+                    ["2018-09-01T00:10:15", 17],
+                    ...
+                ]
+            },
+            ...
+        ]
+    }
+    ```
+
+### Request Parameters
+from (string)
+: Start of interval timestamp in ISO 8601 format (i.e. YYYY-MM-DDTHH:MM:SS).
+
+to (string)
+: Stop of interval timetamp on ISO 8601 format (i.e. YYYY-MM-DDTHH:MM:SS).
+
+object (string)
+: [Managed Object's](../../../reference/concepts/managed-object/index.md) ID
+
+interfaces (array of string)
+: List of requested interfaces (Only for :ref:`Interface Scope<metric-scope-interface>`).
+
+metric_types (array of string)
+: List of requested :ref:`Metric Types'<metrics>` names
 
 
-Usage
------
+### Request Headers
 
-.. http:post:: /api/nbi/objectmetrics
+Private-Token
+: [API Key](../../../reference/concepts/apikey/index.md) with `nbi:objectmetrics` API access
 
-    Get metrics for one or more :ref:`Managed Objects<reference-managed-object>`.
-    Maximal allowed time range is limited by
-    :ref:`nbi.objectmetrics_max_interval<config-nbi-objectmetrics_max_interval>`.
-    configuration setting.
+### Response Parameters
+from (string)
+: Start of interval timestamp in ISO 8601 format (i.e. YYYY-MM-DDTHH:MM:SS).
 
-    **Example Request**:
+to (string)
+: Stop of interval timetamp on ISO 8601 format (i.e. YYYY-MM-DDTHH:MM:SS).
 
-    .. sourcecode:: http
+object (string)
+: [Managed Object's](../../../reference/concepts/managed-object/index.md) ID
 
-        POST /api/nbi/objectmetrics?limit=1 HTTP/1.1
-        Host: noc.example.com
-        Private-Token: 12345
+metric_type (string)
+: Metric Type name
 
-        {
-            "from": "2018-09-01T00:00:00",
-            "to": "2018-09-01T01:00:00",
-            "metrics": [
-                {
-                    "object": "660",
-                    "interfaces": ["Fa0/1", "Fa0/2"],
-                    "metric_types": ["Interface | Load | In", "Interface | Load | Out"]
-                },
-                {
-                    "object": "661",
-                    "interfaces": ["Gi0/1"],
-                    "metric_types": ["Interface | Load | In", "Interface | Load | Out"]
-                }
-            ]
-        }
+path (array of strings)
+: Metric path
 
-    **Example Response**:
+interface (string):
+Interface (Only for :ref:`Interface Scope<metric-scope-interface>`).
 
-    .. sourcecode:: http
+values (array of arrays)
+: Measured values as pairs of (`timestamp`, `value`)
 
-        HTTP/1.1 200 OK
-        Content-Type: text/json
-
-        {
-            "from": "2018-09-01T00:00:00",
-            "to": "2018-09-01T01:00:00",
-            "metrics": [
-                {
-                    "object": 660,
-                    "metric_type": "Interface | Load | In",
-                    "path": ["", "", "", "Fa0/1"],
-                    "interface": "Fa0/1",
-                    "values": [
-                        ["2018-09-01T00:00:15", 10],
-                        ["2018-09-01T00:05:15", 12],
-                        ["2018-09-01T00:10:15", 17],
-                        ...
-                    ]
-                },
-                ...
-            ]
-        }
-
-    :<json string from: Start of interval timestamp in ISO 8601 format (i.e. YYYY-MM-DDTHH:MM:SS).
-    :<json string to: Stop of interval timetamp on ISO 8601 format (i.e. YYYY-MM-DDTHH:MM:SS).
-    :<jsonarr string object: :ref:`Managed Object's<reference-managed-object>` ID
-    :<jsonarr array interfaces: List of requested interfaces (Only for :ref:`Interface Scope<metric-scope-interface>`).
-    :<jsonarr array metric_types: List of requested :ref:`Metric Types'<metrics>` names
-    :>json string from: Start of interval timestamp in ISO 8601 format (i.e. YYYY-MM-DDTHH:MM:SS).
-    :>json string to: Stop of interval timetamp on ISO 8601 format (i.e. YYYY-MM-DDTHH:MM:SS).
-    :>jsonarr string object: :ref:`Managed Object's<reference-managed-object>` ID
-    :>jsonarr string metric_type: Metric Type name
-    :>jsonarr array path: Metric path
-    :>jsonarr string interface: Interface (Only for :ref:`Interface Scope<metric-scope-interface>`).
-    :>jsonarr array values: Measured values as pairs of (*timestamp*, *value*)
-    :reqheader Private-Token: :ref:`reference-apikey` with `nbi:objectmetrics` API access
-    :statuscode 200: Success
+### HTTP Status Codes
+200
+: Success

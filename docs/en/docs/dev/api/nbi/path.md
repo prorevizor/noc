@@ -1,249 +1,252 @@
-
-
-============
-NBI path API
-============
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 1
-    :class: singlecol
+# NBI path API
 
 NBI path API allows to trace possible paths in discovered network
 topology considering extra constraints.
 
+## Usage
 
+```
+POST /api/nbi/path
+```
 
-Usage
------
+Trace k-shortest paths over network topology considering constraints.
 
-.. http:post:: /api/nbi/path
+<!-- prettier-ignore -->
+!!! example "Example Request"
+    ```
+    POST /api/nbi/path  HTTP/1.1
+    Host: noc.example.com
+    Private-Token: 12345
 
-    Trace k-shortest paths over network topology considering constraints.
+    {
+        "from": <path start specification>,
+        "to": <path end specification>,
+        "config": <path config specification>,
+        "constraints": <path constraint specification>
+    }
+    ```
 
-    **Example Request**:
+<!-- prettier-ignore -->
+!!! example "Example Response"
+    ```
+    HTTP/1.1 200 OK
+    Content-Type: text/json
 
-    .. sourcecode:: http
-
-        POST /api/nbi/path  HTTP/1.1
-        Host: noc.example.com
-        Private-Token: 12345
-
-        {
-            "from": <path start specification>,
-            "to": <path end specification>,
-            "config": <path config specification>,
-            "constraints": <path constraint specification>
-        }
-
-    **Example Response**
-
-    .. sourcecode:: http
-
-        HTTP/1.1 200 OK
-        Content-Type: text/json
-
-        {
-            "status": true,
-            "time": 0.012,
-            "paths": [
-                {
-                    "path": [
-                        {
-                            "links": [
-                                {
-                                    "objects": [
-                                        {
-                                            "interfaces": [
-                                                "Eth 1/27"
-                                            ],
-                                            "object": {
-                                                "address": "172.11.101.209",
-                                                "bi_id": 1362320908973547200,
-                                                "id": 40046,
-                                                "name": "sw1"
-                                            }
-                                        },
-                                        {
-                                            "interfaces": [
-                                                "Eth 1/52"
-                                            ],
-                                            "object": {
-                                                "address": "172.11.103.20",
-                                                "bi_id": 6072199926162248000,
-                                                "id": 17918,
-                                                "name": "sw2"
-                                            }
+    {
+        "status": true,
+        "time": 0.012,
+        "paths": [
+            {
+                "path": [
+                    {
+                        "links": [
+                            {
+                                "objects": [
+                                    {
+                                        "interfaces": [
+                                            "Eth 1/27"
+                                        ],
+                                        "object": {
+                                            "address": "172.11.101.209",
+                                            "bi_id": 1362320908973547200,
+                                            "id": 40046,
+                                            "name": "sw1"
                                         }
-                                    ]
-                                },
-                                ...
-                            ]
-                        },
-                        ...
-                    ],
-                    "cost": {
-                        "l2": 6
-                    }
-                },
-                ...
-            ]
-        }
+                                    },
+                                    {
+                                        "interfaces": [
+                                            "Eth 1/52"
+                                        ],
+                                        "object": {
+                                            "address": "172.11.103.20",
+                                            "bi_id": 6072199926162248000,
+                                            "id": 17918,
+                                            "name": "sw2"
+                                        }
+                                    }
+                                ]
+                            },
+                            ...
+                        ]
+                    },
+                    ...
+                ],
+                "cost": {
+                    "l2": 6
+                }
+            },
+            ...
+        ]
+    }
+    ```
 
-    :<json object from: :ref:`api-nbi-path-from`
-    :<json object to: :ref:`api-nbi-path-to`
-    :<json object config: :ref:`api-nbi-path-config`
-    :<json object constraints: :ref:`api-nbi-path-constraints`
-    :>json boolean status: Request status, `true` if success
-    :>json string error: Error text, only if `status` is `false`.
-    :>json float time: Request processing time in seconds.
-    :>json array paths: Paths found, only if `status` is `true`.
-    :reqheader Private-Token: :ref:`reference-apikey` with `nbi:path` API access
-    :statuscode 200: Success
+### Request Parameters
 
+from (object)
+: Start of path reference (See [Path Start Specification](#path-start-specification))
 
+to (object)
+: End of path reference (See [Path End Specification](#path-end-specification))
 
-Path Start Specification
-------------------------
+config (object)
+: Configuration (See [Path Config Specification](#path-config-specification))
+
+constraints (object)
+: Path Constraints (See [Path Constraints Specification](#path-constraints-specification))
+
+### Request Headers
+Private-Token
+: [API Key](../../../reference/concepts/apikey/index.md) with `nbi:path` API access
+
+### Response Parameters
+
+status (bool)
+: Request status, `true` if success
+
+error (string)
+: Error text, only if `status` is `false`.
+
+time (float)
+: Request processing time in seconds.
+
+paths (array of objects)
+: Paths found, only if `status` is `true`.
+
+### HTTP Status Codes
+
+200
+: Success
+
+## Path Start Specification
 
 Path Start specified as value of `from` request key and can be
 either Managed Object, interface or service reference.
 
-Managed Object By Id
-^^^^^^^^^^^^^^^^^^^^
+### Managed Object By Id
 
-.. sourcecode:: json
-
-    {
-        "object": {
-            "id": 12345
-        }
+```
+{
+    "object": {
+        "id": 12345
     }
+}
+```
 
 Where `12345` is the :ref:`reference-managed-object` Id
 
-Managed Object By Id and Interface Name
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+### Managed Object By Id and Interface Name
 
-.. sourcecode:: json
-
-    {
-        "object": {
-            "id": 12345
-        },
-        "interface": {
-            "name": "Gi 0/1"
-        }
+```
+{
+    "object": {
+        "id": 12345
+    },
+    "interface": {
+        "name": "Gi 0/1"
     }
+}
+```
 
 Where `12345` is the :ref:`reference-managed-object` Id and `Gi O/1`
 is the normalized interface name.
 
-Managed Object By Remote Id
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+### Managed Object By Remote Id
 
-.. sourcecode:: json
-
-    {
-        "object": {
-            "remote_system": "6789",
-            "remote_id": "1011"
-        }
+```
+{
+    "object": {
+        "remote_system": "6789",
+        "remote_id": "1011"
     }
+}
+```
 
 Where `6789` is the :ref:`reference-remote-system` Id and
 `1011` is the :ref:`reference-managed-object` Id in Remote System.
 
-Managed Object By Remote Id and Interface
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+### Managed Object By Remote Id and Interface
 
-.. sourcecode:: json
-
-    {
-        "object": {
-            "remote_system": "6789",
-            "remote_id": "1011"
-        },
-        "interface": {
-            "name": "Gi 0/1"
-        }
+```
+{
+    "object": {
+        "remote_system": "6789",
+        "remote_id": "1011"
+    },
+    "interface": {
+        "name": "Gi 0/1"
     }
+}
+```
 
 Where `6789` is the :ref:`reference-remote-system` Id,
 `1011` is the :ref:`reference-managed-object` Id in Remote System
 and `Gi O/1` is the normalized interface name.
 
-Interface by Id
-^^^^^^^^^^^^^^^
+### Interface by Id
 
-.. sourcecode:: json
-
-    {
-        "interface": {
-            "id": "1234567"
-        }
+```
+{
+    "interface": {
+        "id": "1234567"
     }
+}
+```
 
 Where `1234567` is the Interface Id
 
-Service by Id
-^^^^^^^^^^^^^
+### Service by Id
 
-.. sourcecode:: json
-
-    {
-        "service": {
-            "id": 12345
-        }
+```
+{
+    "service": {
+        "id": 12345
     }
+}
+```
 
 Where `12345` is the :ref:`reference-service` Id
 
-Service by Remote Id
-^^^^^^^^^^^^^^^^^^^^
+### Service by Remote Id
 
-.. sourcecode:: json
-
-    {
-        "service": {
-            "remote_system": "6789",
-            "remote_id": "1011"
-        }
+```
+{
+    "service": {
+        "remote_system": "6789",
+        "remote_id": "1011"
     }
+}
+```
 
 Where `6789` is the :ref:`reference-service` Id and
 `1011` is the :ref:`reference-service` Id in Remote System.
 
-Service by Order Id
-^^^^^^^^^^^^^^^^^^^
+### Service by Order Id
 
-.. sourcecode:: json
-
-    {
-        "service": {
-            "order_id": "1234"
-        }
+```
+{
+    "service": {
+        "order_id": "1234"
     }
+}
+```
 
 Where `1234` is Order Fulfilment order id.
 Or:
 
-.. sourcecode:: json
-
-    {
-        "service": {
-            "order_id": "1234",
-            "remote_system": "5678"
-        }
+```
+{
+    "service": {
+        "order_id": "1234",
+        "remote_system": "5678"
     }
+}
+```
 
 The same, but restricted to remote system id `5678`
 
 
 
-Path End Specification
-----------------------
+## Path End Specification
 
 Path End specified as value of `to` request key.
 
@@ -258,136 +261,125 @@ Path End specified as value of `to` request key.
   * Object level
 
 
-Managed Object By Id
-^^^^^^^^^^^^^^^^^^^^
+### Managed Object By Id
 
-.. sourcecode:: json
-
-    {
-        "object": {
-            "id": 12345
-        }
+```
+{
+    "object": {
+        "id": 12345
     }
+}
+```
 
 Where `12345` is the :ref:`reference-managed-object` Id
 
-Managed Object By Id and Interface Name
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+### Managed Object By Id and Interface Name
 
-.. sourcecode:: json
-
-    {
-        "object": {
-            "id": 12345
-        },
-        "interface": {
-            "name": "Gi 0/1"
-        }
+```
+{
+    "object": {
+        "id": 12345
+    },
+    "interface": {
+        "name": "Gi 0/1"
     }
+}
+```
 
 Where `12345` is the :ref:`reference-managed-object` Id and `Gi O/1`
 is the normalized interface name.
 
-Managed Object By Remote Id
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+### Managed Object By Remote Id
 
-.. sourcecode:: json
-
-    {
-        "object": {
-            "remote_system": "6789",
-            "remote_id": "1011"
-        }
+```
+{
+    "object": {
+        "remote_system": "6789",
+        "remote_id": "1011"
     }
+}
+```
 
 Where `6789` is the :ref:`reference-remote-system` Id and
 `1011` is the :ref:`reference-managed-object` Id in Remote System.
 
-Managed Object By Remote Id and Interface
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+### Managed Object By Remote Id and Interface
 
-.. sourcecode:: json
-
-    {
-        "object": {
-            "remote_system": "6789",
-            "remote_id": "1011"
-        },
-        "interface": {
-            "name": "Gi 0/1"
-        }
+```
+{
+    "object": {
+        "remote_system": "6789",
+        "remote_id": "1011"
+    },
+    "interface": {
+        "name": "Gi 0/1"
     }
+}
+```
 
 Where `6789` is the :ref:`reference-remote-system` Id,
 `1011` is the :ref:`reference-managed-object` Id in Remote System
 and `Gi O/1` is the normalized interface name.
 
-Interface by Id
-^^^^^^^^^^^^^^^
+### Interface by Id
 
-.. sourcecode:: json
-
-    {
-        "interface": {
-            "id": "1234567"
-        }
+```
+{
+    "interface": {
+        "id": "1234567"
     }
+}
+```
 
 Where `1234567` is the Interface Id
 
-Service by Id
-^^^^^^^^^^^^^
+### Service by Id
 
-.. sourcecode:: json
-
-    {
-        "service": {
-            "id": 12345
-        }
+```
+{
+    "service": {
+        "id": 12345
     }
+}
+```
 
 Where `12345` is the :ref:`reference-service` Id
 
-Service by Remote Id
-^^^^^^^^^^^^^^^^^^^^
+### Service by Remote Id
 
-.. sourcecode:: json
-
-    {
-        "service": {
-            "remote_system": "6789",
-            "remote_id": "1011"
-        }
+```
+{
+    "service": {
+        "remote_system": "6789",
+        "remote_id": "1011"
     }
+}
+```
 
 Where `6789` is the :ref:`reference-service` Id and
 `1011` is the :ref:`reference-service` Id in Remote System.
 
-By Object Level
-^^^^^^^^^^^^^^^
+### By Object Level
 
-.. sourcecode:: json
-
-    {
-        "level": 30
-    }
+```
+{
+    "level": 30
+}
+```
 
 Specify path end by reaching Managed Object :ref:`Level <reference-managed-object-profile-level>`
 greater than specified.
 
-
-
-Path Config Specification
--------------------------
+## Path Config Specification
 
 Path Config specified as value of `config` request key.
 
-.. sourcecode:: json
-
-    {
-        "max_depth": 10,
-        "n_shortest": 2
-    }
+```
+{
+    "max_depth": 10,
+    "n_shortest": 2
+}
+```
 
 Where:
 
@@ -396,22 +388,20 @@ Where:
 
 
 
-Path Constraints Specification
-------------------------------
+## Path Constraints Specification
 
 Path Constraints are specified as value of `constraints` request key.
 
-Explicit VLAN
-^^^^^^^^^^^^^
+### Explicit VLAN
 
-..  sourcecode:: json
-
-    {
-        "vlan": {
-            "vlan": 1234,
-            "strict": false
-        }
+```
+{
+    "vlan": {
+        "vlan": 1234,
+        "strict": false
     }
+}
+```
 
 Restrict paths to links having VLAN `1234`, either tagged or untagged.
 `strict` parameter enforces additional checking:
@@ -419,17 +409,16 @@ Restrict paths to links having VLAN `1234`, either tagged or untagged.
 * `true` - VLAN must be present on both sides of the link.
 * `false` - VLAN must be present at least on one side of the link.
 
-Implicit VLAN
-^^^^^^^^^^^^^
+### Implicit VLAN
 
-.. sourcecode:: json
-
-    {
-        "vlan": {
-            "interface_untagged": true,
-            "strict": true
-        }
+```
+{
+    "vlan": {
+        "interface_untagged": true,
+        "strict": true
     }
+}
+```
 
 Get untagged vlan from start of path interface and restrict path
 to links having this VLAN, either tagged or untagged.
@@ -439,13 +428,13 @@ to links having this VLAN, either tagged or untagged.
 * `true` - VLAN must be present on both sides of the link.
 * `false` - VLAN must be present at least on one side of the link.
 
-Upward Direction
-^^^^^^^^^^^^^^^^
-.. sourcecode:: json
+### Upward Direction
 
-    {
-        "upwards": true
-    }
+```
+{
+    "upwards": true
+}
+```
 
 Forces upward direction of path.
 i.e. Managed Object :ref:`Level <reference-managed-object-profile-level>`

@@ -4,36 +4,36 @@
 
 ## Fields
 
-| Name                                               | Type                         | Description                              |
-| -------------------------------------------------- | ---------------------------- | ---------------------------------------- |
-| id                                                 | String                       | VRF id                                   |
-| change_id                                          | String                       | [Record's Change Id](index.md#change-id) |
-| name                                               | String                       | VRF name                                 |
-| vpn_id                                             | String                       | VPN ID                                   |
-| afi                                                | Object :material-arrow-down: | Enabled Address Families                 |
-| :material-arrow-right: ipv4                        | Boolean                      | IPv4 is enabled on VRF                   |
-| :material-arrow-right: ipv6                        | Boolean                      | IPv6 is enabled on VRF                   |
-| description                                        | String                       | VRF textual description                  |
-| rd                                                 | String                       | VRF route distinguisher                  |
-| tags                                               | Array of String              | VRF tags                                 |
-| state                                              | Object :material-arrow-down: | VRF workflow state                       |
-| :material-arrow-right: id                          | String                       | State id                                 |
-| :material-arrow-right: name                        | String                       | State name                               |
-| :material-arrow-right: workflow                    | Object :material-arrow-down: | VRF workflow                             |
-| :material-arrow-right: :material-arrow-right: id   | String                       | Workflow id                              |
-| :material-arrow-right: :material-arrow-right: name | String                       | Workflow name                            |
-| :material-arrow-right: allocated_till              | Datetime                     | Workflow state deadline                  |
-| profile                                            | Object :material-arrow-down: | VRF Profile                              |
-| :material-arrow-right: id                          | String                       | VRF Profile id                           |
-| :material-arrow-right: name                        | String                       | VRF Profile name                         |
-| project                                            | Object :material-arrow-down: | VRF Project                              |
-| :material-arrow-right: id                          | String                       | Project id                               |
-| :material-arrow-right: name                        | String                       | Project name                             |
-| source                                             | String                       | VRF Learning source:                     |
-|                                                    |                              | \* `M` - Manual                          |
-|                                                    |                              | \* `i` - Interface                       |
-|                                                    |                              | \* `m` - MPLS                            |
-|                                                    |                              | \* `c` - ConfDB                          |
+| Name                     | Type                 | Description                              |
+| ------------------------ | -------------------- | ---------------------------------------- |
+| id                       | String               | VRF id                                   |
+| change_id                | String               | [Record's Change Id](index.md#change-id) |
+| name                     | String               | VRF name                                 |
+| vpn_id                   | String               | VPN ID                                   |
+| afi                      | Object {{ complex }} | Enabled Address Families                 |
+| {{ tab }} ipv4           | Boolean              | IPv4 is enabled on VRF                   |
+| {{ tab }} ipv6           | Boolean              | IPv6 is enabled on VRF                   |
+| description              | String               | VRF textual description                  |
+| rd                       | String               | VRF route distinguisher                  |
+| tags                     | Array of String      | VRF tags                                 |
+| state                    | Object {{ complex }} | VRF workflow state                       |
+| {{ tab }} id             | String               | State id                                 |
+| {{ tab }} name           | String               | State name                               |
+| {{ tab }} workflow       | Object {{ complex }} | VRF workflow                             |
+| {{ tab2 }} id            | String               | Workflow id                              |
+| {{ tab2 }} name          | String               | Workflow name                            |
+| {{ tab }} allocated_till | Datetime             | Workflow state deadline                  |
+| profile                  | Object {{ complex }} | VRF Profile                              |
+| {{ tab }} id             | String               | VRF Profile id                           |
+| {{ tab }} name           | String               | VRF Profile name                         |
+| project                  | Object {{ complex }} | VRF Project                              |
+| {{ tab }} id             | String               | Project id                               |
+| {{ tab }} name           | String               | Project name                             |
+| source                   | String               | VRF Learning source:                     |
+|                          |                      | &bull; `M` - Manual                      |
+|                          |                      | &bull; `i` - Interface                   |
+|                          |                      | &bull; `m` - MPLS                        |
+|                          |                      | &bull; `c` - ConfDB                      |
 
 ## Access
 

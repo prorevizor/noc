@@ -1,348 +1,449 @@
-
-
-===================
-NBI getmappings API
-===================
-
-.. contents:: On this page
-    :local:
-    :backlinks: none
-    :depth: 2
-    :class: singlecol
+# NBI getmappings API
 
 NBI `getmappings` API allows remote system to query mappings between
 NOC's local identifiers (ID) and the remote system's one.
 
 Consider NOC has got a Managed Object from remote system. Remote
 system maintains own ID space, so NOC stores necessary mapping information.
-`getmappings` API  allows to query object mappings by:
+`getmappings` API allows to query object mappings by:
 
-* local ID
-* remote system and remote ID
+- local ID
+- remote system and remote ID
 
+## Request Scopes
 
-
-Request Scopes
---------------
 Scope is a kind of mappings to request. Possible values:
 
-* `managedobject` - Managed Object mappings
+- `managedobject` - Managed Object mappings
 
+## Query by local id (GET)
 
+```
+GET /api/nbi/getmappings?scope=(str:scope)&id=(str:local_id)
+```
 
-Usage
------
+Get all object's mappings by NOC's ID
 
+<!-- prettier-ignore -->
+!!! example "Example Request"
+    ```
+    GET /api/nbi/getmappings?scope=managedobject&id=660 HTTP/1.1
+    Host: noc.example.com
+    Private-Token: 12345
+    ```
 
-
-Query by local id (GET)
-^^^^^^^^^^^^^^^^^^^^^^^
-
-.. http:get:: /api/nbi/getmappings?scope=(str:scope)&id=(str:local_id)
-
-    Get all object's mappings by NOC's ID
-
-    **Example Request**
-
-    .. sourcecode:: http
-
-        GET /api/nbi/getmappings?scope=managedobject&id=660 HTTP/1.1
-        Host: noc.example.com
-        Private-Token: 12345
-
-      **Example Response**
-
-    .. sourcecode:: http
-
-        HTTP/1.1 200 Ok
-        Content-Type: text/json
-
-        [
+<!-- prettier-ignore -->
+!!! example "Example Response"
+    ```
+    HTTP/1.1 200 Ok
+    Content-Type: text/json
+    
+    [
+      {
+        "scope": "managedobject",
+        "id": "660",
+        "mappings": [
           {
-            "scope": "managedobject",
-            "id": "660",
-            "mappings": [
-              {
-                "remote_system": "5e552150ee23febbffa68ab2",
-                "remote_id": "5e552140ee23febbffa68ab1"
-              }
-            ]
+            "remote_system": "5e552150ee23febbffa68ab2",
+            "remote_id": "5e552140ee23febbffa68ab1"
           }
         ]
+      }
+    ]
+    ```
 
-    :param scope: Request scope (See :ref:`Request Scopes<api-nbi-getmappings-scopes>`)
-    :param local_id:  NOC's local ID
-    :reqheader Private-Token: :ref:`reference-apikey` with `nbi:getmappings` API access.
-    :statuscode 200: Success.
-    :statuscode 400: Bad request.
-    :statuscode 404: Object not found.
-    :statuscode 500: Internal error.
+### Request Parameters
 
+scope
+: Request scope (See [Request Scopes](#request-scopes))
 
+local_id
+: NOC's local ID
 
-Query by remote id (GET)
-^^^^^^^^^^^^^^^^^^^^^^^^
+### Request Headers
 
-.. http:get:: /api/nbi/getmappings?scope=(str:scope)&remote_system=(str:remote_system)&remote_id=(str:remote_id)
+Private-Token
+: [API Key](../../../reference/concepts/apikey/index.md) with `nbi:getmappings` API access
 
-    Get all object's mappings by NOC's ID
+### HTTP Status Codes
 
-    **Example Request**
+200
+: Success.
 
-    .. sourcecode:: http
+400
+: Bad request.
 
-        GET /api/nbi/getmappings?scope=managedobject&remote_system=5e552150ee23febbffa68ab2&remote_id=5e552140ee23febbffa68ab1 HTTP/1.1
-        Host: noc.example.com
-        Private-Token: 12345
+404
+: Object not found.
 
-      **Example Response**
+500
+: Internal error.
 
-    .. sourcecode:: http
+## Query by remote id (GET)
 
-        HTTP/1.1 200 Ok
-        Content-Type: text/json
+```
+GET /api/nbi/getmappings?scope=(str:scope)&remote_system=(str:remote_system)&remote_id=(str:remote_id)
+```
 
-        [
+Get all object's mappings by NOC's ID
+
+<!-- prettier-ignore -->
+!!! example "Example Response"
+    ```
+    GET /api/nbi/getmappings?scope=managedobject&remote_system=5e552150ee23febbffa68ab2&remote_id=5e552140ee23febbffa68ab1 HTTP/1.1
+    Host: noc.example.com
+    Private-Token: 12345
+    ```
+
+<!-- prettier-ignore -->
+!!! example "Example Response"
+    ```
+    HTTP/1.1 200 Ok
+    Content-Type: text/json
+
+    [
+      {
+        "scope": "managedobject",
+        "id": "660",
+        "mappings": [
           {
-            "scope": "managedobject",
-            "id": "660",
-            "mappings": [
-              {
-                "remote_system": "5e552150ee23febbffa68ab2",
-                "remote_id": "5e552140ee23febbffa68ab1"
-              }
-            ]
+            "remote_system": "5e552150ee23febbffa68ab2",
+            "remote_id": "5e552140ee23febbffa68ab1"
           }
         ]
+      }
+    ]
+    ```
 
-    :param scope: Request scope (See :ref:`Request Scopes<api-nbi-getmappings-scopes>`)
-    :param remote_system: ID of Remote System (NOC settings)
-    :param remote_id: ID from Remote System
-    :reqheader Private-Token: :ref:`reference-apikey` with `nbi:getmappings` API access.
-    :statuscode 200: Success.
-    :statuscode 400: Bad request.
-    :statuscode 404: Object not found.
-    :statuscode 500: Internal error.
+### Request Parameters
 
+scope
+: Request scope (See [Request Scopes](#request-scopes))
 
+remote_system
+: ID of Remote System (NOC settings)
 
-Query by multiple local and remote ids (GET)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+remote_id
+: ID from Remote System
 
-.. http:get:: /api/nbi/getmappings?scope=(str:scope)&remote_system=(str:remote_system)&remote_id=(str:remote_id)
+### Request Headers
 
-    Get all object's mappings by NOC's ID
+Private-Token
+: [API Key](../../../reference/concepts/apikey/index.md) with `nbi:getmappings` API access
 
-    **Example Request**
+### HTTP Status Codes
 
-    .. sourcecode:: http
+200
+: Success.
 
-        GET /api/nbi/getmappings?scope=managedobject&id=10&id=11&remote_system=5e552150ee23febbffa68ab2&remote_id=5e552140ee23febbffa68ab1&&remote_id=5e552140ee23febbffa68ab2 HTTP/1.1
-        Host: noc.example.com
-        Private-Token: 12345
+400
+: Bad request.
 
-      **Example Response**
+404
+: Object not found.
 
-    .. sourcecode:: http
+500
+: Internal error.
 
-        HTTP/1.1 200 Ok
-        Content-Type: text/json
+## Query by multiple local and remote ids (GET)
 
-        [
+```
+GET /api/nbi/getmappings?scope=(str:scope)&remote_system=(str:remote_system)&remote_id=(str:remote_id)
+```
+
+Get all object's mappings by NOC's ID
+
+<!-- prettier-ignore -->
+!!! example "Example Request"
+    ```
+    GET /api/nbi/getmappings?scope=managedobject&id=10&id=11&remote_system=5e552150ee23febbffa68ab2&remote_id=5e552140ee23febbffa68ab1&&remote_id=5e552140ee23febbffa68ab2 HTTP/1.1
+    Host: noc.example.com
+    Private-Token: 12345
+    ```
+
+<!-- prettier-ignore -->
+!!! example "Example Response"
+    ```
+    HTTP/1.1 200 Ok
+    Content-Type: text/json
+
+    [
+      {
+        "scope": "managedobject",
+        "id": "10",
+        "mappings": [
           {
-            "scope": "managedobject",
-            "id": "10",
-            "mappings": [
-              {
-                "remote_system": "5e552150ee23febbffa68ab2",
-                "remote_id": "5e552140ee23febbffa68ab1"
-              }
-            ]
-          },
-          {
-            "scope": "managedobject",
-            "id": "11",
-            "mappings": [
-              {
-                "remote_system": "5e552150ee23febbffa68ab2",
-                "remote_id": "5e552140ee23febbffa68ab2"
-              }
-            ]
+            "remote_system": "5e552150ee23febbffa68ab2",
+            "remote_id": "5e552140ee23febbffa68ab1"
           }
         ]
-
-    :param scope: Request scope (See :ref:`Request Scopes<api-nbi-getmappings-scopes>`)
-    :param remote_system: ID of Remote System (NOC settings)
-    :param remote_id: ID from Remote System
-    :reqheader Private-Token: :ref:`reference-apikey` with `nbi:getmappings` API access.
-    :statuscode 200: Success.
-    :statuscode 400: Bad request.
-    :statuscode 404: Object not found.
-    :statuscode 500: Internal error.
-
-
-
-Query by local id (POST)
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. http:post:: /api/nbi/getmappings
-
-    Get all object's mappings by NOC's ID
-
-    **Example Request**
-
-    .. sourcecode:: http
-
-        POST /api/nbi/getmappings HTTP/1.1
-        Host: noc.example.com
-        Private-Token: 12345
-        Content-Type: text/json
-
-        {
-          "scope": "managedobject",
-          "id": "660"
-        }
-
-      **Example Response**
-
-    .. sourcecode:: http
-
-        HTTP/1.1 200 Ok
-        Content-Type: text/json
-
-        [
+      },
+      {
+        "scope": "managedobject",
+        "id": "11",
+        "mappings": [
           {
-            "scope": "managedobject",
-            "id": "660",
-            "mappings": [
-              {
-                "remote_system": "5e552150ee23febbffa68ab2",
-                "remote_id": "5e552140ee23febbffa68ab1"
-              }
-            ]
+            "remote_system": "5e552150ee23febbffa68ab2",
+            "remote_id": "5e552140ee23febbffa68ab2"
           }
         ]
+      }
+    ]
+    ```
 
-    :param scope: Request scope (See :ref:`Request Scopes<api-nbi-getmappings-scopes>`)
-    :param local_id:  NOC's local ID
-    :reqheader Private-Token: :ref:`reference-apikey` with `nbi:getmappings` API access.
-    :statuscode 200: Success.
-    :statuscode 400: Bad request.
-    :statuscode 404: Object not found.
-    :statuscode 500: Internal error.
+### Request Parameters
 
+scope
+: Request scope (See [Request Scopes](#request-scopes))
 
+remote_system
+: ID of Remote System (NOC settings)
 
-Query by remote id (POST)
-^^^^^^^^^^^^^^^^^^^^^^^^^
-.. http:post:: /api/nbi/getmappings
+remote_id
+: ID from Remote System
 
-    Get all object's mappings by NOC's ID
+### Request Headers
 
-    **Example Request**
+Private-Token
+: [API Key](../../../reference/concepts/apikey/index.md) with `nbi:getmappings` API access
 
-    .. sourcecode:: http
+### HTTP Status Codes
 
-        POST /api/nbi/getmappings HTTP/1.1
-        Host: noc.example.com
-        Private-Token: 12345
-        Content-Type: text/json
+200
+: Success.
 
-        {
-          "scope": "managedobject",
-          "remote_system": "5e552150ee23febbffa68ab2",
-          "remote_id": "5e552140ee23febbffa68ab1"
-        }
+400
+: Bad Request
 
-      **Example Response**
+404
+: Object not found.
 
-    .. sourcecode:: http
+500
+: Internal error
 
-        HTTP/1.1 200 Ok
-        Content-Type: text/json
+## Query by local id (POST)
 
-        [
+```
+POST /api/nbi/getmappings
+```
+
+Get all object's mappings by NOC's ID
+
+<!-- prettier-ignore -->
+!!! example "Example Request"
+    ```
+    POST /api/nbi/getmappings HTTP/1.1
+    Host: noc.example.com
+    Private-Token: 12345
+    Content-Type: text/json
+
+    {
+      "scope": "managedobject",
+      "id": "660"
+    }
+    ```
+
+<!-- prettier-ignore -->
+!!! example "Example Response"
+    ```
+    HTTP/1.1 200 Ok
+    Content-Type: text/json
+
+    [
+      {
+        "scope": "managedobject",
+        "id": "660",
+        "mappings": [
           {
-            "scope": "managedobject",
-            "id": "660",
-            "mappings": [
-              {
-                "remote_system": "5e552150ee23febbffa68ab2",
-                "remote_id": "5e552140ee23febbffa68ab1"
-              }
-            ]
+            "remote_system": "5e552150ee23febbffa68ab2",
+            "remote_id": "5e552140ee23febbffa68ab1"
           }
         ]
+      }
+    ]
+    ```
 
-    :param scope: Request scope (See :ref:`Request Scopes<api-nbi-getmappings-scopes>`)
-    :param remote_system: ID of Remote System (NOC settings)
-    :param remote_id: ID from Remote System
-    :reqheader Private-Token: :ref:`reference-apikey` with `nbi:getmappings` API access.
-    :statuscode 200: Success.
-    :statuscode 400: Bad request.
-    :statuscode 404: Object not found.
-    :statuscode 500: Internal error.
+### Request Parameters
 
+scope
+: Request scope (See [Request Scopes](#request-scopes))
 
+local_id
+: NOC's local ID
 
-Query by multiple local and remote ids (POST)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+### Request Headers
 
-.. http:post:: /api/nbi/getmappings
+Private-Token
+: [API Key](../../../reference/concepts/apikey/index.md) with `nbi:getmappings` API access
 
-    Get all object's mappings by NOC's ID
+### HTTP Status Codes
 
-    **Example Request**
+200
+: Success.
 
-    .. sourcecode:: http
+400
+: Bad Request
 
-        POST /api/nbi/getmappings HTTP/1.1
-        Host: noc.example.com
-        Private-Token: 12345
-        Content-Type: text/json
+404
+: Object not found.
 
-        {
-          "scope": "managedobject",
-          "id": ["10", "11"],
-          "remote_system": "5e552150ee23febbffa68ab2",
-          "remote_id": ["5e552140ee23febbffa68ab1", "5e552140ee23febbffa68ab2"]
-        }
+500
+: Internal error
 
-      **Example Response**
+## Query by remote id (POST)
 
-    .. sourcecode:: http
+```
+POST /api/nbi/getmappings
+```
 
-        HTTP/1.1 200 Ok
-        Content-Type: text/json
+Get all object's mappings by NOC's ID
 
-        [
+<!-- prettier-ignore -->
+!!! example "Example Request"
+    ```
+    POST /api/nbi/getmappings HTTP/1.1
+    Host: noc.example.com
+    Private-Token: 12345
+    Content-Type: text/json
+
+    {
+      "scope": "managedobject",
+      "remote_system": "5e552150ee23febbffa68ab2",
+      "remote_id": "5e552140ee23febbffa68ab1"
+    }
+    ```
+
+<!-- prettier-ignore -->
+!!! example "Example Response"
+    ```
+    HTTP/1.1 200 Ok
+    Content-Type: text/json
+
+    [
+      {
+        "scope": "managedobject",
+        "id": "660",
+        "mappings": [
           {
-            "scope": "managedobject",
-            "id": "10",
-            "mappings": [
-              {
-                "remote_system": "5e552150ee23febbffa68ab2",
-                "remote_id": "5e552140ee23febbffa68ab1"
-              }
-            ]
-          },
-          {
-            "scope": "managedobject",
-            "id": "11",
-            "mappings": [
-              {
-                "remote_system": "5e552150ee23febbffa68ab2",
-                "remote_id": "5e552140ee23febbffa68ab2"
-              }
-            ]
+            "remote_system": "5e552150ee23febbffa68ab2",
+            "remote_id": "5e552140ee23febbffa68ab1"
           }
         ]
-    :param scope: Request scope (See :ref:`Request Scopes<api-nbi-getmappings-scopes>`)
-    :param id: List of local ids
-    :param remote_system: ID of Remote System (NOC settings)
-    :param remote_id: List of IDs from Remote System
-    :reqheader Private-Token: :ref:`reference-apikey` with `nbi:getmappings` API access.
-    :statuscode 200: Success.
-    :statuscode 400: Bad request.
-    :statuscode 404: Object not found.
-    :statuscode 500: Internal error.
+      }
+    ]
+    ```
+
+scope
+: Request scope (See [Request Scopes](#request-scopes))
+
+remote_system
+: ID of Remote System (NOC settings)
+
+remote_id
+: ID from Remote System
+
+### Request Headers
+
+Private-Token
+: [API Key](../../../reference/concepts/apikey/index.md) with `nbi:getmappings` API access
+
+### HTTP Status Codes
+
+200
+: Success.
+
+400
+: Bad Request
+
+404
+: Object not found.
+
+500
+: Internal error
+
+## Query by multiple local and remote ids (POST)
+
+```
+POST /api/nbi/getmappings
+```
+
+Get all object's mappings by NOC's ID
+
+<!-- prettier-ignore -->
+!!! example "Example Request"
+    ```
+    POST /api/nbi/getmappings HTTP/1.1
+    Host: noc.example.com
+    Private-Token: 12345
+    Content-Type: text/json
+    
+    {
+      "scope": "managedobject",
+      "id": ["10", "11"],
+      "remote_system": "5e552150ee23febbffa68ab2",
+      "remote_id": ["5e552140ee23febbffa68ab1", "5e552140ee23febbffa68ab2"]
+    }
+    ```
+
+<!-- prettier-ignore -->
+!!! example "Example Response"
+    ```
+    HTTP/1.1 200 Ok
+    Content-Type: text/json
+
+    [
+      {
+        "scope": "managedobject",
+        "id": "10",
+        "mappings": [
+          {
+            "remote_system": "5e552150ee23febbffa68ab2",
+            "remote_id": "5e552140ee23febbffa68ab1"
+          }
+        ]
+      },
+      {
+        "scope": "managedobject",
+        "id": "11",
+        "mappings": [
+          {
+            "remote_system": "5e552150ee23febbffa68ab2",
+            "remote_id": "5e552140ee23febbffa68ab2"
+          }
+        ]
+      }
+    ]
+    ```
+
+### Query Parameters
+
+scope
+: Request scope (See [Request Scopes](#request-scopes))
+
+id
+: List of local ids
+
+remote_system
+: ID of Remote System (NOC settings)
+
+remote_id
+: List of IDs from Remote System
+
+### Request Headers
+
+Private-Token
+: [API Key](../../../reference/concepts/apikey/index.md) with `nbi:getmappings` API access
+
+### HTTP Status Codes
+
+200
+: Success.
+
+400
+: Bad Request
+
+404
+: Object not found.
+
+500
+: Internal error

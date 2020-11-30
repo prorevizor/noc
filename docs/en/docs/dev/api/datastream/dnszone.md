@@ -5,19 +5,19 @@ state, including zone's serial and Resource Records.
 
 ## Fields
 
-| Name                            | Type                                  | Description                                   |
-| ------------------------------- | ------------------------------------- | --------------------------------------------- |
-| id                              | String                                | :ref:`DNS Zone's<reference-dns-zone>` ID      |
-| name                            | String                                | Zone Name (Domain name)                       |
-| serial                          | String                                | Zone's serial                                 |
-| masters                         | Array of String                       | List of master nameservers                    |
-| slaves                          | Array of String                       | List of slave nameservers                     |
-| records                         | Array of Object :material-arrow-down: | List of zone's resource records               |
-| :material-arrow-right: name     | String                                | Record name                                   |
-| :material-arrow-right: type     | String                                | Record type (i.e. A, NS, CNAME, ...)          |
-| :material-arrow-right: rdata    | String                                | Record value                                  |
-| :material-arrow-right: ttl      | Integer                               | (Optional) Record's time-to-live              |
-| :material-arrow-right: priority | Integer                               | (Optional) Record's priority (for MX and SRV) |
+| Name               | Type                          | Description                                   |
+| ------------------ | ----------------------------- | --------------------------------------------- |
+| id                 | String                        | :ref:`DNS Zone's<reference-dns-zone>` ID      |
+| name               | String                        | Zone Name (Domain name)                       |
+| serial             | String                        | Zone's serial                                 |
+| masters            | Array of String               | List of master nameservers                    |
+| slaves             | Array of String               | List of slave nameservers                     |
+| records            | Array of Object {{ complex }} | List of zone's resource records               |
+| {{ tab }} name     | String                        | Record name                                   |
+| {{ tab }} type     | String                        | Record type (i.e. A, NS, CNAME, ...)          |
+| {{ tab }} rdata    | String                        | Record value                                  |
+| {{ tab }} ttl      | Integer                       | (Optional) Record's time-to-live              |
+| {{ tab }} priority | Integer                       | (Optional) Record's priority (for MX and SRV) |
 
 ## Filters
 
