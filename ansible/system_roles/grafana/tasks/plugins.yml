@@ -7,9 +7,10 @@
     grafana_plugins_dir: "{{ grafana_plugins_dir }}"
   with_items:
     - name: grafana-simple-json-datasource
-      version: "{{ grafana_plugin_simple_datasource_version }}"
+      version: "{{ grafana_plugin_simple_json_datasource_version }}"
     - name: vertamedia-clickhouse-datasource
       version: "{{ grafana_plugin_clickhouse_datasource_version }}"
+
   notify: restart grafana
   register: grafana_plugin_install
   retries: 4
