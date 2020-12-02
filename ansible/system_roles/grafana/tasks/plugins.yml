@@ -10,7 +10,8 @@
       version: "{{ grafana_plugin_simple_json_datasource_version }}"
     - name: vertamedia-clickhouse-datasource
       version: "{{ grafana_plugin_clickhouse_datasource_version }}"
-
+    - name: natel-discrete-panel
+      version: "{{ grafana_plugin_natel-discrete-panel_version }}"
   notify: restart grafana
   register: grafana_plugin_install
   retries: 4
