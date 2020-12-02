@@ -25,7 +25,7 @@ id_lock = Lock()
 
 class AltUnit(EmbeddedDocument):
     # Unique units name
-    name = StringField(unique=True)
+    name = StringField()
     # Optional description
     description = StringField()
     # Short label
