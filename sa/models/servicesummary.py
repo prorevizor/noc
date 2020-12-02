@@ -180,7 +180,8 @@ class ServiceSummary(Document):
                 {"managed_object": managed_object},
                 {"_id": 1, "interface": 1, "service": 1, "subscriber": 1},
                 comment="[servicesummary._refresh_object] Refresh summary of services for managed object",
-            ) if "interface" in x
+            )
+            if "interface" in x
         }
         # Get actual summary
         new_summary = ServiceSummary.build_summary_for_object(managed_object)
