@@ -878,7 +878,6 @@ class CollectionDoc(object):
         changed_files = 0
         unmodified_files = 0
         mu_root = os.path.join(self.doc_root, "reference", "measurementunits")
-        tab = "{{ tab }}"
         toc = ["- Overview: reference/measurementunits/index.md"]
         for mu_name in sorted(self.measurement_units):
             mu = self.measurement_units[mu_name]
