@@ -10,7 +10,6 @@ from typing import Optional, List, Any
 
 # NOC modules
 from .base import BaseModel, Reference, _BaseModel
-from ..models.container import Container
 
 
 class ObjectData(_BaseModel):
