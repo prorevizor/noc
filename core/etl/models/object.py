@@ -25,4 +25,4 @@ class Object(BaseModel):
     name: str
     model: str
     data: List[ObjectData] = []
-    container: Optional[Reference["Container"]]
+    container: Optional[Reference["Object"]]
