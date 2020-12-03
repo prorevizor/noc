@@ -14,6 +14,8 @@ from ..models.object import Object
 from noc.inv.models.object import Object as ObjectM
 from noc.inv.models.objectmodel import ObjectModel
 
+LOST_AND_FOUND_UUID = "b0fae773-b214-4edf-be35-3468b53b03f2"
+
 
 class ObjectLoader(BaseLoader):
     """
@@ -34,19 +36,18 @@ class ObjectLoader(BaseLoader):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.clean_map["model"] = ObjectModel.get_by_name
-        self.l_f = ObjectModel.objects.get(uuid="b0fae773-b214-4edf-be35-3468b53b03f2")
+        self.l_f_m = ObjectModel.objects.get(uuid=LOST_AND_FOUND_UUID)
 
     def merge_data(self, o: ObjectM, data: List[Dict[str, Any]]):
         r = {(attr.interface, attr.attr, attr.scope): attr.value for attr in o.data if attr.scope}
         for d in data:
-            if (d["interface"], d["attr"], d["scope"]) in r and d["value"] == r[
-                (d["interface"], d["attr"], d["scope"])
-            ]:
-                r.pop((d["interface"], d["attr"], d["scope"]))
+            k = (d["interface"], d["attr"], d["scope"])
+            if k in r and d["value"] == r[k]:
+                r.pop(k)
                 continue
-            if (d["interface"], d["attr"], d["scope"]) in r:
+            if k in r:
                 self.logger.debug("[%s] Change data: %e", o, d)
-                r.pop((d["interface"], d["attr"], d["scope"]))
+                r.pop(k)
                 o.set_data(
                     interface=d["interface"],
                     key=d["attr"],
@@ -85,11 +86,3 @@ class ObjectLoader(BaseLoader):
             self.merge_data(o, v["data"])
         o.save()
         return o
-
-    # def clean(self, item: Object) -> Dict[str, Any]:
-    #     r = {k: self.clean_map.get(k, self.clean_any)(v) for k, v in item.dict().items()}
-    #     # Apply Global Lost&Found if container not set
-    #     if "container" not in r or not r["container"]:
-    #         r["container"] = ObjectM.objects.filter(model=self.l_f).first()
-    #     # @todo Change model method
-    #     return r
