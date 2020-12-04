@@ -76,7 +76,11 @@ class Sensor(Document):
         """
         # Get existing sensors
         obj_sensors: Dict[str, Sensor] = {s.name: s for s in Sensor.objects.filter(object=obj.id)}
-        m_proto = [d.value for d in obj.get_effective_data() if d.interface == "modbus" and d.attr == "type"] or ["rtu"]
+        m_proto = [
+            d.value
+            for d in obj.get_effective_data()
+            if d.interface == "modbus" and d.attr == "type"
+        ] or ["rtu"]
         # Create new sensors
         for sensor in obj.model.sensors:
             if sensor.name in obj_sensors:
@@ -102,7 +106,12 @@ class Sensor(Document):
                 s.protocol = "snmp"
                 s.snmp_oid = sensor.snmp_oid
             else:
-                logger.info("[%s|%s] Unknown sensor protocol '%s'", obj.name if obj else "-", "-", sensor.name)
+                logger.info(
+                    "[%s|%s] Unknown sensor protocol '%s'",
+                    obj.name if obj else "-",
+                    "-",
+                    sensor.name,
+                )
             s.save()
         # Notify missed sensors
         for s in sorted(obj_sensors):
