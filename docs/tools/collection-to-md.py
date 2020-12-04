@@ -235,7 +235,7 @@ class MeasurementUnits(object):
 
     @property
     def rel_path(self) -> str:
-        return f"reference/measurementunits/{self.file_name}"
+        return f"reference/measurement-units/{self.file_name}"
 
 
 class CollectionDoc(object):
@@ -877,8 +877,8 @@ class CollectionDoc(object):
         new_files = 0
         changed_files = 0
         unmodified_files = 0
-        mu_root = os.path.join(self.doc_root, "reference", "measurementunits")
-        toc = ["- Overview: reference/measurementunits/index.md"]
+        mu_root = os.path.join(self.doc_root, "reference", "measurement-units")
+        toc = ["- Overview: reference/measurement-units/index.md"]
         for mu_name in sorted(self.measurement_units):
             mu = self.measurement_units[mu_name]
             data = ["---", f"uuid: {mu.uuid}", "---", f"# {mu.name} Measurement Units"]
@@ -909,7 +909,7 @@ class CollectionDoc(object):
                     for a in mu.alt_units
                 ]
             data += [""]
-            toc += [f"- {mu.name}: reference/measurementunits/{mu.file_name}"]
+            toc += [f"- {mu.name}: reference/measurement-units/{mu.file_name}"]
             page = "\n".join(data)
             page_path = os.path.join(mu_root, mu.file_name)
             to_write = False
@@ -925,7 +925,7 @@ class CollectionDoc(object):
                 new_files += 1
                 to_write = True
             if to_write:
-                print(f"  Writing: reference/measurementunits/{mu.file_name}")
+                print(f"  Writing: reference/measurement-units/{mu.file_name}")
                 with open(page_path, "w") as f:
                     f.write(page)
         total_files = new_files + changed_files + unmodified_files
