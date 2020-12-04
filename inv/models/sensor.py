@@ -53,7 +53,9 @@ class Sensor(Document):
     _bi_id_cache = cachetools.TTLCache(maxsize=100, ttl=60)
 
     def __str__(self):
-        return self.name
+        if self.object:
+            return "%s: %s" % (self.object, self.local_id)
+        return "%s: %s" % (self.units, self.local_id)
 
     @classmethod
     @cachetools.cachedmethod(operator.attrgetter("_id_cache"), lock=lambda _: id_lock)
@@ -69,11 +71,12 @@ class Sensor(Document):
     def sync_object(cls, obj: Object) -> None:
         """
         Synchronize sensors with object model
-        :param object:
+        :param obj:
         :return:
         """
         # Get existing sensors
         obj_sensors: Dict[str, Sensor] = {s.name: s for s in Sensor.objects.filter(object=obj.id)}
+        m_proto = [d.value for d in obj.get_effective_data() if d.interface == "modbus" and d.attr == "type"] or ["rtu"]
         # Create new sensors
         for sensor in obj.model.sensors:
             if sensor.name in obj_sensors:
@@ -91,13 +94,15 @@ class Sensor(Document):
             )
             # Get sensor protocol
             if sensor.modbus_register:
-                s.protocol = "modbus_rtu"
+                if not m_proto:
+                    continue
+                s.protocol = "modbus_%s" % m_proto[0].lower()
                 s.modbus_register = sensor.modbus_register
             elif sensor.snmp_oid:
                 s.protocol = "snmp"
                 s.snmp_oid = sensor.snmp_oid
             else:
-                raise ValueError("Unknown sensor protocol")
+                logger.info("[%s|%s] Unknown sensor protocol '%s'", obj.name if obj else "-", "-", sensor.name)
             s.save()
         # Notify missed sensors
         for s in sorted(obj_sensors):
