@@ -21,7 +21,7 @@ This section contains guidelines on naming files, sections, documents and other 
     to add some of the required context/categorization.
     For example, it’s acceptable to have `/reference/sharding.md` and `/admin/sharding.md`.
   - For tutorials, the full title of the document should be in the file name.
-    For example, /tutorials/removing-object-from-monitoring.rst
+    For example, `/tutorials/removing-object-from-monitoring.md`
 
 - Phrase headlines and titles so users can determine what questions
   the text will answer, and material that will be addressed,
