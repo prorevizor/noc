@@ -65,5 +65,7 @@ def test_vendor_doc_toc(toc, vendor):
 @pytest.mark.parametrize("profile", all_profiles())
 def test_profile_doc_exists(profile):
     vendor = profile.split(".")[0]
-    path = os.path.join("docs", "en", "docs", "user", "reference", "profiles", vendor, f"{profile}.md")
+    path = os.path.join(
+        "docs", "en", "docs", "user", "reference", "profiles", vendor, f"{profile}.md"
+    )
     assert os.path.exists(path), "Profile '%s' must be documented in '%s'" % (profile, path)
