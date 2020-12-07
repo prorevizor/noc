@@ -15,7 +15,7 @@ from noc.inv.models.object import Object
 from noc.inv.models.objectconnection import ObjectConnection, ObjectConnectionItem
 
 
-class ConnAction(Enum, int):
+class ConnAction(int, Enum):
     REJECT = 0
     PASS = 1
     FOUND = 2
@@ -47,7 +47,7 @@ def find_path(
         :param item: Object Connection Item
         :return:
         """
-        mc = item.object.objects.get_model_connection(item.name)
+        mc = item.object.get_model_connection(item.name)
         if not mc:
             return ConnAction.REJECT
         if not mc.protocols:
@@ -67,7 +67,7 @@ def find_path(
         yield final
 
     # Check object connection is exists
-    if not obj.has_connection("connection"):
+    if not obj.has_connection(connection):
         raise KeyError("Invalid connection name")
     # First connection
     oc = ObjectConnection.objects.filter(
@@ -88,12 +88,12 @@ def find_path(
             # Found
             return [
                 p0,
-                PathItem(obj=c.object, connection=c),
+                PathItem(obj=c.object, connection=c.name),
             ]
         elif r == ConnAction.PASS:
             # Passable
             wave.add(c.object)
-            prev[PathItem(obj=c.object, connection=c.connection)] = p0
+            prev[PathItem(obj=c.object, connection=c.name)] = p0
     if not wave:
         return None  # No suitable completion
     # Process waves
@@ -105,7 +105,7 @@ def find_path(
             # Find incoming connection
             incoming: Optional[PathItem] = None
             for c in oc.connection:
-                pi = PathItem(obj=c.object, connection=c.connection)
+                pi = PathItem(obj=c.object, connection=c.name)
                 if pi in prev:
                     incoming = pi
                     break
@@ -119,7 +119,7 @@ def find_path(
                 if c.object in wave:
                     # Shortest path cannot include the edge of the wave
                     continue
-                pi = PathItem(obj=c.object, connection=c.connection)
+                pi = PathItem(obj=c.object, connection=c.name)
                 if pi == incoming:
                     continue  # Do not glance back
                 r = get_action(c)
