@@ -29,6 +29,7 @@ from noc.fm.models.eventclass import EventClass
 from noc.fm.models.eventlog import EventLog
 from noc.fm.models.activeevent import ActiveEvent
 from noc.fm.models.mib import MIB
+from noc.fm.models.mibdata import MIBData
 from noc.fm.models.eventtrigger import EventTrigger
 from noc.inv.models.interfaceprofile import InterfaceProfile
 import noc.inv.models.interface
@@ -128,6 +129,8 @@ class ClassifierService(TornadoService):
         self.slot_number = 0
         self.total_slots = 0
         self.pool_partitions: Dict[str, int] = {}
+        # Heat up MIB cache
+        MIBData.preload()
 
     async def on_activate(self):
         """
