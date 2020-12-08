@@ -136,12 +136,12 @@ def find_path(
                     continue  # Shortest path cannot slide across the edge of wave
                 r = get_action(adj.remote_object, adj.remote_name)
                 if r == ConnAction.PASS or r == ConnAction.FOUND:
-                    # Connect internal slots
+                    # Connect internal slots, only if we're not returning back to the incoming
                     pi = PathItem(obj=co, connection=adj.local_name)
-                    prev[pi] = PathItem(obj=co, connection=incoming)
+                    if adj.local_name != incoming:
+                        prev[pi] = PathItem(obj=co, connection=incoming)
                     # Connect remote candidate
                     prev[PathItem(obj=adj.remote_object, connection=adj.remote_name)] = pi
-                    print("Adj, %s Prev" % adj, prev)
                     if r == ConnAction.FOUND:
                         # Reconstruct path
                         return list(
