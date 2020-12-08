@@ -1,10 +1,9 @@
 # ---------------------------------------------------------------------
 # Eltex.TAU.get_version
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2017 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
-
 
 # Python modules
 import re
@@ -26,8 +25,11 @@ class Script(BaseScript):
         re.MULTILINE,
     )
 
-    def execute(self):
-        c = self.cli("system info")
+    def execute_cli(self):
+        try:
+            c = self.cli("system info", cached=True)
+        except self.CLISyntaxError:
+            c = self.cli("show system", ignore_errors=True, cached=True)
         match = self.rx_ver.search(c)
         if match:
             platform = match.group("platform")
