@@ -129,8 +129,6 @@ class ClassifierService(TornadoService):
         self.slot_number = 0
         self.total_slots = 0
         self.pool_partitions: Dict[str, int] = {}
-        # Heat up MIB cache
-        MIBData.preload()
 
     async def on_activate(self):
         """
@@ -143,6 +141,8 @@ class ClassifierService(TornadoService):
         self.load_suppression()
         self.load_link_action()
         self.load_handlers()
+        # Heat up MIB cache
+        MIBData.preload()
         self.slot_number, self.total_slots = await self.acquire_slot()
         await self.subscribe_stream("events.%s" % config.pool, self.slot_number, self.on_event)
         report_callback = PeriodicCallback(self.report, 1000)
