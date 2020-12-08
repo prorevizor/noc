@@ -222,7 +222,13 @@ class IfDescCheck(TopologyDiscoveryCheck):
                 return self.maybe_create_interface(mo, interface)
             return None
         if interface:
-            interface = self.get_remote_interface(mo, interface)
+            try:
+                interface = self.get_remote_interface(mo, interface)
+            except ValueError as e:
+                self.logger.warning(
+                    "Error getting remote interface by name '%s' (%s)", interface, e
+                )
+                interface = None
             if interface:
                 iface = ifaces.get(interface)
                 if iface:
@@ -269,7 +275,7 @@ class IfDescCheck(TopologyDiscoveryCheck):
         if self.object.object_profile.ifdesc_symmetric:
             return None  # Meaningless for symmetric ifdesc
         if (
-            self.object.object_profile.enable_box_discovery_interface
+            mo.object_profile.enable_box_discovery_interface
             or not mo.object_profile.enable_interface_autocreation
         ):
             return None  # Auto-creation is disabled
