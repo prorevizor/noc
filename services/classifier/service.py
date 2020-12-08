@@ -464,6 +464,8 @@ class ClassifierService(TornadoService):
         # Activate event
         event.expires = event.timestamp + datetime.timedelta(seconds=event.event_class.ttl)
         event.save()
+        # Fill deduplication filter
+        self.dedup_filter.register(event)
         # Call handlers
         if self.call_event_handlers(event):
             return
@@ -502,7 +504,7 @@ class ClassifierService(TornadoService):
         )
         metrics[CR_DISPOSED] += 1
 
-    def deduplicate_event(self, event):
+    def deduplicate_event(self, event: ActiveEvent) -> bool:
         """
         Deduplicate event when necessary
         :param event:
