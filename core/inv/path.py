@@ -57,7 +57,7 @@ def find_path(
         :param r_name: connection name
         :return:
         """
-        mc = ro.get_model_connection(r_name)
+        mc = ro.model.get_model_connection(r_name)
         if not mc:
             return ConnAction.REJECT
         if not mc.protocols:
@@ -106,7 +106,7 @@ def find_path(
     if not wave:
         return None  # No suitable completion
     # Process waves
-    seen: Set[Object] = set()  # Seen objects should never be present in wave
+    seen: Set[Object] = {obj}  # Seen objects should never be present in wave
     while wave and max_depth > 0:
         new_wave: Set[Object] = set()  # Wave for the next step
         # Collapse the wave and build adjacency matrix
@@ -141,6 +141,7 @@ def find_path(
                     prev[pi] = PathItem(obj=co, connection=incoming)
                     # Connect remote candidate
                     prev[PathItem(obj=adj.remote_object, connection=adj.remote_name)] = pi
+                    print("Adj, %s Prev" % adj, prev)
                     if r == ConnAction.FOUND:
                         # Reconstruct path
                         return list(
