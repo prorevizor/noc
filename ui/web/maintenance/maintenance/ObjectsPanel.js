@@ -8,7 +8,10 @@ console.debug("Defining NOC.maintenance.maintenance.ObjectsPanel");
 
 Ext.define("NOC.maintenance.maintenance.ObjectsPanel", {
     extend: "Ext.grid.Panel",
-    requires: ["NOC.maintenance.maintenance.ObjectsModel"],
+    requires: [
+        "NOC.maintenance.maintenance.ObjectsModel",
+        "NOC.maintenance.maintenance.ObjectsStore"
+    ],
     mixins: [
         "NOC.core.Export"
     ],
@@ -19,38 +22,8 @@ Ext.define("NOC.maintenance.maintenance.ObjectsPanel", {
     stateId: "sa.managedobjectselector-objects",
     loadMask: true,
     defaultListenerScope: true,
-
     store: {
-        model: "NOC.maintenance.maintenance.ObjectsModel",
-        autoLoad: false,
-        pageSize: 70,
-        leadingBufferZone: 70,
-        numFromEdge: Math.ceil(70 / 2),
-        trailingBufferZone: 70,
-        purgePageCount: 10,
-        remoteSort: true,
-        sorters: [
-            {
-                property: 'address',
-                direction: 'DESC'
-            }
-        ],
-        proxy: {
-            type: "rest",
-            pageParam: "__page",
-            startParam: "__start",
-            limitParam: "__limit",
-            sortParam: "__sort",
-            reader: {
-                type: "json",
-                rootProperty: "data",
-                totalProperty: "total",
-                successProperty: "success"
-            },
-            writer: {
-                type: "json"
-            }
-        }
+        type: "maintenance.objects"
     },
     columns: [
         {
