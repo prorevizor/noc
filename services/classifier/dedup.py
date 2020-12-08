@@ -8,7 +8,7 @@
 # Python modules
 from time import perf_counter_ns
 from heapq import heappush, heappop
-from typing import Optional
+from typing import Optional, Tuple, List, Dict
 
 # Third-party modules
 from bson import ObjectId
@@ -22,8 +22,8 @@ NS = 1_000_000_000
 
 class DedupFilter(object):
     def __init__(self):
-        self.events = {}
-        self.pq = []
+        self.events: Dict[int, Tuple[int, ObjectId]] = {}
+        self.pq: List[Tuple[int, int]] = []
 
     @staticmethod
     def event_hash(event: ActiveEvent) -> int:
@@ -41,8 +41,8 @@ class DedupFilter(object):
             return  # No deduplication for event class
         now = perf_counter_ns()
         eh = self.event_hash(event)
-        prev_deadline, _ = self.events.get(eh)
-        if prev_deadline and prev_deadline > now:
+        r = self.events.get(eh)
+        if r and r[0] > now:
             return  # deadline is not expired still
         deadline = now + dw * NS
         heappush(self.pq, (deadline, eh))
@@ -55,15 +55,15 @@ class DedupFilter(object):
         :return: Duplicated event id
         """
         eh = self.event_hash(event)
-        deadline, event_id = self.events.get(eh)
+        r = self.events.get(eh)
         now = perf_counter_ns()
-        if deadline and deadline > now:
-            return event_id
+        if r and r[0] > now:
+            return r[1]
         # Expire
         while self.pq and self.pq[0][0] < now:
             deadline, eh = heappop(self.pq)
-            seen_deadline, _ = self.events.get(eh)
-            if deadline == seen_deadline:
+            r = self.events.get(eh)
+            if deadline == r[0]:
                 del self.events[eh]
         #
         return None
