@@ -9,7 +9,6 @@
 from typing import Set
 
 # Third-party modules
-from pymongo.errors import BulkWriteError
 from pymongo import UpdateOne
 
 # NOC modules
