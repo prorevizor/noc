@@ -6,6 +6,9 @@
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
+# Python modules
+import re
+
 # NOC modules
 from noc.core.profile.base import BaseProfile
 
@@ -16,13 +19,16 @@ class Profile(BaseProfile):
     pattern_password = r"^[Pp]assword:"
     pattern_unprivileged_prompt = r"^(?P<hostname>\S+)>\s*"
     pattern_prompt = r"^(\S+# |> |config> |\S+]\s*)"
-    pattern_more = "Press any key to continue"
+    pattern_more = (
+        r'Press any key to continue|\| Press any key to continue \| Press "q" to exit \| '
+    )
     pattern_syntax_error = "Syntax error: Unknown command"
     command_exit = "exit"
     command_more = "\n"
     command_enter_config = "config"
     command_leave_config = "exit"
     command_super = "enable"
+    rogue_chars = [re.compile(rb"\^J"), b"\r"]
 
     class shell(object):
         """Switch context manager to use with "with" statement"""
