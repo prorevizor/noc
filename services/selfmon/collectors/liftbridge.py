@@ -77,7 +77,9 @@ class LiftbridgeStreamCollector(BaseCollector):
                         )
                     )
                 except Exception as e:
-                    print("[%s|%s] Failed getting data for partition: %s" % (stream.name, p, e))
+                    self.logger.error(
+                        "[%s|%s] Failed getting data for partition: %s", stream.name, p, e
+                    )
                     continue
                 if pool:
                     yield (
