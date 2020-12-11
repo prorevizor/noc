@@ -1,7 +1,7 @@
 {
     "name": "FANG HANG | Transceiver | 10G | FH-DP1T30SS03",
     "$collection": "inv.objectmodels",
-    "uuid": "17c2e56b-3aa3-45bc-982d-161db9d760dd",
+    "uuid": "518aad99-51b5-4bc6-bb85-30ccaaa808ec",
     "vendor__code": "FANG HANG",
     "description": "FANG HANG SFP+ 10 Gigabit Ethernet Direct Attach Copper (twinax copper cable) 3m",
     "cr_context": "XCVR",
