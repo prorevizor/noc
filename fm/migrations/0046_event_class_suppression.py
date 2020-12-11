@@ -46,4 +46,5 @@ class Migration(BaseMigration):
                     },
                 )
             ]
-        coll.bulk_write(batch)
+        if batch:
+            coll.bulk_write(batch)
