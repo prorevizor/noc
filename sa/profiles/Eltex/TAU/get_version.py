@@ -25,6 +25,7 @@ class Script(BaseScript):
         r"\S.+\nFirmware\sversion:\s+(?P<fwver>\S+)",
         re.MULTILINE,
     )
+    rx_serial = re.compile(r"^Factory SN:\s+(?P<serial>\S+)", re.MULTILINE)
     rx_snmp_version = re.compile(r"^#(?P<version>\S+)$")
 
     def execute_snmp(self):
@@ -51,14 +52,21 @@ class Script(BaseScript):
             platform = match.group("platform")
             fwversion = match.group("fwver")
             version = match.group("sysver")
+            serial = ""
+            with self.profile.shell(self):
+                v = self.cli("cat /tmp/factory", cached=True)
+                match = self.rx_serial.search(v)
+                if match:
+                    serial = match.group("serial")
         else:
             platform = "None"
             fwversion = "None"
             version = "None"
+            serial = "None"
 
         return {
             "vendor": "Eltex",
             "platform": platform,
             "version": version,
-            "attributes": {"FW version": fwversion},
+            "attributes": {"FW version": fwversion, "Serial Number": serial},
         }
