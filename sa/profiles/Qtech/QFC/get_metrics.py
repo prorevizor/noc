@@ -94,7 +94,9 @@ class Script(GetMetricsScript):
                 value = self.snmp.get("1.3.6.1.4.1.27514.102.0.21")
             if is_float(value) or is_int(value):
                 self.set_metric(
-                    id=("Environment | Electric Current", metric.path), value=value, scale=scale(0.01)
+                    id=("Environment | Electric Current", metric.path),
+                    value=value,
+                    scale=scale(0.01),
                 )
 
     @metrics(["Environment | Energy Consumption"], volatile=False, access="S")  # SNMP version
