@@ -29,7 +29,7 @@ Message contains JSON with following fields:
 | Name                           | Type                          | Description                                                                           |
 | ------------------------------ | ----------------------------- | ------------------------------------------------------------------------------------- |
 | id                             | String                        | [Managed Object's](../concepts/managed-object/index.md) id                            |
-| \$change_id                    | String                        | Datastream [Change ID](../../../dev/reference/api/datastream/index.md#change-id)      |
+| `$change_id`                   | String                        | Datastream [Change ID](../../../dev/reference/api/datastream/index.md#change-id)      |
 | remote_system                  | Object {{ complex }}          | Source [remote system](../concepts/remote-system/index.md) for object                 |
 | {{ tab }} id                   | String                        | External system's id                                                                  |
 | {{ tab }} name                 | String                        | External system's name                                                                |
