@@ -423,6 +423,7 @@ class Object(Document):
         remote_name: str,
         data: Dict[str, Any],
         reconnect: bool = False,
+        dry: bool = False,
     ) -> Optional["ObjectConnection"]:
         lc = self.model.get_model_connection(name)
         if lc is None:
@@ -449,6 +450,8 @@ class Object(Document):
             raise ConnectionError(
                 "Incompatible connection types: %s - %s" % (lc.type.name, rc.type.name)
             )
+        if not dry:
+            return None
         # Check existing connecitons
         if lc.type.genders in ("s", "m", "f", "mf"):
             ec, r_object, r_name = self.get_p2p_connection(name)

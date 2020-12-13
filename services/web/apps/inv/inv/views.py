@@ -8,11 +8,13 @@
 # Python modules
 import inspect
 import os
+from typing import Optional, Dict, List, Any
 
 # NOC modules
 from noc.lib.app.extapplication import ExtApplication, view
 from noc.inv.models.object import Object
-from noc.inv.models.objectmodel import ObjectModel
+from noc.inv.models.error import ConnectionError
+from noc.inv.models.objectmodel import ObjectModel, ConnectionType, ModelConnectionsCache
 from noc.core.validators import is_objectid
 from noc.sa.interfaces.base import (
     StringParameter,
@@ -211,3 +213,88 @@ class InvApplication(ExtApplication):
             o = o.container
             path.insert(0, {"id": str(o.id), "name": o.name})
         return path
+
+    @view(
+        "^crossing_proposals/$",
+        method=["GET"],
+        access="read",
+        api=True,
+        validate={
+            "o1": ObjectIdParameter(required=True),
+            "o2": ObjectIdParameter(required=False),
+            "left_filter": UnicodeParameter(required=False),
+            "right_filter": UnicodeParameter(required=False),
+            "cable_filter": UnicodeParameter(required=False),
+        },
+    )
+    def api_get_crossing_proposals(
+            self,
+            request,
+            o1,
+            o2=None,
+            left_filter: Optional[str] = None,
+            right_filter: Optional[str] = None,
+            cable_filter: Optional[str] = None,
+    ):
+        """
+        For
+        :param request:
+        :param o1:
+        :param o2:
+        :param left_filter:
+        :param right_filter:
+        :param cable_filter:
+        :return:
+        """
+        lo: Object = self.get_object_or_404(Object, id=o1)
+        ro: Optional[Object] = None
+        if o2:
+            ro = self.get_object_or_404(Object, id=o2)
+        lc: List[Dict[str, Any]] = []
+        cable = []
+        print(lo.id, lo)
+        for c in lo.model.connections:
+            valid, disable_reason = True, ""
+            if ro and right_filter:
+                try:
+                    lo.connect_p2p(c.name, ro, right_filter, {})
+                except ConnectionError as e:
+                    valid, disable_reason = False, str(e)
+            lc += [{
+                "name": c.name,
+                "type": str(c.type.id),
+                "type__label": c.type.name,
+                "gender": c.gender,
+                "direction": c.direction,
+                "protocols": c.protocols,
+                "free": True,
+                "valid": valid,
+                "disable_reason": disable_reason,
+            }]
+        rc: List[Dict[str, Any]] = []
+        if ro:
+            for c in ro.model.connections:
+                valid, disable_reason = True, ""
+                if left_filter:
+                    try:
+                        lo.connect_p2p(c.name, lo, left_filter, {})
+                    except ConnectionError as e:
+                        valid, disable_reason = False, str(e)
+                rc += [{
+                    "name": c.name,
+                    "type": str(c.type.id),
+                    "type__label": c.type.name,
+                    "gender": c.gender,
+                    "direction": c.direction,
+                    "protocols": c.protocols,
+                    "free": True,
+                    "valid": valid,
+                    "disable_reason": disable_reason,
+                }]
+        # Forming cable
+        return {
+            "left": {"connections": lc},
+            "right": {"connections": rc},
+            "cable": [],
+            "valid": True,
+        }
