@@ -10,7 +10,7 @@ import datetime
 import operator
 from threading import Lock
 from collections import namedtuple
-from typing import Optional, Any, Dict, Union, List, Set
+from typing import Optional, Any, Dict, Union, List, Set, Iterator
 
 # Third-party modules
 from mongoengine.document import Document, EmbeddedDocument
@@ -703,6 +703,47 @@ class Object(Document):
             data__match={"interface": "management", "attr": "managed_object", "value": mo}
         )
 
+    def iter_managed_object_id(self) -> Iterator[int]:
+        for d in Object._get_collection().aggregate(
+            [
+                {"$match": {"_id": self.id}},
+                # Get all nested objects and put them into the _path field
+                {
+                    "$graphLookup": {
+                        "from": "noc.objects",
+                        "connectFromField": "_id",
+                        "connectToField": "container",
+                        "startWith": "$_id",
+                        "as": "_path",
+                        "maxDepth": 50,
+                    }
+                },
+                # Leave only _path field
+                {"$project": {"_id": 0, "_path": 1}},
+                # Unwind _path array to separate documents
+                {"$unwind": {"path": "$_path"}},
+                # Move data one level up
+                {"$project": {"data": "$_path.data"}},
+                # Unwind data
+                {"$unwind": {"path": "$data"}},
+                # Convert nested data to flat document
+                {
+                    "$project": {
+                        "interface": "$data.interface",
+                        "attr": "$data.attr",
+                        "value": "$data.value",
+                    }
+                },
+                # Leave only management objects
+                {"$match": {"interface": "management", "attr": "managed_object"}},
+                # Leave only value
+                {"$project": {"value": 1}},
+            ]
+        ):
+            mo = d.get("value")
+            if mo:
+                yield mo
+
     @classmethod
     def get_by_path(cls, path: List[str], hints=None) -> Optional["Object"]:
         """
@@ -799,6 +840,23 @@ class Object(Document):
         from .sensor import Sensor
 
         Sensor.sync_object(self)
+
+    @classmethod
+    def iter_by_address_id(cls, address: str, scope: str = None) -> Iterable["Object"]:
+        """
+        Get objects
+        :param address:
+        :param scope:
+        :return:
+        """
+        yield from cls.objects.filter(
+            data__match={
+                "interface": "address",
+                "scope": scope or "",
+                "attr": "id",
+                "value": address,
+            }
+        )
 
 
 signals.pre_delete.connect(Object.detach_children, sender=Object)
