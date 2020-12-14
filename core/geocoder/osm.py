@@ -7,7 +7,7 @@
 
 # Python modules
 from urllib.parse import quote as urllib_quote
-from typing import Optional, Iterator
+from typing import Iterator
 
 # Third-party modules
 import orjson
