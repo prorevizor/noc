@@ -469,7 +469,7 @@ services:
       traefik.backend: login
       traefik.port: 1200
       traefik.auth.frontend.rule: "PathPrefix: /api/auth/"
-      traefik.login.frontend.rule: "PathPrefix: /ui/login/"
+      traefik.login.frontend.rule: "PathPrefix: /api/login/"
       traefik.frontend.entryPoints: noc
 
   mailsender:
