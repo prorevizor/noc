@@ -15,6 +15,7 @@ class Script(BaseScript):
     interface = IGetConfig
 
     def execute_cli(self, **kwargs):
+        """
         self.cli("config")
         try:
             show = self.cli("show")
@@ -22,4 +23,6 @@ class Script(BaseScript):
         except self.CLISyntaxError:
             self.cli("exit")
             show = self.cli("show configuration")
+        """
+        show = self.cli("cat /tmp/etc/config/cfg.yaml")
         return self.cleaned_config(show)

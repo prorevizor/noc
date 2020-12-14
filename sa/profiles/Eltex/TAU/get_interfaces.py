@@ -28,47 +28,46 @@ class Script(BaseScript):
 
     def execute_cli(self):
         interfaces = []
-        with self.profile.shell(self):
-            v = self.cli("ifconfig", cached=True)
-            for line in v.split("\n\n"):
-                match = self.rx_sh_int.search(line)
-                if match:
-                    ifname = match.group("ifname")
-                    sub = {
-                        "name": ifname,
-                        "mtu": match.group("mtu"),
-                        "admin_status": True,
-                        "oper_status": True,
-                        "enabled_afi": ["BRIDGE"],
-                    }
-                    if match.group("ip"):
-                        ip_address = match.group("ip")
-                        ip_subnet = match.group("mask")
-                        ip_address = "%s/%s" % (ip_address, IPv4.netmask_to_len(ip_subnet))
-                        sub["enabled_afi"] = ["IPv4"]
-                        sub["ipv4_addresses"] = [ip_address]
-                    if "." in ifname:
-                        parent, vlan = ifname.split(".")
-                        sub["vlan_ids"] = int(vlan)
-                        found = False
-                        for i in interfaces:
-                            if i["name"] == parent:
-                                i["subinterfaces"] += [sub]
-                                found = True
-                                break
-                        if found:
-                            continue
-                    iface = {
-                        "type": self.profile.get_interface_type(ifname),
-                        "name": ifname,
-                        "mtu": match.group("mtu"),
-                        "admin_status": True,
-                        "oper_status": True,
-                        "subinterfaces": [],
-                    }
-                    if match.group("mac"):
-                        mac = match.group("mac")
-                        iface["mac"] = mac
-                    iface["subinterfaces"] = [sub]
-                    interfaces += [iface]
+        v = self.cli("ifconfig", cached=True)
+        for line in v.split("\n\n"):
+            match = self.rx_sh_int.search(line)
+            if match:
+                ifname = match.group("ifname")
+                sub = {
+                    "name": ifname,
+                    "mtu": match.group("mtu"),
+                    "admin_status": True,
+                    "oper_status": True,
+                    "enabled_afi": ["BRIDGE"],
+                }
+                if match.group("ip"):
+                    ip_address = match.group("ip")
+                    ip_subnet = match.group("mask")
+                    ip_address = "%s/%s" % (ip_address, IPv4.netmask_to_len(ip_subnet))
+                    sub["enabled_afi"] = ["IPv4"]
+                    sub["ipv4_addresses"] = [ip_address]
+                if "." in ifname:
+                    parent, vlan = ifname.split(".")
+                    sub["vlan_ids"] = int(vlan)
+                    found = False
+                    for i in interfaces:
+                        if i["name"] == parent:
+                            i["subinterfaces"] += [sub]
+                            found = True
+                            break
+                    if found:
+                        continue
+                iface = {
+                    "type": self.profile.get_interface_type(ifname),
+                    "name": ifname,
+                    "mtu": match.group("mtu"),
+                    "admin_status": True,
+                    "oper_status": True,
+                    "subinterfaces": [],
+                }
+                if match.group("mac"):
+                    mac = match.group("mac")
+                    iface["mac"] = mac
+                iface["subinterfaces"] = [sub]
+                interfaces += [iface]
         return [{"interfaces": interfaces}]

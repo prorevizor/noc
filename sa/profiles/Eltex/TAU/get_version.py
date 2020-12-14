@@ -25,7 +25,11 @@ class Script(BaseScript):
         r"\S.+\nFirmware\sversion:\s+(?P<fwver>\S+)",
         re.MULTILINE,
     )
-    rx_serial = re.compile(r"^Factory SN:\s+(?P<serial>\S+)", re.MULTILINE)
+    rx_shell_platform = re.compile(
+        r"^Factory type: (?P<platform>\S+)\s*\S*\n" r"^Factory SN:\s+(?P<serial>\S+)", re.MULTILINE
+    )
+    rx_shell_version = re.compile(r"^#(?P<version>\S+)")
+    rx_shell_fwversion = re.compile(r"^cat /tmp/msp_version\n(?P<fwversion>\S+)\[", re.MULTILINE)
     rx_snmp_version = re.compile(r"^#(?P<version>\S+)$")
 
     def execute_snmp(self):
@@ -43,6 +47,7 @@ class Script(BaseScript):
         }
 
     def execute_cli(self):
+        """
         try:
             c = self.cli("system info", cached=True)
         except self.CLISyntaxError:
@@ -63,6 +68,17 @@ class Script(BaseScript):
             fwversion = "None"
             version = "None"
             serial = "None"
+        """
+        v = self.cli("cat /tmp/factory", cached=True)
+        match = self.rx_shell_platform.search(v)
+        platform = match.group("platform")
+        serial = match.group("serial")
+        v = self.cli("cat /version", cached=True)
+        match = self.rx_shell_version.search(v)
+        version = match.group("version")
+        v = self.cli("cat /tmp/msp_version\r\r", cached=True)
+        match = self.rx_shell_fwversion.search(v)
+        fwversion = match.group("fwversion")
 
         return {
             "vendor": "Eltex",
