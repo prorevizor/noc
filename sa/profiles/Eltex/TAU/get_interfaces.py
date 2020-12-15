@@ -20,9 +20,10 @@ class Script(BaseScript):
     interface = IGetInterfaces
 
     rx_sh_int = re.compile(
-        r"^(?P<ifname>\S+)\s+Link\sencap:(?P<itype>\S+)\s+"
-        r"(?:HWaddr\s+(?P<mac>\S+)|Loopback)(:?\s+inet\s+addr:(?P<ip>\S+)\s+"
-        r"(?:(|\S+\s+)Mask:(?P<mask>\S+))|\s+)\s+\S.+MTU:(?P<mtu>\S+)",
+        r"^(?P<ifname>\S+)\s+Link\sencap:(?P<itype>\S+)\s+(?:HWaddr\s+(?P<mac>\S+)|Loopback)\s*\n"
+        r"^(?:\s+inet\s+addr:\s*(?P<ip>\S+)\s+(?:(|\S+\s+)Mask:(?P<mask>\S+))\s*\n)?"
+        r"^(?:\s+inet6\s+addr:\s*(?P<ip6>\S+)\s+Scope:\S+\s*\n)?"
+        r"^\s+\S.+MTU:(?P<mtu>\S+)",
         re.MULTILINE | re.IGNORECASE,
     )
 
@@ -44,8 +45,12 @@ class Script(BaseScript):
                     ip_address = match.group("ip")
                     ip_subnet = match.group("mask")
                     ip_address = "%s/%s" % (ip_address, IPv4.netmask_to_len(ip_subnet))
-                    sub["enabled_afi"] = ["IPv4"]
+                    sub["enabled_afi"] += ["IPv4"]
                     sub["ipv4_addresses"] = [ip_address]
+                if match.group("ip6"):
+                    ip6_address = match.group("ip6")
+                    sub["enabled_afi"] += ["IPv6"]
+                    sub["ipv6_addresses"] = [ip6_address]
                 if "." in ifname:
                     parent, vlan = ifname.split(".")
                     sub["vlan_ids"] = int(vlan)

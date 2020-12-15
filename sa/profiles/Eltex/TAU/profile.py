@@ -18,7 +18,7 @@ class Profile(BaseProfile):
     pattern_username = r"^\S+ [Ll]ogin:"
     pattern_password = r"^[Pp]assword:"
     pattern_unprivileged_prompt = r"^(?P<hostname>\S+)>\s*"
-    pattern_prompt = r"^(\S+# |> |config> |\[\S+\]\s*)"
+    pattern_prompt = r"^(\S+# |> |config> |\[\S+\]\s*|root@\S+:(~|/\S+)\$)"
     pattern_more = (
         r'Press any key to continue|\| Press any key to continue \| Press "q" to exit \| '
     )
@@ -29,6 +29,12 @@ class Profile(BaseProfile):
     command_leave_config = "exit"
     command_super = "enable"
     rogue_chars = [re.compile(rb"\^J"), b"\r"]
+
+    matchers = {
+        "is_tau4": {"platform": {"$regex": r"^TAU\-4"}},
+        "is_tau8": {"platform": {"$regex": r"^TAU-8"}},
+        "is_tau36": {"platform": {"$regex": r"^TAU-36"}},
+    }
 
     def setup_session(self, script):
         try:
@@ -42,24 +48,20 @@ class Profile(BaseProfile):
         if not self.already_in_shell:
             script.cli("exit\r", ignore_errors=True)
 
-    class shell(object):
-        """Switch context manager to use with "with" statement"""
+    empty_lines = re.compile(r"(?:\n){3,}", re.MULTILINE)
+    empty_spaces = re.compile(r"^\s+\n", re.MULTILINE)
 
-        def __init__(self, script):
-            self.script = script
-
-        def __enter__(self):
-            """Enter switch context"""
-            self.script.cli("shell")
-
-        def __exit__(self, exc_type, exc_val, exc_tb):
-            """Leave switch context"""
-            if exc_type is None:
-                self.script.cli("exit\r")
+    def cleaned_config(self, config):
+        config = config.replace("cat: read error: Is a directory\n", "")
+        config = self.empty_lines.sub("\n\n", config)
+        config = self.empty_spaces.sub("\n", config)
+        config = super().cleaned_config(config)
+        return config
 
     INTERFACE_TYPES = {
         "e": "physical",  # Ethernet
         "p": "physical",  # Virtual Ethernet
+        "b": "physical",  # Bridge
         "l": "loopback",  # Local Loopback
     }
 
