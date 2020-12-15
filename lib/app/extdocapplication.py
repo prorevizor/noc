@@ -527,7 +527,7 @@ class ExtDocApplication(ExtApplication):
         builtins = Collection.get_builtins(self.json_collection)
         for x in data:
             u = x.get("uuid")
-            x["uuid"] = u and u in builtins
+            x["is_builtin"] = u and u in builtins
         return data
 
     @view(url=r"^actions/group_edit/$", method=["POST"], access="update", api=True)
