@@ -269,7 +269,7 @@ class ExtDocApplication(ExtApplication):
         # @todo: correct __ lookups
         if any(p for p in q if p.endswith("__referred")):
             del q[p]
-        is_builtin = q.pop("is_builtin", None)
+        _ = q.pop("is_builtin", None)
         return q
 
     def has_secret(self):
