@@ -269,7 +269,10 @@ class ExtDocApplication(ExtApplication):
         # @todo: correct __ lookups
         if any(p for p in q if p.endswith("__referred")):
             del q[p]
-        _ = q.pop("is_builtin", None)
+        if self.json_collection and q.pop("is_builtin", None):
+            q = super().cleaned_query(q)
+            builtins = Collection.get_builtins(self.json_collection)
+            q["uuid__in"] = list(builtins)
         return q
 
     def has_secret(self):
