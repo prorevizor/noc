@@ -17,8 +17,8 @@ class GeoCoderApplication(ExtApplication):
     @view(url=r"^lookup/$", method=["GET"], access=True, api=True)
     def api_lookup(self, request, ref=None):
         q = {str(k): v[0] if len(v) == 1 else v for k, v in request.GET.lists()}
-        limit = q.get(self.limit_param)
-        start = q.get(self.start_param)
+        limit = int(q.get(self.limit_param, 0))
+        start = int(q.get(self.start_param, 0))
         format = q.get(self.format_param)
         query = q.get(self.query_param)
         scope = config.geocoding.ui_geocoder
