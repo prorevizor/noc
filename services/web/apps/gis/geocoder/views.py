@@ -14,7 +14,7 @@ from noc.core.geocoder.loader import loader
 class GeoCoderApplication(ExtApplication):
     name = "geocoder"
 
-    @view(url=r"^lookup/$", method=["GET"], access=True, api=True)
+    @view(url=r"^lookup/$", method=["GET"], access="lookup", api=True)
     def api_lookup(self, request, ref=None):
         q = {str(k): v[0] if len(v) == 1 else v for k, v in request.GET.lists()}
         limit = int(q.get(self.limit_param, 0))
