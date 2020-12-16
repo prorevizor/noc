@@ -240,7 +240,8 @@ class Object(Document):
         for _ in range(max_level):
             # Get next wave
             wave = (
-                set(d["_id"] for d in coll.find({"container": {"$in": list(wave)}}, {"_id": 1})) - seen
+                set(d["_id"] for d in coll.find({"container": {"$in": list(wave)}}, {"_id": 1}))
+                - seen
             )
             if not wave:
                 break
