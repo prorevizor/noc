@@ -298,3 +298,31 @@ class InvApplication(ExtApplication):
             "cable": [],
             "valid": True,
         }
+
+    @view(
+        "^connect/$",
+        method=["POST"],
+        access="connect",
+        api=True,
+        validate={
+            "object": ObjectIdParameter(required=True),
+            "name": StringParameter(required=False),
+            "remote_object": ObjectIdParameter(required=False),
+            "remote_name": StringParameter(required=False),
+            "cable": ObjectIdParameter(required=False),
+        },
+    )
+    def api_connect(
+            self,
+            request,
+            object,
+            name,
+            remote_object,
+            remote_name,
+            cable: Optional[str] = None,
+    ):
+        lo: Object = self.get_object_or_404(Object, id=object)
+        ro: Object = self.get_object_or_404(Object, id=remote_object)
+        lo.connect_p2p(name, ro, remote_name, {})
+
+        return True
