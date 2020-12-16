@@ -227,6 +227,26 @@ class Object(Document):
             return self.container.get_path() + [self.id]
         return [self.id]
 
+    def get_nested_ids(self):
+        """
+        Return id of this and all nested object
+        :return:
+        """
+        # $graphLookup hits 100Mb memory limit. Do not use it
+        seen = {self.id}
+        wave = {self.id}
+        max_level = 4
+        coll = Object._get_collection()
+        for _ in range(max_level):
+            # Get next wave
+            wave = (
+                set(d["_id"] for d in coll.find({"container": {"$in": list(wave)}}, {"_id": 1})) - seen
+            )
+            if not wave:
+                break
+            seen |= wave
+        return list(seen)
+
     def get_data(self, interface: str, key: str, scope: Optional[str] = None) -> Any:
         attr = ModelInterface.get_interface_attr(interface, key)
         if attr.is_const:

@@ -223,11 +223,17 @@ class ManagedObjectApplication(ExtModelApplication):
             r["id__in"] = ManagedObject.objects.filter(s.Q)
         if ad:
             r["administrative_domain__in"] = ad
-        if False and geoaddr:
+        if geoaddr:
             scope, addr_id = geoaddr.split(":", 1)
             addr_mo = set()
             for o in Object.iter_by_address_id(addr_id, scope):
                 addr_mo |= set(o.iter_managed_object_id())
+                # If ManagedObject has container refer to Object
+                addr_mo |= set(
+                    ManagedObject.objects.filter(container__in=o.get_nested_ids()).values_list(
+                        "id", flat=True
+                    )
+                )
             # Intersect with selector expression
             if "id__in" in r:
                 addr_mo &= set(r["id__in"])
