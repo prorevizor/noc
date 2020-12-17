@@ -13,5 +13,5 @@ from noc.sa.interfaces.igetfqdn import IGetFQDN
 
 
 class Script(BaseScript):
-    name = "Dlink.DAS.get_fqdn"
+    name = "DLink.DAS.get_fqdn"
     interface = IGetFQDN
