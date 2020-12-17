@@ -18,7 +18,7 @@ class Script(GetMetricsScript):
         volatile=False,
         access="S",
     )
-    def get_subscribers_metrics_slot_snmp(self, metrics):
+    def get_subscribers_metrics_snmp(self, metrics):
         for oid, v in self.snmp.getnext("1.3.6.1.4.1.6527.3.1.2.33.1.106.1.2.1", bulk=False):
             oid2 = oid.split("1.3.6.1.4.1.6527.3.1.2.33.1.106.1.2.1.")
             slot = "slot "
