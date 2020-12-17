@@ -14,7 +14,7 @@ from typing import Optional, Dict, List, Any
 from noc.lib.app.extapplication import ExtApplication, view
 from noc.inv.models.object import Object
 from noc.inv.models.error import ConnectionError
-from noc.inv.models.objectmodel import ObjectModel, ConnectionType, ModelConnectionsCache
+from noc.inv.models.objectmodel import ObjectModel
 from noc.core.validators import is_objectid
 from noc.sa.interfaces.base import (
     StringParameter,
@@ -229,13 +229,13 @@ class InvApplication(ExtApplication):
         },
     )
     def api_get_crossing_proposals(
-            self,
-            request,
-            o1,
-            o2=None,
-            left_filter: Optional[str] = None,
-            right_filter: Optional[str] = None,
-            cable_filter: Optional[str] = None,
+        self,
+        request,
+        o1,
+        o2=None,
+        left_filter: Optional[str] = None,
+        right_filter: Optional[str] = None,
+        cable_filter: Optional[str] = None,
     ):
         """
         For
@@ -263,17 +263,19 @@ class InvApplication(ExtApplication):
                 except ConnectionError as e:
                     valid, disable_reason = False, str(e)
             oc, oo, _ = lo.get_p2p_connection(c.name)
-            lc += [{
-                "name": c.name,
-                "type": str(c.type.id),
-                "type__label": c.type.name,
-                "gender": c.gender,
-                "direction": c.direction,
-                "protocols": c.protocols,
-                "free": not bool(oc),
-                "valid": valid,
-                "disable_reason": disable_reason,
-            }]
+            lc += [
+                {
+                    "name": c.name,
+                    "type": str(c.type.id),
+                    "type__label": c.type.name,
+                    "gender": c.gender,
+                    "direction": c.direction,
+                    "protocols": c.protocols,
+                    "free": not bool(oc),
+                    "valid": valid,
+                    "disable_reason": disable_reason,
+                }
+            ]
         rc: List[Dict[str, Any]] = []
         if ro:
             for c in ro.model.connections:
@@ -284,17 +286,19 @@ class InvApplication(ExtApplication):
                     except ConnectionError as e:
                         valid, disable_reason = False, str(e)
                 oc, oo, _ = ro.get_p2p_connection(c.name)
-                rc += [{
-                    "name": c.name,
-                    "type": str(c.type.id),
-                    "type__label": c.type.name,
-                    "gender": c.gender,
-                    "direction": c.direction,
-                    "protocols": c.protocols,
-                    "free": not bool(oc),
-                    "valid": valid,
-                    "disable_reason": disable_reason,
-                }]
+                rc += [
+                    {
+                        "name": c.name,
+                        "type": str(c.type.id),
+                        "type__label": c.type.name,
+                        "gender": c.gender,
+                        "direction": c.direction,
+                        "protocols": c.protocols,
+                        "free": not bool(oc),
+                        "valid": valid,
+                        "disable_reason": disable_reason,
+                    }
+                ]
         # Forming cable
         return {
             "left": {"connections": lc},
@@ -318,19 +322,19 @@ class InvApplication(ExtApplication):
         },
     )
     def api_connect(
-            self,
-            request,
-            object,
-            name,
-            remote_object,
-            remote_name,
-            cable: Optional[str] = None,
-            reconnect=False,
+        self,
+        request,
+        object,
+        name,
+        remote_object,
+        remote_name,
+        cable: Optional[str] = None,
+        reconnect=False,
     ):
         lo: Object = self.get_object_or_404(Object, id=object)
         ro: Object = self.get_object_or_404(Object, id=remote_object)
         try:
-            lo.connect_p2p(name, ro, remote_name, {})
+            lo.connect_p2p(name, ro, remote_name, {}, reconnect=reconnect)
         except ConnectionError as e:
             return self.render_json({"status": False, "text": str(e)})
         return True
