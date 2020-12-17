@@ -6,7 +6,6 @@
 # ---------------------------------------------------------------------
 
 # Python modules
-import re
 from noc.sa.profiles.Generic.get_fqdn import Script as BaseScript
 
 # NOC modules
