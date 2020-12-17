@@ -54,7 +54,7 @@ class BaseEvFilter(object):
 
     @staticmethod
     def _get_timestamp(event: ActiveEvent) -> int:
-        return int(event.timestamp())
+        return int(event.timestamp.timestamp())
 
     def register(self, event: ActiveEvent) -> None:
         """
