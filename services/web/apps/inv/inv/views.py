@@ -21,6 +21,7 @@ from noc.sa.interfaces.base import (
     ObjectIdParameter,
     UnicodeParameter,
     ListOfParameter,
+    BooleanParameter,
 )
 from noc.core.translation import ugettext as _
 
@@ -251,8 +252,9 @@ class InvApplication(ExtApplication):
         if o2:
             ro = self.get_object_or_404(Object, id=o2)
         lc: List[Dict[str, Any]] = []
-        cable = []
-        print(lo.id, lo)
+        # Getting cable
+        cables = ObjectModel.objects.filter(data__length__length__gte=0)
+        # @todo filter cable for all current object slots
         for c in lo.model.connections:
             valid, disable_reason = True, ""
             if ro and right_filter:
@@ -260,6 +262,7 @@ class InvApplication(ExtApplication):
                     lo.connect_p2p(c.name, ro, right_filter, {})
                 except ConnectionError as e:
                     valid, disable_reason = False, str(e)
+            oc, oo, _ = lo.get_p2p_connection(c.name)
             lc += [{
                 "name": c.name,
                 "type": str(c.type.id),
@@ -267,7 +270,7 @@ class InvApplication(ExtApplication):
                 "gender": c.gender,
                 "direction": c.direction,
                 "protocols": c.protocols,
-                "free": True,
+                "free": not bool(oc),
                 "valid": valid,
                 "disable_reason": disable_reason,
             }]
@@ -280,6 +283,7 @@ class InvApplication(ExtApplication):
                         lo.connect_p2p(c.name, lo, left_filter, {})
                     except ConnectionError as e:
                         valid, disable_reason = False, str(e)
+                oc, oo, _ = ro.get_p2p_connection(c.name)
                 rc += [{
                     "name": c.name,
                     "type": str(c.type.id),
@@ -287,7 +291,7 @@ class InvApplication(ExtApplication):
                     "gender": c.gender,
                     "direction": c.direction,
                     "protocols": c.protocols,
-                    "free": True,
+                    "free": not bool(oc),
                     "valid": valid,
                     "disable_reason": disable_reason,
                 }]
@@ -295,8 +299,8 @@ class InvApplication(ExtApplication):
         return {
             "left": {"connections": lc},
             "right": {"connections": rc},
-            "cable": [],
-            "valid": True,
+            "cable": [{"name": c.name, "available": True} for c in cables],
+            "valid": lc and rc and left_filter and right_filter,
         }
 
     @view(
@@ -306,10 +310,11 @@ class InvApplication(ExtApplication):
         api=True,
         validate={
             "object": ObjectIdParameter(required=True),
-            "name": StringParameter(required=False),
-            "remote_object": ObjectIdParameter(required=False),
-            "remote_name": StringParameter(required=False),
+            "name": StringParameter(required=True),
+            "remote_object": ObjectIdParameter(required=True),
+            "remote_name": StringParameter(required=True),
             "cable": ObjectIdParameter(required=False),
+            "reconnect": BooleanParameter(default=False, required=False),
         },
     )
     def api_connect(
@@ -320,9 +325,12 @@ class InvApplication(ExtApplication):
             remote_object,
             remote_name,
             cable: Optional[str] = None,
+            reconnect=False,
     ):
         lo: Object = self.get_object_or_404(Object, id=object)
         ro: Object = self.get_object_or_404(Object, id=remote_object)
-        lo.connect_p2p(name, ro, remote_name, {})
-
+        try:
+            lo.connect_p2p(name, ro, remote_name, {})
+        except ConnectionError as e:
+            return self.render_json({"status": False, "text": str(e)})
         return True
