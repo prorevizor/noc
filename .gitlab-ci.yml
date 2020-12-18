@@ -293,7 +293,7 @@ build:Master Image:
   tags:
     - shell
   rules:
-    - if: ('$CI_PIPELINE_SOURCE == "schedule"' and $CI_NOC_BUILD_MASTER)
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $CI_NOC_BUILD_MASTER'
 
 build:web:
   stage: Build
