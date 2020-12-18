@@ -161,7 +161,6 @@ class ActiveAlarm(Document):
                 )
             }
 
-
     def safe_save(self, **kwargs):
         """
         Create new alarm or update existing if still exists
