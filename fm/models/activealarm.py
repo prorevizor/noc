@@ -134,7 +134,7 @@ class ActiveAlarm(Document):
     # RCA_* enums
     rca_type = IntField(default=RCA_NONE)
     # tags
-    tags = DictField(required=True)
+    tags = DictField(required=False)
 
     def __str__(self):
         return "%s" % self.id
@@ -154,6 +154,8 @@ class ActiveAlarm(Document):
         self.uplinks = data.uplinks
         self.rca_neighbors = data.rca_neighbors
         self.dlm_windows = data.dlm_windows
+        if not self.id:
+            self.tags = {"tags": list(set(self.managed_object.tags + self.managed_object.object_profile.tags))}
 
     def safe_save(self, **kwargs):
         """
@@ -281,6 +283,7 @@ class ActiveAlarm(Document):
             uplinks=self.uplinks,
             rca_neighbors=self.rca_neighbors,
             rca_type=self.rca_type,
+            tags=self.tags,
         )
         ct = self.alarm_class.get_control_time(self.reopens)
         if ct:
