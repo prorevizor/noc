@@ -133,6 +133,8 @@ class ActiveAlarm(Document):
     dlm_windows = ListField(IntField())
     # RCA_* enums
     rca_type = IntField(default=RCA_NONE)
+    # tags
+    tags = DictField(required=True)
 
     def __str__(self):
         return "%s" % self.id
