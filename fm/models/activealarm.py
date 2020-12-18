@@ -134,7 +134,7 @@ class ActiveAlarm(Document):
     # RCA_* enums
     rca_type = IntField(default=RCA_NONE)
     # tags
-    tags = DictField(required=False)
+    tags = ListField(StringField())
 
     def __str__(self):
         return "%s" % self.id
@@ -155,11 +155,7 @@ class ActiveAlarm(Document):
         self.rca_neighbors = data.rca_neighbors
         self.dlm_windows = data.dlm_windows
         if not self.id:
-            self.tags = {
-                "tags": list(
-                    set(self.managed_object.tags + self.managed_object.object_profile.tags)
-                )
-            }
+            self.tags = list(set(self.managed_object.tags + self.managed_object.object_profile.tags))
 
     def safe_save(self, **kwargs):
         """

@@ -105,7 +105,7 @@ class ArchivedAlarm(Document):
     # RCA_* enums
     rca_type = IntField(default=RCA_NONE)
     # tags
-    tags = DictField(required=False)
+    tags = ListField(StringField())
 
     def __str__(self):
         return "%s" % self.id
