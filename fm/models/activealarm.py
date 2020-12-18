@@ -155,7 +155,12 @@ class ActiveAlarm(Document):
         self.rca_neighbors = data.rca_neighbors
         self.dlm_windows = data.dlm_windows
         if not self.id:
-            self.tags = {"tags": list(set(self.managed_object.tags + self.managed_object.object_profile.tags))}
+            self.tags = {
+                "tags": list(
+                    set(self.managed_object.tags + self.managed_object.object_profile.tags)
+                )
+            }
+
 
     def safe_save(self, **kwargs):
         """
