@@ -17,7 +17,8 @@ Ext.define("NOC.inv.inv.CreateConnectionForm", {
     OCCUPIED_COLOR: "lightgray",
     INVALID_COLOR: "lightcoral",
     requires: [
-        "NOC.core.Pin"
+        "NOC.core.Pin",
+        "NOC.fm.alarm.view.grids.Lookup"
     ],
     viewModel: {
         data: {
@@ -48,19 +49,26 @@ Ext.define("NOC.inv.inv.CreateConnectionForm", {
             plugins: ["spriteevents"]
         });
         me.cableCombo = Ext.create({
-            xtype: "combo",
+            xtype: "fm.alarm.lookup",
             fieldLabel: __("Cable"),
             labelAlign: "right",
+            labelWidth: 50,
+            width: 400,
+            editable: false,
+            queryMode: "local",
+            displayField: "name",
+            valueField: "name",
             store: {
                 fields: ["name", "available"],
                 data: []
             },
-            queryMode: "local",
-            displayField: "name",
-            valueField: "name",
             bind: {
                 disabled: "{!leftObject}",
                 value: "{cable}"
+            },
+            listeners: {
+                scope: me,
+                change: me.load
             }
         });
         Ext.apply(me, {
@@ -131,6 +139,7 @@ Ext.define("NOC.inv.inv.CreateConnectionForm", {
     load: function() {
         var params, title,
             mainPanel = this,
+            cabel = mainPanel.cableCombo.getValue(),
             leftSelected = mainPanel.getViewModel().get("leftSelectedPin"),
             rightSelected = mainPanel.getViewModel().get("rightSelectedPin"),
             leftObject = mainPanel.getViewModel().get("leftObject"),
@@ -139,19 +148,31 @@ Ext.define("NOC.inv.inv.CreateConnectionForm", {
         title = leftObject.get("name") + " <==> " + (rightObject ? rightObject.get("name") : __("none"));
         mainPanel.setTitle(title);
         params = "o1=" + leftObject.get("id") + (rightObject ? "&o2=" + rightObject.get("id") : "");
-        params += (leftSelected ? "&left_filter=" + leftSelected: "");
-        params += (rightSelected ? "&right_filter=" + rightSelected: "");
+        params += leftSelected ? "&left_filter=" + leftSelected : "";
+        params += rightSelected ? "&right_filter=" + rightSelected : "";
+        params += cabel ? "&cable_filter=" + cabel : "";
         mainPanel.mask(__("Loading..."));
         Ext.Ajax.request({
             url: "/inv/inv/crossing_proposals/?" + params,
             method: "GET",
             success: function(response) {
                 var data = Ext.decode(response.responseText),
-                    maxPins = Math.max(data.left.connections.length, data.right.connections.length);
+                    maxPins = Math.max(data.left.connections.length, data.right.connections.length),
+                    isValid = function(pins, name) {
+                        return Ext.each(pins, function(pin) {
+                            return pin.valid;
+                        });
+                    };
+
                 mainPanel.unmask();
                 NOC.msg.complete(__("The data was successfully loaded"));
                 mainPanel.drawPanel.getSurface().removeAll();
-                mainPanel.getViewModel().set("rightSelectedPin", null);
+                if(!isValid(data.right.connections, rightSelected)) {
+                    mainPanel.getViewModel().set("rightSelectedPin", null);
+                }
+                if(!isValid(data.left.connections, leftSelected)) {
+                    mainPanel.getViewModel().set("leftSelectedPin", null);
+                }
                 mainPanel.cableCombo.getStore().loadData(data.cable);
                 mainPanel.drawPanel.getSurface().add(
                     mainPanel.drawObject(data.left.connections,
@@ -309,7 +330,6 @@ Ext.define("NOC.inv.inv.CreateConnectionForm", {
         if(!pin.sprite.enabled) {
             return;
         }
-
         if(pin.sprite.labelAlign === "left") {
             mainPanel.getViewModel().set("leftSelectedPin", mainPanel.deSelectPin(pin, mainPanel.getViewModel().get("leftSelectedPin"), "left"));
             console.log(mainPanel.getViewModel().get("leftSelectedPin"));
