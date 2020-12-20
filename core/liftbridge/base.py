@@ -23,6 +23,7 @@ from grpc._cython.cygrpc import EOF
 from noc.config import config
 from noc.core.validators import is_ipv4
 from noc.core.compressor.util import get_compressor, get_decompressor
+from noc.core.comp import smart_bytes
 from .api_pb2_grpc import APIStub
 from .api_pb2 import (
     FetchMetadataRequest,
@@ -433,7 +434,7 @@ class LiftBridgeClient(object):
         if partition:
             req.partition = partition
         if to_compress:
-            req.headers[H_ENCODING] = bytes(config.liftbridge.compression_method)
+            req.headers[H_ENCODING] = config.liftbridge.compression_method.encode()
         if headers:
             for h, v in headers.items():
                 req.headers[h] = v
@@ -506,6 +507,7 @@ class LiftBridgeClient(object):
         correlation_id: Optional[str] = None,
         ack_policy: AckPolicy = AckPolicy.LEADER,
         wait_for_stream: bool = False,
+        auto_compress: bool = False,
     ) -> None:
         # Build message
         req = self.get_publish_request(
@@ -517,6 +519,7 @@ class LiftBridgeClient(object):
             ack_inbox=ack_inbox,
             correlation_id=correlation_id,
             ack_policy=ack_policy,
+            auto_compress=auto_compress,
         )
         # Publish
         await self.publish_sync(req, wait_for_stream=wait_for_stream)
@@ -617,7 +620,7 @@ class LiftBridgeClient(object):
                     value = msg.value
                     headers = msg.headers
                     if H_ENCODING in headers:
-                        comp = str(headers.pop(H_ENCODING))
+                        comp = smart_bytes(headers.pop(H_ENCODING))
                         value = get_decompressor(comp)(value)
                     yield Message(
                         value=value,
