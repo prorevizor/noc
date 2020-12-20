@@ -22,6 +22,7 @@ from grpc._cython.cygrpc import EOF
 # NOC modules
 from noc.config import config
 from noc.core.validators import is_ipv4
+from noc.core.compressor.util import get_compressor, get_decompressor
 from .api_pb2_grpc import APIStub
 from .api_pb2 import (
     FetchMetadataRequest,
@@ -56,6 +57,9 @@ class StartPosition(enum.IntEnum):
     LATEST = _StartPosition.LATEST  # Start at the newest message
     TIMESTAMP = _StartPosition.TIMESTAMP  # Start at a specified timestamp
     RESUME = 9999  # Non-standard -- resume from next to last processed
+
+
+H_ENCODING = "X-NOC-Encoding"
 
 
 @dataclass
@@ -410,7 +414,17 @@ class LiftBridgeClient(object):
         ack_inbox: Optional[str] = None,
         correlation_id: Optional[str] = None,
         ack_policy: AckPolicy = AckPolicy.LEADER,
+        auto_compress: bool = False,
     ) -> PublishRequest:
+        to_compress = (
+            auto_compress
+            and config.liftbridge.compression_method
+            and config.liftbridge.compression_threshold
+            and len(value) >= config.liftbridge.compression_threshold
+        )
+        if to_compress:
+            value = get_compressor(config.liftbridge.compression_method)(value)
+        # Publish Request
         req = PublishRequest(value=value, ackPolicy=ack_policy.value)
         if stream:
             req.stream = stream
@@ -418,6 +432,8 @@ class LiftBridgeClient(object):
             req.key = key
         if partition:
             req.partition = partition
+        if to_compress:
+            req.headers[H_ENCODING] = bytes(config.liftbridge.compression_method)
         if headers:
             for h, v in headers.items():
                 req.headers[h] = v
@@ -598,14 +614,19 @@ class LiftBridgeClient(object):
                 # Next, process all other messages
                 msg = await call._read()
                 while msg:
+                    value = msg.value
+                    headers = msg.headers
+                    if H_ENCODING in headers:
+                        comp = str(headers.pop(H_ENCODING))
+                        value = get_decompressor(comp)(value)
                     yield Message(
-                        value=msg.value,
+                        value=value,
                         subject=msg.subject,
                         offset=msg.offset,
                         timestamp=msg.timestamp,
                         key=msg.key,
                         partition=msg.partition,
-                        headers=msg.headers,
+                        headers=headers,
                     )
                     msg = await call._read()
                 # Get core message to explain the result
