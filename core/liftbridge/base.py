@@ -434,7 +434,7 @@ class LiftBridgeClient(object):
         if partition:
             req.partition = partition
         if to_compress:
-            req.headers[H_ENCODING] = config.liftbridge.compression_method.encode()
+            req.headers[H_ENCODING] = smart_bytes(config.liftbridge.compression_method)
         if headers:
             for h, v in headers.items():
                 req.headers[h] = v
@@ -620,7 +620,7 @@ class LiftBridgeClient(object):
                     value = msg.value
                     headers = msg.headers
                     if H_ENCODING in headers:
-                        comp = smart_bytes(headers.pop(H_ENCODING))
+                        comp = headers.pop(H_ENCODING).decode()
                         value = get_decompressor(comp)(value)
                     yield Message(
                         value=value,
