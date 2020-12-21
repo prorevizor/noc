@@ -8,7 +8,6 @@
 # Python modules
 import orjson
 import bson
-import uuid
 
 # Third-party modules
 from django.http import HttpResponse
