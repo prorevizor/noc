@@ -34,28 +34,6 @@ class MaintenanceApplication(ExtDocApplication):
     query_condition = "icontains"
     query_fields = ["subject"]
 
-    ONLY = [
-        "id",
-        "description",
-        "contacts",
-        "type",
-        "type__label",
-        "stop",
-        "start",
-        "suppress_alarms",
-        "escalate_managed_object",
-        "escalate_managed_object__label",
-        "escalation_tt",
-        "is_completed",
-        "auto_confirm",
-        "template",
-        "direct_objects",
-        "direct_segments",
-        "subject",
-        "time_pattern",
-        "time_pattern__label",
-    ]
-
     def queryset(self, request, query=None):
         """
         Filter records for lookup
@@ -77,13 +55,14 @@ class MaintenanceApplication(ExtDocApplication):
             if obj:
                 mos = obj.values_list("id", flat=True)
                 return qs.filter(affected_objects__object__in=mos)
+            return qs.filter(type=None)
         else:
             return qs
 
     @view(url=r"^(?P<id>[a-z0-9]{24})/add/", method=["POST"], api=True, access="update")
     def api_add(self, request, id):
         body = orjson.loads(request.body)
-        o = self.model.objects.get(**{self.pk: id})
+        o = self.model.objects.filter(**{self.pk: id}).first()
         if body["mode"] == "Object":
             for mo in body["elements"]:
                 mai = MaintenanceObject(object=mo.get("object"))
@@ -110,8 +89,10 @@ class MaintenanceApplication(ExtDocApplication):
         """
         Returns dict with object's fields and values
         """
-        o = self.queryset(request).get(**{self.pk: id})
-        return self.response(self.instance_to_dict(o, fields=self.ONLY), status=self.OK)
+        o = self.queryset(request).filter(**{self.pk: id}).first()
+        return self.response(
+            self.instance_to_dict(o, exclude_fields=["affected_objects"]), status=self.OK
+        )
 
     @view(
         method=["PUT"],
@@ -126,12 +107,9 @@ class MaintenanceApplication(ExtDocApplication):
             self.logger.info("Bad request: %r (%s)", request.body, e)
             return self.response(str(e), status=self.BAD_REQUEST)
         try:
-            o = self.queryset(request).get(**{self.pk: id})
+            o = self.queryset(request).filter(**{self.pk: id}).first()
         except self.model.DoesNotExist:
             return HttpResponse("", status=self.NOT_FOUND)
-        if self.has_uuid and not attrs.get("uuid") and not o.uuid:
-            attrs["uuid"] = uuid.uuid4()
-
         for k in attrs:
             if not self.has_field_editable(k):
                 continue
@@ -142,27 +120,24 @@ class MaintenanceApplication(ExtDocApplication):
         except ValidationError as e:
             return self.response({"message": str(e)}, status=self.BAD_REQUEST)
         # Reread result
-        o = self.model.objects.get(**{self.pk: id})
+        o = self.model.objects.filter(**{self.pk: id}).first()
         if request.is_extjs:
-            r = {"success": True, "data": self.instance_to_dict(o, fields=self.ONLY)}
+            r = {
+                "success": True,
+                "data": self.instance_to_dict(o, exclude_fields=["affected_objects"]),
+            }
         else:
-            r = self.instance_to_dict(o, fields=self.ONLY)
+            r = self.instance_to_dict(o, exclude_fields=["affected_objects"])
         return self.response(r, status=self.OK)
 
     @view(method=["GET"], url="^$", access="read", api=True)
     def api_list(self, request):
-        try:
-            return self.list_data(request, self.instance_to_dict_list)
-        except Exception:
-            return self.response({"result": "Maintenance not found"}, status=self.OK)
+        return self.list_data(request, self.instance_to_dict_list)
 
     def instance_to_dict_list(self, o, fields=None):
-        only = [
-            res
-            for res in self.ONLY
-            if res not in ["direct_objects", "direct_segments", "affected_objects"]
-        ]
-        return super().instance_to_dict(o, fields=only)
+        return super().instance_to_dict(
+            o, exclude_fields=["direct_objects", "direct_segments", "affected_objects"]
+        )
 
     @view(url="(?P<id>[0-9a-f]{24})/objects/", method=["GET"], access="read", api=True)
     def api_test(self, request, id):
