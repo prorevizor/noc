@@ -25,11 +25,7 @@ class Script(BaseScript):
         r"^\s*The Maximum Transmit Unit is (?P<mtu>\d+) bytes(, Hold timer is \d+\(sec\))?\s*\n"
         r"(^\s*Forward plane MTU: \S+\n)?"
         r"(^\s*Internet Address is (?P<ip>\S+)\s*\n)?"
-        r"(^\s*IP Sending Frames' Format is PKTFMT_ETHNT_2, Hardware address is (?P<mac>\S+)\s*\n)?"
-        r"(^\s*Internet protocol processing : (?P<ip_enabled>\S+)\s*\n)?"
-        r"(^\s*Encapsulation is .+\n)?"
-        r"(^\s*Tunnel source (?P<tun_src>\S+), destination (?P<tun_dst>\S+)\s*\n)?",
-        r"(^\s*Tunnel protocol/transport (?P<tun_type>\S+),",
+        r"(^\s*IP Sending Frames' Format is PKTFMT_ETHNT_2, Hardware address is (?P<mac>\S+)\s*\n)?",
         re.MULTILINE,
     )
     rx_if2 = re.compile(
@@ -254,13 +250,6 @@ class Script(BaseScript):
                 sub["mac"] = match.group("mac")
             if match.group("ifname") == "vlanif":
                 sub["vlan_ids"] = int(match.group("ifnum"))
-            if iftype == "tunnel":
-                sub["tunnel"] = {}
-                if match.group("ip_enabled") and match.group("ip_enabled") != "disabled":
-                    sub["tunnel"]["local_address"] = match.group("tun_src")
-                    sub["tunnel"]["remote_address"] = match.group("tun_dst")
-                if match.group("tun_type") and match.group("tun_type") == "GRE/IP":
-                    sub["tunnel"]["type"] = "GRE"
             if "ifparent" in match.groupdict() and match.group("ifparent"):
                 if match.group("ifparent") in interfaces:
                     interfaces[match.group("ifparent")]["subinterfaces"] += [sub]
