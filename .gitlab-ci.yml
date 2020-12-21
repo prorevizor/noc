@@ -212,7 +212,7 @@ py:test:
         - "**/*.py"
         - requirements.txt
         - "**/*.json"
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && "$CI_NOC_BUILD_MASTER" == "true"'
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && "$BUILD_MASTER" == "true"'
       when: never
   tags:
     - shell
@@ -296,7 +296,7 @@ build:Master Image:
   tags:
     - shell
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && "$CI_NOC_BUILD_MASTER" == "true"'
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && "$BUILD_MASTER" == "true"'
 
 build:web:
   stage: Build
