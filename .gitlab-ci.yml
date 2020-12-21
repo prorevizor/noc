@@ -370,6 +370,8 @@ gemnasium-python-dependency_scanning:
   rules:
     - if: $DEPENDENCY_SCANNING_DISABLED
       when: never
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $CI_NOC_BUILD_MASTER'
+      when: never
     - if: $CI_COMMIT_BRANCH &&
         $GITLAB_FEATURES =~ /\bdependency_scanning\b/
       changes:
