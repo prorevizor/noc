@@ -21,7 +21,7 @@ lint_ansible:
     - changes:
         - ansible/**/*
         - ansible/*
-    - if: '$CI_PIPELINE_SOURCE == "web" && $CI_NOC_CHECK_DEPLOY'
+    - if: '$CI_PIPELINE_SOURCE == "web" && "$CI_NOC_CHECK_DEPLOY" == "true" '
   tags:
     - docker
 
@@ -49,8 +49,8 @@ lint_ansible:
     - changes:
         - ansible/**/*
         - ansible/*
-    - if: '$CI_PIPELINE_SOURCE == "web" && $CI_NOC_CHECK_DEPLOY'
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && $CI_NOC_BUILD_MASTER'
+    - if: '$CI_PIPELINE_SOURCE == "web" && "$CI_NOC_CHECK_DEPLOY" == "true" '
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && "$CI_NOC_BUILD_MASTER" == "true" '
       when: never
 
 build_centos7:

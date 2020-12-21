@@ -211,7 +211,7 @@ py:test:
         - "**/*.py"
         - requirements.txt
         - "**/*.json"
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && $CI_NOC_BUILD_MASTER'
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && "$CI_NOC_BUILD_MASTER" == "true"'
       when: never
   tags:
     - shell
@@ -295,7 +295,7 @@ build:Master Image:
   tags:
     - shell
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && $CI_NOC_BUILD_MASTER'
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && "$CI_NOC_BUILD_MASTER" == "true" '
 
 build:web:
   stage: Build
@@ -372,7 +372,7 @@ gemnasium-python-dependency_scanning:
   rules:
     - if: $DEPENDENCY_SCANNING_DISABLED
       when: never
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && $CI_NOC_BUILD_MASTER'
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
     - if: $CI_COMMIT_BRANCH &&
         $GITLAB_FEATURES =~ /\bdependency_scanning\b/
