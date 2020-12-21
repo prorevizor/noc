@@ -135,6 +135,7 @@ class Config(BaseConfig):
         lookup_handler = HandlerParameter(default="noc.services.classifier.rulelookup.RuleLookup")
         default_interface_profile = StringParameter(default="default")
         default_rule = StringParameter(default="Unknown | Default")
+        allowed_time_drift = SecondsParameter(default="5m")
 
     class clickhouse(ConfigSection):
         rw_addresses = ServiceParameter(service="clickhouse", wait=True)
@@ -267,6 +268,7 @@ class Config(BaseConfig):
         google_key = SecretParameter(default="")
         google_language = StringParameter(default="en")
         negative_ttl = SecondsParameter(default="7d", help="Period then saving bad result")
+        ui_geocoder = StringParameter(default="")
 
     class gis(ConfigSection):
         ellipsoid = StringParameter(default="PZ-90")
@@ -529,6 +531,8 @@ class Config(BaseConfig):
         inventory_ttl = IntParameter(default=30)
         enable_fm = BooleanParameter(default=False)
         fm_ttl = IntParameter(default=30)
+        enable_liftbridge = BooleanParameter(default=False)
+        liftbridge_ttl = IntParameter(default=30)
 
     class sentry(ConfigSection):
         url = StringParameter(default="")

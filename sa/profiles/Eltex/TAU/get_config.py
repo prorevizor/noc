@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------
 # Eltex.TAU.get_config
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -15,7 +15,10 @@ class Script(BaseScript):
     interface = IGetConfig
 
     def execute_cli(self, **kwargs):
-        self.cli("config")
-        show = self.cli("show")
-        self.cli("exit")
-        return self.cleaned_config(show)
+        if self.is_tau4:
+            c = self.cli("cat /etc/config/cfg.yaml", cached=True)
+        elif self.is_tau8:
+            c = self.cli("cat /etc/config/*", cached=True)
+        else:
+            c = self.cli("cat /tmp/etc/config/cfg.yaml")
+        return self.cleaned_config(c)

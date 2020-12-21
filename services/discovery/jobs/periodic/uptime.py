@@ -54,9 +54,6 @@ class UptimeCheck(DiscoveryCheck):
                     "id": str(mo.object_profile.id),
                     "name": mo.object_profile.name,
                 },
-                "vendor": mo.vendor.name,
-                "platform": mo.platform.name,
-                "version": mo.version.version,
                 "administrative_domain": {
                     "id": str(mo.administrative_domain.id),
                     "name": str(mo.administrative_domain.name),
@@ -69,11 +66,23 @@ class UptimeCheck(DiscoveryCheck):
                 "y": mo.y,
             },
         }
+        if mo.vendor:
+            data["managed_object"]["vendor"] = mo.vendor.name
+        if mo.platform:
+            data["managed_object"]["platform"] = mo.platform.name
+        if mo.version:
+            data["managed_object"]["version"] = mo.version.version
         if mo.container:
             data["managed_object"]["container"] = {
                 "id": str(mo.container.id),
                 "name": mo.container.name,
             }
+        if mo.remote_system and mo.remote_id:
+            data["managed_object"]["remote_system"] = {
+                "id": str(mo.remote_system.id),
+                "name": mo.remote_system.name,
+            }
+            data["managed_object"]["remote_id"] = str(mo.remote_id)
         send_message(
             data,
             message_type="reboot",
