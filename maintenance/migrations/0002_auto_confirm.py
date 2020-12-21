@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
-# Drop old maintenance
+# Auto confirm
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -10,20 +10,18 @@ import datetime
 
 # NOC modules
 from noc.core.migration.base import BaseMigration
-from noc.maintenance.models.maintenance import Maintenance
 
 
 class Migration(BaseMigration):
     def migrate(self):
+        db = self.mongo_db
         now = datetime.datetime.now()
-        changed = False
-        for m in Maintenance.objects.filter(is_completed=False, auto_confirm__exists=False):
-            if m.stop < now:
-                changed = True
-                m.is_completed = True
-            elif m.stop > now:
-                changed = True
-                m.auto_confirm = True
-            if changed:
-                m.save()
-                changed = False
+        db.noc.maintenance.update_many(
+            {"is_completed": False, "auto_confirm": {"$exists": False}, "stop": {"$lte": now}},
+            {"$set": {"is_completed": True}},
+        )
+
+        db.noc.maintenance.update_many(
+            {"is_completed": False, "auto_confirm": {"$exists": False}, "stop": {"$gte": now}},
+            {"$set": {"auto_confirm": True}},
+        )
