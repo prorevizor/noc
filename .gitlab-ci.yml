@@ -211,6 +211,8 @@ py:test:
         - "**/*.py"
         - requirements.txt
         - "**/*.json"
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $CI_NOC_BUILD_MASTER'
+      when: never
   tags:
     - shell
   allow_failure: false
