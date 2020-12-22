@@ -292,7 +292,7 @@ build:Master Image:
     - docker push $CI_REGISTRY_IMAGE/static:master
     - docker rmi $CI_REGISTRY_IMAGE/code:master $CI_REGISTRY_IMAGE/dev:master $CI_REGISTRY_IMAGE/static:master
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && "$BUILD_MASTER" == "true"'
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $BUILD_MASTER == "true"'
   tags:
     - shell
 
