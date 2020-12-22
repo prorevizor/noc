@@ -212,8 +212,6 @@ py:test:
         - "**/*.py"
         - requirements.txt
         - "**/*.json"
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && "$BUILD_MASTER" == "true"'
-      when: never
   tags:
     - shell
   allow_failure: false
@@ -293,10 +291,10 @@ build:Master Image:
     - docker push $CI_REGISTRY_IMAGE/dev:master
     - docker push $CI_REGISTRY_IMAGE/static:master
     - docker rmi $CI_REGISTRY_IMAGE/code:master $CI_REGISTRY_IMAGE/dev:master $CI_REGISTRY_IMAGE/static:master
-  tags:
-    - shell
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule" && "$BUILD_MASTER" == "true"'
+  tags:
+    - shell
 
 build:web:
   stage: Build
