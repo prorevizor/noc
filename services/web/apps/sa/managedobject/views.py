@@ -225,6 +225,8 @@ class ManagedObjectApplication(ExtModelApplication):
             r["administrative_domain__in"] = ad
         if geoaddr:
             scope, addr_id = geoaddr.split(":", 1)
+            if "," in addr_id:
+                addr_id = [x.strip() for x in addr_id.split(",")]
             addr_mo = set()
             for o in Object.iter_by_address_id(addr_id, scope):
                 addr_mo |= set(o.iter_managed_object_id())

@@ -870,7 +870,9 @@ class Object(Document):
         Sensor.sync_object(self)
 
     @classmethod
-    def iter_by_address_id(cls, address: str, scope: str = None) -> Iterable["Object"]:
+    def iter_by_address_id(
+        cls, address: Union[str, List[str]], scope: str = None
+    ) -> Iterable["Object"]:
         """
         Get objects
         :param address:
