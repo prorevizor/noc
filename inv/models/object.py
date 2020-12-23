@@ -879,19 +879,19 @@ class Object(Document):
         :param scope:
         :return:
         """
-        if not isinstance(address, list):
-            address = [address]
-        yield from cls.objects.filter(
-            data__match=[
-                {
-                    "interface": "address",
-                    "scope": scope or "",
-                    "attr": "id",
-                    "value": a,
-                }
-                for a in address
-            ]
-        )
+        q = {
+            "interface": "address",
+            "scope": scope or "",
+            "attr": "id",
+        }
+        if isinstance(address, list):
+            if len(address) == 1:
+                q["value"] = address[0]
+            else:
+                q["value__in"] = address
+        else:
+            q["value"] = address
+        yield from cls.objects.filter(data__match=q)
 
 
 signals.pre_delete.connect(Object.detach_children, sender=Object)
