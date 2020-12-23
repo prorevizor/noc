@@ -504,15 +504,6 @@ table {
   z-index: 20;
 }
 
-.geo-virtual {
-  font-weight: bold;
-  font-style: italic;
-}
-
-.geo-virtual:after {
-  content: "...";
-}
-
 .geo-loose {
   font-style: italic;
 }

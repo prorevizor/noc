@@ -24,7 +24,7 @@ Ext.define("NOC.core.modelfilter.GeoAddress", {
         select: me.onChange,
         clear: me.onChange
       },
-      dataFields: ["id", "label", "is_virtual", "style", "is_loose"],
+      dataFields: ["id", "label", "style", "is_loose"],
       tpl:
         '<tpl for=".">' +
         '<div class="x-boundlist-item {style}">{label}</div>' +
@@ -51,14 +51,5 @@ Ext.define("NOC.core.modelfilter.GeoAddress", {
     if (me.name in filter) {
       me.combo.setValue(filter[me.name]);
     }
-  },
-
-  onChange: function(_, record) {
-    var me = this;
-    if(record.get("is_loose")) {
-      me.combo.doQuery(record.get("label"));
-      return;
-    }
-    if (Ext.isDefined(me.handler)) me.handler();
   }
 });

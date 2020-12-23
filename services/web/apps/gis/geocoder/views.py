@@ -24,23 +24,14 @@ class GeoCoderApplication(ExtApplication):
         scope = config.geocoding.ui_geocoder
         geocoder = loader.get_class(scope)()
         g_data = list(geocoder.iter_query(query))
-        all_ids = ",".join(r.id for r in g_data)
         if start:
             g_data = g_data[start:]
         if limit:
             g_data = g_data[: limit - 1]
         data = [
             {
-                "id": f"{scope}:{all_ids}",
-                "label": f"{query}",
-                "style": "geo-virtual",
-                "is_loose": False,
-            }
-        ]
-        data += [
-            {
-                "id": f"{scope}:{r.id}",
-                "label": r.address,
+                "id": f"{scope}:{r.address}",
+                "label": r.address if r.exact else f"{r.address}...",
                 "style": "geo-loose" if not r.exact else "",
                 "is_loose": not r.exact,
             }

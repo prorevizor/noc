@@ -879,6 +879,10 @@ class Object(Document):
         :param scope:
         :return:
         """
+        if isinstance(address, list):
+            if len(address) == 1:
+                address = address[0]
+        # @todo: $in query
         yield from cls.objects.filter(
             data__match={
                 "interface": "address",
