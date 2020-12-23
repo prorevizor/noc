@@ -879,17 +879,18 @@ class Object(Document):
         :param scope:
         :return:
         """
-        if isinstance(address, list):
-            if len(address) == 1:
-                address = address[0]
-        # @todo: $in query
+        if not isinstance(address, list):
+            address = [address]
         yield from cls.objects.filter(
-            data__match={
-                "interface": "address",
-                "scope": scope or "",
-                "attr": "id",
-                "value": address,
-            }
+            data__match=[
+                {
+                    "interface": "address",
+                    "scope": scope or "",
+                    "attr": "id",
+                    "value": a,
+                }
+                for a in address
+            ]
         )
 
 
