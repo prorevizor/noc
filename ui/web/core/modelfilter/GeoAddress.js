@@ -19,6 +19,8 @@ Ext.define("NOC.core.modelfilter.GeoAddress", {
       width: me.width,
       typeAheadDelay: 500,
       minChars: 4,
+      pageSize: 0,
+      hideTrigger:  true,
       listeners: {
         scope: me,
         select: me.onChange,
