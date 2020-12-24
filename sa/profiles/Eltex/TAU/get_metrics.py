@@ -35,7 +35,7 @@ class Script(GetMetricsScript):
     )
     def get_memory_free(self, metrics):
         v = self.snmp.get("1.3.6.1.4.1.35265.1.9.4.0", cached=True)
-        mem_usage = float(mem[:-2])*446.44
+        mem_usage = float(v[:-2])/446.44
         self.set_metric(
             id=("Memory | Usage", None),
             path=[""],
