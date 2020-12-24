@@ -14,7 +14,7 @@ from collections import defaultdict
 import operator
 import re
 from time import perf_counter
-from typing import Dict
+from typing import Optional, Dict
 
 # Third-party modules
 import cachetools
