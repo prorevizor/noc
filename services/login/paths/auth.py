@@ -120,9 +120,12 @@ async def auth_authorization(request: Request, authorization: str) -> ORJSONResp
             request.client.host,
             schema,
         )
-        return ORJSONResponse({"status": False}, status_code=401)
     else:
-        return ORJSONResponse({"status": False}, status_code=400)
+        logger.error(
+            "[Authorization][%s] Denied: Unsupported authorization header",
+            request.client.host,
+        )
+    return ORJSONResponse({"status": False}, status_code=401)
 
 
 async def auth_authorization_basic(request: Request, data: str) -> ORJSONResponse:
