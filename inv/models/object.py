@@ -40,7 +40,6 @@ from noc.core.datastream.decorator import datastream
 from noc.main.models.remotesystem import RemoteSystem
 from noc.core.comp import smart_text
 from noc.config import config
-from .connectiontype import ConnectionType
 from .objectmodel import ObjectModel
 from .modelinterface import ModelInterface
 from .objectlog import ObjectLog

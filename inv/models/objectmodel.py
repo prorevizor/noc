@@ -238,8 +238,6 @@ class ObjectModel(Document):
         :param rc:
         :return:
         """
-        name = lc.name
-        remote_name = rc.name
         # Check genders are compatible
         r_gender = ConnectionType.OPPOSITE_GENDER[rc.gender]
         if lc.gender != r_gender:
