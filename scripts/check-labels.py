@@ -227,7 +227,6 @@ class TestSuite(object):
                     assert label not in self.labels, "'%s' label must not be set." % label
 
         file_parts = [f.split(os.sep) for f in self.files]
-        print("Tests file parts", file_parts)
         test_affected("ansible", lambda x: x[0] == "ansible")
         test_affected("core", lambda x: x[0] == "core")
         test_affected("confdb", lambda x: x[:3] == ["core", "confdb", "syntax"])
