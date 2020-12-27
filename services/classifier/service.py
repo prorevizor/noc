@@ -374,9 +374,6 @@ class ClassifierService(TornadoService):
             event.event_class.name,
             event.vars,
         )
-        # Additionally check link events
-        if await self.check_link_event(event):
-            return
         # Deduplication
         if self.deduplicate_event(event):
             return
@@ -392,6 +389,9 @@ class ClassifierService(TornadoService):
         self.suppress_filter.register(event)
         # Call handlers
         if self.call_event_handlers(event):
+            return
+        # Additionally check link events
+        if await self.check_link_event(event):
             return
         # Call triggers
         if self.call_event_triggers(event):
