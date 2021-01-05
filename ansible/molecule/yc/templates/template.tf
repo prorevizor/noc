@@ -46,7 +46,7 @@ resource "yandex_compute_instance" "vm-1" {
 }
 
   timeouts {
-    create = "10m"
+    create = "10m",
     delete = "10m"
   }
 
