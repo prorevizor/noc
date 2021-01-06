@@ -22,8 +22,6 @@ Ext.define("NOC.inv.inv.plugins.sensor.SensorPanel", {
 
         me.gridField = Ext.create({
             xtype: "gridfield",
-            save: false,
-            saveHandler: me.saveHandler,
             columns: [
                 {
                     dataIndex: "profile",
@@ -62,7 +60,43 @@ Ext.define("NOC.inv.inv.plugins.sensor.SensorPanel", {
                     dataIndex: "snmp_oid",
                     text: __("snmp_oid"),
                 }
-            ]
+            ],
+            onCellEdit: function(editor, e) {
+                var data = {},
+                    grid = this.grid,
+                    ed = e.grid.columns[e.colIdx].getEditor();
+
+                if(ed.rawValue) {
+                    e.record.set(e.field + "__label", ed.rawValue);
+                }
+                data[e.field] = e.value;
+                grid.mask();
+                Ext.Ajax.request({
+                    url: "/inv/inv/" + e.record.data.id + "/plugin/sensor/",
+                    method: "POST",
+                    scope: me,
+                    jsonData: data,
+                    success: function() {
+                        grid.unmask();
+                        e.record.commit();
+                        NOC.msg.complete(__("Saved"));
+                    },
+                    failure: function(response) {
+                        var message = "Not saved";
+                        if(response.responseText) {
+                            try {
+                                message = Ext.decode(response.responseText).message
+                            } catch(err) {
+                                console.log(response.responseText)
+                            }
+                        }
+                        grid.unmask();
+                        NOC.error(message)
+                    }
+                });
+            }
+        });
+        Ext.override(me.gridField, {
         });
         Ext.apply(me, {
             items: [
@@ -76,10 +110,5 @@ Ext.define("NOC.inv.inv.plugins.sensor.SensorPanel", {
         var me = this;
         me.currentId = data.id;
         me.gridField.store.loadData(data)
-    },
-    //
-    saveHandler: function() {
-        var me = this;
-        console.log(me);
     }
 });

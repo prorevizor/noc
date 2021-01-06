@@ -12,8 +12,6 @@ Ext.define("Ext.ux.form.GridField", {
         field: 'Ext.form.field.Field'
     },
     alias: "widget.gridfield",
-    save: false,
-    saveHandler: undefined,
     columns: [],
     toolbar: null,
 
@@ -68,14 +66,6 @@ Ext.define("Ext.ux.form.GridField", {
             handler: me.onCloneRecord
         });
 
-        me.saveButton = Ext.create("Ext.button.Button", {
-            text: __("Save"),
-            glyph: NOC.glyph.save,
-            disabled: true,
-            scope: me,
-            handler: me.saveHandler
-        });
-
         // Build toolbar
         toolbar = [
             me.insertButton,
@@ -84,9 +74,6 @@ Ext.define("Ext.ux.form.GridField", {
             "-",
             me.cloneButton
         ];
-        if(me.save) {
-            toolbar.push(me.saveButton);
-        }
         if(me.toolbar) {
             toolbar.push("-");
             toolbar = toolbar.concat(me.toolbar);
@@ -136,7 +123,7 @@ Ext.define("Ext.ux.form.GridField", {
     getSubmitData: function() {
         var me = this,
             data = null;
-        if(!me.disabled && me.submitValue) {
+        if (!me.disabled && me.submitValue) {
             data = {};
             data[me.getName()] = me.getValue();
         }
