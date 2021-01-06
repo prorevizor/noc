@@ -43,12 +43,12 @@ resource "yandex_compute_instance" "vm-1" {
   metadata = {
     ssh-keys = "{{ item.ssh_user }}:${file("{{ molecule_yml.driver.ssh_identity_file_pub }}")}",
     serial-port-enable = 1  }
-}
 
   timeouts {
-    create = "10m",
+    create = "10m"
     delete = "10m"
   }
+}
 
 output "internal_ip_address_vm_1" {
   value = yandex_compute_instance.vm-1.network_interface[0].ip_address
