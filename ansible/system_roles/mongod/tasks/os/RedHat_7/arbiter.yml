@@ -1,7 +1,7 @@
 ---
 - name: Set mongod-arbiter defaults
   template:
-    src: "os/RedHat/etc/sysconfig/mongod-arbiter.j2"
+    src: "os/RedHat_7/etc/sysconfig/mongod-arbiter.j2"
     dest: "/etc/sysconfig/mongod-arbiter"
   notify:
     - restart mongod-arbiter

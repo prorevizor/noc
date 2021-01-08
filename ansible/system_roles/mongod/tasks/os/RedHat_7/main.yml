@@ -17,7 +17,7 @@
 
 - name: Disable Transparent Hugepages (bootloader)
   template:
-    src: "os/RedHat/etc/grub.d/50_disable_transparent_hugepages.j2"
+    src: "os/RedHat_7/etc/grub.d/50_disable_transparent_hugepages.j2"
     dest: /etc/grub.d/50_disable_transparent_hugepages
   register: dht_status
 
@@ -76,7 +76,7 @@
 
 - name: Set mongod defaults
   template:
-    src: "os/RedHat/etc/sysconfig/mongod.j2"
+    src: "os/RedHat_7/etc/sysconfig/mongod.j2"
     dest: "/etc/sysconfig/mongod"
   notify: restart mongod
   when: mongod_version == 3.2
