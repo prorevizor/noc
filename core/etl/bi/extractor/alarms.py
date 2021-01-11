@@ -137,9 +137,9 @@ class AlarmsExtractor(ArchivingExtractor):
             DataStream.name = "alarm"
             ds = DataStream()
             for itm in ArchivedAlarm._get_collection().find(
-                    {"clear_timestamp": {"$lte": self.clean_ts}}
+                {"clear_timestamp": {"$lte": self.clean_ts}}
             ):
-                ds.delete_object(itm.get('_id'))
+                ds.delete_object(itm.get("_id"))
             ArchivedAlarm._get_collection().remove({"clear_timestamp": {"$lte": self.clean_ts}})
 
     @classmethod
