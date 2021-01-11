@@ -14,6 +14,7 @@ from noc.fm.models.reboot import Reboot
 from noc.fm.models.alarmclass import AlarmClass
 from noc.sa.models.managedobject import ManagedObject
 from noc.bi.models.alarms import Alarms
+from noc.core.datastream.base import DataStream
 from noc.core.etl.bi.stream import Stream
 from noc.config import config
 from noc.core.dateutils import hits_in_range
@@ -133,6 +134,10 @@ class AlarmsExtractor(ArchivingExtractor):
         # Clean
         if force:
             print("Clean ArchivedAlarm collection before %s" % self.clean_ts)
+            DataStream.name = 'alarm'
+            ds = DataStream()
+            for itm in ArchivedAlarm._get_collection().find({"clear_timestamp": {"$lte": self.clean_ts}}):
+                ds.delete_object(itm.get('_id'))
             ArchivedAlarm._get_collection().remove({"clear_timestamp": {"$lte": self.clean_ts}})
 
     @classmethod
