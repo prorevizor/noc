@@ -59,7 +59,7 @@ class Command(BaseCommand):
         get_parser.add_argument("objects", nargs=argparse.REMAINDER, help="Object ids")
         # clean
         clean_parser = subparsers.add_parser("clean")
-        clean_parser.add_argument("collection", action="store", type=str, help="Name of collection")
+        clean_parser.add_argument("--datastream", help="Datastream name")
 
     def handle(self, cmd, *args, **options):
         getattr(self, "handle_%s" % cmd)(*args, **options)
@@ -181,20 +181,18 @@ class Command(BaseCommand):
             d = orjson.loads(data)
             self.print(smart_text(orjson.dumps(d, option=orjson.OPT_INDENT_2)))
 
-    def handle_clean(self, *args, **options):
+    def handle_clean(self, datastream, *args, **options):
+        if not datastream:
+            self.die("--datastream is not set. Set one from list: %s" % ", ".join(self.MODELS))
         connect()
-        collection_prefix = "ds_"
 
         start_date = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
             days=config.datastream.alarm_ttl
         )
-        if not re.match(collection_prefix, options["collection"]):
-            print("`Name collection` must be name of DataString collections.")
-            return 0
-        ds = loader[options["collection"].replace(collection_prefix, "")]
+        ds = loader[datastream]
         collection = ds.get_collection()
         collection.delete_many({"_id": {"$lte": ObjectId.from_datetime(start_date)}})
-        print(f"Records of {options['collection']} collection were deleted.")
+        self.print("Done")
 
 
 if __name__ == "__main__":
