@@ -183,7 +183,6 @@ class Command(BaseCommand):
     def handle_clean(self, datastream, *args, **options):
         if datastream not in self.MODELS:
             self.die("--datastream is not set. Set one from list: %s" % ", ".join(self.MODELS))
-            return 0
         connect()
 
         start_date = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
