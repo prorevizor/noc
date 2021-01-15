@@ -646,6 +646,10 @@ class Config(BaseConfig):
             default=True,
             help="Activate Wait Mode for Address datastream (Mongo greater 3.6 needed)",
         )
+        alarm_ttl = IntParameter(
+            default=10,
+            help="Removing alarm records older days",
+        )
 
     class help(ConfigSection):
         base_url = StringParameter(default="https://docs.getnoc.com")
