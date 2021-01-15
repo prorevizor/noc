@@ -181,8 +181,9 @@ class Command(BaseCommand):
             self.print(smart_text(orjson.dumps(d, option=orjson.OPT_INDENT_2)))
 
     def handle_clean(self, datastream, *args, **options):
-        if not datastream:
+        if datastream not in self.MODELS:
             self.die("--datastream is not set. Set one from list: %s" % ", ".join(self.MODELS))
+            return 0
         connect()
 
         start_date = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
