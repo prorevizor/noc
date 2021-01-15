@@ -11,7 +11,6 @@ import argparse
 import datetime
 import itertools
 import logging
-import re
 
 # Third-party modules
 import orjson
