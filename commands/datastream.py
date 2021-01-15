@@ -8,13 +8,17 @@
 
 # Python modules
 import argparse
+import datetime
 import itertools
 import logging
+import re
 
 # Third-party modules
 import orjson
+from bson.objectid import ObjectId
 
 # NOC modules
+from noc.config import config
 from noc.core.management.base import BaseCommand
 from noc.core.datastream.loader import loader
 from noc.core.mongo.connection import connect
@@ -53,6 +57,9 @@ class Command(BaseCommand):
         get_parser.add_argument("--datastream", help="Datastream name")
         get_parser.add_argument("--filter", action="append", help="Datastream filter")
         get_parser.add_argument("objects", nargs=argparse.REMAINDER, help="Object ids")
+        # clean
+        clean_parser = subparsers.add_parser("clean")
+        clean_parser.add_argument("collection", action="store", type=str, help="Name of collection")
 
     def handle(self, cmd, *args, **options):
         getattr(self, "handle_%s" % cmd)(*args, **options)
@@ -173,6 +180,21 @@ class Command(BaseCommand):
             )
             d = orjson.loads(data)
             self.print(smart_text(orjson.dumps(d, option=orjson.OPT_INDENT_2)))
+
+    def handle_clean(self, *args, **options):
+        connect()
+        collection_prefix = "ds_"
+
+        start_date = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
+            days=config.datastream.alarm_ttl
+        )
+        if not re.match(collection_prefix, options["collection"]):
+            print("`Name collection` must be name of DataString collections.")
+            return 0
+        ds = loader[options["collection"].replace(collection_prefix, "")]
+        collection = ds.get_collection()
+        collection.delete_many({"_id": {"$lte": ObjectId.from_datetime(start_date)}})
+        print(f"Records of {options['collection']} collection were deleted.")
 
 
 if __name__ == "__main__":
