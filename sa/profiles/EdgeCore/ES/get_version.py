@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------
 # EdgeCore.ES.get_version
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -131,6 +131,14 @@ class Script(BaseScript):
                 platform = "ECS4210-12T"
             elif platform == "1.3.6.1.4.1.259.10.1.42.104":
                 platform = "ECS4210-12P"
+            elif platform == "1.3.6.1.4.1.259.10.1.24.101":
+                platform = "ECS4510-28T"
+            elif platform == "1.3.6.1.4.1.259.10.1.24.102":
+                platform = "ECS4510-28P"
+            elif platform == "1.3.6.1.4.1.259.10.1.24.103":
+                platform = "ECS4510-28F"
+            elif platform == "1.3.6.1.4.1.259.10.1.24.104":
+                platform = "ECS4510-52T"
             elif platform == "1.3.6.1.4.1.259.6.10.50":
                 platform = "ES3526X"
             else:
