@@ -114,8 +114,8 @@ class Profile(BaseProfile):
             r[current_iface][k.strip()] = v.strip()
         return r
 
-    _IF_TYPES = {"eth": "physical", "vla": "SVI", "tru": "aggregated"}
+    INTERFACE_TYPES = {"eth": "physical", "vla": "SVI", "tru": "aggregated"}
 
     @classmethod
     def get_interface_type(cls, name):
-        return cls._IF_TYPES.get(name[:3].lower(), "unknown")
+        return cls.INTERFACE_TYPES.get(name[:3].lower(), "unknown")
