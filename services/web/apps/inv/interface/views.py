@@ -53,7 +53,7 @@ class InterfaceAppplication(ExtApplication):
             "inv:interface:launch",
             "sa:managedobject:launch",
             "sa:managedobject:lookup",
-            "sa:managedobject:read"
+            "sa:managedobject:read",
         ]
     }
 
