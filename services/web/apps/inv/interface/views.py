@@ -47,11 +47,7 @@ class InterfaceAppplication(ExtApplication):
 
     implied_permissions = {
         "get_mac": [
-            "inv:inv:connect",
-            "inv:inv:launch",
             "inv:inv:read",
-            "inv:interface:launch",
-            "sa:managedobject:launch",
             "sa:managedobject:lookup",
             "sa:managedobject:read",
         ]
