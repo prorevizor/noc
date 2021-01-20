@@ -9,14 +9,8 @@
 import logging
 
 # Third-party modules
-from mongoengine.document import Document, EmbeddedDocument
-from mongoengine.fields import (
-    ListField,
-    StringField,
-    ReferenceField,
-    DynamicField,
-    EmbeddedDocumentField,
-)
+from mongoengine.document import Document
+from mongoengine.fields import ListField, EmbeddedDocumentField
 
 # NOC modules
 from noc.inv.models.capability import Capability
