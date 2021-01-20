@@ -45,8 +45,17 @@ class InterfaceAppplication(ExtApplication):
         }
     }
 
-    implied_permissions = {"get_mac": ["inv:inv:connect", "inv:inv:launch", "inv:inv:read", "inv:interface:launch",
-                                       "sa:managedobject:launch", "sa:managedobject:lookup", "sa:managedobject:read"]}
+    implied_permissions = {
+        "get_mac": [
+            "inv:inv:connect",
+            "inv:inv:launch",
+            "inv:inv:read",
+            "inv:interface:launch",
+            "sa:managedobject:launch",
+            "sa:managedobject:lookup",
+            "sa:managedobject:read"
+        ]
+    }
 
     @view(url=r"^(?P<managed_object>\d+)/$", method=["GET"], access="view", api=True)
     def api_get_interfaces(self, request, managed_object):
