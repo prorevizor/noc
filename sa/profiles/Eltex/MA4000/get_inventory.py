@@ -31,8 +31,13 @@ class Script(BaseScript):
     rx_sep = re.compile(r"\s\s+")
 
     def execute_cli(self, **kwargs):
-        v = self.scripts.get_version()
-        res = [{"type": "CHASSIS", "vendor": "ELTEX", "part_no": "MA4000",}]
+        res = [
+            {
+                "type": "CHASSIS",
+                "vendor": "ELTEX",
+                "part_no": "MA4000",
+            }
+        ]
         for i in [1, 2]:
             v = self.cli("show system information %d" % i, cached=True)
             match = self.rx_serial.search(v)
