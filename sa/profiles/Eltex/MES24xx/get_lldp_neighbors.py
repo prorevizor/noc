@@ -12,6 +12,7 @@ import re
 # NOC modules
 from noc.sa.profiles.Generic.get_lldp_neighbors import Script as BaseScript
 from noc.sa.interfaces.igetlldpneighbors import IGetLLDPNeighbors
+from noc.sa.interfaces.base import InterfaceTypeError
 from noc.core.mib import mib
 from noc.core.lldp import (
     LLDP_CHASSIS_SUBTYPE_MAC,
@@ -79,7 +80,7 @@ class Script(BaseScript):
                 # Iface alias
                 iface_name = port_id  # BUG. Look in PortID instead PortDesc
                 try:
-                    ifname = self.profile.convert_interface_name(iface_name)
+                    iface_name = self.profile.convert_interface_name(iface_name)
                 except InterfaceTypeError:
                     # Last resort
                     iface_name = names[int(port_num)]
