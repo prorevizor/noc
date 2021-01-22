@@ -114,7 +114,7 @@ class MetricsCheck(DiscoveryCheck):
         super().__init__(*args, **kwargs)
         self.id_count = itertools.count()
         self.id_metrics: Dict[str, MetricConfig] = {}
-        self.id_ctx: Dict[str, Dict[str, Any]] = None
+        self.id_ctx: Dict[str, Dict[str, Any]] = {}
 
     @staticmethod
     @cachetools.cached({})
