@@ -11,7 +11,7 @@ import sys
 import datetime
 import re
 from collections import defaultdict
-from typing import Optional, Dict
+from typing import Optional, Dict, List
 import operator
 
 # Third-party modules
@@ -43,6 +43,8 @@ from noc.core.fm.enum import RCA_RULE, RCA_TOPOLOGY, RCA_DOWNLINK_MERGE
 from noc.core.liftbridge.message import Message
 from noc.services.correlator.rcalock import RCALock
 
+ALARM_REPEAT = "NOC | Alarm | Repeat Threshold"
+
 
 class CorrelatorService(TornadoService):
     name = "correlator"
@@ -62,6 +64,7 @@ class CorrelatorService(TornadoService):
         self.slot_number = 0
         self.total_slots = 0
         self.is_distributed = False
+        self.repeat: Dict[str, List[int]] = {}
         # Scheduler
         self.scheduler: Optional[Scheduler] = None
         # Locks
@@ -235,6 +238,108 @@ class CorrelatorService(TornadoService):
                     found = True
         return found
 
+    async def check_repeat(self, rule: Rule, alarm: ActiveAlarm, event: ActiveEvent):
+        """
+        Check thresholds
+        :param discriminator: Unique
+        :param alarm: ActiveAlarm
+        :param event: ActiveEvent
+        """
+        intervals = (
+            ("weeks", 604800),  # 60 * 60 * 24 * 7
+            ("days", 86400),  # 60 * 60 * 24
+            ("hours", 3600),  # 60 * 60
+            ("minutes", 60),
+            ("seconds", 1),
+        )
+
+        def display_time(seconds, granularity=2):
+            result = []
+
+            for name, count in intervals:
+                value = seconds // count
+                if value:
+                    seconds -= value * count
+                    if value == 1:
+                        name = name.rstrip("s")
+                    result.append("{} {}".format(value, name))
+            return ", ".join(result[:granularity])
+
+        # Build window state key
+        managed_object = self.eval_expression(rule.managed_object, event=event)
+        discriminator, vars = rule.get_vars(event)
+        alarm_class = AlarmClass.get_by_name(ALARM_REPEAT)
+        key = "%s|%s" % (alarm.alarm_class.id, discriminator)
+        ts = int(alarm.timestamp.timestamp())
+        ets = int(event.timestamp.timestamp())
+        acrw = alarm.alarm_class.repeat_window
+        acrt = alarm.alarm_class.repeat_threshold
+        window = self.repeat.get(key, [])
+
+        if ets - ts > acrw:
+            ts = ets
+        window.append(ts)
+        # Trim window according to policy
+        window_full = ts - window[0] >= acrw >= ts - window[-1:][0]
+        while ts - window[0] > acrw:
+            window.pop(0)
+        self.repeat[key] = window
+        if not window_full:
+            self.logger.debug(
+                "Cannot calculate thresholds for %s: Window is not filled", alarm.alarm_class
+            )
+            return
+        if len(window) >= acrt:
+            a = ActiveAlarm.objects.filter(
+                managed_object=managed_object.id, discriminator=key
+            ).first()
+            if not a:
+                vars.update(
+                    {
+                        "alarm_class_name": alarm.alarm_class.name,
+                        "repeat_window": display_time(alarm.alarm_class.repeat_window),
+                        "repeat_threshold": alarm.alarm_class.repeat_threshold,
+                    }
+                )
+                a = ActiveAlarm(
+                    timestamp=datetime.datetime.now(),
+                    last_update=datetime.datetime.now(),
+                    managed_object=managed_object.id,
+                    alarm_class=alarm_class,
+                    severity=alarm_class.default_severity.severity,
+                    vars=vars,
+                    discriminator=key,
+                    log=[
+                        AlarmLog(
+                            timestamp=datetime.datetime.now(),
+                            from_status="A",
+                            to_status="A",
+                            message="Alarm risen from alarm %s(%s)"
+                            % (str(alarm.id), str(alarm.alarm_class.name)),
+                        )
+                    ],
+                )
+                a.save()
+                self.logger.info(
+                    "[%s|%s|%s] %s raises alarm %s(%s): %r",
+                    a.id,
+                    managed_object.name,
+                    managed_object.address,
+                    a.alarm_class.name,
+                    a.vars,
+                )
+                metrics["alarm_raise"] += 1
+                # Gather diagnostics when necessary
+                AlarmDiagnosticConfig.on_raise(a)
+                # Watch for escalations, when necessary
+                if config.correlator.auto_escalation and not a.root:
+                    AlarmEscalation.watch_escalations(a)
+            if a:
+                if datetime.datetime.now() > a.last_update:
+                    # Refresh last update
+                    a.last_update = datetime.datetime.now()
+                    a.save()
+
     async def raise_alarm(self, r, e):
         managed_object = self.eval_expression(r.managed_object, event=e)
         if not managed_object:
@@ -272,6 +377,8 @@ class CorrelatorService(TornadoService):
                         a.id,
                     )
                     a = a.reopen("Reopened by disposition rule '%s'" % r.u_name)
+                    if r.alarm_class.repeat_window and r.alarm_class.repeat_threshold:
+                        await self.check_repeat(r, a, e)
                     metrics["alarm_reopen"] += 1
             if a:
                 # Active alarm found, refresh
@@ -290,10 +397,14 @@ class CorrelatorService(TornadoService):
                     # Set to earlier date
                     a.timestamp = e.timestamp
                     a.save()
+                    if r.alarm_class.repeat_window and r.alarm_class.repeat_threshold:
+                        await self.check_repeat(r, a, e)
                 elif e.timestamp > a.last_update:
                     # Refresh last update
                     a.last_update = e.timestamp
                     a.save()
+                    if r.alarm_class.repeat_window and r.alarm_class.repeat_threshold:
+                        await self.check_repeat(r, a, e)
                 metrics["alarm_contribute"] += 1
                 return
         # Calculate alarm coverage
@@ -337,6 +448,8 @@ class CorrelatorService(TornadoService):
             opening_event=e.id,
         )
         a.save()
+        if r.alarm_class.repeat_window and r.alarm_class.repeat_threshold:
+            await self.check_repeat(r, a, e)
         e.contribute_to_alarm(a)
         self.logger.info(
             "[%s|%s|%s] %s raises alarm %s(%s): %r",
