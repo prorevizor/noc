@@ -5,9 +5,6 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
-# Python modules
-from typing import Optional
-
 # NOC modules
 from noc.lib.app.extdocapplication import ExtDocApplication
 from noc.main.models.label import Label
