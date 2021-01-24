@@ -314,7 +314,7 @@ class CorrelatorService(TornadoService):
                             timestamp=datetime.datetime.now(),
                             from_status="A",
                             to_status="A",
-                            message="Alarm risen from alarm %s(%s)"
+                            message="Alarm risen from alarm %s (%s)"
                             % (str(alarm.id), str(alarm.alarm_class.name)),
                         )
                     ],
