@@ -10,7 +10,7 @@ from pyrad.packet import AccessAccept, AccessRequest
 from pyrad.client import Client
 from pyrad.dictionary import Dictionary
 
-from django.utils.encoding import smart_bytes
+from noc.core.comp import smart_bytes
 
 # NOC modules
 from noc.config import config
