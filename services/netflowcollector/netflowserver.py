@@ -25,13 +25,13 @@ class NetflowServer(UDPServer):
         self.service = service
 
     def enable_reuseport(self):
-        return config.syslogcollector.enable_reuseport
+        return config.netflowcollector.enable_reuseport
 
     def enable_freebind(self):
-        return config.syslogcollector.enable_freebind
+        return config.netflowcollector.enable_freebind
 
     def on_read(self, data: bytes, address: Tuple[str, int]):
-        metrics["syslog_msg_in"] += 1
+        metrics["netflow_msg_in"] += 1
         cfg = self.service.lookup_config(address[0])
         if not cfg:
             return  # Invalid event source
