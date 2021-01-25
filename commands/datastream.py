@@ -185,7 +185,7 @@ class Command(BaseCommand):
             self.die("--datastream is not set. Set one from list: %s" % ", ".join(self.MODELS))
         connect()
         ttl = getattr(config.datastream, "%s_ttl" % datastream, 0)
-        if ttl != 0:
+        if ttl:
             start_date = datetime.datetime.now() - datetime.timedelta(seconds=ttl)
             ds = loader[datastream]
             collection = ds.get_collection()
