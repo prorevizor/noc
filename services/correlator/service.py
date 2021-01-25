@@ -272,73 +272,97 @@ class CorrelatorService(TornadoService):
         key = "%s|%s" % (alarm.alarm_class.id, discriminator)
         ts = int(alarm.timestamp.timestamp())
         ets = int(event.timestamp.timestamp())
-        acrw = alarm.alarm_class.repeat_window
-        acrt = alarm.alarm_class.repeat_threshold
         window = self.repeat.get(key, [])
-
-        if ets - ts > acrw:
+        # Check if Event timestamp > Alarm timestamp use Event timestamp
+        if ets - ts > alarm.alarm_class.repeat_window:
             ts = ets
         window.append(ts)
         # Trim window according to policy
-        window_full = ts - window[0] >= acrw >= ts - window[-1:][0]
-        while ts - window[0] > acrw:
+        window_full = ts - window[0] >= alarm.alarm_class.repeat_window >= ts - window[-2::][0]
+        while ts - window[0] > alarm.alarm_class.repeat_window:
             window.pop(0)
         self.repeat[key] = window
-        if not window_full:
+        # Check window_full and len(window)
+        if (window_full and len(window) < alarm.alarm_class.repeat_threshold) or (
+            not window_full and len(window) < alarm.alarm_class.repeat_threshold
+        ):
             self.logger.debug(
                 "Cannot calculate thresholds for %s: Window is not filled", alarm.alarm_class
             )
             return
-        if len(window) >= acrt:
-            a = ActiveAlarm.objects.filter(
-                managed_object=managed_object.id, discriminator=key
-            ).first()
-            if not a:
-                vars.update(
-                    {
-                        "alarm_class_name": alarm.alarm_class.name,
-                        "repeat_window": display_time(alarm.alarm_class.repeat_window),
-                        "repeat_threshold": alarm.alarm_class.repeat_threshold,
-                    }
-                )
-                a = ActiveAlarm(
-                    timestamp=datetime.datetime.now(),
-                    last_update=datetime.datetime.now(),
-                    managed_object=managed_object.id,
-                    alarm_class=alarm_class,
-                    severity=alarm_class.default_severity.severity,
-                    vars=vars,
-                    discriminator=key,
-                    log=[
-                        AlarmLog(
-                            timestamp=datetime.datetime.now(),
-                            from_status="A",
-                            to_status="A",
-                            message="Alarm risen from alarm %s (%s)"
-                            % (str(alarm.id), str(alarm.alarm_class.name)),
-                        )
-                    ],
-                )
+        # Find active alarm
+        a = ActiveAlarm.objects.filter(managed_object=managed_object.id, discriminator=key).first()
+        # Crate new Alarm
+        if not a:
+            vars.update(
+                {
+                    "alarm_class_name": alarm.alarm_class.name,
+                    "repeat_window": display_time(alarm.alarm_class.repeat_window),
+                    "repeat_threshold": alarm.alarm_class.repeat_threshold,
+                }
+            )
+            a = ActiveAlarm(
+                timestamp=datetime.datetime.now(),
+                last_update=datetime.datetime.now(),
+                managed_object=managed_object.id,
+                alarm_class=alarm_class,
+                severity=alarm_class.default_severity.severity,
+                vars=vars,
+                discriminator=key,
+                log=[
+                    AlarmLog(
+                        timestamp=datetime.datetime.now(),
+                        from_status="A",
+                        to_status="A",
+                        message="Alarm Threshold risen from alarm %s (%s)"
+                        % (str(alarm.id), str(alarm.alarm_class.name)),
+                    )
+                ],
+            )
+            a.save()
+            self.logger.info(
+                "[%s|%s|%s] %s raises alarm %s (%s): %r",
+                alarm.id,
+                managed_object.name,
+                managed_object.address,
+                alarm.alarm_class.name,
+                a.id,
+                a.alarm_class.name,
+                a.vars,
+            )
+            metrics["alarm_raise"] += 1
+            # Gather diagnostics when necessary
+            AlarmDiagnosticConfig.on_raise(a)
+            # Watch for escalations, when necessary
+            if config.correlator.auto_escalation and not a.root:
+                AlarmEscalation.watch_escalations(a)
+            return
+        # Update active alarm
+        if a:
+            if datetime.datetime.now() > a.last_update:
+                # Refresh last update
+                a.last_update = datetime.datetime.now()
+                a.log += [
+                    AlarmLog(
+                        timestamp=datetime.datetime.now(),
+                        from_status="A",
+                        to_status="A",
+                        message="Alarm update by event %s (%s)"
+                        % (str(event.id), str(event.event_class.name)),
+                    )
+                ]
                 a.save()
                 self.logger.info(
-                    "[%s|%s|%s] %s raises alarm %s(%s): %r",
-                    a.id,
+                    "[%s|%s|%s] %s Update alarm %s (%s): %r",
+                    event.id,
                     managed_object.name,
                     managed_object.address,
+                    event.event_class.name,
+                    a.id,
                     a.alarm_class.name,
                     a.vars,
                 )
-                metrics["alarm_raise"] += 1
-                # Gather diagnostics when necessary
-                AlarmDiagnosticConfig.on_raise(a)
-                # Watch for escalations, when necessary
-                if config.correlator.auto_escalation and not a.root:
-                    AlarmEscalation.watch_escalations(a)
-            if a:
-                if datetime.datetime.now() > a.last_update:
-                    # Refresh last update
-                    a.last_update = datetime.datetime.now()
-                    a.save()
+                return
 
     async def raise_alarm(self, r, e):
         managed_object = self.eval_expression(r.managed_object, event=e)
