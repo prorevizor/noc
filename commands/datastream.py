@@ -184,13 +184,14 @@ class Command(BaseCommand):
         if datastream not in self.MODELS:
             self.die("--datastream is not set. Set one from list: %s" % ", ".join(self.MODELS))
         connect()
-
-        start_date = datetime.datetime.now() - datetime.timedelta(
-            seconds=config.datastream.ttl
-        )
-        ds = loader[datastream]
-        collection = ds.get_collection()
-        collection.delete_many({"_id": {"$lte": ObjectId.from_datetime(start_date)}})
+        ttl = getattr(config.datastream, "%s_ttl" % datastream, 0)
+        if ttl != 0:
+            start_date = datetime.datetime.now() - datetime.timedelta(
+                seconds=ttl
+            )
+            ds = loader[datastream]
+            collection = ds.get_collection()
+            collection.delete_many({"_id": {"$lte": ObjectId.from_datetime(start_date)}})
         self.print("Done")
 
 
