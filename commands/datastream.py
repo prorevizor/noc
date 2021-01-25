@@ -186,9 +186,7 @@ class Command(BaseCommand):
         connect()
         ttl = getattr(config.datastream, "%s_ttl" % datastream, 0)
         if ttl != 0:
-            start_date = datetime.datetime.now() - datetime.timedelta(
-                seconds=ttl
-            )
+            start_date = datetime.datetime.now() - datetime.timedelta(seconds=ttl)
             ds = loader[datastream]
             collection = ds.get_collection()
             collection.delete_many({"_id": {"$lte": ObjectId.from_datetime(start_date)}})
