@@ -185,7 +185,7 @@ class Command(BaseCommand):
             self.die("--datastream is not set. Set one from list: %s" % ", ".join(self.MODELS))
         connect()
 
-        start_date = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
+        start_date = datetime.datetime.now() - datetime.timedelta(
             seconds=config.datastream.alarm_ttl
         )
         ds = loader[datastream]
