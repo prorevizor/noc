@@ -610,7 +610,7 @@ class MetricsCheck(DiscoveryCheck):
                 window_full = len(window) == ws
             elif window_type == WT_TIME:
                 # Time-based window
-                window_full = ts - window[0][0] >= ws >= ts - window[-1:][0][0]
+                window_full = ts - window[0][0] >= ws >= ts - window[-2::][0][0]
                 while ts - window[0][0] > ws:
                     window.pop(0)
             else:
