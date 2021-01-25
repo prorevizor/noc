@@ -646,8 +646,8 @@ class Config(BaseConfig):
             default=True,
             help="Activate Wait Mode for Address datastream (Mongo greater 3.6 needed)",
         )
-        alarm_ttl = IntParameter(
-            default=10,
+        alarm_ttl = SecondsParameter(
+            default="14d",
             help="Removing alarm records older days",
         )
 
