@@ -186,7 +186,7 @@ class Command(BaseCommand):
         connect()
 
         start_date = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
-            days=config.datastream.alarm_ttl
+            seconds=config.datastream.alarm_ttl
         )
         ds = loader[datastream]
         collection = ds.get_collection()
