@@ -45,12 +45,12 @@ class NetflowCollectorService(TornadoService):
         # Listen sockets
         server = NetflowServer(service=self)
         for addr, port in server.iter_listen(config.netflowcollector.listen):
-            self.logger.info("Starting syslog server at %s:%s", addr, port)
+            self.logger.info("Starting netflow server at %s:%s", addr, port)
             try:
                 server.listen(port, addr)
             except OSError as e:
                 metrics["error", ("type", "socket_listen_error")] += 1
-                self.logger.error("Failed to start syslog server at %s:%s: %s", addr, port, e)
+                self.logger.error("Failed to start netflow server at %s:%s: %s", addr, port, e)
         server.start()
         # Report invalid sources every 60 seconds
         self.logger.info("Stating invalid sources reporting task")
