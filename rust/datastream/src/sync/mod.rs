@@ -10,7 +10,7 @@ use crate::client::ClientService;
 use crate::error::Error;
 use crate::state::StateService;
 use log::{error, info};
-use serde::export::PhantomData;
+use std::marker::PhantomData;
 
 const DEFAULT_ERR_TIMEOUT: u64 = 5;
 const MIN_PULL_TIME: u64 = 1000; // ms
