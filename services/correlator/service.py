@@ -297,8 +297,14 @@ class CorrelatorService(TornadoService):
                 metrics["alarm_contribute"] += 1
                 return
         # Calculate alarm coverage
+        severity = r.alarm_class.default_severity.severity
         summary = ServiceSummary.get_object_summary(managed_object)
         summary["object"] = {managed_object.object_profile.id: 1}
+        sum_check = summary.copy()
+        sum_check.pop("object")
+        if any(sum_check.values()):
+            self.logger.info("If summary %s, calculated alarm severity" % summary)
+            severity = max(ServiceSummary.get_severity(summary), 1)
         #
         severity = max(ServiceSummary.get_severity(summary), 1)
         self.logger.info(
