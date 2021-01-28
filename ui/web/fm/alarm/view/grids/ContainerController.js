@@ -143,7 +143,9 @@ Ext.define("NOC.fm.alarm.view.grids.ContainerController", {
     },
     addGroupComment: function() {
         var grid = this.lookupReference("fm-alarm-active"),
-            ids = grid.getSelection().map((alarm) => alarm.id),
+            ids = grid.getSelection().map(function(alarm) {
+                return alarm.id
+            }),
             view = this.getView(),
             msg = new Ext.window.MessageBox().prompt(
                 __("Set group comment"),
