@@ -17,7 +17,7 @@ from tempfile import TemporaryFile
 # Third-party modules
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.db import connection
-from pymongo import ReadPreference
+# from pymongo import ReadPreference
 
 # NOC modules
 from noc.lib.app.extapplication import ExtApplication, view
@@ -26,15 +26,7 @@ from noc.fm.models.archivedalarm import ArchivedAlarm
 from noc.fm.models.activealarm import ActiveAlarm
 from noc.fm.models.alarmclass import AlarmClass
 from noc.sa.models.managedobject import ManagedObject
-from noc.maintenance.models.maintenance import Maintenance
-from noc.sa.models.managedobjectselector import ManagedObjectSelector
 from noc.sa.models.administrativedomain import AdministrativeDomain
-from noc.sa.models.objectpath import ObjectPath
-from noc.sa.models.profile import Profile
-from noc.inv.models.platform import Platform
-from noc.inv.models.firmware import Firmware
-from noc.services.web.apps.fm.alarm.views import AlarmApplication
-from noc.crm.models.subscriberprofile import SubscriberProfile
 from noc.sa.models.useraccess import UserAccess
 from noc.core.translation import ugettext as _
 from noc.core.comp import smart_text
