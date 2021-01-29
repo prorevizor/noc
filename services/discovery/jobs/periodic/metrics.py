@@ -590,7 +590,7 @@ class MetricsCheck(DiscoveryCheck):
                             e,
                         )
             else:
-                self.logger.warning("Handler is not allowed for Thresholds")
+                self.logger.warning("Value Handler is not allowed for Thresholds")
         ts = m.ts // 1000000000
         # Do not store single-value windows
         window_type = cfg.threshold_profile.window_type
@@ -769,7 +769,7 @@ class MetricsCheck(DiscoveryCheck):
                                 except Exception as e:
                                     self.logger.error("Exception when calling close handler: %s", e)
                         else:
-                            self.logger.warning("Value Handler is not allowed for Thresholds")
+                            self.logger.warning("Handler is not allowed for Thresholds")
                 elif threshold.alarm_class:
                     # Remain umbrella alarm
                     alarms += self.get_umbrella_alarm_cfg(cfg, threshold, path, w_value)
