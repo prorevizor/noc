@@ -15,13 +15,11 @@ from zipfile import ZipFile, ZIP_DEFLATED
 from tempfile import TemporaryFile
 
 # Third-party modules
-from django.http import HttpResponse, HttpResponseBadRequest
-from django.db import connection
 # from pymongo import ReadPreference
 
 # NOC modules
 from noc.lib.app.extapplication import ExtApplication, view
-from noc.sa.interfaces.base import StringParameter, IntParameter
+from noc.sa.interfaces.base import StringParameter
 from noc.fm.models.archivedalarm import ArchivedAlarm
 from noc.fm.models.activealarm import ActiveAlarm
 from noc.fm.models.alarmclass import AlarmClass
