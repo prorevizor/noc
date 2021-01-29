@@ -33,7 +33,7 @@ id_lock = Lock()
         ("pm.ThresholdProfile", "umbrella_filter_handler"),
         ("pm.ThresholdProfile", "value_handler"),
         ("pm.ThresholdConfig", "open_handler"),
-        ("pm.ThresholdConfig", "close_handler")
+        ("pm.ThresholdConfig", "close_handler"),
     ]
 )
 class Handler(Document):
