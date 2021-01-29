@@ -15,6 +15,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 from tempfile import TemporaryFile
 
 # Third-party modules
+from django.http import HttpResponse
 # from pymongo import ReadPreference
 
 # NOC modules
