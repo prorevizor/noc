@@ -12,6 +12,10 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class StatusResponse(BaseModel):
+class StatusResponseOk(BaseModel):
     status: bool
     message: Optional[str]
+
+
+class StatusResponse(BaseModel):
+    error: Optional[str]
