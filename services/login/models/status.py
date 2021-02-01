@@ -18,4 +18,4 @@ class StatusResponseOk(BaseModel):
 
 
 class StatusResponse(BaseModel):
-    error: Optional[str]
+    error: Optional[str] = None

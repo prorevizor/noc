@@ -16,7 +16,7 @@ from ..models.status import StatusResponse, StatusResponseOk
 router = APIRouter()
 
 
-@router.post("/api/login/revoke", response_model=StatusResponse, tags=["login"])
+@router.post("/api/login/revoke", tags=["login"])
 async def revoke(req: RevokeRequest):
     if req.access_token:
         try:
