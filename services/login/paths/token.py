@@ -47,14 +47,10 @@ async def token(
         # CCGrantRequest + Basic auth header
         schema, data = authorization.split(" ", 1)
         if schema != "Basic":
-            raise HTTPException(
-                error="unsupported_grant_type", status_code=HTTPStatus.BAD_REQUEST
-            )
+            raise HTTPException(error="unsupported_grant_type", status_code=HTTPStatus.BAD_REQUEST)
         auth_data = smart_text(codecs.decode(smart_bytes(data), "base64"))
         if ":" not in auth_data:
-            raise HTTPException(
-                error="invalid_request", status_code=HTTPStatus.BAD_REQUEST
-            )
+            raise HTTPException(error="invalid_request", status_code=HTTPStatus.BAD_REQUEST)
         user, password = auth_data.split(":", 1)
         auth_req = {"user": user, "password": password, "ip": request.client.host}
     else:
