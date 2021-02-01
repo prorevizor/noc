@@ -550,13 +550,6 @@ class Config(BaseConfig):
         # DataStream request limit
         ds_limit = IntParameter(default=1000)
 
-    class netflowcollector(ConfigSection):
-        listen = StringParameter(default="0.0.0.0:2055")
-        enable_reuseport = BooleanParameter(default=True)
-        enable_freebind = BooleanParameter(default=False)
-        # DataStream request limit
-        ds_limit = IntParameter(default=1000)
-
     class icqsender(ConfigSection):
         token = SecretParameter()
         retry_timeout = IntParameter(default=2)
