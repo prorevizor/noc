@@ -13,4 +13,4 @@ class Script(BaseScript):
     name = "Sumavision.IPQAM.get_capabilities"
 
     def execute_platform_snmp(self, caps):
-        caps["Multicast | DVBC"] = True
+        caps["Network | DVBC"] = True
