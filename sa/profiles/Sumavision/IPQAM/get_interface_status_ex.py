@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------
-# Ttronics.KUB.get_interface_status_ex
+# Sumavision.IPQAM.get_interface_status_ex
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ from noc.sa.interfaces.igetinterfacestatusex import IGetInterfaceStatusEx
 
 
 class Script(BaseScript):
-    name = "Ttronics.KUB.get_interface_status_ex"
+    name = "Sumavision.IPQAM.get_interface_status_ex"
     interface = IGetInterfaceStatusEx
     requires = []
 
