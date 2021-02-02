@@ -581,6 +581,9 @@ class Config(BaseConfig):
         api_row_limit = IntParameter(default=0)
         api_unlimited_row_limit = IntParameter(default=1000)
         api_arch_alarm_limit = IntParameter(default=4 * 86400)
+        api_alarm_comments_limit = IntParameter(
+            default=10, help="Max Alarm comment count on UI Popup"
+        )
         max_upload_size = IntParameter(default=16777216)
         language = StringParameter(default="en")
         install_collection = BooleanParameter(default=False)
@@ -599,52 +602,96 @@ class Config(BaseConfig):
             default=True,
             help="Activate Wait Mode for Adm. Domain datastream (Mongo greater 3.6 needed)",
         )
+        administrativedomain_ttl = SecondsParameter(
+            default="0",
+            help="Removing datastream administrativedomain records older days",
+        )
         enable_alarm = BooleanParameter(default=False)
         enable_alarm_wait = BooleanParameter(
             default=True, help="Activate Wait Mode for Alarm datastream (Mongo greater 3.6 needed)"
+        )
+        alarm_ttl = SecondsParameter(
+            default="14d",
+            help="Removing datastream alarm records older days",
         )
         enable_cfgping = BooleanParameter(default=True)
         enable_cfgping_wait = BooleanParameter(
             default=True,
             help="Activate Wait Mode for CfgPing datastream (Mongo greater 3.6 needed)",
         )
+        cfgping_ttl = SecondsParameter(
+            default="0",
+            help="Removing datastream cfgping records older days",
+        )
         enable_cfgsyslog = BooleanParameter(default=True)
         enable_cfgsyslog_wait = BooleanParameter(
             default=True,
             help="Activate Wait Mode for CfgSyslog datastream (Mongo greater 3.6 needed)",
+        )
+        cfgsyslog_ttl = SecondsParameter(
+            default="0",
+            help="Removing datastream cfgsyslog records older days",
         )
         enable_cfgtrap = BooleanParameter(default=True)
         enable_cfgtrap_wait = BooleanParameter(
             default=True,
             help="Activate Wait Mode for CfgTrap datastream (Mongo greater 3.6 needed)",
         )
+        cfgtrap_ttl = SecondsParameter(
+            default="0",
+            help="Removing datastream cfgtrap records older days",
+        )
         enable_dnszone = BooleanParameter(default=False)
         enable_dnszone_wait = BooleanParameter(
             default=True,
             help="Activate Wait Mode for DNS Zone datastream (Mongo greater 3.6 needed)",
+        )
+        dnszone_ttl = SecondsParameter(
+            default="0",
+            help="Removing datastream dnszone records older days",
         )
         enable_managedobject = BooleanParameter(default=False)
         enable_managedobject_wait = BooleanParameter(
             default=True,
             help="Activate Wait Mode for ManagedObject datastream (Mongo greater 3.6 needed)",
         )
+        managedobject_ttl = SecondsParameter(
+            default="0",
+            help="Removing datastream managedobject records older days",
+        )
         enable_resourcegroup = BooleanParameter(default=False)
         enable_resourcegroup_wait = BooleanParameter(
             default=True,
             help="Activate Wait Mode for ResourceGroup datastream (Mongo greater 3.6 needed)",
         )
+        resourcegroup_ttl = SecondsParameter(
+            default="0",
+            help="Removing datastream resourcegroup records older days",
+        )
         enable_vrf = BooleanParameter(default=False)
         enable_vrf_wait = BooleanParameter(
             default=True, help="Activate Wait Mode for VRF datastream (Mongo greater 3.6 needed)"
+        )
+        vrf_ttl = SecondsParameter(
+            default="0",
+            help="Removing datastream vrf records older days",
         )
         enable_prefix = BooleanParameter(default=False)
         enable_prefix_wait = BooleanParameter(
             default=True, help="Activate Wait Mode for Prefix datastream (Mongo greater 3.6 needed)"
         )
+        prefix_ttl = SecondsParameter(
+            default="0",
+            help="Removing datastream prefix records older days",
+        )
         enable_address = BooleanParameter(default=False)
         enable_address_wait = BooleanParameter(
             default=True,
             help="Activate Wait Mode for Address datastream (Mongo greater 3.6 needed)",
+        )
+        address_ttl = SecondsParameter(
+            default="0",
+            help="Removing datastream address records older days",
         )
 
     class help(ConfigSection):

@@ -144,6 +144,8 @@ class ThresholdProfile(Document):
     window_function = StringField(choices=wf_choices, default="last")
     # Window function configuration
     window_config = StringField()
+    # Window preprocessor
+    value_handler = StringField()
     # thresholds config
     thresholds = ListField(EmbeddedDocumentField(ThresholdConfig))
 
@@ -187,6 +189,7 @@ class ThresholdProfile(Document):
                 "window": self.window,
                 "window_function": self.window_function,
                 "window_config": self.window_config,
+                "value_handler": self.value_handler,
                 "thresholds": [thrh.to_json() for thrh in self.thresholds],
             },
             order=["name", "uuid", "thresholds"],
