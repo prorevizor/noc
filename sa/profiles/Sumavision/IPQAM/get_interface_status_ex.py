@@ -16,12 +16,12 @@ class Script(BaseScript):
     interface = IGetInterfaceStatusEx
     requires = []
 
-    SPEED =  {
+    SPEED = {
         "1Gbps Full": 1000000,
         "100M Full": 100000,
         "100M Half": 100000,
         "10M Full": 10000,
-        "10M Half": 10000
+        "10M Half": 10000,
     }
 
     def execute_snmp(self, interfaces=None):
@@ -29,10 +29,16 @@ class Script(BaseScript):
 
         for moid, mindex in self.snmp.getnext("1.3.6.1.4.1.32285.2.2.10.3008.5.6.1.4"):
             channel = moid.split(".")[-2::][0]
-            mname = self.snmp.get("1.3.6.1.4.1.32285.2.2.10.3008.5.6.1.5.1.1.%s.%s" % (channel, mindex))
-            m_astatus = self.snmp.get("1.3.6.1.4.1.32285.2.2.10.3008.5.6.1.7.1.1.%s.%s" % (channel, mindex))
+            mname = self.snmp.get(
+                "1.3.6.1.4.1.32285.2.2.10.3008.5.6.1.5.1.1.%s.%s" % (channel, mindex)
+            )
+            m_astatus = self.snmp.get(
+                "1.3.6.1.4.1.32285.2.2.10.3008.5.6.1.7.1.1.%s.%s" % (channel, mindex)
+            )
             try:
-                minname = self.snmp.get("1.3.6.1.4.1.32285.2.2.10.3008.4.6.1.8.1.1.%s.%s" % (channel, mindex))
+                minname = self.snmp.get(
+                    "1.3.6.1.4.1.32285.2.2.10.3008.4.6.1.8.1.1.%s.%s" % (channel, mindex)
+                )
                 if minname and mname == minname:
                     m_ostatus = True
             except self.snmp.SNMPError:
@@ -42,7 +48,7 @@ class Script(BaseScript):
                     "interface": mname,
                     "admin_status": m_astatus,
                     "oper_status": m_ostatus,
-                    "full_duplex": False
+                    "full_duplex": False,
                 }
             ]
 
@@ -57,7 +63,7 @@ class Script(BaseScript):
                     "oper_status": True if cstatus > 0 else False,
                     "full_duplex": True,
                     "in_speed": cspeed,
-                    "out_speed": cspeed
+                    "out_speed": cspeed,
                 }
             ]
 
@@ -68,7 +74,7 @@ class Script(BaseScript):
             ifname = self.snmp.get("1.3.6.1.4.1.32285.2.2.10.3008.4.2.1.11.1.1.%s" % ifindex)
             istatus = self.snmp.get("1.3.6.1.4.1.32285.2.2.10.3008.4.2.1.10.1.1.%s" % ifindex)
 
-            if istatus not in ["Shut Down", "linkError"]:
+            if istatus not in ["Shut Down", "Link Error"]:
                 status = True
             if "full" in istatus.lower():
                 full_duplex = True
@@ -81,9 +87,8 @@ class Script(BaseScript):
                     "oper_status": status,
                     "full_duplex": full_duplex,
                     "in_speed": ispeed,
-                    "out_speed": ispeed
+                    "out_speed": ispeed,
                 }
             ]
-
 
         return result

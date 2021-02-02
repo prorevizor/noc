@@ -25,10 +25,16 @@ class Script(BaseScript):
         v = dict((v[0], v[1]) for v in self.snmp.get_tables(["1.3.6.1.4.1.32285.2.2.10.3008.4.2"]))
         for moid, mindex in self.snmp.getnext("1.3.6.1.4.1.32285.2.2.10.3008.5.6.1.4"):
             channel = moid.split(".")[-2::][0]
-            mname = self.snmp.get("1.3.6.1.4.1.32285.2.2.10.3008.5.6.1.5.1.1.%s.%s" % (channel, mindex))
-            m_astatus = self.snmp.get("1.3.6.1.4.1.32285.2.2.10.3008.5.6.1.7.1.1.%s.%s" % (channel, mindex))
+            mname = self.snmp.get(
+                "1.3.6.1.4.1.32285.2.2.10.3008.5.6.1.5.1.1.%s.%s" % (channel, mindex)
+            )
+            m_astatus = self.snmp.get(
+                "1.3.6.1.4.1.32285.2.2.10.3008.5.6.1.7.1.1.%s.%s" % (channel, mindex)
+            )
             try:
-                minname = self.snmp.get("1.3.6.1.4.1.32285.2.2.10.3008.4.6.1.8.1.1.%s.%s" % (channel, mindex))
+                minname = self.snmp.get(
+                    "1.3.6.1.4.1.32285.2.2.10.3008.4.6.1.8.1.1.%s.%s" % (channel, mindex)
+                )
                 if minname and mname == minname:
                     m_ostatus = True
             except self.snmp.SNMPError:
@@ -41,8 +47,7 @@ class Script(BaseScript):
                     "oper_status": m_ostatus,
                     "snmp_ifindex": int("%s%s" % (channel, mindex)),
                     "description": "",
-                    "subinterfaces": []
-
+                    "subinterfaces": [],
                 }
             ]
         for coid, cindex in self.snmp.getnext("1.3.6.1.4.1.32285.2.2.10.3008.5.3.1.8"):
@@ -55,12 +60,10 @@ class Script(BaseScript):
                     "oper_status": True if cstatus > 0 else False,
                     "snmp_ifindex": cindex,
                     "description": "",
-                    "subinterfaces": []
-
+                    "subinterfaces": [],
                 }
             ]
-        #print(">>>")
-        #print(v)
+
         for oid, ifindex in self.snmp.getnext("1.3.6.1.4.1.32285.2.2.10.3008.4.2.1.3"):
             ifname = v["1.11.1.1.%s" % ifindex]
             status = False
@@ -78,16 +81,17 @@ class Script(BaseScript):
                     "snmp_ifindex": ifindex,
                     "mac": v["1.7.1.1.%s" % ifindex],
                     "description": "",
-                    "subinterfaces": [{
-                        "name": ifname,
-                        "admin_status": status,
-                        "oper_status": status,
-                        "snmp_ifindex": ifindex,
-                        "mac": v["1.7.1.1.%s" % ifindex],
-                        "enabled_afi": ["IPv4"],
-                        "ipv4_addresses": [ip_address]
-                            }]
-
+                    "subinterfaces": [
+                        {
+                            "name": ifname,
+                            "admin_status": status,
+                            "oper_status": status,
+                            "snmp_ifindex": ifindex,
+                            "mac": v["1.7.1.1.%s" % ifindex],
+                            "enabled_afi": ["IPv4"],
+                            "ipv4_addresses": [ip_address],
+                        }
+                    ],
                 }
             ]
 
