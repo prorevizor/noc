@@ -36,7 +36,9 @@ async def token(
         try:
             user = get_user_from_jwt(req.refresh_token, audience="refresh")
         except ValueError as e:
-            raise HTTPException(error="unauthorized_client (%s)" % e, status_code=HTTPStatus.FORBIDDEN)
+            raise HTTPException(
+                error="unauthorized_client (%s)" % e, status_code=HTTPStatus.FORBIDDEN
+            )
         revoke_token(req.refresh_token)
         return get_token_response(user)
     elif req.grant_type == "password":
