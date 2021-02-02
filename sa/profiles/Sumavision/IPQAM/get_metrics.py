@@ -99,7 +99,7 @@ class Script(GetMetricsScript):
             )
 
     @metrics(
-        ["Multicast | Channel | UDP Ports"],
+        ["Multicast | Channel | Group | Count"],
         has_capability="DB | Interfaces",
         volatile=True,
         access="S",  # SNMP version
@@ -110,7 +110,7 @@ class Script(GetMetricsScript):
                 "1.3.6.1.4.1.32285.2.2.10.3008.5.3.1.17.1.1.%s" % metric.ifindex
             )
             self.set_metric(
-                id=("Multicast | Channel | UDP Ports", ["", "", "", "1/1.%s" % metric.ifindex]),
+                id=("Multicast | Channel | Group | Count", ["", "", "", "1/1.%s" % metric.ifindex]),
                 path=(["", "1/1.%s" % metric.ifindex]),
                 value=udp_ports,
                 type="gauge",
@@ -124,7 +124,7 @@ class Script(GetMetricsScript):
         access="S",  # SNMP version
     )
     def get_group_metrics(self, metrics):
-        print("OK")
+
         for metric in metrics:
             channel, index = int(str(metric.ifindex)[0]), int(str(metric.ifindex)[1:])
             mname = self.snmp.get(
@@ -138,7 +138,7 @@ class Script(GetMetricsScript):
                     m_ostatus = 1
             except self.snmp.SNMPError:
                 m_ostatus = -1
-            print(m_ostatus)
+
             self.set_metric(
                 id=("Multicast | Group | Status", ["", "", "", mname]),
                 path=([mname, "1/1.%s" % channel]),
