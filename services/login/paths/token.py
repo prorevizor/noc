@@ -33,7 +33,9 @@ async def token(
     if req.grant_type == "refresh_token":
         # Refresh token
         if is_revoked(req.refresh_token):
-            return JSONResponse(content={"error": "invalid_grant"}, status_code=HTTPStatus.FORBIDDEN)
+            return JSONResponse(
+                content={"error": "invalid_grant"}, status_code=HTTPStatus.FORBIDDEN
+            )
         try:
             user = get_user_from_jwt(req.refresh_token, audience="refresh")
         except ValueError as e:
@@ -49,10 +51,14 @@ async def token(
         # CCGrantRequest + Basic auth header
         schema, data = authorization.split(" ", 1)
         if schema != "Basic":
-            return JSONResponse(content={"error": "unsupported_grant_type"}, status_code=HTTPStatus.BAD_REQUEST)
+            return JSONResponse(
+                content={"error": "unsupported_grant_type"}, status_code=HTTPStatus.BAD_REQUEST
+            )
         auth_data = smart_text(codecs.decode(smart_bytes(data), "base64"))
         if ":" not in auth_data:
-            return JSONResponse(content={"error": "invalid_request"}, status_code=HTTPStatus.BAD_REQUEST)
+            return JSONResponse(
+                content={"error": "invalid_request"}, status_code=HTTPStatus.BAD_REQUEST
+            )
         user, password = auth_data.split(":", 1)
         auth_req = {"user": user, "password": password, "ip": request.client.host}
     else:
