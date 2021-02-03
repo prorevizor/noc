@@ -11,13 +11,14 @@ from typing import Optional, Dict
 import codecs
 
 # Third-party modules
-from fastapi import APIRouter, Request, HTTPException, Header
+from fastapi import APIRouter, Request, Header
 
 # NOC modules
 from noc.config import config
 from noc.core.comp import smart_text, smart_bytes
 from ..models.token import TokenRequest, TokenResponse
 from ..auth import authenticate, get_jwt_token, get_user_from_jwt, revoke_token, is_revoked
+from ..exceptions import HTTPException
 
 router = APIRouter()
 
