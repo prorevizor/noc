@@ -62,7 +62,9 @@ async def token(
         user, password = auth_data.split(":", 1)
         auth_req = {"user": user, "password": password, "ip": request.client.host}
     else:
-        return JSONResponse(content={"error": "unsupported_grant_type"}, status_code=HTTPStatus.BAD_REQUEST)
+        return JSONResponse(
+            content={"error": "unsupported_grant_type"}, status_code=HTTPStatus.BAD_REQUEST
+        )
     # Authenticate
     if auth_req:
         user = authenticate(auth_req)
