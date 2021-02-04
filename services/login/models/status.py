@@ -12,7 +12,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class StatusResponseOk(BaseModel):
+class StatusResponse(BaseModel):
     status: bool
     message: Optional[str]
 
