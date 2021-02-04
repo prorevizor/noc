@@ -21,7 +21,7 @@ from noc.fm.models.archivedalarm import ArchivedAlarm
 from noc.sa.models.servicesummary import SummaryItem
 from noc.fm.models.alarmseverity import AlarmSeverity
 from noc.fm.models.alarmdiagnostic import AlarmDiagnostic
-from noc.maintenance.models.maintenance import Maintenance, MaintenanceObject
+from noc.maintenance.models.maintenance import Maintenance
 from noc.core.perf import metrics
 
 
@@ -61,12 +61,12 @@ class AlarmCard(BaseCard):
         if self.object.log:
             log = [
                 {
-                    "timestamp": l.timestamp,
-                    "from_status": l.from_status,
-                    "to_status": l.to_status,
-                    "message": l.message,
+                    "timestamp": lg.timestamp,
+                    "from_status": lg.from_status,
+                    "to_status": lg.to_status,
+                    "message": lg.message,
                 }
-                for l in self.object.log
+                for lg in self.object.log
             ]
         # Build alarm tree
         alarms = self.get_alarms()
@@ -76,11 +76,15 @@ class AlarmCard(BaseCard):
             "subscriber": SummaryItem.items_to_dict(self.object.total_subscribers),
         }
         # Maintenance
-        mainteinance = Maintenance.objects.filter(
-            is_completed=False,
-            start__lte=datetime.datetime.now(),
-            affected_objects__object=self.object.managed_object.id,
-        ).exclude("affected_objects").order_by("start")
+        mainteinance = (
+            Maintenance.objects.filter(
+                is_completed=False,
+                start__lte=datetime.datetime.now(),
+                affected_objects__object=self.object.managed_object.id,
+            )
+            .exclude("affected_objects")
+            .order_by("start")
+        )
         mo = self.object.managed_object
         # Build result
         r = {
