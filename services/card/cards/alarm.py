@@ -79,8 +79,8 @@ class AlarmCard(BaseCard):
         mainteinance = Maintenance.objects.filter(
             is_completed=False,
             start__lte=datetime.datetime.now(),
-            affected_objects__in=[MaintenanceObject(object=self.object.managed_object)],
-        )
+            affected_objects__object=self.object.managed_object.id,
+        ).exclude("affected_objects").order_by("start")
         mo = self.object.managed_object
         # Build result
         r = {
