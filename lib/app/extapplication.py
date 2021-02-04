@@ -1,12 +1,13 @@
 # ---------------------------------------------------------------------
 # ExtApplication implementation
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
 # Python modules
 from builtins import str
+from typing import Optional, List  # noqa
 import os
 
 # Third-party modules
@@ -51,6 +52,8 @@ class ExtApplication(Application):
     in_param = "__in"
     fav_status = "fav_status"
     default_ordering = []
+    exclude_fields: Optional[List[str]] = []
+    list_exclude_fields: Optional[List[str]] = []
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -223,6 +226,8 @@ class ExtApplication(Application):
                 data = data.exclude(id__in=fav_items)
             else:  # Doc
                 data = data.filter(id__nin=fav_items)
+        if self.list_exclude_fields:
+            data = data.exclude(*self.list_exclude_fields)
         # Store unpaged/unordered queryset
         unpaged_data = data
         # Select related records when fetching for models

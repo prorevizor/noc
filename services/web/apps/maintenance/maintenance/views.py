@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------
 # maintenance.maintenance application
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -10,8 +10,6 @@ import orjson
 import bson
 
 # Third-party modules
-from django.http import HttpResponse
-from mongoengine.errors import ValidationError
 from mongoengine.queryset.visitor import Q
 
 # NOC modules
@@ -33,6 +31,8 @@ class MaintenanceApplication(ExtDocApplication):
     model = Maintenance
     query_condition = "icontains"
     query_fields = ["subject"]
+    exclude_fields = ["affected_objects"]
+    list_exclude_fields = ["direct_objects", "direct_segments", "affected_objects"]
 
     def queryset(self, request, query=None):
         """
@@ -78,66 +78,6 @@ class MaintenanceApplication(ExtDocApplication):
                     o.direct_segments += [mas]
             o.save()
         return self.response({"result": "Add object"}, status=self.OK)
-
-    @view(
-        method=["GET"],
-        url=r"^(?P<id>[0-9a-f]{24}|\d+|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/?$",
-        access="read",
-        api=True,
-    )
-    def api_read(self, request, id):
-        """
-        Returns dict with object's fields and values
-        """
-        o = self.queryset(request).filter(**{self.pk: id}).first()
-        return self.response(
-            self.instance_to_dict(o, exclude_fields=["affected_objects"]), status=self.OK
-        )
-
-    @view(
-        method=["PUT"],
-        url=r"^(?P<id>[0-9a-f]{24}|\d+|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/?$",
-        access="update",
-        api=True,
-    )
-    def api_update(self, request, id):
-        try:
-            attrs = self.clean(self.deserialize(request.body))
-        except ValueError as e:
-            self.logger.info("Bad request: %r (%s)", request.body, e)
-            return self.response(str(e), status=self.BAD_REQUEST)
-        try:
-            o = self.queryset(request).filter(**{self.pk: id}).first()
-        except self.model.DoesNotExist:
-            return HttpResponse("", status=self.NOT_FOUND)
-        for k in attrs:
-            if not self.has_field_editable(k):
-                continue
-            if k != self.pk and "__" not in k:
-                setattr(o, k, attrs[k])
-        try:
-            o.save()
-        except ValidationError as e:
-            return self.response({"message": str(e)}, status=self.BAD_REQUEST)
-        # Reread result
-        o = self.model.objects.filter(**{self.pk: id}).first()
-        if request.is_extjs:
-            r = {
-                "success": True,
-                "data": self.instance_to_dict(o, exclude_fields=["affected_objects"]),
-            }
-        else:
-            r = self.instance_to_dict(o, exclude_fields=["affected_objects"])
-        return self.response(r, status=self.OK)
-
-    @view(method=["GET"], url="^$", access="read", api=True)
-    def api_list(self, request):
-        return self.list_data(request, self.instance_to_dict_list)
-
-    def instance_to_dict_list(self, o, fields=None):
-        return super().instance_to_dict(
-            o, exclude_fields=["direct_objects", "direct_segments", "affected_objects"]
-        )
 
     @view(url="(?P<id>[0-9a-f]{24})/objects/", method=["GET"], access="read", api=True)
     def api_test(self, request, id):
