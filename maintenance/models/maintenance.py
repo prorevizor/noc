@@ -65,7 +65,7 @@ class Maintenance(Document):
     start = DateTimeField()
     stop = DateTimeField()
     is_completed = BooleanField(default=False)
-    auto_confirm = BooleanField(default=False)
+    auto_confirm = BooleanField(default=True)
     template = ForeignKeyField(Template)
     contacts = StringField()
     suppress_alarms = BooleanField()
