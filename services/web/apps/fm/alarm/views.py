@@ -817,7 +817,8 @@ class AlarmApplication(ExtApplication):
                 {"$group": {"_id": "$managed_object", "intervals": {"$push": "$interval"}}},
             ]
             mtc = {
-                x["_id"]: x["intervals"] for x in Maintenance._get_collection().aggregate(pipeline)
+                x["_id"]: x["intervals"]
+                for x in Maintenance._get_collection().aggregate(pipeline, allowDiskUse=True)
             }
             for x in data:
                 if x["managed_object"] in mtc:
