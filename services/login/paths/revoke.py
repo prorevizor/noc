@@ -11,7 +11,7 @@ from fastapi import APIRouter
 # NOC modules
 from ..auth import revoke_token, get_user_from_jwt
 from ..models.revoke import RevokeRequest
-from ..models.status import StatusResponse, StatusResponseOk
+from ..models.status import StatusResponseError, StatusResponseOk
 
 router = APIRouter()
 
@@ -22,14 +22,14 @@ async def revoke(req: RevokeRequest):
         try:
             get_user_from_jwt(req.access_token, audience="auth")
         except ValueError:
-            return StatusResponse(error="unauthorized_client")
+            return StatusResponseError(error="unauthorized_client")
         revoke_token(req.access_token)
     if req.refresh_token:
         try:
             get_user_from_jwt(req.refresh_token, audience="auth")
         except ValueError:
-            return StatusResponse(error="invalid_request")
+            return StatusResponseError(error="invalid_request")
         revoke_token(req.refresh_token)
     if not req.access_token and not req.refresh_token:
-        return StatusResponse(error="invalid_request")
+        return StatusResponseError(error="invalid_request")
     return StatusResponseOk(status=True, message="Ok")
