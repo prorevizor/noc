@@ -227,7 +227,10 @@ class ExtApplication(Application):
             else:  # Doc
                 data = data.filter(id__nin=fav_items)
         if self.list_exclude_fields:
-            data = data.exclude(*self.list_exclude_fields)
+            if isinstance(data, QuerySet):
+                data = data.defer(*self.list_exclude_fields)
+            else:
+                data = data.exclude(*self.list_exclude_fields)
         # Store unpaged/unordered queryset
         unpaged_data = data
         # Select related records when fetching for models
