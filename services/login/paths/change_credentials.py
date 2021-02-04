@@ -11,13 +11,13 @@ from fastapi import APIRouter
 # NOC modules
 from ..auth import change_credentials as _change_credentials
 from ..models.changecredentials import ChangeCredentialsRequest
-from ..models.status import StatusResponse
+from ..models.status import StatusResponseOk
 
 router = APIRouter()
 
 
 @router.put(
-    "/api/login/change_credentials", response_model=StatusResponse, tags=["login", "ext-ui"]
+    "/api/login/change_credentials", response_model=StatusResponseOk, tags=["login", "ext-ui"]
 )
 async def change_credentials(req: ChangeCredentialsRequest):
     creds = {
@@ -26,5 +26,5 @@ async def change_credentials(req: ChangeCredentialsRequest):
         "new_password": req.new_password,
     }
     if _change_credentials(creds):
-        return StatusResponse(status=True)
-    return StatusResponse(status=False, message="Failed to change credentials")
+        return StatusResponseOk(status=True)
+    return StatusResponseOk(status=False, message="Failed to change credentials")

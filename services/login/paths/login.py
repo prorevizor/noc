@@ -11,13 +11,13 @@ from fastapi.responses import ORJSONResponse
 
 # NOC modules
 from ..models.login import LoginRequest
-from ..models.status import StatusResponse
+from ..models.status import StatusResponseOk
 from ..auth import authenticate, set_jwt_cookie
 
 router = APIRouter()
 
 
-@router.post("/api/login/login", response_model=StatusResponse, tags=["login", "ext-ui"])
+@router.post("/api/login/login", response_model=StatusResponseOk, tags=["login", "ext-ui"])
 async def login(request: Request, creds: LoginRequest):
     auth_req = {"user": creds.user, "password": creds.password, "ip": request.client.host}
     user = authenticate(auth_req)
@@ -25,4 +25,4 @@ async def login(request: Request, creds: LoginRequest):
         response = ORJSONResponse({"status": True})
         set_jwt_cookie(response, user)
         return response
-    return StatusResponse(status=False, message="Authentication failed")
+    return StatusResponseOk(status=False, message="Authentication failed")
