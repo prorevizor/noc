@@ -63,11 +63,7 @@ class Script(BaseScript):
                     "oper_status": True if cstatus > 0 else False,
                     "snmp_ifindex": cindex,
                     "description": "",
-                    "subinterfaces": [{
-                        "name": freq,
-                        "description": "1/1.%s" % cindex
-                        }
-                    ],
+                    "subinterfaces": [{"name": freq, "description": "1/1.%s" % cindex}],
                 }
             ]
 
