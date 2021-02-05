@@ -10,7 +10,7 @@ import re
 import copy
 
 # NOC modules
-from noc.core.script.base import BaseScript
+from noc.sa.profiles.Generic.get_interfaces import Script as BaseScript
 from noc.sa.interfaces.igetinterfaces import IGetInterfaces
 
 
@@ -30,12 +30,15 @@ class Script(BaseScript):
     rx_lag = re.compile(r"^Smartgroup\:(?P<lag>\d+)")
     rx_lag_member = re.compile(r"^(?P<lag_member>x?gei_\S+)")
 
-    def execute(self):
+    def execute_cli(self, **kwargs):
         ifaces = {}
         last_if = None
         if_list = []
-        vlans_raw = self.cli("show vlan").splitlines()
-        vlan_set = self.get_vlan(vlans_raw)
+        vlans_raw = self.cli("show vlan")
+        if "VlanType: 802.1q vlan" in vlans_raw:
+            # Unsupported output: 2928E - V2.05.10B26
+            raise NotImplementedError
+        vlan_set = self.get_vlan(vlans_raw.splitlines())
         for l in self.cli("show interface").splitlines():
             # New interface
             match = self.rx_int.search(l)
@@ -45,7 +48,7 @@ class Script(BaseScript):
                 ifaces[last_if] = {
                     "name": last_if,
                     "ipv4_addresses": [],
-                    "type": self.type_by_name(last_if),
+                    "type": self.profile.get_interface_type(last_if),
                     "admin_status": "",
                     "oper_status": "",
                     "enabled_protocols": [],
@@ -131,22 +134,6 @@ class Script(BaseScript):
                 ifaces[match.group("lag_member")]["enabled_protocols"] += ["LACP"]
                 ifaces[match.group("lag_member")]["aggregated_interface"] = "smartgroup" + last_lag
         return [{"interfaces": list(ifaces.values())}]
-
-    def type_by_name(self, name):
-        if name.startswith("gei"):
-            return "physical"
-        elif name.startswith("xgei"):
-            return "physical"
-        elif name.startswith("smartgroup"):
-            return "aggregated"
-        elif name.startswith("lo"):
-            return "loopback"
-        elif name.startswith("vlan"):
-            return "SVI"
-        elif name.startswith("null"):
-            return "null"
-        else:
-            raise Exception("Cannot detect interface type for %s" % name)
 
     def get_si(self, si):
         if si["ipv4_addresses"]:
