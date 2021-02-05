@@ -1,12 +1,11 @@
 # ---------------------------------------------------------------------
-# Sensor Controller's dynamic dashboard
+# DVBC dynamic dashboard
 # ---------------------------------------------------------------------
 # Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
 # Third-Party modules
-import json
 from django.db.models import Q
 from collections import defaultdict
 
