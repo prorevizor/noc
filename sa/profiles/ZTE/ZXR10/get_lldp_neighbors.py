@@ -49,7 +49,6 @@ class Script(BaseScript):
 
     def execute_cli(self):
         result = []
-        chassis = {}
         v = self.cli("show lldp entry")
         for entry in self.rx_splitter.split(v):
             if not entry:

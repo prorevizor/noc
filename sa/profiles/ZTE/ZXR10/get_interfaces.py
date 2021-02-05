@@ -39,9 +39,9 @@ class Script(BaseScript):
             # Unsupported output: 2928E - V2.05.10B26
             raise NotImplementedError
         vlan_set = self.get_vlan(vlans_raw.splitlines())
-        for l in self.cli("show interface").splitlines():
+        for line in self.cli("show interface").splitlines():
             # New interface
-            match = self.rx_int.search(l)
+            match = self.rx_int.search(line)
             if match:
                 last_if = match.group("name")
                 if_list += [last_if]  # preserve order
@@ -67,23 +67,23 @@ class Script(BaseScript):
                         ifaces[last_if]["oper_status"] = True
                 continue
             # Description
-            match = self.rx_descr.search(l)
+            match = self.rx_descr.search(line)
             if match:
                 ifaces[last_if]["description"] = match.group("descr")
                 continue
             # inet
-            match = self.rx_inet.search(l)
+            match = self.rx_inet.search(line)
             if match:
                 if match.group("inet") != "unassigned":
                     ifaces[last_if]["ipv4_addresses"] += [match.group("inet")]
                 continue
             # Mac-address
-            match = self.rx_mac.search(l)
+            match = self.rx_mac.search(line)
             if match:
                 ifaces[last_if]["mac"] = match.group("mac")
                 continue
             # MTU
-            match = self.rx_mtu.search(l)
+            match = self.rx_mtu.search(line)
             if match:
                 ifaces[last_if]["mtu"] = match.group("mtu")
                 continue
@@ -125,11 +125,11 @@ class Script(BaseScript):
                 subif["mtu"] = ifaces[iface]["mtu"]
             ifaces[iface]["subinterfaces"] += [subif]
         # Process LACP aggregated links
-        for l in self.cli("show lacp internal").splitlines():
-            match = self.rx_lag.search(l)
+        for line in self.cli("show lacp internal").splitlines():
+            match = self.rx_lag.search(line)
             if match:
                 last_lag = match.group("lag")
-            match = self.rx_lag_member.search(l)
+            match = self.rx_lag_member.search(line)
             if match:
                 ifaces[match.group("lag_member")]["enabled_protocols"] += ["LACP"]
                 ifaces[match.group("lag_member")]["aggregated_interface"] = "smartgroup" + last_lag
