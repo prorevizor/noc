@@ -17,7 +17,6 @@ import socket
 # Third-party modules
 from grpc.aio import insecure_channel, AioRpcError
 from grpc import StatusCode, ChannelConnectivity
-from grpc._cython.cygrpc import EOF
 
 # NOC modules
 from noc.config import config
