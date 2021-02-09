@@ -1570,6 +1570,7 @@ class PolicyDiscoveryCheck(DiscoveryCheck):
     def has_required_script(self):
         return super().has_required_script() or self.get_policy() != ["script"]
 
+
 # Avoid circular references
 from noc.fm.models.alarmseverity import AlarmSeverity
 from noc.fm.models.alarmclass import AlarmClass
