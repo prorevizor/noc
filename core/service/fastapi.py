@@ -15,6 +15,7 @@ from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 from starlette.responses import Response, PlainTextResponse, JSONResponse
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
+from fastapi.encoders import jsonable_encoder
 
 # NOC modules
 from noc.core.version import version
@@ -54,7 +55,7 @@ class FastAPIService(BaseService):
         """
         return JSONResponse(
             status_code=400,
-            content={"error": "invalid_request"},
+            content={"error": "invalid_request", "error_description": jsonable_encoder(exc.errors())},
         )
 
     async def init_api(self):
