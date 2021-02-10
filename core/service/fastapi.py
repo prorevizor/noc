@@ -15,7 +15,6 @@ from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 from starlette.responses import Response, PlainTextResponse, JSONResponse
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
-from fastapi.encoders import jsonable_encoder
 
 # NOC modules
 from noc.core.version import version
