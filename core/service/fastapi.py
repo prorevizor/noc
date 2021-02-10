@@ -57,7 +57,7 @@ class FastAPIService(BaseService):
             status_code=400,
             content={
                 "error": "invalid_request",
-                "error_description": jsonable_encoder(exc.errors())
+                "error_description": jsonable_encoder(exc.errors()),
             },
         )
 
