@@ -55,7 +55,7 @@ class FastAPIService(BaseService):
         """
         return JSONResponse(
             status_code=400,
-            content={"error": "bad_request", "error_detail": jsonable_encoder(exc.errors())},
+            content={"error": "invalid_request"},
         )
 
     async def init_api(self):
