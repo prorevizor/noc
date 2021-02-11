@@ -19,3 +19,4 @@ class StatusResponse(BaseModel):
 
 class StatusResponseError(BaseModel):
     error: Optional[str] = None
+    error_description: Optional[str] = None

@@ -34,13 +34,18 @@ async def token(
         # Refresh token
         if is_revoked(req.refresh_token):
             return JSONResponse(
-                content={"error": "invalid_grant"}, status_code=HTTPStatus.FORBIDDEN
+                content={"error": "invalid_grant", "error_description": "Token is expired"},
+                status_code=HTTPStatus.FORBIDDEN,
             )
         try:
             user = get_user_from_jwt(req.refresh_token, audience="refresh")
         except ValueError as e:
             return JSONResponse(
-                content={"error": "unauthorized_client (%s)" % e}, status_code=HTTPStatus.FORBIDDEN
+                content={
+                    "error": "unauthorized_client",
+                    "error_description": "Access denied (%s)" % e,
+                },
+                status_code=HTTPStatus.FORBIDDEN,
             )
         revoke_token(req.refresh_token)
         return get_token_response(user)
@@ -52,25 +57,37 @@ async def token(
         schema, data = authorization.split(" ", 1)
         if schema != "Basic":
             return JSONResponse(
-                content={"error": "unsupported_grant_type"}, status_code=HTTPStatus.BAD_REQUEST
+                content={
+                    "error": "unsupported_grant_type",
+                    "error_description": "Basic authorization header required",
+                },
+                status_code=HTTPStatus.BAD_REQUEST,
             )
         auth_data = smart_text(codecs.decode(smart_bytes(data), "base64"))
         if ":" not in auth_data:
             return JSONResponse(
-                content={"error": "invalid_request"}, status_code=HTTPStatus.BAD_REQUEST
+                content={
+                    "error": "invalid_request",
+                    "error_description": "Invalid basic auth header",
+                },
+                status_code=HTTPStatus.BAD_REQUEST,
             )
         user, password = auth_data.split(":", 1)
         auth_req = {"user": user, "password": password, "ip": request.client.host}
     else:
         return JSONResponse(
-            content={"error": "unsupported_grant_type"}, status_code=HTTPStatus.BAD_REQUEST
+            content={"error": "unsupported_grant_type", "error_description": "Invalid grant type"},
+            status_code=HTTPStatus.BAD_REQUEST,
         )
     # Authenticate
     if auth_req:
         user = authenticate(auth_req)
         if user:
             return get_token_response(user)
-    return JSONResponse(content={"error": "invalid_scope"}, status_code=HTTPStatus.BAD_REQUEST)
+    return JSONResponse(
+        content={"error": "invalid_scope", "error_description": "Access denied"},
+        status_code=HTTPStatus.BAD_REQUEST,
+    )
 
 
 def get_token_response(user: str) -> TokenResponse:
