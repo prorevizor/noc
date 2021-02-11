@@ -21,7 +21,7 @@ class Script(BaseScript):
 
     CHECK_SNMP_GET = {
         "BRAS | IPoE": "1.3.6.1.4.1.6527.3.1.2.33.1.107.1.65.1",
-        "BRAS | PPPoE": "1.3.6.1.4.1.6527.3.1.2.33.5.9.1.2.1"
+        "BRAS | PPPoE": "1.3.6.1.4.1.6527.3.1.2.33.5.9.1.2.1",
     }
     rx_lldp = re.compile(r"Admin Enabled\s+: True")
     rx_port = re.compile(
