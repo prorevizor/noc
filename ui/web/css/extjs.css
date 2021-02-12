@@ -528,3 +528,27 @@ table {
 .noc-alarm-tooltip {
     background: #fff;
 }
+
+.x-form-edit-trigger {
+  font-size: 12px;
+  font-family: FontAwesome;
+  vertical-align: middle;
+  background: 0 0 transparent url(images/form/trigger-tpl.gif) no-repeat;
+  color: black;
+
+}
+.x-form-edit-trigger:before {
+  content: "\f044";
+}
+
+.x-form-plus-trigger {
+  font-size: 12px;
+  font-family: FontAwesome;
+  vertical-align: middle;
+  background: 0 0 transparent url(images/form/trigger-tpl.gif) no-repeat;
+  color: black;
+
+}
+.x-form-plus-trigger:before {
+  content: "\f067";
+}

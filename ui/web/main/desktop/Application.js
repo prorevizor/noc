@@ -319,12 +319,29 @@ Ext.define("NOC.main.desktop.Application", {
                 me.breadcrumbs.updateSelection("root");
                 // Setup idle timer
                 me.setIdleTimeout(settings.idle_timeout);
+                // permissions cache
+                NOC.permissions = me.getPermissions(settings.navigation.children);
             }
         });
         // Launch welcome application
         if(!Ext.History.getHash()) {
             me.launchTab("NOC.main.welcome.Application", "Welcome", {});
         }
+    },
+    getPermissions: function(tree) {
+        let result = [];
+        let children = function(leaf) {
+            if(leaf.hasOwnProperty("launch_info")
+                && leaf.launch_info.hasOwnProperty("params")
+                && leaf.launch_info.params.hasOwnProperty("app_id")) {
+                result[leaf.launch_info.params.app_id] = leaf.launch_info.params.permissions;
+            }
+            if(leaf.hasOwnProperty("children") && leaf.children) {
+                Ext.Array.map(leaf.children, children);
+            }
+        }
+        Ext.Array.map(tree, children);
+        return result;
     },
     // Start logout sequence
     onLogout: function() {
@@ -350,7 +367,7 @@ Ext.define("NOC.main.desktop.Application", {
                     buffer: 1000
                 },
                 keydown: {
-                    fn:me.touchIdleTimer,
+                    fn: me.touchIdleTimer,
                     scope: me,
                     buffer: 1000
                 }
@@ -429,8 +446,16 @@ Ext.define("NOC.main.desktop.Application", {
         var me = this,
             mask = Ext.get("noc-loading-mask"),
             parent = Ext.get("noc-loading");
-        mask.fadeOut({callback: function(){mask.destroy();}});
-        parent.fadeOut({callback: function(){parent.destroy();}});
+        mask.fadeOut({
+            callback: function() {
+                mask.destroy();
+            }
+        });
+        parent.fadeOut({
+            callback: function() {
+                parent.destroy();
+            }
+        });
     },
     //
     toggleNav: function() {
