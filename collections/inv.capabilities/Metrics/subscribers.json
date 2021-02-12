@@ -2,7 +2,7 @@
     "name": "Metrics | Subscribers",
     "$collection": "inv.capabilities",
     "uuid": "6339e436-f82c-436d-a7ee-cd79082513be",
-    "description": "Capability for 'Metrics | Subscribers' metric value OID",
+    "description": "Capability for 'Metrics | Subscribers' metric",
     "type": "bool",
     "card_template": null
 }
