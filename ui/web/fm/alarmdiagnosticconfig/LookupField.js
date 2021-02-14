@@ -7,6 +7,6 @@
 console.debug("Defining NOC.fm.alarmdiagnosticconfig.LookupField");
 
 Ext.define("NOC.fm.alarmdiagnosticconfig.LookupField", {
-    extend: "NOC.core.LookupField",
+    extend: "NOC.core.ComboBox",
     alias: "widget.fm.alarmdiagnosticconfig.LookupField"
 });

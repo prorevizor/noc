@@ -7,6 +7,6 @@
 console.debug("Defining NOC.inv.interfaceclassificationrule.LookupField");
 
 Ext.define("NOC.inv.interfaceclassificationrule.LookupField", {
-    extend: "NOC.core.LookupField",
+    extend: "NOC.core.ComboBox",
     alias: "widget.inv.interfaceclassificationrule.LookupField"
 });

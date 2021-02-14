@@ -7,7 +7,7 @@
 console.debug("Defining NOC.phone.phonenumber.LookupField");
 
 Ext.define("NOC.phone.phonenumber.LookupField", {
-    extend: "NOC.core.LookupField",
+    extend: "NOC.core.ComboBox",
     alias: "widget.phone.phonenumber.LookupField",
     listConfig: {
         getInnerTpl: function() {

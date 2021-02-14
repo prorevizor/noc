@@ -7,6 +7,6 @@
 console.debug("Defining NOC.fm.mib.LookupField");
 
 Ext.define("NOC.fm.mib.LookupField", {
-    extend: "NOC.core.LookupField",
+    extend: "NOC.core.ComboBox",
     alias: "widget.fm.mib.LookupField"
 });

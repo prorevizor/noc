@@ -7,6 +7,6 @@
 console.debug("Defining NOC.sa.profilecheckrule.LookupField");
 
 Ext.define("NOC.sa.profilecheckrule.LookupField", {
-    extend: "NOC.core.LookupField",
+    extend: "NOC.core.ComboBox",
     alias: "widget.sa.profilecheckrule.LookupField"
 });

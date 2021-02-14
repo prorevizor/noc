@@ -7,6 +7,6 @@
 console.debug("Defining NOC.inv.ifdescpatterns.LookupField");
 
 Ext.define("NOC.inv.ifdescpatterns.LookupField", {
-    extend: "NOC.core.LookupField",
+    extend: "NOC.core.ComboBox",
     alias: "widget.inv.ifdescpatterns.LookupField"
 });

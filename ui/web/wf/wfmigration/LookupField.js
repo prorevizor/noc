@@ -7,6 +7,6 @@
 console.debug("Defining NOC.wf.wfmigration.LookupField");
 
 Ext.define("NOC.wf.wfmigration.LookupField", {
-    extend: "NOC.core.LookupField",
+    extend: "NOC.core.ComboBox",
     alias: "widget.wf.wfmigration.LookupField"
 });

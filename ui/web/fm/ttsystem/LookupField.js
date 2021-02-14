@@ -7,6 +7,6 @@
 console.debug("Defining NOC.fm.ttsystem.LookupField");
 
 Ext.define("NOC.fm.ttsystem.LookupField", {
-    extend: "NOC.core.LookupField",
+    extend: "NOC.core.ComboBox",
     alias: "widget.fm.ttsystem.LookupField"
 });

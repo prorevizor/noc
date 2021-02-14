@@ -7,6 +7,6 @@
 console.debug("Defining NOC.peer.maintainer.LookupField");
 
 Ext.define("NOC.peer.maintainer.LookupField", {
-    extend: "NOC.core.LookupField",
+    extend: "NOC.core.ComboBox",
     alias: "widget.peer.maintainer.LookupField"
 });

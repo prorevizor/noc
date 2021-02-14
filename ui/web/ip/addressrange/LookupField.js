@@ -7,6 +7,6 @@
 console.debug("Defining NOC.ip.addressrange.LookupField");
 
 Ext.define("NOC.ip.addressrange.LookupField", {
-    extend: "NOC.core.LookupField",
+    extend: "NOC.core.ComboBox",
     alias: "widget.ip.addressrange.LookupField"
 });

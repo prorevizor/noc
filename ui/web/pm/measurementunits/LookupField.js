@@ -7,6 +7,6 @@
 console.debug("Defining NOC.pm.measurementunits.LookupField");
 
 Ext.define("NOC.pm.measurementunits.LookupField", {
-  extend: "NOC.core.LookupField",
+  extend: "NOC.core.ComboBox",
   alias: "widget.pm.measurementunits.LookupField"
 });
