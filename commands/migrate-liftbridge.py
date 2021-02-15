@@ -93,6 +93,7 @@ class Command(BaseCommand):
 
         def create_stream(name: str, n_partitions: int, replication_factor: int):
             base_name = name.split(".")[0]
+
             async def wrapper():
                 async with LiftBridgeClient() as client:
                     await client.create_stream(
