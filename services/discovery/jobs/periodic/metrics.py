@@ -747,6 +747,8 @@ class MetricsCheck(DiscoveryCheck):
                     # Remain umbrella alarm
                     alarms += self.get_umbrella_alarm_cfg(cfg, threshold, path, w_value)
             elif threshold:
+                if w_value is None:
+                    w_value = m.abs_value
                 if w_value and threshold.is_clear_match(w_value):
                     # Close Event
                     active = None  # Reset threshold
@@ -770,9 +772,9 @@ class MetricsCheck(DiscoveryCheck):
                                     self.logger.error("Exception when calling close handler: %s", e)
                         else:
                             self.logger.warning("Handler is not allowed for Thresholds")
-                elif threshold.alarm_class:
-                    # Remain umbrella alarm
-                    alarms += self.get_umbrella_alarm_cfg(cfg, threshold, path, w_value)
+                    if threshold.alarm_class:
+                        # Remain umbrella alarm
+                        alarms += self.get_umbrella_alarm_cfg(cfg, threshold, path, w_value)
             else:
                 # Threshold has been reconfigured or deleted
                 if active.get("close_event_class"):
@@ -782,14 +784,14 @@ class MetricsCheck(DiscoveryCheck):
                         active["threshold"],
                         active["close_event_class"].name,
                         path,
-                        w_value,
+                        m.abs_value,
                     )
                 if active.get("close_handler"):
                     if active["close_handler"].allow_threshold:
                         handler = active["close_handler"].get_handler()
                         if handler:
                             try:
-                                handler(self, cfg, active["threshold"], w_value)
+                                handler(self, cfg, active["threshold"], m.abs_value)
                             except Exception as e:
                                 self.logger.error("Exception when calling close handler: %s", e)
                     else:
