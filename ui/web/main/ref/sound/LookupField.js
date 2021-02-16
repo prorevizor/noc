@@ -9,5 +9,6 @@ console.debug("Defining NOC.main.pyrule.LookupField");
 Ext.define("NOC.main.ref.sound.LookupField", {
     extend: "NOC.core.ComboBox",
     alias: "widget.main.ref.sound.LookupField",
-    restUrl: "/main/ref/sound/lookup/"
+    restUrl: "/main/ref/sound/lookup/",
+    askPermission: false
 });
