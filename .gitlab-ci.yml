@@ -319,11 +319,12 @@ build:web:
 
 build:rust:
   stage: Build
-  image: rust:1.49
+  image: rust:1.50
   script:
     - set -x
     - cd rust/
     - export CARGO_TARGET_DIR=../build/rust
+    - cargo test
     - cargo build --release
   tags:
     - docker
