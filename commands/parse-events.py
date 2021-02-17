@@ -41,7 +41,7 @@ class Command(BaseCommand):
         )
         parser.add_argument("--progress", action="store_true", help="Display progress")
 
-    def handle(self, paths, profile, format, reject, progress=False, *args, **options):
+    def handle(self, paths, profile, format, reject=None, progress=False, *args, **options):
         assert profile_loader.get_profile(profile), "Invalid profile: %s" % profile
         connect()
         t0 = time.time()
