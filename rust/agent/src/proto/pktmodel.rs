@@ -45,7 +45,7 @@ pub enum ModelConfig {
 /// PPS model:
 /// Fixed packet `size` at `pps` rate
 pub fn get_pps_model(size: usize, pps: usize) -> Box<dyn Fn(usize) -> Packet + Send> {
-    let next_ns = NS / pps as u64;
+    let next_ns = if pps == 0 { 0 } else { NS / pps as u64 };
     Box::new(move |seq| Packet { seq, size, next_ns })
 }
 
@@ -65,7 +65,11 @@ static IMIX_SAMPLE: &[usize; 12] = &[
 pub fn get_imix_model(bandwidth: usize) -> Box<dyn Fn(usize) -> Packet + Send> {
     const IMIX_ROUND: u64 =
         ((IMIX1_COUNT * IMIX1 + IMIX2_COUNT * IMIX2 + IMIX3_COUNT * IMIX3) * 8) as u64;
-    let next_ns = NS * IMIX_ROUND / (bandwidth * IMIX_SAMPLE_COUNT) as u64;
+    let next_ns = if bandwidth == 0 {
+        0
+    } else {
+        NS * IMIX_ROUND / (bandwidth * IMIX_SAMPLE_COUNT) as u64
+    };
     Box::new(move |seq| Packet {
         seq,
         size: IMIX_SAMPLE[seq % IMIX_SAMPLE_COUNT],

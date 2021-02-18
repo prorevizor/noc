@@ -324,7 +324,11 @@ impl TestSession {
             if seq == n_packets {
                 break;
             }
-            // Wait for next packet
+            //
+            if pkt.next_ns == 0 {
+                continue; // Flood mode
+            }
+            // Wait for next packet time
             if err_ns < pkt.next_ns {
                 let delta_ns = pkt.next_ns - err_ns;
                 tokio::time::sleep_until(now + Duration::from_nanos(delta_ns)).await;
@@ -375,7 +379,7 @@ impl TestSession {
         for count in 0..n_packets {
             let mut ts: UTCDateTime;
             // Try to read response,
-            // @todo: Replace with UPDConnection
+            // @todo: Replace with UDPConnection
             loop {
                 socket.readable().await?;
                 ts = Utc::now();
