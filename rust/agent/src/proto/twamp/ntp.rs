@@ -51,7 +51,7 @@ impl From<NTPTimeStamp> for UTCDateTime {
 
 #[cfg(test)]
 mod tests {
-    use crate::proto::twamp::ntp::{NTPTimeStamp, UTCDateTime};
+    use super::{NTPTimeStamp, UTCDateTime};
     use chrono::{Duration, TimeZone, Utc};
 
     fn get_utc_timestamp() -> UTCDateTime {

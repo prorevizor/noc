@@ -7,7 +7,7 @@
 use crate::collectors::base::{Collectable, Collector, Status};
 use crate::proto::connection::Connection;
 use crate::proto::frame::{FrameReader, FrameWriter};
-use crate::proto::pktmodel::{get_packet_model, PacketModel};
+use crate::proto::pktmodel::ModelConfig;
 use crate::proto::tos::dscp_to_tos;
 use crate::proto::twamp::{
     AcceptSession, RequestTWSession, ServerGreeting, ServerStart, SetupResponse, StartAck,
@@ -34,33 +34,25 @@ pub struct TWAMPSenderConfig {
     port: u16,
     #[serde(default = "default_be")]
     dscp: String,
-    n_packets: u64,
+    n_packets: usize,
     // test_timeout: u64,
-    model: String,
-    // Auto-configured fields
+    // Model config
+    #[serde(flatten)]
+    model: ModelConfig,
+    // Internal fields
+    #[serde(skip)]
+    tos: u8,
 }
 
 impl Configurable<TWAMPSenderConfig> for TWAMPSenderConfig {
     fn get_config(
         cfg: &HashMap<String, serde_json::Value>,
     ) -> Result<TWAMPSenderConfig, Box<dyn Error>> {
-        let mut filtered_cfg: HashMap<&str, &serde_json::Value> = HashMap::new();
-        let mut model_cfg: HashMap<&str, &serde_json::Value> = HashMap::new();
-        // Filter out config
-        for (key, val) in cfg.iter() {
-            if let Some(name) = key.strip_prefix("model_") {
-                model_cfg.insert(name, val);
-                continue;
-            }
-            filtered_cfg.insert(key, val);
-        }
-        // @todo: Model config
-        // Continue as usual
-        let c_value = serde_json::to_value(&filtered_cfg)?;
-        match serde_json::from_value::<TWAMPSenderConfig>(c_value) {
-            Ok(x) => Ok(x),
-            Err(e) => Err(Box::new(e)),
-        }
+        let c_value = serde_json::to_value(&cfg)?;
+        let mut config = serde_json::from_value::<TWAMPSenderConfig>(c_value)?;
+        // Fill internal fields
+        config.tos = dscp_to_tos(config.dscp.to_lowercase()).ok_or("invalid dscp")?;
+        Ok(config)
     }
 }
 
@@ -69,8 +61,6 @@ pub type TWAMPSenderCollector = Collector<TWAMPSenderConfig>;
 #[async_trait]
 impl Collectable for TWAMPSenderCollector {
     async fn collect(&self) -> Result<Status, Box<dyn Error>> {
-        // Convert dscp to numeric ToS
-        let tos = dscp_to_tos(self.config.dscp.to_lowercase()).ok_or("invalid dscp")?;
         //
         log::debug!(
             "[{}] Connecting {}:{}",
@@ -80,14 +70,13 @@ impl Collectable for TWAMPSenderCollector {
         );
         let stream =
             TcpStream::connect(format!("{}:{}", self.config.server, self.config.port)).await?;
-        let mut session = TestSession::new_from(
-            self.id.clone(),
-            stream,
-            tos,
-            self.config.server.clone(),
-            self.config.n_packets as u32,
-        );
-        session.run().await?;
+        TestSession::new(stream, self.config.model.clone())
+            .with_id(self.id.clone())
+            .with_tos(self.config.tos)
+            .with_reflector_addr(self.config.server.clone())
+            .with_n_packets(self.config.n_packets)
+            .run()
+            .await?;
         Ok(Status::Ok)
     }
 }
@@ -98,25 +87,37 @@ struct TestSession {
     tos: u8,
     reflector_addr: String,
     reflector_port: u16,
-    n_packets: u32,
+    n_packets: usize,
+    model: ModelConfig,
 }
 
 impl TestSession {
-    pub fn new_from(
-        id: String,
-        stream: TcpStream,
-        tos: u8,
-        reflector_addr: String,
-        n_packets: u32,
-    ) -> TestSession {
+    pub fn new(stream: TcpStream, model: ModelConfig) -> Self {
         TestSession {
-            id,
+            id: String::new(),
             connection: Connection::new(stream),
-            tos,
-            reflector_addr,
+            tos: 0,
+            reflector_addr: String::new(),
             reflector_port: 0,
-            n_packets,
+            n_packets: 0,
+            model,
         }
+    }
+    pub fn with_id(&mut self, id: String) -> &mut Self {
+        self.id = id;
+        self
+    }
+    pub fn with_tos(&mut self, tos: u8) -> &mut Self {
+        self.tos = tos;
+        self
+    }
+    pub fn with_reflector_addr(&mut self, addr: String) -> &mut Self {
+        self.reflector_addr = addr;
+        self
+    }
+    pub fn with_n_packets(&mut self, n_packets: usize) -> &mut Self {
+        self.n_packets = n_packets;
+        self
     }
     pub fn set_reflector_port(&mut self, port: u16) {
         log::debug!("[{}] Setting reflector port to {}", self.id, port);
@@ -236,13 +237,21 @@ impl TestSession {
         let addr: SocketAddr =
             format!("{}:{}", self.reflector_addr, self.reflector_port).parse()?;
         //
+        let udp_overhead: usize = if addr.is_ipv4() { 20 + 8 } else { 40 + 8 };
         let (recv_result, sender_result) = tokio::join!(
-            TestSession::run_test_receiver(self.id.clone(), shared_socket.clone(), self.n_packets),
+            TestSession::run_test_receiver(
+                self.id.clone(),
+                shared_socket.clone(),
+                self.n_packets,
+                udp_overhead
+            ),
             TestSession::run_test_sender(
                 self.id.clone(),
                 shared_socket.clone(),
                 &addr,
-                self.n_packets
+                self.model,
+                self.n_packets,
+                udp_overhead
             )
         );
         if let (Ok(r_stats), Ok(s_stats)) = (recv_result, sender_result) {
@@ -254,9 +263,11 @@ impl TestSession {
         id: String,
         socket: Arc<UdpSocket>,
         addr: &SocketAddr,
-        n_packets: u32,
+        model: ModelConfig,
+        n_packets: usize,
+        udp_overhead: usize,
     ) -> Result<SenderStats, &'static str> {
-        match TestSession::test_sender(socket, addr, n_packets).await {
+        match TestSession::test_sender(socket, addr, model, n_packets, udp_overhead).await {
             Ok(r) => Ok(r),
             Err(e) => {
                 log::error!("[{}] Sender error: {}", id, e);
@@ -267,9 +278,10 @@ impl TestSession {
     async fn run_test_receiver(
         id: String,
         socket: Arc<UdpSocket>,
-        n_packets: u32,
+        n_packets: usize,
+        udp_overhead: usize,
     ) -> Result<ReceiverStats, &'static str> {
-        match TestSession::test_receiver(socket, n_packets).await {
+        match TestSession::test_receiver(socket, n_packets, udp_overhead).await {
             Ok(r) => Ok(r),
             Err(e) => {
                 log::error!("[{}] Receiver error: {}", id, e);
@@ -281,30 +293,47 @@ impl TestSession {
     async fn test_sender(
         socket: Arc<UdpSocket>,
         addr: &SocketAddr,
-        n_packets: u32,
+        model: ModelConfig,
+        n_packets: usize,
+        udp_overhead: usize,
     ) -> Result<SenderStats, Box<dyn Error>> {
-        let mut model = get_packet_model("g711")?;
         let mut buf = BytesMut::with_capacity(16384);
         let mut out_octets = 0usize;
         let t0 = Instant::now();
-        let mut pkt_sent = 0u32;
-        for s_seq in 0..n_packets {
-            let pkt = model.next_packet();
-            let next_deadline = tokio::time::Instant::now() + Duration::from_nanos(pkt.next_ns);
+        let mut pkt_sent = 0u64;
+        let get_packet = model.get_model();
+        let mut seq = 0usize;
+        let mut now = tokio::time::Instant::now();
+        let mut err_ns = 0u64;
+        loop {
+            let pkt = get_packet(seq);
             let req = TestRequest {
-                seq: s_seq,
+                seq: pkt.seq as u32,
                 timestamp: Utc::now(),
                 err_estimate: 0,
+                pad_to: pkt.size - udp_overhead,
             };
             req.write_bytes(&mut buf)?;
-            // @todo: Add Padding
-            // let pad = pkt.size - 20 - 8 - buf.len(); // IP + UDP
-            out_octets += socket.send_to(&buf, addr).await?;
+            //
+            out_octets += socket.send_to(&buf, addr).await? + udp_overhead;
             pkt_sent += 1;
             // Reset buffer pointer
             buf.clear();
+            //
+            seq += 1;
+            if seq == n_packets {
+                break;
+            }
             // Wait for next packet
-            tokio::time::sleep_until(next_deadline).await;
+            let delta_ns = pkt.next_ns - err_ns;
+            tokio::time::sleep_until(now + Duration::from_nanos(delta_ns)).await;
+            // As for version 1.2, Tokio timer has precision about 1ms,
+            // It will lead to significant drift ever on 50pps rates.
+            // so we need to add error correction to be more precise.
+            let prev_now = now;
+            now = tokio::time::Instant::now();
+            let real_delta_ns = (now - prev_now).as_nanos() as u64;
+            err_ns = real_delta_ns - delta_ns;
         }
         Ok(SenderStats {
             pkt_sent,
@@ -315,17 +344,18 @@ impl TestSession {
     #[inline]
     async fn test_receiver(
         socket: Arc<UdpSocket>,
-        n_packets: u32,
+        n_packets: usize,
+        udp_overhead: usize,
     ) -> Result<ReceiverStats, Box<dyn Error>> {
         // Stats
-        let mut pkt_received = 0u32;
+        let mut pkt_received = 0usize;
         // Roundtrip/Input/Output timings
         let mut rt_timing = Timing::new();
         let mut in_timing = Timing::new();
         let mut out_timing = Timing::new();
         // Roundtrip/Input/Output loss
-        let mut in_loss = 0u32;
-        let mut out_loss = 0u32;
+        let mut in_loss = 0usize;
+        let mut out_loss = 0usize;
         // Roundtrip/Input/Output hops
         let mut rt_min_hops = 0xffu16;
         let mut rt_max_hops = 0u16;
@@ -337,6 +367,7 @@ impl TestSession {
         let mut in_octets = 0usize;
         //
         let mut buf = BytesMut::with_capacity(16384);
+        let t0 = Instant::now();
         for count in 0..n_packets {
             let mut ts: UTCDateTime;
             // Try to read response,
@@ -346,7 +377,7 @@ impl TestSession {
                 ts = Utc::now();
                 match socket.try_recv_buf(&mut buf) {
                     Ok(n) => {
-                        in_octets += n + 20 + 8; // IP+UDP
+                        in_octets += n + udp_overhead;
                         break;
                     }
                     Err(ref e) if e.kind() == std::io::ErrorKind::WouldBlock => {
@@ -388,8 +419,8 @@ impl TestSession {
             };
             out_timing.register(out_delay.num_nanoseconds().unwrap() as u64);
             // Detect loss
-            in_loss = resp.seq - count;
-            out_loss = resp.sender_seq - resp.seq;
+            in_loss = resp.seq as usize - count;
+            out_loss = (resp.sender_seq - resp.seq) as usize;
             // @todo: register hops properly
             let out_hops = 255 - resp.sender_ttl;
             if out_hops > out_max_hops {
@@ -413,11 +444,13 @@ impl TestSession {
                 rt_min_hops = rt_hops
             }
         }
+        let time_ns = t0.elapsed().as_nanos() as u64;
         rt_timing.done();
         in_timing.done();
         out_timing.done();
         let rt_loss = n_packets - pkt_received;
         Ok(ReceiverStats {
+            time_ns,
             pkt_received,
             rt_timing,
             in_timing,
@@ -434,8 +467,41 @@ impl TestSession {
             in_octets,
         })
     }
+    fn humanize(v: u64) -> String {
+        if v >= 10_000_000_000 {
+            return String::from(format!("{:.1}G", v as f64 / 1_000_000_000.0));
+        }
+        if v >= 10_000_000 {
+            return String::from(format!("{:.1}M", v as f64 / 1_000_000.0));
+        }
+        if v >= 10_000 {
+            return String::from(format!("{:.1}K", v as f64 / 1_000.0));
+        }
+        String::from(format!("{}", v))
+    }
+    fn humanize_ns(v: u64) -> String {
+        if v >= 10_000_000_000 {
+            return String::from(format!("{:.1}s", v as f64 / 1_000_000_000.0));
+        }
+        if v >= 10_000_000 {
+            return String::from(format!("{:.1}ms", v as f64 / 1_000_000.0));
+        }
+        if v >= 10_000 {
+            return String::from(format!("{:.1}µs", v as f64 / 1_000.0));
+        }
+        String::from(format!("{}ns", v))
+    }
     fn process_stats(s_stats: SenderStats, r_stats: ReceiverStats) {
+        log::debug!("Sender stats: {:?}", s_stats);
+        log::debug!("Received stats: {:?}", r_stats);
         let total = s_stats.pkt_sent as f64;
+        let in_bitrate =
+            (r_stats.in_octets as f64 * 8.0 / (r_stats.time_ns as f64 / 1_000_000_000.0)) as u64;
+        let in_pps =
+            (r_stats.pkt_received as f64 / (r_stats.time_ns as f64 / 1_000_000_000.0)) as u64;
+        let out_bitrate =
+            (s_stats.out_octets as f64 * 8.0 / (s_stats.time_ns as f64 / 1_000_000_000.0)) as u64;
+        let out_pps = (s_stats.pkt_sent as f64 / (s_stats.time_ns as f64 / 1_000_000_000.0)) as u64;
         log::debug!(
             "Packets sent: {pkt_sent}, Packets received: {pkt_recv}, Loss: {loss}, Duration: {duration}",
             pkt_sent = s_stats.pkt_sent,
@@ -444,61 +510,64 @@ impl TestSession {
             duration=0
         );
         log::debug!(
-            "Out octets: {out_octets} ({out_bitrate}), In octets: {in_octets} ({in_bitrate})",
+            "Out octets: {out_octets} ({out_bitrate}bit/s, {out_pps}pps), In octets: {in_octets} ({in_bitrate}bit/s, {in_pps}pps)",
             out_octets = s_stats.out_octets,
             in_octets = r_stats.in_octets,
-            out_bitrate = 0,
-            in_bitrate = 0,
+            out_bitrate = Self::humanize(out_bitrate),
+            out_pps=Self::humanize(out_pps),
+            in_bitrate = Self::humanize(in_bitrate),
+            in_pps=Self::humanize(in_pps),
         );
         log::debug!("Direction  | Min       | Max       | Avg       | Jitter    | Hops    | Loss");
         log::debug!(
             "-----------+-----------+-----------+-----------+-----------+---------+--------------"
         );
         log::debug!(
-            "Inbound    | {min_delay:>9?} | {max_delay:?} | {avg_delay:?} | {jitter:?} | - | {loss:?}%",
-            min_delay = Duration::from_nanos(r_stats.in_timing.min_ns),
-            max_delay = Duration::from_nanos(r_stats.in_timing.max_ns),
-            avg_delay = Duration::from_nanos(r_stats.in_timing.avg_ns),
-            jitter = Duration::from_nanos(r_stats.in_timing.jitter_ns),
+            "Inbound    | {min_delay:>9} | {max_delay:>9} | {avg_delay:>9} | {jitter:>9} | - | {loss:.2}%",
+            min_delay = Self::humanize_ns(r_stats.in_timing.min_ns),
+            max_delay = Self::humanize_ns(r_stats.in_timing.max_ns),
+            avg_delay = Self::humanize_ns(r_stats.in_timing.avg_ns),
+            jitter = Self::humanize_ns(r_stats.in_timing.jitter_ns),
             loss = (r_stats.in_loss as f64) * 100.0 / total,
         );
         log::debug!(
-            "Outbound   | {min_delay:?} | {max_delay:?} | {avg_delay:?} | {jitter:?} | - | {loss:?}%",
-            min_delay = Duration::from_nanos(r_stats.out_timing.min_ns),
-            max_delay = Duration::from_nanos(r_stats.out_timing.max_ns),
-            avg_delay = Duration::from_nanos(r_stats.out_timing.avg_ns),
-            jitter = Duration::from_nanos(r_stats.out_timing.jitter_ns),
-            loss = (r_stats.in_loss as f64) * 100.0 / total,
+            "Outbound   | {min_delay:>9} | {max_delay:>9} | {avg_delay:>9} | {jitter:>9} | - | {loss:.2}%",
+            min_delay = Self::humanize_ns(r_stats.out_timing.min_ns),
+            max_delay = Self::humanize_ns(r_stats.out_timing.max_ns),
+            avg_delay = Self::humanize_ns(r_stats.out_timing.avg_ns),
+            jitter = Self::humanize_ns(r_stats.out_timing.jitter_ns),
+            loss = (r_stats.out_loss as f64) * 100.0 / total,
         );
         log::debug!(
-            "Round-Trip | {min_delay:?} | {max_delay:?} | {avg_delay:?} | {jitter:?} | - | {loss:?}%",
-            min_delay = Duration::from_nanos(r_stats.rt_timing.min_ns),
-            max_delay = Duration::from_nanos(r_stats.rt_timing.max_ns),
-            avg_delay = Duration::from_nanos(r_stats.rt_timing.avg_ns),
-            jitter = Duration::from_nanos(r_stats.rt_timing.jitter_ns),
-            loss = (r_stats.in_loss as f64) * 100.0 / total,
+            "Round-Trip | {min_delay:>9} | {max_delay:>9} | {avg_delay:>9} | {jitter:>9} | - | {loss:.2}%",
+            min_delay = Self::humanize_ns(r_stats.rt_timing.min_ns),
+            max_delay = Self::humanize_ns(r_stats.rt_timing.max_ns),
+            avg_delay = Self::humanize_ns(r_stats.rt_timing.avg_ns),
+            jitter = Self::humanize_ns(r_stats.rt_timing.jitter_ns),
+            loss = (r_stats.rt_loss as f64) * 100.0 / total,
         );
     }
 }
 
 #[derive(Debug)]
 struct SenderStats {
-    pkt_sent: u32,
+    pkt_sent: u64,
     time_ns: u64,
     out_octets: usize,
 }
 
 #[derive(Debug)]
 struct ReceiverStats {
-    pkt_received: u32,
+    time_ns: u64,
+    pkt_received: usize,
     // Roundtrip/Input/Output timings
     rt_timing: Timing,
     in_timing: Timing,
     out_timing: Timing,
     // Roundtrip/Input/Output loss
-    rt_loss: u32,
-    in_loss: u32,
-    out_loss: u32,
+    rt_loss: usize,
+    in_loss: usize,
+    out_loss: usize,
     // Roundtrip/Input/Output hops
     rt_min_hops: u16,
     rt_max_hops: u16,

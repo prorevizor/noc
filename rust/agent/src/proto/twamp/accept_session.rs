@@ -82,8 +82,8 @@ impl FrameWriter for AcceptSession {
 
 #[cfg(test)]
 mod tests {
+    use super::AcceptSession;
     use crate::proto::frame::{FrameReader, FrameWriter};
-    use crate::proto::twamp::AcceptSession;
     use bytes::{Buf, BytesMut};
 
     static ACCEPT_SESSION: &[u8] = &[

@@ -86,6 +86,7 @@ fn twamp_benchmark(c: &mut Criterion) {
             seq: 1024,
             timestamp: Utc.ymd(2021, 2, 12).and_hms(10, 0, 0),
             err_estimate: 15,
+            pad_to: 20,
         };
         let mut buf = BytesMut::with_capacity(req.size());
         b.iter(|| write_test_request(&req, &mut buf))

@@ -91,8 +91,8 @@ impl FrameWriter for ServerStart {
 
 #[cfg(test)]
 mod tests {
+    use super::ServerStart;
     use crate::proto::frame::{FrameReader, FrameWriter};
-    use crate::proto::twamp::ServerStart;
     use bytes::{Buf, Bytes, BytesMut};
     use chrono::{TimeZone, Utc};
 

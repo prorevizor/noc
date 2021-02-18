@@ -94,8 +94,9 @@ impl FrameWriter for SetupResponse {
 
 #[cfg(test)]
 mod tests {
+    use super::SetupResponse;
     use crate::proto::frame::{FrameReader, FrameWriter};
-    use crate::proto::twamp::{SetupResponse, MODE_UNAUTHENTICATED};
+    use crate::proto::twamp::MODE_UNAUTHENTICATED;
     use bytes::{Bytes, BytesMut};
 
     static SETUP_RESPONSE1: &[u8] = &[

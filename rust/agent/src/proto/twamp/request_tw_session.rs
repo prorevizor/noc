@@ -186,8 +186,8 @@ impl FrameWriter for RequestTWSession {
 
 #[cfg(test)]
 mod tests {
+    use super::RequestTWSession;
     use crate::proto::frame::{FrameReader, FrameWriter};
-    use crate::proto::twamp::RequestTWSession;
     use bytes::{Buf, BytesMut};
     use chrono::{TimeZone, Utc};
 

@@ -61,7 +61,10 @@ where
 {
     fn get_config(cfg: &HashMap<String, serde_json::Value>) -> Result<TCfg, Box<dyn Error>> {
         let c_value = serde_json::to_value(&cfg)?;
-        match serde_json::from_value::<TCfg>(c_value) {
+        Self::get_config_from_value(c_value)
+    }
+    fn get_config_from_value(cfg: serde_json::Value) -> Result<TCfg, Box<dyn Error>> {
+        match serde_json::from_value::<TCfg>(cfg) {
             Ok(x) => Ok(x),
             Err(e) => Err(Box::new(e)),
         }

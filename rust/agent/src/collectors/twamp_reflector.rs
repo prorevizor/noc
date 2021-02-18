@@ -225,6 +225,7 @@ impl ClientSession {
     }
     async fn reflect(id: String, port_channel: oneshot::Sender<u16>) -> Result<(), Box<dyn Error>> {
         log::debug!("[{}] Creating reflector", id);
+        // Reflector socket
         let mut socket = UDPConnection::bind("0.0.0.0:0").await?;
         // Reflector TTL must be set to 255
         socket.set_ttl(255)?;
@@ -248,11 +249,13 @@ impl ClientSession {
                 sender_timestamp: req.timestamp,
                 sender_err_estimate: req.err_estimate,
                 sender_ttl: 255, // @todo: Get real TTL
+                pad_to: req.pad_to,
             };
+            //
             socket.send_to(&resp, addr).await?;
             seq += 1;
         }
-        Ok(())
+        //Ok(())
     }
 }
 

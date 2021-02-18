@@ -52,7 +52,8 @@ pub struct TestResponse {
     pub sender_timestamp: UTCDateTime,
     pub sender_err_estimate: u16,
     pub sender_ttl: u8,
-    // padding
+    // Padding to size, excluding IP + UDP
+    pub pad_to: usize,
 }
 
 impl FrameReader for TestResponse {
@@ -60,6 +61,7 @@ impl FrameReader for TestResponse {
         41
     }
     fn parse(s: &mut BytesMut) -> Result<TestResponse, FrameError> {
+        let pad_to = s.len();
         // Sequence number, 4 octets
         let seq = s.get_u32();
         // Timestamp, 8 octets
@@ -80,6 +82,10 @@ impl FrameReader for TestResponse {
         s.advance(2);
         // Sender TTL, 1 octet
         let sender_ttl = s.get_u8();
+        // Skip padding
+        if 41 < pad_to {
+            s.advance(pad_to - 41)
+        }
         Ok(TestResponse {
             seq,
             timestamp: ts.into(),
@@ -89,6 +95,7 @@ impl FrameReader for TestResponse {
             sender_timestamp: sender_ts.into(),
             sender_err_estimate,
             sender_ttl,
+            pad_to,
         })
     }
 }
@@ -96,7 +103,7 @@ impl FrameReader for TestResponse {
 impl FrameWriter for TestResponse {
     /// Get size of serialized frame
     fn size(&self) -> usize {
-        41
+        self.pad_to
     }
     /// Serialize frame to buffer
     fn write_bytes(&self, s: &mut BytesMut) -> Result<(), FrameError> {
@@ -126,14 +133,19 @@ impl FrameWriter for TestResponse {
         s.put_u16(0);
         // Sender TTL, 1 octet
         s.put_u8(self.sender_ttl);
+        // Add padding
+        const MIN_LEN: usize = 41;
+        if self.pad_to > MIN_LEN {
+            s.resize(self.pad_to, 0);
+        }
         Ok(())
     }
 }
 
 #[cfg(test)]
 mod tests {
+    use super::TestResponse;
     use crate::proto::frame::{FrameReader, FrameWriter};
-    use crate::proto::twamp::TestResponse;
     use bytes::{Buf, BytesMut};
     use chrono::{TimeZone, Utc};
 
@@ -148,6 +160,7 @@ mod tests {
         0x00, 0x0e, // Sender Err estimate, 2 octets
         0x00, 0x00, // MBZ, 2 octets
         0xfa, // Sender TTL
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // Padding, 9 octets
     ];
 
     fn get_test_response() -> TestResponse {
@@ -160,6 +173,7 @@ mod tests {
             sender_timestamp: Utc.ymd(2021, 2, 12).and_hms(10, 0, 0),
             sender_err_estimate: 14,
             sender_ttl: 250,
+            pad_to: 50,
         }
     }
 
@@ -180,7 +194,7 @@ mod tests {
     #[test]
     fn test_test_response_size() {
         let sg = get_test_response();
-        assert_eq!(sg.size(), 41)
+        assert_eq!(sg.size(), 50)
     }
 
     #[test]

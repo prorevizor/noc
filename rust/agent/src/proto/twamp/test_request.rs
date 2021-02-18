@@ -35,7 +35,8 @@ pub struct TestRequest {
     pub seq: u32,
     pub timestamp: UTCDateTime,
     pub err_estimate: u16,
-    // padding
+    // Padding to size, excluding IP + UDP
+    pub pad_to: usize,
 }
 
 impl FrameReader for TestRequest {
@@ -43,16 +44,22 @@ impl FrameReader for TestRequest {
         14
     }
     fn parse(s: &mut BytesMut) -> Result<TestRequest, FrameError> {
+        let pad_to = s.len();
         // Sequence number, 4 octets
         let seq = s.get_u32();
         // Timestamp, 8 octets
         let ts = NTPTimeStamp::new(s.get_u32(), s.get_u32());
         // Err estimate, 2 octets
         let err_estimate = s.get_u16();
+        // Skip padding
+        if 14 < pad_to {
+            s.advance(pad_to - 14)
+        }
         Ok(TestRequest {
             seq,
             timestamp: ts.into(),
             err_estimate,
+            pad_to,
         })
     }
 }
@@ -60,7 +67,7 @@ impl FrameReader for TestRequest {
 impl FrameWriter for TestRequest {
     /// Get size of serialized frame
     fn size(&self) -> usize {
-        14
+        self.pad_to
     }
     /// Serialize frame to buffer
     fn write_bytes(&self, s: &mut BytesMut) -> Result<(), FrameError> {
@@ -72,14 +79,19 @@ impl FrameWriter for TestRequest {
         s.put_u32(ts.fracs());
         // Err estimate, 2 octets
         s.put_u16(self.err_estimate);
+        // Add padding
+        const MIN_LEN: usize = 14;
+        if self.pad_to > MIN_LEN {
+            s.resize(self.pad_to, 0);
+        }
         Ok(())
     }
 }
 
 #[cfg(test)]
 mod tests {
+    use super::TestRequest;
     use crate::proto::frame::{FrameReader, FrameWriter};
-    use crate::proto::twamp::TestRequest;
     use bytes::{Buf, BytesMut};
     use chrono::{TimeZone, Utc};
 
@@ -87,6 +99,7 @@ mod tests {
         0x00, 0x00, 0x04, 0x00, // Sequence, 4 octets
         0xe3, 0xd0, 0xd0, 0x20, 0x00, 0x00, 0x00, 0x00, // Timestamp, 8 octets
         0x00, 0x0f, // Err estimate, 2 octets
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // Padding, 6 octets, up to 20 octets
     ];
 
     fn get_test_request() -> TestRequest {
@@ -94,6 +107,7 @@ mod tests {
             seq: 1024,
             timestamp: Utc.ymd(2021, 2, 12).and_hms(10, 0, 0),
             err_estimate: 15,
+            pad_to: 20,
         }
     }
 
@@ -108,13 +122,13 @@ mod tests {
         let expected = get_test_request();
         let res = TestRequest::parse(&mut buf);
         assert_eq!(buf.remaining(), 0);
-        assert_eq!(res, Ok(expected))
+        assert_eq!(res, Ok(expected));
     }
 
     #[test]
     fn test_test_request_size() {
         let sg = get_test_request();
-        assert_eq!(sg.size(), 14)
+        assert_eq!(sg.size(), 20);
     }
 
     #[test]
