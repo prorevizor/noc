@@ -25,7 +25,6 @@ from noc.inv.models.interfaceprofile import InterfaceProfile
 from noc.inv.models.link import Link
 from noc.inv.models.discoveryid import DiscoveryID
 from noc.main.models.pool import Pool
-from noc.sa.interfaces.base import MACAddressParameter
 from noc.sa.models.useraccess import UserAccess
 from noc.core.translation import ugettext as _
 
