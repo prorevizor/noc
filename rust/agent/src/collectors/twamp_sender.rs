@@ -325,15 +325,19 @@ impl TestSession {
                 break;
             }
             // Wait for next packet
-            let delta_ns = pkt.next_ns - err_ns;
-            tokio::time::sleep_until(now + Duration::from_nanos(delta_ns)).await;
-            // As for version 1.2, Tokio timer has precision about 1ms,
-            // It will lead to significant drift ever on 50pps rates.
-            // so we need to add error correction to be more precise.
-            let prev_now = now;
-            now = tokio::time::Instant::now();
-            let real_delta_ns = (now - prev_now).as_nanos() as u64;
-            err_ns = real_delta_ns - delta_ns;
+            if err_ns < pkt.next_ns {
+                let delta_ns = pkt.next_ns - err_ns;
+                tokio::time::sleep_until(now + Duration::from_nanos(delta_ns)).await;
+                // As for version 1.2, Tokio timer has precision about 1ms,
+                // It will lead to significant drift ever on 50pps rates.
+                // so we need to add error correction to be more precise.
+                let prev_now = now;
+                now = tokio::time::Instant::now();
+                let real_delta_ns = (now - prev_now).as_nanos() as u64;
+                err_ns = real_delta_ns - delta_ns;
+            } else {
+                err_ns -= pkt.next_ns;
+            }
         }
         Ok(SenderStats {
             pkt_sent,
@@ -492,8 +496,6 @@ impl TestSession {
         String::from(format!("{}ns", v))
     }
     fn process_stats(s_stats: SenderStats, r_stats: ReceiverStats) {
-        log::debug!("Sender stats: {:?}", s_stats);
-        log::debug!("Received stats: {:?}", r_stats);
         let total = s_stats.pkt_sent as f64;
         let in_bitrate =
             (r_stats.in_octets as f64 * 8.0 / (r_stats.time_ns as f64 / 1_000_000_000.0)) as u64;

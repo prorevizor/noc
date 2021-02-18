@@ -50,9 +50,9 @@ pub fn get_pps_model(size: usize, pps: usize) -> Box<dyn Fn(usize) -> Packet + S
 }
 
 /// IMIX iterator.
-/// Implements IMIX Simple model.
-/// Yields 7 packets of 40 octets, 4 of 576 and one for 1500.
-const IMIX1: usize = 40;
+/// Simple IMIX model consists of 7 packets of 64 octets, 4 of 576 and one for 1500.
+/// As TWAMP-Response is 20+8+41, pad small packets to 70 octets.  
+const IMIX1: usize = 70;
 const IMIX1_COUNT: usize = 7;
 const IMIX2: usize = 576;
 const IMIX2_COUNT: usize = 4;
@@ -88,7 +88,7 @@ impl ModelConfig {
 
 #[cfg(test)]
 mod tests {
-    use super::{ModelConfig, Packet};
+    use super::{ModelConfig, Packet, IMIX_SAMPLE, IMIX_SAMPLE_COUNT};
 
     #[test]
     fn test_g711_model() {
@@ -111,5 +111,36 @@ mod tests {
             next_ns: 20_000_000,
         };
         assert_eq!(pkt, expected);
+    }
+    #[test]
+    fn test_cbr_model() {
+        let get_packet = ModelConfig::CBR {
+            bandwidth: 8_000_000,
+            size: 100,
+        }
+        .get_model();
+        let pkt = get_packet(0);
+        let expected = Packet {
+            seq: 0,
+            size: 100,
+            next_ns: 100_000,
+        };
+        assert_eq!(pkt, expected);
+    }
+    #[test]
+    fn test_imix_model() {
+        let get_packet = ModelConfig::IMIX {
+            bandwidth: 12_252_000,
+        }
+        .get_model();
+        for seq in 0..IMIX_SAMPLE_COUNT {
+            let pkt = get_packet(seq);
+            let expected = Packet {
+                seq,
+                size: IMIX_SAMPLE[seq % IMIX_SAMPLE_COUNT],
+                next_ns: 233_648,
+            };
+            assert_eq!(pkt, expected);
+        }
     }
 }
