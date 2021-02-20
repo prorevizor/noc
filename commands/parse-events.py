@@ -42,7 +42,7 @@ class Command(BaseCommand):
         parser.add_argument("--progress", action="store_true", help="Display progress")
 
     def handle(self, paths, profile, format, reject=None, progress=False, *args, **options):
-        assert profile_loader.get_profile(profile), "Invalid profile: %s" % profile
+        assert profile_loader.has_profile(profile), "Invalid profile: %s" % profile
         connect()
         t0 = time.time()
         ruleset = RuleSet()
@@ -51,7 +51,7 @@ class Command(BaseCommand):
         reader = getattr(self, "read_%s" % format, None)
         assert reader, "Invalid format %s" % format
         self.managed_object = ManagedObject(
-            id=1, name="test", address="127.0.0.1", profile=Profile.get_by_name("Generic.Host")
+            id=1, name="test", address="127.0.0.1", profile=Profile.get_by_name(profile)
         )
         t0 = time.time()
         stats = defaultdict(int)
