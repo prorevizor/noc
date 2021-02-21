@@ -14,8 +14,7 @@ use tokio::net::{ToSocketAddrs, UdpSocket};
 #[derive(Debug)]
 pub struct UDPConnection {
     socket: UdpSocket,
-    in_buffer: BytesMut,
-    out_buffer: BytesMut,
+    buffer: BytesMut,
 }
 
 const UDP_BUFF_CAPACITY: usize = 16384;
@@ -25,8 +24,7 @@ impl UDPConnection {
         let socket = UdpSocket::bind(addr).await?;
         Ok(UDPConnection {
             socket,
-            in_buffer: BytesMut::with_capacity(UDP_BUFF_CAPACITY),
-            out_buffer: BytesMut::with_capacity(UDP_BUFF_CAPACITY),
+            buffer: BytesMut::with_capacity(UDP_BUFF_CAPACITY),
         })
     }
     pub fn local_port(&self) -> Result<u16, Box<dyn Error>> {
@@ -37,12 +35,12 @@ impl UDPConnection {
         Ok(())
     }
     pub async fn recv_from<T: FrameReader>(&mut self) -> Result<(T, SocketAddr), Box<dyn Error>> {
-        self.in_buffer.clear();
+        self.buffer.clear();
         loop {
             self.socket.readable().await?;
-            match self.socket.try_recv_buf_from(&mut self.in_buffer) {
+            match self.socket.try_recv_buf_from(&mut self.buffer) {
                 Ok((_, addr)) => {
-                    let r = T::parse(&mut self.in_buffer)?;
+                    let r = T::parse(&mut self.buffer)?;
                     return Ok((r, addr));
                 }
                 Err(ref e) if e.kind() == std::io::ErrorKind::WouldBlock => {
@@ -59,9 +57,9 @@ impl UDPConnection {
         frame: &T,
         addr: SocketAddr,
     ) -> Result<(), Box<dyn Error>> {
-        self.out_buffer.clear();
-        frame.write_bytes(&mut self.out_buffer)?;
-        self.socket.send_to(&self.out_buffer, addr).await?;
+        self.buffer.clear();
+        frame.write_bytes(&mut self.buffer)?;
+        self.socket.send_to(&self.buffer, addr).await?;
         Ok(())
     }
 }

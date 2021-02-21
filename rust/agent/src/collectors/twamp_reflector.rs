@@ -229,6 +229,8 @@ impl ClientSession {
     }
     async fn reflect(id: String, port_channel: oneshot::Sender<u16>) -> Result<(), Box<dyn Error>> {
         log::debug!("[{}] Creating reflector", id);
+        // Timeout
+        let recv_timeout = Duration::from_nanos(3_000_000_000);
         // Reflector socket
         let mut socket = UDPConnection::bind("0.0.0.0:0").await?;
         // Reflector TTL must be set to 255
@@ -241,7 +243,13 @@ impl ClientSession {
         //
         let mut seq = 0u32;
         loop {
-            let (req, addr) = socket.recv_from::<TestRequest>().await?;
+            let (req, addr) = match timeout(recv_timeout, socket.recv_from::<TestRequest>()).await {
+                Ok(Ok(r)) => r,
+                // recv_from returns an error
+                Ok(Err(e)) => return Err(e),
+                // Timed out, break the loop
+                Err(_) => break,
+            };
             // Build response
             let ts = Utc::now();
             let resp = TestResponse {
@@ -259,7 +267,8 @@ impl ClientSession {
             socket.send_to(&resp, addr).await?;
             seq += 1;
         }
-        //Ok(())
+        log::debug!("[{}] Stopping reflector", id);
+        Ok(())
     }
 }
 
