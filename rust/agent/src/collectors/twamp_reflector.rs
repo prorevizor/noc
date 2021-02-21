@@ -17,10 +17,12 @@ use bytes::Bytes;
 use chrono::Utc;
 use rand::Rng;
 use serde::Deserialize;
-use std::error::Error;
-use std::net::SocketAddr;
-use tokio::net::{TcpListener, TcpStream};
-use tokio::sync::oneshot;
+use std::{error::Error, net::SocketAddr, time::Duration};
+use tokio::{
+    net::{TcpListener, TcpStream},
+    sync::oneshot,
+    time::timeout,
+};
 
 #[derive(Deserialize, Debug)]
 pub struct TWAMPReflectorConfig {
@@ -107,15 +109,17 @@ impl ClientSession {
 
     async fn process(&mut self) -> Result<(), Box<dyn Error>> {
         log::info!("[{}][{}] Connected", self.id, self.addr);
+        // Control messages timeout, 3 seconds by default
+        let ctl_timeout = Duration::from_nanos(3_000_000_000);
         self.send_server_greeting().await?;
-        self.recv_setup_response().await?;
+        self.recv_setup_response(ctl_timeout).await?;
         self.send_server_start().await?;
-        self.recv_request_tw_session().await?;
+        self.recv_request_tw_session(ctl_timeout).await?;
         self.start_reflector().await?;
         self.send_accept_session().await?;
-        self.recv_start_sessions().await?;
+        self.recv_start_sessions(ctl_timeout).await?;
         self.send_start_ack().await?;
-        self.recv_stop_sessions().await?;
+        self.recv_stop_sessions().await?; // No direct timeout
         log::info!("[{}][{}] Session complete", self.id, self.addr);
         Ok(())
     }
@@ -133,9 +137,9 @@ impl ClientSession {
         self.connection.write_frame(&sg).await?;
         Ok(())
     }
-    async fn recv_setup_response(&mut self) -> Result<(), Box<dyn Error>> {
+    async fn recv_setup_response(&mut self, t: Duration) -> Result<(), Box<dyn Error>> {
         log::debug!("[{}] Waiting for Setup-Response", self.id);
-        let sr: SetupResponse = self.connection.read_frame().await?;
+        let sr: SetupResponse = timeout(t, self.connection.read_frame()).await??;
         log::debug!("[{}] Received Setup-Response", self.id);
         match sr.mode {
             MODE_UNAUTHENTICATED => self.auth_unathenticated().await,
@@ -161,9 +165,9 @@ impl ClientSession {
         self.connection.write_frame(&ss).await?;
         Ok(())
     }
-    async fn recv_request_tw_session(&mut self) -> Result<(), Box<dyn Error>> {
+    async fn recv_request_tw_session(&mut self, t: Duration) -> Result<(), Box<dyn Error>> {
         log::debug!("[{}] Waiting for Request-TW-Session", self.id);
-        let req: RequestTWSession = self.connection.read_frame().await?;
+        let req: RequestTWSession = timeout(t, self.connection.read_frame()).await??;
         log::debug!(
             "[{}] Received Request-TW-Session. Client timestamp={:?}, Type-P={}",
             self.id,
@@ -182,9 +186,9 @@ impl ClientSession {
         self.connection.write_frame(&msg).await?;
         Ok(())
     }
-    async fn recv_start_sessions(&mut self) -> Result<(), Box<dyn Error>> {
+    async fn recv_start_sessions(&mut self, t: Duration) -> Result<(), Box<dyn Error>> {
         log::debug!("[{}] Waiting for Start-Sessions", self.id);
-        let _: StartSessions = self.connection.read_frame().await?;
+        let _: StartSessions = timeout(t, self.connection.read_frame()).await??;
         log::debug!("[{}] Start-Sessions received", self.id);
         Ok(())
     }

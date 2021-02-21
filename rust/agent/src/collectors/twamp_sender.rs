@@ -25,7 +25,10 @@ use std::error::Error;
 use std::net::SocketAddr;
 use std::sync::Arc;
 use std::time::{Duration, Instant};
-use tokio::net::{TcpStream, UdpSocket};
+use tokio::{
+    net::{TcpStream, UdpSocket},
+    time::timeout,
+};
 
 #[derive(Deserialize, Debug)]
 pub struct TWAMPSenderConfig {
@@ -70,7 +73,7 @@ impl Collectable for TWAMPSenderCollector {
         );
         let stream =
             TcpStream::connect(format!("{}:{}", self.config.server, self.config.port)).await?;
-        TestSession::new(stream, self.config.model.clone())
+        TestSession::new(stream, self.config.model)
             .with_id(self.id.clone())
             .with_tos(self.config.tos)
             .with_reflector_addr(self.config.server.clone())
@@ -125,20 +128,22 @@ impl TestSession {
     }
     pub async fn run(&mut self) -> Result<(), Box<dyn Error>> {
         log::debug!("[{}] Connected", self.id);
-        self.recv_server_greeting().await?;
+        // Control messages timeout, 3 seconds by default
+        let ctl_timeout = Duration::from_nanos(3_000_000_000);
+        self.recv_server_greeting(ctl_timeout).await?;
         self.send_setup_reponse().await?;
-        self.recv_server_start().await?;
+        self.recv_server_start(ctl_timeout).await?;
         self.send_request_tw_session().await?;
-        self.recv_accept_session().await?;
+        self.recv_accept_session(ctl_timeout).await?;
         self.send_start_sessions().await?;
-        self.recv_start_ack().await?;
+        self.recv_start_ack(ctl_timeout).await?;
         self.run_test().await?;
         self.send_stop_sessions().await?;
         Ok(())
     }
-    async fn recv_server_greeting(&mut self) -> Result<(), Box<dyn Error>> {
+    async fn recv_server_greeting(&mut self, t: Duration) -> Result<(), Box<dyn Error>> {
         log::debug!("[{}] Waiting for Server-Greeting", self.id);
-        let sg: ServerGreeting = self.connection.read_frame().await?;
+        let sg: ServerGreeting = timeout(t, self.connection.read_frame()).await??;
         log::debug!(
             "[{}] Server-Greeting received. Suggested modes: {}",
             self.id,
@@ -165,9 +170,9 @@ impl TestSession {
         self.connection.write_frame(&sr).await?;
         Ok(())
     }
-    async fn recv_server_start(&mut self) -> Result<(), Box<dyn Error>> {
+    async fn recv_server_start(&mut self, t: Duration) -> Result<(), Box<dyn Error>> {
         log::debug!("[{}] Waiting fot Server-Start", self.id);
-        let ss: ServerStart = self.connection.read_frame().await?;
+        let ss: ServerStart = timeout(t, self.connection.read_frame()).await??;
         log::debug!(
             "[{}] Server-Start received. Server timestamp: {}",
             self.id,
@@ -187,9 +192,9 @@ impl TestSession {
         self.connection.write_frame(&srq).await?;
         Ok(())
     }
-    async fn recv_accept_session(&mut self) -> Result<(), Box<dyn Error>> {
+    async fn recv_accept_session(&mut self, t: Duration) -> Result<(), Box<dyn Error>> {
         log::debug!("[{}] Waiting for Accept-Session", self.id);
-        let acc_s: AcceptSession = self.connection.read_frame().await?;
+        let acc_s: AcceptSession = timeout(t, self.connection.read_frame()).await??;
         log::debug!(
             "[{}] Accept-Session Received. Reflector port: {}",
             self.id,
@@ -204,9 +209,9 @@ impl TestSession {
         self.connection.write_frame(&req).await?;
         Ok(())
     }
-    async fn recv_start_ack(&mut self) -> Result<(), Box<dyn Error>> {
+    async fn recv_start_ack(&mut self, t: Duration) -> Result<(), Box<dyn Error>> {
         log::debug!("[{}] Waiting for Start-Ack", self.id);
-        let resp: StartAck = self.connection.read_frame().await?;
+        let resp: StartAck = timeout(t, self.connection.read_frame()).await??;
         if resp.accept != ACCEPT_OK {
             log::error!(
                 "[{}] Failed to start session. Accept code: {}",
@@ -281,10 +286,10 @@ impl TestSession {
         n_packets: usize,
         udp_overhead: usize,
     ) -> Result<ReceiverStats, &'static str> {
-        match TestSession::test_receiver(socket, n_packets, udp_overhead).await {
+        match TestSession::test_receiver(id.clone(), socket, n_packets, udp_overhead).await {
             Ok(r) => Ok(r),
             Err(e) => {
-                log::error!("[{}] Receiver error: {}", id, e);
+                log::error!("[{}] Receiver error: {}", &id, e);
                 Err("receiver error")
             }
         }
@@ -351,10 +356,13 @@ impl TestSession {
     }
     #[inline]
     async fn test_receiver(
+        id: String,
         socket: Arc<UdpSocket>,
         n_packets: usize,
         udp_overhead: usize,
     ) -> Result<ReceiverStats, Box<dyn Error>> {
+        // Timeout
+        let r_timeout = Duration::from_nanos(3_000_000_000);
         // Stats
         let mut pkt_received = 0usize;
         // Roundtrip/Input/Output timings
@@ -376,15 +384,27 @@ impl TestSession {
         //
         let mut buf = BytesMut::with_capacity(16384);
         let t0 = Instant::now();
-        for count in 0..n_packets {
+        'main: for count in 0..n_packets {
             let mut ts: UTCDateTime;
             // Try to read response,
             // @todo: Replace with UDPConnection
             loop {
-                socket.readable().await?;
+                match timeout(r_timeout, socket.readable()).await {
+                    Ok(r) => {
+                        r?;
+                    }
+                    Err(_) => {
+                        log::info!("[{}] Receiver timed out", &id);
+                        break 'main;
+                    }
+                }
                 ts = Utc::now();
                 match socket.try_recv_buf(&mut buf) {
                     Ok(n) => {
+                        if n == 0 {
+                            log::info!("[{}] Connection reset", &id);
+                            break 'main;
+                        }
                         in_octets += n + udp_overhead;
                         break;
                     }
@@ -477,27 +497,27 @@ impl TestSession {
     }
     fn humanize(v: u64) -> String {
         if v >= 10_000_000_000 {
-            return String::from(format!("{:.1}G", v as f64 / 1_000_000_000.0));
+            return format!("{:.1}G", v as f64 / 1_000_000_000.0);
         }
         if v >= 10_000_000 {
-            return String::from(format!("{:.1}M", v as f64 / 1_000_000.0));
+            return format!("{:.1}M", v as f64 / 1_000_000.0);
         }
         if v >= 10_000 {
-            return String::from(format!("{:.1}K", v as f64 / 1_000.0));
+            return format!("{:.1}K", v as f64 / 1_000.0);
         }
-        String::from(format!("{}", v))
+        format!("{}", v)
     }
     fn humanize_ns(v: u64) -> String {
         if v >= 10_000_000_000 {
-            return String::from(format!("{:.1}s", v as f64 / 1_000_000_000.0));
+            return format!("{:.1}s", v as f64 / 1_000_000_000.0);
         }
         if v >= 10_000_000 {
-            return String::from(format!("{:.1}ms", v as f64 / 1_000_000.0));
+            return format!("{:.1}ms", v as f64 / 1_000_000.0);
         }
         if v >= 10_000 {
-            return String::from(format!("{:.1}µs", v as f64 / 1_000.0));
+            return format!("{:.1}µs", v as f64 / 1_000.0);
         }
-        String::from(format!("{}ns", v))
+        format!("{}ns", v)
     }
     fn process_stats(s_stats: SenderStats, r_stats: ReceiverStats) {
         let total = s_stats.pkt_sent as f64;
