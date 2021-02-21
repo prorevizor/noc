@@ -13,5 +13,6 @@ Ext.define("NOC.phone.phonenumber.LookupField", {
         getInnerTpl: function() {
             return "{label} <span style='float: right' class='x-display-tag'>{dialplan}</span>";
         }
-    }
+    },
+    uiStyle: "medium"
 });

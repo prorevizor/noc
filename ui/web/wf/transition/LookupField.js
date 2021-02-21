@@ -8,5 +8,6 @@ console.debug("Defining NOC.wf.transition.LookupField");
 
 Ext.define("NOC.wf.transition.LookupField", {
     extend: "NOC.core.ComboBox",
-    alias: "widget.wf.transition.LookupField"
+    alias: "widget.wf.transition.LookupField",
+    uiStyle: "medium"
 });

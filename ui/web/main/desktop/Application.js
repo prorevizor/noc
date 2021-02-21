@@ -11,6 +11,8 @@ Ext.define("NOC.main.desktop.Application", {
     requires: [
         "NOC.core.CMText",
         "NOC.core.PasswordField",
+        "NOC.core.ObservableModel",
+        "NOC.core.Observable",
         "NOC.core.TagsField",
         "NOC.core.StringListField",
         "NOC.core.StateField",
@@ -28,6 +30,9 @@ Ext.define("NOC.main.desktop.Application", {
 
     initComponent: function() {
         var me = this;
+        // initial permissions cache
+
+        NOC.permissions$ = new NOC.core.Observable({model: new NOC.core.ObservableModel});
         me.restartReason = null;
         me.templates = NOC.templates["main_desktop"];
         // Setup helpers
@@ -292,6 +297,7 @@ Ext.define("NOC.main.desktop.Application", {
         Ext.Ajax.request({
             method: "GET",
             url: "/main/desktop/user_settings/",
+            async: true, // make one request, when reload with open tab
             scope: me,
             success: function(response) {
                 var settings = Ext.decode(response.responseText),
@@ -320,7 +326,10 @@ Ext.define("NOC.main.desktop.Application", {
                 // Setup idle timer
                 me.setIdleTimeout(settings.idle_timeout);
                 // permissions cache
-                NOC.permissions = me.getPermissions(settings.navigation.children);
+                NOC.permissions$.next(me.getPermissions(settings.navigation.children));
+            },
+            failure: function() {
+                NOC.error(__("Failed to get user settings"));
             }
         });
         // Launch welcome application
@@ -328,18 +337,24 @@ Ext.define("NOC.main.desktop.Application", {
             me.launchTab("NOC.main.welcome.Application", "Welcome", {});
         }
     },
+    //
     getPermissions: function(tree) {
-        let result = [];
-        let children = function(leaf) {
-            if(leaf.hasOwnProperty("launch_info")
-                && leaf.launch_info.hasOwnProperty("params")
-                && leaf.launch_info.params.hasOwnProperty("app_id")) {
-                result[leaf.launch_info.params.app_id] = leaf.launch_info.params.permissions;
-            }
-            if(leaf.hasOwnProperty("children") && leaf.children) {
-                Ext.Array.map(leaf.children, children);
-            }
-        }
+        var result = [],
+            children = function(leaf) {
+                if(leaf.hasOwnProperty("launch_info")
+                    && leaf.launch_info.hasOwnProperty("params")
+                    && leaf.launch_info.params.hasOwnProperty("app_id")) {
+                    result.push(
+                        new NOC.core.ObservableModel({
+                            key: leaf.launch_info.params.app_id,
+                            value: leaf.launch_info.params.permissions
+                        })
+                    );
+                }
+                if(leaf.hasOwnProperty("children") && leaf.children) {
+                    Ext.Array.map(leaf.children, children);
+                }
+            };
         Ext.Array.map(tree, children);
         return result;
     },

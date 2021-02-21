@@ -11,5 +11,6 @@ Ext.define("NOC.inv.objectmodel.ContainerLookupField", {
     alias: "widget.inv.objectmodel.ContainerLookupField",
     query: {
         is_container: 1
-    }
+    },
+    uiStyle: "medium"
 });

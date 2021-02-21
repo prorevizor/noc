@@ -8,5 +8,6 @@ console.debug("Defining NOC.sa.managedobjectselector.LookupField");
 
 Ext.define("NOC.sa.managedobjectselector.LookupField", {
     extend: "NOC.core.ComboBox",
-    alias: "widget.sa.managedobjectselector.LookupField"
+    alias: "widget.sa.managedobjectselector.LookupField",
+    uiStyle: "medium"
 });

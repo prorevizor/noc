@@ -8,5 +8,6 @@ console.debug("Defining NOC.support.crashinfo.LookupField");
 
 Ext.define("NOC.support.crashinfo.LookupField", {
     extend: "NOC.core.ComboBox",
-    alias: "widget.support.crashinfo.LookupField"
+    alias: "widget.support.crashinfo.LookupField",
+    uiStyle: "medium"
 });

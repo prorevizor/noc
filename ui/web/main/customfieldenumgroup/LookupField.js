@@ -8,5 +8,6 @@ console.debug("Defining NOC.main.customfieldenumgroup.LookupField");
 
 Ext.define("NOC.main.customfieldenumgroup.LookupField", {
     extend: "NOC.core.ComboBox",
-    alias: "widget.main.customfieldenumgroup.LookupField"
+    alias: "widget.main.customfieldenumgroup.LookupField",
+    uiStyle: "medium"
 });

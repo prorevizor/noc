@@ -8,5 +8,6 @@ console.debug("Defining NOC.inv.coverage.LookupField");
 
 Ext.define("NOC.inv.coverage.LookupField", {
     extend: "NOC.core.ComboBox",
-    alias: "widget.inv.coverage.LookupField"
+    alias: "widget.inv.coverage.LookupField",
+    uiStyle: "medium"
 });

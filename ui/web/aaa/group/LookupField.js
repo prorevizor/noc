@@ -8,5 +8,6 @@ console.debug("Defining NOC.aaa.group.LookupField");
 
 Ext.define("NOC.aaa.group.LookupField", {
     extend: "NOC.core.ComboBox",
-    alias: "widget.aaa.group.LookupField"
+    alias: "widget.aaa.group.LookupField",
+    uiStyle: "medium"
 });

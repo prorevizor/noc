@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------
-// fm.alarm application
+// core.comboBox widget
 //---------------------------------------------------------------------
 // Copyright (C) 2007-2021 The NOC Project
 // See LICENSE for details
@@ -9,6 +9,9 @@ console.debug("Defining NOC.core.ComboBox");
 Ext.define("NOC.core.ComboBox", {
     extend: "Ext.form.field.ComboBox",
     alias: "widget.core.combo",
+    requires: [
+        "NOC.core.Observable"
+    ],
     displayField: "label",
     valueField: "id",
     queryMode: "remote",
@@ -56,7 +59,7 @@ Ext.define("NOC.core.ComboBox", {
     },
     triggers: {
         clear: {
-            cls: "x-form-clear-trigger",
+            cls: "x-form-clean-trigger",
             hidden: true,
             weight: -1,
             handler: function(field) {
@@ -111,46 +114,42 @@ Ext.define("NOC.core.ComboBox", {
         // Fix combobox with paging
         this.pickerId = this.getId() + '_picker';
         // end
-        // add triggers
-        if(NOC.hasOwnProperty("permissions")) {
-            me.showTriggers(null);
-        } else {
-            if(me.askPermission) {
-                Ext.Ajax.request({
-                    url: me.restUrl.replace("/lookup/", "/launch_info/"),
-                    method: "GET",
-                    scope: me,
-                    success: function(response) {
-                        var li = Ext.decode(response.responseText);
-                        NOC.permissions[li.params.app_id] = li.params.permissions;
-                        this.showTriggers(null);
-                    },
-                    failure: function() {
-                        NOC.error(__("Failed get launch info"));
-                    }
-                });
-            }
-        }
+        me.showTriggers(null);
         this.callParent();
     },
 
     showTriggers: function(value) {
-        this.getTrigger("create").hide();
-        this.getTrigger("clear").show();
-        if(value == null || value === "") {
-            if(NOC.hasOwnProperty("permissions")
-                && NOC.permissions[this.app]
-                && Ext.Array.contains(NOC.permissions[this.app], "create")) {
-                this.getTrigger("create").show();
+        var me = this,
+            process = function(value, perms) {
+                me.getTrigger("create").hide();
+                me.getTrigger("clear").show();
+                if(value == null || value === "") {
+                    if(Ext.Array.contains(perms, "create")) {
+                        me.getTrigger("create").show();
+                    }
+                    me.getTrigger("clear").hide();
+                    me.getTrigger("update").hide();
+                    return;
+                }
+                if(Ext.Array.contains(perms, "launch")) {
+                    me.getTrigger("update").show();
+                }
+            };
+
+        if(this.askPermission) {
+            if(NOC.permissions$.isLoaded()) {
+                process(value, NOC.permissions$.getPermissions(me.app));
+            } else {
+                NOC.permissions$.subscribe({
+                        key: this.app,
+                        value: function(perms) {
+                            process(value, perms);
+                        }
+                    }
+                );
             }
-            this.getTrigger("clear").hide();
-            this.getTrigger("update").hide();
-            return;
-        }
-        if(NOC.hasOwnProperty("permissions")
-            && NOC.permissions[this.app]
-            && Ext.Array.contains(NOC.permissions[this.app], "launch")) {
-            this.getTrigger("update").show();
+        } else {
+            process(value, []);
         }
     },
 
@@ -171,7 +170,7 @@ Ext.define("NOC.core.ComboBox", {
     onBeforeQuery: function() {
         var me = this,
             v = this.getRawValue();
-        if (typeof v === "undefined" || v === null || v === "") {
+        if(typeof v === "undefined" || v === null || v === "") {
             me.clearValue();
             me.fireEvent("clear");
         }
@@ -192,9 +191,9 @@ Ext.define("NOC.core.ComboBox", {
                 method: "GET",
                 scope: me,
                 params: params,
-                success: function (response) {
+                success: function(response) {
                     var data = Ext.decode(response.responseText);
-                    if (data.length === 1) {
+                    if(data.length === 1) {
                         vm = me.store.getModel().create(data[0]);
                         me.setValue(vm);
                         if(doSelect) {

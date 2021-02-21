@@ -8,5 +8,6 @@ console.debug("Defining NOC.main.messageroute.LookupField");
 
 Ext.define("NOC.main.messageroute.LookupField", {
     extend: "NOC.core.ComboBox",
-    alias: "widget.main.messageroute.LookupField"
+    alias: "widget.main.messageroute.LookupField",
+    uiStyle: "medium"
 });
