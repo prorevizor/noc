@@ -14,13 +14,6 @@ import codecs
 # Third-party modules
 from typing import Tuple, Any, List, Optional
 
-if os.name == "nt":
-    try:
-        import pyximport
-    except ImportError:
-        raise NotImplementedError("Working on Windows without pyximport not supported")
-    pyximport.install()
-
 # NOC modules
 from noc.core.comp import smart_bytes, smart_text
 from noc.speedup.ber import parse_tlv_header, parse_p_oid, encode_int, encode_oid
