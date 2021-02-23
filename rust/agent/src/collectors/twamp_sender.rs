@@ -305,7 +305,7 @@ impl TestSession {
         let mut buf = BytesMut::with_capacity(16384);
         let mut out_octets = 0usize;
         let t0 = Instant::now();
-        let mut pkt_sent = 0u64;
+        let mut pkt_sent = 0usize;
         let get_packet = model.get_model();
         let mut seq = 0usize;
         let mut now = tokio::time::Instant::now();
@@ -386,6 +386,7 @@ impl TestSession {
         let t0 = Instant::now();
         'main: for count in 0..n_packets {
             let mut ts: UTCDateTime;
+            let n: usize;
             // Try to read response,
             // @todo: Replace with UDPConnection
             loop {
@@ -399,27 +400,26 @@ impl TestSession {
                     }
                 }
                 ts = Utc::now();
-                match socket.try_recv_buf(&mut buf) {
-                    Ok(n) => {
-                        if n == 0 {
-                            log::info!("[{}] Connection reset", &id);
-                            break 'main;
-                        }
-                        in_octets += n + udp_overhead;
-                        break;
-                    }
+                n = match socket.try_recv_buf(&mut buf) {
+                    Ok(n) => n,
                     Err(ref e) if e.kind() == std::io::ErrorKind::WouldBlock => {
                         continue;
                     }
                     Err(e) => {
                         return Err(Box::new(e));
                     }
-                }
+                };
+                break;
             }
             // Parse request
-            let resp = TestResponse::parse(&mut buf)?;
+            let resp = match TestResponse::parse(&mut buf) {
+                Ok(r) => r,
+                // Flood models may lead to broken frames
+                Err(_) => continue,
+            };
             // Reset buffer pointer
             buf.clear();
+            in_octets += n + udp_overhead;
             pkt_received += 1;
             // Amount of time spent inside reflector from receiving request to building response
             let reflector_delay = resp.timestamp - resp.recv_timestamp;
@@ -532,8 +532,8 @@ impl TestSession {
             "Packets sent: {pkt_sent}, Packets received: {pkt_recv}, Loss: {loss}, Duration: {duration}",
             pkt_sent = s_stats.pkt_sent,
             pkt_recv = r_stats.pkt_received,
-            loss=0,
-            duration=0
+            loss=s_stats.pkt_sent - r_stats.pkt_received,
+            duration=Self::humanize_ns(s_stats.time_ns),
         );
         log::debug!(
             "Out octets: {out_octets} ({out_bitrate}bit/s, {out_pps}pps), In octets: {in_octets} ({in_bitrate}bit/s, {in_pps}pps)",
@@ -577,7 +577,7 @@ impl TestSession {
 
 #[derive(Debug)]
 struct SenderStats {
-    pkt_sent: u64,
+    pkt_sent: usize,
     time_ns: u64,
     out_octets: usize,
 }

@@ -246,7 +246,8 @@ impl ClientSession {
             let (req, addr) = match timeout(recv_timeout, socket.recv_from::<TestRequest>()).await {
                 Ok(Ok(r)) => r,
                 // recv_from returns an error
-                Ok(Err(e)) => return Err(e),
+                // We'd expected truncated frames on high load, so count it as a loss
+                Ok(Err(_)) => continue,
                 // Timed out, break the loop
                 Err(_) => break,
             };
