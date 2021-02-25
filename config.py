@@ -115,8 +115,11 @@ class Config(BaseConfig):
         alarmheat_tooltip_limit = IntParameter(default=5)
 
     class chwriter(ConfigSection):
+        # LiftBridge partition (CH shard id)
+        shard_id = IntParameter(help="CH Shard Id", default=0)
+        #
+        replica_id = IntParameter(help="CH Partition Replica Id", default=0)
         batch_size = IntParameter(default=50000, help="Size of one portion from queue")
-        records_buffer = IntParameter(default=1000000, help="Own buffer of messages from queue")
         batch_delay_ms = IntParameter(default=10000, help="Send every period time")
         channel_expire_interval = SecondsParameter(
             default="5M", help="Close channel when no messages in this time"
@@ -124,13 +127,8 @@ class Config(BaseConfig):
         suspend_timeout_ms = IntParameter(
             default=3000, help="How much time to sleep before continue"
         )
-        # Topic to listen
-        topic = StringParameter(default="chwriter", help="Topic in queue to listen to")
         # <address:port> of ClickHouse server to write
         write_to = StringParameter()
-        max_in_flight = IntParameter(
-            default=10, help="How many parts read simultaneously from queue"
-        )
 
     class classifier(ConfigSection):
         lookup_handler = HandlerParameter(default="noc.services.classifier.rulelookup.RuleLookup")
