@@ -10,7 +10,6 @@ import logging
 import os
 import socket
 import sys
-from collections import namedtuple
 from urllib.parse import quote as urllib_quote
 
 # NOC modules
@@ -865,20 +864,6 @@ class Config(BaseConfig):
             # Initialize logger
             logging.basicConfig(stream=sys.stdout, format=self.log_format, level=loglevel)
         logging.captureWarnings(True)
-
-    @property
-    def ch_cluster_topology(self):
-        if not hasattr(self, "_ch_cluster_topology"):
-            shards = []
-            for s in self.clickhouse.cluster_topology.split(","):
-                s = s.strip()
-                if ":" in s:
-                    weight, replicas = s.split(":")
-                else:
-                    weight, replicas = 1, s
-                shards += [CHClusterShard(int(replicas), int(weight))]
-            self._ch_cluster_topology = shards
-        return self._ch_cluster_topology
 
     def get_customized_paths(self, *args, **kwargs):
         """
