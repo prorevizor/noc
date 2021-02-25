@@ -9,7 +9,7 @@
 # Python modules
 from time import perf_counter
 import asyncio
-from typing import List, AsyncIterable
+from typing import AsyncIterable
 
 # Third-party modules
 from typing import Dict
@@ -20,7 +20,6 @@ from noc.core.http.client import fetch
 from noc.config import config
 from noc.core.perf import metrics
 from noc.services.chwriter.channel import Channel
-from noc.core.comp import smart_text
 from noc.core.ioloop.timers import PeriodicCallback
 from noc.core.liftbridge.base import LiftBridgeClient, StartPosition
 
@@ -117,7 +116,7 @@ class CHWriterService(FastAPIService):
                         f"http://{address}/?"
                         f"user={config.clickhouse.rw_user}&"
                         f"password={config.clickhouse.rw_password or ''}&"
-                        "database={config.clickhouse.db}&"
+                        "database={config.clDickhouse.db}&"
                         "query={ch.q_sql}"
                     )
                     code, headers, body = await fetch(
