@@ -20,21 +20,21 @@ def get_my_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
         # doesn't even have to be reachable
-        s.connect(('10.255.255.255', 1))
-        IP = s.getsockname()[0]
+        s.connect(("10.255.255.255", 1))
+        ip = s.getsockname()[0]
     except Exception:
-        IP = '127.0.0.1'
+        ip = "127.0.0.1"
         print("Can't find proper IP interface")
     finally:
         s.close()
-    return IP
+    return ip
 
 
 def get_old_ip():
     """Read old ip from file from deploy"""
     try:
         ipfilepath = "/opt/noc/var/my_ip"
-        with open('ipfilepath', 'r') as file:
+        with open(ipfilepath, "r") as file:
             data = file.read()
     except EnvironmentError:
         print("No file with old IP")
@@ -51,13 +51,13 @@ def set_pg_address(address):
             print(path)
             if os.path.isfile(path):
                 for line in fileinput.input(files=path, inplace=True):
-                    if line.strip().startswith('listen_addresses'):
-                        line = "listen_addresses = \'" + address + "\'\n"
+                    if line.strip().startswith("listen_addresses"):
+                        line = "listen_addresses = '" + address + "'\n"
                     sys.stdout.write(line)
             return path
         except IOError:
             pass
-    print('noc PG settings is not found')
+    print("noc PG settings is not found")
     exit(1)
 
 
