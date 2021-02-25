@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
 # NOC config
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -880,23 +880,6 @@ class Config(BaseConfig):
             self._ch_cluster_topology = shards
         return self._ch_cluster_topology
 
-    def get_ch_topology_type(self):
-        """
-        Detect ClickHouse topology type
-        :return: Any of
-          * CH_UNCLUSTERED
-          * CH_REPLICATED
-          * CH_SHARDED
-        """
-        topo = self.ch_cluster_topology
-        if len(topo) == 1:
-            if topo[0].replicas == 1:
-                return CH_UNCLUSTERED
-            else:
-                return CH_REPLICATED
-        else:
-            return CH_SHARDED
-
     def get_customized_paths(self, *args, **kwargs):
         """
         Check for customized path for given repo path.
@@ -943,11 +926,6 @@ class Config(BaseConfig):
         # Check quantiles is enabled
         return getattr(self.metrics, "enable_%s_quantiles" % name, False)
 
-
-CHClusterShard = namedtuple("CHClusterShard", ["replicas", "weight"])
-CH_UNCLUSTERED = 0
-CH_REPLICATED = 1
-CH_SHARDED = 2
 
 config = Config()
 config.load()
