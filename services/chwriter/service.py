@@ -113,11 +113,13 @@ class CHWriterService(FastAPIService):
                 try:
                     self.logger.info("[%s] Sending %d records", ch.table, n_records)
                     t0 = perf_counter()
-                    url = f"http://{address}/?" \
-                          f"user={config.clickhouse.rw_user}&" \
-                          f"password={config.clickhouse.rw_password or ""}&" \
-                          "database={config.clickhouse.db}&" \
-                          "query={ch.q_sql}"
+                    url = (
+                        f"http://{address}/?"
+                        f"user={config.clickhouse.rw_user}&"
+                        f"password={config.clickhouse.rw_password or ''}&"
+                        "database={config.clickhouse.db}&"
+                        "query={ch.q_sql}"
+                    )
                     code, headers, body = await fetch(
                         url,
                         method="POST",
@@ -128,7 +130,10 @@ class CHWriterService(FastAPIService):
                     )
                     if code == 200:
                         self.logger.info(
-                            "[%s] %d records sent in %.2fms", ch.table, n_records, (perf_counter() - t0) * 1000
+                            "[%s] %d records sent in %.2fms",
+                            ch.table,
+                            n_records,
+                            (perf_counter() - t0) * 1000,
                         )
                         metrics["records_written"] += n_records
                         break
@@ -138,12 +143,17 @@ class CHWriterService(FastAPIService):
                         await asyncio.sleep(1)
                         continue
                     else:
-                        self.logger.info("[%s] Failed to write records: %s %s", ch.table, code, body)
+                        self.logger.info(
+                            "[%s] Failed to write records: %s %s", ch.table, code, body
+                        )
                         metrics["error", ("type", "records_spool_failed")] += 1
                         break
                 except Exception as e:
                     self.logger.error(
-                        "[%s] Failed to spool %d records due to unknown error: %s", ch.table, n_records, e
+                        "[%s] Failed to spool %d records due to unknown error: %s",
+                        ch.table,
+                        n_records,
+                        e,
                     )
                     await asyncio.sleep(1)
                     continue
