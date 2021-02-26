@@ -116,18 +116,13 @@ class Config(BaseConfig):
     class chwriter(ConfigSection):
         # LiftBridge partition (CH shard id)
         shard_id = IntParameter(help="CH Shard Id", default=0)
-        #
+        # Unique replica number within shard
         replica_id = IntParameter(help="CH Partition Replica Id", default=0)
-        batch_size = IntParameter(default=50000, help="Size of one portion from queue")
-        batch_delay_ms = IntParameter(default=10000, help="Send every period time")
-        channel_expire_interval = SecondsParameter(
-            default="5M", help="Close channel when no messages in this time"
-        )
-        suspend_timeout_ms = IntParameter(
-            default=3000, help="How much time to sleep before continue"
-        )
         # <address:port> of ClickHouse server to write
         write_to = StringParameter()
+        #
+        batch_size = IntParameter(default=50000, help="Size of one portion from queue")
+        batch_delay_ms = IntParameter(default=10000, help="Send every period time")
 
     class classifier(ConfigSection):
         lookup_handler = HandlerParameter(default="noc.services.classifier.rulelookup.RuleLookup")

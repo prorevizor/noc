@@ -27,10 +27,11 @@ class Channel(object):
         self.data: List[bytes] = []
         self.size: int = 0
         self.records: int = 0
-        self.start: Optional[float] = None
+        self.expired: Optional[float] = None
         self.q_sql = urllib_quote(f"INSERT INTO raw_{table} FORMAT JSONEachRow".encode("utf-8"))
         self.feed_ready = asyncio.Event()
         self.feed_ready.set()
+        self.ttl = float(config.chwriter.batch_delay_ms) / 1_000.0
 
     async def feed(self, msg: Message) -> Optional[int]:
         """
@@ -43,11 +44,11 @@ class Channel(object):
         # Append data
         self.data.append(msg.value)
         self.size += len(msg.value)
-        self.records += msg.value.count(b"\n")
+        self.records += msg.value.count(b"\n") + (0 if msg.value.endswith(b"\n") else 1)
         self.last_offset = msg.offset
         #
-        if not self.start:
-            self.start = perf_counter()
+        if not self.expired:
+            self.expired = perf_counter() + self.ttl
         #
         if self.is_ready_to_flush():
             await self.schedule_flush()
@@ -61,7 +62,7 @@ class Channel(object):
         :param ts:
         :return:
         """
-        return self.start and self.start < ts
+        return self.expired and self.expired < ts
 
     def is_ready_to_flush(self) -> bool:
         """
@@ -74,7 +75,7 @@ class Channel(object):
     async def schedule_flush(self):
         if not self.feed_ready.is_set():
             return  # Already scheduled
-        self.start = None
+        self.expired = None
         self.feed_ready.clear()
         await self.service.flush_queue.put(self)
 
@@ -86,7 +87,7 @@ class Channel(object):
         self.data = []
         self.size = 0
         self.records = 0
-        self.start = None
+        self.expired = None
         self.feed_ready.set()
 
     def get_data(self) -> bytes:
