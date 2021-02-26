@@ -12,6 +12,7 @@ import gzip
 import time
 import random
 from typing import List
+from functools import partial
 
 # Third-party modules
 from pymongo.errors import OperationFailure
@@ -192,7 +193,7 @@ class Command(BaseCommand):
             with gzip.open(path, "rb") as f:
                 data = f.read().splitlines()
             table = fn.split("-", 1)[0]
-            run_sync(upload(table, data))
+            run_sync(partial(upload, table, data))
             os.unlink(path)
 
 
