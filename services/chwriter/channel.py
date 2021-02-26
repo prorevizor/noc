@@ -50,7 +50,7 @@ class Channel(object):
             self.start = perf_counter()
         #
         if self.is_ready_to_flush():
-            self.schedule_flush()
+            await self.schedule_flush()
             await self.feed_ready.wait()
             return self.last_offset
         return None
@@ -71,12 +71,12 @@ class Channel(object):
             return False
         return self.records >= config.chwriter.batch_size
 
-    def schedule_flush(self):
+    async def schedule_flush(self):
         if not self.feed_ready.is_set():
             return  # Already scheduled
         self.start = None
         self.feed_ready.clear()
-        self.service.flush_queue.put(self)
+        await self.service.flush_queue.put(self)
 
     def flush_complete(self):
         """

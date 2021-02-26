@@ -92,7 +92,12 @@ class CHWriterService(FastAPIService):
                 offset = await channel.feed(msg)
                 if offset:
                     # Data has been flushed, save cursor
-                    await client.set_cursor(stream, config.chwriter.shard_id, offset)
+                    await client.set_cursor(
+                        stream,
+                        partition=config.chwriter.shard_id,
+                        cursor_id=cursor_id,
+                        offset=offset,
+                    )
 
     async def flush_data(self):
         """
@@ -177,7 +182,7 @@ class CHWriterService(FastAPIService):
         expired = [c for c in self.channels.values() if c.is_expired(ts)]
         for ch in expired:
             self.logger.debug("[%s] Flushing due to timeout", ch.table)
-            ch.schedule_flush()
+            await ch.schedule_flush()
 
     def stop(self):
         # Stop consuming new messages
