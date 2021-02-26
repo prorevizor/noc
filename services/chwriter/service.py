@@ -48,6 +48,7 @@ class CHWriterService(FastAPIService):
         check_callback = PeriodicCallback(self.check_channels, config.chwriter.batch_delay_ms)
         check_callback.start()
         await self.subscribe_ch_streams()
+        asyncio.create_task(self.flush_data())
         self.logger.info("Sending records to %s" % self.ch_address)
 
     async def iter_ch_streams(self) -> AsyncIterable[str]:
