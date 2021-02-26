@@ -71,4 +71,4 @@ def test_get_create_sql():
 
 
 def test_create_distributed_sql():
-    assert MODEL.get_create_distributed_sql()
+    assert MODEL.cget_create_distributed_sql()

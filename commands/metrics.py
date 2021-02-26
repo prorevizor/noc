@@ -9,10 +9,15 @@
 import argparse
 import gzip
 import os
+import random
+from typing import List
+from functools import partial
 
 # NOC modules
 from noc.config import config
 from noc.core.management.base import BaseCommand
+from noc.core.liftbridge.base import LiftBridgeClient
+from noc.core.ioloop.util import run_sync
 
 
 class Command(BaseCommand):
