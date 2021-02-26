@@ -89,3 +89,11 @@ class Channel(object):
         self.records = 0
         self.start = None
         self.feed_ready.set()
+
+    def get_data(self) -> bytes:
+        """
+        Get chunk of spooled data
+
+        :return:
+        """
+        return b"\n".join(self.data)
