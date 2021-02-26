@@ -54,7 +54,7 @@ FIELDS = [
     ("ack_ts", "DateTime"),
 ]
 
-SQL = """CREATE TABLE IF NOT EXISTS alarms (
+SQL = """CREATE TABLE IF NOT EXISTS raw_alarms (
 date Date,
 ts DateTime,
 close_ts DateTime,

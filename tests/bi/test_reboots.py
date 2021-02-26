@@ -32,7 +32,7 @@ FIELDS = [
     ("y", "Float64"),
 ]
 
-SQL = """CREATE TABLE IF NOT EXISTS reboots (
+SQL = """CREATE TABLE IF NOT EXISTS raw_reboots (
 date Date,
 ts DateTime,
 managed_object UInt64,
