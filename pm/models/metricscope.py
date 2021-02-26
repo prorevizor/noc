@@ -243,7 +243,7 @@ class MetricScope(Document):
         # Ensure raw_* table
         if ch.has_table(raw_table):
             # raw_* table exists, check columns
-            changed |= self.ensure_columns(ch, raw_table)
+            changed |= ensure_columns(raw_table)
         else:
             # Create new table
             ch.execute(post=self.get_create_sql())
@@ -251,7 +251,7 @@ class MetricScope(Document):
         # For cluster mode check d_* distributed table
         if is_cluster:
             if ch.has_table(dist_table):
-                changed |= self.ensure_columns(ch, dist_table)
+                changed |= ensure_columns(dist_table)
             else:
                 ch.execute(post=self.get_create_distributed_sql())
                 changed = True
