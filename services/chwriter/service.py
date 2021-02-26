@@ -123,8 +123,8 @@ class CHWriterService(FastAPIService):
                         f"http://{self.ch_address}/?"
                         f"user={config.clickhouse.rw_user}&"
                         f"password={config.clickhouse.rw_password or ''}&"
-                        "database={config.clDickhouse.db}&"
-                        "query={ch.q_sql}"
+                        f"database={config.clickhouse.db}&"
+                        f"query={ch.q_sql}"
                     )
                     code, headers, body = await fetch(
                         url,
