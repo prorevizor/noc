@@ -938,8 +938,7 @@ class BaseService(object):
     def get_leader_lock_name(self):
         if self.leader_lock_name:
             return self.leader_lock_name % {"pool": config.pool}
-        else:
-            return None
+        return None
 
     def get_backend_weight(self):
         """
@@ -965,14 +964,11 @@ class BaseService(object):
         :param service_id:
         :return:
         """
-        if (
+        return not (
             self.dcs
             and self.dcs.health_check_service_id
             and self.dcs.health_check_service_id != service_id
-        ):
-            return False
-        else:
-            return True
+        )
 
     def get_health_status(self):
         """
@@ -982,8 +978,7 @@ class BaseService(object):
         if self.dcs and self.require_dcs_health:
             # DCS is initialized
             return self.dcs.get_status()
-        else:
-            return 200, "OK"
+        return 200, "OK"
 
     def uptime(self):
         if not self.startup_ts:

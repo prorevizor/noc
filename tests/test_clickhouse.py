@@ -1,13 +1,12 @@
 # ----------------------------------------------------------------------
 # Test core.clickhouse package
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
 # Python modules
 import datetime
-from collections import defaultdict
 
 # Third-party modules
 import pytest
