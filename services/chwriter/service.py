@@ -47,7 +47,7 @@ class CHWriterService(FastAPIService):
         report_callback.start()
         check_callback = PeriodicCallback(self.check_channels, config.chwriter.batch_delay_ms)
         check_callback.start()
-        await self.subscribe_ch_streams()
+        asyncio.create_task(self.subscribe_ch_streams())
         asyncio.create_task(self.flush_data())
         self.logger.info("Sending records to %s" % self.ch_address)
 
@@ -63,6 +63,7 @@ class CHWriterService(FastAPIService):
                     for stream_meta in meta.metadata:
                         if stream_meta.name.startswith("ch."):
                             yield stream_meta.name
+                    break
                 else:
                     # Cluster election in progress or cluster is misconfigured
                     self.logger.info("Cluster has no active partitions. Waiting")
