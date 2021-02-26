@@ -83,7 +83,6 @@ class Channel(object):
         Called when data are safely flushed
         :return:
         """
-        self.last_offset = self.data[-1].offset
         self.data = []
         self.size = 0
         self.records = 0
