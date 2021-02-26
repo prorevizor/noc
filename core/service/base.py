@@ -910,7 +910,7 @@ class BaseService(object):
         :param metrics: List of dicts containing metrics records
         :return:
         """
-        for chunk in self._iter_metrics_raw_chunks(table, metrics):
+        for chunk in self._iter_metrics_raw_chunks(metrics):
             self.publish(
                 chunk,
                 stream=f"ch.{table}",
