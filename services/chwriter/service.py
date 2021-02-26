@@ -39,6 +39,13 @@ class CHWriterService(FastAPIService):
         self.is_sharded = False
         self.stopping = False
         self.restore_timeout = None
+        # Get clickhouse address
+        if config.clickhouse.cluster and config.chwriter.write_to:
+            # Distributed configuration
+            self.ch_address = config.chwriter.write_to
+        else:
+            # Standalone configuration
+            self.ch_address = config.clickhouse.rw_addresses[0]
         # Queue of channels to flush
         self.flush_queue = asyncio.Queue()
 
@@ -47,9 +54,9 @@ class CHWriterService(FastAPIService):
         report_callback.start()
         check_callback = PeriodicCallback(self.check_channels, config.chwriter.batch_delay_ms)
         check_callback.start()
+        self.logger.info("Sending records to %s", self.ch_address)
         asyncio.create_task(self.subscribe_ch_streams())
         asyncio.create_task(self.flush_data())
-        self.logger.info("Sending records to %s" % self.ch_address)
 
     async def iter_ch_streams(self) -> AsyncIterable[str]:
         """
@@ -64,10 +71,9 @@ class CHWriterService(FastAPIService):
                         if stream_meta.name.startswith("ch."):
                             yield stream_meta.name
                     break
-                else:
-                    # Cluster election in progress or cluster is misconfigured
-                    self.logger.info("Cluster has no active partitions. Waiting")
-                    await asyncio.sleep(1)
+                # Cluster election in progress or cluster is misconfigured
+                self.logger.info("Cluster has no active partitions. Waiting")
+                await asyncio.sleep(1)
 
     async def subscribe_ch_streams(self) -> None:
         """
@@ -106,12 +112,6 @@ class CHWriterService(FastAPIService):
         Flush data
         :return:
         """
-        if config.clickhouse.cluster and config.chwriter.write_to:
-            # Distributed configuration
-            address = config.chwriter.write_to
-        else:
-            # Standalone configuration
-            address = config.clickhouse.rw_addresses[0]
         while not self.stopping:
             ch = await self.flush_queue.get()
             n_records = ch.records
@@ -120,7 +120,7 @@ class CHWriterService(FastAPIService):
                     self.logger.info("[%s] Sending %d records", ch.table, n_records)
                     t0 = perf_counter()
                     url = (
-                        f"http://{address}/?"
+                        f"http://{self.ch_address}/?"
                         f"user={config.clickhouse.rw_user}&"
                         f"password={config.clickhouse.rw_password or ''}&"
                         "database={config.clDickhouse.db}&"
