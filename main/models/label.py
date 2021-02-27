@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------
 
 # Python modules
-from typing import Optional, List, Set
+from typing import Optional, List, Set, Iterable
 from threading import Lock
 import operator
 
@@ -16,12 +16,14 @@ from mongoengine.fields import StringField, IntField, BooleanField, ReferenceFie
 import cachetools
 
 # NOC modules
+from noc.core.model.decorator import on_save
 from noc.main.models.remotesystem import RemoteSystem
 
 
 id_lock = Lock()
 
 
+@on_save
 class Label(Document):
     meta = {
         "collection": "labels",
@@ -35,6 +37,8 @@ class Label(Document):
     fg_color1 = IntField(default=0xFFFFFF)
     bg_color2 = IntField(default=0x000000)
     fg_color2 = IntField(default=0xFFFFFF)
+    # Restrict UI operations
+    is_protected = BooleanField(default=False)
     # Label scope
     enable_agent = BooleanField()
     enable_service = BooleanField()
@@ -55,6 +59,15 @@ class Label(Document):
     @cachetools.cachedmethod(operator.attrgetter("_name_cache"), lock=lambda _: id_lock)
     def get_by_name(cls, name: str) -> Optional["Label"]:
         return Label.objects.filter(name=name).first()
+
+    def clean(self):
+        # Wildcard labels are protected
+        if self.is_wildcard:
+            self.is_protected = True
+
+    def on_save(self):
+        if self.is_scoped:
+            self._ensure_wildcards()
 
     @classmethod
     def merge_labels(cls, *args: List[str]) -> List[str]:
@@ -79,3 +92,49 @@ class Label(Document):
                 r.append(label)
                 seen.add(label)
         return r
+
+    @property
+    def is_scoped(self) -> bool:
+        """
+        Returns True if the label is scoped
+        :return:
+        """
+        return "::" in self.name
+
+    @property
+    def is_wildcard(self) -> bool:
+        """
+        Returns True if the label is protected
+        :return:
+        """
+        return self.name.endswith("::*")
+
+    def iter_scopes(self) -> Iterable[str]:
+        """
+        Yields all scopes
+        :return:
+        """
+        r = []
+        for p in self.name.split("::")[:-1]:
+            r.append(p)
+            yield "::".join(r)
+
+    def _ensure_wildcards(self):
+        """
+        Create all necessary wildcards for a scoped labels
+        :return:
+        """
+        for scope in self.iter_scopes():
+            wildcard = f"{scope}::*"
+            if Label.get_by_name(wildcard):
+                continue  # Exists
+            # Create wildcard
+            Label(
+                name=wildcard,
+                description=f"Wildcard label for scope {scope}",
+                is_protected=True,
+                bg_color1=self.bg_color1,
+                fg_color1=self.fg_color1,
+                bg_color2=self.bg_color2,
+                fg_color2=self.fg_color2,
+            ).save()
