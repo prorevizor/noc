@@ -16,7 +16,7 @@ from mongoengine.fields import StringField, IntField, BooleanField, ReferenceFie
 import cachetools
 
 # NOC modules
-from noc.core.model.decorator import on_save
+from noc.core.model.decorator import on_save, on_delete
 from noc.main.models.remotesystem import RemoteSystem
 
 
@@ -24,6 +24,7 @@ id_lock = Lock()
 
 
 @on_save
+@on_delete
 class Label(Document):
     meta = {
         "collection": "labels",
@@ -66,8 +67,12 @@ class Label(Document):
             self.is_protected = True
 
     def on_save(self):
-        if self.is_scoped:
+        if self.is_scoped and not self.is_wildcard:
             self._ensure_wildcards()
+
+    def on_delete(self):
+        if self.is_wildcard and any(Label.objects.filter(name__startswith=self.name[:-1])):
+            raise ValueError("Cannot delete wildcard label with matched labels")
 
     @classmethod
     def merge_labels(cls, *args: List[str]) -> List[str]:
@@ -138,3 +143,17 @@ class Label(Document):
                 bg_color2=self.bg_color2,
                 fg_color2=self.fg_color2,
             ).save()
+
+    def get_matched_labels(self) -> List[str]:
+        """
+        Get list of matched labels for wildcard label
+        :return:
+        """
+        label = self.name
+        if label.endswith("::*"):
+            return [
+                x.name
+                for x in Label.objects.filter(name__startswith=label[:-1]).only("name")
+                if not x.name.endswith("::*")
+            ]
+        return [label]
