@@ -386,6 +386,12 @@ class Config(BaseConfig):
         stream_kafkasender_segment_max_bytes = BytesParameter(default=0)
         stream_kafkasender_auto_pause_time = SecondsParameter(default=0)
         stream_kafkasender_auto_pause_disable_if_subscribers = BooleanParameter(default=False)
+        stream_ch_retention_max_age = SecondsParameter(default="1h")
+        stream_ch_retention_max_bytes = BytesParameter(default="100M")
+        stream_ch_segment_max_age = SecondsParameter(default="30M")
+        stream_ch_segment_max_bytes = BytesParameter(default="50M")
+        stream_ch_auto_pause_time = SecondsParameter(default=0)
+        stream_ch_auto_pause_disable_if_subscribers = BooleanParameter(default=False)
 
     listen = StringParameter(default="auto:0")
 
