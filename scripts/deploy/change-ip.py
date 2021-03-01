@@ -60,13 +60,14 @@ def set_pg_address(address):
     print("noc PG settings is not found")
     exit(1)
 
+if __name__ == "__main__":
 
-old_ip = get_old_ip()
-print(old_ip)
+    old_ip = get_old_ip()
+    print(old_ip)
 
-my_ip = get_my_ip()
-print(my_ip)
+    my_ip = get_my_ip()
+    print(my_ip)
 
-set_pg_address(my_ip)
-command_for_restart_pg = "systemctl restart " + "postgresql-" + PG_VERSION
-os.system(command_for_restart_pg)
+    set_pg_address(my_ip)
+    command_for_restart_pg = "systemctl restart " + "postgresql-" + PG_VERSION
+    os.system(command_for_restart_pg)
