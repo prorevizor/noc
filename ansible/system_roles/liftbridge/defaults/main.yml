@@ -16,7 +16,9 @@ config:
   streams:
     compact.enabled: false
     retention.max:
-      age: 24h
+      age: 3h
+    segment.max:
+      age: 20m
   clustering: "{{ cluster_config }}"
   nats.servers: "{{ nats_servers }}"
   cursors:
