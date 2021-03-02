@@ -25,6 +25,7 @@ from .base import BaseService
 from .paths.loader import loader, ServicePathLoader
 from .middleware.logging import LoggingMiddleware
 from .middleware.span import SpanMiddleware
+from core.liftbridge.base import LiftBridgeClient
 
 
 class FastAPIService(BaseService):
@@ -122,3 +123,10 @@ class FastAPIService(BaseService):
         for srv in self.server.servers:
             for sock in srv.sockets:
                 return sock.getsockname()
+
+    async def lift_revokedtokens(self):
+        async with LiftBridgeClient() as client:
+            return client.subscribe("revokedtokens")
+
+    async def on_activate(self):
+        self.loop.create_task(self.lift_revokedtokens())
