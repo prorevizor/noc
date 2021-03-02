@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------
-// fm.alarm application
+// ip.ipam  application
 //---------------------------------------------------------------------
 // Copyright (C) 2007-2018 The NOC Project
 // See LICENSE for details

@@ -12,7 +12,7 @@ Ext.define("NOC.ip.ipam.view.forms.vrf.VRF", {
     controller: "ip.ipam.form.vrf",
     viewModel: "ip.ipam.form.vrf",
     requires: [
-        "NOC.fm.alarm.view.grids.Lookup",
+        "NOC.core.ComboBox",
         "NOC.ip.ipam.view.forms.vrf.VRFController",
         "NOC.ip.ipam.view.forms.vrf.VRFModel"
     ],
@@ -24,7 +24,7 @@ Ext.define("NOC.ip.ipam.view.forms.vrf.VRF", {
     defaults: {
         labelAlign: "left",
         columnWidth: 0.5,
-        xtype: "fm.alarm.lookup"
+        xtype: "core.combo"
     },
     items: [
         {
@@ -120,7 +120,7 @@ Ext.define("NOC.ip.ipam.view.forms.vrf.VRF", {
         },
         {
             name: "project",
-            xtype: "fm.alarm.lookup",
+            xtype: "core.combo",
             url: "/project/project/lookup/",
             fieldLabel: __("Project"),
             columnWidth: 1,
