@@ -111,7 +111,6 @@ Ext.define("NOC.main.customfield.Application", {
         {
             name: "enum_group",
             xtype: "main.customfieldenumgroup.LookupField",
-            labelAlign: "left",
             fieldLabel: __("Enum Group"),
             allowBlank: true,
             query: {

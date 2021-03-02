@@ -97,7 +97,6 @@ Ext.define("NOC.sa.administrativedomain.Application", {
                     restUrl: "/inv/networksegment/",
                     name: "bioseg_floating_parent_segment",
                     fieldLabel: __("Floating Parent Segment"),
-                    labelAlign: "left",
                     allowBlank: true
                 }
             ]

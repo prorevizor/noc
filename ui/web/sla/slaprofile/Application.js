@@ -48,7 +48,6 @@ Ext.define("NOC.sla.slaprofile.Application", {
                     name: "style",
                     xtype: "main.style.LookupField",
                     fieldLabel: __("Style"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {

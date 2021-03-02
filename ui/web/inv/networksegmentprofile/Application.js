@@ -332,7 +332,6 @@ Ext.define("NOC.inv.networksegmentprofile.Application", {
                         {
                             name: "calcified_name_template",
                             xtype: "main.template.LookupField",
-                            labelAlign: "left",
                             fieldLabel: __("Calcified Name Template"),
                             allowBlank: true
                         }

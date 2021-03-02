@@ -50,7 +50,7 @@ Ext.define("NOC.cm.interfacevalidationpolicy.Application", {
                     query: {
                         allow_interface_filter: true
                     },
-                    allowBlank: true,
+                    allowBlank: true
                 },
                 {
                     name: "rules",

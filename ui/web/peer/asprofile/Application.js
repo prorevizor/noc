@@ -51,7 +51,6 @@ Ext.define("NOC.peer.asprofile.Application", {
                     name: "style",
                     xtype: "main.style.LookupField",
                     fieldLabel: __("Style"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
@@ -77,7 +76,6 @@ Ext.define("NOC.peer.asprofile.Application", {
                         {
                             name: "prefix_profile_whois_route",
                             xtype: "ip.prefixprofile.LookupField",
-                            labelAlign: "left",
                             allowBlank: true,
                             bind: {
                                 disabled: "{!enableDiscoveryPrefixWhoisRoute.checked}"

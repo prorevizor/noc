@@ -64,7 +64,6 @@ Ext.define("NOC.peer.as.Application", {
             name: "description",
             xtype: "textfield",
             fieldLabel: __("Description"),
-            labelAlign: "left",
             allowBlank: false
         },
         {

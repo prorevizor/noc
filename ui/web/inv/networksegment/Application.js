@@ -162,7 +162,6 @@ Ext.define("NOC.inv.networksegment.Application", {
                     name: "selector",
                     xtype: "sa.managedobjectselector.LookupField",
                     fieldLabel: __("Selector"),
-                    labelAlign: "left",
                     uiStyle: "large",
                     allowBlank: true
                 },

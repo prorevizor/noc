@@ -55,7 +55,6 @@ Ext.define("NOC.main.datastreamconfig.Application", {
                         {
                             text: __("Handler"),
                             dataIndex: "handler",
-                            labelAlign: "left",
                             editor: {
                                 xtype: "main.handler.LookupField",
                                 query: {

@@ -136,7 +136,6 @@ Ext.define("NOC.kb.kbentry.Application", {
                     name: "markup_language",
                     xtype: "main.ref.kbparser.LookupField",
                     fieldLabel: __("Markup Language"),
-                    labelAlign: "left",
                     allowBlank: false
                 },
                 {

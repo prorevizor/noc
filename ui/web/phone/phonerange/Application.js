@@ -140,7 +140,6 @@ Ext.define("NOC.phone.phonerange.Application", {
                     name: "state",
                     xtype: "statefield",
                     fieldLabel: __("State"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
