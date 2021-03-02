@@ -24,7 +24,7 @@ class Command(BaseCommand):
         # slot name, stream name
         ("mx", "message"),
         ("kafkasender", "kafkasender"),
-        ("rt", "revokedtokens"),
+        ("revokedtokens", "revokedtokens"),
     ]
     POOLED_STREAMS = [
         # slot name, stream name
