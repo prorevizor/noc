@@ -40,7 +40,7 @@ Ext.define("NOC.ip.ipam.view.forms.vrf.VRF", {
         },
         {
             name: "vrf_group",
-            url: "/ip/vrfgroup/lookup/",
+            restUrl: "/ip/vrfgroup/lookup/",
             fieldLabel: __("VRF Group"),
             margin: "5 0 0 0",
             allowBlank: true,
@@ -59,7 +59,7 @@ Ext.define("NOC.ip.ipam.view.forms.vrf.VRF", {
         },
         {
             name: "profile",
-            url: "/vc/vpnprofile/lookup/",
+            restUrl: "/vc/vpnprofile/lookup/",
             fieldLabel: __("Profile"),
             allowBlank: false,
             margin: "5 0 0 0",
@@ -120,8 +120,7 @@ Ext.define("NOC.ip.ipam.view.forms.vrf.VRF", {
         },
         {
             name: "project",
-            xtype: "core.combo",
-            url: "/project/project/lookup/",
+            restUrl: "/project/project/lookup/",
             fieldLabel: __("Project"),
             columnWidth: 1,
             allowBlank: true,
