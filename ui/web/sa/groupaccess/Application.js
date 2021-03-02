@@ -37,18 +37,21 @@ Ext.define("NOC.sa.groupaccess.Application", {
             name: "group",
             xtype: "aaa.group.LookupField",
             fieldLabel: __("Group"),
+            labelAlign: "left",
             allowBlank: false
         },
         {
             name: "selector",
             xtype: "sa.managedobjectselector.LookupField",
             fieldLabel: __("Object Selector"),
+            labelAlign: "left",
             allowBlank: true
         },
         {
             name: "administrative_domain",
             xtype: "sa.administrativedomain.LookupField",
             fieldLabel: __("Adm. Domain"),
+            labelAlign: "left",
             allowBlank: true
         }
     ],

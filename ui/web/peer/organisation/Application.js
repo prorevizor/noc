@@ -65,6 +65,7 @@ Ext.define("NOC.peer.organisation.Application", {
             name: "mnt_ref",
             xtype: "peer.maintainer.LookupField",
             fieldLabel: __("Mnt. Ref"),
+            labelAlign: "left",
             allowBlank: false
         }
     ],

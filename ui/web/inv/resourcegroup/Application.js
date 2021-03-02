@@ -68,12 +68,14 @@ Ext.define("NOC.inv.resourcegroup.Application", {
                     name: "parent",
                     xtype: "inv.resourcegroup.LookupField",
                     fieldLabel: __("Parent"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
                     name: "technology",
                     xtype: "inv.technology.LookupField",
                     fieldLabel: __("Technology"),
+                    labelAlign: "left",
                     allowBlank: false
                 },
                 {

@@ -99,6 +99,7 @@ Ext.define("NOC.phone.phonerange.Application", {
                     name: "dialplan",
                     xtype: "phone.dialplan.LookupField",
                     fieldLabel: __("Dialplan"),
+                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
@@ -134,30 +135,35 @@ Ext.define("NOC.phone.phonerange.Application", {
                     name: "profile",
                     xtype: "phone.phonerangeprofile.LookupField",
                     fieldLabel: __("Profile"),
+                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
                     name: "state",
                     xtype: "statefield",
                     fieldLabel: __("State"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
                     name: "project",
                     xtype: "project.project.LookupField",
                     fieldLabel: __("Project"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
                     name: "supplier",
                     xtype: "crm.supplier.LookupField",
                     fieldLabel: __("Supplier"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
                     name: "administrative_domain",
                     xtype: "sa.administrativedomain.LookupField",
                     fieldLabel: __("Adm. Domain"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {

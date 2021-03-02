@@ -97,6 +97,7 @@ Ext.define("NOC.peer.person.Application", {
             name: "rir",
             xtype: "peer.rir.LookupField",
             fieldLabel: __("RIR"),
+            labelAlign: "left",
             allowBlank: false
         },
         {

@@ -33,6 +33,7 @@ Ext.define("Ext.ux.form.ModelDataField", {
                     dataIndex: "interface",
                     editor: {
                         xtype: "inv.modelinterface.LookupField",
+                        labelAlign: "left",
                         forceSelection: true,
                         valueField: "label"
                     }

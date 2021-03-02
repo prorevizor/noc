@@ -66,18 +66,21 @@ Ext.define("NOC.peer.peeringpoint.Application", {
             name: "local_as",
             xtype: "peer.as.LookupField",
             fieldLabel: __("Local AS"),
+            labelAlign: "left",
             allowBlank: false
         },
         {
             name: "router_id",
             xtype: "textfield",
             fieldLabel: __("Router-ID"),
+            labelAlign: "left",
             allowBlank: false
         },
         {
             name: "profile",
             xtype: "sa.profile.LookupField",
             fieldLabel: __("Profile"),
+            labelAlign: "left",
             allowBlank: false
         },
         {

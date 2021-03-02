@@ -95,6 +95,7 @@ Ext.define("NOC.vc.vlan.Application", {
                     name: "profile",
                     xtype: "vc.vlanprofile.LookupField",
                     fieldLabel: __("Profile"),
+                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
@@ -129,12 +130,14 @@ Ext.define("NOC.vc.vlan.Application", {
                     name: "project",
                     xtype: "project.project.LookupField",
                     fieldLabel: __("Project"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
                     name: "vpn",
                     xtype: "vc.vpn.LookupField",
                     fieldLabel: __("VPN"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
@@ -160,6 +163,7 @@ Ext.define("NOC.vc.vlan.Application", {
                     name: "parent",
                     xtype: "vc.vlan.LookupField",
                     fieldLabel: __("Parent"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {

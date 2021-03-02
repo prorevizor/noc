@@ -70,6 +70,7 @@ Ext.define("NOC.sa.actioncommands.Application", {
                     name: "action",
                     xtype: "sa.action.LookupField",
                     fieldLabel: __("Action"),
+                    labelAlign: "left",
                     allowBlank: false,
                     uiStyle: "medium"
                 },
@@ -83,6 +84,7 @@ Ext.define("NOC.sa.actioncommands.Application", {
                     name: "profile",
                     xtype: "sa.profile.LookupField",
                     fieldLabel: __("Profile"),
+                    labelAlign: "left",
                     uiStyle: "medium",
                     allowBlank: false
                 },

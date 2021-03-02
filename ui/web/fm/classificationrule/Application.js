@@ -107,6 +107,8 @@ Ext.define("NOC.fm.classificationrule.Application", {
                     name: "event_class",
                     fieldLabel: __("Event Class"),
                     allowBlank: false,
+                    labelAlign: "left",
+                    uiStyle: "large",
                     listeners: {
                         select: {
                             scope: me,

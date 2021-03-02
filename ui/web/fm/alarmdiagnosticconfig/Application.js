@@ -69,6 +69,8 @@ Ext.define("NOC.fm.alarmdiagnosticconfig.Application", {
                                     name: "alarm_class",
                                     xtype: "fm.alarmclass.LookupField",
                                     fieldLabel: __("Alarm Class"),
+                                    labelAlign: "left",
+                                    uiStyle: "large",
                                     allowBlank: false
                                 },
                                 {
@@ -80,6 +82,8 @@ Ext.define("NOC.fm.alarmdiagnosticconfig.Application", {
                                     name: "selector",
                                     xtype: "sa.managedobjectselector.LookupField",
                                     fieldLabel: __("Selector"),
+                                    labelAlign: "left",
+                                    uiStyle: "large",
                                     allowBlank: true
                                 },
                                 {
@@ -116,12 +120,16 @@ Ext.define("NOC.fm.alarmdiagnosticconfig.Application", {
                                     name: "on_raise_script",
                                     xtype: "main.ref.script.LookupField",
                                     fieldLabel: __("Script"),
+                                    labelAlign: "left",
+                                    width: 150,
                                     allowBlank: true
                                 },
                                 {
                                     name: "on_raise_action",
                                     xtype: "sa.action.LookupField",
                                     fieldLabel: __("Action"),
+                                    labelAlign: "left",
+                                    width: 150,
                                     allowBlank: true
                                 },
                                 {
@@ -157,12 +165,16 @@ Ext.define("NOC.fm.alarmdiagnosticconfig.Application", {
                                     name: "periodic_script",
                                     xtype: "main.ref.script.LookupField",
                                     fieldLabel: __("Script"),
+                                    labelAlign: "left",
+                                    width: 150,
                                     allowBlank: true
                                 },
                                 {
                                     name: "periodic_action",
                                     xtype: "sa.action.LookupField",
                                     fieldLabel: __("Action"),
+                                    labelAlign: "left",
+                                    width: 150,
                                     allowBlank: true
                                 },
                                 {
@@ -198,12 +210,16 @@ Ext.define("NOC.fm.alarmdiagnosticconfig.Application", {
                                     name: "on_clear_script",
                                     xtype: "main.ref.script.LookupField",
                                     fieldLabel: __("Script"),
+                                    labelAlign: "left",
+                                    width: 150,
                                     allowBlank: true
                                 },
                                 {
                                     name: "on_clear_action",
                                     xtype: "sa.action.LookupField",
                                     fieldLabel: __("Action"),
+                                    labelAlign: "left",
+                                    width: 150,
                                     allowBlank: true
                                 },
                                 {

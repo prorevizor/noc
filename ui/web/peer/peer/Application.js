@@ -116,6 +116,7 @@ Ext.define("NOC.peer.peer.Application", {
                     name: "peering_point",
                     xtype: "peer.peeringpoint.LookupField",
                     fieldLabel: __("Peering Point"),
+                    labelAlign: "left",
                     width: 400,
                     allowBlank: false
                 },
@@ -123,6 +124,7 @@ Ext.define("NOC.peer.peer.Application", {
                     name: "peer_group",
                     xtype: "peer.peergroup.LookupField",
                     fieldLabel: __("Peer Group"),
+                    labelAlign: "left",
                     width: 400,
                     allowBlank: false
                 },
@@ -130,6 +132,7 @@ Ext.define("NOC.peer.peer.Application", {
                     name: "project",
                     xtype: "project.project.LookupField",
                     fieldLabel: __("Project"),
+                    labelAlign: "left",
                     width: 400,
                     allowBlank: true
                 },
@@ -137,6 +140,7 @@ Ext.define("NOC.peer.peer.Application", {
                     name: "local_asn",
                     xtype: "peer.as.LookupField",
                     fieldLabel: __("Local AS"),
+                    labelAlign: "left",
                     width: 400,
                     allowBlank: false
                 },

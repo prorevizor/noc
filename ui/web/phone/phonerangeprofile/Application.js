@@ -59,12 +59,14 @@ Ext.define("NOC.phone.phonerangeprofile.Application", {
                     name: "workflow",
                     xtype: "wf.workflow.LookupField",
                     fieldLabel: __("Workflow"),
+                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
                     name: "default_number_profile",
                     xtype: "phone.phonenumberprofile.LookupField",
                     fieldLabel: __("Default Number Profile"),
+                    labelAlign: "left",
                     allowBlank: false
                 },
                 // {
@@ -80,6 +82,7 @@ Ext.define("NOC.phone.phonerangeprofile.Application", {
                     name: "style",
                     xtype: "main.style.LookupField",
                     fieldLabel: __("Style"),
+                    labelAlign: "left",
                     allowBlank: true
                 }
             ]

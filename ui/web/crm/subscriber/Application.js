@@ -62,6 +62,7 @@ Ext.define("NOC.crm.subscriber.Application", {
                     name: "profile",
                     xtype: "crm.subscriberprofile.LookupField",
                     fieldLabel: __("Profile"),
+                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
@@ -102,6 +103,7 @@ Ext.define("NOC.crm.subscriber.Application", {
                     name: "project",
                     xtype: "project.project.LookupField",
                     fieldLabel: __("Project"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {

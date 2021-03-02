@@ -55,24 +55,28 @@ Ext.define("NOC.ip.addressprofile.Application", {
                     name: "workflow",
                     xtype: "wf.workflow.LookupField",
                     fieldLabel: __("Workflow"),
+                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
                     name: "style",
                     xtype: "main.style.LookupField",
                     fieldLabel: __("Style"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
                     name: "name_template",
                     xtype: "main.template.LookupField",
                     fieldLabel: __("Name Template"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
                     name: "fqdn_template",
                     xtype: "main.template.LookupField",
                     fieldLabel: __("FQDN Template"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {

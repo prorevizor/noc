@@ -138,6 +138,7 @@ Ext.define("NOC.sa.managedobjectselector.Application", {
                     xtype: "main.pool.LookupField",
                     fieldLabel: __("Filter by Pool"),
                     allowBlank: true,
+                    labelAlign: "left",
                     labelWidth: 170
                 },
                 {
@@ -145,6 +146,7 @@ Ext.define("NOC.sa.managedobjectselector.Application", {
                     xtype: "sa.profile.LookupField",
                     fieldLabel: __("Filter by Profile"),
                     allowBlank: true,
+                    labelAlign: "left",
                     uiStyle: "large",
                     labelWidth: 170
                 },
@@ -152,6 +154,7 @@ Ext.define("NOC.sa.managedobjectselector.Application", {
                     name: "filter_vendor",
                     xtype: "inv.vendor.LookupField",
                     fieldLabel: __("Filter by Vendor"),
+                    labelAlign: "left",
                     allowBlank: true,
                     uiStyle: "large",
                     labelWidth: 170
@@ -160,6 +163,7 @@ Ext.define("NOC.sa.managedobjectselector.Application", {
                     name: "filter_platform",
                     xtype: "inv.platform.LookupField",
                     fieldLabel: __("Filter by Platform"),
+                    labelAlign: "left",
                     allowBlank: true,
                     uiStyle: "large",
                     labelWidth: 170
@@ -168,6 +172,7 @@ Ext.define("NOC.sa.managedobjectselector.Application", {
                     name: "filter_version",
                     xtype: "inv.firmware.LookupField",
                     fieldLabel: __("Filter by Version"),
+                    labelAlign: "left",
                     allowBlank: true,
                     uiStyle: "large",
                     labelWidth: 170
@@ -176,6 +181,7 @@ Ext.define("NOC.sa.managedobjectselector.Application", {
                     name: "filter_object_profile",
                     xtype: "sa.managedobjectprofile.LookupField",
                     fieldLabel: __("Filter by Object Profile"),
+                    labelAlign: "left",
                     allowBlank: true,
                     uiStyle: "large",
                     labelWidth: 170
@@ -192,6 +198,7 @@ Ext.define("NOC.sa.managedobjectselector.Application", {
                     name: "filter_prefix",
                     xtype: "main.prefixtable.LookupField",
                     fieldLabel: __("Filter by Prefix Table"),
+                    labelAlign: "left",
                     allowBlank: true,
                     uiStyle: "large",
                     labelWidth: 170
@@ -200,6 +207,7 @@ Ext.define("NOC.sa.managedobjectselector.Application", {
                     name: "filter_administrative_domain",
                     xtype: "sa.administrativedomain.LookupField",
                     fieldLabel: __("Filter by Administrative Domain"),
+                    labelAlign: "left",
                     allowBlank: true,
                     uiStyle: "large",
                     labelWidth: 170
@@ -208,6 +216,7 @@ Ext.define("NOC.sa.managedobjectselector.Application", {
                     name: "filter_vrf",
                     xtype: "ip.vrf.LookupField",
                     fieldLabel: __("Filter by VRF"),
+                    labelAlign: "left",
                     allowBlank: true,
                     uiStyle: "large",
                     labelWidth: 170
@@ -216,6 +225,7 @@ Ext.define("NOC.sa.managedobjectselector.Application", {
                     name: "filter_vc_domain",
                     xtype: "vc.vcdomain.LookupField",
                     fieldLabel: __("Filter by VC Domain"),
+                    labelAlign: "left",
                     allowBlank: true,
                     uiStyle: "large",
                     labelWidth: 170
@@ -224,6 +234,7 @@ Ext.define("NOC.sa.managedobjectselector.Application", {
                     name: "filter_service_group",
                     xtype: "inv.resourcegroup.LookupField",
                     fieldLabel: __("Filter by Service Group"),
+                    labelAlign: "left",
                     allowBlank: true,
                     uiStyle: "large",
                     labelWidth: 170
@@ -232,6 +243,7 @@ Ext.define("NOC.sa.managedobjectselector.Application", {
                     name: "filter_client_group",
                     xtype: "inv.resourcegroup.LookupField",
                     fieldLabel: __("Filter by Client Group"),
+                    labelAlign: "left",
                     allowBlank: true,
                     uiStyle: "large",
                     labelWidth: 170

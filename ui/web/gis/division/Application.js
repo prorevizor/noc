@@ -70,7 +70,8 @@ Ext.define("NOC.gis.division.Application", {
                 {
                     name: "parent",
                     xtype: "gis.division.LookupField",
-                    fieldLabel: __("Parent")
+                    fieldLabel: __("Parent"),
+                    labelAlign: "left"
                 },
                 {
                     name: "name",

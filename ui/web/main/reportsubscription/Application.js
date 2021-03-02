@@ -60,12 +60,14 @@ Ext.define("NOC.main.reportsubscription.Application", {
                     name: "run_as",
                     xtype: "aaa.user.LookupField",
                     fieldLabel: __("Run As"),
+                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
                     name: "report",
                     xtype: "main.ref.report.LookupField",
                     fieldLabel: __("Report"),
+                    labelAlign: "left",
                     allowBlank: false
                 },
                 {

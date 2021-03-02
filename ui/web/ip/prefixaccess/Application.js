@@ -53,12 +53,14 @@ Ext.define("NOC.ip.prefixaccess.Application", {
             name: "user",
             xtype: "aaa.user.LookupField",
             fieldLabel: __("User"),
+            labelAlign: "left",
             allowBlank: false
         },
         {
             name: "vrf",
             xtype: "ip.vrf.LookupField",
             fieldLabel: __("VRF"),
+            labelAlign: "left",
             allowBlank: false
         },
         {

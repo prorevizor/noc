@@ -53,12 +53,14 @@ Ext.define("NOC.vc.vcbindfilter.Application", {
             name: "vc_domain",
             xtype: "vc.vcdomain.LookupField",
             fieldLabel: __("VC Domain"),
+            labelAlign: "left",
             allowBlank: false
         },
         {
             name: "vrf",
             xtype: "ip.vrf.LookupField",
             fieldLabel: __("VRF"),
+            labelAlign: "left",
             allowBlank: false
         },
         {
@@ -78,6 +80,7 @@ Ext.define("NOC.vc.vcbindfilter.Application", {
             name: "vc_filter",
             xtype: "vc.vcfilter.LookupField",
             fieldLabel: __("VC Filter"),
+            labelAlign: "left",
             allowBlank: false
         }
     ],

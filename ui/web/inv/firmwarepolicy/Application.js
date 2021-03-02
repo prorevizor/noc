@@ -64,19 +64,22 @@ Ext.define("NOC.inv.firmwarepolicy.Application", {
                     name: "object_profile",
                     xtype: "sa.managedobjectprofile.LookupField",
                     fieldLabel: __("Profile"),
-                    allowBlank: false
+                    allowBlank: false,
+                    labelAlign: "left"
                 },
                 {
                     name: "platform",
                     xtype: "inv.platform.LookupField",
                     fieldLabel: __("Platform"),
-                    allowBlank: false
+                    allowBlank: false,
+                    labelAlign: "left"
                 },
                 {
                     name: "firmware",
                     xtype: "inv.firmware.LookupField",
                     fieldLabel: __("Firmware"),
-                    allowBlank: false
+                    allowBlank: false,
+                    labelAlign: "left"
                 },
                 {
                     name: "status",

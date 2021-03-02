@@ -67,18 +67,21 @@ Ext.define("NOC.wf.transition.Application", {
                     name: "workflow",
                     xtype: "wf.workflow.LookupField",
                     fieldLabel: __("Workflow"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
                     name: "from_state",
                     xtype: "wf.state.LookupField",
                     fieldLabel: __("From State"),
+                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
                     name: "to_state",
                     xtype: "wf.state.LookupField",
                     fieldLabel: __("To State"),
+                    labelAlign: "left",
                     allowBlank: false
                 },
                 {

@@ -71,6 +71,7 @@ Ext.define("NOC.pm.metrictype.Application", {
                     name: "scope",
                     xtype: "pm.metricscope.LookupField",
                     fieldLabel: __("Scope"),
+                    labelAlign: "left",
                     allowBlank: false
                 },
                 {

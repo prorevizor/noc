@@ -60,6 +60,7 @@ Ext.define("NOC.peer.prefixlistbuilder.Application", {
                     xtype: "peer.peeringpoint.LookupField",
                     fieldLabel: __("Peering Point"),
                     name: "peering_point",
+                    labelAlign: "left",
                     allowBlank: false
                 },
                 {

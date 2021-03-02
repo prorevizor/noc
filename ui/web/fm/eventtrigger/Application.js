@@ -100,24 +100,28 @@ Ext.define("NOC.fm.eventtrigger.Application", {
             name: "time_pattern",
             xtype: "main.timepattern.LookupField",
             fieldLabel: __("Time Pattern"),
+            labelAlign: "left",
             allowBlank: true
         },
         {
             name: "selector",
             xtype: "sa.managedobjectselector.LookupField",
             fieldLabel: __("Managed Object Selector"),
+            labelAlign: "left",
             allowBlank: true
         },
         {
             name: "notification_group",
             xtype: "main.notificationgroup.LookupField",
             fieldLabel: __("Notification Group"),
+            labelAlign: "left",
             allowBlank: true
         },
         {
             name: "template",
             xtype: "main.template.LookupField",
             fieldLabel: __("Template"),
+            labelAlign: "left",
             allowBlank: true
         },
         {

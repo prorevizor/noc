@@ -134,6 +134,7 @@ Ext.define("NOC.inv.networksegment.Application", {
                     name: "profile",
                     xtype: "inv.networksegmentprofile.LookupField",
                     fieldLabel: __("Profile"),
+                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
@@ -162,6 +163,8 @@ Ext.define("NOC.inv.networksegment.Application", {
                     name: "selector",
                     xtype: "sa.managedobjectselector.LookupField",
                     fieldLabel: __("Selector"),
+                    labelAlign: "left",
+                    uiStyle: "large",
                     allowBlank: true
                 },
                 {
@@ -205,6 +208,7 @@ Ext.define("NOC.inv.networksegment.Application", {
                     name: "allocation_group",
                     xtype: "inv.allocationgroup.LookupField",
                     fieldLabel: __("Allocation Group"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {

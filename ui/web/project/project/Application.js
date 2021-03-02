@@ -78,18 +78,21 @@ Ext.define("NOC.project.project.Application", {
                             name: "shape_overlay_glyph",
                             xtype: "main.glyph.LookupField",
                             fieldLabel: __("Glyph"),
+                            labelAlign: "left",
                             allowBlank: true
                         },
                         {
                             name: "shape_overlay_position",
                             xtype: "main.ref.soposition.LookupField",
                             fieldLabel: __("Position"),
+                            labelAlign: "left",
                             allowBlank: true
                         },
                         {
                             name: "shape_overlay_form",
                             xtype: "main.ref.soform.LookupField",
                             fieldLabel: __("Form"),
+                            labelAlign: "left",
                             allowBlank: true
                         }
                     ]

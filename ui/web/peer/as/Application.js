@@ -58,30 +58,35 @@ Ext.define("NOC.peer.as.Application", {
             name: "profile",
             xtype: "peer.asprofile.LookupField",
             fieldLabel: __("Profile"),
+            labelAlign: "left",
             allowBlank: false
         },
         {
             name: "description",
             xtype: "textfield",
             fieldLabel: __("Description"),
+            labelAlign: "left",
             allowBlank: false
         },
         {
             name: "rir",
             xtype: "peer.rir.LookupField",
             fieldLabel: __("RIR"),
+            labelAlign: "left",
             allowBlank: false
         },
         {
             name: "project",
             xtype: "project.project.LookupField",
             fieldLabel: __("Project"),
+            labelAlign: "left",
             allowBlank: true
         },
         {
             name: "organisation",
             xtype: "peer.organisation.LookupField",
             fieldLabel: __("Organisation"),
+            labelAlign: "left",
             allowBlank: false
         },
         {

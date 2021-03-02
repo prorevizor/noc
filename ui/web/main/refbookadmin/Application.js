@@ -58,6 +58,7 @@ Ext.define("NOC.main.refbookadmin.Application", {
                     xtype: "main.language.LookupField",
                     fieldLabel: __("Language"),
                     allowBlank: false,
+                    labelAlign: "left",
                     query: {
                         "is_active": true
                     }

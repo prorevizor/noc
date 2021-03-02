@@ -95,12 +95,14 @@ Ext.define("NOC.inv.technology.Application", {
                     name: "service_model",
                     xtype: "main.ref.modelid.LookupField",
                     fieldLabel: __("Service Model"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
                     name: "client_model",
                     xtype: "main.ref.modelid.LookupField",
                     fieldLabel: __("Client Model"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {

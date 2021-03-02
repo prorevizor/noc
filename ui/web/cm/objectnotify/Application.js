@@ -90,6 +90,7 @@ Ext.define("NOC.cm.objectnotify.Application", {
                     fieldLabel: __("Notification Group"),
                     width: 400,
                     allowBlank: true,
+                    labelAlign: "left",
                     uiStyle: "medium"
                 }
             ]

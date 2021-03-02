@@ -118,18 +118,21 @@ Ext.define("NOC.dns.dnszone.Application", {
                     name: "profile",
                     xtype: "dns.dnszoneprofile.LookupField",
                     fieldLabel: __("Profile"),
+                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
                     name: "project",
                     xtype: "project.project.LookupField",
                     fieldLabel: __("Project"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
                     name: "notification_group",
                     xtype: "main.notificationgroup.LookupField",
                     fieldLabel: __("Notification Group"),
+                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
