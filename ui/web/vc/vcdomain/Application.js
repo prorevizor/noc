@@ -71,7 +71,6 @@ Ext.define("NOC.vc.vcdomain.Application", {
         {
             name: "type",
             xtype: "vc.vctype.LookupField",
-            labelAlign: "left",
             fieldLabel: __("VC Type")
         },
         {
@@ -88,7 +87,6 @@ Ext.define("NOC.vc.vcdomain.Application", {
             name: "style",
             xtype: "main.style.LookupField",
             fieldLabel: __("Style"),
-            labelAlign: "left",
             allowBlank: true
         }
     ],

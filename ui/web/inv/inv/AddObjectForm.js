@@ -34,7 +34,6 @@ Ext.define("NOC.inv.inv.AddObjectForm", {
                     xtype: "inv.objectmodel.LookupField",
                     name: "type",
                     fieldLabel: __("Type"),
-                    labelAlign: "left",
                     uiStyle: "large",
                     allowBlank: false
                 },

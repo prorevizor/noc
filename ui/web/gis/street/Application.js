@@ -53,8 +53,7 @@ Ext.define("NOC.gis.street.Application", {
                 {
                     name: "parent",
                     xtype: "gis.division.LookupField",
-                    fieldLabel: __("Parent"),
-                    labelAlign: "left"
+                    fieldLabel: __("Parent")
                 },
                 {
                     name: "name",

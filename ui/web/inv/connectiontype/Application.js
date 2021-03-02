@@ -88,8 +88,7 @@ Ext.define("NOC.inv.connectiontype.Application", {
                     name: "extend",
                     xtype: "inv.connectiontype.LookupField",
                     fieldLabel: __("Extend"),
-                    allowBlank: true,
-                    labelAlign: "left"
+                    allowBlank: true
                 },
                 {
                     name: "genders",

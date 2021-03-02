@@ -37,21 +37,18 @@ Ext.define("NOC.sa.useraccess.Application", {
             name: "user",
             xtype: "aaa.user.LookupField",
             fieldLabel: __("User"),
-            labelAlign: "left",
             allowBlank: false
         },
         {
             name: "selector",
             xtype: "sa.managedobjectselector.LookupField",
             fieldLabel: __("Object Selector"),
-            labelAlign: "left",
             allowBlank: true
         },
         {
             name: "administrative_domain",
             xtype: "sa.administrativedomain.LookupField",
             fieldLabel: __("Adm. Domain"),
-            labelAlign: "left",
             allowBlank: true
         }
     ],

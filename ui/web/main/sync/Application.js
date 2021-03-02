@@ -64,7 +64,6 @@ Ext.define("NOC.main.sync.Application", {
                 {
                     name: "user",
                     xtype: "aaa.user.LookupField",
-                    labelAlign: "left",
                     fieldLabel: __("Credentials")
                 },
                 {

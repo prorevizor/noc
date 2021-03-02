@@ -66,15 +66,13 @@ Ext.define("NOC.inv.firmware.Application", {
                     name: "profile",
                     xtype: "sa.profile.LookupField",
                     fieldLabel: __("Profile"),
-                    allowBlank: false,
-                    labelAlign: "left"
+                    allowBlank: false
                 },
                 {
                     name: "vendor",
                     xtype: "inv.vendor.LookupField",
                     fieldLabel: __("Vendor"),
-                    allowBlank: false,
-                    labelAlign: "left"
+                    allowBlank: false
                 },
                 {
                     name: "version",

@@ -183,7 +183,6 @@ Ext.define("NOC.sa.profilecheckrule.Application", {
                             name: "profile",
                             xtype: "sa.profile.LookupField",
                             fieldLabel: __("Profile"),
-                            labelAlign: "left",
                             allowBlank: false,
                             uiStyle: "medium"
                         }

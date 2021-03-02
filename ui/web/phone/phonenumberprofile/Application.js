@@ -58,14 +58,12 @@ Ext.define("NOC.phone.phonenumberprofile.Application", {
                     name: "workflow",
                     xtype: "wf.workflow.LookupField",
                     fieldLabel: __("Workflow"),
-                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
                     name: "style",
                     xtype: "main.style.LookupField",
                     fieldLabel: __("Style"),
-                    labelAlign: "left",
                     allowBlank: true
                 }
             ]

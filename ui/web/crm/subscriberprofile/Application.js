@@ -76,14 +76,12 @@ Ext.define("NOC.crm.subscriberprofile.Application", {
                     name: "workflow",
                     xtype: "wf.workflow.LookupField",
                     fieldLabel: __("Workflow"),
-                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
                     name: "style",
                     xtype: "main.style.LookupField",
                     fieldLabel: __("Style"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
@@ -91,7 +89,6 @@ Ext.define("NOC.crm.subscriberprofile.Application", {
                     xtype: "main.ref.glyph.LookupField",
                     fieldLabel: __("Icon"),
                     allowBlank: true,
-                    labelAlign: "left",
                     uiStyle: "large"
                 },
                 {

@@ -93,14 +93,12 @@ Ext.define("NOC.sa.objectnotification.Application", {
             name: "selector",
             xtype: "sa.managedobjectselector.LookupField",
             fieldLabel: __("Selector"),
-            labelAlign: "left",
             allowBlank: false
         },
         {
             name: "notification_group",
             xtype: "main.notificationgroup.LookupField",
             fieldLabel: __("Notification Group"),
-            labelAlign: "left",
             allowBlank: false
         },
         {

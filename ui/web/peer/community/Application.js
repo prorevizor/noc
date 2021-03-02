@@ -43,7 +43,6 @@ Ext.define("NOC.peer.community.Application", {
             name: "type",
             xtype: "peer.communitytype.LookupField",
             fieldLabel: __("Type"),
-            labelAlign: "left",
             width: 400,
             allowBlank: false
         },

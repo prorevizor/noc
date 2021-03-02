@@ -95,28 +95,24 @@ Ext.define("NOC.vc.vpnprofile.Application", {
                     name: "workflow",
                     xtype: "wf.workflow.LookupField",
                     fieldLabel: __("Workflow"),
-                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
                     name: "style",
                     xtype: "main.style.LookupField",
                     fieldLabel: __("Style"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
                     name: "name_template",
                     xtype: "main.template.LookupField",
                     fieldLabel: __("Template"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
                     name: "default_prefix_profile",
                     xtype: "ip.prefixprofile.LookupField",
                     fieldLabel: __("Default Prefix Profile"),
-                    labelAlign: "left",
                     bind: {
                         disabled: "{!requireDefaultPrefix}"
                     },

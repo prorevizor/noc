@@ -82,14 +82,12 @@ Ext.define("NOC.dev.spec.Application", {
                     name: "quiz",
                     xtype: "dev.quiz.LookupField",
                     fieldLabel: __("Quiz"),
-                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
                     name: "profile",
                     xtype: "sa.profile.LookupField",
                     fieldLabel: __("Profile"),
-                    labelAlign: "left",
                     allowBlank: false
                 },
                 {

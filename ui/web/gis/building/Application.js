@@ -51,8 +51,7 @@ Ext.define("NOC.gis.building.Application", {
                     name: "adm_division",
                     xtype: "gis.division.LookupField",
                     fieldLabel: __("Administrative Division"),
-                    allowBlank: false,
-                    labelAlign: "left"
+                    allowBlank: false
                 },
                 {
                     name: "status",

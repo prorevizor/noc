@@ -96,7 +96,6 @@ Ext.define("NOC.main.resourcestate.Application", {
             name: "step_to",
             xtype: "main.resourcestate.LookupField",
             fieldLabel: __("Step to"),
-            labelAlign: "left",
             allowBlank: true
         }
     ]

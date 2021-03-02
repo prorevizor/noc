@@ -139,7 +139,6 @@ Ext.define("NOC.sa.managedobject.ConfDBPanel", {
 
         me.confDBQueryField = Ext.create({
             xtype: "cm.confdbquery.LookupField",
-            labelAlign: "left",
             listeners: {
                 scope: me,
                 change: function(field, value) {

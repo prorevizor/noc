@@ -68,7 +68,6 @@ Ext.define("NOC.main.customfield.Application", {
             name: "table",
             xtype: "main.ref.modcol.LookupField",
             fieldLabel: __("Table"),
-            labelAlign: "left",
             allowBlank: false
         },
         {

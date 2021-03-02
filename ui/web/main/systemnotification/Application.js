@@ -46,7 +46,6 @@ Ext.define("NOC.main.systemnotification.Application", {
             name: "notification_group",
             xtype: "main.notificationgroup.LookupField",
             fieldLabel: __("Notification Group"),
-            labelAlign: "left",
             width: 400,
             allowBlank: true
         }

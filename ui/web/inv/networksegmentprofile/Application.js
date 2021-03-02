@@ -62,7 +62,6 @@ Ext.define("NOC.inv.networksegmentprofile.Application", {
                     name: "style",
                     xtype: "main.style.LookupField",
                     fieldLabel: __("Style"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
@@ -76,7 +75,6 @@ Ext.define("NOC.inv.networksegmentprofile.Application", {
                     name: "autocreated_profile",
                     xtype: "inv.networksegmentprofile.LookupField",
                     fieldLabel: __("Autocreated Profile"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
@@ -202,7 +200,6 @@ Ext.define("NOC.inv.networksegmentprofile.Application", {
                     name: "default_vlan_profile",
                     xtype: "vc.vlanprofile.LookupField",
                     fieldLabel: __("Default VLAN Profile"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {

@@ -71,14 +71,12 @@ Ext.define("NOC.sla.slaprobe.Application", {
                     name: "managed_object",
                     xtype: "sa.managedobject.LookupField",
                     fieldLabel: __("Managed Object"),
-                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
                     name: "name",
                     xtype: "textfield",
                     fieldLabel: __("Name"),
-                    labelAlign: "left",
                     allowBlank: false,
                     uiStyle: "medium"
                 },

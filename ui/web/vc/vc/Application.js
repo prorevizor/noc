@@ -134,7 +134,6 @@ Ext.define("NOC.vc.vc.Application", {
                     name: "vc_domain",
                     xtype: "vc.vcdomain.LookupField",
                     fieldLabel: __("VC Domain"),
-                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
@@ -148,14 +147,12 @@ Ext.define("NOC.vc.vc.Application", {
                     name: "state",
                     xtype: "main.resourcestate.LookupField",
                     fieldLabel: __("State"),
-                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
                     name: "project",
                     xtype: "project.project.LookupField",
                     fieldLabel: __("Project"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
@@ -180,7 +177,6 @@ Ext.define("NOC.vc.vc.Application", {
                     name: "style",
                     xtype: "main.style.LookupField",
                     fieldLabel: __("Style"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {

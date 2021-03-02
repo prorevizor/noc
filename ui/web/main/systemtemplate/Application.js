@@ -47,7 +47,6 @@ Ext.define("NOC.main.systemtemplate.Application", {
             name: "template",
             xtype: "main.template.LookupField",
             fieldLabel: __("Template"),
-            labelAlign: "left",
             allowBlank: false,
             width: 400
         }

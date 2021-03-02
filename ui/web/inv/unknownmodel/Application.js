@@ -66,7 +66,6 @@ Ext.define("NOC.inv.unknownmodel.Application", {
                     xtype: "inv.objectmodel.LookupField",
                     name: "type",
                     fieldLabel: __("Use connections from"),
-                    labelAlign: "left",
                     labelWidth: 150,
                     allowBlank: true,
                     uiStyle: "large"

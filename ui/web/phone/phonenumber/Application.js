@@ -108,7 +108,6 @@ Ext.define("NOC.phone.phonenumber.Application", {
                     name: "dialplan",
                     xtype: "phone.dialplan.LookupField",
                     fieldLabel: __("Dialplan"),
-                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
@@ -124,7 +123,6 @@ Ext.define("NOC.phone.phonenumber.Application", {
                     name: "profile",
                     xtype: "phone.phonenumberprofile.LookupField",
                     fieldLabel: __("Profile"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
@@ -137,7 +135,6 @@ Ext.define("NOC.phone.phonenumber.Application", {
                     name: "phone_range",
                     xtype: "phone.phonerange.LookupField",
                     fieldLabel: __("Range"),
-                    labelAlign: "left",
                     allowBlank: true,
                     disabled: true
                 },
@@ -145,14 +142,12 @@ Ext.define("NOC.phone.phonenumber.Application", {
                     name: "category",
                     xtype: "phone.numbercategory.LookupField",
                     fieldLabel: __("Category"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
                     name: "protocol",
                     xtype: "combobox",
                     fieldLabel: __("Protocol"),
-                    labelAlign: "left",
                     allowBlank: false,
                     store: me.protocolStore,
                     uiStyle: "medium"
@@ -167,14 +162,12 @@ Ext.define("NOC.phone.phonenumber.Application", {
                     name: "project",
                     xtype: "project.project.LookupField",
                     fieldLabel: __("Project"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
                     name: "administrative_domain",
                     xtype: "sa.administrativedomain.LookupField",
                     fieldLabel: __("Adm. Domain"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {

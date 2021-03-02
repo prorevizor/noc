@@ -90,7 +90,6 @@ Ext.define("NOC.ip.addressrange.Application", {
             name: "vrf",
             xtype: "ip.vrf.LookupField",
             fieldLabel: __("VRF"),
-            labelAlign: "left",
             allowBlank: false
         },
         {

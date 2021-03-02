@@ -68,7 +68,6 @@ Ext.define("NOC.main.glyph.Application", {
                     name: "font",
                     xtype: "main.font.LookupField",
                     fieldLabel: __("Font"),
-                    labelAlign: "left",
                     allowBlank: false
                 },
                 {

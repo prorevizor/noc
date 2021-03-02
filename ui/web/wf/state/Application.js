@@ -68,7 +68,6 @@ Ext.define("NOC.wf.state.Application", {
                     name: "workflow",
                     xtype: "wf.workflow.LookupField",
                     fieldLabel: __("Workflow"),
-                    labelAlign: "left",
                     allowBlank: false
                 },
                 {

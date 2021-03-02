@@ -65,7 +65,6 @@ Ext.define("NOC.vc.vpn.Application", {
                     name: "profile",
                     xtype: "vc.vpnprofile.LookupField",
                     fieldLabel: __("Profile"),
-                    labelAlign: "left",
                     allowBlank: false
                 },
                 {
@@ -84,14 +83,12 @@ Ext.define("NOC.vc.vpn.Application", {
                     name: "parent",
                     xtype: "vc.vpn.LookupField",
                     fieldLabel: __("Parent"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
                     name: "project",
                     xtype: "project.project.LookupField",
                     fieldLabel: __("Project"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {

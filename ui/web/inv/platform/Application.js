@@ -98,7 +98,6 @@ Ext.define("NOC.inv.platform.Application", {
                     name: "vendor",
                     xtype: "inv.vendor.LookupField",
                     fieldLabel: __("Platform"),
-
                     allowBlank: false
                 },
                 {

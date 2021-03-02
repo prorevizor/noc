@@ -96,7 +96,6 @@ Ext.define("NOC.sa.commandsnippet.Application", {
             name: "selector",
             xtype: "sa.managedobjectselector.LookupField",
             fieldLabel: __("Object Selector"),
-            labelAlign: "left",
             allowBlank: false
         },
         {

@@ -51,7 +51,6 @@ Ext.define("NOC.cm.interfacevalidationpolicy.Application", {
                         allow_interface_filter: true
                     },
                     allowBlank: true,
-                    labelAlign: "left"
                 },
                 {
                     name: "rules",

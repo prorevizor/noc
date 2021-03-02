@@ -54,14 +54,12 @@ Ext.define("NOC.inv.sensorprofile.Application", {
           name: "workflow",
           xtype: "wf.workflow.LookupField",
           fieldLabel: __("WorkFlow"),
-          labelAlign: "left",
           allowBlank: false
         },
         {
           name: "style",
           xtype: "main.style.LookupField",
           fieldLabel: __("Style"),
-          labelAlign: "left",
           allowBlank: true
         },
         {

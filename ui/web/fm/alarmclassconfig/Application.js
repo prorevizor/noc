@@ -50,7 +50,6 @@ Ext.define("NOC.fm.alarmclassconfig.Application", {
             name: "alarm_class",
             xtype: "fm.alarmclass.LookupField",
             fieldLabel: __("Alarm Class"),
-            labelAlign: "left",
             allowBlank: false
         },
         {

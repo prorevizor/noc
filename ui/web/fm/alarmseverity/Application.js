@@ -80,14 +80,12 @@ Ext.define("NOC.fm.alarmseverity.Application", {
             name: "style",
             xtype: "main.style.LookupField",
             fieldLabel: __("Style"),
-            labelAlign: "left",
             allowBlank: false
         },
         {
             name: "sound",
             xtype: "main.ref.sound.LookupField",
             fieldLabel: __("Sound"),
-            labelAlign: "left",
             allowBlank: false
         },
         {

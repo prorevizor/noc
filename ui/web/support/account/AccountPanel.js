@@ -98,7 +98,6 @@ Ext.define("NOC.support.account.AccountPanel", {
                 {
                     xtype: "main.ref.country.LookupField",
                     name: "country",
-                    labelAlign: "left",
                     fieldLabel: __("Country")
                 },
                 {

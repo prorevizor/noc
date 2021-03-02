@@ -75,7 +75,6 @@ Ext.define("NOC.sa.administrativedomain.Application", {
             name: "default_pool",
             xtype: "main.pool.LookupField",
             fieldLabel: __("Pool"),
-            labelAlign: "left",
             allowBlank: true
         },
         {
@@ -91,7 +90,6 @@ Ext.define("NOC.sa.administrativedomain.Application", {
                     name: "bioseg_floating_name_template",
                     xtype: "main.template.LookupField",
                     fieldLabel: __("Floating Name Template"),
-                    labelAlign: "left",
                     allowBlank: true
                 },
                 {
