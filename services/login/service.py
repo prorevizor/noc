@@ -31,23 +31,24 @@ class LoginService(FastAPIService):
         "ext-ui": "Legacy ExtJS UI services. To be removed with decline of legacy UI",
     }
 
-    revoked_tokens = set()
-    revoked_expiry = []
+    def __init__(self):
+        self.revoked_tokens = set()
+        self.revoked_expiry = []
 
-    def revoke_token(token: str) -> None:
+    def revoke_token(self, token: str) -> None:
         """
         Mark token as revoked. Any futher use will be prohibited
         :param token:
         :return:
         """
 
-    def is_revoked(token: str) -> bool:
+    def is_revoked(self, token: str) -> bool:
         """
         Check if token is revoked
         :param token: encoded JWT token to check
         :return: True if token is revoked
         """
-        return False
+        return token in self.revoked_tokens
 
     async def on_revoked_token(self, msg: Message) -> None:
         msg_dict = orjson.decode(msg.value)
@@ -61,12 +62,11 @@ class LoginService(FastAPIService):
         )
         # Check expired tokens
         heapq.heapify(self.revoked_expiry)
-        for r in self.revoked_expiry:
-            if r[0] < datetime.datetime.now():
-                self.revoked_tokens.remove(r)
-                heapq.heappop(self.revoked_expiry)
-            else:
+        for r in self.revoked_expiry.copy():
+            if r[0] >= datetime.datetime.now():
                 break
+            self.revoked_tokens.remove(r[1])
+            heapq.heappop(self.revoked_expiry)
         return
 
     async def on_activate(self):
