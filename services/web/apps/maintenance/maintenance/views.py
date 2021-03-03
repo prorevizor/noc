@@ -14,7 +14,12 @@ from mongoengine.queryset.visitor import Q
 
 # NOC modules
 from noc.lib.app.extdocapplication import ExtDocApplication, view
-from noc.maintenance.models.maintenance import Maintenance, MaintenanceObject, MaintenanceSegment
+from noc.maintenance.models.maintenance import (
+    Maintenance,
+    MaintenanceObject,
+    MaintenanceSegment,
+    AffecedObjects,
+)
 from noc.sa.models.profile import Profile
 from noc.sa.models.managedobject import ManagedObject
 from noc.sa.models.useraccess import UserAccess
@@ -31,8 +36,6 @@ class MaintenanceApplication(ExtDocApplication):
     model = Maintenance
     query_condition = "icontains"
     query_fields = ["subject"]
-    exclude_fields = ["affected_objects"]
-    list_exclude_fields = ["direct_objects", "direct_segments", "affected_objects"]
 
     def queryset(self, request, query=None):
         """
@@ -54,7 +57,12 @@ class MaintenanceApplication(ExtDocApplication):
                 obj = ManagedObject.objects.filter(name__contains=query)
             if obj:
                 mos = obj.values_list("id", flat=True)
-                return qs.filter(affected_objects__object__in=mos)
+                print(mos)
+                ao = AffecedObjects.objects.filter(affected_objects__object__in=mos).values_list(
+                    "maintenance"
+                )
+                print(ao)
+                return ao
             return qs.filter(type=None)
         else:
             return qs
@@ -66,7 +74,7 @@ class MaintenanceApplication(ExtDocApplication):
         if body["mode"] == "Object":
             for mo in body["elements"]:
                 mai = MaintenanceObject(object=mo.get("object"))
-                if mai in o.affected_objects:
+                if AffecedObjects.objects.filter(maintenance=o, affected_objects=mai):
                     continue
                 if mai not in o.direct_objects:
                     o.direct_objects += [mai]
@@ -84,9 +92,9 @@ class MaintenanceApplication(ExtDocApplication):
         r = []
         data = [
             d
-            for d in Maintenance._get_collection().aggregate(
+            for d in AffecedObjects._get_collection().aggregate(
                 [
-                    {"$match": {"_id": bson.ObjectId(id)}},
+                    {"$match": {"maintenance": bson.ObjectId(id)}},
                     {
                         "$project": {"objects": "$affected_objects.object"},
                     },
