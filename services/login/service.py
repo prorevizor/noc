@@ -25,6 +25,21 @@ class LoginService(FastAPIService):
         "ext-ui": "Legacy ExtJS UI services. To be removed with decline of legacy UI",
     }
 
+    def revoke_token(token: str) -> None:
+        """
+        Mark token as revoked. Any futher use will be prohibited
+        :param token:
+        :return:
+        """
+
+    def is_revoked(token: str) -> bool:
+        """
+        Check if token is revoked
+        :param token: encoded JWT token to check
+        :return: True if token is revoked
+        """
+        return False
+
     async def on_revoked_token(self):
         return
 
