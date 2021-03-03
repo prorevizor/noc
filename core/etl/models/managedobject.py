@@ -14,7 +14,7 @@ from .base import BaseModel
 from .typing import Reference
 from .administrativedomain import AdministrativeDomain
 from .authprofile import AuthProfile
-from .container import Container
+from .object import Object
 from .managedobjectprofile import ManagedObjectProfile
 from .networksegment import NetworkSegment
 from .resourcegroup import ResourceGroup
