@@ -17,6 +17,7 @@ from noc.core.service.fastapi import FastAPIService
 from noc.config import config
 from noc.core.liftbridge.message import Message
 from noc.services.login.auth import get_exp_from_jwt
+from noc.core.comp import smart_bytes
 
 
 class LoginService(FastAPIService):
@@ -37,7 +38,7 @@ class LoginService(FastAPIService):
         self.revoked_tokens = set()
         self.revoked_expiry = []
 
-    def revoke_token(self, token: str) -> str:
+    def revoke_token(self, token: str) -> None:
         """
         Mark token as revoked. Any futher use will be prohibited
         :param token:
@@ -52,7 +53,7 @@ class LoginService(FastAPIService):
             "ts": ts.isoformat(),
             "expired": exp.isoformat(),
         }
-        self.publish(orjson.encode(msg).encode("ascii"), "revokedtokens", 0)
+        self.publish(smart_bytes(orjson.encode(msg)), "revokedtokens", 0)
         e2e = (datetime.datetime.utcnow() - ts).total_seconds()
         sec = e2e * 3 if e2e * 3 > 1 else 1
         time.sleep(sec)
