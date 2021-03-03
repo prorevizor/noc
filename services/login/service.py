@@ -25,6 +25,11 @@ class LoginService(FastAPIService):
         "ext-ui": "Legacy ExtJS UI services. To be removed with decline of legacy UI",
     }
 
+    async def on_revoked_token(self):
+        return
+
+    async def on_activate(self):
+        await self.subscribe_stream("revokedtokens", 0, self.on_revoked_token)
 
 if __name__ == "__main__":
     LoginService().start()
