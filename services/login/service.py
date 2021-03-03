@@ -31,5 +31,6 @@ class LoginService(FastAPIService):
     async def on_activate(self):
         await self.subscribe_stream("revokedtokens", 0, self.on_revoked_token)
 
+
 if __name__ == "__main__":
     LoginService().start()
