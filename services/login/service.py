@@ -67,7 +67,6 @@ class LoginService(FastAPIService):
                 break
             self.revoked_tokens.remove(r[1])
             heapq.heappop(self.revoked_expiry)
-        return
 
     async def on_activate(self):
         await self.subscribe_stream("revokedtokens", 0, self.on_revoked_token)
