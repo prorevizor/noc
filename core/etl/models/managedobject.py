@@ -26,7 +26,7 @@ class ManagedObject(BaseModel):
     id: str
     name: str
     is_managed: bool
-    container: Optional[Reference["Container"]]
+    container: Optional[Reference["Object"]]
     administrative_domain: Reference["AdministrativeDomain"]
     pool: str
     fm_pool: Optional[str]
