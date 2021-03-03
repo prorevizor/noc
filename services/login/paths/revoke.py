@@ -12,7 +12,6 @@ from fastapi import APIRouter
 from ..auth import revoke_token, get_user_from_jwt
 from ..models.revoke import RevokeRequest
 from ..models.status import StatusResponseError, StatusResponse
-from noc.core.service.deps.service import get_service
 
 router = APIRouter()
 
