@@ -8,6 +8,7 @@
 # Python modules
 import operator
 from threading import Lock
+from typing import Optional
 
 # Third-party modules
 from mongoengine.document import Document, EmbeddedDocument
@@ -22,8 +23,10 @@ import cachetools
 
 # NOC Modules
 from noc.config import config
+from noc.core.model.decorator import on_save
 from noc.core.prettyjson import to_json
 from noc.core.model.decorator import on_delete_check
+from noc.main.models.label import Label
 
 id_lock = Lock()
 
@@ -84,6 +87,7 @@ class LabelItem(EmbeddedDocument):
 
 
 @on_delete_check(check=[("pm.MetricType", "scope")])
+@on_save
 class MetricScope(Document):
     meta = {
         "collection": "noc.metricscopes",
@@ -109,8 +113,12 @@ class MetricScope(Document):
 
     @classmethod
     @cachetools.cachedmethod(operator.attrgetter("_id_cache"), lock=lambda _: id_lock)
-    def get_by_id(cls, id):
+    def get_by_id(cls, id) -> Optional["MetricScope"]:
         return MetricScope.objects.filter(id=id).first()
+
+    def on_save(self):
+        for label in self.labels:
+            Label.ensure_label(label, description="Auto-created for PM scope", is_protected=True)
 
     @property
     def json_data(self):
