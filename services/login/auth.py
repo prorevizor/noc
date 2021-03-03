@@ -115,7 +115,7 @@ def get_user_from_jwt(token: str, audience: Optional[str] = None) -> str:
         raise ValueError(str(e))
 
 
-def get_exp_from_jwt(token: str) -> str:
+def get_exp_from_jwt(token: str) -> datetime:
     """
     Check JWT token and return exp.
     Raise ValueError if failed
