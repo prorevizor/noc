@@ -23,13 +23,14 @@ from noc.config import config
 
 class Command(BaseCommand):
     # List of single-partitioned streams
-    STREAMS = []
+    STREAMS = [
+        "revokedtokens",
+    ]
     # Streams, depending on slots
     SLOT_STREAMS = [
         # slot name, stream name
         ("mx", "message"),
         ("kafkasender", "kafkasender"),
-        ("revokedtokens", "revokedtokens"),
     ]
     # Pool-basend streams, depending on slots
     POOLED_SLOT_STREAMS = [
