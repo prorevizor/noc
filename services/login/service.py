@@ -40,7 +40,7 @@ class LoginService(FastAPIService):
         self.revoked_expiry = []
         self.revoked_cond = asyncio.Condition()
 
-    def revoke_token(self, token: str) -> None:
+    async def revoke_token(self, token: str) -> None:
         """
         Mark token as revoked. Any futher use will be prohibited
         :param token:
