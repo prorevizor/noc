@@ -18,6 +18,7 @@ from noc.inv.models.networksegment import NetworkSegment
 from noc.inv.models.link import Link
 from noc.sa.models.managedobject import ManagedObject
 from .goal.base import BaseGoal
+from .goal.managedobject import ManagedObjectGoal
 from .constraint.base import BaseConstraint
 
 MAX_PATH_LENGTH = 0xFFFFFFFF
@@ -35,7 +36,7 @@ def get_shortest_path(start: ManagedObject, goal: ManagedObject) -> List[Managed
     :param goal: Ending managed object's id
     :return:
     """
-    finder = KSPFinder(start, goal)
+    finder = KSPFinder(start, ManagedObjectGoal(goal))
     for path in finder.find_shortest_path():  # type: PathInfo
         r: List[ManagedObject] = []
         pi = None
