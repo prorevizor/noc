@@ -16,7 +16,7 @@ from starlette.responses import JSONResponse
 from ..auth import get_user_from_jwt
 from ..models.revoke import RevokeRequest
 from ..models.status import StatusResponseError, StatusResponse
-from noc.core.service.login.service import get_service
+from noc.core.service.deps.service import get_service
 from noc.services.login.service import LoginService
 
 
