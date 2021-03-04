@@ -6,18 +6,21 @@
 # ----------------------------------------------------------------------
 
 # Third-party modules
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
 # NOC modules
 from ..auth import revoke_token, get_user_from_jwt
 from ..models.revoke import RevokeRequest
 from ..models.status import StatusResponseError, StatusResponse
+from noc.core.service.deps.service import get_service
+from noc.services.login.service import LoginService
+
 
 router = APIRouter()
 
 
 @router.post("/api/login/revoke", tags=["login"])
-async def revoke(req: RevokeRequest):
+async def revoke(req: RevokeRequest, svc: LoginService = Depends(get_service)):
     if req.access_token:
         try:
             get_user_from_jwt(req.access_token, audience="auth")
