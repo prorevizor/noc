@@ -38,7 +38,7 @@ from .api_pb2 import (
     StartPosition as _StartPosition,
     Ack,
 )
-from .error import rpc_error, ErrorNotFound, ErrorChannelClosed, ErrorUnavailable
+from .error import rpc_error, ErrorNotFound, ErrorChannelClosed, ErrorUnavailable, LiftbridgeError
 from .message import Message
 
 logger = logging.getLogger(__name__)
@@ -601,6 +601,14 @@ class LiftBridgeClient(object):
                     # Continue from last seen position
                     req.startPosition = StartPosition.OFFSET
                     req.startOffset = last_offset + 1
+            except LiftbridgeError as e:
+                logger.error("Subscriber channel was unknown error: %s", e)
+                logger.info("Try to continue from last offset")
+                if not to_restore_position and last_offset is not None:
+                    # Continue from last seen position
+                    req.startPosition = StartPosition.OFFSET
+                    req.startOffset = last_offset + 1
+                await asyncio.sleep(1.0 + 10)
 
     async def _subscribe(
         self, req: SubscribeRequest, restore_position: bool = False, cursor_id: Optional[str] = None
@@ -658,6 +666,8 @@ class LiftBridgeClient(object):
                 code = await call.code()
                 if code in self.GRPC_RESTARTABLE_CODES:
                     raise ErrorUnavailable()
+                if code == StatusCode.UNKNOWN:
+                    raise LiftbridgeError()
                 raise ErrorChannelClosed(str(code))
 
     async def fetch_cursor(self, stream: str, partition: int, cursor_id: str) -> int:
