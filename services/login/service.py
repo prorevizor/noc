@@ -56,7 +56,8 @@ class LoginService(FastAPIService):
             "expired": exp.isoformat(),
         }
         self.publish(smart_bytes(orjson.encode(msg)), "revokedtokens", 0)
-        self.cond.notify_all()
+        async with self.cond:
+            await self.cond.wait()
         e2e = (datetime.datetime.utcnow() - ts).total_seconds()
         sec = e2e * 3 if e2e * 3 > 1 else 1
         time.sleep(sec)
