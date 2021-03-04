@@ -38,7 +38,7 @@ class LoginService(FastAPIService):
     def __init__(self):
         self.revoked_tokens = set()
         self.revoked_expiry = []
-        self.cond = asyncio.Condition()
+        self.revoked_cond = asyncio.Condition()
 
     def revoke_token(self, token: str) -> None:
         """
@@ -47,8 +47,11 @@ class LoginService(FastAPIService):
         :return: str
         """
         ts = datetime.datetime.utcnow()
-        if token in self.revoked_tokens:
-            return "exists"
+        while True:
+            async with self.revoked_cond:
+                await self.revoked_cond.wait()
+            if token in self.revoked_tokens:
+                return "exists"
         exp = get_exp_from_jwt(token)
         msg = {
             "token": token,
@@ -56,11 +59,11 @@ class LoginService(FastAPIService):
             "expired": exp.isoformat(),
         }
         self.publish(smart_bytes(orjson.encode(msg)), "revokedtokens", 0)
-        async with self.cond:
-            await self.cond.wait()
-        e2e = (datetime.datetime.utcnow() - ts).total_seconds()
-        sec = e2e * 3 if e2e * 3 > 1 else 1
-        time.sleep(sec)
+        async with self.revoked_cond:
+            e2e = (datetime.datetime.utcnow() - ts).total_seconds()
+            sec = e2e * 3 if e2e * 3 > 1 else 1
+            time.sleep(sec)
+        await self.cond.wait()
         return "ok"
 
     def is_revoked(self, token: str) -> bool:
@@ -89,7 +92,7 @@ class LoginService(FastAPIService):
             self.revoked_tokens.remove(r[1])
             heapq.heappop(self.revoked_expiry)
 
-        self.cond.notify_all()
+        self.revoked_cond.notify_all()
 
     async def on_activate(self):
         await self.subscribe_stream("revokedtokens", 0, self.on_revoked_token)
