@@ -30,7 +30,7 @@ from noc.sa.models.service import Service
 from noc.inv.models.firmwarepolicy import FirmwarePolicy
 from noc.sa.models.servicesummary import ServiceSummary
 from noc.core.text import alnum_key, list_to_ranges
-from noc.maintenance.models.maintenance import Maintenance
+from noc.maintenance.models.maintenance import Maintenance, AffecedObjects
 from noc.pm.models.thresholdprofile import ThresholdProfile
 from noc.sa.models.useraccess import UserAccess
 from noc.core.pm.utils import get_interface_metrics, get_objects_metrics
@@ -421,11 +421,12 @@ class ManagedObjectCard(BaseCard):
 
         # Maintenance
         maintenance = []
-        for m in Maintenance.objects.filter(
-            affected_objects__object=self.object.id,
-            is_completed=False,
-            start__lte=now + datetime.timedelta(hours=1),
-        ):
+        for ao in AffecedObjects.objects.filter(affected_objects__object=self.object.id):
+            m = Maintenance.objects.filter(
+                id=ao.maintenance.id,
+                is_completed=False,
+                start__lte=now + datetime.timedelta(hours=1),
+            ).first()
             maintenance += [
                 {
                     "maintenance": m,
