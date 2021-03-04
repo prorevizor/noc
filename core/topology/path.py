@@ -212,9 +212,9 @@ class KSPFinder(object):
             # Get neighbors of current and their distances
             seen_neighbors = set()  # type: Set[int]
             dist = {}  # type: Dict[int, int]
-            for l in iter_links(current):
+            for ll in iter_links(current):
                 new_neighbors = (
-                    set(l.linked_objects) - closed_set
+                    set(ll.linked_objects) - closed_set
                 )  # Current is already in closed set
                 seen_neighbors |= new_neighbors
                 for mo in new_neighbors:
