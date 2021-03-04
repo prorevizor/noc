@@ -167,7 +167,7 @@ class Maintenance(Document):
         affected = set()
         now = datetime.datetime.now()
         for d in cls._get_collection().find(
-            {"start": {"$lte": now}, "end": {"$gte": now}, "is_completed": False},
+            {"start": {"$lte": now}, "stop": {"$gte": now}, "is_completed": False},
             {"_id": 1, "time_pattern": 1},
         ):
             if d.get("time_pattern"):
