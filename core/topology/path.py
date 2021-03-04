@@ -37,15 +37,14 @@ def get_shortest_path(start: ManagedObject, goal: ManagedObject) -> List[Managed
     :return:
     """
     finder = KSPFinder(start, ManagedObjectGoal(goal))
-    for path in finder.find_shortest_path():  # type: PathInfo
-        r: List[ManagedObject] = []
-        pi = None
-        for pi in path:
-            r += [pi.start]
-        if pi:
-            r += [pi.end]
-        return r
-    raise ValueError("Path not found")
+    r: List[ManagedObject] = []
+    path = finder.find_shortest_path()
+    if not path:
+        raise ValueError("Path not found")
+    for pi in path:  # type: PathInfo
+        r += [pi.start]
+    r += [pi.end]
+    return r
 
 
 class KSPFinder(object):
