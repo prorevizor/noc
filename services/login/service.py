@@ -11,6 +11,7 @@ import orjson
 import heapq
 import datetime
 import time
+import asyncio
 
 # NOC modules
 from noc.core.service.fastapi import FastAPIService
@@ -37,6 +38,7 @@ class LoginService(FastAPIService):
     def __init__(self):
         self.revoked_tokens = set()
         self.revoked_expiry = []
+        self.cond = asyncio.Condition()
 
     def revoke_token(self, token: str) -> None:
         """
@@ -54,6 +56,7 @@ class LoginService(FastAPIService):
             "expired": exp.isoformat(),
         }
         self.publish(smart_bytes(orjson.encode(msg)), "revokedtokens", 0)
+        self.cond.notify_all()
         e2e = (datetime.datetime.utcnow() - ts).total_seconds()
         sec = e2e * 3 if e2e * 3 > 1 else 1
         time.sleep(sec)
@@ -84,6 +87,8 @@ class LoginService(FastAPIService):
                 break
             self.revoked_tokens.remove(r[1])
             heapq.heappop(self.revoked_expiry)
+
+        self.cond.notify_all()
 
     async def on_activate(self):
         await self.subscribe_stream("revokedtokens", 0, self.on_revoked_token)
