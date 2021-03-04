@@ -42,7 +42,7 @@ from noc.sa.interfaces.base import (
     StringParameter,
     StringListParameter,
 )
-from noc.maintenance.models.maintenance import Maintenance
+from noc.maintenance.models.maintenance import Maintenance, AffecedObjects
 from noc.crm.models.subscriberprofile import SubscriberProfile
 from noc.sa.models.serviceprofile import ServiceProfile
 from noc.sa.models.servicesummary import SummaryItem
@@ -808,25 +808,33 @@ class AlarmApplication(ExtApplication):
                 {"$match": {"affected_objects.object": {"$in": mos}}},
                 {"$unwind": "$affected_objects"},
                 {
+                    "$lookup": {
+                        "from": "noc.maintenance",
+                        "localField": "maintenance",
+                        "foreignField": "_id",
+                        "as": "m",
+                    },
+                },
+                {
                     "$project": {
                         "_id": 0,
-                        "managed_object": "$affected_objects.object",
-                        "interval": ["$start", "$stop"],
+                        "interval": ["$m.start", "$m.stop"],
+                        "object": "$affected_objects.object",
                     }
                 },
-                {"$group": {"_id": "$managed_object", "intervals": {"$push": "$interval"}}},
+                {"$group": {"_id": "$object", "intervals": {"$push": "$interval"}}},
             ]
             mtc = {
                 x["_id"]: x["intervals"]
-                for x in Maintenance._get_collection().aggregate(pipeline, allowDiskUse=True)
+                for x in AffecedObjects._get_collection().aggregate(pipeline, allowDiskUse=True)
             }
             for x in data:
                 if x["managed_object"] in mtc:
                     left, right = list(zip(*mtc[x["managed_object"]]))
                     x["isInMaintenance"] = bisect.bisect(
-                        right, dateutil.parser.parse(x["timestamp"]).replace(tzinfo=None)
+                        right[0], dateutil.parser.parse(x["timestamp"]).replace(tzinfo=None)
                     ) != bisect.bisect(
-                        left, dateutil.parser.parse(x["clear_timestamp"]).replace(tzinfo=None)
+                        left[0], dateutil.parser.parse(x["clear_timestamp"]).replace(tzinfo=None)
                     )
                 else:
                     x["isInMaintenance"] = False
