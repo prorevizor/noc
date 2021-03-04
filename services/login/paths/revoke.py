@@ -5,14 +5,18 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
+# Python modules
+from http import HTTPStatus
+
 # Third-party modules
 from fastapi import APIRouter, Depends
+from starlette.responses import JSONResponse
 
 # NOC modules
-from ..auth import revoke_token, get_user_from_jwt
+from ..auth import get_user_from_jwt
 from ..models.revoke import RevokeRequest
 from ..models.status import StatusResponseError, StatusResponse
-from noc.core.service.deps.service import get_service
+from noc.core.service.login.service import get_service
 from noc.services.login.service import LoginService
 
 
@@ -28,7 +32,11 @@ async def revoke(req: RevokeRequest, svc: LoginService = Depends(get_service)):
             return StatusResponseError(
                 error="unauthorized_client", error_description="Invalid access token"
             )
-        revoke_token(req.access_token)
+        if svc.revoke_token(req.access_token) == "exists":
+            return JSONResponse(
+                content={"error": "invalid_grant", "error_description": "Token is expired"},
+                status_code=HTTPStatus.FORBIDDEN,
+            )
     if req.refresh_token:
         try:
             get_user_from_jwt(req.refresh_token, audience="auth")
@@ -36,7 +44,11 @@ async def revoke(req: RevokeRequest, svc: LoginService = Depends(get_service)):
             return StatusResponseError(
                 error="invalid_request", error_description="Invalid refresh token"
             )
-        revoke_token(req.refresh_token)
+        if svc.revoke_token(req.refresh_token) == "exists":
+            return JSONResponse(
+                content={"error": "invalid_grant", "error_description": "Token is expired"},
+                status_code=HTTPStatus.FORBIDDEN,
+            )
     if not req.access_token and not req.refresh_token:
         return StatusResponseError(
             error="invalid_request", error_description="Invalid refresh token"
