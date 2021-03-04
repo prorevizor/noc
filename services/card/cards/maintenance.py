@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------
 # Maintenance card handler
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2016 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -42,7 +42,11 @@ class MaintenanceCard(BaseCard):
         # Calculate affected objects
         affected = []
         summary = {"service": {}, "subscriber": {}}
-        for ao in self.object.affected_objects:
+        for ao in (
+            AffecedObjects.objects.filter(maintenance=self.object)
+            .values_list("affected_objects")
+            .first()
+        ):
             mo = ao.object
             ss = ServiceSummary.get_object_summary(mo)
             affected += [
