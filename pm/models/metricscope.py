@@ -71,6 +71,13 @@ class LabelItem(EmbeddedDocument):
     def __str__(self):
         return self.label
 
+    @property
+    def field_name(self):
+        name = self.label[:-3]  # Strip ::*
+        if name.startswith("noc::"):
+            return name[5:]
+        return name
+
     def to_json(self):
         r = {
             "label": self.label,
@@ -118,7 +125,7 @@ class MetricScope(Document):
 
     def on_save(self):
         for label in self.labels:
-            Label.ensure_label(label, description="Auto-created for PM scope", is_protected=True)
+            Label.ensure_label(label.label, description="Auto-created for PM scope", is_protected=True)
 
     @property
     def json_data(self):
@@ -209,7 +216,18 @@ class MetricScope(Document):
             src = self._get_distributed_db_table()
         else:
             src = self._get_raw_db_table()
-        return f"CREATE OR REPLACE VIEW {view} AS SELECT * FROM {src}"
+        # path emulation
+        v_path = ""
+        path = [label.field_name for label in self.labels if label.is_path]
+        if path:
+            l_exp = ", ".join(f"arrayFirst(x -> startsWith(x, '{pn}'), labels)" for pn in path)
+            v_path = f"if(labels, [{l_exp}], path) AS path, "
+        # view columns
+        vc_expr = ""
+        view_columns = [label for label in self.labels if label.view_column and not label.store_column]
+        if view_columns:
+            vc_expr = ", ".join(f"arrayFirst(x -> startsWith(x, '{x.field_name}'), labels) AS {x.view_column}, " for x in view_columns)
+        return f"CREATE OR REPLACE VIEW {view} AS SELECT {v_path}{vc_expr}* FROM {src}"
 
     def _get_db_table(self):
         return self.table_name
