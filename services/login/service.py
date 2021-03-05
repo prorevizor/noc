@@ -11,7 +11,8 @@ import orjson
 import heapq
 import datetime
 import time
-import asyncio
+
+# import asyncio
 
 # NOC modules
 from noc.core.service.fastapi import FastAPIService
@@ -39,7 +40,7 @@ class LoginService(FastAPIService):
         super().__init__()
         self.revoked_tokens = set()
         self.revoked_expiry = []
-        self.revoked_cond = asyncio.Condition()
+        # self.revoked_cond = asyncio.Condition()
 
     async def revoke_token(self, token: str) -> None:
         """
@@ -48,23 +49,23 @@ class LoginService(FastAPIService):
         :return: str
         """
         ts = datetime.datetime.utcnow()
-        while True:
-            async with self.revoked_cond:
-                await self.revoked_cond.wait()
-            if token in self.revoked_tokens:
-                return "exists"
-        exp = get_exp_from_jwt(token)
+        # while True:
+        #    async with self.revoked_cond:
+        #        await self.revoked_cond.wait()
+        if token in self.revoked_tokens:
+            return "exists"
+        exp = datetime.datetime.fromtimestamp(get_exp_from_jwt(token))
         msg = {
             "token": token,
             "ts": ts.isoformat(),
             "expired": exp.isoformat(),
         }
-        self.publish(smart_bytes(orjson.encode(msg)), "revokedtokens", 0)
+        self.publish(smart_bytes(orjson.dumps(msg)), "revokedtokens", 0)
         async with self.revoked_cond:
-            e2e = (datetime.datetime.utcnow() - ts).total_seconds()
-            sec = e2e * 3 if e2e * 3 > 1 else 1
-            time.sleep(sec)
-        await self.cond.wait()
+            await self.revoked_cond.wait()
+        e2e = (datetime.datetime.utcnow() - ts).total_seconds()
+        sec = e2e * 3 if e2e * 3 > 1 else 1
+        time.sleep(sec)
         return "ok"
 
     def is_revoked(self, token: str) -> bool:
@@ -76,7 +77,7 @@ class LoginService(FastAPIService):
         return token in self.revoked_tokens
 
     async def on_revoked_token(self, msg: Message) -> None:
-        msg_dict = orjson.decode(msg.value)
+        msg_dict = orjson.loads(msg.value)
         self.revoked_tokens.add(msg_dict["token"])
         heapq.heappush(
             self.revoked_expiry,
