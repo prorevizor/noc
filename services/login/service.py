@@ -36,6 +36,7 @@ class LoginService(FastAPIService):
     }
 
     def __init__(self):
+        super().__init__()
         self.revoked_tokens = set()
         self.revoked_expiry = []
         self.revoked_cond = asyncio.Condition()
