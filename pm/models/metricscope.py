@@ -125,7 +125,9 @@ class MetricScope(Document):
 
     def on_save(self):
         for label in self.labels:
-            Label.ensure_label(label.label, description="Auto-created for PM scope", is_protected=True)
+            Label.ensure_label(
+                label.label, description="Auto-created for PM scope", is_protected=True
+            )
 
     @property
     def json_data(self):
@@ -224,9 +226,14 @@ class MetricScope(Document):
             v_path = f"if(labels, [{l_exp}], path) AS path, "
         # view columns
         vc_expr = ""
-        view_columns = [label for label in self.labels if label.view_column and not label.store_column]
+        view_columns = [
+            label for label in self.labels if label.view_column and not label.store_column
+        ]
         if view_columns:
-            vc_expr = ", ".join(f"arrayFirst(x -> startsWith(x, '{x.field_name}'), labels) AS {x.view_column}, " for x in view_columns)
+            vc_expr = ", ".join(
+                f"arrayFirst(x -> startsWith(x, '{x.field_name}'), labels) AS {x.view_column}, "
+                for x in view_columns
+            )
         return f"CREATE OR REPLACE VIEW {view} AS SELECT {v_path}{vc_expr}* FROM {src}"
 
     def _get_db_table(self):
