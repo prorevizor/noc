@@ -11,8 +11,7 @@ import orjson
 import heapq
 import datetime
 import time
-
-# import asyncio
+import asyncio
 
 # NOC modules
 from noc.core.service.fastapi import FastAPIService
@@ -40,7 +39,7 @@ class LoginService(FastAPIService):
         super().__init__()
         self.revoked_tokens = set()
         self.revoked_expiry = []
-        # self.revoked_cond = asyncio.Condition()
+        self.revoked_cond = asyncio.Condition()
 
     async def revoke_token(self, token: str) -> None:
         """
@@ -49,11 +48,9 @@ class LoginService(FastAPIService):
         :return: str
         """
         ts = datetime.datetime.utcnow()
-        # while True:
-        #    async with self.revoked_cond:
-        #        await self.revoked_cond.wait()
-        if token in self.revoked_tokens:
-            return "exists"
+        async with self.revoked_cond:
+            if token in self.revoked_tokens:
+                return "exists"
         exp = datetime.datetime.fromtimestamp(get_exp_from_jwt(token))
         msg = {
             "token": token,
@@ -62,11 +59,10 @@ class LoginService(FastAPIService):
         }
         self.publish(smart_bytes(orjson.dumps(msg)), "revokedtokens", 0)
         async with self.revoked_cond:
-            await self.revoked_cond.wait()
-        e2e = (datetime.datetime.utcnow() - ts).total_seconds()
-        sec = e2e * 3 if e2e * 3 > 1 else 1
-        time.sleep(sec)
-        return "ok"
+            e2e = (datetime.datetime.utcnow() - ts).total_seconds()
+            sec = e2e * 3 if e2e * 3 > 1 else 1
+            time.sleep(sec)
+            return "ok"
 
     def is_revoked(self, token: str) -> bool:
         """
@@ -82,7 +78,7 @@ class LoginService(FastAPIService):
         heapq.heappush(
             self.revoked_expiry,
             (
-                datetime.datetime.strptime(msg_dict["expired"], "%Y-%m-%dT%H:%M:%S%z"),
+                datetime.datetime.strptime(msg_dict["expired"], "%Y-%m-%dT%H:%M:%S"),
                 msg_dict["token"],
             ),
         )
