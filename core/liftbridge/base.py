@@ -680,7 +680,7 @@ class LiftBridgeClient(object):
                 if code in self.GRPC_RESTARTABLE_CODES:
                     raise ErrorUnavailable()
                 if code == StatusCode.UNKNOWN and not to_recover:
-                    raise LiftbridgeError(str(code), msg=str(detail))
+                    raise LiftbridgeError(str(detail))
                 raise ErrorChannelClosed(str(code))
 
     async def fetch_cursor(self, stream: str, partition: int, cursor_id: str) -> int:
