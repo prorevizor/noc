@@ -78,6 +78,10 @@ class LabelItem(EmbeddedDocument):
             return name[5:]
         return name
 
+    @property
+    def label_prefix(self):
+        return self.label[:-1]  # skip trailing *
+
     def to_json(self):
         r = {
             "label": self.label,
@@ -220,7 +224,7 @@ class MetricScope(Document):
             src = self._get_raw_db_table()
         # path emulation
         v_path = ""
-        path = [label.field_name for label in self.labels if label.is_path]
+        path = [label.label_prefix for label in self.labels if label.is_path]
         if path:
             l_exp = ", ".join(f"arrayFirst(x -> startsWith(x, '{pn}'), labels)" for pn in path)
             v_path = f"if(labels, [{l_exp}], path) AS path, "
