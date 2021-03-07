@@ -225,12 +225,12 @@ class LiftBridgeClient(object):
             self.open_brokers = list(self.channels)
         return channel
 
-    async def _sleep_on_error(self):
+    async def _sleep_on_error(self, delay: float = 1.0, deviation: float = 1.0):
         """
         Wait random time on error
         :return:
         """
-        await asyncio.sleep(1.0 + random.random())
+        await asyncio.sleep(delay - deviation + 2 * deviation * random.random())
 
     async def get_leader(self, stream: str, partition: int) -> str:
         """
@@ -615,7 +615,8 @@ class LiftBridgeClient(object):
                     req.startOffset = last_offset + 1
                     to_restore_position = False
                     to_recover = True
-                await asyncio.sleep(1.0 + 10)
+                # For cluster problem recommended 30 second wait
+                await self._sleep_on_error(delay=30, deviation=10)
 
     async def _subscribe(
         self,
