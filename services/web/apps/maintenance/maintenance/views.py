@@ -88,6 +88,7 @@ class MaintenanceApplication(ExtDocApplication):
     @view(url="(?P<id>[0-9a-f]{24})/objects/", method=["GET"], access="read", api=True)
     def api_test(self, request, id):
         r = []
+        out = {"total": 0, "success": True, "data": None}
         data = [
             d
             for d in AffectedObjects._get_collection().aggregate(
@@ -99,21 +100,22 @@ class MaintenanceApplication(ExtDocApplication):
                 ]
             )
         ]
-        for mo in (
-            ManagedObject.objects.filter(is_managed=True, id__in=data[0].get("objects"))
-            .values("id", "name", "is_managed", "profile", "address", "description", "tags")
-            .distinct()
-        ):
-            r += [
-                {
-                    "id": mo["id"],
-                    "name": mo["name"],
-                    "is_managed": mo["is_managed"],
-                    "profile": Profile.get_by_id(mo["profile"]).name,
-                    "address": mo["address"],
-                    "description": mo["description"],
-                    "tags": mo["tags"],
-                }
-            ]
-        out = {"total": len(r), "success": True, "data": r}
+        if data:
+            for mo in (
+                ManagedObject.objects.filter(is_managed=True, id__in=data[0].get("objects"))
+                .values("id", "name", "is_managed", "profile", "address", "description", "tags")
+                .distinct()
+            ):
+                r += [
+                    {
+                        "id": mo["id"],
+                        "name": mo["name"],
+                        "is_managed": mo["is_managed"],
+                        "profile": Profile.get_by_id(mo["profile"]).name,
+                        "address": mo["address"],
+                        "description": mo["description"],
+                        "tags": mo["tags"],
+                    }
+                ]
+                out = {"total": len(r), "success": True, "data": r}
         return self.response(out, status=self.OK)

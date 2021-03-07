@@ -137,6 +137,9 @@ class Maintenance(Document):
             if not self.is_completed and self.auto_confirm:
                 self.auto_confirm_maintenance()
 
+        if hasattr(self, "_changed_fields") and "is_completed" in self._changed_fields:
+            AffectedObjects._get_collection().remove({"maintenance": self.id})
+
         if self.escalate_managed_object:
             if not self.is_completed and self.auto_confirm:
                 call_later(
