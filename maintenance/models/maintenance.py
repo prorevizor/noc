@@ -138,7 +138,7 @@ class Maintenance(Document):
                 self.auto_confirm_maintenance()
 
         if self.escalate_managed_object:
-            if not self.is_completed:
+            if not self.is_completed and self.auto_confirm:
                 call_later(
                     "noc.services.escalator.maintenance.start_maintenance",
                     delay=max(
@@ -151,7 +151,20 @@ class Maintenance(Document):
                     pool=self.escalate_managed_object.escalator_shard,
                     maintenance_id=self.id,
                 )
-            else:
+                if self.auto_confirm:
+                    call_later(
+                        "noc.services.escalator.maintenance.close_maintenance",
+                        delay=max(
+                            (
+                                dateutil.parser.parse(self.stop) - datetime.datetime.now()
+                            ).total_seconds(),
+                            60,
+                        ),
+                        scheduler="escalator",
+                        pool=self.escalate_managed_object.escalator_shard,
+                        maintenance_id=self.id,
+                    )
+            if self.is_completed and not self.auto_confirm:
                 call_later(
                     "noc.services.escalator.maintenance.close_maintenance",
                     scheduler="escalator",

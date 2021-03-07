@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------
 # Maintenance
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2020, The NOC Project
+# Copyright (C) 2007-2021, The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -58,8 +58,8 @@ def start_maintenance(maintenance_id):
         logger.info("[%s] TT %s created", maintenance_id, tt_id)
         if tts.promote_group_tt:
             gtt = tts.create_group_tt(tt_id, m.start)
-            d = Maintenance._get_collection().find_one(
-                {"_id": m.id}, {"_id": 0, "affected_objects": 1}
+            d = AffectedObjects._get_collection().find_one(
+                {"maintenance": m.id}, {"_id": 0, "affected_objects": 1}
             )
             if d:
                 objects = [x["object"] for x in d["affected_objects"]]
