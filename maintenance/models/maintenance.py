@@ -181,7 +181,7 @@ class Maintenance(Document):
                     "$project": {"_id": 0, "objects": "$affected_objects.object"},
                 },
             ]
-            for x in AffecedObjects._get_collection().aggregate(data):
+            for x in AffectedObjects._get_collection().aggregate(data):
                 affected.update(x["objects"])
         return list(affected)
 
@@ -197,18 +197,18 @@ class Maintenance(Document):
         for m in Maintenance.objects.filter(start__lte=now, is_completed=False).order_by("start"):
             if m.time_pattern and not m.time_pattern.match(now):
                 continue
-            if AffecedObjects.objects.filter(maintenance=m, affected_objects__object=mo.id):
+            if AffectedObjects.objects.filter(maintenance=m, affected_objects__object=mo.id):
                 r += [m]
         return r
 
 
-class AffecedObjects(Document):
+class AffectedObjects(Document):
     meta = {
-        "collection": "noc.affecedobjects",
+        "collection": "noc.affectedobjects",
         "strict": False,
         "auto_create_index": False,
         "indexes": ["affected_objects.object"],
-        "legacy_collections": ["noc.affecedobjects"],
+        "legacy_collections": ["noc.affectedobjects"],
     }
     maintenance = PlainReferenceField(Maintenance)
     affected_objects = ListField(EmbeddedDocumentField(MaintenanceObject))
@@ -271,7 +271,7 @@ def update_affected_objects(maintenance_id):
             {"_id": maintenance_id},
             {"$set": {"administrative_domain": affected_ad}},
         )
-        AffecedObjects._get_collection().update(
+        AffectedObjects._get_collection().update(
             {"maintenance": maintenance_id}, {"$set": {"affected_objects": affected}}, upsert=True
         )
 
@@ -292,6 +292,6 @@ def stop(maintenance_id):
             for mail in contacts:
                 pub("mailsender", {"address": mail, "subject": subject, "body": body})
     Maintenance._get_collection().update({"_id": maintenance_id}, {"$set": {"is_completed": True}})
-    AffecedObjects._get_collection().update(
+    AffectedObjects._get_collection().update(
         {"maintenance": maintenance_id}, {"$set": {"affected_objects": []}}
     )

@@ -42,7 +42,7 @@ from noc.sa.interfaces.base import (
     StringParameter,
     StringListParameter,
 )
-from noc.maintenance.models.maintenance import Maintenance, AffecedObjects
+from noc.maintenance.models.maintenance import Maintenance, AffectedObjects
 from noc.crm.models.subscriberprofile import SubscriberProfile
 from noc.sa.models.serviceprofile import ServiceProfile
 from noc.sa.models.servicesummary import SummaryItem
@@ -826,7 +826,7 @@ class AlarmApplication(ExtApplication):
             ]
             mtc = {
                 x["_id"]: x["intervals"]
-                for x in AffecedObjects._get_collection().aggregate(pipeline, allowDiskUse=True)
+                for x in AffectedObjects._get_collection().aggregate(pipeline, allowDiskUse=True)
             }
             for x in data:
                 if x["managed_object"] in mtc:

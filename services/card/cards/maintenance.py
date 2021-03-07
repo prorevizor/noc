@@ -43,7 +43,7 @@ class MaintenanceCard(BaseCard):
         affected = []
         summary = {"service": {}, "subscriber": {}}
         for ao in (
-            AffecedObjects.objects.filter(maintenance=self.object)
+            AffectedObjects.objects.filter(maintenance=self.object)
             .values_list("affected_objects")
             .first()
         ):

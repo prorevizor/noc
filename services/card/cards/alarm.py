@@ -21,7 +21,7 @@ from noc.fm.models.archivedalarm import ArchivedAlarm
 from noc.sa.models.servicesummary import SummaryItem
 from noc.fm.models.alarmseverity import AlarmSeverity
 from noc.fm.models.alarmdiagnostic import AlarmDiagnostic
-from noc.maintenance.models.maintenance import Maintenance, AffecedObjects
+from noc.maintenance.models.maintenance import Maintenance, AffectedObjects
 from noc.core.perf import metrics
 
 
@@ -78,7 +78,7 @@ class AlarmCard(BaseCard):
         # Maintenance
         m_id = [
             m.id
-            for m in AffecedObjects.objects.filter(
+            for m in AffectedObjects.objects.filter(
                 affected_objects__object=self.object.managed_object.id
             ).values_list("maintenance")
         ]

@@ -18,7 +18,7 @@ from noc.maintenance.models.maintenance import (
     Maintenance,
     MaintenanceObject,
     MaintenanceSegment,
-    AffecedObjects,
+    AffectedObjects,
 )
 from noc.sa.models.profile import Profile
 from noc.sa.models.managedobject import ManagedObject
@@ -58,7 +58,7 @@ class MaintenanceApplication(ExtDocApplication):
             if obj:
                 mos = obj.values_list("id", flat=True)
                 print(mos)
-                ao = AffecedObjects.objects.filter(affected_objects__object__in=mos).values_list(
+                ao = AffectedObjects.objects.filter(affected_objects__object__in=mos).values_list(
                     "maintenance"
                 )
                 print(ao)
@@ -74,7 +74,7 @@ class MaintenanceApplication(ExtDocApplication):
         if body["mode"] == "Object":
             for mo in body["elements"]:
                 mai = MaintenanceObject(object=mo.get("object"))
-                if AffecedObjects.objects.filter(maintenance=o, affected_objects=mai):
+                if AffectedObjects.objects.filter(maintenance=o, affected_objects=mai):
                     continue
                 if mai not in o.direct_objects:
                     o.direct_objects += [mai]
@@ -92,7 +92,7 @@ class MaintenanceApplication(ExtDocApplication):
         r = []
         data = [
             d
-            for d in AffecedObjects._get_collection().aggregate(
+            for d in AffectedObjects._get_collection().aggregate(
                 [
                     {"$match": {"maintenance": bson.ObjectId(id)}},
                     {
