@@ -114,6 +114,9 @@ Ext.define("NOC.core.ComboBox", {
         this.pickerId = this.getId() + '_picker';
         // end
         me.showTriggers(null);
+        if(!Ext.isEmpty(me.query)) {
+            Ext.apply(me.store.proxy.extraParams, me.query);
+        }
         this.callParent();
     },
 
