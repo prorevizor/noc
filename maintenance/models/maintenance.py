@@ -305,6 +305,4 @@ def stop(maintenance_id):
             for mail in contacts:
                 pub("mailsender", {"address": mail, "subject": subject, "body": body})
     Maintenance._get_collection().update({"_id": maintenance_id}, {"$set": {"is_completed": True}})
-    AffectedObjects._get_collection().update(
-        {"maintenance": maintenance_id}, {"$set": {"affected_objects": []}}
-    )
+    AffectedObjects._get_collection().remove({"maintenance": maintenance_id})
