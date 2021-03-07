@@ -57,11 +57,9 @@ class MaintenanceApplication(ExtDocApplication):
                 obj = ManagedObject.objects.filter(name__contains=query)
             if obj:
                 mos = obj.values_list("id", flat=True)
-                print(mos)
                 ao = AffectedObjects.objects.filter(affected_objects__object__in=mos).values_list(
                     "maintenance"
                 )
-                print(ao)
                 return ao
             return qs.filter(type=None)
         else:
