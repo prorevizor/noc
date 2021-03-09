@@ -39,6 +39,8 @@ async def token(
     # MADNESS BELOW -->
     content_type = request.headers.get("Content-Type")
     try:
+        # Content-Type := type "/" subtype *[";" parameter]
+        content_type = content_type.split(";")[0]
         if content_type in ("application/json", "text/json"):
             req = parse_obj_as(TokenRequest, await request.json())
         elif content_type == "application/x-www-form-urlencoded":
