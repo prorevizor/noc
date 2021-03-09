@@ -55,6 +55,7 @@ Ext.define("NOC.core.LabelField", {
     listeners: {
         change: "onChange"
     },
+    query: {},
 
     initComponent: function() {
         var me = this,
@@ -68,9 +69,7 @@ Ext.define("NOC.core.LabelField", {
                     startParam: "__start",
                     limitParam: "__limit",
                     sortParam: "__sort",
-                    extraParams: {
-                        "__format": "ext"
-                    },
+                    extraParams: Ext.apply({"__format": "ext"}, me.query),
                     reader: {
                         type: "json",
                         rootProperty: "data",
