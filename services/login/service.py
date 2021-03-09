@@ -49,8 +49,9 @@ class LoginService(FastAPIService):
         """
         ts = datetime.datetime.utcnow()
         async with self.revoked_cond:
-            if token in self.revoked_tokens:
-                return "exists"
+            await asyncio.wait_for(self.revoked_cond.wait(), timeout=0.5)
+        if token in self.revoked_tokens:
+            return "exists"
         exp = datetime.datetime.fromtimestamp(get_exp_from_jwt(token))
         msg = {
             "token": token,
@@ -59,10 +60,11 @@ class LoginService(FastAPIService):
         }
         self.publish(smart_bytes(orjson.dumps(msg)), "revokedtokens", 0)
         async with self.revoked_cond:
-            e2e = (datetime.datetime.utcnow() - ts).total_seconds()
-            sec = e2e * 3 if e2e * 3 > 1 else 1
-            time.sleep(sec)
-            return "ok"
+            await asyncio.wait_for(self.revoked_cond.wait(), timeout=0.5)
+        e2e = (datetime.datetime.utcnow() - ts).total_seconds()
+        sec = e2e * 3 if e2e * 3 > 1 else 1
+        time.sleep(sec)
+        return "ok"
 
     def is_revoked(self, token: str) -> bool:
         """
