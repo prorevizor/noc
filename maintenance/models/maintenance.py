@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------
 # Maintenance
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -138,7 +138,7 @@ class Maintenance(Document):
                 self.auto_confirm_maintenance()
 
         if hasattr(self, "_changed_fields") and "is_completed" in self._changed_fields:
-            AffectedObjects._get_collection().remove({"maintenance": self.id})
+            AffectedObjects._get_collection().delete_many({"maintenance": self.id})
 
         if self.escalate_managed_object:
             if not self.is_completed and self.auto_confirm:
@@ -197,8 +197,7 @@ class Maintenance(Document):
                     "$project": {"_id": 0, "objects": "$affected_objects.object"},
                 },
             ]
-            for x in AffectedObjects._get_collection().aggregate(data):
-                affected.update(x["objects"])
+            affected.update(x["object"] for x in AffecedObjects._get_collection().aggregate(data))
         return list(affected)
 
     @classmethod

@@ -7,7 +7,7 @@
 
 # Python modules
 from builtins import str
-from typing import Optional, List  # noqa
+from typing import Optional, List
 import os
 
 # Third-party modules
