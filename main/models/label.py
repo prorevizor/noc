@@ -16,7 +16,7 @@ from mongoengine.fields import StringField, IntField, BooleanField, ReferenceFie
 import cachetools
 
 # NOC modules
-from noc.core.model.decorator import on_save, on_delete
+from noc.core.model.decorator import on_save, on_delete, is_document
 from noc.main.models.remotesystem import RemoteSystem
 
 
@@ -75,17 +75,17 @@ class Label(Document):
             raise ValueError("Cannot delete wildcard label with matched labels")
 
     @classmethod
-    def merge_labels(cls, *args: List[str]) -> List[str]:
+    def merge_labels(cls, iter_labels: Iterable[List[str]]) -> List[str]:
         """
         Merge sets of labels, processing the scopes.
 
-        :param args:
+        :param iter_labels: Iterator yielding lists of labels
         :return:
         """
         seen_scopes: Set[str] = set()
         seen: Set[str] = set()
         r: List[str] = []
-        for labels in args:
+        for labels in iter_labels:
             for label in labels:
                 if label in seen:
                     continue
@@ -157,3 +157,60 @@ class Label(Document):
                 if not x.name.endswith("::*")
             ]
         return [label]
+
+    @classmethod
+    def model(cls, m_cls):
+        """
+        Decorator to denote models with labels.
+        Contains field validation and `effective_labels` generation.
+
+        Usage:
+        ```
+        @Label.model
+        class MyModel(...)
+        ```
+
+        Adds pre-save hook to check and process `.labels` fields. Raises ValueError
+        if any of the labels is not exists.
+
+        Target model may have `iter_effective_labels` method with following signature:
+        ```
+        def iter_effective_labels(self) -> Iterable[List[str]]
+        ```
+        which may yield a list of effective labels from related objects to form
+        `effective_labels` field.
+
+        :param m_cls: Target model class
+        :return:
+        """
+
+        def default_iter_effective_labels(instance) -> Iterable[List[str]]:
+            yield instance.labels
+
+        def on_pre_save(sender, instance, *args, **kwargs):
+            # Clean up labels
+            labels = Label.merge_labels(default_iter_effective_labels(instance))
+            instance.labels = labels
+            # Build and clean up effective labels
+            labels_iter = getattr(sender, "iter_effective_labels", default_iter_effective_labels)
+            instance.effective_labels = Label.merge_labels(labels_iter(instance))
+            # Validate all labels
+            all_labels = list(set(instance.labels) | set(instance.effective_labels))
+            coll = Label._get_collection()
+            valid_labels = set(
+                x["name"]
+                for x in coll.find_many({"name": {"$in": all_labels}}, {"_id": 0, "name": 1})
+            )
+            for label in all_labels:
+                if label not in valid_labels:
+                    raise ValueError(f"Invalid label: {label}")
+
+        # Install handlers
+        if is_document(m_cls):
+            from mongoengine import signals as mongo_signals
+
+            mongo_signals.pre_save.connect(on_pre_save, sender=cls)
+        else:
+            from django.db.models import signals as django_signals
+
+            django_signals.pre_save.connect(on_pre_save, sender=cls)
