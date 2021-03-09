@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------
 
 # Python modules
-from typing import Dict, Tuple, Optional
+from typing import Dict, Tuple, List, Optional
 from collections import defaultdict
 
 # NOC modules
