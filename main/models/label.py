@@ -187,7 +187,10 @@ class Label(Document):
         def default_iter_effective_labels(instance) -> Iterable[List[str]]:
             yield instance.labels
 
-        def on_pre_save(sender, instance, *args, **kwargs):
+        def on_pre_save(sender, instance=None, *args, **kwargs):
+            if not instance:
+                # If mongo document instance
+                instance = kwargs.get("document")
             # Clean up labels
             labels = Label.merge_labels(default_iter_effective_labels(instance))
             instance.labels = labels
@@ -198,8 +201,7 @@ class Label(Document):
             all_labels = list(set(instance.labels) | set(instance.effective_labels))
             coll = Label._get_collection()
             valid_labels = set(
-                x["name"]
-                for x in coll.find_many({"name": {"$in": all_labels}}, {"_id": 0, "name": 1})
+                x["name"] for x in coll.find({"name": {"$in": all_labels}}, {"_id": 0, "name": 1})
             )
             for label in all_labels:
                 if label not in valid_labels:
@@ -209,8 +211,9 @@ class Label(Document):
         if is_document(m_cls):
             from mongoengine import signals as mongo_signals
 
-            mongo_signals.pre_save.connect(on_pre_save, sender=cls)
+            mongo_signals.pre_save.connect(on_pre_save, sender=m_cls, weak=False)
         else:
             from django.db.models import signals as django_signals
 
-            django_signals.pre_save.connect(on_pre_save, sender=cls)
+            django_signals.pre_save.connect(on_pre_save, sender=m_cls, weak=False)
+        return m_cls
