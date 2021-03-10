@@ -9,7 +9,6 @@
 from typing import Optional, List, Set, Iterable
 from threading import Lock
 import operator
-from dataclasses import dataclass
 
 # Third-party modules
 from mongoengine.document import Document
