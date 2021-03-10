@@ -187,10 +187,8 @@ class Label(Document):
         def default_iter_effective_labels(instance) -> Iterable[List[str]]:
             yield instance.labels
 
-        def on_pre_save(sender, instance=None, *args, **kwargs):
-            if not instance:
-                # If mongo document instance
-                instance = kwargs.get("document")
+        def on_pre_save(sender, instance=None, document=None, *args, **kwargs):
+            instance = instance or document
             # Clean up labels
             labels = Label.merge_labels(default_iter_effective_labels(instance))
             instance.labels = labels
