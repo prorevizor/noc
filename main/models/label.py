@@ -146,7 +146,7 @@ class Label(Document):
         :param fg_color2:
         :return:
         """
-        if Label.get_by_name(name):
+        if Label.objects.filter(name=name).first():  # Do not use get_by_name. Cached None !
             return  # Exists
         Label(
             name=name,

@@ -173,10 +173,10 @@ class MetricScope(Document):
 
         yield "date", "Date"
         yield "ts", "DateTime"
+        yield "metric_type", "String"
         for f in self.key_fields:
             yield f.field_name, f.field_type
-        if self.path:
-            yield "path", "Array(String)"
+        yield "labels", "Array(String)"
         if self.enable_timedelta:
             yield "time_delta", "UInt16"
         for t in MetricType.objects.filter(scope=self.id).order_by("id"):
@@ -187,14 +187,21 @@ class MetricScope(Document):
         Get CREATE TABLE SQL statement
         :return:
         """
-        pk = [f.field_name for f in self.key_fields]
-        if self.path:
-            pk += ["path"]
-        pk += ["ts"]
+        # Key Fields
+        kf = [f.field_name for f in self.key_fields]
+        kf += ["date"]
+        pk, ok = kf[:], kf[:]
+        for label in self.labels:
+            if label.is_order_key or label.is_primary_key:
+                # Primary Key must be a prefix of the sorting key
+                ok += [f"arrayFirst(x -> startsWith(x, '{label.label_prefix}'), labels)"]
+            if label.is_primary_key:
+                pk += [f"arrayFirst(x -> startsWith(x, '{label.label_prefix}'), labels)"]
         r = [
             "CREATE TABLE IF NOT EXISTS %s (" % self._get_raw_db_table(),
             ",\n".join("  %s %s" % (n, t) for n, t in self.iter_fields()),
-            ") ENGINE = MergeTree(date, (%s), 8192)" % ", ".join(pk),
+            f") ENGINE = MergeTree() ORDER BY ({', '.join(ok)})\n",
+            f"PARTITION BY toYYYYMM(date) PRIMARY KEY ({', '.join(pk)})",
         ]
         return "\n".join(r)
 
@@ -227,7 +234,7 @@ class MetricScope(Document):
         path = [label.label_prefix for label in self.labels if label.is_path]
         if path:
             l_exp = ", ".join(f"arrayFirst(x -> startsWith(x, '{pn}'), labels)" for pn in path)
-            v_path = f"if(labels, [{l_exp}], path) AS path, "
+            v_path = f"[{l_exp}] AS path, "
         # view columns
         vc_expr = ""
         view_columns = [
@@ -255,6 +262,26 @@ class MetricScope(Document):
         :return: True, if table has been changed
         """
         from noc.core.clickhouse.connect import connection
+
+        def ensure_column(table_name, column):
+            """
+            If path not exists on column - new schema
+            :param table_name:
+            :return:
+            """
+            return bool(
+                ch.execute(
+                    """
+                SELECT 1
+                FROM system.columns
+                WHERE
+                  database=%s
+                  AND table=%s
+                  AND name=%s
+                """,
+                    [config.clickhouse.db, table_name, column],
+                )
+            )
 
         def ensure_columns(table_name):
             c = False
@@ -294,6 +321,11 @@ class MetricScope(Document):
             # to table itself. Move to raw_*
             ch.rename_table(table, raw_table)
             changed = True
+        # Old schema
+        if ensure_column(raw_table, "path"):
+            # Old schema, data table will be rename to old_ for save data.
+            ch.rename_table(raw_table, f"old_{self.table_name}")
+            pass
         # Ensure raw_* table
         if ch.has_table(raw_table):
             # raw_* table exists, check columns
