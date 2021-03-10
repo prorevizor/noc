@@ -19,6 +19,7 @@ from noc.config import config
 from noc.core.liftbridge.message import Message
 from noc.services.login.auth import get_exp_from_jwt
 from noc.core.comp import smart_bytes
+from noc.core.liftbridge.base import StartPosition
 
 
 class LoginService(FastAPIService):
@@ -49,7 +50,7 @@ class LoginService(FastAPIService):
         """
         ts = datetime.datetime.utcnow()
         async with self.revoked_cond:
-            await asyncio.wait_for(self.revoked_cond.wait(), timeout=0.5)
+            await self.revoked_cond.wait()
         if token in self.revoked_tokens:
             return "exists"
         exp = datetime.datetime.fromtimestamp(get_exp_from_jwt(token))
@@ -60,7 +61,7 @@ class LoginService(FastAPIService):
         }
         self.publish(smart_bytes(orjson.dumps(msg)), "revokedtokens", 0)
         async with self.revoked_cond:
-            await asyncio.wait_for(self.revoked_cond.wait(), timeout=0.5)
+            await self.revoked_cond.wait()
         e2e = (datetime.datetime.utcnow() - ts).total_seconds()
         sec = e2e * 3 if e2e * 3 > 1 else 1
         time.sleep(sec)
@@ -92,10 +93,18 @@ class LoginService(FastAPIService):
             self.revoked_tokens.remove(r[1])
             heapq.heappop(self.revoked_expiry)
 
-        self.revoked_cond.notify_all()
+        await self.revoked_cond.notify_all()
 
     async def on_activate(self):
-        await self.subscribe_stream("revokedtokens", 0, self.on_revoked_token)
+        expire = config.login.session_ttl
+        start_timestamp = time.time() - expire
+        await self.subscribe_stream(
+            "revokedtokens",
+            0,
+            self.on_revoked_token,
+            start_timestamp=start_timestamp,
+            start_position=StartPosition.TIMESTAMP,
+        )
 
 
 if __name__ == "__main__":
