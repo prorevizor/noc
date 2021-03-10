@@ -9,6 +9,7 @@
 from typing import Optional, List, Set, Iterable
 from threading import Lock
 import operator
+from dataclasses import dataclass
 
 # Third-party modules
 from mongoengine.document import Document
@@ -193,17 +194,23 @@ class Label(Document):
             labels = Label.merge_labels(default_iter_effective_labels(instance))
             instance.labels = labels
             # Build and clean up effective labels
+            can_expose_label = getattr(sender, "can_expose_label", lambda x: True)
             labels_iter = getattr(sender, "iter_effective_labels", default_iter_effective_labels)
-            instance.effective_labels = Label.merge_labels(labels_iter(instance))
+            instance.effective_labels = [
+                ll.name
+                for ll in Label.objects.filter(name__in=Label.merge_labels(labels_iter(instance)))
+                if can_expose_label(ll)
+            ]
             # Validate all labels
-            all_labels = list(set(instance.labels) | set(instance.effective_labels))
-            coll = Label._get_collection()
-            valid_labels = set(
-                x["name"] for x in coll.find({"name": {"$in": all_labels}}, {"_id": 0, "name": 1})
-            )
-            for label in all_labels:
-                if label not in valid_labels:
-                    raise ValueError(f"Invalid label: {label}")
+            all_labels = set(instance.labels) | set(instance.effective_labels)
+            can_set_label = getattr(sender, "can_set_label", lambda x: True)
+            for label in Label.objects.filter(name__in=list(all_labels)):
+                if not can_set_label(label):
+                    # Check can_set_label method
+                    raise ValueError(f"Invalid label: {label.name}")
+                all_labels.discard(label.name)
+            if all_labels:
+                raise ValueError(f"Invalid labels: {', '.join(all_labels)}")
 
         # Install handlers
         if is_document(m_cls):
