@@ -4,10 +4,16 @@
     "uuid": "8c2c88f3-e00f-4955-83d6-453f97ba3dc4",
     "table_name": "cpu",
     "description": "CPU-related metrics",
-    "key_fields": [{
-        "field_name": "managed_object",
-        "model": "sa.ManagedObject"
-    }],
+    "key_fields": [
+        {
+            "field_name": "managed_object",
+            "model": "sa.ManagedObject"
+        },
+        {
+            "field_name": "object",
+            "model": "inv.Object"
+        }
+    ],
     "enable_timedelta": false,
     "labels": [
         {

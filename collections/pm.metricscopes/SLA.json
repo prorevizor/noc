@@ -4,10 +4,16 @@
     "uuid": "c2cb029b-4cda-4187-b92b-386c27ea561f",
     "table_name": "sla",
     "description": "SLA-related metrics",
-    "key_fields": [{
-        "field_name": "managed_object",
-        "model": "sa.ManagedObject"
-    }],
+    "key_fields": [
+        {
+            "field_name": "managed_object",
+            "model": "sa.ManagedObject"
+        },
+        {
+            "field_name": "object",
+            "model": "inv.Object"
+        }
+    ],
     "enable_timedelta": false,
     "labels": [
         {

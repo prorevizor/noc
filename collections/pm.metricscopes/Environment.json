@@ -4,10 +4,16 @@
     "uuid": "832bb31b-1441-477f-ac69-0b21d2761f06",
     "table_name": "environment",
     "description": "Environment-related metrics",
-    "key_fields": [{
-        "field_name": "managed_object",
-        "model": "sa.ManagedObject"
-    }],
+    "key_fields": [
+        {
+            "field_name": "managed_object",
+            "model": "sa.ManagedObject"
+        },
+        {
+            "field_name": "object",
+            "model": "inv.Object"
+        }
+    ],
     "enable_timedelta": false,
     "labels": [
         {

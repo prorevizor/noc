@@ -4,10 +4,16 @@
     "uuid": "a02a3a86-ee0e-4acc-b55f-026295d4db8e",
     "table_name": "interface",
     "description": "Interface-related metrics",
-    "key_fields": [{
-        "field_name": "managed_object",
-        "model": "sa.ManagedObject"
-    }],
+    "key_fields": [
+        {
+            "field_name": "managed_object",
+            "model": "sa.ManagedObject"
+        },
+        {
+            "field_name": "object",
+            "model": "inv.Object"
+        }
+    ],
     "enable_timedelta": false,
     "labels": [
         {
