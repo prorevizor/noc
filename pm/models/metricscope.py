@@ -176,7 +176,7 @@ class MetricScope(Document):
         yield "metric_type", "String"
         for f in self.key_fields:
             yield f.field_name, f.field_type
-        yield "labels", "Array(String)"
+        yield "labels", "Array(LowCardinality(String))"
         if self.enable_timedelta:
             yield "time_delta", "UInt16"
         for t in MetricType.objects.filter(scope=self.id).order_by("id"):

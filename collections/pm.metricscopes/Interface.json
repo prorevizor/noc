@@ -32,10 +32,10 @@
             "label": "noc::module::*"
         },
         {
-            "is_order_key": false,
+            "is_order_key": true,
             "is_path": true,
             "is_primary_key": false,
-            "is_required": false,
+            "is_required": true,
             "label": "noc::port::*"
         },
         {
