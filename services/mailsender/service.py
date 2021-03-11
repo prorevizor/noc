@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------
 # mailsender service
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2021 The NOC Project
+# Copyright (C) 2007-2020 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -10,6 +10,7 @@
 import datetime
 import smtplib
 from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from email.header import Header
@@ -71,10 +72,11 @@ class MailSenderService(TornadoService):
         message["Subject"] = Header(subject, "utf-8")
         message.attach(MIMEText(body, _charset="utf-8"))
         for a in attachments:
-            part = MIMEBase("application", "octet-stream")
-            part.set_payload(a["data"])
-            if "transfer-encoding" in a:
-                part.add_header("Content-Transfer-Encoding", a["transfer-encoding"])
+            if isinstance(a["data"], bytes):
+                part = MIMEApplication(a["data"])
+            else:
+                part = MIMEBase("application", "octet-stream")
+                part.set_payload(a["data"].encode("utf-8"), charset="utf-8")
             part.add_header("Content-Disposition", "attachment", filename=a["filename"])
             message.attach(part)
         msg = message.as_string()
