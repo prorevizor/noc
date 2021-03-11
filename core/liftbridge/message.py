@@ -15,7 +15,7 @@ class Message(object):
     value: bytes
     subject: str
     offset: int
-    timestamp: float
+    timestamp: int
     key: bytes
     partition: int
     headers: Dict[str, bytes]
