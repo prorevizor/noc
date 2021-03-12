@@ -65,26 +65,44 @@ class MetricConfig(object):
 
 
 class MData(object):
-    __slots__ = ("id", "ts", "metric", "path", "value", "scale", "type", "abs_value", "label")
+    __slots__ = (
+        "id",
+        "ts",
+        "metric",
+        "labels",
+        "value",
+        "scale",
+        "type",
+        "abs_value",
+        "label",
+    )
 
     def __init__(
-        self, id, ts, metric, path=None, value=None, scale=None, type=None, abs_value=None
+        self,
+        id,
+        ts,
+        metric,
+        labels=None,
+        value=None,
+        scale=None,
+        type=None,
+        abs_value=None,
     ):
         self.id = id
         self.ts = ts
         self.metric = metric
-        self.path = path
+        self.labels = labels
         self.value = value
         self.scale = scale
         self.type = type
         self.abs_value = abs_value
-        if path:
-            self.label = "%s|%s" % (metric, "|".join(str(p) for p in path))
+        if labels:
+            self.label = "%s|%s" % (metric, "|".join(str(label) for label in sorted(labels)))
         else:
             self.label = metric
 
     def __repr__(self):
-        return "<MData #%s %s>" % (self.id, self.metric)
+        return f"<MData #{self.id} {self.metric}>"
 
 
 class MetricsCheck(DiscoveryCheck):
@@ -150,15 +168,6 @@ class MetricsCheck(DiscoveryCheck):
         return r
 
     @staticmethod
-    def quote_path(path):
-        """
-        Convert path list to ClickHouse format
-        :param path:
-        :return:
-        """
-        return "[%s]" % ",".join("'%s'" % p for p in path)
-
-    @staticmethod
     def config_from_settings(m) -> MetricConfig:
         """
         Returns MetricConfig from .metrics field
@@ -200,6 +209,7 @@ class MetricsCheck(DiscoveryCheck):
         Populate metrics list with objects metrics
         :return:
         """
+        # @todo: Inject ManagedObject.effective_labels
         metrics = []
         o_metrics = self.get_object_profile_metrics(self.object.object_profile.id)
         self.logger.debug("Object metrics: %s", o_metrics)
@@ -230,6 +240,7 @@ class MetricsCheck(DiscoveryCheck):
         Populate metrics list with interface metrics
         :return:
         """
+        # @todo: Inject Interface.effective_labels
         subs = None
         metrics = []
         for i in (
@@ -263,7 +274,7 @@ class MetricsCheck(DiscoveryCheck):
                 ):
                     continue
                 m_id = next(self.id_count)
-                m = {"id": m_id, "metric": metric, "path": ["", "", "", i["name"]]}
+                m = {"id": m_id, "metric": metric, "labels": [f"noc::interface::{i['name']}"]}
                 if ifindex is not None:
                     m["ifindex"] = ifindex
                 metrics += [m]
@@ -275,7 +286,10 @@ class MetricsCheck(DiscoveryCheck):
                             m = {
                                 "id": m_id,
                                 "metric": metric,
-                                "path": ["", "", "", i["name"], si["name"]],
+                                "labels": [
+                                    f"noc::interface::{i['name']}",
+                                    f"noc::subinterface::{si['name']}",
+                                ],
                             }
                             if si["ifindex"] is not None:
                                 m["ifindex"] = si["ifindex"]
@@ -330,11 +344,15 @@ class MetricsCheck(DiscoveryCheck):
                 ):
                     continue
                 m_id = next(self.id_count)
+                labels = [f"noc::sla::name::{p['name']}"]
+                sla_group = p.get("group", "")
+                if sla_group:
+                    labels += [f"noc::sla::group::{sla_group}"]
                 metrics += [
                     {
                         "id": m_id,
                         "metric": metric,
-                        "path": [p.get("group", ""), p["name"]],
+                        "labels": labels,
                         "sla_type": p["type"],
                     }
                 ]
@@ -372,10 +390,14 @@ class MetricsCheck(DiscoveryCheck):
         # Process collected metrics
         seen: Set[str] = set()
         for m in result:
-            path = m.path
+            # Filter out duplicates
+            labels = m.labels
             cfg = self.id_metrics.get(m.id)
-            if path:
-                key = "%x|%s" % (cfg.metric_type.bi_id, "|".join(str(p) for p in path))
+            if labels:
+                key = "%x|%s" % (
+                    cfg.metric_type.bi_id,
+                    "|".join(str(label) for label in sorted(labels)),
+                )
             else:
                 key = "%x" % cfg.metric_type.bi_id
             if key in seen:
@@ -383,7 +405,7 @@ class MetricsCheck(DiscoveryCheck):
                 self.logger.error(
                     "Duplicated metric %s [%s]. Ignoring",
                     cfg.metric_type.name,
-                    "|".join(str(p) for p in path),
+                    "|".join(str(label) for label in sorted(labels)),
                 )
                 continue
             seen.add(key)
@@ -428,7 +450,6 @@ class MetricsCheck(DiscoveryCheck):
             else:
                 # Gauge
                 m.abs_value = m.value * m.scale
-
             self.logger.debug(
                 "[%s] Measured value: %s. Scale: %s. Resulting value: %s",
                 m.label,
@@ -443,15 +464,15 @@ class MetricsCheck(DiscoveryCheck):
                     lt = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(m.ts // 1000000000))
                     tsc = (lt.split(" ")[0], lt)
                     ts_cache[m.ts] = tsc
-                if path:
-                    item_hash = hash_str(str((tsc[1], mo_id, path)))
+                if labels:
+                    item_hash = hash_str(str((tsc[1], mo_id, labels)))
                 else:
                     item_hash = hash_str(str((tsc[1], mo_id)))
                 record = data[cfg.metric_type.scope.table_name].get(item_hash)
                 if not record:
                     record = {"date": tsc[0], "ts": tsc[1], "managed_object": mo_id}
-                    if path:
-                        record["path"] = path
+                    if labels:
+                        record["labels"] = labels
                     data[cfg.metric_type.scope.table_name][item_hash] = record
                 field = cfg.metric_type.field_name
                 try:
@@ -466,7 +487,7 @@ class MetricsCheck(DiscoveryCheck):
             # Metrics path
             path = m.metric
             if m.path:
-                m_path = " | ".join(m.path)
+                m_path = " | ".join(sorted(m.labels))
                 if not path.endswith(m_path):
                     path = "%s | %s" % (path, m_path)
             if cfg.threshold_profile and m.abs_value is not None:
@@ -480,7 +501,10 @@ class MetricsCheck(DiscoveryCheck):
             else:
                 # Build window state key
                 if m.path:
-                    key = "%x|%s" % (cfg.metric_type.bi_id, "|".join(str(p) for p in m.path))
+                    key = "%x|%s" % (
+                        cfg.metric_type.bi_id,
+                        "|".join(str(label) for label in sorted(m.labels)),
+                    )
                 else:
                     key = "%x" % cfg.metric_type.bi_id
                 if self.job.context["metric_windows"].get(key):
