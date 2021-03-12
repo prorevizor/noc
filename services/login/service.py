@@ -42,7 +42,7 @@ class LoginService(FastAPIService):
         self.revoked_expiry = []
         self.revoked_cond = asyncio.Condition()
 
-    async def revoke_token(self, token: str) -> str:
+    async def revoke_token(self, token: str) -> bool:
         """
         Mark token as revoked. Any futher use will be prohibited
         :param token:
@@ -50,7 +50,7 @@ class LoginService(FastAPIService):
         """
         ts = datetime.datetime.utcnow()
         if token in self.revoked_tokens:
-            return "exists"
+            return False
         exp = datetime.datetime.fromtimestamp(get_exp_from_jwt(token))
         msg = {
             "token": token,
@@ -64,7 +64,7 @@ class LoginService(FastAPIService):
         e2e = (datetime.datetime.utcnow() - ts).total_seconds()
         sec = e2e * 3 if e2e * 3 > 1 else 1
         time.sleep(sec)
-        return "ok"
+        return True
 
     def is_revoked(self, token: str) -> bool:
         """

@@ -32,7 +32,7 @@ async def revoke(req: RevokeRequest, svc: LoginService = Depends(get_service)):
             return StatusResponseError(
                 error="unauthorized_client", error_description="Invalid access token"
             )
-        if await svc.revoke_token(req.access_token) == "exists":
+        if not svc.revoke_token(req.access_token):
             return JSONResponse(
                 content={"error": "invalid_grant", "error_description": "Token is expired"},
                 status_code=HTTPStatus.FORBIDDEN,
@@ -44,7 +44,7 @@ async def revoke(req: RevokeRequest, svc: LoginService = Depends(get_service)):
             return StatusResponseError(
                 error="invalid_request", error_description="Invalid refresh token"
             )
-        if svc.revoke_token(req.refresh_token) == "exists":
+        if not svc.revoke_token(req.refresh_token):
             return JSONResponse(
                 content={"error": "invalid_grant", "error_description": "Token is expired"},
                 status_code=HTTPStatus.FORBIDDEN,
