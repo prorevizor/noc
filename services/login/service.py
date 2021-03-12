@@ -42,15 +42,13 @@ class LoginService(FastAPIService):
         self.revoked_expiry = []
         self.revoked_cond = asyncio.Condition()
 
-    async def revoke_token(self, token: str) -> None:
+    async def revoke_token(self, token: str) -> str:
         """
         Mark token as revoked. Any futher use will be prohibited
         :param token:
         :return: str
         """
         ts = datetime.datetime.utcnow()
-        async with self.revoked_cond:
-            await self.revoked_cond.wait()
         if token in self.revoked_tokens:
             return "exists"
         exp = datetime.datetime.fromtimestamp(get_exp_from_jwt(token))
@@ -60,8 +58,9 @@ class LoginService(FastAPIService):
             "expired": exp.isoformat(),
         }
         self.publish(smart_bytes(orjson.dumps(msg)), "revokedtokens", 0)
-        async with self.revoked_cond:
-            await self.revoked_cond.wait()
+        while token not in self.revoked_tokens:
+            async with self.revoked_cond:
+                await self.revoked_cond.wait()
         e2e = (datetime.datetime.utcnow() - ts).total_seconds()
         sec = e2e * 3 if e2e * 3 > 1 else 1
         time.sleep(sec)
@@ -93,7 +92,8 @@ class LoginService(FastAPIService):
             self.revoked_tokens.remove(r[1])
             heapq.heappop(self.revoked_expiry)
 
-        await self.revoked_cond.notify_all()
+        async with self.revoked_cond:
+            self.revoked_cond.notify_all()
 
     async def on_activate(self):
         expire = config.login.session_ttl
