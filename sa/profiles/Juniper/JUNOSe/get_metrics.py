@@ -61,7 +61,7 @@ class Script(GetMetricsScript):
         metric = self.snmp.get("1.3.6.1.4.1.4874.2.2.20.1.8.3.0")
         self.set_metric(
             id=("Subscribers | Summary", None),
-            labels=("noc::chassis::0"),
+            labels=("noc::chassis::0",),
             value=int(metric),
             multi=True,
         )

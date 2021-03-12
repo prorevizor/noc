@@ -486,7 +486,7 @@ class MetricsCheck(DiscoveryCheck):
                 n_metrics += 1
             # Metrics path
             path = m.metric
-            if m.path:
+            if m.labels:
                 m_path = " | ".join(sorted(m.labels))
                 if not path.endswith(m_path):
                     path = "%s | %s" % (path, m_path)
@@ -500,7 +500,7 @@ class MetricsCheck(DiscoveryCheck):
                 events += event
             else:
                 # Build window state key
-                if m.path:
+                if m.labels:
                     key = "%x|%s" % (
                         cfg.metric_type.bi_id,
                         "|".join(str(label) for label in sorted(m.labels)),
