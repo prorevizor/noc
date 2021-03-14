@@ -12,6 +12,7 @@ import bson
 # NOC modules
 from noc.core.migration.base import BaseMigration
 
+
 class Migration(BaseMigration):
     def migrate(self):
         ao_coll = self.mongo_db["noc.affectedobjects"]
@@ -24,6 +25,6 @@ class Migration(BaseMigration):
                 ao_data = {
                     "_id": ao_id,
                     "maintenance": ao["_id"],
-                    "affected_objects": affected_objects
+                    "affected_objects": affected_objects,
                 }
                 ao_coll.insert_one(ao_data)

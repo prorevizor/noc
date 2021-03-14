@@ -25,7 +25,7 @@ from noc.sa.models.objectstatus import ObjectStatus
 from noc.fm.models.activealarm import ActiveAlarm
 from noc.core.topology.segment import SegmentTopology
 from noc.inv.models.discoveryid import DiscoveryID
-from noc.maintenance.models.maintenance import Maintenance, AffectedObjects
+from noc.maintenance.models.maintenance import AffectedObjects
 from noc.core.text import alnum_key
 from noc.core.pm.utils import get_interface_metrics
 from noc.sa.interfaces.base import (
@@ -89,10 +89,10 @@ class MapApplication(ExtApplication):
             self.logger.info("Using stored positions")
             for n in settings.nodes:
                 node_hints[n.id] = {"type": n.type, "id": n.id, "x": n.x, "y": n.y}
-            for l in settings.links:
-                link_hints[l.id] = {
-                    "connector": l.connector if len(l.vertices) else "normal",
-                    "vertices": [{"x": v.x, "y": v.y} for v in l.vertices],
+            for ll in settings.links:
+                link_hints[ll.id] = {
+                    "connector": ll.connector if len(ll.vertices) else "normal",
+                    "vertices": [{"x": v.x, "y": v.y} for v in ll.vertices],
                 }
         else:
             self.logger.info("Generating positions")

@@ -9,7 +9,7 @@
 import logging
 
 # NOC modules
-from noc.maintenance.models.maintenance import Maintenance
+from noc.maintenance.models.maintenance import Maintenance, AffectedObjects
 from noc.sa.models.managedobject import ManagedObject
 from noc.fm.models.ttsystem import TTSystem
 from noc.core.perf import metrics
