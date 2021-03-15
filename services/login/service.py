@@ -62,8 +62,8 @@ class LoginService(FastAPIService):
             async with self.revoked_cond:
                 await self.revoked_cond.wait()
         e2e = (datetime.datetime.utcnow() - ts).total_seconds()
-        sec = e2e * 3 if e2e * 3 > 1 else 1
-        time.sleep(sec)
+        timeout = min(max(e2e * 3, 1), 30)
+        await asyncio.sleep(timeout)
 
     def is_revoked(self, token: str) -> bool:
         """
