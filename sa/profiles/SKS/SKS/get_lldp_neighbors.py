@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------
 # SKS.SKS.get_lldp_neighbors
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2019 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -94,7 +94,7 @@ class Script(BaseScript):
                 neighbor["remote_system_name"] = i[3]
             r += [{"local_interface": i[0], "neighbors": [neighbor]}]
         if not t:
-            for iface in self.scripts.get_interface_status():
+            for iface in self.scripts.get_interface_properties():
                 c = self.cli(
                     "show lldp neighbors interface %s" % iface["interface"], ignore_errors=True
                 )
