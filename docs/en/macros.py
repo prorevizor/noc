@@ -113,7 +113,7 @@ def define_env(env):
                 "| --- |",
             ]
             r += [
-                f"| [{profile}](../../reference/profiles/{vendor}/{profile}.md) |"
+                f"| [{profile}](../../../user/reference/profiles/{vendor}/{profile}.md) |"
                 for vendor, profile in s_profiles
             ]
             r += [""]
