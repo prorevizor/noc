@@ -19,3 +19,5 @@
 {{ supported_profiles("get_version") }}
 
 ## Used in
+-------
+* [Discovery Box Version](../../../admin/reference/discovery/box/version.md)

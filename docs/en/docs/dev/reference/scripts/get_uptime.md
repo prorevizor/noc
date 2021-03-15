@@ -18,6 +18,8 @@
 {{ supported_profiles("get_uptime") }}
 
 ## Used in
+-------
+* [Discovery Periodic Uptime](../../../admin/reference/discovery/periodic/uptime.md)
 
 Implemented as *Generic Script*, applicable to all profiles
 with SNMP support

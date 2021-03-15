@@ -18,3 +18,5 @@
 {{ supported_profiles("get_sla_probes") }}
 
 ## Used in
+-------
+* [Discovery Box SLA](../../../admin/reference/discovery/box/sla.md)

@@ -18,3 +18,5 @@
 {{ supported_profiles("get_discovery_id") }}
 
 ## Used in
+----
+* [Discovery Box ID](../../../admin/reference/discovery/box/id.md)

@@ -37,3 +37,5 @@
 {{ supported_profiles("get_bfd_sessions") }}
 
 ## Used in
+-------
+* [Discovery Box BFD](../../../admin/reference/discovery/box/bfd.md)

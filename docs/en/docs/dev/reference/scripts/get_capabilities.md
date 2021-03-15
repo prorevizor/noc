@@ -18,3 +18,5 @@
 {{ supported_profiles("get_capabilities") }}
 
 ## Used in
+----
+* [Discovery Box Capabilities](../../../admin/reference/discovery/box/caps.md)

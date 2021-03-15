@@ -18,3 +18,5 @@
 {{ supported_profiles("get_lldp_neighbors") }}
 
 ## Used in
+-------
+* [Discovery Box LLDP](../../../admin/reference/discovery/box/lldp.md)

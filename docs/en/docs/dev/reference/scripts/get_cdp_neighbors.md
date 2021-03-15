@@ -18,3 +18,5 @@
 {{ supported_profiles("get_cdp_neighbors") }}
 
 ## Used in
+----
+* [Discovery Box CDP](../../../admin/reference/discovery/box/cdp.md)

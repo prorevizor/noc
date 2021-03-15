@@ -18,3 +18,5 @@
 {{ supported_profiles("get_rep_topology") }}
 
 ## Used in
+-------
+* [Discovery Box REP](../../../admin/reference/discovery/box/rep.md)

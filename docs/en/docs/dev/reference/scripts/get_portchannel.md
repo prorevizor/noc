@@ -18,3 +18,5 @@
 {{ supported_profiles("get_portchannel") }}
 
 ## Used in
+-------
+* [Discovery Box Interface](../../../admin/reference/discovery/box/interface.md)

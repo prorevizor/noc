@@ -18,3 +18,5 @@
 {{ supported_profiles("get_udld_neighbors") }}
 
 ## Used in
+-------
+* [Discovery Box UDLD](../../../admin/reference/discovery/box/udld.md)

@@ -16,3 +16,5 @@
 {{ supported_profiles("get_interfaces") }}
 
 ## Used in
+-------
+* [Discovery Box Interface](../../../admin/reference/discovery/box/interface.md)

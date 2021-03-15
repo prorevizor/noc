@@ -18,3 +18,5 @@
 {{ supported_profiles("get_config") }}
 
 ## Used in
+----
+* [Discovery Box Config](../../../admin/reference/discovery/box/config.md)

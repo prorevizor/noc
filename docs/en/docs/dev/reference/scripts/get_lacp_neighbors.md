@@ -18,3 +18,5 @@
 {{ supported_profiles("get_lacp_neighbors") }}
 
 ## Used in
+-------
+* [Discovery Box LACP](../../../admin/reference/discovery/box/lacp.md)
