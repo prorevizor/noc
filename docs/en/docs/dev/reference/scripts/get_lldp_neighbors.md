@@ -7,17 +7,14 @@
 
     Describe get_lldp_neighbors script
 
-Input Arguments
----------------
+## Input Arguments
 
-Result
-------
+## Result
 
-Examples
---------
+## Examples
 
-Supported Profiles
-------------------
+## Supported Profiles
 
-Used in
--------
+{{ supported_profiles("get_lldp_neighbors") }}
+
+## Used in

@@ -7,17 +7,14 @@
 
     Describe get_discovery_id script
 
-Input Arguments
----------------
+## Input Arguments
 
-Result
-------
+## Result
 
-Examples
---------
+## Examples
 
-Supported Profiles
-------------------
+## Supported Profiles
 
-Used in
--------
+{{ supported_profiles("get_discovery_id") }}
+
+## Used in
