@@ -5,12 +5,8 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
-# Python modules
-from http import HTTPStatus
-
 # Third-party modules
 from fastapi import APIRouter, Depends
-from starlette.responses import JSONResponse
 
 # NOC modules
 from ..auth import get_user_from_jwt
