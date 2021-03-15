@@ -25,7 +25,7 @@ def define_env(env):
         scripts = list(
             sorted(
                 x[:-3]
-                for x in os.listdir(os.path.join(doc_root, "dev", "scripts"))
+                for x in os.listdir(os.path.join(doc_root, "dev", "reference", "scripts"))
                 if x.endswith(".md") and not x.startswith(".")
             )
         )
