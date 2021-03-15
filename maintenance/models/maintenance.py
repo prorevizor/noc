@@ -197,12 +197,7 @@ class Maintenance(Document):
                     "$project": {"_id": 0, "objects": "$affected_objects.object"},
                 },
             ]
-<<<<<<< HEAD
             affected.update(x["object"] for x in AffectedObjects._get_collection().aggregate(data))
-=======
-            for x in AffectedObjects._get_collection().aggregate(data):
-                affected.update(x["objects"])
->>>>>>> parent of 61e3921a44... fix comments
         return list(affected)
 
     @classmethod
