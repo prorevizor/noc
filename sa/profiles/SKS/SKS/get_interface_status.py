@@ -23,7 +23,9 @@ class Script(BaseScript):
         r"(?P<oper_status>Up|Down|Not Present)",
         re.MULTILINE | re.IGNORECASE,
     )
-    rx_port2 = re.compile(r"^(?P<port>[fgt]\d\S*).*?\n?.*?(?P<oper_status>up|down).*\n", re.MULTILINE)
+    rx_port2 = re.compile(
+        r"^(?P<port>[fgt]\d\S*).*?\n?.*?(?P<oper_status>up|down).*\n", re.MULTILINE
+    )
 
     def execute_cli(self, interface=None):
         r = []
