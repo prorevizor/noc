@@ -101,7 +101,7 @@
               "resultFormat": "time_series",
               "intervalFactor": 1,
               "query": "SELECT \n    t, \n    groupArray((concat('Probe rtt ',path[1]), d)) AS groupArr\nFROM \n    ( SELECT \n        $timeSeries t, \n        path, \n        avg(icmp_rtt) d \n        from noc.sla \n        WHERE \n            $timeFilter\n            AND  managed_object= $bi_id \n        GROUP BY t, path\n        ORDER BY t\n    ) \nGROUP BY t \nORDER BY t",
-              "database": "noc",
+              "database": "{{ noc_db_metrics }}",
               "tableLoading": false,
               "table": "sla",
               "dateLoading": false,
@@ -114,7 +114,7 @@
               "resultFormat": "time_series",
               "intervalFactor": 1,
               "query": "SELECT \n    t, \n    groupArray((concat('Probe jitter ',path[1]), d)) AS groupArr\nFROM \n    ( SELECT \n        $timeSeries t, \n        path, \n        avg(jitter) d \n        from noc.sla \n        WHERE \n            $timeFilter\n            AND  managed_object= $bi_id \n        GROUP BY t, path\n        ORDER BY t\n    ) \nGROUP BY t \nORDER BY t",
-              "database": "noc",
+              "database": "{{ noc_db_metrics }}",
               "tableLoading": false,
               "table": "sla",
               "dateLoading": false,
@@ -196,7 +196,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "database": "noc",
+              "database": "{{ noc_db_metrics }}",
               "dateColDataType": "date",
               "dateLoading": false,
               "dateTimeColDataType": "ts",
