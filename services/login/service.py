@@ -101,8 +101,8 @@ class LoginService(FastAPIService):
             "revokedtokens",
             0,
             self.on_revoked_token,
-            start_timestamp=start_timestamp,
-            start_position=StartPosition.TIMESTAMP,
+            # start_timestamp=start_timestamp,
+            # start_position=StartPosition.TIMESTAMP,
         )
 
 
