@@ -9,7 +9,6 @@
 from collections import defaultdict
 
 # Third-party modules
-import bson
 from pymongo import InsertOne, UpdateMany
 
 # NOC modules

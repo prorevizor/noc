@@ -52,7 +52,6 @@ from noc.project.models.project import Project
 from noc.fm.models.ttsystem import TTSystem, DEFAULT_TTSYSTEM_SHARD
 from noc.core.model.fields import (
     INETField,
-    TagsField,
     DocumentReferenceField,
     CachedForeignKey,
     ObjectIDArrayField,
@@ -507,9 +506,9 @@ class ManagedObject(NOCModel):
     static_client_groups = ObjectIDArrayField(db_index=True, default=[], blank=True)
     effective_client_groups = ObjectIDArrayField(db_index=True, default=[], blank=True)
     #
-    labels = ArrayField(models.CharField(max_length=250), blank=True, null=True, default=list)
+    labels = ArrayField(CharField(max_length=250), blank=True, null=True, default=list)
     effective_labels = ArrayField(
-        models.CharField(max_length=250), blank=True, null=True, default=list
+        CharField(max_length=250), blank=True, null=True, default=list
     )
 
     # Event ids

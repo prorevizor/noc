@@ -22,7 +22,7 @@ from noc.core.model.base import NOCModel
 from noc.config import config
 from noc.main.models.style import Style
 from noc.core.stencil import stencil_registry
-from noc.core.model.fields import TagsField, PickledField, DocumentReferenceField
+from noc.core.model.fields import PickledField, DocumentReferenceField
 from noc.core.model.decorator import on_save, on_init, on_delete_check
 from noc.core.cache.base import cache
 from noc.main.models.pool import Pool
