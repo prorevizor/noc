@@ -73,8 +73,11 @@ class Migration(BaseMigration):
                 "tags",
             )
         # Create indexes
-        for m in self.TAG_MODELS:
-            self.db.execute('CREATE INDEX x_%s_tags ON "%s" USING GIN("tags")' % (m, m))
+        for table, setting in self.TAG_MODELS:
+            self.db.execute(f'CREATE INDEX x_{table}_labels ON "{table}" USING GIN("labels")')
+            self.db.execute(
+                f'CREATE INDEX x_{table}_effective_labels ON "{table}" USING GIN("effective_labels")'
+            )
         # Mongo models
         for collection, setting in self.TAG_COLLETIONS:
             coll = self.mongo_db[collection]
@@ -92,14 +95,15 @@ class Migration(BaseMigration):
                         {"$unwind": "$labels"},
                         {"$group": {"_id": 1, "all_labels": {"$addToSet": "$labels"}}},
                     ]
-                )
+                ),
+                None,
             )
             if r:
                 for ll in r["all_labels"]:
                     labels[ll].add(f"enable_{setting}")
         # Unset tags
-        for collection, setting in self.TAG_COLLETIONS:
-            coll.bulk_write([UpdateMany({}, {"$unseet": "tags"})])
+        # for collection, setting in self.TAG_COLLETIONS:
+        #     coll.bulk_write([UpdateMany({}, {"$unseet": "tags"})])
         # Add labels
         self.create_labels(labels)
         # Migrate selector
