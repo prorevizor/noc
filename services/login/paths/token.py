@@ -79,7 +79,7 @@ async def token(
                 },
                 status_code=HTTPStatus.FORBIDDEN,
             )
-        svc.revoke_token(req.refresh_token)
+        await svc.revoke_token(req.refresh_token, "refresh")
         return get_token_response(user)
     elif req.grant_type == "password":
         # ROPCGrantRequest
