@@ -20,6 +20,7 @@ from noc.config import config
 from noc.core.liftbridge.message import Message
 from noc.services.login.auth import get_exp_from_jwt
 from noc.core.comp import smart_bytes
+
 # from noc.core.liftbridge.base import StartPosition
 
 
