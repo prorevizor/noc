@@ -19,7 +19,7 @@ from noc.config import config
 from noc.core.liftbridge.message import Message
 from noc.services.login.auth import get_exp_from_jwt
 from noc.core.comp import smart_bytes
-from noc.core.liftbridge.base import StartPosition
+# from noc.core.liftbridge.base import StartPosition
 
 
 class LoginService(FastAPIService):
@@ -95,12 +95,13 @@ class LoginService(FastAPIService):
             self.revoked_cond.notify_all()
 
     async def on_activate(self):
-        expire = config.login.session_ttl
-        start_timestamp = time.time() - expire
+        # expire = config.login.session_ttl
+        # start_timestamp = time.time() - expire
         await self.subscribe_stream(
             "revokedtokens",
             0,
             self.on_revoked_token,
+            # Disable on Liftbridge Bug for subscribe by timestamp
             # start_timestamp=start_timestamp,
             # start_position=StartPosition.TIMESTAMP,
         )
