@@ -17,6 +17,7 @@ import datetime
 from typing import Tuple
 
 # Third-party modules
+from django.contrib.postgres.fields import ArrayField
 from django.db.models import (
     Q,
     CharField,
@@ -41,6 +42,7 @@ from noc.main.models.pool import Pool
 from noc.main.models.timepattern import TimePattern
 from noc.main.models.notificationgroup import NotificationGroup
 from noc.main.models.remotesystem import RemoteSystem
+from noc.main.models.label import Label
 from noc.inv.models.networksegment import NetworkSegment
 from noc.sa.models.profile import Profile
 from noc.inv.models.vendor import Vendor
@@ -102,6 +104,7 @@ id_lock = Lock()
 logger = logging.getLogger(__name__)
 
 
+@Label.model
 @full_text_search
 @bi_sync
 @on_init
@@ -504,7 +507,10 @@ class ManagedObject(NOCModel):
     static_client_groups = ObjectIDArrayField(db_index=True, default=[], blank=True)
     effective_client_groups = ObjectIDArrayField(db_index=True, default=[], blank=True)
     #
-    tags = TagsField("Tags", null=True, blank=True)
+    labels = ArrayField(models.CharField(max_length=250), blank=True, null=True, default=list)
+    effective_labels = ArrayField(
+        models.CharField(max_length=250), blank=True, null=True, default=list
+    )
 
     # Event ids
     EV_CONFIG_CHANGED = "config_changed"  # Object's config changed
@@ -1767,6 +1773,16 @@ class ManagedObject(NOCModel):
         # @todo: Calculate partition properly
         pool = self.get_effective_fm_pool().name
         return "events.%s" % pool, 0
+
+    @classmethod
+    def can_set_label(cls, label):
+        if label.enable_managedobject:
+            return True
+        return False
+
+    @classmethod
+    def can_expose_label(cls, label):
+        return False
 
 
 @on_save

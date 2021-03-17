@@ -25,6 +25,7 @@ from django.db.models.fields import (
 from django.db.models import Q
 from django.db.utils import IntegrityError
 from django.core.exceptions import ValidationError
+from django.contrib.postgres.fields import ArrayField
 
 # NOC modules
 from noc.sa.interfaces.base import (
@@ -45,6 +46,7 @@ from noc.main.models.tag import Tag
 from noc.core.stencil import stencil_registry
 from noc.aaa.models.permission import Permission
 from noc.aaa.models.modelprotectionprofile import ModelProtectionProfile
+from noc.main.models.label import Label
 from noc.core.middleware.tls import get_user
 from noc.core.comp import smart_text
 from noc.models import get_model_id
@@ -372,6 +374,21 @@ class ExtModelApplication(ExtApplication):
                     v = stencil_registry.get(o.shape)
                     r[f.name] = v.id
                     r["%s__label" % f.name] = smart_text(v.title)
+            elif f.name == "labels" and isinstance(f, ArrayField):
+                v = [
+                    {
+                        "id": ll.name,
+                        "is_protected": ll.is_protected,
+                        "scope": ll.name.rsplit("::", 1)[0] if ll.is_scoped else "",
+                        "name": ll.name,
+                        "value": ll.name.split("::")[-1],
+                        "bg_color1": "#%x" % ll.bg_color1,
+                        "fg_color1": "#%x" % ll.fg_color1,
+                        "bg_color2": "#%x" % ll.bg_color2,
+                        "fg_color2": "#%x" % ll.fg_color2,
+                    }
+                    for ll in Label.objects.filter(name__in=v)
+                ]
             elif hasattr(f, "document"):
                 # DocumentReferenceField
                 v = getattr(o, f.name)

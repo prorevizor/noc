@@ -327,7 +327,12 @@ class ExtDocApplication(ExtApplication):
                         v = str(v.id)
                     else:
                         v = str(v)
-                elif isinstance(f, ListField) and f.name == "labels":
+                elif (
+                    f.name == "labels"
+                    and isinstance(f, ListField)
+                    and isinstance(f.field, StringField)
+                ):
+                    # isinstance(f.field, StringField) for exclude pm.scope labels
                     v = [
                         {
                             "id": ll.name,
