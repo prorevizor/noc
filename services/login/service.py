@@ -10,8 +10,9 @@
 import orjson
 import heapq
 import datetime
-import time
 import asyncio
+
+# import time
 
 # NOC modules
 from noc.core.service.fastapi import FastAPIService
