@@ -103,7 +103,7 @@ class Migration(BaseMigration):
                     labels[ll].add(f"enable_{setting}")
         # Unset tags
         for collection, setting in self.TAG_COLLETIONS:
-            coll.bulk_write([UpdateMany({}, {"$unseet": {"tags": 1}})])
+            coll.bulk_write([UpdateMany({}, {"$unset": {"tags": 1}})])
         # Add labels
         self.create_labels(labels)
         # Migrate selector
