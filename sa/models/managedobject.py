@@ -507,9 +507,7 @@ class ManagedObject(NOCModel):
     effective_client_groups = ObjectIDArrayField(db_index=True, default=[], blank=True)
     #
     labels = ArrayField(CharField(max_length=250), blank=True, null=True, default=list)
-    effective_labels = ArrayField(
-        CharField(max_length=250), blank=True, null=True, default=list
-    )
+    effective_labels = ArrayField(CharField(max_length=250), blank=True, null=True, default=list)
 
     # Event ids
     EV_CONFIG_CHANGED = "config_changed"  # Object's config changed

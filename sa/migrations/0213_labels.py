@@ -18,17 +18,23 @@ from django.db.models import CharField
 
 
 class Migration(BaseMigration):
+
+    TAG_MODELS = [
+        ("sa_managedobject", "managedobject"),
+        ("sa_managedobjectprofile", "managedobjectprofile"),
+        ("sa_administrativedomain", "administrativedomain"),
+        ("sa_authprofile", "authprofile"),
+        ("sa_commandsnippet", "commandsnippet"),
+    ]
+    TAG_COLLETIONS = [
+        ("noc.services", "service"),
+        ("noc.serviceprofiles", "serviceprofiles"),
+    ]
+
     def migrate(self):
-        labels = defaultdict(set)  # label: setting
+        labels = defaultdict(set)  # label: settings
         # Create labels fields
-        # ManagedObjectProfile
-        for table, setting in [
-            ("sa_managedobject", "managedobject"),
-            ("sa_managedobjectprofile", "managedobjectprofile"),
-            ("sa_administrativedomain", "administrativedomain"),
-            ("sa_authprofile", "authprofile"),
-            ("sa_commandsnippet", "commandsnippet"),
-        ]:
+        for table, setting in self.TAG_MODELS:
             self.db.add_column(
                 table,
                 "labels",
@@ -39,7 +45,8 @@ class Migration(BaseMigration):
                 "effective_labels",
                 ArrayField(CharField(max_length=250), null=True, blank=True, default=lambda: "{}"),
             )
-            # Migrate data
+        # Migrate data
+        for table, setting in self.TAG_MODELS:
             self.db.execute(
                 """
                 UPDATE %s
@@ -59,16 +66,17 @@ class Migration(BaseMigration):
             ):
                 for name in ll[0]:
                     labels[name].add(f"enable_{setting}")
-            # Delete tags
+        # Delete tags
+        for table, setting in self.TAG_MODELS:
             self.db.delete_column(
                 table,
                 "tags",
             )
+        # Create indexes
+        for m in self.TAG_MODELS:
+            self.db.execute('CREATE INDEX x_%s_tags ON "%s" USING GIN("tags")' % (m, m))
         # Mongo models
-        for collection, setting in [
-            ("noc.services", "service"),
-            ("noc.serviceprofiles", "serviceprofiles"),
-        ]:
+        for collection, setting in self.TAG_COLLETIONS:
             coll = self.mongo_db[collection]
             coll.aggregate(
                 [
@@ -89,13 +97,15 @@ class Migration(BaseMigration):
             if r:
                 for ll in r["all_labels"]:
                     labels[ll].add(f"enable_{setting}")
-            # Unset tags
+        # Unset tags
+        for collection, setting in self.TAG_COLLETIONS:
             coll.bulk_write([UpdateMany({}, {"$unseet": "tags"})])
         # Add labels
         self.create_labels(labels)
         # Migrate selector
 
     def create_labels(self, labels):
+        # Create labels
         bulk = []
         l_coll = self.mongo_db["labels"]
         for label in labels:
@@ -105,6 +115,7 @@ class Migration(BaseMigration):
                 "description": "",
                 "bg_color1": 8359053,
                 "bg_color2": 8359053,
+                "is_protected": False,
                 # Label scope
                 "enable_agent": False,
                 "enable_service": False,
