@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------
 # ExtApplication implementation
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -52,6 +52,7 @@ class ExtApplication(Application):
     in_param = "__in"
     fav_status = "fav_status"
     default_ordering = []
+    exclude_fields: Optional[List[str]] = []
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
