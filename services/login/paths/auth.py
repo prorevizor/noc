@@ -37,6 +37,7 @@ async def auth(
     private_token: Optional[str] = Header(None, alias="Private-Token"),
     authorization: Optional[str] = Header(None, alias="Authorization"),
     original_uri: Optional[str] = Header(None, alias="X-Original-URI"),
+    svc: LoginService = Depends(get_service),
 ):
     """
     Authenticate request. Called via nginx's auth_proxy
@@ -49,7 +50,7 @@ async def auth(
     if private_token:
         return await auth_private_token(request=request, private_token=private_token)
     if authorization:
-        return await auth_authorization(request=request, authorization=authorization)
+        return await auth_authorization(request=request, authorization=authorization, svc=svc)
     logger.error("[%s] Denied: Unsupported authentication method", request.client.host)
     return ORJSONResponse({"status": False}, status_code=401)
 
@@ -107,7 +108,9 @@ def get_api_access(key: str, ip: str) -> Tuple[str, str]:
     return APIKey.get_name_and_access_str(key, ip)
 
 
-async def auth_authorization(request: Request, authorization: str) -> ORJSONResponse:
+async def auth_authorization(
+    request: Request, authorization: str, svc: LoginService
+) -> ORJSONResponse:
     """
     Authenticate against Authorization header
     """
@@ -116,7 +119,7 @@ async def auth_authorization(request: Request, authorization: str) -> ORJSONResp
         if schema == "Basic":
             return await auth_authorization_basic(request=request, data=data)
         elif schema == "Bearer":
-            return await auth_authorization_bearer(request=request, data=data)
+            return await auth_authorization_bearer(request=request, data=data, svc=svc)
         logger.error(
             "[Authorization][%s] Denied: Unsupported authorization schema '%s'",
             request.client.host,
@@ -151,7 +154,7 @@ async def auth_authorization_basic(request: Request, data: str) -> ORJSONRespons
 
 
 async def auth_authorization_bearer(
-    request: Request, data: str, svc: LoginService = Depends(get_service)
+    request: Request, data: str, svc: LoginService
 ) -> ORJSONResponse:
     """
     HTTP Bearer autorization handler
