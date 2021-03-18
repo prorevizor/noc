@@ -64,7 +64,7 @@ class Migration(BaseMigration):
                 """
                 % table
             ):
-                for name in ll[0]:
+                for (name,) in ll:
                     labels[name].add(f"enable_{setting}")
         # Delete tags
         for table, setting in self.TAG_MODELS:
@@ -112,9 +112,9 @@ class Migration(BaseMigration):
         # Create labels
         bulk = []
         l_coll = self.mongo_db["labels"]
-        current_labels = {ll.name: ll.id for ll in l_coll.find()}
+        current_labels = {ll["name"]: ll["_id"] for ll in l_coll.find()}
         for label in labels:
-            if label in l_coll:
+            if label in current_labels:
                 bulk += [
                     UpdateOne(
                         {"_id": current_labels[label]},
