@@ -198,7 +198,7 @@ class Maintenance(Document):
                 },
             ]
             for x in AffectedObjects._get_collection().aggregate(data):
-                affected.update(x["object"])
+                affected.update(x["objects"])
         return list(affected)
 
     @classmethod
