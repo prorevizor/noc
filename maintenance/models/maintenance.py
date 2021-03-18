@@ -197,7 +197,8 @@ class Maintenance(Document):
                     "$project": {"_id": 0, "objects": "$affected_objects.object"},
                 },
             ]
-            affected.update(x["object"] for x in AffectedObjects._get_collection().aggregate(data))
+            for x in AffectedObjects._get_collection().aggregate(data):
+                affected.update(x["object"])
         return list(affected)
 
     @classmethod
