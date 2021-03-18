@@ -11,7 +11,7 @@ from typing import Optional, Tuple
 import codecs
 
 # Third-party modules
-from fastapi import APIRouter, Request, Cookie, Header
+from fastapi import APIRouter, Request, Cookie, Header, Depends
 from fastapi.responses import ORJSONResponse
 import cachetools
 
@@ -19,7 +19,9 @@ import cachetools
 from noc.config import config
 from noc.aaa.models.apikey import APIKey
 from noc.core.comp import smart_text, smart_bytes
-from ..auth import authenticate, set_jwt_cookie, get_user_from_jwt, is_revoked
+from ..auth import authenticate, set_jwt_cookie, get_user_from_jwt
+from noc.core.service.deps.service import get_service
+from noc.services.login.service import LoginService
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -148,12 +150,14 @@ async def auth_authorization_basic(request: Request, data: str) -> ORJSONRespons
     return ORJSONResponse({"status": False}, status_code=401)
 
 
-async def auth_authorization_bearer(request: Request, data: str) -> ORJSONResponse:
+async def auth_authorization_bearer(
+    request: Request, data: str, svc: LoginService = Depends(get_service)
+) -> ORJSONResponse:
     """
     HTTP Bearer autorization handler
     :return:
     """
-    if is_revoked(data):
+    if svc.is_revoked(data):
         return ORJSONResponse({"status": False}, status_code=401)
     try:
         user = get_user_from_jwt(data, audience="auth")
