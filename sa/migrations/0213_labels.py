@@ -9,7 +9,7 @@
 from collections import defaultdict
 
 # Third-party modules
-from pymongo import InsertOne, UpdateMany
+from pymongo import InsertOne, UpdateMany, UpdateOne
 
 # NOC modules
 from noc.core.migration.base import BaseMigration
@@ -105,36 +105,45 @@ class Migration(BaseMigration):
         for collection, setting in self.TAG_COLLETIONS:
             coll.bulk_write([UpdateMany({}, {"$unset": {"tags": 1}})])
         # Add labels
-        self.create_labels(labels)
+        self.sync_labels(labels)
         # Migrate selector
 
-    def create_labels(self, labels):
+    def sync_labels(self, labels):
         # Create labels
         bulk = []
         l_coll = self.mongo_db["labels"]
+        current_labels = {ll.name: ll.id for ll in l_coll.find()}
         for label in labels:
-            doc = {
-                # "_id": bson.ObjectId(),
-                "name": label,
-                "description": "",
-                "bg_color1": 8359053,
-                "bg_color2": 8359053,
-                "is_protected": False,
-                # Label scope
-                "enable_agent": False,
-                "enable_service": False,
-                "enable_serviceprofile": False,
-                "enable_managedobject": False,
-                "enable_managedobjectprofile": False,
-                "enable_administrativedomain": False,
-                "enable_authprofile": False,
-                "enable_commandsnippet": False,
-                # Exposition scope
-                "expose_metric": False,
-                "expose_managedobject": False,
-            }
-            for setting in labels[label]:
-                doc[setting] = True
-            bulk += [InsertOne(doc)]
+            if label in l_coll:
+                bulk += [
+                    UpdateOne(
+                        {"_id": current_labels[label]},
+                        {"$set": {setting: True for setting in labels[label]}},
+                    )
+                ]
+            else:
+                doc = {
+                    # "_id": bson.ObjectId(),
+                    "name": label,
+                    "description": "",
+                    "bg_color1": 8359053,
+                    "bg_color2": 8359053,
+                    "is_protected": False,
+                    # Label scope
+                    "enable_agent": False,
+                    "enable_service": False,
+                    "enable_serviceprofile": False,
+                    "enable_managedobject": False,
+                    "enable_managedobjectprofile": False,
+                    "enable_administrativedomain": False,
+                    "enable_authprofile": False,
+                    "enable_commandsnippet": False,
+                    # Exposition scope
+                    "expose_metric": False,
+                    "expose_managedobject": False,
+                }
+                for setting in labels[label]:
+                    doc[setting] = True
+                bulk += [InsertOne(doc)]
         if bulk:
             l_coll.bulk_write(bulk, ordered=True)
