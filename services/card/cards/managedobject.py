@@ -421,22 +421,25 @@ class ManagedObjectCard(BaseCard):
 
         # Maintenance
         maintenance = []
-        for ao in AffectedObjects.objects.filter(affected_objects__object=self.object.id):
+        for ao in AffectedObjects._get_collection().find(
+            {"affected_objects": {"object": self.object.id}}
+        ):
             m = Maintenance.objects.filter(
-                id=ao.maintenance.id,
+                id=ao["maintenance"],
                 is_completed=False,
                 start__lte=now + datetime.timedelta(hours=1),
             ).first()
-            maintenance += [
-                {
-                    "maintenance": m,
-                    "id": m.id,
-                    "subject": m.subject,
-                    "start": m.start,
-                    "stop": m.stop,
-                    "in_progress": m.start <= now,
-                }
-            ]
+            if m:
+                maintenance += [
+                    {
+                        "maintenance": m,
+                        "id": m.id,
+                        "subject": m.subject,
+                        "start": m.start,
+                        "stop": m.stop,
+                        "in_progress": m.start <= now,
+                    }
+                ]
         # Get Inventory
         inv = []
         for p in self.object.get_inventory():
