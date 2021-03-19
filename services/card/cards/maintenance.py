@@ -69,6 +69,8 @@ class MaintenanceCard(BaseCard):
                 if not hide:
                     ss = ServiceSummary.get_object_summary(mo["id"])
                     object = ManagedObject.get_by_id(mo["id"])
+                    update_dict(summary["service"], ss.get("service", {}))
+                    update_dict(summary["subscriber"], ss.get("subscriber", {}))
                 ao = {
                     "id": mo["id"],
                     "name": mo["name"],
