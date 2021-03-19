@@ -804,37 +804,21 @@ class AlarmApplication(ExtApplication):
                 x["isInMaintenance"] = x["managed_object"] in mtc
         else:
             mos = [x["managed_object"] for x in data]
-            pipeline = [
-                {"$match": {"affected_objects.object": {"$in": mos}}},
-                {"$unwind": "$affected_objects"},
-                {
-                    "$lookup": {
-                        "from": "noc.maintenance",
-                        "localField": "maintenance",
-                        "foreignField": "_id",
-                        "as": "m",
-                    },
-                },
-                {
-                    "$project": {
-                        "_id": 0,
-                        "interval": ["$m.start", "$m.stop"],
-                        "object": "$affected_objects.object",
-                    }
-                },
-                {"$group": {"_id": "$object", "intervals": {"$push": "$interval"}}},
-            ]
-            mtc = {
-                x["_id"]: x["intervals"]
-                for x in AffectedObjects._get_collection().aggregate(pipeline, allowDiskUse=True)
-            }
+            mtc = {}
+            for mo in mos:
+                mtc[mo] = []
+                for ao in AffectedObjects._get_collection().find(
+                    {"affected_objects.object": {"$eq": mo}}, {"_id": 0, "maintenance": 1}
+                ):
+                    m = Maintenance.get_by_id(ao["maintenance"])
+                    mtc[mo] += [(m.start, m.stop)]
             for x in data:
                 if x["managed_object"] in mtc:
                     left, right = list(zip(*mtc[x["managed_object"]]))
                     x["isInMaintenance"] = bisect.bisect(
-                        right[0], dateutil.parser.parse(x["timestamp"]).replace(tzinfo=None)
+                        right, dateutil.parser.parse(x["timestamp"]).replace(tzinfo=None)
                     ) != bisect.bisect(
-                        left[0], dateutil.parser.parse(x["clear_timestamp"]).replace(tzinfo=None)
+                        left, dateutil.parser.parse(x["clear_timestamp"]).replace(tzinfo=None)
                     )
                 else:
                     x["isInMaintenance"] = False
