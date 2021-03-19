@@ -15,7 +15,6 @@ import argparse
 import threading
 from time import perf_counter
 import asyncio
-import random
 from typing import (
     Optional,
     Dict,
