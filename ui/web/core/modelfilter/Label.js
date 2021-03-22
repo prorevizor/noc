@@ -49,14 +49,14 @@ Ext.define("NOC.core.modelfilter.Label", {
             v = me.tags.getValue(),
             r = {};
         if(v) {
-            r[me.name + "__name"] = v;
+            r[me.name + "__labels"] = v;
         }
         return r;
     },
 
     setFilter: function(filter) {
         var me = this,
-            name = me.name + "__name";
+            name = me.name + "__labels";
         if(name in filter){
             me.tags.setValue(filter[name]);
         }
