@@ -1612,9 +1612,9 @@ Ext.define("NOC.sa.managedobject.Application", {
             lookup: "inv.platform"
         },
         {
-            title: __("By Tags"),
-            name: "tags",
-            ftype: "tag"
+            title: __("By Labels"),
+            name: "labels",
+            ftype: "label"
         }
     ],
     inlines:
