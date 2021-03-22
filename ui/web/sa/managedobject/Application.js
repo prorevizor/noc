@@ -340,7 +340,7 @@ Ext.define("NOC.sa.managedobject.Application", {
                 {
                     text: __("Labels"),
                     dataIndex: "labels",
-                    renderer: NOC.render.Labels,
+                    renderer: NOC.render.LabelField,
                     width: 100
                 }
             ],

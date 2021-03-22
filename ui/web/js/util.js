@@ -48,10 +48,10 @@ Ext.apply(NOC.render, {
     },
 
     //
-    // NOC.render.Labels(v)
+    // NOC.render.LabelField(v)
     //      Grid field renderer for labels
     //
-    Labels: function(v) {
+    LabelField: function(v) {
         if(v) {
             return v.map(function(x) {
                 return "<span class='x-display-tag'>" + x.name + "</span>";
