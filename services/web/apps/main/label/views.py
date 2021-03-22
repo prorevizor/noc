@@ -36,7 +36,7 @@ class LabelApplication(ExtDocApplication):
             if k.startswith("enable_")
         }
         if query:
-            labels_filter[name__icontains] = query
+            labels_filter["name__icontains"] = query
         # If not query - return all
         labels = Label.objects.filter(**labels_filter).order_by("id")
         labels = [

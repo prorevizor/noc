@@ -56,7 +56,7 @@ class Migration(BaseMigration):
                 % table
             )
             # Fill labels
-            for ll, in self.db.execute(
+            for (ll,) in self.db.execute(
                 """
                 SELECT DISTINCT labels
                 FROM %s
