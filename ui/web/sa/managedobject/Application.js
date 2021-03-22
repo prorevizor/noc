@@ -12,6 +12,7 @@ Ext.define("NOC.sa.managedobject.Application", {
         "NOC.core.RepoPreview",
         "NOC.core.combotree.ComboTree",
         "NOC.core.TagsField",
+        "NOC.core.LabelField",
         "NOC.core.PasswordField",
         "NOC.sa.administrativedomain.TreeCombo",
         "NOC.sa.administrativedomain.LookupField",
@@ -337,9 +338,9 @@ Ext.define("NOC.sa.managedobject.Application", {
                     onClick: me.onLinkClick
                 },
                 {
-                    text: __("Tags"),
-                    dataIndex: "tags",
-                    renderer: NOC.render.Tags,
+                    text: __("Labels"),
+                    dataIndex: "labels",
+                    renderer: NOC.render.Labels,
                     width: 100
                 }
             ],
@@ -388,10 +389,13 @@ Ext.define("NOC.sa.managedobject.Application", {
                                     allowBlank: true
                                 },
                                 {
-                                    name: "tags",
-                                    fieldLabel: __("Tags"),
-                                    xtype: "tagsfield",
-                                    allowBlank: true
+                                    name: "labels",
+                                    fieldLabel: __("Labels"),
+                                    xtype: "labelfield",
+                                    allowBlank: true,
+                                    query: {
+                                        "enable_managedobject": true
+                                    }
                                 }
                             ]
                         }

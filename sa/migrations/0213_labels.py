@@ -56,7 +56,7 @@ class Migration(BaseMigration):
                 % table
             )
             # Fill labels
-            for ll in self.db.execute(
+            for ll, in self.db.execute(
                 """
                 SELECT DISTINCT labels
                 FROM %s
@@ -64,7 +64,7 @@ class Migration(BaseMigration):
                 """
                 % table
             ):
-                for (name,) in ll:
+                for name in ll:
                     labels[name].add(f"enable_{setting}")
         # Delete tags
         for table, setting in self.TAG_MODELS:

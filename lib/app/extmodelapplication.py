@@ -375,7 +375,7 @@ class ExtModelApplication(ExtApplication):
                     r[f.name] = v.id
                     r["%s__label" % f.name] = smart_text(v.title)
             elif f.name == "labels" and isinstance(f, ArrayField):
-                v = [
+                r["labels"] = [
                     {
                         "id": ll.name,
                         "is_protected": ll.is_protected,
@@ -387,7 +387,7 @@ class ExtModelApplication(ExtApplication):
                         "bg_color2": f"#{ll.bg_color2:06x}",
                         "fg_color2": f"#{ll.fg_color2:06x}",
                     }
-                    for ll in Label.objects.filter(name__in=v)
+                    for ll in Label.objects.filter(name__in=getattr(o, f.name, []))
                 ]
             elif hasattr(f, "document"):
                 # DocumentReferenceField
