@@ -4,8 +4,8 @@
 // Copyright (C) 2007-2021 The NOC Project
 // See LICENSE for details
 // ---------------------------------------------------------------------
+use super::super::{Collector, Runnable};
 use super::TWAMPReflectorConfig;
-use crate::collectors::base::{Collector, Runnable};
 use crate::proto::connection::Connection;
 use crate::proto::twamp::{
     AcceptSession, RequestTWSession, ServerGreeting, ServerStart, SetupResponse, StartAck,

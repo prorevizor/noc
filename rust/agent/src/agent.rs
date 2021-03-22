@@ -6,7 +6,7 @@
  * ---------------------------------------------------------------------
  */
 use crate::cmd::CmdArgs;
-use crate::collectors::base::Runnable;
+use crate::collectors::Runnable;
 use crate::nvram::NVRAM;
 use crate::registry::get_collector;
 use crate::zk::{ZkConfig, ZkConfigCollector};

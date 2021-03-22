@@ -5,7 +5,6 @@
 // See LICENSE for details
 // ---------------------------------------------------------------------
 
-use crate::collectors::base::Runnable;
 #[cfg(feature = "dns")]
 use crate::collectors::dns::DNSCollector;
 #[cfg(feature = "test")]
@@ -14,6 +13,7 @@ use crate::collectors::test::TestCollector;
 use crate::collectors::twamp_reflector::TWAMPReflectorCollector;
 #[cfg(feature = "twamp-sender")]
 use crate::collectors::twamp_sender::TWAMPSenderCollector;
+use crate::collectors::Runnable;
 use crate::zk::ZkConfigCollector;
 use std::error::Error;
 

@@ -14,3 +14,5 @@ pub mod test;
 pub mod twamp_reflector;
 #[cfg(feature = "twamp-sender")]
 pub mod twamp_sender;
+
+pub use base::{Collectable, Collector, Runnable, Status};

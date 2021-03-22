@@ -4,8 +4,8 @@
 // Copyright (C) 2007-2021 The NOC Project
 // See LICENSE for details
 // ---------------------------------------------------------------------
+use super::super::{Collectable, Collector, Status};
 use super::TestConfig;
-use crate::collectors::base::{Collectable, Collector, Status};
 use async_trait::async_trait;
 use std::error::Error;
 

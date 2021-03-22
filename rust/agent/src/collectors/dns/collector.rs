@@ -5,8 +5,8 @@
 // See LICENSE for details
 // ---------------------------------------------------------------------
 
+use super::super::{Collectable, Collector, Status};
 use super::DNSConfig;
-use crate::collectors::base::{Collectable, Collector, Status};
 use crate::timing::Timing;
 use async_trait::async_trait;
 use std::error::Error;

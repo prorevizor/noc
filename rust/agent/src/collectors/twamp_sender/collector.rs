@@ -5,8 +5,8 @@
 // See LICENSE for details
 // ---------------------------------------------------------------------
 
+use super::super::{Collectable, Collector, Status};
 use super::TWAMPSenderConfig;
-use crate::collectors::base::{Collectable, Collector, Status};
 use crate::proto::connection::Connection;
 use crate::proto::frame::{FrameReader, FrameWriter};
 use crate::proto::pktmodel::ModelConfig;
