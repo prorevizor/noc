@@ -444,6 +444,13 @@ class ExtModelApplication(ExtApplication):
         else:
             q[None] = [tq]
 
+    def lookup_labels(self, q, name, value):
+        if not value:
+            return
+        if isinstance(value, str):
+            value = [value]
+        q["labels__contains"] = value
+
     def update_m2m(self, o, name, values):
         if values is None:
             return  # Do not touch
