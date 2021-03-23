@@ -5,10 +5,9 @@
 // See LICENSE for details
 // ---------------------------------------------------------------------
 
-use crate::zk::{Configurable, ZkConfigCollector};
+use crate::zk::ZkConfigCollector;
 use async_trait::async_trait;
 use rand::Rng;
-use serde::de::DeserializeOwned;
 use std::error::Error;
 use tokio::time::Duration;
 
@@ -35,15 +34,22 @@ pub trait Collectable {
     async fn collect(&self) -> Result<Status, Box<dyn Error>>;
 }
 
+pub trait Configurable {
+    fn prepare(&mut self) -> Result<(), Box<dyn Error>> {
+        Ok(())
+    }
+}
+
 impl<TCfg> Collector<TCfg>
 where
-    TCfg: Configurable<TCfg> + DeserializeOwned,
+    TCfg: Configurable + Clone,
 {
-    pub fn new_from(cfg: &ZkConfigCollector) -> Result<Self, Box<dyn Error>> {
-        let c = TCfg::get_config(&cfg.config)?;
+    pub fn new_from(zk: &ZkConfigCollector, c: TCfg) -> Result<Self, Box<dyn Error>> {
+        let mut config = c.clone(); // second clone for a while
+        config.prepare()?;
         Ok(Self {
-            id: cfg.id.clone(),
-            interval: cfg.interval,
+            id: zk.id.clone(),
+            interval: zk.interval,
             config: c,
         })
     }

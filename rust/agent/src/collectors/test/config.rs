@@ -5,10 +5,10 @@
 // See LICENSE for details
 // ---------------------------------------------------------------------
 
-use crate::zk::Configurable;
+use super::super::Configurable;
 use serde::Deserialize;
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct TestConfig {}
 
-impl Configurable<TestConfig> for TestConfig {}
+impl Configurable for TestConfig {}

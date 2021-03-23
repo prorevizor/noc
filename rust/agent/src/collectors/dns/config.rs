@@ -5,10 +5,10 @@
 // See LICENSE for details
 // ---------------------------------------------------------------------
 
-use crate::zk::Configurable;
+use super::super::Configurable;
 use serde::Deserialize;
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct DNSConfig {
     pub query: String,
     #[serde(default = "default_type_a")]
@@ -19,7 +19,7 @@ pub struct DNSConfig {
     pub min_success: usize,
 }
 
-impl Configurable<DNSConfig> for DNSConfig {}
+impl Configurable for DNSConfig {}
 
 fn default_type_a() -> String {
     "A".into()

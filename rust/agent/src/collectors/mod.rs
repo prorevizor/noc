@@ -8,6 +8,7 @@
 pub mod base;
 #[cfg(feature = "dns")]
 pub mod dns;
+mod registry;
 #[cfg(feature = "test")]
 pub mod test;
 #[cfg(feature = "twamp-reflector")]
@@ -15,4 +16,5 @@ pub mod twamp_reflector;
 #[cfg(feature = "twamp-sender")]
 pub mod twamp_sender;
 
-pub use base::{Collectable, Collector, Runnable, Status};
+pub use base::{Collectable, Collector, Configurable, Runnable, Status};
+pub use registry::CollectorConfig;

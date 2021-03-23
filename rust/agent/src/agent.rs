@@ -6,9 +6,8 @@
  * ---------------------------------------------------------------------
  */
 use crate::cmd::CmdArgs;
-use crate::collectors::Runnable;
+use crate::collectors::{CollectorConfig, Runnable};
 use crate::nvram::NVRAM;
-use crate::registry::get_collector;
 use crate::zk::{ZkConfig, ZkConfigCollector};
 use std::collections::HashMap;
 use std::error::Error;
@@ -187,7 +186,7 @@ impl Agent {
     }
     async fn spawn_collector(&mut self, config: &ZkConfigCollector) -> Result<(), Box<dyn Error>> {
         log::debug!("Starting collector: {}", &config.id);
-        let collector = Arc::new(get_collector(config)?);
+        let collector = Arc::new(CollectorConfig::get_collector(config)?);
         self.collectors
             .insert(config.id.clone(), Arc::clone(&collector));
         let collector = Arc::clone(&collector);

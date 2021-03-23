@@ -5,17 +5,17 @@
 // See LICENSE for details
 // ---------------------------------------------------------------------
 
-use crate::zk::Configurable;
+use super::super::Configurable;
 use serde::Deserialize;
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct TWAMPReflectorConfig {
     pub listen: String,
     #[serde(default = "default_862")]
     pub port: u16,
 }
 
-impl Configurable<TWAMPReflectorConfig> for TWAMPReflectorConfig {}
+impl Configurable for TWAMPReflectorConfig {}
 
 fn default_862() -> u16 {
     862
