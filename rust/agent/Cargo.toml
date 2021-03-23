@@ -32,6 +32,7 @@ trust-dns-resolver = "0.20"
 serde = {version = "1.0", features=["derive"]}
 serde_json = "1.0"
 async-trait = "0.1"
+enum_dispatch = "0.3"
 rand = "0.8"
 lazy_static = "1.4"
 chrono = "0.4"

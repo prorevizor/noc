@@ -7,6 +7,7 @@
 
 use crate::zk::ZkConfigCollector;
 use async_trait::async_trait;
+use enum_dispatch::enum_dispatch;
 use rand::Rng;
 use std::error::Error;
 use tokio::time::Duration;
@@ -25,6 +26,7 @@ pub struct Collector<TCfg> {
 }
 
 #[async_trait]
+#[enum_dispatch(Collectors)]
 pub trait Runnable {
     async fn run(&self) -> ();
 }

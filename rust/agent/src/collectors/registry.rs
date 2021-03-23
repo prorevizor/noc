@@ -10,7 +10,9 @@ use super::twamp_reflector::{TWAMPReflectorCollector, TWAMPReflectorConfig};
 use super::twamp_sender::{TWAMPSenderCollector, TWAMPSenderConfig};
 use super::Runnable;
 use crate::zk::ZkConfigCollector;
+use enum_dispatch::enum_dispatch;
 use serde::Deserialize;
+use std::convert::TryFrom;
 use std::error::Error;
 
 #[derive(Deserialize, Debug, Clone)]
@@ -26,19 +28,31 @@ pub enum CollectorConfig {
     TWAMPSenderCollector(TWAMPSenderConfig),
 }
 
-impl CollectorConfig {
-    pub fn get_collector(
-        config: &ZkConfigCollector,
-    ) -> Result<Box<dyn Runnable + Send + Sync>, Box<dyn Error>> {
-        match config.config.clone() {
-            CollectorConfig::DNSCollector(c) => Ok(Box::new(DNSCollector::new_from(config, c)?)),
-            CollectorConfig::TestCollector(c) => Ok(Box::new(TestCollector::new_from(config, c)?)),
+#[enum_dispatch]
+pub enum Collectors {
+    DNSCollector(DNSCollector),
+    TestCollector(TestCollector),
+    TWAMPReflectorCollector(TWAMPReflectorCollector),
+    TWAMPSenderCollector(TWAMPSenderCollector),
+}
+
+impl TryFrom<&ZkConfigCollector> for Collectors {
+    type Error = Box<dyn Error>;
+
+    fn try_from(value: &ZkConfigCollector) -> Result<Self, Self::Error> {
+        Ok(match value.config.clone() {
+            CollectorConfig::DNSCollector(c) => {
+                Collectors::DNSCollector(DNSCollector::new_from(value, c)?)
+            }
+            CollectorConfig::TestCollector(c) => {
+                Collectors::TestCollector(TestCollector::new_from(value, c)?)
+            }
             CollectorConfig::TWAMPReflectorCollector(c) => {
-                Ok(Box::new(TWAMPReflectorCollector::new_from(config, c)?))
+                Collectors::TWAMPReflectorCollector(TWAMPReflectorCollector::new_from(value, c)?)
             }
             CollectorConfig::TWAMPSenderCollector(c) => {
-                Ok(Box::new(TWAMPSenderCollector::new_from(config, c)?))
+                Collectors::TWAMPSenderCollector(TWAMPSenderCollector::new_from(value, c)?)
             }
-        }
+        })
     }
 }

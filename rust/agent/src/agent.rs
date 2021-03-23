@@ -6,7 +6,7 @@
  * ---------------------------------------------------------------------
  */
 use crate::cmd::CmdArgs;
-use crate::collectors::{CollectorConfig, Runnable};
+use crate::collectors::{Collectors, Runnable};
 use crate::nvram::NVRAM;
 use crate::zk::{ZkConfig, ZkConfigCollector};
 use std::collections::HashMap;
@@ -24,7 +24,7 @@ pub struct Agent {
     zeroconf_url: Option<String>,
     resolver: Option<TokioAsyncResolver>,
     config_interval: u64,
-    collectors: HashMap<String, Arc<Box<dyn Runnable + Send + Sync>>>,
+    collectors: HashMap<String, Arc<Collectors>>,
 }
 
 const CLEAN_CONFIG_FETCH_INTERVAL: u64 = 10;
@@ -187,7 +187,7 @@ impl Agent {
     }
     async fn spawn_collector(&mut self, config: &ZkConfigCollector) -> Result<(), Box<dyn Error>> {
         log::debug!("Starting collector: {}", &config.id);
-        let collector = Arc::new(CollectorConfig::get_collector(config)?);
+        let collector = Arc::new(Collectors::try_from(config)?);
         self.collectors
             .insert(config.id.clone(), Arc::clone(&collector));
         let collector = Arc::clone(&collector);

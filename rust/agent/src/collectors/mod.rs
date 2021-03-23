@@ -17,4 +17,4 @@ pub mod twamp_reflector;
 pub mod twamp_sender;
 
 pub use base::{Collectable, Collector, Configurable, Runnable, Status};
-pub use registry::CollectorConfig;
+pub use registry::{CollectorConfig, Collectors};
