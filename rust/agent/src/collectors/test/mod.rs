@@ -5,7 +5,15 @@
 // See LICENSE for details
 // ---------------------------------------------------------------------
 
-mod collector;
 mod config;
-pub use collector::TestCollector;
 pub use config::TestConfig;
+
+cfg_if::cfg_if! {
+    if #[cfg(feature = "test")] {
+        mod collector;
+        pub use collector::TestCollector;
+    } else {
+        use super::StubCollector;
+        pub type TestCollector = StubCollector<TestConfig>;
+    }
+}

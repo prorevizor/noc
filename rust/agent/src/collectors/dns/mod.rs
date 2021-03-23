@@ -5,7 +5,15 @@
 // See LICENSE for details
 // ---------------------------------------------------------------------
 
-mod collector;
 mod config;
-pub use collector::DNSCollector;
 pub use config::DNSConfig;
+
+cfg_if::cfg_if! {
+    if #[cfg(feature = "dns")] {
+        mod collector;
+        pub use collector::DNSCollector;
+    } else {
+        use super::StubCollector;
+        pub type DNSCollector = StubCollector<DNSConfig>;
+    }
+}

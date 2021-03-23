@@ -5,7 +5,15 @@
 // See LICENSE for details
 // ---------------------------------------------------------------------
 
-mod collector;
 mod config;
-pub use collector::TWAMPReflectorCollector;
 pub use config::TWAMPReflectorConfig;
+
+cfg_if::cfg_if! {
+    if #[cfg(feature = "twamp-reflector")] {
+        mod collector;
+        pub use collector::TWAMPReflectorCollector;
+    } else {
+        use super::StubCollector;
+        pub type TWAMPReflectorCollector = StubCollector<TWAMPReflectorConfig>;
+    }
+}

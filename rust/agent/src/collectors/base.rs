@@ -10,6 +10,7 @@ use async_trait::async_trait;
 use enum_dispatch::enum_dispatch;
 use rand::Rng;
 use std::error::Error;
+use std::marker::PhantomData;
 use tokio::time::Duration;
 
 #[derive(Debug)]
@@ -86,5 +87,36 @@ where
             }
             tokio::time::sleep(sleep_duration).await;
         }
+    }
+}
+
+/// Stub collectors are used to substitute collectors disabled in compile time.
+pub struct StubCollector<TCfg> {
+    pub id: String,
+    _phantom: PhantomData<TCfg>,
+}
+
+impl<TCfg> StubCollector<TCfg>
+where
+    TCfg: Configurable + Clone,
+{
+    pub fn new_from(zk: &ZkConfigCollector, _c: TCfg) -> Result<Self, Box<dyn Error>> {
+        Ok(Self {
+            id: zk.id.clone(),
+            _phantom: PhantomData,
+        })
+    }
+}
+
+#[async_trait]
+impl<TCfg> Runnable for StubCollector<TCfg>
+where
+    TCfg: Sync,
+{
+    async fn run(&self) {
+        log::debug!(
+            "[{}] Collector is not included in this build of agent. Skipping",
+            self.id
+        );
     }
 }
