@@ -48,30 +48,28 @@ class Migration(BaseMigration):
         coll = self.mongo_db["noc.objectmodels"]
         bulk = []
         # ObjectModel Migrate
+        coll.bulk_write([UpdateMany({"tags": {"$exists": True}}, {"$rename": {"tags": "labels"}})])
         for item in coll.aggregate(
             [
-                {"$match": {"tags": {"$exists": True, "$ne": []}}},
+                {"$match": {"labels": {"$exists": True, "$ne": []}}},
                 {
                     "$addFields": {
-                        "labels": {
+                        "l2": {
                             "$map": {
-                                "input": "$tags",
-                                "as": "tag",
-                                "in": {"$concat": ["noc::inv::", "$$tag"]},
+                                "input": "$labels",
+                                "as": "label",
+                                "in": {"$concat": ["noc::inv::", "$$label"]},
                             }
                         }
                     }
                 },
-                {"$project": {"labels": 1}},
-                # {"$addFields": {"labels": "$tags"}},
-                # {"$out": collection},
+                {"$project": {"l2": 1}},
             ]
         ):
-            if not item.get("labels"):
+            if not item.get("l2"):
                 continue
-            ll = set(item["labels"]).intersection(set(self.OBJECTMODEL_TAGS))
+            ll = set(item["l2"]).intersection(set(self.OBJECTMODEL_TAGS))
             bulk += [UpdateOne({"_id": item["_id"]}, {"$set": {"labels": list(ll)}})]
-        coll.bulk_write([UpdateMany({"tags": {"$exists": True}}, {"$rename": {"tags": "labels"}})])
         if bulk:
             coll.bulk_write(bulk)
         self.sync_om_labels()
@@ -160,8 +158,8 @@ class Migration(BaseMigration):
                         # "_id": bson.ObjectId(),
                         "name": "noc::inv::*",
                         "description": "Internal scope for Inventory tags",
-                        "bg_color1": 8359053,
-                        "bg_color2": 8359053,
+                        "bg_color1": 15965202,
+                        "bg_color2": 2719929,
                         "is_protected": True,
                         # Label scope
                         "enable_agent": False,
@@ -195,8 +193,8 @@ class Migration(BaseMigration):
                         # "_id": bson.ObjectId(),
                         "name": label,
                         "description": self.OBJECTMODEL_TAGS[label],
-                        "bg_color1": 8359053,
-                        "bg_color2": 8359053,
+                        "bg_color1": 15965202,
+                        "bg_color2": 2719929,
                         "is_protected": False,
                         # Label scope
                         "enable_agent": False,

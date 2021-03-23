@@ -34,6 +34,7 @@ from noc.core.prettyjson import to_json
 from noc.core.text import quote_safe_path
 from noc.core.model.decorator import on_delete_check, on_save
 from noc.pm.models.measurementunits import MeasurementUnits
+from noc.main.models.label import Label
 from .connectiontype import ConnectionType
 from .connectionrule import ConnectionRule
 from .unknownmodel import UnknownModel
@@ -141,6 +142,7 @@ class ObjectModelSensor(EmbeddedDocument):
         return r
 
 
+@Label.model
 @category
 @on_delete_check(check=[("inv.ModelMapping", "model"), ("inv.Object", "model")])
 @on_save
@@ -170,7 +172,9 @@ class ObjectModel(Document):
     connections = ListField(EmbeddedDocumentField(ObjectModelConnection))
     sensors = ListField(EmbeddedDocumentField(ObjectModelSensor))
     plugins = ListField(StringField(), required=False)
+    # Labels
     labels = ListField(StringField())
+    effective_labels = ListField(StringField())
     category = ObjectIdField()
 
     _id_cache = cachetools.TTLCache(maxsize=1000, ttl=60)
@@ -365,6 +369,12 @@ class ObjectModel(Document):
                 if isinstance(vendor, str):
                     vendor = Vendor.get_by_id(vendor)
                 UnknownModel.clear_unknown(vendor.code, part_no)
+
+    @classmethod
+    def can_set_label(cls, label):
+        if label.enable_objectmodel:
+            return True
+        return False
 
 
 class ModelConnectionsCache(Document):

@@ -26,11 +26,13 @@ from noc.core.model.decorator import on_delete_check
 from noc.core.bi.decorator import bi_sync, new_bi_id
 from noc.core.prettyjson import to_json
 from noc.models import get_model
+from noc.main.models.label import Label
 from .vendor import Vendor
 
 id_lock = threading.Lock()
 
 
+@Label.model
 @bi_sync
 @on_delete_check(
     check=[
@@ -68,8 +70,9 @@ class Platform(Document):
     uuid = UUIDField(binary=True)
     # Platform aliases
     aliases = ListField(StringField())
-    # Tags
+    # Labels
     labels = ListField(StringField())
+    effective_labels = ListField(StringField())
     # Object id in BI
     bi_id = LongField(unique=True)
 
@@ -233,3 +236,9 @@ class Platform(Document):
                 obj.save()
         # Finally delete aliases platform
         ap.delete()
+
+    @classmethod
+    def can_set_label(cls, label):
+        if label.enable_platform:
+            return True
+        return False

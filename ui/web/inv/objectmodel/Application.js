@@ -155,20 +155,8 @@ Ext.define("NOC.inv.objectmodel.Application", {
                     xtype: "labelfield",
                     fieldLabel: __("Labels"),
                     allowBlank: true,
-                    store: {
-                        fields: ["id", "label"],
-                        data: [
-                            {id: "chassis", label: "Chassis (equipment body)"},
-                            {id: "lc", label: "Linecard, optional replaceable module (except for fans and PSU)"},
-                            {id: "xcvr", label: "Transceiver"},
-                            {id: "psu", label: "Power supply unit"},
-                            {id: "sup", label: "Supervisor or control module (control plane)"},
-                            {id: "fabric", label: "Commutation fabric (data plane)"},
-                            {id: "fan", label: "Fan"},
-                            {id: "soft", label: "Software component"},
-                            {id: "port", label: "Contains ports acceptable for client connection either directly or via transceiver"},
-                            {id: "dsp", label: "Digital signal processor for voice/video processing"}
-                        ]
+                    query: {
+                        "enable_objectmodel": true
                     },
                 },
                 {
