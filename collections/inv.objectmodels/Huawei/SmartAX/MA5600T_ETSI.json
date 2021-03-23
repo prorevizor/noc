@@ -6,13 +6,13 @@
     "description": null,
     "connection_rule__name": "Huawei | SmartAX",
     "cr_context": "CHASSIS",
-    "tags": ["chassis"],
+    "tags": ["noc::inv::chassis"],
     "connections": [
         {
             "description": "Fan tray",
             "direction": "i",
             "gender": "f",
-            "name": "fan",
+            "name": "noc::inv::fan",
             "type__name": "Huawei | SmartAX | MA5600T | FAN-ETSI"
         },
         {

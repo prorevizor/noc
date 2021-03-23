@@ -35,7 +35,7 @@ class SensorProfile(Document):
     workflow = PlainReferenceField(Workflow)
     style = ForeignKeyField(Style)
     enable_collect = BooleanField(default=False)
-    tags = ListField(StringField())
+    labels = ListField(StringField())
     bi_id = LongField(unique=True)
 
     _id_cache = cachetools.TTLCache(maxsize=100, ttl=60)
@@ -43,7 +43,7 @@ class SensorProfile(Document):
     _default_cache = cachetools.TTLCache(maxsize=100, ttl=60)
 
     DEFAULT_PROFILE_NAME = "default"
-    DEFAULT_WORKDLOW_NAME = "Sensor Default"
+    DEFAULT_WORKFLOW_NAME = "Sensor Default"
 
     def __str__(self):
         return self.name
@@ -65,7 +65,7 @@ class SensorProfile(Document):
         if not sp:
             sp = SensorProfile(
                 name=cls.DEFAULT_PROFILE_NAME,
-                workflow=Workflow.objects.filter(name=cls.DEFAULT_WORKDLOW_NAME).first(),
+                workflow=Workflow.objects.filter(name=cls.DEFAULT_WORKFLOW_NAME).first(),
             )
             sp.save()
         return sp

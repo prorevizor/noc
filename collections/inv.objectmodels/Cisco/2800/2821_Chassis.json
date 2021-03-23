@@ -6,7 +6,7 @@
     "description": "Cisco 2800 Series Integrated services router with AC power, 1 NME-X, 1 EVM",
     "connection_rule__name": "Cisco | 2800",
     "cr_context": "CHASSIS",
-    "tags": ["chassis"],
+    "tags": ["noc::inv::chassis"],
     "connections": [
         {
             "description": "2821 Motherboard",
@@ -33,7 +33,7 @@
             "description": "Internal Power Supply",
             "direction": "i",
             "gender": "f",
-            "name": "psu",
+            "name": "noc::inv::psu",
             "type__name": "Cisco | 2800 | PSU"
         },
         {

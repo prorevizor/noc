@@ -6,7 +6,7 @@
     "description": "Cisco 7600 4-slot Chassis",
     "connection_rule__name": "Cisco | 7600",
     "cr_context": "CHASSIS",
-    "tags": ["chassis"],
+    "tags": ["noc::inv::chassis"],
     "connections": [
         {
             "description": "CLK module slot 1",
@@ -19,7 +19,7 @@
             "description": "Fan slot 1",
             "direction": "i",
             "gender": "f",
-            "name": "fan",
+            "name": "noc::inv::fan",
             "type__name": "Cisco | 7600 | 7604 Fan"
         },
         {

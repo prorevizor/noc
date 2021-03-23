@@ -5,7 +5,7 @@
     "vendor__code": "QTECH",
     "description": "Qtech SFP TX transceiver",
     "cr_context": "XCVR",
-    "tags": ["xcvr"],
+    "tags": ["noc::inv::xcvr"],
     "connections": [
         {
             "description": "SFP Connector",
@@ -19,7 +19,7 @@
             "description": "TX Port",
             "direction": "s",
             "gender": "f",
-            "name": "port",
+            "name": "noc::inv::port",
             "protocols": ["1000BASETX"],
             "type__name": "Electrical | RJ45"
         }

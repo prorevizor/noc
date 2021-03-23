@@ -6,7 +6,7 @@
     "description": "Cisco C6509-E 9-slot Chassis",
     "connection_rule__name": "Cisco | 6500-E",
     "cr_context": "CHASSIS",
-    "tags": ["chassis"],
+    "tags": ["noc::inv::chassis"],
     "connections": [
         {
             "description": "CLK module slot 1",
@@ -47,7 +47,7 @@
             "description": "Enhanced 9-slot Fan Tray 1",
             "direction": "i",
             "gender": "f",
-            "name": "fan",
+            "name": "noc::inv::fan",
             "type__name": "Cisco | 6500 | FAN-E"
         },
         {

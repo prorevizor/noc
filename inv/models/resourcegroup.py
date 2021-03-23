@@ -74,7 +74,7 @@ class ResourceGroup(Document):
     # Object id in BI
     bi_id = LongField(unique=True)
     # Tags
-    tags = ListField(StringField())
+    labels = ListField(StringField())
 
     _id_cache = cachetools.TTLCache(maxsize=100, ttl=60)
     _bi_id_cache = cachetools.TTLCache(maxsize=100, ttl=60)

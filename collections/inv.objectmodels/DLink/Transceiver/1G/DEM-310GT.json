@@ -5,7 +5,7 @@
     "vendor__code": "DLINK",
     "description": "DLink SFP LX transceiver",
     "cr_context": "XCVR",
-    "tags": ["xcvr"],
+    "tags": ["noc::inv::xcvr"],
     "connections": [
         {
             "description": "SFP Connector",

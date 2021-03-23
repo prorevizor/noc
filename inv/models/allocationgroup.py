@@ -30,7 +30,7 @@ class AllocationGroup(Document):
 
     name = StringField(unique=True)
     description = StringField()
-    tags = ListField(StringField())
+    labels = ListField(StringField())
     # Integration with external NRI and TT systems
     # Reference to remote system object has been imported from
     remote_system = PlainReferenceField(RemoteSystem)
