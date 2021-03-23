@@ -33,5 +33,5 @@ class Migration(BaseMigration):
             "filter_tags",
         )
         self.db.execute(
-            f'CREATE INDEX x_sa_managedobjectselector_labels ON "sa_managedobjectselector" USING GIN("filter_labels")'
+            'CREATE INDEX x_sa_managedobjectselector_labels ON "sa_managedobjectselector" USING GIN("filter_labels")'
         )

@@ -46,7 +46,7 @@ class TextIndex(Document):
     # Card to show in search result
     card = StringField()
     # List of tags
-    labels = ListField(StringField())
+    tags = ListField(StringField())
     # Date of last changed
     changed = DateTimeField()
     #
@@ -87,7 +87,7 @@ class TextIndex(Document):
                     "title": data.get("title"),
                     "content": data.get("content"),
                     "card": data.get("card"),
-                    "labels": data.get("labels"),
+                    "tags": data.get("labels"),
                     "language": "english",
                     "changed": datetime.datetime.now(),
                 }
