@@ -6,7 +6,7 @@
     "description": "Cisco 2900 Series Integrated Services Routers with 2 SM slot and K9 Encryption",
     "connection_rule__name": "Cisco | 2900",
     "cr_context": "CHASSIS",
-    "tags": ["noc::inv::chassis"],
+    "labels": ["noc::inv::chassis"],
     "connections": [
         {
             "description": "2921 Motherboard",
@@ -33,7 +33,7 @@
             "description": "Power Supply slot",
             "direction": "i",
             "gender": "f",
-            "name": "noc::inv::psu",
+            "name": "psu",
             "type__name": "Cisco | 2921-2951 | PSU"
         },
         {

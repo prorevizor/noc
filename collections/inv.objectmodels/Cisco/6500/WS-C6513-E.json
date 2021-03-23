@@ -141,7 +141,7 @@
             "description": " Fan Tray",
             "direction": "i",
             "gender": "f",
-            "name": "noc::inv::fan",
+            "name": "fan",
             "type__name": "Cisco | 6500 | 6513-FAN-E"
         },
         {

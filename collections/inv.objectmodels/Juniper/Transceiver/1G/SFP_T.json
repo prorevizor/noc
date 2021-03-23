@@ -5,7 +5,7 @@
     "vendor__code": "JUNIPER",
     "description": "Juniper SFP TX transceiver",
     "cr_context": "XCVR",
-    "tags": ["noc::inv::xcvr"],
+    "labels": ["noc::inv::xcvr"],
     "connections": [
         {
             "description": "SFP Connector",
@@ -19,7 +19,7 @@
             "description": "TX Port",
             "direction": "s",
             "gender": "f",
-            "name": "noc::inv::port",
+            "name": "port",
             "protocols": ["1000BASETX"],
             "type__name": "Electrical | RJ45"
         }

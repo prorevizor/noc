@@ -11,7 +11,7 @@
             "description": "Supervisor slot",
             "direction": "i",
             "gender": "f",
-            "name": "noc::inv::sup",
+            "name": "sup",
             "type__name": "Cisco | 7200 | Supervisor"
         },
         {

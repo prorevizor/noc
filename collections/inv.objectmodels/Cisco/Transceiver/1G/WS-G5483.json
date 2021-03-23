@@ -18,7 +18,7 @@
             "description": "1000BASE-T Port",
             "direction": "s",
             "gender": "f",
-            "name": "noc::inv::port",
+            "name": "port",
             "protocols": ["1000BASET"],
             "type__name": "Electrical | RJ45"
         }

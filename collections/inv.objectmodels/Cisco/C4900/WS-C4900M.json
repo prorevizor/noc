@@ -6,7 +6,7 @@
     "description": "Cisco WS-C4900M Catalyst 4900M Switch base system with 8-Port X2 & 2 half slots",
     "connection_rule__name": "Cisco | C4900",
     "cr_context": "CHASSIS",
-    "tags": ["noc::inv::chassis"],
+    "labels": ["noc::inv::chassis"],
     "connections": [
         {
             "description": "Linecard slot",
@@ -86,7 +86,7 @@
             "description": "Fan module slot",
             "direction": "i",
             "gender": "f",
-            "name": "noc::inv::fan",
+            "name": "fan",
             "type__name": "Cisco | C4900 | FAN"
         }
     ],

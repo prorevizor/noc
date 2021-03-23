@@ -18,7 +18,7 @@
             "description": "TX Port",
             "direction": "s",
             "gender": "f",
-            "name": "noc::inv::port",
+            "name": "port",
             "protocols": ["1000BASETX"],
             "type__name": "Electrical | RJ45"
         }

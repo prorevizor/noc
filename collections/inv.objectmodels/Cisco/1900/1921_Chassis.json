@@ -6,7 +6,7 @@
     "description": "Cisco 1900 Series Integrated Services Routers with K9 Encryption",
     "connection_rule__name": "Cisco | 2900",
     "cr_context": "CHASSIS",
-    "tags": ["noc::inv::chassis"],
+    "labels": ["noc::inv::chassis"],
     "connections": [
         {
             "description": "1921 Motherboard",
@@ -19,7 +19,7 @@
             "description": "Internal Power Supply slot",
             "direction": "i",
             "gender": "f",
-            "name": "noc::inv::psu",
+            "name": "psu",
             "type__name": "Cisco | 1941-2901 | PSU"
         }
     ],
