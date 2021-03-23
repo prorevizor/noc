@@ -10,7 +10,7 @@ Ext.define("NOC.inv.objectmodel.Application", {
     extend: "NOC.core.ModelApplication",
     requires: [
         "NOC.core.JSONPreview",
-        "NOC.core.TagsField",
+        "NOC.core.LabelField",
         "NOC.core.TemplatePreview",
         "NOC.inv.objectmodel.Model",
         "NOC.inv.vendor.LookupField",
@@ -151,9 +151,10 @@ Ext.define("NOC.inv.objectmodel.Application", {
                     allowBlank: true
                 },
                 {
-                    name: "tags",
-                    xtype: "tagsfield",
-                    fieldLabel: __("Tags"),
+                    name: "labels",
+                    xtype: "labelfield",
+                    fieldLabel: __("Labels"),
+                    allowBlank: true,
                     store: {
                         fields: ["id", "label"],
                         data: [
@@ -169,7 +170,6 @@ Ext.define("NOC.inv.objectmodel.Application", {
                             {id: "dsp", label: "Digital signal processor for voice/video processing"}
                         ]
                     },
-                    allowBlank: true
                 },
                 {
                     name: "data",

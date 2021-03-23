@@ -20,21 +20,18 @@ from django.db.models import CharField
 class Migration(BaseMigration):
     depends_on = [("sa", "0213_labels")]
 
-    OBJECTMODEL_TAGS = [
-        ("noc::inv::chassis", "Chassis (equipment body)"),
-        ("noc::inv::lc", "Linecard, optional replaceable module (except for fans and PSU)"),
-        ("noc::inv::xcvr", "Transceiver"),
-        ("noc::inv::psu", "Power supply unit"),
-        ("noc::inv::sup", "Supervisor or control module (control plane)"),
-        ("noc::inv::fabric", "Commutation fabric (data plane)"),
-        ("noc::inv::fan", "Fan"),
-        ("noc::inv::soft", "Software component"),
-        (
-            "noc::inv::port",
-            "Contains ports acceptable for client connection either directly or via transceiver",
-        ),
-        ("noc::inv::dsp", "Digital signal processor for voice/video processing"),
-    ]
+    OBJECTMODEL_TAGS = {
+        "noc::inv::chassis": "Chassis (equipment body)",
+        "noc::inv::lc": "Linecard, optional replaceable module (except for fans and PSU)",
+        "noc::inv::xcvr": "Transceiver",
+        "noc::inv::psu": "Power supply unit",
+        "noc::inv::sup": "Supervisor or control module (control plane)",
+        "noc::inv::fabric": "Commutation fabric (data plane)",
+        "noc::inv::fan": "Fan",
+        "noc::inv::soft": "Software component",
+        "noc::inv::port": "Contains ports acceptable for client connection either directly or via transceiver",
+        "noc::inv::dsp": "Digital signal processor for voice/video processing",
+    }
 
     TAG_COLLETIONS = [
         ("allocationgroups", "allocationgroup"),
@@ -47,6 +44,37 @@ class Migration(BaseMigration):
 
     def migrate(self):
         labels = defaultdict(set)  # label: settings
+
+        coll = self.mongo_db["noc.objectmodels"]
+        bulk = []
+        # ObjectModel Migrate
+        for item in coll.aggregate(
+            [
+                {"$match": {"tags": {"$exists": True, "$ne": []}}},
+                {
+                    "$addFields": {
+                        "labels": {
+                            "$map": {
+                                "input": "$tags",
+                                "as": "tag",
+                                "in": {"$concat": ["noc::inv::", "$$tag"]},
+                            }
+                        }
+                    }
+                },
+                {"$project": {"labels": 1}},
+                # {"$addFields": {"labels": "$tags"}},
+                # {"$out": collection},
+            ]
+        ):
+            if not item.get("labels"):
+                continue
+            ll = set(item["labels"]).intersection(set(self.OBJECTMODEL_TAGS))
+            bulk += [UpdateOne({"_id": item["_id"]}, {"$set": {"labels": list(ll)}})]
+        coll.bulk_write([UpdateMany({"tags": {"$exists": True}}, {"$rename": {"tags": "labels"}})])
+        if bulk:
+            coll.bulk_write(bulk)
+        self.sync_om_labels()
         # Mongo models
         for collection, setting in self.TAG_COLLETIONS:
             coll = self.mongo_db[collection]
@@ -73,7 +101,6 @@ class Migration(BaseMigration):
         self.sync_labels(labels)
 
     def sync_labels(self, labels):
-        # noc::inv::xcvr
         # Create labels
         bulk = []
         l_coll = self.mongo_db["labels"]
@@ -118,5 +145,81 @@ class Migration(BaseMigration):
                 for setting in labels[label]:
                     doc[setting] = True
                 bulk += [InsertOne(doc)]
+        if bulk:
+            l_coll.bulk_write(bulk, ordered=True)
+
+    def sync_om_labels(self):
+        # Sync ObjectModels Label
+        # noc::inv::xcvr
+        l_coll = self.mongo_db["labels"]
+        bulk = [
+            UpdateOne(
+                {"name": "noc::inv::*"},
+                {
+                    "$set": {
+                        # "_id": bson.ObjectId(),
+                        "name": "noc::inv::*",
+                        "description": "Internal scope for Inventory tags",
+                        "bg_color1": 8359053,
+                        "bg_color2": 8359053,
+                        "is_protected": True,
+                        # Label scope
+                        "enable_agent": False,
+                        "enable_service": False,
+                        "enable_serviceprofile": False,
+                        "enable_managedobject": False,
+                        "enable_managedobjectprofile": False,
+                        "enable_administrativedomain": False,
+                        "enable_authprofile": False,
+                        "enable_commandsnippet": False,
+                        #
+                        "enable_allocationgroup": False,
+                        "enable_networksegment": False,
+                        "enable_object": False,
+                        "enable_objectmodel": True,
+                        "enable_platform": False,
+                        "enable_resourcegroup": False,
+                        "enable_sensorprofile": False,
+                        # Exposition scope
+                        "expose_metric": False,
+                        "expose_managedobject": False,
+                    }
+                },
+                upsert=True,
+            )
+        ]
+        for label in self.OBJECTMODEL_TAGS:
+            bulk += [
+                InsertOne(
+                    {
+                        # "_id": bson.ObjectId(),
+                        "name": label,
+                        "description": self.OBJECTMODEL_TAGS[label],
+                        "bg_color1": 8359053,
+                        "bg_color2": 8359053,
+                        "is_protected": False,
+                        # Label scope
+                        "enable_agent": False,
+                        "enable_service": False,
+                        "enable_serviceprofile": False,
+                        "enable_managedobject": False,
+                        "enable_managedobjectprofile": False,
+                        "enable_administrativedomain": False,
+                        "enable_authprofile": False,
+                        "enable_commandsnippet": False,
+                        #
+                        "enable_allocationgroup": False,
+                        "enable_networksegment": False,
+                        "enable_object": False,
+                        "enable_objectmodel": True,
+                        "enable_platform": False,
+                        "enable_resourcegroup": False,
+                        "enable_sensorprofile": False,
+                        # Exposition scope
+                        "expose_metric": False,
+                        "expose_managedobject": False,
+                    }
+                )
+            ]
         if bulk:
             l_coll.bulk_write(bulk, ordered=True)
