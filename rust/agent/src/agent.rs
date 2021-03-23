@@ -10,6 +10,7 @@ use crate::collectors::{CollectorConfig, Runnable};
 use crate::nvram::NVRAM;
 use crate::zk::{ZkConfig, ZkConfigCollector};
 use std::collections::HashMap;
+use std::convert::TryFrom;
 use std::error::Error;
 use std::fs;
 use std::str;
@@ -201,7 +202,7 @@ impl Agent {
     }
     async fn fetch_config(&self, url: &str) -> Result<ZkConfig, Box<dyn Error>> {
         let data = self.fetch_url(url).await?;
-        ZkConfig::new_from(data)
+        ZkConfig::try_from(data)
     }
     async fn fetch_url(&self, url: &str) -> Result<Vec<u8>, Box<dyn Error>> {
         match url.find(':') {

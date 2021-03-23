@@ -7,6 +7,7 @@
 
 use crate::collectors::CollectorConfig;
 use serde::Deserialize;
+use std::convert::TryFrom;
 use std::error::Error;
 
 #[derive(Deserialize, Debug)]
@@ -41,9 +42,11 @@ pub struct ZkConfigCollector {
     pub config: CollectorConfig,
 }
 
-impl ZkConfig {
-    pub fn new_from(data: Vec<u8>) -> Result<Self, Box<dyn Error>> {
-        match serde_json::from_slice(data.as_slice()) {
+impl TryFrom<Vec<u8>> for ZkConfig {
+    type Error = Box<dyn Error>;
+
+    fn try_from(value: Vec<u8>) -> Result<Self, Self::Error> {
+        match serde_json::from_slice(value.as_slice()) {
             Ok(x) => Ok(x),
             Err(e) => {
                 log::error!("Cannot parse JSON: {}", e);
