@@ -108,7 +108,7 @@ async def inc_loglevel():
     new_level = max(logging.DEBUG, current_level - 10)
     logger.critical("Changing loglevel: %s -> %s", current_level, new_level)
     logging.root.setLevel(new_level)
-    return new_level
+    return str(new_level)
 
 
 @router.post("/api/log/dec", response_class=PlainTextResponse, tags=["internal"])
@@ -121,7 +121,7 @@ async def dec_loglevel():
     new_level = min(logging.CRITICAL, current_level + 10)
     logger.critical("Changing loglevel: %s -> %s", current_level, new_level)
     logging.root.setLevel(new_level)
-    return new_level
+    return str(new_level)
 
 
 @router.post("/api/forensic/start", response_class=PlainTextResponse, tags=["internal"])
