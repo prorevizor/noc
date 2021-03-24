@@ -106,6 +106,9 @@ Ext.define("NOC.main.label.Application", {
             if (item.data.enable_dnszone) {
               r.push(__("DNS Zone"));
             }
+            if (item.data.enable_dnszonerecord) {
+              r.push(__("DNS Zone Record"));
+            }
             if (item.data.enable_division) {
               r.push(__("GIS Division"));
             }
@@ -307,6 +310,11 @@ Ext.define("NOC.main.label.Application", {
             },
             {
               name: "enable_dnszone",
+              xtype: "checkbox",
+              boxLabel: __("DNS Zone")
+            },
+            {
+              name: "enable_dnszonerecord",
               xtype: "checkbox",
               boxLabel: __("DNS Zone")
             },

@@ -20,7 +20,7 @@ from django.db.models import CharField
 class Migration(BaseMigration):
     depends_on = [("sa", "0213_labels")]
 
-    TAG_MODELS = [("dns_dnszone", "dnszone"), ("dns_dnszonerecord", "dnszone")]
+    TAG_MODELS = [("dns_dnszone", "dnszone"), ("dns_dnszonerecord", "dnszonerecord")]
 
     def migrate(self):
         labels = defaultdict(set)  # label: settings
@@ -118,6 +118,7 @@ class Migration(BaseMigration):
                     "enable_supplierprofile": False,
                     # DNS
                     "enable_dnszone": False,
+                    "enable_dnszonerecord": False,
                     # Exposition scope
                     "expose_metric": False,
                     "expose_managedobject": False,

@@ -64,6 +64,7 @@ class Label(Document):
     enable_supplierprofile = BooleanField()
     #
     enable_dnszone = BooleanField()
+    enable_dnszonerecord = BooleanField()
     #
     enable_division = BooleanField()
     #

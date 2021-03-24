@@ -126,6 +126,10 @@ Ext.define("NOC.main.label.Model", {
             type: "boolean"
         },
         {
+            name: "enable_dnszonerecord",
+            type: "boolean"
+        },
+        {
             name: "enable_division",
             type: "boolean"
         },
