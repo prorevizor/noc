@@ -77,6 +77,10 @@ class Label(Document):
     enable_prefixprofile = BooleanField()
     enable_vrf = BooleanField()
     enable_vrfgroup = BooleanField()
+    # Peer
+    enable_asn = BooleanField()
+    enable_assetpeer = BooleanField()
+    enable_peer = BooleanField()
     # VC
     enable_vc = BooleanField()
     enable_vlan = BooleanField()

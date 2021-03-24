@@ -166,6 +166,18 @@ Ext.define("NOC.main.label.Model", {
             type: "boolean"
         },
         {
+            name: "enable_asn",
+            type: "boolean"
+        },
+        {
+            name: "enable_assetpeer",
+            type: "boolean"
+        },
+        {
+            name: "enable_peer",
+            type: "boolean"
+        },
+        {
             name: "enable_vc",
             type: "boolean"
         },

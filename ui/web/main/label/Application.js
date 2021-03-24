@@ -136,6 +136,15 @@ Ext.define("NOC.main.label.Application", {
             if (item.data.enable_vrfgroup) {
               r.push(__("VRF Group"));
             }
+            if (item.data.enable_asn) {
+              r.push(__("AS"));
+            }
+            if (item.data.enable_assetpeer) {
+              r.push(__("Asset Peer"));
+            }
+            if (item.data.enable_peer) {
+              r.push(__("Peer"));
+            }
             if (item.data.enable_vc) {
               r.push(__("VC"));
             }
@@ -398,6 +407,21 @@ Ext.define("NOC.main.label.Application", {
               name: "enable_vrfgroup",
               xtype: "checkbox",
               boxLabel: __("VRF Group")
+            },
+              {
+              name: "enable_asn",
+              xtype: "checkbox",
+              boxLabel: __("AS")
+            },
+              {
+              name: "enable_assetpeer",
+              xtype: "checkbox",
+              boxLabel: __("Asset Peer")
+            },
+              {
+              name: "enable_peer",
+              xtype: "checkbox",
+              boxLabel: __("Peer")
             },
             {
               name: "enable_vc",
