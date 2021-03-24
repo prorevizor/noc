@@ -20,7 +20,6 @@ from noc.project.models.project import Project
 from noc.main.models.label import Label
 from noc.config import config
 from noc.core.rpsl import rpsl_format
-from noc.core.model.fields import TagsField
 from noc.core.model.decorator import on_delete_check, on_save
 from noc.core.gridvcs.manager import GridVCSField
 from noc.core.model.fields import DocumentReferenceField

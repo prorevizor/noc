@@ -13,7 +13,7 @@ from django.contrib.postgres.fields import ArrayField
 from noc.core.model.base import NOCModel
 from noc.project.models.project import Project
 from noc.main.models.label import Label
-from noc.core.model.fields import INETField, TagsField
+from noc.core.model.fields import INETField
 from noc.config import config
 from noc.core.model.decorator import on_save
 from noc.core.gridvcs.manager import GridVCSField
