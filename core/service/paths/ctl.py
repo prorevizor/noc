@@ -11,6 +11,7 @@ from io import StringIO
 
 # Third-party modules
 from fastapi import APIRouter
+from fastapi.responses import PlainTextResponse
 
 # NOC modules
 from noc.config import config
@@ -20,7 +21,7 @@ router = APIRouter()
 logger = logging.getLogger("ctl")
 
 
-@router.post("/api/ctl/prof/start", tags=["internal"])
+@router.post("/api/ctl/prof/start", response_class=PlainTextResponse, tags=["internal"])
 async def start_prof():
     """
     Start code profiling
@@ -34,7 +35,7 @@ async def start_prof():
     return "Profiling started"
 
 
-@router.post("/api/ctl/prof/stop", tags=["internal"])
+@router.post("/api/ctl/prof/stop", response_class=PlainTextResponse, tags=["internal"])
 async def stop_prof():
     """
     Stop code profiling
@@ -48,7 +49,7 @@ async def stop_prof():
     return "Profiling stopped"
 
 
-@router.get("/api/ctl/prof/threads", tags=["internal"])
+@router.get("/api/ctl/prof/threads", response_class=PlainTextResponse, tags=["internal"])
 async def get_prof_threads():
     """
     Get running threads info
@@ -62,7 +63,7 @@ async def get_prof_threads():
     return out.getvalue()
 
 
-@router.get("/api/ctl/prof/funcs", tags=["internal"])
+@router.get("/api/ctl/prof/funcs", response_class=PlainTextResponse, tags=["internal"])
 async def get_prof_funcs():
     """
     Get profiler functions statistics
@@ -85,7 +86,7 @@ async def get_prof_funcs():
     return out.getvalue()
 
 
-@router.post("/api/ctl/manhole", tags=["internal"])
+@router.post("/api/ctl/manhole", response_class=PlainTextResponse, tags=["internal"])
 async def open_manhole():
     """
     Open manhole
@@ -97,7 +98,7 @@ async def open_manhole():
     return mh.uds_name
 
 
-@router.post("/api/log/inc", tags=["internal"])
+@router.post("/api/log/inc", response_class=PlainTextResponse, tags=["internal"])
 async def inc_loglevel():
     """
     Increase loglevel
@@ -110,7 +111,7 @@ async def inc_loglevel():
     return new_level
 
 
-@router.post("/api/log/dec", tags=["internal"])
+@router.post("/api/log/dec", response_class=PlainTextResponse, tags=["internal"])
 async def dec_loglevel():
     """
     Decrease loglevel
@@ -123,7 +124,7 @@ async def dec_loglevel():
     return new_level
 
 
-@router.post("/api/forensic/start", tags=["internal"])
+@router.post("/api/forensic/start", response_class=PlainTextResponse, tags=["internal"])
 async def forensic_start():
     """
     Start forensic logging
@@ -136,7 +137,7 @@ async def forensic_start():
     return False
 
 
-@router.post("/api/forensic/stop", tags=["internal"])
+@router.post("/api/forensic/stop", response_class=PlainTextResponse, tags=["internal"])
 async def forensic_stop():
     """
     Stop forensic logging
