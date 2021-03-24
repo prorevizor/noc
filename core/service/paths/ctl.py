@@ -133,8 +133,8 @@ async def forensic_start():
     if not config.features.forensic:
         logger.critical("Starting forensic logging")
         config.features.forensic = True
-        return True
-    return False
+        return "true"
+    return "false"
 
 
 @router.post("/api/forensic/stop", response_class=PlainTextResponse, tags=["internal"])
@@ -146,5 +146,5 @@ async def forensic_stop():
     if config.features.forensic:
         logger.critical("Stopping forensic logging")
         config.features.forensic = False
-        return True
-    return False
+        return "true"
+    return "false"
