@@ -69,6 +69,20 @@ class Label(Document):
     enable_division = BooleanField()
     #
     enable_kbentry = BooleanField()
+    # IP
+    enable_ipaddress = BooleanField()
+    enable_addressprofile = BooleanField()
+    enable_ipaddressrange = BooleanField()
+    enable_ipprefix = BooleanField()
+    enable_prefixprofile = BooleanField()
+    enable_vrf = BooleanField()
+    enable_vrfgroup = BooleanField()
+    # VC
+    enable_vc = BooleanField()
+    enable_vlan = BooleanField()
+    enable_vlanprofile = BooleanField()
+    enable_vpn = BooleanField()
+    enable_vpnprofile = BooleanField()
     # Exposition scope
     expose_metric = BooleanField()
     expose_managedobject = BooleanField()
