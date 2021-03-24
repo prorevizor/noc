@@ -31,7 +31,7 @@ class Migration(BaseMigration):
             r = next(
                 coll.aggregate(
                     [
-                        {"$match": {"tags": {"$exists": True, "$ne": []}}},
+                        {"$match": {"labels": {"$exists": True, "$ne": []}}},
                         {"$unwind": "$labels"},
                         {"$group": {"_id": 1, "all_labels": {"$addToSet": "$labels"}}},
                     ]
