@@ -9,7 +9,7 @@
 from collections import defaultdict
 
 # Third-party modules
-from pymongo import InsertOne, UpdateMany, UpdateOne
+from pymongo import InsertOne, UpdateOne
 
 # NOC modules
 from noc.core.migration.base import BaseMigration
