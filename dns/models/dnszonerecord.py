@@ -7,11 +7,11 @@
 
 # Third-party modules
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 # NOC modules
 from noc.core.model.base import NOCModel
 from noc.core.model.decorator import on_init
-from noc.core.model.fields import TagsField
 from noc.core.datastream.decorator import datastream
 from noc.core.translation import ugettext as _
 from .dnszone import DNSZone
@@ -36,7 +36,7 @@ class DNSZoneRecord(NOCModel):
     type = models.CharField(_("Type"), max_length=16)
     priority = models.IntegerField(_("Priority"), null=True, blank=True)
     content = models.CharField(_("Content"), max_length=65536)
-    tags = TagsField(_("Tags"), null=True, blank=True)
+    labels = ArrayField(models.CharField(max_length=250), blank=True, null=True, default=list)
 
     def __str__(self):
         return "%s %s" % (

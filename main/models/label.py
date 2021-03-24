@@ -57,6 +57,17 @@ class Label(Document):
     enable_platform = BooleanField()
     enable_resourcegroup = BooleanField()
     enable_sensorprofile = BooleanField()
+    #
+    enable_subscriber = BooleanField()
+    enable_subscriberprofile = BooleanField()
+    enable_supplier = BooleanField()
+    enable_supplierprofile = BooleanField()
+    #
+    enable_dnszone = BooleanField()
+    #
+    enable_division = BooleanField()
+    #
+    enable_kbentry = BooleanField()
     # Exposition scope
     expose_metric = BooleanField()
     expose_managedobject = BooleanField()
