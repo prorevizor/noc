@@ -75,6 +75,7 @@ class MData(object):
         "type",
         "abs_value",
         "label",
+        "_key_fmt",
     )
 
     def __init__(
@@ -98,11 +99,16 @@ class MData(object):
         self.abs_value = abs_value
         if labels:
             self.label = "%s|%s" % (metric, "|".join(str(label) for label in sorted(labels)))
+            self._key_fmt = "%%x|%s" % ("|".join(str(label) for label in sorted(labels)),)
         else:
             self.label = metric
+            self._key_fmt = "%x"
 
     def __repr__(self):
         return f"<MData #{self.id} {self.metric}>"
+
+    def get_key(self, x: int) -> str:
+        return self._key_fmt % x
 
 
 class MetricsCheck(DiscoveryCheck):
@@ -393,13 +399,7 @@ class MetricsCheck(DiscoveryCheck):
             # Filter out duplicates
             labels = m.labels
             cfg = self.id_metrics.get(m.id)
-            if labels:
-                key = "%x|%s" % (
-                    cfg.metric_type.bi_id,
-                    "|".join(str(label) for label in sorted(labels)),
-                )
-            else:
-                key = "%x" % cfg.metric_type.bi_id
+            key = m.get_key(cfg.metric_type.bi_id)
             if key in seen:
                 # Prevent duplicated metrics
                 self.logger.error(
@@ -500,13 +500,7 @@ class MetricsCheck(DiscoveryCheck):
                 events += event
             else:
                 # Build window state key
-                if m.labels:
-                    key = "%x|%s" % (
-                        cfg.metric_type.bi_id,
-                        "|".join(str(label) for label in sorted(m.labels)),
-                    )
-                else:
-                    key = "%x" % cfg.metric_type.bi_id
+                key = m.get_key(cfg.metric_type.bi_id)
                 if self.job.context["metric_windows"].get(key):
                     del self.job.context["metric_windows"][key]
         return n_metrics, data, alarms, events
@@ -593,10 +587,7 @@ class MetricsCheck(DiscoveryCheck):
         :return: Value or None
         """
         # Build window state key
-        if m.path:
-            key = "%x|%s" % (cfg.metric_type.bi_id, "|".join(str(p) for p in m.path))
-        else:
-            key = "%x" % cfg.metric_type.bi_id
+        key = m.get_key(cfg.metric_type.bi_id)
         #
         states = self.job.context["metric_windows"]
         value = m.abs_value
@@ -643,7 +634,7 @@ class MetricsCheck(DiscoveryCheck):
                 self.logger.error(
                     "Cannot calculate thresholds for %s (%s): Invalid window type '%s'",
                     m.metric,
-                    m.path,
+                    m.labels,
                     window_type,
                 )
                 return None
@@ -651,7 +642,7 @@ class MetricsCheck(DiscoveryCheck):
             states[key] = window
         if not window_full:
             self.logger.error(
-                "Cannot calculate thresholds for %s (%s): Window is not filled", m.metric, m.path
+                "Cannot calculate thresholds for %s (%s): Window is not filled", m.metric, m.labels
             )
             return None
         # Process window function
@@ -660,14 +651,14 @@ class MetricsCheck(DiscoveryCheck):
             self.logger.error(
                 "Cannot calculate thresholds for %s (%s): Invalid window function %s",
                 m.metric,
-                m.path,
+                m.labels,
                 cfg.threshold_profile.window_function,
             )
             return None
         try:
             return wf(window, cfg.threshold_profile.window_config)
         except ValueError as e:
-            self.logger.error("Cannot calculate thresholds for %s (%s): %s", m.metric, m.path, e)
+            self.logger.error("Cannot calculate thresholds for %s (%s): %s", m.metric, m.labels, e)
             return None
 
     def clear_process_thresholds(self, m, cfg, path):
@@ -679,11 +670,8 @@ class MetricsCheck(DiscoveryCheck):
         """
         alarms = []
         events = []
-        # Build window state key
-        if m.path:
-            key = "%x|%s" % (cfg.metric_type.bi_id, "|".join(str(p) for p in m.path))
-        else:
-            key = "%x" % cfg.metric_type.bi_id
+        key = m.get_key(cfg.metric_type.bi_id)
+        #
         active = self.job.context["active_thresholds"].get(path)
         threshold_profile = active["threshold_profile"]
         threshold = threshold_profile.find_threshold(active["threshold"])
