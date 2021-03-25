@@ -144,7 +144,7 @@ class Script(GetMetricsScript):
             # LifeHack. Set Radio interface metrics to SSID
             if "radio" in data and data["radio"] in radio_metrics:
                 self.set_metric(
-                    id=("Radio | TxPower", [f"noc::port::{iface}"]),
+                    id=("Radio | TxPower", [f"noc::interface::{iface}"]),
                     value=radio_metrics[data["radio"]]["tx-power"],
                 )
 
@@ -166,7 +166,7 @@ class Script(GetMetricsScript):
             iface = data["name"].strip()
             if data.get("tx-power-dbm") is not None:
                 self.set_metric(
-                    id=("Radio | TxPower", [f"noc::port::{iface}"]),
+                    id=("Radio | TxPower", [f"noc::interface::{iface}"]),
                     # Max TxPower 27dBm, convert % -> dBm
                     value=int(data["tx-power-dbm"].strip()),
                 )

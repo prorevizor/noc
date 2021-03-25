@@ -47,6 +47,6 @@ class Script(GetMetricsScript):
                 if m not in v[iface]:
                     continue
                 r[
-                    (f"noc::port::{self.profile.convert_interface_name(iface)}", metric_map[m])
+                    (f"noc::interface::{self.profile.convert_interface_name(iface)}", metric_map[m])
                 ] = int(v[iface][m])
         return r

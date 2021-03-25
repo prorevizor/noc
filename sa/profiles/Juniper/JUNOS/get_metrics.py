@@ -31,7 +31,7 @@ class Script(GetMetricsScript):
                     port += chr(int(x))
                 self.set_metric(
                     id=("Subscribers | Summary", None),
-                    labels=("noc::chassis::0", f"noc::port::{str(port)}"),
+                    labels=("noc::chassis::0", f"noc::interface::{str(port)}"),
                     value=int(v),
                     multi=True,
                 )

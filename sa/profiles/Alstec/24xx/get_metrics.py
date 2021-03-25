@@ -56,7 +56,7 @@ class Script(GetMetricsScript):
             for m in metric_map:
                 if m not in v[iface]:
                     continue
-                self.set_metric(id=(metric_map[m], ["noc::port::0/0"]), value=int(v[iface][m]))
+                self.set_metric(id=(metric_map[m], ["noc::interface::0/0"]), value=int(v[iface][m]))
 
     @metrics(
         [

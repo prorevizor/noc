@@ -26,19 +26,19 @@ class Script(GetMetricsScript):
             )
             load = self.snmp.get("1.3.6.1.4.1.32285.2.2.10.3008.4.5.1.3.1.%s" % metric.ifindex)
             self.set_metric(
-                id=("Interface | Status | Admin", [f"noc::port::{ifname}"]),
+                id=("Interface | Status | Admin", [f"noc::interface::{ifname}"]),
                 value=1 if istatus not in ["Shut Down", "linkError"] else 0,
                 type="gauge",
                 scale=1,
             )
             self.set_metric(
-                id=("Interface | Status | Oper", [f"noc::port::{ifname}"]),
+                id=("Interface | Status | Oper", [f"noc::interface::{ifname}"]),
                 value=1 if istatus not in ["Shut Down", "Link Error"] else 0,
                 type="gauge",
                 scale=1,
             )
             self.set_metric(
-                id=("Interface | Load | In", [f"noc::port::{ifname}"]),
+                id=("Interface | Load | In", [f"noc::interface::{ifname}"]),
                 value=float(load.rstrip("Mbps")),
                 type="gauge",
                 scale=1000000,
@@ -60,7 +60,7 @@ class Script(GetMetricsScript):
             self.set_metric(
                 id=(
                     "Multicast | Channel | Bandwidth | Used",
-                    [f"noc::port::1/1.{metric.ifindex}"],
+                    [f"noc::interface::1/1.{metric.ifindex}"],
                 ),
                 labels=([f"noc::multicast::group::1/1.{metric.ifindex}"]),
                 value=float(used_bandwidth.rstrip("Mbps")),
@@ -90,7 +90,7 @@ class Script(GetMetricsScript):
             self.set_metric(
                 id=(
                     "Multicast | Channel | Bandwidth | Percent",
-                    [f"noc::port::1/1.{metric.ifindex}"],
+                    [f"noc::interface::1/1.{metric.ifindex}"],
                 ),
                 labels=([f"noc::multicast::group::1/1.{metric.ifindex}"]),
                 value=int(value),
@@ -110,7 +110,7 @@ class Script(GetMetricsScript):
                 "1.3.6.1.4.1.32285.2.2.10.3008.5.3.1.17.1.1.%s" % metric.ifindex
             )
             self.set_metric(
-                id=("Multicast | Channel | Group | Count", [f"noc::port::1/1.{metric.ifindex}"]),
+                id=("Multicast | Channel | Group | Count", [f"noc::interface::1/1.{metric.ifindex}"]),
                 labels=([f"noc::multicast::group::1/1.{metric.ifindex}"]),
                 value=udp_ports,
                 type="gauge",
@@ -145,7 +145,7 @@ class Script(GetMetricsScript):
                 m_ostatus = -1
 
             self.set_metric(
-                id=("Multicast | Group | Status", [f"noc::port::{channel}/{mname}"]),
+                id=("Multicast | Group | Status", [f"noc::interface::{channel}/{mname}"]),
                 labels=(
                     [f"noc::multicast::name::{mname}", f"noc::multicast::channel::1/1.{channel}"]
                 ),
@@ -174,7 +174,7 @@ class Script(GetMetricsScript):
             except self.snmp.SNMPError:
                 input = 0
             self.set_metric(
-                id=("Multicast | Group | Bitrate | In", [f"noc::port::{channel}/{mname}"]),
+                id=("Multicast | Group | Bitrate | In", [f"noc::interface::{channel}/{mname}"]),
                 labels=(
                     [f"noc::multicast::name::{mname}", f"noc::multicast::channel::1/1.{channel}"]
                 ),
@@ -203,7 +203,7 @@ class Script(GetMetricsScript):
             except self.snmp.SNMPError:
                 input = 0
             self.set_metric(
-                id=("Multicast | Group | Bitrate | Out", [f"noc::port::{channel}/{mname}"]),
+                id=("Multicast | Group | Bitrate | Out", [f"noc::interface::{channel}/{mname}"]),
                 labels=(
                     [f"noc::multicast::name::{mname}", f"noc::multicast::channel::1/1.{channel}"]
                 ),
