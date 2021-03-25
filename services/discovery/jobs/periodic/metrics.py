@@ -784,9 +784,9 @@ class MetricsCheck(DiscoveryCheck):
                                     self.logger.error("Exception when calling close handler: %s", e)
                         else:
                             self.logger.warning("Handler is not allowed for Thresholds")
-                    if threshold.alarm_class:
-                        # Remain umbrella alarm
-                        alarms += self.get_umbrella_alarm_cfg(cfg, threshold, path, w_value)
+                if threshold.alarm_class:
+                    # Remain umbrella alarm
+                    alarms += self.get_umbrella_alarm_cfg(cfg, threshold, path, w_value)
             else:
                 # Threshold has been reconfigured or deleted
                 if active.get("close_event_class"):
