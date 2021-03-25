@@ -261,7 +261,7 @@ class Label(Document):
         """
 
         def default_iter_effective_labels(instance) -> Iterable[List[str]]:
-            yield instance.labels
+            yield instance.labels or []
 
         def on_pre_save(sender, instance=None, document=None, *args, **kwargs):
             instance = instance or document
