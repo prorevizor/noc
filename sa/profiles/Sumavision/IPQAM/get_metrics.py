@@ -110,7 +110,10 @@ class Script(GetMetricsScript):
                 "1.3.6.1.4.1.32285.2.2.10.3008.5.3.1.17.1.1.%s" % metric.ifindex
             )
             self.set_metric(
-                id=("Multicast | Channel | Group | Count", [f"noc::interface::1/1.{metric.ifindex}"]),
+                id=(
+                    "Multicast | Channel | Group | Count",
+                    [f"noc::interface::1/1.{metric.ifindex}"],
+                ),
                 labels=([f"noc::multicast::group::1/1.{metric.ifindex}"]),
                 value=udp_ports,
                 type="gauge",

@@ -12,28 +12,6 @@ import re
 from noc.sa.profiles.Generic.get_lldp_neighbors import Script as BaseScript
 from noc.sa.interfaces.igetlldpneighbors import IGetLLDPNeighbors, MACAddressParameter
 from noc.core.text import parse_kv
-from noc.core.lldp import (
-    LLDP_CHASSIS_SUBTYPE_MAC,
-    LLDP_CHASSIS_SUBTYPE_CHASSIS_COMPONENT,
-    LLDP_CHASSIS_SUBTYPE_PORT_COMPONENT,
-    LLDP_CHASSIS_SUBTYPE_NETWORK_ADDRESS,
-    LLDP_CHASSIS_SUBTYPE_LOCAL,
-    LLDP_PORT_SUBTYPE_COMPONENT,
-    LLDP_PORT_SUBTYPE_NAME,
-    LLDP_PORT_SUBTYPE_ALIAS,
-    LLDP_PORT_SUBTYPE_MAC,
-    LLDP_PORT_SUBTYPE_NETWORK_ADDRESS,
-    LLDP_PORT_SUBTYPE_LOCAL,
-    LLDP_CAP_OTHER,
-    LLDP_CAP_REPEATER,
-    LLDP_CAP_BRIDGE,
-    LLDP_CAP_WLAN_ACCESS_POINT,
-    LLDP_CAP_ROUTER,
-    LLDP_CAP_TELEPHONE,
-    LLDP_CAP_DOCSIS_CABLE_DEVICE,
-    LLDP_CAP_STATION_ONLY,
-    lldp_caps_to_bits,
-)
 
 
 class Script(BaseScript):
@@ -50,31 +28,31 @@ class Script(BaseScript):
     rx_neighbor_split = re.compile(r"^\s*Neighbor", re.MULTILINE)
 
     CHASSIS_TYPES = {
-        "chassiscomponent": LLDP_CHASSIS_SUBTYPE_CHASSIS_COMPONENT,
-        "chassis component": LLDP_CHASSIS_SUBTYPE_CHASSIS_COMPONENT,
-        "portcomponent": LLDP_CHASSIS_SUBTYPE_PORT_COMPONENT,
-        "port component": LLDP_CHASSIS_SUBTYPE_PORT_COMPONENT,
-        "macaddress": LLDP_CHASSIS_SUBTYPE_MAC,
-        "mac address": LLDP_CHASSIS_SUBTYPE_MAC,
-        "networkaddress": LLDP_CHASSIS_SUBTYPE_NETWORK_ADDRESS,
-        "network address": LLDP_CHASSIS_SUBTYPE_NETWORK_ADDRESS,
+        "chassiscomponent": 1,
+        "chassis component": 1,
+        "portcomponent": 3,
+        "port component": 3,
+        "macaddress": 4,
+        "mac address": 4,
+        "networkaddress": 5,
+        "network address": 5,
         "interfacename": 6,
         "interface name": 6,
-        "local": LLDP_CHASSIS_SUBTYPE_LOCAL,
-        "locally assigned": LLDP_CHASSIS_SUBTYPE_LOCAL,
+        "local": 7,
+        "locally assigned": 7,
     }
 
     PORT_TYPES = {
-        "interfacealias": LLDP_PORT_SUBTYPE_ALIAS,
-        "interface alias": LLDP_PORT_SUBTYPE_ALIAS,
-        "portcomponent": LLDP_PORT_SUBTYPE_COMPONENT,
-        "port component": LLDP_PORT_SUBTYPE_COMPONENT,
-        "macaddress": LLDP_PORT_SUBTYPE_MAC,
-        "mac address": LLDP_PORT_SUBTYPE_MAC,
-        "interfacename": LLDP_PORT_SUBTYPE_NAME,
-        "interface name": LLDP_PORT_SUBTYPE_NAME,
-        "local": LLDP_PORT_SUBTYPE_LOCAL,
-        "locally assigned": LLDP_PORT_SUBTYPE_LOCAL,
+        "interfacealias": 1,
+        "interface alias": 1,
+        "portcomponent": 2,
+        "port component": 2,
+        "macaddress": 3,
+        "mac address": 3,
+        "interfacename": 5,
+        "interface name": 5,
+        "local": 7,
+        "locally assigned": 7,
     }
 
     CAPS = {
@@ -100,7 +78,7 @@ class Script(BaseScript):
         :return:
         """
         r = []
-        if self.is_kernel_3:
+        if self.match_version(version__startswith=r"3."):
             try:
                 v = self.cli("display lldp neighbor-information")
             except self.CLISyntaxError:

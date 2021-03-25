@@ -229,8 +229,6 @@ class Profile(BaseProfile):
         'XGigabitEthernet2/0/0'
         >>> Profile().convert_interface_name("GE2/0/0")
         'GigabitEthernet2/0/0'
-        >>> Profile().convert_interface_name("GigabitEthernet1/0/4")
-        'GigabitEthernet1/0/4'
         >>> Profile().convert_interface_name("G2/0/0")
         'GigabitEthernet2/0/0'
         >>> Profile().convert_interface_name("Eth2/0/0")
