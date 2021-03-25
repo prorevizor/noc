@@ -632,7 +632,7 @@ class ManagedObjectProfile(NOCModel):
                 "enable_box_discovery",
                 "enable_periodic_discovery",
                 "enable_ping",
-                "tags",
+                "labels",
             }
         ):
             for mo_id in ManagedObject.objects.filter(object_profile=self).values_list(

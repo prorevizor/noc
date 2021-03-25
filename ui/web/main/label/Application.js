@@ -160,6 +160,9 @@ Ext.define("NOC.main.label.Application", {
             if (item.data.enable_vpnprofile) {
               r.push(__("VPN Profile"));
             }
+            if (item.data.enable_slaprobe) {
+              r.push(__("SLA Probe"));
+            }
             return r.join(", ");
           }
         },
@@ -447,6 +450,11 @@ Ext.define("NOC.main.label.Application", {
               name: "enable_vpnprofile",
               xtype: "checkbox",
               boxLabel: __("VPN Profile")
+            },
+            {
+              name: "enable_slaprobe",
+              xtype: "checkbox",
+              boxLabel: __("SLA Probe")
             }
           ]
         },
