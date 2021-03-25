@@ -381,7 +381,7 @@ class MetricScope(Document):
                 f'        if label.startswith("{prefix}"):',
                 f"            pc[{pn}] = label[{p_len}:]",
                 f"            max_p = max(max_p, {pn})",
-                f"            continue",
+                "            continue",
             ]
         r += [
             "    if not pc:",
