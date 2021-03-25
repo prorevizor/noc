@@ -5,11 +5,8 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
-
-from collections import defaultdict
-
 # Third-party modules
-from pymongo import InsertOne, UpdateMany, UpdateOne
+from pymongo import UpdateMany
 
 # NOC modules
 from noc.core.migration.base import BaseMigration
@@ -20,7 +17,6 @@ class Migration(BaseMigration):
     TAG_COLLETIONS = [("noc.alarms.active", ""), ("noc.alarms.archived", "")]
 
     def migrate(self):
-        labels = defaultdict(set)  # label: settings
         # Mongo models
         for collection, setting in self.TAG_COLLETIONS:
             coll = self.mongo_db[collection]
