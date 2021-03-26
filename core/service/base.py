@@ -939,7 +939,7 @@ class BaseService(object):
             self.publish(
                 chunk,
                 stream=f"ch.{table}",
-                partition=key % self.n_metrics_partitions,
+                partition=int(key) % self.n_metrics_partitions,
             )
 
     def start_telemetry_callback(self) -> None:
