@@ -25,7 +25,6 @@ from typing import (
     TypeVar,
     NoReturn,
     Awaitable,
-    Iterable,
 )
 
 # Third-party modules
