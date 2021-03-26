@@ -30,7 +30,7 @@ from mongoengine.errors import ValidationError
 from noc.sa.models.managedobject import ManagedObject
 from noc.inv.models.networksegment import NetworkSegment
 from noc.core.mongo.fields import ForeignKeyField, PlainReferenceField
-from noc.core.model.decorator import on_save, on_delete_check
+from noc.core.model.decorator import on_save, on_delete
 from noc.sa.models.objectdata import ObjectData
 from noc.main.models.timepattern import TimePattern
 from noc.main.models.template import Template
@@ -50,7 +50,7 @@ class MaintenanceSegment(EmbeddedDocument):
 
 
 @on_save
-@on_delete_check(check=[("maintenance.AffectedObjects", "maintenance")])
+@on_delete
 class Maintenance(Document):
     meta = {
         "collection": "noc.maintenance",
@@ -106,6 +106,9 @@ class Maintenance(Document):
         if stop > now:
             delay = (stop - now).total_seconds()
             call_later("noc.maintenance.models.maintenance.stop", delay, maintenance_id=self.id)
+
+    def on_delete(self):
+        AffectedObjects.objects.filter(maintenance=self).delete()
 
     def save(self, *args, **kwargs):
         created = False
