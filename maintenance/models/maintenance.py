@@ -50,7 +50,9 @@ class MaintenanceSegment(EmbeddedDocument):
 
 
 @on_save
-@on_delete_check(clean=[("maintenance.AffectedObjects", "maintenance")])
+@on_delete_check(
+    clean=[("maintenance.AffectedObjects", "maintenance")],
+)
 class Maintenance(Document):
     meta = {
         "collection": "noc.maintenance",
@@ -219,7 +221,6 @@ class Maintenance(Document):
         return r
 
 
-@on_delete_check(check=[("maintenance.AffectedObjects", "maintenance")])
 class AffectedObjects(Document):
     meta = {
         "collection": "noc.affectedobjects",
