@@ -918,7 +918,7 @@ class BaseService(object):
             yield b"\n".join(r)
 
     def register_metrics(
-        self, table: str, metrics: List[Dict[str, Any]], key: Optional[int] = None
+        self, table: str, metrics: List[Dict[str, Any]], key: Optional[str] = None
     ):
         """
         Send collected metrics to `table`
@@ -939,7 +939,7 @@ class BaseService(object):
             self.publish(
                 chunk,
                 stream=f"ch.{table}",
-                partition=key % self.n_metrics_partitions,
+                partition=int(key) % self.n_metrics_partitions,
             )
 
     def start_telemetry_callback(self) -> None:
