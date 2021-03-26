@@ -918,7 +918,7 @@ class BaseService(object):
             yield b"\n".join(r)
 
     def register_metrics(
-        self, table: str, metrics: List[Dict[str, Any]], key: Optional[int] = None
+        self, table: str, metrics: List[Dict[str, Any]], key: Optional[str] = None
     ):
         """
         Send collected metrics to `table`
