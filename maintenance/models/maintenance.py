@@ -223,8 +223,7 @@ class AffectedObjects(Document):
         "collection": "noc.affectedobjects",
         "strict": False,
         "auto_create_index": False,
-        "indexes": ["affected_objects.object"],
-        "legacy_collections": ["noc.affectedobjects"],
+        "indexes": ["affected_objects.object"]
     }
     maintenance = PlainReferenceField(Maintenance)
     affected_objects = ListField(EmbeddedDocumentField(MaintenanceObject))
