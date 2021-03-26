@@ -30,7 +30,7 @@ from mongoengine.errors import ValidationError
 from noc.sa.models.managedobject import ManagedObject
 from noc.inv.models.networksegment import NetworkSegment
 from noc.core.mongo.fields import ForeignKeyField, PlainReferenceField
-from noc.core.model.decorator import on_save
+from noc.core.model.decorator import on_save, on_delete_check
 from noc.sa.models.objectdata import ObjectData
 from noc.main.models.timepattern import TimePattern
 from noc.main.models.template import Template
@@ -50,6 +50,7 @@ class MaintenanceSegment(EmbeddedDocument):
 
 
 @on_save
+@on_delete_check(check=[("maintenance.AffectedObjects", "maintenance")])
 class Maintenance(Document):
     meta = {
         "collection": "noc.maintenance",
