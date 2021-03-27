@@ -42,7 +42,7 @@
       "dateTimeType": "DATETIME",
       "round": "0s",
       "intervalFactor": 1,
-      "query": "SELECT $timeSeries as t, argMax(pulse, t) FROM $table WHERE managed_object = $bi_id and interface=toString('{{ port.name }}') and $timeFilter GROUP BY t ORDER BY t",
+      "query": "SELECT $timeSeries as t, argMax(pulse, t) FROM $table WHERE managed_object = $bi_id and sensor=toString('{{ port.name }}') and $timeFilter GROUP BY t ORDER BY t",
       "database": "{{ noc_db_metrics }}",
       "tableLoading": false,
       "table": "environment",

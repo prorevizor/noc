@@ -46,7 +46,7 @@
           "datetimeLoading": false,
           "intervalFactor": 1,
           "interval": "$discovery_interval",
-          "query": "SELECT \n\tt, \n\tgroupArray((concat('Discards Out ',interface), d)) AS groupArr\nFROM \n\t( SELECT \n\t\t$timeSeries t, \n\t\tlabels, \n\t\tavg(discards_out) d \n\t\tfrom noc.interface \n\t\tWHERE \n\t\t\t$timeFilter\n\t\t\tAND  managed_object= $bi_id \n\t\tGROUP BY t, labels\n\t\thaving d > 0\n\t\tORDER BY t\n\t) \nGROUP BY t \nORDER BY t",
+          "query": "SELECT \n\tt, \n\tgroupArray((concat('Discards Out ',interface), d)) AS groupArr\nFROM \n\t( SELECT \n\t\t$timeSeries t, \n\t\tinterface, \n\t\tavg(discards_out) d \n\t\tfrom noc.interface \n\t\tWHERE \n\t\t\t$timeFilter\n\t\t\tAND  managed_object= $bi_id \n\t\tGROUP BY t, interface\n\t\thaving d > 0\n\t\tORDER BY t\n\t) \nGROUP BY t \nORDER BY t",
           "resultFormat": "time_series",
           "table": "interface",
           "tableLoading": false
@@ -59,21 +59,7 @@
           "datetimeLoading": false,
           "intervalFactor": 1,
           "interval": "$discovery_interval",
-          "query": "SELECT \n\tt, \n\tgroupArray((concat('Discards In ',interface), d)) AS groupArr\nFROM \n\t( SELECT \n\t\t$timeSeries t, \n\t\tlabels, \n\t\tavg(discards_in) d \n\t\tfrom noc.interface \n\t\tWHERE \n\t\t\t$timeFilter\n\t\t\tAND  managed_object= $bi_id \n\t\tGROUP BY t, labels\n\t\thaving d > 0\n\t\tORDER BY t\n\t) \nGROUP BY t \nORDER BY t",
-          "resultFormat": "time_series",
-          "table": "interface",
-          "tableLoading": false
-        },
-        {
-          "database": "{{ noc_db_metrics }}",
-          "dateColDataType": "date",
-          "dateLoading": false,
-          "dateTimeColDataType": "ts",
-          "datetimeLoading": false,
-          "hide": false,
-          "intervalFactor": 1,
-          "interval": "$discovery_interval",
-          "query": "SELECT \n\tt, \n\tgroupArray((concat('Errors Out ',interface), d)) AS groupArr\nFROM \n\t( SELECT  \n\t$timeSeries as t, \n\t\tlabels, \n\t\tavg(errors_out) d \n\t\tfrom noc.interface \n\t\tWHERE \n\t\t\t$timeFilter\n\t\t\tAND  managed_object= $bi_id \n\t\tGROUP BY t, labels\n\t\thaving d > 0\n\t\tORDER BY t\n\t) \nGROUP BY t \nORDER BY t",
+          "query": "SELECT \n\tt, \n\tgroupArray((concat('Discards In ',interface), d)) AS groupArr\nFROM \n\t( SELECT \n\t\t$timeSeries t, \n\t\tinterface, \n\t\tavg(discards_in) d \n\t\tfrom noc.interface \n\t\tWHERE \n\t\t\t$timeFilter\n\t\t\tAND  managed_object= $bi_id \n\t\tGROUP BY t, interface\n\t\thaving d > 0\n\t\tORDER BY t\n\t) \nGROUP BY t \nORDER BY t",
           "resultFormat": "time_series",
           "table": "interface",
           "tableLoading": false
@@ -87,7 +73,7 @@
           "hide": false,
           "intervalFactor": 1,
           "interval": "$discovery_interval",
-          "query": "SELECT \n\tt, \n\tgroupArray((concat('Errors In ',interface), d)) AS groupArr\nFROM \n\t( SELECT  \n\t$timeSeries as t, \n\t\tlabels, \n\t\tavg(errors_in) d \n\t\tfrom noc.interface \n\t\tWHERE \n\t\t\t$timeFilter\n\t\t\tAND  managed_object= $bi_id \n\t\tGROUP BY t, labels\n\t\thaving d > 0\n\t\tORDER BY t\n\t) \nGROUP BY t \nORDER BY t",
+          "query": "SELECT \n\tt, \n\tgroupArray((concat('Errors Out ',interface), d)) AS groupArr\nFROM \n\t( SELECT  \n\t$timeSeries as t, \n\t\tinterface, \n\t\tavg(errors_out) d \n\t\tfrom noc.interface \n\t\tWHERE \n\t\t\t$timeFilter\n\t\t\tAND  managed_object= $bi_id \n\t\tGROUP BY t, interface\n\t\thaving d > 0\n\t\tORDER BY t\n\t) \nGROUP BY t \nORDER BY t",
           "resultFormat": "time_series",
           "table": "interface",
           "tableLoading": false
@@ -101,7 +87,7 @@
           "hide": false,
           "intervalFactor": 1,
           "interval": "$discovery_interval",
-          "query": "SELECT \n\tt, \n\tgroupArray((concat('Errors In Delta ',interface), d)) AS groupArr\nFROM \n\t( SELECT  \n\t$timeSeries as t, \n\t\tlabels, \n\t\tavg(errors_in_delta) d \n\t\tfrom noc.interface \n\t\tWHERE \n\t\t\t$timeFilter\n\t\t\tAND  managed_object= $bi_id \n\t\tGROUP BY t, labels\n\t\thaving d > 0\n\t\tORDER BY t\n\t) \nGROUP BY t \nORDER BY t",
+          "query": "SELECT \n\tt, \n\tgroupArray((concat('Errors In ',interface), d)) AS groupArr\nFROM \n\t( SELECT  \n\t$timeSeries as t, \n\t\tinterface, \n\t\tavg(errors_in) d \n\t\tfrom noc.interface \n\t\tWHERE \n\t\t\t$timeFilter\n\t\t\tAND  managed_object= $bi_id \n\t\tGROUP BY t, interface\n\t\thaving d > 0\n\t\tORDER BY t\n\t) \nGROUP BY t \nORDER BY t",
           "resultFormat": "time_series",
           "table": "interface",
           "tableLoading": false
@@ -115,7 +101,7 @@
           "hide": false,
           "intervalFactor": 1,
           "interval": "$discovery_interval",
-          "query": "SELECT \n\tt, \n\tgroupArray((concat('Errors Out Delta ',interface), d)) AS groupArr\nFROM \n\t( SELECT  \n\t$timeSeries as t, \n\t\tlabels, \n\t\tavg(errors_out_delta) d \n\t\tfrom noc.interface \n\t\tWHERE \n\t\t\t$timeFilter\n\t\t\tAND  managed_object= $bi_id \n\t\tGROUP BY t, labels\n\t\thaving d > 0\n\t\tORDER BY t\n\t) \nGROUP BY t \nORDER BY t",
+          "query": "SELECT \n\tt, \n\tgroupArray((concat('Errors In Delta ',interface), d)) AS groupArr\nFROM \n\t( SELECT  \n\t$timeSeries as t, \n\t\tinterface, \n\t\tavg(errors_in_delta) d \n\t\tfrom noc.interface \n\t\tWHERE \n\t\t\t$timeFilter\n\t\t\tAND  managed_object= $bi_id \n\t\tGROUP BY t, interface\n\t\thaving d > 0\n\t\tORDER BY t\n\t) \nGROUP BY t \nORDER BY t",
           "resultFormat": "time_series",
           "table": "interface",
           "tableLoading": false
@@ -129,7 +115,21 @@
           "hide": false,
           "intervalFactor": 1,
           "interval": "$discovery_interval",
-          "query": "SELECT \n\tt, \n\tgroupArray((concat('Dropped Out Delta ', interface, ' Queue ', queue), d)) AS groupArr\nFROM \n\t( SELECT  \n\t$timeSeries as t, \n\t\tlabels, \n\t\tavg(qos_discards_out_delta) d \n\t\tfrom noc.interface \n\t\tWHERE \n\t\t\t$timeFilter\n\t\t\tAND  managed_object= $bi_id \n\t\tGROUP BY t, labels\n\t\thaving d > 0\n\t\tORDER BY t\n\t) \nGROUP BY t \nORDER BY t",
+          "query": "SELECT \n\tt, \n\tgroupArray((concat('Errors Out Delta ',interface), d)) AS groupArr\nFROM \n\t( SELECT  \n\t$timeSeries as t, \n\t\tinterface, \n\t\tavg(errors_out_delta) d \n\t\tfrom noc.interface \n\t\tWHERE \n\t\t\t$timeFilter\n\t\t\tAND  managed_object= $bi_id \n\t\tGROUP BY t, interface\n\t\thaving d > 0\n\t\tORDER BY t\n\t) \nGROUP BY t \nORDER BY t",
+          "resultFormat": "time_series",
+          "table": "interface",
+          "tableLoading": false
+        },
+        {
+          "database": "{{ noc_db_metrics }}",
+          "dateColDataType": "date",
+          "dateLoading": false,
+          "dateTimeColDataType": "ts",
+          "datetimeLoading": false,
+          "hide": false,
+          "intervalFactor": 1,
+          "interval": "$discovery_interval",
+          "query": "SELECT \n\tt, \n\tgroupArray((concat('Dropped Out Delta ', interface, ' Queue ', queue), d)) AS groupArr\nFROM \n\t( SELECT  \n\t$timeSeries as t, \n\t\tinterface, queue, \n\t\tavg(qos_discards_out_delta) d \n\t\tfrom noc.interface \n\t\tWHERE \n\t\t\t$timeFilter\n\t\t\tAND  managed_object= $bi_id \n\t\tGROUP BY t, interface, queue \n\t\thaving d > 0\n\t\tORDER BY t\n\t) \nGROUP BY t \nORDER BY t",
           "resultFormat": "time_series",
           "table": "interface",
           "tableLoading": false
