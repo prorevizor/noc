@@ -53,7 +53,7 @@ impl TryFrom<&ZkConfigCollector> for TWAMPSenderCollector {
                 server: config.server.clone(),
                 port: config.port,
                 n_packets: config.n_packets,
-                model: config.model.clone(),
+                model: config.model,
                 tos: dscp_to_tos(config.dscp.to_lowercase()).ok_or("invalid dscp")?,
             }),
             _ => Err("invalid config".into()),
