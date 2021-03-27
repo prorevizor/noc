@@ -129,7 +129,7 @@
           "dateTimeColDataType": "ts",
           "datetimeLoading": false,
           "intervalFactor": 1,
-          "query": "SELECT $timeSeries as t, avg(usage) as `Cpu | Usage`FROM $table WHERE managed_object=$bi_id and $timeFilter GROUP BY t ORDER BY t",
+          "query": "SELECT $timeSeries as t, avg(usage) as `Cpu | Usage` FROM $table WHERE managed_object=$bi_id and $timeFilter GROUP BY t ORDER BY t",
           "refId": "B",
           "resultFormat": "time_series",
           "table": "cpu",
