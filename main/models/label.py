@@ -9,6 +9,7 @@
 from typing import Optional, List, Set, Iterable
 from threading import Lock
 import operator
+from itertools import accumulate
 
 # Third-party modules
 from mongoengine.document import Document
@@ -118,6 +119,49 @@ class Label(Document):
     def on_delete(self):
         if self.is_wildcard and any(Label.objects.filter(name__startswith=self.name[:-1])):
             raise ValueError("Cannot delete wildcard label with matched labels")
+        if self.is_builtin:
+            raise ValueError("Cannot delete builtin label with matched labels")
+
+    @staticmethod
+    def get_wildcards(label: str) -> List[str]:
+        return [label] + [
+            f"{ll}::*" for ll in accumulate(label.split("::")[:-1], lambda acc, x: f"{acc}::{x}")
+        ]
+
+    @classmethod
+    def get_effective_setting(cls, label: str, setting: str) -> bool:
+        wildcards = cls.get_wildcards(label)
+        coll = cls._get_collection()
+        r = next(
+            coll.aggregate(
+                [
+                    {"$match": {"name": {"$in": wildcards}}},
+                    {"$group": {"_id": None, setting: {"$max": f"${setting}"}}},
+                ]
+            ),
+            {},
+        )
+        return bool(r.get(setting))
+
+    @property
+    def effective_settings(self):
+        """
+        Returns dict with effective settings
+        """
+        es = {ff: False for ff in self._fields if ff.startswith("enable")}
+        wildcards = self.get_wildcards(self.name)
+        coll = self._get_collection()
+        group = {setting: {"$max": f"${setting}"} for setting in es}
+        group["_id"] = None
+        r = next(coll.aggregate(
+                [
+                    {"$match": {"name": {"$in": wildcards}}},
+                    {"$group": group},
+                    {"$project": {"_id": -1}}
+                ]
+            ), {})
+        es.update(r)
+        return es
 
     @classmethod
     def merge_labels(cls, iter_labels: Iterable[List[str]]) -> List[str]:
@@ -158,6 +202,14 @@ class Label(Document):
         :return:
         """
         return self.name.endswith("::*")
+
+    @property
+    def is_builtin(self) -> bool:
+        """
+        Returns True if the label is protected
+        :return:
+        """
+        return self.name.startswith("noc::")
 
     def iter_scopes(self) -> Iterable[str]:
         """
