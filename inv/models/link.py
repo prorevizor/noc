@@ -195,7 +195,9 @@ class Link(Document):
             self.update_topology()
         mo = self.interfaces[0].managed_object
         for ri in self.interfaces[1:]:
-            BioSegTrial.schedule_trial(mo.segment, ri.managed_object.segment, mo, ri.managed_object, reason="link")
+            BioSegTrial.schedule_trial(
+                mo.segment, ri.managed_object.segment, mo, ri.managed_object, reason="link"
+            )
 
     def on_delete(self):
         self.update_topology()
