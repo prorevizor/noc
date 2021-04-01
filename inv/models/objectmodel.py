@@ -142,7 +142,6 @@ class ObjectModelSensor(EmbeddedDocument):
         return r
 
 
-@Label.model
 @category
 @on_delete_check(check=[("inv.ModelMapping", "model"), ("inv.Object", "model")])
 @on_save
