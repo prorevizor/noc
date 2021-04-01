@@ -340,7 +340,7 @@ class Label(Document):
             # Build and clean up effective labels. Filter can_set_labels
             labels_iter = getattr(sender, "iter_effective_labels", default_iter_effective_labels)
             instance.effective_labels = [
-                ll.name for ll in Label.merge_labels(labels_iter(instance)) if can_set_label(ll)
+                ll for ll in Label.merge_labels(labels_iter(instance)) if can_set_label(ll)
             ]
 
         # Install handlers

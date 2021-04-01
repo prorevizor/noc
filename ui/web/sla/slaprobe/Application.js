@@ -134,7 +134,7 @@ Ext.define("NOC.sla.slaprobe.Application", {
                     xtype: "labelfield",
                     fieldLabel: __("Labels"),
                     allowBlank: true,
-                    uiStyle: "extra"
+                    uiStyle: "extra",
                     query: {
                         "enable_slaprobe": true
                     },
