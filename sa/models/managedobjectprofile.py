@@ -770,13 +770,7 @@ class ManagedObjectProfile(NOCModel):
 
     @classmethod
     def can_set_label(cls, label):
-        if label.enable_managedobjectprofile:
-            return True
-        return False
-
-    @classmethod
-    def can_expose_label(cls, label):
-        return False
+        return Label.get_effective_setting(label, setting="enable_managedobjectprofile")
 
 
 def apply_discovery_jobs(profile_id, box_changed, periodic_changed):

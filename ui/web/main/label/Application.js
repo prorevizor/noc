@@ -175,8 +175,8 @@ Ext.define("NOC.main.label.Application", {
             if (item.data.expose_metric) {
               r.push(__("Metric"));
             }
-            if (item.data.expose_managedobject) {
-              r.push(__("Managed Object"));
+            if (item.data.expose_datastream) {
+              r.push(__("Datastream"));
             }
             return r.join(", ");
           }
@@ -473,9 +473,9 @@ Ext.define("NOC.main.label.Application", {
               boxLabel: __("Metrics")
             },
             {
-              name: "expose_managedobject",
+              name: "expose_datastream",
               xtype: "checkbox",
-              boxLabel: __("Managed Object")
+              boxLabel: __("Datastream")
             }
           ]
         },

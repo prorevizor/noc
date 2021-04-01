@@ -369,9 +369,7 @@ class ObjectModel(Document):
 
     @classmethod
     def can_set_label(cls, label):
-        if label.enable_objectmodel:
-            return True
-        return False
+        return Label.get_effective_setting(label, "enable_objectmodel")
 
 
 class ModelConnectionsCache(Document):

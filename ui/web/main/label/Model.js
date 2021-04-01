@@ -206,7 +206,7 @@ Ext.define("NOC.main.label.Model", {
             type: "boolean"
         },
         {
-            name: "expose_managedobject",
+            name: "expose_datastream",
             type: "boolean"
         },
         {
