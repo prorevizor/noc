@@ -33,6 +33,7 @@ from noc.aaa.models.user import User
 from noc.main.models.style import Style
 from noc.main.models.notificationgroup import NotificationGroup
 from noc.main.models.template import Template
+from noc.main.models.label import Label
 from noc.sa.models.managedobject import ManagedObject
 from noc.sa.models.servicesummary import ServiceSummary, SummaryItem, ObjectSummaryItem
 from noc.core.datastream.decorator import datastream
