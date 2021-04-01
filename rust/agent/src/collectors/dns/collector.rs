@@ -1,15 +1,16 @@
 // ---------------------------------------------------------------------
-// DNS collector
+// dns collector implementation
 // ---------------------------------------------------------------------
 // Copyright (C) 2007-2021 The NOC Project
 // See LICENSE for details
 // ---------------------------------------------------------------------
 
-use crate::collectors::base::{Collectable, Collector, Status};
+use crate::collectors::{Collectable, CollectorConfig, Id, Repeatable, Status};
 use crate::timing::Timing;
-use crate::zk::Configurable;
+use crate::zk::ZkConfigCollector;
+use agent_derive::{Id, Repeatable};
 use async_trait::async_trait;
-use serde::Deserialize;
+use std::convert::TryFrom;
 use std::error::Error;
 use std::str::FromStr;
 use std::time::Duration;
@@ -18,42 +19,56 @@ use trust_dns_proto::rr::record_type::RecordType;
 use trust_dns_proto::xfer::dns_request::DnsRequestOptions;
 use trust_dns_resolver::TokioAsyncResolver;
 
-#[derive(Deserialize, Debug)]
-pub struct DNSConfig {
-    query: String,
-    #[serde(default = "default_type_a")]
-    query_type: String,
-    #[serde(default = "default_one")]
-    n: usize,
-    #[serde(default = "default_one")]
-    min_success: usize,
+#[derive(Id, Repeatable)]
+pub struct DnsCollector {
+    pub id: String,
+    pub interval: u64,
+    pub query: String,
+    pub query_type: String,
+    pub record_type: RecordType,
+    pub n: usize,
+    pub min_success: usize,
 }
 
-impl Configurable<DNSConfig> for DNSConfig {}
+impl TryFrom<&ZkConfigCollector> for DnsCollector {
+    type Error = Box<dyn Error>;
 
-pub type DNSCollector = Collector<DNSConfig>;
+    fn try_from(value: &ZkConfigCollector) -> Result<Self, Self::Error> {
+        match &value.config {
+            CollectorConfig::Dns(config) => Ok(Self {
+                id: value.id.clone(),
+                interval: value.interval,
+                query: config.query.clone(),
+                query_type: config.query_type.clone(),
+                record_type: RecordType::from_str(config.query_type.as_ref())?,
+                n: config.n,
+                min_success: config.min_success,
+            }),
+            _ => Err("invalid config".into()),
+        }
+    }
+}
 
 #[async_trait]
-impl Collectable for DNSCollector {
+impl Collectable for DnsCollector {
     async fn collect(&self) -> Result<Status, Box<dyn Error>> {
         let resolver = TokioAsyncResolver::tokio_from_system_conf()?;
-        let record_type = RecordType::from_str(self.config.query_type.as_ref())?;
         let mut success: usize = 0;
         let mut timing = Timing::new();
-        let total = self.config.n;
+        let total = self.n;
         for i in 0..total {
             log::debug!(
                 "[{}] {} lookup #{}: {}",
                 &self.id,
-                &self.config.query_type,
+                &self.query_type,
                 i,
-                &self.config.query
+                &self.query
             );
             let t0 = Instant::now();
             match resolver
                 .lookup(
-                    self.config.query.as_ref(),
-                    record_type,
+                    self.query.as_ref(),
+                    self.record_type,
                     DnsRequestOptions::default(),
                 )
                 .await
@@ -68,7 +83,7 @@ impl Collectable for DNSCollector {
             timing.register(t0.elapsed().as_nanos() as u64);
         }
         timing.done();
-        let failed = self.config.n - success;
+        let failed = self.n - success;
         log::debug!(
             "[{}] total/success/failed={}/{}/{}, min/max/avg/jitter={:?}/{:?}/{:?}/{:?}",
             &self.id,
@@ -82,12 +97,4 @@ impl Collectable for DNSCollector {
         );
         Ok(Status::Ok)
     }
-}
-
-fn default_type_a() -> String {
-    "A".into()
-}
-
-fn default_one() -> usize {
-    1
 }

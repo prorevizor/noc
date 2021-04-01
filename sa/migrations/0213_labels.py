@@ -81,17 +81,13 @@ class Migration(BaseMigration):
         # Mongo models
         for collection, setting in self.TAG_COLLETIONS:
             coll = self.mongo_db[collection]
-            coll.aggregate(
-                [
-                    {"$match": {"tags": {"$exists": True, "$ne": []}}},
-                    {"$addFields": {"labels": "$tags"}},
-                    {"$out": collection},
-                ]
+            coll.bulk_write(
+                [UpdateMany({"tags": {"$exists": True}}, {"$rename": {"tags": "labels"}})]
             )
             r = next(
                 coll.aggregate(
                     [
-                        {"$match": {"tags": {"$exists": True, "$ne": []}}},
+                        {"$match": {"labels": {"$exists": True, "$ne": []}}},
                         {"$unwind": "$labels"},
                         {"$group": {"_id": 1, "all_labels": {"$addToSet": "$labels"}}},
                     ]

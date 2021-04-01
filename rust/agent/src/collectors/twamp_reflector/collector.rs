@@ -1,22 +1,23 @@
 // ---------------------------------------------------------------------
-// TWAMP Reflector
+// twamp_reflector collector implementation
 // ---------------------------------------------------------------------
 // Copyright (C) 2007-2021 The NOC Project
 // See LICENSE for details
 // ---------------------------------------------------------------------
-use crate::collectors::base::{Collector, Runnable};
+use super::super::{CollectorConfig, Id, Runnable};
 use crate::proto::connection::Connection;
 use crate::proto::twamp::{
-    AcceptSession, RequestTWSession, ServerGreeting, ServerStart, SetupResponse, StartAck,
+    AcceptSession, RequestTwSession, ServerGreeting, ServerStart, SetupResponse, StartAck,
     StartSessions, StopSessions, TestRequest, TestResponse, DEFAULT_COUNT, MODE_UNAUTHENTICATED,
 };
-use crate::proto::udp::UDPConnection;
-use crate::zk::Configurable;
+use crate::proto::udp::UdpConnection;
+use crate::zk::ZkConfigCollector;
+use agent_derive::Id;
 use async_trait::async_trait;
 use bytes::Bytes;
 use chrono::Utc;
 use rand::Rng;
-use serde::Deserialize;
+use std::convert::TryFrom;
 use std::{error::Error, net::SocketAddr, time::Duration};
 use tokio::{
     net::{TcpListener, TcpStream},
@@ -24,16 +25,27 @@ use tokio::{
     time::timeout,
 };
 
-#[derive(Deserialize, Debug)]
-pub struct TWAMPReflectorConfig {
+#[derive(Id)]
+pub struct TwampReflectorCollector {
+    pub id: String,
     pub listen: String,
-    #[serde(default = "default_862")]
     pub port: u16,
 }
 
-impl Configurable<TWAMPReflectorConfig> for TWAMPReflectorConfig {}
+impl TryFrom<&ZkConfigCollector> for TwampReflectorCollector {
+    type Error = Box<dyn Error>;
 
-pub type TWAMPReflectorCollector = Collector<TWAMPReflectorConfig>;
+    fn try_from(value: &ZkConfigCollector) -> Result<Self, Self::Error> {
+        match &value.config {
+            CollectorConfig::TwampReflector(config) => Ok(Self {
+                id: value.id.clone(),
+                listen: config.listen.clone(),
+                port: config.port,
+            }),
+            _ => Err("invalid config".into()),
+        }
+    }
+}
 
 #[derive(Debug)]
 struct ClientSession {
@@ -45,27 +57,22 @@ struct ClientSession {
 }
 
 #[async_trait]
-impl Runnable for TWAMPReflectorCollector {
+impl Runnable for TwampReflectorCollector {
     async fn run(&self) {
         log::debug!("[{}] Starting collector", self.id);
-        let r = TcpListener::bind(format!("{}:{}", self.config.listen, self.config.port)).await;
+        let r = TcpListener::bind(format!("{}:{}", self.listen, self.port)).await;
         if let Err(e) = r {
             log::error!(
                 "[{}] Failed to create listener {}:{}: {}",
                 self.id,
-                self.config.listen,
-                self.config.port,
+                self.listen,
+                self.port,
                 e
             );
             return;
         }
         let listener = r.unwrap();
-        log::info!(
-            "[{}] Listening {}:{}",
-            self.id,
-            self.config.listen,
-            self.config.port
-        );
+        log::info!("[{}] Listening {}:{}", self.id, self.listen, self.port);
         loop {
             match listener.accept().await {
                 Ok((stream, addr)) => {
@@ -167,7 +174,7 @@ impl ClientSession {
     }
     async fn recv_request_tw_session(&mut self, t: Duration) -> Result<(), Box<dyn Error>> {
         log::debug!("[{}] Waiting for Request-TW-Session", self.id);
-        let req: RequestTWSession = timeout(t, self.connection.read_frame()).await??;
+        let req: RequestTwSession = timeout(t, self.connection.read_frame()).await??;
         log::debug!(
             "[{}] Received Request-TW-Session. Client timestamp={:?}, Type-P={}",
             self.id,
@@ -232,7 +239,7 @@ impl ClientSession {
         // Timeout
         let recv_timeout = Duration::from_nanos(3_000_000_000);
         // Reflector socket
-        let mut socket = UDPConnection::bind("0.0.0.0:0").await?;
+        let mut socket = UdpConnection::bind("0.0.0.0:0").await?;
         // Reflector TTL must be set to 255
         socket.set_ttl(255)?;
         // Send back allocated port to session
@@ -271,8 +278,4 @@ impl ClientSession {
         log::debug!("[{}] Stopping reflector", id);
         Ok(())
     }
-}
-
-fn default_862() -> u16 {
-    862
 }

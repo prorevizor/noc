@@ -10,6 +10,5 @@ pub mod cmd;
 pub mod collectors;
 pub mod nvram;
 pub mod proto;
-pub mod registry;
 pub mod timing;
 pub mod zk;

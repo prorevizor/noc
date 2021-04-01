@@ -6,11 +6,11 @@
 // ---------------------------------------------------------------------
 
 pub mod base;
-#[cfg(feature = "dns")]
 pub mod dns;
-#[cfg(feature = "test")]
+mod registry;
 pub mod test;
-#[cfg(feature = "twamp-reflector")]
 pub mod twamp_reflector;
-#[cfg(feature = "twamp-sender")]
 pub mod twamp_sender;
+
+pub use base::{Collectable, Id, Repeatable, Runnable, Status, StubCollector};
+pub use registry::{CollectorConfig, Collectors};
