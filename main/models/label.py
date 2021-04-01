@@ -238,6 +238,8 @@ class Label(Document):
         fg_color1=0x000000,
         bg_color2=0xFFFFFF,
         fg_color2=0x000000,
+        expose_metric=False,
+        expose_datastream=False,
     ) -> None:
         """
         Ensure label is exists, create when necessary
@@ -260,6 +262,8 @@ class Label(Document):
             fg_color1=fg_color1,
             bg_color2=bg_color2,
             fg_color2=fg_color2,
+            expose_metric=expose_metric,
+            expose_datastream=expose_datastream,
         ).save()
 
     def _ensure_wildcards(self):
