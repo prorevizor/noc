@@ -252,7 +252,7 @@ class Rule(object):
             c += ["return e_vars"]
         else:
             c += ["return {}"]
-        c = ["    " + l for l in c]
+        c = ["    " + x for x in c]
 
         cc = ["# %s" % self.name]
         cc += ["def match(self, event, vars):"]
