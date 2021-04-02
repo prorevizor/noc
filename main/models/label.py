@@ -336,7 +336,7 @@ class Label(Document):
             for label in set(instance.labels):
                 if not can_set_label(label):
                     # Check can_set_label method
-                    raise ValueError(f"Invalid label: {label.name}")
+                    raise ValueError(f"Invalid label: {label}")
             # Build and clean up effective labels. Filter can_set_labels
             labels_iter = getattr(sender, "iter_effective_labels", default_iter_effective_labels)
             instance.effective_labels = [
