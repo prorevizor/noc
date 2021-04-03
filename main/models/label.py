@@ -102,6 +102,7 @@ class Label(Document):
     remote_id = StringField()
     # Caches
     _name_cache = cachetools.TTLCache(maxsize=1000, ttl=60)
+    _setting_cache = cachetools.TTLCache(maxsize=1000, ttl=60)
 
     def __str__(self):
         return self.name
@@ -133,6 +134,7 @@ class Label(Document):
         ]
 
     @classmethod
+    @cachetools.cachedmethod(operator.attrgetter("_setting_cache"))
     def get_effective_setting(cls, label: str, setting: str) -> bool:
         wildcards = cls.get_wildcards(label)
         coll = cls._get_collection()
@@ -332,7 +334,7 @@ class Label(Document):
             labels = Label.merge_labels(default_iter_effective_labels(instance))
             instance.labels = labels
             # Validate instance labels
-            can_set_label = getattr(sender, "can_set_label", lambda x: True)
+            can_set_label = getattr(sender, "can_set_label", lambda x: False)
             for label in set(instance.labels):
                 if not can_set_label(label):
                     # Check can_set_label method
