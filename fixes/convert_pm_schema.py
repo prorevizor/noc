@@ -24,10 +24,12 @@ CH_PASSWORD = config.clickhouse.rw_password
 # END_DATE = datetime.datetime(2021, 4, 4)
 END_DATE = None
 # For speedup if used cluster replica data will be query between replica
+# Example: [("10.10.10.1", "10.10.10.2")] - (replica1, replica2)
 CH_REPLICAS = []
 #
+# Split query by month
 # If needed one query - MIGRATE_CHUNK great than MIGRATE_DEPTH
-MIGRATE_DEPTH = 7
+MIGRATE_DEPTH = 120
 MIGRATE_CHUNK = 30
 
 client = connection()
@@ -113,13 +115,17 @@ def iter_time_interval():
         yield start, stop
         return
     # Shft stop to chunked interval
-    # stop += datetime.timedelta(days=MIGRATE_CHUNK)
-    # start = start.date()
+    year = start.year
+    next_month = start.month
     while start < end:
-        stop = min(end, start + datetime.timedelta(days=MIGRATE_CHUNK))
-        if start.month != stop.month:
-            # Split query to month chunked
-            yield start.replace(day=1), stop.replace(day=1)
-        start += datetime.timedelta(days=MIGRATE_CHUNK)
+        # Split query to month chunked
+        if next_month + 1 > 12:
+            next_month = 1
+            year += 1
+        else:
+            next_month = start.month + 1
+        stop = min(end, start.replace(month=next_month, year=year))
+        yield start.replace(day=1), stop.replace(day=1)
+        start = start.replace(month=next_month, year=year)
     else:
         yield start.replace(day=1), stop
