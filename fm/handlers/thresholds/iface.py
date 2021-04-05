@@ -59,7 +59,7 @@ def grafana_date():
 def handler(mo, event):
     metric = MetricType.objects.get(name=event["metric"])
     iface = Interface.objects.get(
-        name=event["path"].split("|")[-1::][0].strip(), managed_object=mo.object
+        name=event["path"].split("|")[-1::][0].split("::")[-1].strip(), managed_object=mo.object
     )
     try:
         event["interface"] = event["path"].split("|")[-1::][0].strip()
@@ -129,7 +129,9 @@ def handler(mo, event):
             event["value"] = round(float(event["value"]), 2)
         return event
     except Exception as e:
-        logger.info("Error: %s \n %s" % (e, event["path"].split("|")[-1::][0].strip()))
+        logger.info(
+            "Error: %s \n %s" % (e, event["path"].split("|")[-1::][0].split("::")[-1].strip())
+        )
         return event
 
 
@@ -139,10 +141,12 @@ def handler_object(mo, event):
         event["ts_from_date"] = grafana_date()
         res = event["path"].split("|")
         if len(res) > 2:
-            event["name"] = res[-1::][0]
+            event["name"] = res[-1::][0].split("::")[-1]
         if is_float(event["value"]):
             event["value"] = round(float(event["value"]), 2)
         return event
     except Exception as e:
-        logger.info("Error: %s \n %s" % (e, event["path"].split("|")[-1::][0].strip()))
+        logger.info(
+            "Error: %s \n %s" % (e, event["path"].split("|")[-1::][0].split("::")[-1].strip())
+        )
         return event
