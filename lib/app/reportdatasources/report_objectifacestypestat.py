@@ -34,8 +34,8 @@ class ReportObjectIfacesTypeStat(BaseReportColumn):
                     {"$match": match},
                     {"$group": {"_id": "$managed_object", "count": {"$sum": 1}}},
                     {"$sort": {"_id": 1}},
-                ]
-                ,allowDiskUse=True,
+                ],
+                allowDiskUse=True,
             )
         )
         for v in value:
