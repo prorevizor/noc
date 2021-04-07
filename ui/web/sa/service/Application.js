@@ -17,7 +17,9 @@ Ext.define("NOC.sa.service.Application", {
         "NOC.main.remotesystem.LookupField",
         "NOC.sa.managedobject.LookupField",
         "NOC.inv.capability.LookupField",
-        "NOC.core.LabelField"
+        "NOC.inv.resourcegroup.LookupField",
+        "NOC.core.LabelField",
+        "Ext.ux.form.GridField"
     ],
     model: "NOC.sa.service.Model",
     search: true,
@@ -202,19 +204,6 @@ Ext.define("NOC.sa.service.Application", {
                             name: "static_service_groups",
                             xtype: "gridfield",
                             columns: [
-                                // {
-                                //     xtype: "glyphactioncolumn",
-                                //     width: 20,
-                                //     sortable: false,
-                                //     items: [
-                                //         {
-                                //             glyph: NOC.glyph.search,
-                                //             tooltip: __("Show Card"),
-                                //             scope: me,
-                                //             handler: me.onShowResourceGroup
-                                //         }
-                                //     ]
-                                // },
                                 {
                                     dataIndex: "group",
                                     text: __("Static Service Groups"),
@@ -353,7 +342,7 @@ Ext.define("NOC.sa.service.Application", {
             title: __("By Supplier"),
             name: "supplier",
             ftype: "lookup",
-            lookup: "crm.Supplier"
+            lookup: "crm.supplier"
         },
         {
             title: __("By State"),
