@@ -13,6 +13,7 @@ Ext.define("NOC.sa.service.Application", {
         "NOC.sa.service.LookupField",
         "NOC.sa.serviceprofile.LookupField",
         "NOC.crm.subscriber.LookupField",
+        "NOC.crm.supplier.LookupField",
         "NOC.main.remotesystem.LookupField",
         "NOC.sa.managedobject.LookupField",
         "NOC.inv.capability.LookupField",
@@ -108,6 +109,12 @@ Ext.define("NOC.sa.service.Application", {
                     name: "subscriber",
                     xtype: "crm.subscriber.LookupField",
                     fieldLabel: __("Subscriber"),
+                    allowBlank: false
+                },
+                {
+                    name: "supplier",
+                    xtype: "crm.supplier.LookupField",
+                    fieldLabel: __("Supplier"),
                     allowBlank: false
                 },
                 {
@@ -253,6 +260,12 @@ Ext.define("NOC.sa.service.Application", {
             name: "subscriber",
             ftype: "lookup",
             lookup: "crm.subscriber"
+        },
+        {
+            title: __("By Supplier"),
+            name: "supplier",
+            ftype: "lookup",
+            lookup: "crm.Supplier"
         },
         {
             title: __("By State"),
