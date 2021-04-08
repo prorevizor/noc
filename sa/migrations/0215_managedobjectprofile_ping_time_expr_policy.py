@@ -9,7 +9,6 @@ from django.db import models
 
 
 class Migration(BaseMigration):
-
     def migrate(self):
         self.db.add_column(
             "sa_managedobjectprofile",
