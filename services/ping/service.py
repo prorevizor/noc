@@ -173,7 +173,7 @@ class PingService(TornadoService):
         address = ps.address
         t0 = time.time()
         metrics["ping_check_total"] += 1
-        if ps.time_cond:
+        if ps.time_cond and ps.expr_policy == "E":
             dt = datetime.datetime.fromtimestamp(t0)
             if not eval(ps.time_cond, {"T": dt}):
                 metrics["ping_check_skips"] += 1
@@ -213,7 +213,7 @@ class PingService(TornadoService):
             ts = " (Throttled)" if self.is_throttled else ""
             self.logger.info("[%s] Changing status to %s%s", address, s, ts)
             ps.status = s
-        if ps and not self.is_throttled and s != ps.sent_status:
+        if ps and not self.is_throttled and s != ps.sent_status and ps.expr_policy == "D":
             self.publish(
                 orjson.dumps(
                     {"ts": t0, "object": ps.id, "data": self.ok_event if s else self.failed_event}
