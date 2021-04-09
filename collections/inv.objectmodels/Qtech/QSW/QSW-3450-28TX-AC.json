@@ -211,7 +211,8 @@
             "description": "Fiber port 25",
             "direction": "i",
             "gender": "f",
-            "name": "Te25_sfp+",
+            "internal_name": "Te25_sfp+",
+            "name": "25",
             "protocols": ["TransEth10G"],
             "type__name": "Transceiver | SFP+"
         },
@@ -219,7 +220,8 @@
             "description": "Fiber port 26",
             "direction": "i",
             "gender": "f",
-            "name": "Te26_sfp+",
+            "internal_name": "Te26_sfp+",
+            "name": "26",
             "protocols": ["TransEth10G"],
             "type__name": "Transceiver | SFP+"
         },
@@ -227,7 +229,8 @@
             "description": "Fiber port 27",
             "direction": "i",
             "gender": "f",
-            "name": "Te27_sfp+",
+            "internal_name": "Te27_sfp+",
+            "name": "27",
             "protocols": ["TransEth10G"],
             "type__name": "Transceiver | SFP+"
         },
@@ -235,7 +238,8 @@
             "description": "Fiber port 28",
             "direction": "i",
             "gender": "f",
-            "name": "Te28_sfp+",
+            "internal_name": "Te28_sfp+",
+            "name": "28",
             "protocols": ["TransEth10G"],
             "type__name": "Transceiver | SFP+"
         },

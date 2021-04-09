@@ -75,7 +75,7 @@
             "description": "9",
             "direction": "s",
             "gender": "f",
-            "name": "rj9",
+            "name": "9_rj",
             "protocols": ["10BASET", "100BASETX", "1000BASET"],
             "type__name": "Electrical | RJ45"
         },
@@ -84,7 +84,7 @@
             "direction": "i",
             "gender": "f",
             "internal_name": "sfp9",
-            "name": "sfp9",
+            "name": "9_sfp",
             "protocols": ["TransEth100M", "TransEth1G"],
             "type__name": "Transceiver | SFP"
         },
@@ -100,7 +100,7 @@
             "description": "10",
             "direction": "s",
             "gender": "f",
-            "name": "rj10",
+            "name": "10_rj",
             "protocols": ["10BASET", "100BASETX", "1000BASET"],
             "type__name": "Electrical | RJ45"
         },
@@ -109,7 +109,7 @@
             "direction": "i",
             "gender": "f",
             "internal_name": "sfp10",
-            "name": "sfp10",
+            "name": "10_sfp",
             "protocols": ["TransEth100M", "TransEth1G"],
             "type__name": "Transceiver | SFP"
         },

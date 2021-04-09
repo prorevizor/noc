@@ -203,7 +203,7 @@
             "description": "25",
             "direction": "s",
             "gender": "f",
-            "name": "rj25",
+            "name": "25_rj",
             "protocols": ["10BASET", "100BASETX", "1000BASET"],
             "type__name": "Electrical | RJ45"
         },
@@ -212,7 +212,7 @@
             "direction": "i",
             "gender": "f",
             "internal_name": "sfp25",
-            "name": "sfp25",
+            "name": "25_sfp",
             "protocols": ["TransEth100M", "TransEth1G"],
             "type__name": "Transceiver | SFP"
         },
@@ -228,7 +228,7 @@
             "description": "26",
             "direction": "s",
             "gender": "f",
-            "name": "rj26",
+            "name": "26_rj",
             "protocols": ["10BASET", "100BASETX", "1000BASET"],
             "type__name": "Electrical | RJ45"
         },
@@ -237,7 +237,7 @@
             "direction": "i",
             "gender": "f",
             "internal_name": "sfp26",
-            "name": "sfp26",
+            "name": "26_sfp",
             "protocols": ["TransEth100M", "TransEth1G"],
             "type__name": "Transceiver | SFP"
         },
@@ -253,7 +253,8 @@
             "description": "Fiber port 27",
             "direction": "i",
             "gender": "f",
-            "name": "sfp27",
+            "internal_name": "sfp27",
+            "name": "27",
             "protocols": ["TransEth100M", "TransEth1G"],
             "type__name": "Transceiver | SFP"
         },
@@ -261,7 +262,8 @@
             "description": "Fiber port 28",
             "direction": "i",
             "gender": "f",
-            "name": "sfp28",
+            "internal_name": "sfp28",
+            "name": "28",
             "protocols": ["TransEth100M", "TransEth1G"],
             "type__name": "Transceiver | SFP"
         },
