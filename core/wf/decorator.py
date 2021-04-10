@@ -55,6 +55,10 @@ def document_set_state(self, state):
     set_op = {"state": state.id}
     # Set state field
     self.state = state
+    # Set start field
+    if self._has_state_changed:
+        self.state_start = datetime.datetime.now()
+        set_op["state_changed"] = self.state_start
     # Fill expired field
     if self._has_expired:
         if state.ttl:
@@ -180,11 +184,14 @@ def workflow(cls):
     cls.fire_transition = fire_transition
     cls._has_workflow = True
     cls._has_expired = False
+    cls._has_state_changed = False
     if is_document(cls):
         # MongoEngine model
         from mongoengine import signals as mongo_signals
 
         cls.set_state = document_set_state
+        if "state_changed" in cls._fields:
+            cls._has_state_changed = True
         mongo_signals.post_save.connect(_on_document_post_save, sender=cls)
         if (
             "last_seen" in cls._fields
