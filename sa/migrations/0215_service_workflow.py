@@ -6,15 +6,12 @@
 # ----------------------------------------------------------------------
 
 
-from bson import ObjectId
-
 # Third-party modules
-from pymongo import InsertOne, UpdateMany, UpdateOne
+from pymongo import UpdateMany
+from bson import ObjectId
 
 # NOC modules
 from noc.core.migration.base import BaseMigration
-from django.contrib.postgres.fields import ArrayField
-from django.db.models import CharField
 
 
 class Migration(BaseMigration):
