@@ -23,6 +23,12 @@ class Service(BaseModel):
     subscriber: Optional[Reference["Subscriber"]]
     profile: Reference["ServiceProfile"]
     ts: Optional[datetime]
+    # Workflow state
+    state: Optional[str]
+    # Last state change
+    state_changed = Optional[datetime]
+    # Workflow event
+    event = Optional[str]
     logical_status: Optional[str]
     logical_status_start: Optional[datetime]
     agreement_id: Optional[str]
@@ -40,14 +46,18 @@ class Service(BaseModel):
     cpe_group: Optional[str]
     description: Optional[str] = None
 
+    class Config:
+        fields = {"state_changed": "logical_status_start", "state": "logical_status"}
+        allow_population_by_field_name = True
+
     _csv_fields = [
         "id",
         "parent",
         "subscriber",
         "profile",
         "ts",
-        "logical_status",
-        "logical_status_start",
+        "state",
+        "state_changed",
         "agreement_id",
         "order_id",
         "stage_id",

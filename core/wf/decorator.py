@@ -39,7 +39,7 @@ def fire_transition(self, transition):
     self.state.fire_transition(transition, self)
 
 
-def document_set_state(self, state):
+def document_set_state(self, state: "State", state_changed: datetime.datetime = None):
     """
     Set state
 
@@ -57,8 +57,8 @@ def document_set_state(self, state):
     self.state = state
     # Set start field
     if self._has_state_changed:
-        self.state_start = datetime.datetime.now()
-        set_op["state_changed"] = self.state_start
+        self.state_changed = state_changed or datetime.datetime.now()
+        set_op["state_changed"] = self.state_changed
     # Fill expired field
     if self._has_expired:
         if state.ttl:
@@ -104,7 +104,7 @@ def document_touch(self, bulk=None):
         self._get_collection().update({"_id": self.pk}, op)
 
 
-def model_set_state(self, state):
+def model_set_state(self, state: "State", state_changed: datetime.datetime = None):
     """
     Set state
 
@@ -190,9 +190,9 @@ def workflow(cls):
         from mongoengine import signals as mongo_signals
 
         cls.set_state = document_set_state
+        mongo_signals.post_save.connect(_on_document_post_save, sender=cls)
         if "state_changed" in cls._fields:
             cls._has_state_changed = True
-        mongo_signals.post_save.connect(_on_document_post_save, sender=cls)
         if (
             "last_seen" in cls._fields
             and "expired" in cls._fields
