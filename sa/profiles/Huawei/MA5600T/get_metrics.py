@@ -189,8 +189,8 @@ class Script(GetMetricsScript):
         ):
             ifindex, ont_id = ont_index.split(".")
             ont_id = "%s/%s" % (names[int(ifindex)], ont_id)
-            ipath = [f'noc::chassis::{global_id_map[ont_index]}', "noc::interface::0"]
-            mpath = [f'noc::interface::{names[int(ifindex)]}']
+            ipath = [f"noc::chassis::{global_id_map[ont_index]}", "noc::interface::0"]
+            mpath = [f"noc::interface::{names[int(ifindex)]}"]
             if ont_temp_c != SNMP_UNKNOWN_VALUE:
                 self.set_metric(
                     id=("Interface | DOM | Temperature", mpath),
@@ -251,8 +251,8 @@ class Script(GetMetricsScript):
             bulk=False,
         ):
             ifindex, ont_id = ont_index.split(".")
-            ipath = [f'noc::chassis::{global_id_map[ont_index]}', "noc::interface::0"]
-            mpath = [f'noc::interface::{names[int(ifindex)]}']
+            ipath = [f"noc::chassis::{global_id_map[ont_index]}", "noc::interface::0"]
+            mpath = [f"noc::interface::{names[int(ifindex)]}"]
             if ont_optical_errors_bip_out != SNMP_UNKNOWN_VALUE:
                 self.set_metric(
                     id=("Interface | Errors | BIP | Out", mpath),
