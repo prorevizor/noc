@@ -55,7 +55,7 @@ class Script(GetMetricsScript):
                             value=int(v),
                             multi=True,
                         )
-        v = self.snmp.get(f"1.3.6.1.4.1.2011.5.2.1.14.1.2.0")
+        v = self.snmp.get("1.3.6.1.4.1.2011.5.2.1.14.1.2.0")
         if v:
             self.set_metric(
                 id=("Subscribers | Summary", None),
