@@ -39,7 +39,7 @@ def fire_transition(self, transition):
     self.state.fire_transition(transition, self)
 
 
-def document_set_state(self, state: "State", state_changed: datetime.datetime = None):
+def document_set_state(self, state, state_changed: datetime.datetime = None):
     """
     Set state
 
@@ -104,7 +104,7 @@ def document_touch(self, bulk=None):
         self._get_collection().update({"_id": self.pk}, op)
 
 
-def model_set_state(self, state: "State", state_changed: datetime.datetime = None):
+def model_set_state(self, state, state_changed: datetime.datetime = None):
     """
     Set state
 

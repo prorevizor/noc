@@ -73,8 +73,12 @@ class BaseLoader(object):
     discard_deferred = False
     # Ignore auto-generated unique fields
     ignore_unique = {"bi_id"}
-    # Array fields need merge values
-    incremental_change = {"labels", "static_client_groups", "static_service_groups"}
+    # Workflow fields
+    workflow_state_sync = False
+    workflow_fields = {"state", "state_changed", "event"}
+    workflow_event_model = False
+    workflow_add_event = "seen"
+    workflow_delete_event = "missed"
 
     REPORT_INTERVAL = 1000
 
@@ -374,7 +378,6 @@ class BaseLoader(object):
         """
         self.logger.debug("Add: %s", item.json())
         v = self.clean(item)
-        # @todo: Check record is already exists
         if "id" in v:
             del v["id"]
         o = self.find_object(v)
@@ -392,6 +395,8 @@ class BaseLoader(object):
         else:
             self.c_add += 1
             o = self.create_object(v)
+            if self.workflow_event_model:
+                o.fire_event(self.workflow_add_event)
         self.set_mappings(item.id, o.id)
 
     def on_change(self, o: BaseModel, n: BaseModel):
@@ -407,6 +412,8 @@ class BaseLoader(object):
         for fn in self.data_model.__fields__:
             if fn == "id":
                 continue
+            if fn in self.workflow_fields:
+                continue
             if ov[fn] != nv[fn]:
                 self.logger.debug("   %s: %s -> %s", fn, ov[fn], nv[fn])
                 changes[fn] = nv[fn]
@@ -416,7 +423,10 @@ class BaseLoader(object):
                         "remove": list(set(ov[fn]) - set(nv[fn])),
                     }
         if n.id in self.mappings:
-            self.change_object(self.mappings[n.id], changes, inc_changes=incremental_changes)
+            o = self.change_object(self.mappings[n.id], changes, inc_changes=incremental_changes)
+            if self.workflow_state_sync:
+                if "state" in nv and ov.get("state") != nv["state"]:
+                    o.set_state(nv["state"], nv.get("state_changed"))
         else:
             self.logger.error("Cannot map id '%s'. Skipping.", n.id)
 
@@ -435,7 +445,10 @@ class BaseLoader(object):
             self.c_delete += 1
             try:
                 obj = self.model.objects.get(pk=self.mappings[r_id])
-                obj.delete()
+                if self.workflow_event_model:
+                    obj.fire_event(self.workflow_delete_event)
+                else:
+                    obj.delete()
             except ValueError as e:  # Referred Error
                 self.logger.error("%s", str(e))
                 self.referred_errors += [(r_id, msg)]
