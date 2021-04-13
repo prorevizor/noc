@@ -94,6 +94,7 @@ class BaseLoader(object):
         self.archive_dir = os.path.join(self.import_dir, "archive")
         self.mappings_path = os.path.join(self.import_dir, "mappings.csv")
         self.mappings = {}
+        self.wf_state_mappings = {}
         self.new_state_path = None
         self.c_add = 0
         self.c_change = 0
@@ -130,6 +131,8 @@ class BaseLoader(object):
         else:
             self.unique_field = None
         self.has_remote_system: bool = hasattr(self.model, "remote_system")
+        if self.workflow_state_sync:
+            self.load_wf_state_mappings()
 
     @property
     def is_document(self):
@@ -155,6 +158,12 @@ class BaseLoader(object):
             for k, v in reader:
                 self.mappings[self.clean_str(k)] = v
         self.logger.info("%d mappings restored", len(self.mappings))
+
+    def load_wf_state_mappings(self):
+        from noc.wf.models.state import State
+
+        for ss in State.objects.filter():
+            self.wf_state_mappings[(str(ss.workflow.id), ss.name)] = ss
 
     def get_new_state(self) -> Optional[TextIOWrapper]:
         """
@@ -426,7 +435,12 @@ class BaseLoader(object):
             o = self.change_object(self.mappings[n.id], changes, inc_changes=incremental_changes)
             if self.workflow_state_sync:
                 if "state" in nv and ov.get("state") != nv["state"]:
-                    o.set_state(nv["state"], nv.get("state_changed"))
+                    o.set_state(
+                        self.clean_wf_state(o.profile.workflow, nv["state"]),
+                        nv.get("state_changed"),
+                    )
+                if self.workflow_event_model:
+                    o.touch()
         else:
             self.logger.error("Cannot map id '%s'. Skipping.", n.id)
 
@@ -563,6 +577,15 @@ class BaseLoader(object):
                 self.logger.info("Deferred. Unknown value %s:%s", r_model, value)
                 raise self.Deferred()
             return self.chain.cache[r_model, value]
+
+    def clean_wf_state(self, workflow, state: str):
+        if not value:
+            return None
+        try:
+            value = self.wf_state_mappings[str(workflow.id), state]
+        except KeyError:
+            self.logger.error("Unknown Workflow state value %s:%s", workflow, state)
+            raise ValueError(f"Unknown Workflow state value {workflow}:{state}", workflow, state)
 
     def set_mappings(self, rv, lv):
         self.logger.debug("Set mapping remote: %s, local: %s", rv, lv)
