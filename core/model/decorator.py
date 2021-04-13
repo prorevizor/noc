@@ -222,3 +222,22 @@ def on_delete_check(check=None, clean=None, delete=None, ignore=None):
     }
     setup = {"is_document": False}
     return decorator
+
+
+def tree(field=None):
+    """
+    Class decorator checking cycling.
+
+    """
+
+    def decorator(cls):
+        if hasattr(cls, field):
+
+            def before_save(field):
+                if getattr(cls, "id") == getattr(cls, field):
+                    setattr(cls, field, None)
+
+            cls.before_save = before_save(field=field)
+        return cls
+
+    return decorator
