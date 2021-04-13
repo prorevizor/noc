@@ -6,6 +6,7 @@
 # ----------------------------------------------------------------------
 
 # Python modules
+import datetime
 import os
 import logging
 import re
@@ -73,6 +74,8 @@ class BaseLoader(object):
     discard_deferred = False
     # Ignore auto-generated unique fields
     ignore_unique = {"bi_id"}
+    # Array fields need merge values
+    incremental_change = {"labels", "static_client_groups", "static_service_groups"}
     # Workflow fields
     workflow_state_sync = False
     workflow_fields = {"state", "state_changed", "event"}
@@ -162,8 +165,9 @@ class BaseLoader(object):
     def load_wf_state_mappings(self):
         from noc.wf.models.state import State
 
-        for ss in State.objects.filter():
-            self.wf_state_mappings[(str(ss.workflow.id), ss.name)] = ss
+        self.logger.info("Loading Workflow states")
+        for ws in State.objects.filter():
+            self.wf_state_mappings[(str(ws.workflow.id), ws.name)] = ws
 
     def get_new_state(self) -> Optional[TextIOWrapper]:
         """
@@ -389,6 +393,8 @@ class BaseLoader(object):
         v = self.clean(item)
         if "id" in v:
             del v["id"]
+        for fn in set(v).intersection(self.workflow_fields):
+            del v[fn]
         o = self.find_object(v)
         if o:
             self.c_change += 1
@@ -400,12 +406,16 @@ class BaseLoader(object):
                     continue
                 if getattr(o, fn) != nv:
                     vv[fn] = nv
-            self.change_object(o.id, vv)
+            o = self.change_object(o.id, vv)
         else:
             self.c_add += 1
             o = self.create_object(v)
             if self.workflow_event_model:
                 o.fire_event(self.workflow_add_event)
+        if self.workflow_state_sync:
+            self.change_workflow(
+                o, getattr(item, "state", None), getattr(item, "state_changed", None)
+            )
         self.set_mappings(item.id, o.id)
 
     def on_change(self, o: BaseModel, n: BaseModel):
@@ -419,9 +429,7 @@ class BaseLoader(object):
         incremental_changes = {}
         ov = self.clean(o)
         for fn in self.data_model.__fields__:
-            if fn == "id":
-                continue
-            if fn in self.workflow_fields:
+            if fn == "id" or fn in self.workflow_fields:
                 continue
             if ov[fn] != nv[fn]:
                 self.logger.debug("   %s: %s -> %s", fn, ov[fn], nv[fn])
@@ -434,13 +442,9 @@ class BaseLoader(object):
         if n.id in self.mappings:
             o = self.change_object(self.mappings[n.id], changes, inc_changes=incremental_changes)
             if self.workflow_state_sync:
-                if "state" in nv and ov.get("state") != nv["state"]:
-                    o.set_state(
-                        self.clean_wf_state(o.profile.workflow, nv["state"]),
-                        nv.get("state_changed"),
-                    )
-                if self.workflow_event_model:
-                    o.touch()
+                self.change_workflow(
+                    o, getattr(n, "state", None), getattr(n, "state_changed", None)
+                )
         else:
             self.logger.error("Cannot map id '%s'. Skipping.", n.id)
 
@@ -449,6 +453,12 @@ class BaseLoader(object):
         Delete record
         """
         self.pending_deletes += [(item.id, item)]
+
+    def change_workflow(self, o, state: str, changed_date: Optional[datetime.datetime] = None):
+        state = self.clean_wf_state(o.profile.workflow, state)
+        if state and o.state != state:
+            self.logger.debug("Change workflow state: %s -> %s", o.state, state)
+            o.set_state(state, changed_date)
 
     def purge(self):
         """
@@ -579,10 +589,10 @@ class BaseLoader(object):
             return self.chain.cache[r_model, value]
 
     def clean_wf_state(self, workflow, state: str):
-        if not value:
+        if not state:
             return None
         try:
-            value = self.wf_state_mappings[str(workflow.id), state]
+            return self.wf_state_mappings[(str(workflow.id), state)]
         except KeyError:
             self.logger.error("Unknown Workflow state value %s:%s", workflow, state)
             raise ValueError(f"Unknown Workflow state value {workflow}:{state}", workflow, state)
