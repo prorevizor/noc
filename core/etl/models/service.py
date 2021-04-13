@@ -26,9 +26,9 @@ class Service(BaseModel):
     # Workflow state
     state: Optional[str]
     # Last state change
-    state_changed = Optional[datetime]
+    state_changed: Optional[datetime]
     # Workflow event
-    event = Optional[str]
+    event: Optional[str]
     agreement_id: Optional[str]
     order_id: Optional[str]
     stage_id: Optional[str]

@@ -68,3 +68,8 @@ class Migration(BaseMigration):
                 ),
             ]
         )
+        coll.bulk_write([UpdateMany({}, {"$unset": {"logical_status_start": 1}})])
+        # Service Profile Workflow
+        self.mongo_db["noc.serviceprofiles"].bulk_write(
+            [UpdateMany({}, {"$set": {"workflow": ObjectId("606eafb1d179a5da7e340a3f")}})]
+        )
