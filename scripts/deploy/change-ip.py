@@ -30,21 +30,9 @@ def get_my_ip():
     return ip
 
 
-def get_old_ip():
-    """Read old ip from file from deploy"""
-    try:
-        ipfilepath = "/opt/noc/var/my_ip"
-        with open(ipfilepath, "r") as file:
-            data = file.read()
-    except EnvironmentError:
-        print("No file with old IP")
-        data = ""
-    return data
-
-
 def set_pg_address(address):
     """Set new IP to PostgreSQL"""
-    deb_path = "/var/lib/postgresql/" + PG_VERSION + "/data/noc.conf"
+    deb_path = "/etc/postgresql/" + PG_VERSION + "/main/noc.conf"
     cent_path = "/var/lib/pgsql/" + PG_VERSION + "/data/noc.conf"
     for path in [deb_path, cent_path]:
         try:
@@ -54,20 +42,129 @@ def set_pg_address(address):
                     if line.strip().startswith("listen_addresses"):
                         line = "listen_addresses = '" + address + "'\n"
                     sys.stdout.write(line)
-            return path
         except IOError:
             pass
     print("noc PG settings is not found")
     exit(1)
 
-if __name__ == "__main__":
 
-    old_ip = get_old_ip()
-    print(old_ip)
+def set_consul_address(address):
+    """Set new IP to Consul"""
+    deb_path = "/etc/consul/config.json"
+    for path in [deb_path]:
+        try:
+            print(path)
+            if os.path.isfile(path):
+                for line in fileinput.input(files=path, inplace=True):
+                    if line.startswith("  \"bind_addr\""):
+                        line = "\"bind_addr\": \"" + address + "\",\n"
+                    sys.stdout.write(line)
+        except IOError:
+            pass
+    print("Consul settings is not found")
+    exit(1)
+
+
+def set_mongo_address(address):
+    """Set new IP to MongoDB"""
+    deb_path = "/etc/mongod.conf"
+    for path in [deb_path]:
+        try:
+            print(path)
+            if os.path.isfile(path):
+                for line in fileinput.input(files=path, inplace=True):
+                    if line.strip().startswith("bindIp: 127.0.0.1,"):
+                        line = "  bindIp: 127.0.0.1," + address + "\n"
+                    sys.stdout.write(line)
+        except IOError:
+            pass
+    print("MongoDB settings is not found")
+
+
+def get_old_ip():
+    """Read old ip from file from /etc/hosts"""
+    try:
+        ipfilepath = "/etc/hosts"
+        with open(ipfilepath, "r") as file:
+            hostname = socket.gethostname()
+            for line in file.readlines():
+                if line.strip().endswith(hostname):
+                    old_address = line.split()[0]
+                    return old_address
+    except EnvironmentError:
+        print("No file with old IP")
+
+
+def set_hosts_address(address):
+    """Set new IP to /etc/hosts"""
+    deb_path = "/etc/hosts"
+    for path in [deb_path]:
+        try:
+            print(path)
+            if os.path.isfile(path):
+                hostname = socket.gethostname()
+                print(hostname)
+                for line in fileinput.input(files=path, inplace=True):
+                    if line.strip().endswith(hostname):
+                        line = address + " " + hostname + "\n"
+                    sys.stdout.write(line)
+        except IOError:
+            pass
+    print("You haven't /etc/hosts")
+
+
+def set_liftbridge_address(address):
+    """Set new IP to Liftbridge"""
+    deb_path = "/etc/liftbridge/liftbridge.yml"
+    for path in [deb_path]:
+        try:
+            print(path)
+            if os.path.isfile(path):
+                for line in fileinput.input(files=path, inplace=True):
+                    if line.strip().startswith("host: "):
+                        line = "host: " + address + "\n"
+                    if line.strip().startswith("- nats://"):
+                        line = "- nats://" + address + ":4222\n"
+                    sys.stdout.write(line)
+        except IOError:
+            pass
+    print("Liftbridge settings is not found")
+
+
+def change_nats_address(old_ip, new_ip):
+    """Set new IP to Nats"""
+    deb_path = "/etc/nats/nats-server.conf"
+    for path in [deb_path]:
+        try:
+            print(path)
+            if os.path.isfile(path):
+                for line in fileinput.input(files=path, inplace=True):
+                    line.replace(old_ip, new_ip)
+                    sys.stdout.write(line)
+        except IOError:
+            pass
+    print("Liftbridge settings is not found")
+
+
+if __name__ == "__main__":
+    old_ip_address = get_old_ip()
+    print("Old ip was: ", old_ip_address)
 
     my_ip = get_my_ip()
-    print(my_ip)
+    print("Local ip is: ", my_ip)
+
+    change_nats_address(old_ip_address, my_ip)
+
+    set_liftbridge_address(my_ip)
+    os.system("systemctl restart liftbridge")
 
     set_pg_address(my_ip)
-    command_for_restart_pg = "systemctl restart " + "postgresql-" + PG_VERSION
-    os.system(command_for_restart_pg)
+    os.system("systemctl restart postgresql")
+
+    set_hosts_address(my_ip)
+
+    set_consul_address(my_ip)
+    os.system("systemctl restart consul")
+
+    set_mongo_address(my_ip)
+    os.system("systemctl restart mongod")
