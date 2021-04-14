@@ -36,12 +36,12 @@ def set_pg_address(address):
     cent_path = "/var/lib/pgsql/" + PG_VERSION + "/data/noc.conf"
     for path in [deb_path, cent_path]:
         try:
-            print(path)
             if os.path.isfile(path):
                 for line in fileinput.input(files=path, inplace=True):
                     if line.strip().startswith("listen_addresses"):
                         line = "listen_addresses = '" + address + "'\n"
                     sys.stdout.write(line)
+            return
         except IOError:
             pass
     print("noc PG settings is not found")
@@ -53,16 +53,42 @@ def set_consul_address(address):
     deb_path = "/etc/consul/config.json"
     for path in [deb_path]:
         try:
-            print(path)
             if os.path.isfile(path):
                 for line in fileinput.input(files=path, inplace=True):
                     if line.startswith("  \"bind_addr\""):
                         line = "\"bind_addr\": \"" + address + "\",\n"
                     sys.stdout.write(line)
+            return
         except IOError:
             pass
     print("Consul settings is not found")
     exit(1)
+
+def change_consul_checks_address(old_ip, new_ip):
+    """Set new IP to Consul checks"""
+    ng_path = "/etc/consul.d/nginx.json"
+    nats_path = "/etc/consul.d/nats.json"
+    lift_path = "/etc/consul.d/liftbridge.json"
+    for path in [ng_path, nats_path, lift_path]:
+        try:
+            if os.path.isfile(path):
+                for line in fileinput.input(files=path, inplace=True):
+                    line = line.replace(old_ip, new_ip)
+                    sys.stdout.write(line)
+        except IOError:
+            pass
+
+def change_grafana_address(old_ip, new_ip):
+    """Set new IP to Consul checks"""
+    grafana_path = "/etc/grafana/grafana.ini"
+    for path in [grafana_path]:
+        try:
+            if os.path.isfile(path):
+                for line in fileinput.input(files=path, inplace=True):
+                    line = line.replace(old_ip, new_ip)
+                    sys.stdout.write(line)
+        except IOError:
+            pass
 
 
 def set_mongo_address(address):
@@ -100,7 +126,6 @@ def set_hosts_address(address):
     deb_path = "/etc/hosts"
     for path in [deb_path]:
         try:
-            print(path)
             if os.path.isfile(path):
                 hostname = socket.gethostname()
                 print(hostname)
@@ -108,6 +133,7 @@ def set_hosts_address(address):
                     if line.strip().endswith(hostname):
                         line = address + " " + hostname + "\n"
                     sys.stdout.write(line)
+            return
         except IOError:
             pass
     print("You haven't /etc/hosts")
@@ -118,7 +144,6 @@ def set_liftbridge_address(address):
     deb_path = "/etc/liftbridge/liftbridge.yml"
     for path in [deb_path]:
         try:
-            print(path)
             if os.path.isfile(path):
                 for line in fileinput.input(files=path, inplace=True):
                     if line.strip().startswith("host: "):
@@ -126,6 +151,7 @@ def set_liftbridge_address(address):
                     if line.strip().startswith("- nats://"):
                         line = "- nats://" + address + ":4222\n"
                     sys.stdout.write(line)
+            return
         except IOError:
             pass
     print("Liftbridge settings is not found")
@@ -139,11 +165,12 @@ def change_nats_address(old_ip, new_ip):
             print(path)
             if os.path.isfile(path):
                 for line in fileinput.input(files=path, inplace=True):
-                    line.replace(old_ip, new_ip)
+                    line = line.replace(old_ip, new_ip)
                     sys.stdout.write(line)
+            return
         except IOError:
             pass
-    print("Liftbridge settings is not found")
+    print("Nats settings is not found")
 
 
 if __name__ == "__main__":
@@ -154,6 +181,7 @@ if __name__ == "__main__":
     print("Local ip is: ", my_ip)
 
     change_nats_address(old_ip_address, my_ip)
+    os.system("systemctl restart nats-server")
 
     set_liftbridge_address(my_ip)
     os.system("systemctl restart liftbridge")
