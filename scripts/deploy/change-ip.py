@@ -55,14 +55,15 @@ def set_consul_address(address):
         try:
             if os.path.isfile(path):
                 for line in fileinput.input(files=path, inplace=True):
-                    if line.startswith("  \"bind_addr\""):
-                        line = "\"bind_addr\": \"" + address + "\",\n"
+                    if line.startswith('  \"bind_addr\"'):
+                        line = '\"bind_addr\": \"' + address + '\",\n'
                     sys.stdout.write(line)
             return
         except IOError:
             pass
     print("Consul settings is not found")
     exit(1)
+
 
 def change_consul_checks_address(old_ip, new_ip):
     """Set new IP to Consul checks"""
@@ -78,10 +79,37 @@ def change_consul_checks_address(old_ip, new_ip):
         except IOError:
             pass
 
+
 def change_grafana_address(old_ip, new_ip):
-    """Set new IP to Consul checks"""
+    """Set new IP to Grafana"""
     grafana_path = "/etc/grafana/grafana.ini"
     for path in [grafana_path]:
+        try:
+            if os.path.isfile(path):
+                for line in fileinput.input(files=path, inplace=True):
+                    line = line.replace(old_ip, new_ip)
+                    sys.stdout.write(line)
+        except IOError:
+            pass
+
+
+def change_nginx_address(old_ip, new_ip):
+    """Set new IP to Nginx"""
+    nginx_path = "/etc/nginx/conf.d/noc.conf"
+    for path in [nginx_path]:
+        try:
+            if os.path.isfile(path):
+                for line in fileinput.input(files=path, inplace=True):
+                    line = line.replace(old_ip, new_ip)
+                    sys.stdout.write(line)
+        except IOError:
+            pass
+
+
+def change_clickhouse_address(old_ip, new_ip):
+    """Set new IP to Clickhouse """
+    clickhouse_path = "/etc/clickhouse-server/users.xml"
+    for path in [clickhouse_path]:
         try:
             if os.path.isfile(path):
                 for line in fileinput.input(files=path, inplace=True):
@@ -102,6 +130,7 @@ def set_mongo_address(address):
                     if line.strip().startswith("bindIp: 127.0.0.1,"):
                         line = "  bindIp: 127.0.0.1," + address + "\n"
                     sys.stdout.write(line)
+            return
         except IOError:
             pass
     print("MongoDB settings is not found")
@@ -197,3 +226,9 @@ if __name__ == "__main__":
 
     set_mongo_address(my_ip)
     os.system("systemctl restart mongod")
+
+    change_clickhouse_address(old_ip_address, my_ip)
+    change_grafana_address(old_ip_address, my_ip)
+
+    os.system("systemctl restart noc")
+    print("That's all")
