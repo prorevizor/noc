@@ -1,14 +1,18 @@
 # ----------------------------------------------------------------------
-# LabelItem
+# typing definitions
 # ----------------------------------------------------------------------
 # Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
+# Python modules
+from typing import Any, Union, Protocol
+
 # Third-party modules
-from pydantic import BaseModel
+from bson import ObjectId
 
 
-class LabelItem(BaseModel):
-    id: str
-    label: str
+class SupportsGetById(Protocol):
+    @classmethod
+    def get_by_id(self, id: Union[int, ObjectId, str]) -> Any:  # -> Self
+        ...

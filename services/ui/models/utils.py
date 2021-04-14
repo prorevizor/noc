@@ -5,10 +5,13 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
+# Python modules
+from typing import Optional
+
 # Third-party modules
 from pydantic import BaseModel
 
 
 class Reference(BaseModel):
     id: str
-    label: str
+    label: Optional[str]

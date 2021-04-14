@@ -37,4 +37,4 @@ class FormAdministrativeDomainItem(BaseModel):
     default_pool: Optional[Reference]
     bioseg_floating_name_template: Optional[Reference]
     bioseg_floating_parent_segment: Optional[Reference]
-    labels: List[str]
+    labels: Optional[List[str]]

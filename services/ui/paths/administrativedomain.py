@@ -25,6 +25,7 @@ class AdministrativeDomainAPI(ModelResourceAPI[AdministrativeDomain]):
             id=str(item.id),
             name=str(item.name),
             parent=get_reference(item.parent),
+            default_pool=get_reference(item.default_pool),
             bioseg_floating_name_template=get_reference(item.bioseg_floating_name_template),
             bioseg_floating_parent_segment=get_reference(item.bioseg_floating_parent_segment),
             labels=item.labels,
@@ -39,6 +40,7 @@ class AdministrativeDomainAPI(ModelResourceAPI[AdministrativeDomain]):
         return FormAdministrativeDomainItem(
             name=str(item.name),
             parent=get_reference(item.parent),
+            default_pool=get_reference(item.default_pool),
             bioseg_floating_name_template=get_reference(item.bioseg_floating_name_template),
             bioseg_floating_parent_segment=get_reference(item.bioseg_floating_parent_segment),
             labels=item.labels,
