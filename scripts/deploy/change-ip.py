@@ -191,6 +191,7 @@ if __name__ == "__main__":
 
     set_hosts_address(my_ip)
 
+    change_consul_checks_address(old_ip_address, my_ip)
     set_consul_address(my_ip)
     os.system("systemctl restart consul")
 
