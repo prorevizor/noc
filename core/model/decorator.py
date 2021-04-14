@@ -234,8 +234,12 @@ def tree(field=None):
         if hasattr(cls, field):
 
             def before_save(field):
-                if getattr(cls, "id") == getattr(cls, field):
-                    setattr(cls, field, None)
+                parent = getattr(cls, field, None)
+                while parent:
+                    if getattr(parent, "id", None) == getattr(cls, "id", None):
+                        setattr(cls, field, None)
+                        break
+                    parent = getattr(parent, field, None)
 
             cls.before_save = before_save(field=field)
         return cls
