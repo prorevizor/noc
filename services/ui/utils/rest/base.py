@@ -58,6 +58,7 @@ class BaseResourceAPI(Generic[T], metaclass=ABCMeta):
             raise ValueError("model is not set")
         self.router = APIRouter()
         self.api_name = self.prefix.split("/")[-1]
+        self.openapi_tags = ["ui", self.api_name]
         self.cleaners: DefaultDict[str, List[Callable[[Any], Any]]] = defaultdict(list)
         # Setup endpoints
         for name, fn in inspect.getmembers(self):
@@ -279,7 +280,7 @@ class BaseResourceAPI(Generic[T], metaclass=ABCMeta):
                 endpoint=inner_list,
                 methods=GET,
                 response_model=List[sig.return_annotation],
-                tags=["ui"],
+                tags=self.openapi_tags,
                 name=f"{self.api_name}_list_{view}",
                 description=f"List items with {view} view",
             )
@@ -290,7 +291,7 @@ class BaseResourceAPI(Generic[T], metaclass=ABCMeta):
                 endpoint=inner_get,
                 methods=GET,
                 response_model=sig.return_annotation,
-                tags=["ui"],
+                tags=self.openapi_tags,
                 name=f"{self.api_name}_get_{view}",
                 description=f"Get item with {view} view",
             )
@@ -324,7 +325,7 @@ class BaseResourceAPI(Generic[T], metaclass=ABCMeta):
             path=self.prefix,
             endpoint=inner_create,
             methods=POST,
-            tags=["ui"],
+            tags=self.openapi_tags,
             name=f"{self.api_name}_create",
             description="Create item",
             status_code=HTTPStatus.CREATED,
@@ -334,7 +335,7 @@ class BaseResourceAPI(Generic[T], metaclass=ABCMeta):
             path=f"{self.prefix}/{{id}}",
             endpoint=inner_update,
             methods=PUT,
-            tags=["ui"],
+            tags=self.openapi_tags,
             name=f"{self.api_name}_update",
             description="Update item",
             response_model=StatusResponse,
@@ -359,7 +360,7 @@ class BaseResourceAPI(Generic[T], metaclass=ABCMeta):
             path=f"{self.prefix}/{{id}}",
             endpoint=inner_delete,
             methods=DELETE,
-            tags=["ui"],
+            tags=self.openapi_tags,
             name=f"{self.api_name}_delete",
             description="delete item",
             response_model=StatusResponse,
