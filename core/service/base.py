@@ -897,13 +897,12 @@ class BaseService(object):
         return executor.submit(fn, *args, **kwargs)
 
     async def publish_metrics(self):
-        interval = 0.25
         while not (self.publish_queue.to_shutdown and self.metrics_queue.is_empty()):
             t0 = perf_counter()
             for stream, partititon, chunk in self.metrics_queue.iter_slice():
                 self.publish(chunk, stream=stream, partition=partititon)
             if not self.publish_queue.to_shutdown:
-                to_sleep = interval - (perf_counter() - t0)
+                to_sleep = config.liftbridge.metrics_send_delay - (perf_counter() - t0)
                 if to_sleep > 0:
                     await asyncio.sleep(to_sleep)
 
