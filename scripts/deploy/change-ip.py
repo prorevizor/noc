@@ -25,8 +25,19 @@ CONSUL_lift_path = "/etc/consul.d/liftbridge.json"
 GRAFANA_DEB_PATH = "/etc/grafana/grafana.ini"
 CLICKHOUSE_DEB_PATH = "/etc/clickhouse-server/users.xml"
 
-ALL_PATHS = [PG_DEB_PATH, MONGO_DEB_PATH, NATS_DEB_PATH, LB_DEB_PATH, NGINX_DEB_PATH, CONSUL_DEB_PATH, CONSUL_ng_path,
-             CONSUL_nats_path, CONSUL_lift_path, GRAFANA_DEB_PATH, CLICKHOUSE_DEB_PATH]
+ALL_PATHS = [
+    PG_DEB_PATH,
+    MONGO_DEB_PATH,
+    NATS_DEB_PATH,
+    LB_DEB_PATH,
+    NGINX_DEB_PATH,
+    CONSUL_DEB_PATH,
+    CONSUL_ng_path,
+    CONSUL_nats_path,
+    CONSUL_lift_path,
+    GRAFANA_DEB_PATH,
+    CLICKHOUSE_DEB_PATH
+]
 
 
 def get_my_ip():
