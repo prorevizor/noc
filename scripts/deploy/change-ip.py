@@ -13,6 +13,20 @@ import socket
 import fileinput
 
 PG_VERSION = "9.6"
+PG_DEB_PATH = "/etc/postgresql/" + PG_VERSION + "/main/noc.conf"
+NATS_DEB_PATH = "/etc/nats/nats-server.conf"
+LB_DEB_PATH = "/etc/liftbridge/liftbridge.yml"
+NGINX_DEB_PATH = "/etc/nginx/conf.d/noc.conf"
+MONGO_DEB_PATH = "/etc/mongod.conf"
+CONSUL_DEB_PATH = "/etc/consul/config.json"
+CONSUL_ng_path = "/etc/consul.d/nginx.json"
+CONSUL_nats_path = "/etc/consul.d/nats.json"
+CONSUL_lift_path = "/etc/consul.d/liftbridge.json"
+GRAFANA_DEB_PATH = "/etc/grafana/grafana.ini"
+CLICKHOUSE_DEB_PATH = "/etc/clickhouse-server/users.xml"
+
+ALL_PATHS = [PG_DEB_PATH, MONGO_DEB_PATH, NATS_DEB_PATH, LB_DEB_PATH, NGINX_DEB_PATH, CONSUL_DEB_PATH, CONSUL_ng_path,
+             CONSUL_nats_path, CONSUL_lift_path, GRAFANA_DEB_PATH, CLICKHOUSE_DEB_PATH]
 
 
 def get_my_ip():
@@ -30,110 +44,16 @@ def get_my_ip():
     return ip
 
 
-def set_pg_address(address):
-    """Set new IP to PostgreSQL"""
-    deb_path = "/etc/postgresql/" + PG_VERSION + "/main/noc.conf"
-    cent_path = "/var/lib/pgsql/" + PG_VERSION + "/data/noc.conf"
-    for path in [deb_path, cent_path]:
-        try:
-            if os.path.isfile(path):
-                for line in fileinput.input(files=path, inplace=True):
-                    if line.strip().startswith("listen_addresses"):
-                        line = "listen_addresses = '" + address + "'\n"
-                    sys.stdout.write(line)
-            return
-        except IOError:
-            pass
-    print("noc PG settings is not found")
-    exit(1)
-
-
-def set_consul_address(address):
-    """Set new IP to Consul"""
-    deb_path = "/etc/consul/config.json"
-    for path in [deb_path]:
-        try:
-            if os.path.isfile(path):
-                for line in fileinput.input(files=path, inplace=True):
-                    if line.startswith('  \"bind_addr\"'):
-                        line = '\"bind_addr\": \"' + address + '\",\n'
-                    sys.stdout.write(line)
-            return
-        except IOError:
-            pass
-    print("Consul settings is not found")
-    exit(1)
-
-
-def change_consul_checks_address(old_ip, new_ip):
-    """Set new IP to Consul checks"""
-    ng_path = "/etc/consul.d/nginx.json"
-    nats_path = "/etc/consul.d/nats.json"
-    lift_path = "/etc/consul.d/liftbridge.json"
-    for path in [ng_path, nats_path, lift_path]:
-        try:
-            if os.path.isfile(path):
-                for line in fileinput.input(files=path, inplace=True):
-                    line = line.replace(old_ip, new_ip)
-                    sys.stdout.write(line)
-        except IOError:
-            pass
-
-
-def change_grafana_address(old_ip, new_ip):
-    """Set new IP to Grafana"""
-    grafana_path = "/etc/grafana/grafana.ini"
-    for path in [grafana_path]:
-        try:
-            if os.path.isfile(path):
-                for line in fileinput.input(files=path, inplace=True):
-                    line = line.replace(old_ip, new_ip)
-                    sys.stdout.write(line)
-        except IOError:
-            pass
-
-
-def change_nginx_address(old_ip, new_ip):
-    """Set new IP to Nginx"""
-    nginx_path = "/etc/nginx/conf.d/noc.conf"
-    for path in [nginx_path]:
-        try:
-            if os.path.isfile(path):
-                for line in fileinput.input(files=path, inplace=True):
-                    line = line.replace(old_ip, new_ip)
-                    sys.stdout.write(line)
-        except IOError:
-            pass
-
-
-def change_clickhouse_address(old_ip, new_ip):
-    """Set new IP to Clickhouse """
-    clickhouse_path = "/etc/clickhouse-server/users.xml"
-    for path in [clickhouse_path]:
-        try:
-            if os.path.isfile(path):
-                for line in fileinput.input(files=path, inplace=True):
-                    line = line.replace(old_ip, new_ip)
-                    sys.stdout.write(line)
-        except IOError:
-            pass
-
-
-def set_mongo_address(address):
-    """Set new IP to MongoDB"""
-    deb_path = "/etc/mongod.conf"
-    for path in [deb_path]:
-        try:
-            print(path)
-            if os.path.isfile(path):
-                for line in fileinput.input(files=path, inplace=True):
-                    if line.strip().startswith("bindIp: 127.0.0.1,"):
-                        line = "  bindIp: 127.0.0.1," + address + "\n"
-                    sys.stdout.write(line)
-            return
-        except IOError:
-            pass
-    print("MongoDB settings is not found")
+def change_ip_address(path, old_ip, new_ip):
+    try:
+        if os.path.isfile(path):
+            print("Changing ip in: ", path)
+            for line in fileinput.input(files=path, inplace=True):
+                line = line.replace(old_ip, new_ip)
+                sys.stdout.write(line)
+            print("OK")
+    except IOError:
+        pass
 
 
 def get_old_ip():
@@ -157,7 +77,6 @@ def set_hosts_address(address):
         try:
             if os.path.isfile(path):
                 hostname = socket.gethostname()
-                print(hostname)
                 for line in fileinput.input(files=path, inplace=True):
                     if line.strip().endswith(hostname):
                         line = address + " " + hostname + "\n"
@@ -168,38 +87,11 @@ def set_hosts_address(address):
     print("You haven't /etc/hosts")
 
 
-def set_liftbridge_address(address):
-    """Set new IP to Liftbridge"""
-    deb_path = "/etc/liftbridge/liftbridge.yml"
-    for path in [deb_path]:
-        try:
-            if os.path.isfile(path):
-                for line in fileinput.input(files=path, inplace=True):
-                    if line.strip().startswith("host: "):
-                        line = "host: " + address + "\n"
-                    if line.strip().startswith("- nats://"):
-                        line = "- nats://" + address + ":4222\n"
-                    sys.stdout.write(line)
-            return
-        except IOError:
-            pass
-    print("Liftbridge settings is not found")
-
-
-def change_nats_address(old_ip, new_ip):
-    """Set new IP to Nats"""
-    deb_path = "/etc/nats/nats-server.conf"
-    for path in [deb_path]:
-        try:
-            print(path)
-            if os.path.isfile(path):
-                for line in fileinput.input(files=path, inplace=True):
-                    line = line.replace(old_ip, new_ip)
-                    sys.stdout.write(line)
-            return
-        except IOError:
-            pass
-    print("Nats settings is not found")
+def change_ip_everywhere(paths, old_ip, new_ip):
+    """Change ip in every known path"""
+    for path in [paths]:
+        change_ip_address(path, old_ip, new_ip)
+    print("Done changing")
 
 
 if __name__ == "__main__":
@@ -209,26 +101,14 @@ if __name__ == "__main__":
     my_ip = get_my_ip()
     print("Local ip is: ", my_ip)
 
-    change_nats_address(old_ip_address, my_ip)
-    os.system("systemctl restart nats-server")
-
-    set_liftbridge_address(my_ip)
-    os.system("systemctl restart liftbridge")
-
-    set_pg_address(my_ip)
-    os.system("systemctl restart postgresql")
-
     set_hosts_address(my_ip)
+    change_ip_everywhere(ALL_PATHS, old_ip_address, my_ip)
 
-    change_consul_checks_address(old_ip_address, my_ip)
-    set_consul_address(my_ip)
+    os.system("systemctl restart nats-server")
+    os.system("systemctl restart liftbridge")
+    os.system("systemctl restart postgresql")
     os.system("systemctl restart consul")
-
-    set_mongo_address(my_ip)
     os.system("systemctl restart mongod")
-
-    change_clickhouse_address(old_ip_address, my_ip)
-    change_grafana_address(old_ip_address, my_ip)
 
     os.system("systemctl restart noc")
     print("That's all")
