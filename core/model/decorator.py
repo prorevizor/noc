@@ -233,7 +233,7 @@ def tree(field=None):
     def decorator(cls):
         if hasattr(cls, field):
 
-            def before_save(field):
+            def before_save(*args, **kwargs):
                 parent = getattr(cls, field, None)
                 while parent:
                     if getattr(parent, "id", None) == getattr(cls, "id", None):
@@ -241,7 +241,7 @@ def tree(field=None):
                         break
                     parent = getattr(parent, field, None)
 
-            cls.before_save = before_save(field=field)
+            cls.before_save = before_save
         return cls
 
     return decorator
