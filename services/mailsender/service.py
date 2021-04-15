@@ -72,10 +72,10 @@ class MailSenderService(TornadoService):
         message["Subject"] = Header(subject, "utf-8")
         message.attach(MIMEText(body, _charset="utf-8"))
         for a in attachments:
-            if isinstance(a["data"], bytes):
+            part = MIMEBase("application", "octet-stream")
+            if "transfer-encoding" in a:
                 part = MIMEApplication(a["data"])
             else:
-                part = MIMEBase("application", "octet-stream")
                 part.set_payload(a["data"].encode("utf-8"), charset="utf-8")
             part.add_header("Content-Disposition", "attachment", filename=a["filename"])
             message.attach(part)
