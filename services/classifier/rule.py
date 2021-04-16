@@ -163,9 +163,6 @@ class Rule(object):
         def pyq(s):
             return s.replace("\\", "\\\\").replace('"', '\\"')
 
-        def delete_wrap(s):
-            return s.replace("\n", "")
-
         e_vars_used = c2 or c3 or c4
         c = []
         if c1:
@@ -176,7 +173,7 @@ class Rule(object):
             c += ["e_vars = {}"]
         if c2:
             for k in c2:
-                c += [delete_wrap("# %s" % self.rxp[c2[k]])]
+                c += ["# %s" % self.rxp[c2[k]]]
                 c += ["match = self.rx_%s.search(vars['%s'])" % (c2[k], k)]
                 c += ["if not match:"]
                 c += ["    return None"]
@@ -185,7 +182,7 @@ class Rule(object):
             for rx, v in c3:
                 c += ["found = False"]
                 c += ["for k in vars:"]
-                c += [delete_wrap("    # %s" % self.rxp[rx])]
+                c += ["    # %s" % self.rxp[rx]]
                 c += ["    match = self.rx_%s.search(k)" % rx]
                 c += ["    if match:"]
                 c += ["        if vars[k] == '%s':" % v]
@@ -200,10 +197,10 @@ class Rule(object):
             for rxk, rxv in c4:
                 c += ["found = False"]
                 c += ["for k in vars:"]
-                c += [delete_wrap("    # %s" % self.rxp[rxk])]
+                c += ["    # %s" % self.rxp[rxk]]
                 c += ["    match_k = self.rx_%s.search(k)" % rxk]
                 c += ["    if match_k:"]
-                c += [delete_wrap("        # %s" % self.rxp[rxv])]
+                c += ["        # %s" % self.rxp[rxv]]
                 c += ["        match_v = self.rx_%s.search(vars[k])" % rxv]
                 c += ["        if match_v:"]
                 c += ["            e_vars.update(match_k.groupdict())"]
@@ -259,17 +256,22 @@ class Rule(object):
         cc += c
         cc += ["rule.match = types.MethodType(match, rule)"]
         self.code = "\n".join(cc)
-        code = compile(self.code, "<string>", "exec")
-        exec(
-            code,
-            {
-                "rule": self,
-                "types": types,
-                "logging": logging,
-                "fm_unescape": fm_unescape,
-                "smart_text": smart_text,
-            },
-        )
+        try:
+            code = compile(self.code, "<string>", "exec")
+            exec(
+                code,
+                {
+                    "rule": self,
+                    "types": types,
+                    "logging": logging,
+                    "fm_unescape": fm_unescape,
+                    "smart_text": smart_text,
+                },
+            )
+        except IndentationError:
+            logging.error(
+                f"!!!!!!!!!! The rule '{self.name}' is wrong. You should check format this rule."
+            )
 
     def clone(self, rules):
         """
