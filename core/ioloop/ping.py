@@ -17,10 +17,7 @@ import logging
 from time import perf_counter_ns
 from typing import Optional, Tuple
 from abc import ABCMeta, abstractmethod
-
-# Third-party modules
-from tornado.ioloop import IOLoop
-from tornado.concurrent import Future
+from asyncio import get_event_loop, get_running_loop
 
 # NOC modules
 from noc.speedup.ip import build_icmp_echo_request_ts
@@ -54,18 +51,16 @@ class PingSocket(object, metaclass=ABCMeta):
     IPv4/IPv6 ping socket base
     """
 
-    ECHO_TYPE = None
-    HEADER_SIZE = None
-    SNDBUF = config.ping.send_buffer
-    RCVBUF = config.ping.receive_buffer
+    ECHO_TYPE: int
+    HEADER_SIZE: int
 
     def __init__(self, tos=None):
-        self.socket = None
+        self.socket: Optional[socket.socket] = None
         self._ready = False
         self.tos = tos
         self.create_socket()
         self._ready = True
-        IOLoop.current().add_handler(self.socket.fileno(), self.on_read, IOLoop.READ)
+        get_event_loop().add_reader(self.socket.fileno(), self.on_read)
         self.sessions = {}  # (address, request_id, seq) -> future
         self.out_buffer = []  # [(address, msg)]
         self.writing = False
@@ -98,8 +93,8 @@ class PingSocket(object, metaclass=ABCMeta):
                 except OSError:
                     s >>= 2
 
-        send_size = set_buffer_size(self.socket, socket.SO_SNDBUF, self.SNDBUF)
-        recv_size = set_buffer_size(self.socket, socket.SO_RCVBUF, self.RCVBUF)
+        send_size = set_buffer_size(self.socket, socket.SO_SNDBUF, config.ping.send_buffer)
+        recv_size = set_buffer_size(self.socket, socket.SO_RCVBUF, config.ping.receive_buffer)
         logger.info("Adjust ping socket buffers: send=%s, recv=%s", send_size, recv_size)
 
     def ping(self, address: str, timeout: float, size: int, request_id: int, seq: int):
@@ -112,20 +107,21 @@ class PingSocket(object, metaclass=ABCMeta):
             request_id, seq, perf_counter_ns(), size - self.HEADER_SIZE - 8
         )
         sid = (address, request_id, seq)
-        f = Future()
+        loop = get_running_loop()
+        f = loop.create_future()
         f.sid = sid
         self.sessions[sid] = f
         self.send(address, msg)
-        IOLoop.current().call_later(timeout / 1000.0, functools.partial(self.on_timeout, f))
+        loop.call_later(timeout / 1000.0, functools.partial(self.on_timeout, f))
         return f
 
     @abstractmethod
-    def parse_reply(self, msg: bytes, addr: str) -> Optional[Tuple[T_SID, int]]:
+    def parse_reply(self, msg: bytes, addr: str) -> Optional[Tuple[T_SID, Optional[int]]]:
         """
         Returns status, request_id, sequence, rtt
         """
 
-    def on_read(self, fd, events):
+    def on_read(self):
         try:
             msg, addr = self.socket.recvfrom(MAX_RECV)
         except OSError as e:
@@ -191,14 +187,13 @@ class PingSocket(object, metaclass=ABCMeta):
                 else:
                     logger.error("[%s] Failed to send request: %s", a, e)
         self.out_buffer = new_buffer
+        loop = get_running_loop()
         if new_buffer:
             if not self.writing:
-                IOLoop.current().add_handler(
-                    self.socket.fileno(), self.on_send, IOLoop.current().WRITE
-                )
+                loop.add_writer(self.socket.fileno(), self.on_send)
                 self.writing = True
         elif self.writing:
-            IOLoop.current().remove_handler(self.socket.fileno())
+            loop.remove_writer(self.socket.fileno())
             self.writing = False
 
 
@@ -269,7 +264,6 @@ class Ping6Socket(PingSocket):
         icmp_header = msg[:8]
         (icmp_type, icmp_code, icmp_checksum, req_id, seq) = ICMP_STRUCT.unpack(icmp_header)
         payload = msg[8:]
-        rtt = None
         if icmp_type == ICMPv6_ECHOREPLY and len(payload) >= 8:
             t0 = TS_STRUCT.unpack(payload[:8])[0]
             return (addr, req_id, seq), t0
@@ -314,13 +308,13 @@ class Ping(object):
             first success. CHECK_ALL - return True when all checks succeded
         :returns: Ping status as boolean
         """
-        socket = self.get_socket(address)
-        if not socket:
+        sock = self.get_socket(address)
+        if not sock:
             return None
         req_id = next(self.iter_request) & 0xFFFF
         result = policy == self.CHECK_ALL and count > 0
         for seq in range(count):
-            r = await socket.ping(address, timeout, size, req_id, seq)
+            r = await sock.ping(address, timeout, size, req_id, seq)
             if r and policy == self.CHECK_FIRST:
                 result = True
                 break
