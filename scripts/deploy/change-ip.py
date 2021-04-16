@@ -38,7 +38,7 @@ ALL_PATHS = [
     CONSUL_lift_path,
     CONSUL_pg_path,
     GRAFANA_DEB_PATH,
-    CLICKHOUSE_DEB_PATH
+    CLICKHOUSE_DEB_PATH,
 ]
 
 
