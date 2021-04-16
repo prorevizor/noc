@@ -4,7 +4,7 @@ site_author: The NOC Project
 repo_url: https://code.getnoc.com/noc/noc/
 repo_name: Gitlab
 edit_uri: -/edit/master/docs/en/docs
-copyright: 2007-2020, The NOC Project
+copyright: 2007-2021, The NOC Project
 nav:
   - Home: index.md
   - User's Guide:
@@ -1369,7 +1369,6 @@ nav:
               - "[peer] section": admin/reference/config/peer.md
               - "[pg] section": admin/reference/config/pg.md
               - "[ping] section": admin/reference/config/ping.md
-              - "[pmwriter] section": admin/reference/config/pmwriter.md
               - "[proxy] section": admin/reference/config/proxy.md
               - "[redis] section": admin/reference/config/redis.md
               - "[rpc] section": admin/reference/config/rpc.md

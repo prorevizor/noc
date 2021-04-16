@@ -9,11 +9,12 @@
 import logging
 from threading import Lock
 import operator
-from typing import Dict
+import datetime
+from typing import Dict, Optional
 
 # Third-party modules
 from mongoengine.document import Document
-from mongoengine.fields import StringField, IntField, LongField
+from mongoengine.fields import StringField, IntField, LongField, ListField, DateTimeField
 import cachetools
 
 # NOC modules
@@ -26,6 +27,7 @@ from noc.sa.models.managedobject import ManagedObject
 from noc.pm.models.measurementunits import MeasurementUnits
 from .sensorprofile import SensorProfile
 
+SOURCES = {"objectmodel", "asset", "etl", "manual"}
 
 id_lock = Lock()
 logger = logging.getLogger(__name__)
@@ -44,9 +46,18 @@ class Sensor(Document):
     units = PlainReferenceField(MeasurementUnits)
     label = StringField()
     dashboard_label = StringField()
+    # Sources that find sensor
+    sources = ListField(StringField(choices=list(SOURCES)))
+    # Timestamp of last seen
+    last_seen = DateTimeField()
+    # Timestamp expired
+    expired = DateTimeField()
+    # Timestamp of first discovery
+    first_discovered = DateTimeField(default=datetime.datetime.now)
     protocol = StringField(choices=["modbus_rtu", "modbus_ascii", "modbus_tcp", "snmp", "ipmi"])
     modbus_register = IntField()
     snmp_oid = StringField()
+    ipmi_id = StringField()
     bi_id = LongField(unique=True)
 
     _id_cache = cachetools.TTLCache(maxsize=100, ttl=60)
@@ -54,8 +65,10 @@ class Sensor(Document):
 
     def __str__(self):
         if self.object:
-            return "%s: %s" % (self.object, self.local_id)
-        return "%s: %s" % (self.units, self.local_id)
+            return f"{self.object}: {self.local_id}"
+        elif self.managed_object:
+            return f"{self.managed_object}: {self.local_id}"
+        return f"{self.units}: {self.local_id}"
 
     @classmethod
     @cachetools.cachedmethod(operator.attrgetter("_id_cache"), lock=lambda _: id_lock)
@@ -67,6 +80,43 @@ class Sensor(Document):
     def get_by_bi_id(cls, id):
         return Sensor.objects.filter(bi_id=id).first()
 
+    def seen(self, source: Optional[str] = None):
+        """
+        Seen sensor
+        """
+        if source and source in SOURCES:
+            self.sources = list(set(self.sources or []).union(set([source])))
+            self._get_collection().update_one({"_id": self.id}, {"$addToSet": {"sources": source}})
+        self.fire_event("seen")
+        self.touch()  # Worflow expired
+
+    def unseen(self, source: Optional[str] = None):
+        """
+        Unseen sensor
+        """
+        logger.info(
+            "[%s|%s] Sensor is missed '%s'",
+            self.object.name if self.object else "-",
+            "-",
+            self.local_id,
+        )
+        if source and source in SOURCES:
+            self.sources = list(set(self.sources or []) - set([source]))
+            self._get_collection().update_one(
+                {"_id": self.id}, {"$pull": {"sources": source}}
+            )
+        elif not source:
+            # For empty source, clean sources
+            self.sources = []
+            self._get_collection().update_one(
+                {"_id": self.id}, {"$set": {"sources": []}}
+            )
+        if not self.sources:
+            # source - None, set sensor to missed
+            self.fire_event("missed")
+            self.touch()
+
+
     @classmethod
     def sync_object(cls, obj: Object) -> None:
         """
@@ -75,7 +125,9 @@ class Sensor(Document):
         :return:
         """
         # Get existing sensors
-        obj_sensors: Dict[str, Sensor] = {s.name: s for s in Sensor.objects.filter(object=obj.id)}
+        obj_sensors: Dict[str, Sensor] = {
+            s.local_id: s for s in Sensor.objects.filter(object=obj.id)
+        }
         m_proto = [
             d.value
             for d in obj.get_effective_data()
@@ -84,6 +136,7 @@ class Sensor(Document):
         # Create new sensors
         for sensor in obj.model.sensors:
             if sensor.name in obj_sensors:
+                obj_sensors[sensor.name].seen("objectmodel")
                 del obj_sensors[sensor.name]
                 continue
             #
@@ -95,6 +148,7 @@ class Sensor(Document):
                 object=obj,
                 local_id=sensor.name,
                 units=sensor.units,
+                label=description,
             )
             # Get sensor protocol
             if sensor.modbus_register:
@@ -113,8 +167,8 @@ class Sensor(Document):
                     sensor.name,
                 )
             s.save()
+            s.seen("objectmodel")
         # Notify missed sensors
         for s in sorted(obj_sensors):
             sensor = obj_sensors[s]
-            logger.info("[%s|%s] Sensor is missed '%s'", obj.name if obj else "-", "-", sensor.name)
-            sensor.fire_event("missed")
+            sensor.unseen(source="objectmodel")
