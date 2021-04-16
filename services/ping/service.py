@@ -212,7 +212,8 @@ class PingService(TornadoService):
                     # @todo: Send throttling message
             ts = " (Throttled)" if self.is_throttled else ""
             self.logger.info("[%s] Changing status to %s%s", address, s, ts)
-            ps.status = s
+            if ps.expr_policy == "D":
+                ps.status = s
         if ps and not self.is_throttled and s != ps.sent_status:
             self.publish(
                 orjson.dumps(
@@ -225,7 +226,7 @@ class PingService(TornadoService):
         self.logger.debug("[%s] status=%s rtt=%s", address, s, rtt)
         # Send RTT and attempts metrics
         to_report_rtt = rtt is not None and ps.report_rtt
-        if (to_report_rtt or ps.report_attempts) and ps.bi_id and ps.expr_policy == "E":
+        if (to_report_rtt or ps.report_attempts) and ps.bi_id:
             lt = time.localtime(t0)
             ts = time.strftime("%Y-%m-%d %H:%M:%S", lt)
             date = ts.split(" ")[0]
