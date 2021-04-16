@@ -22,6 +22,7 @@ CONSUL_DEB_PATH = "/etc/consul/config.json"
 CONSUL_ng_path = "/etc/consul.d/nginx.json"
 CONSUL_nats_path = "/etc/consul.d/nats.json"
 CONSUL_lift_path = "/etc/consul.d/liftbridge.json"
+CONSUL_pg_path = "/etc/consul.d/scripts/postgres_check.sh"
 GRAFANA_DEB_PATH = "/etc/grafana/grafana.ini"
 CLICKHOUSE_DEB_PATH = "/etc/clickhouse-server/users.xml"
 
@@ -35,6 +36,7 @@ ALL_PATHS = [
     CONSUL_ng_path,
     CONSUL_nats_path,
     CONSUL_lift_path,
+    CONSUL_pg_path,
     GRAFANA_DEB_PATH,
     CLICKHOUSE_DEB_PATH
 ]
@@ -100,7 +102,7 @@ def set_hosts_address(address):
 
 def change_ip_everywhere(paths, old_ip, new_ip):
     """Change ip in every known path"""
-    for path in [paths]:
+    for path in paths:
         change_ip_address(path, old_ip, new_ip)
     print("Done changing")
 
@@ -115,6 +117,7 @@ if __name__ == "__main__":
     set_hosts_address(my_ip)
     change_ip_everywhere(ALL_PATHS, old_ip_address, my_ip)
 
+    os.system(f"chown nats {NATS_DEB_PATH}")
     os.system("systemctl restart nats-server")
     os.system("systemctl restart liftbridge")
     os.system("systemctl restart postgresql")
