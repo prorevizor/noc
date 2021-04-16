@@ -55,7 +55,12 @@ class DocumentResourceAPI(BaseResourceAPI[T]):
         return self.queryset(user).filter(pk=id).first()
 
     def create_item(self, user: User, **kwargs) -> None:
-        self.model(**kwargs).save()
+        try:
+            self.model(**kwargs).save()
+        except Exception as e:
+            raise HTTPException(
+                status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail=f"Failed to save: {e}"
+            )
 
     def update_item(self, id: str, user: User, **kwargs) -> None:
         item = self.get_item(id=id, user=user)
@@ -63,7 +68,12 @@ class DocumentResourceAPI(BaseResourceAPI[T]):
             raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
         for k, v in kwargs.items():
             setattr(item, k, v)
-        item.save()
+        try:
+            item.save()
+        except Exception as e:
+            raise HTTPException(
+                status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail=f"Failed to save: {e}"
+            )
 
     def delete_item(self, id: str, user: User) -> bool:
         item = self.get_item(id=id, user=user)
