@@ -97,7 +97,7 @@ class SLAProbe(Document):
 
     @classmethod
     def iter_effective_labels(self, probe: "SLAProbe") -> List[str]:
-        return probe.profile.labels
+        return probe.labels + probe.profile.labels
 
     @classmethod
     def can_set_label(cls, label):

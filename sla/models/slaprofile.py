@@ -95,12 +95,12 @@ class SLAProfile(Document):
 
     @classmethod
     @cachetools.cachedmethod(operator.attrgetter("_bi_id_cache"), lock=lambda _: id_lock)
-    def get_by_bi_id(cls, id) -> "SensorProfile":
-        return SensorProfile.objects.filter(bi_id=id).first()
+    def get_by_bi_id(cls, id) -> "SLAProfile":
+        return SLAProfile.objects.filter(bi_id=id).first()
 
     @classmethod
     @cachetools.cachedmethod(operator.attrgetter("_default_cache"), lock=lambda _: id_lock)
-    def get_default_profile(cls) -> "SensorProfile":
+    def get_default_profile(cls) -> "SLAProfile":
         sp = SLAProfile.objects.filter(name=cls.DEFAULT_PROFILE_NAME).first()
         if not sp:
             sp = SLAProfile(
