@@ -42,7 +42,7 @@ class Migration(BaseMigration):
                     "on_leave_handlers": [],
                     "x": 250,
                     "y": 60,
-                    "bi_id": 3623368907948585294
+                    "bi_id": 3623368907948585294,
                 },
                 {
                     "_id": ObjectId("607a7e2e3d18d4fb3c12032c"),
@@ -58,7 +58,7 @@ class Migration(BaseMigration):
                     "on_leave_handlers": [],
                     "x": 520,
                     "y": 210,
-                    "bi_id": 1472075281703656507
+                    "bi_id": 1472075281703656507,
                 },
                 {
                     "_id": ObjectId("607a7e1d3d18d4fb3c12032a"),
@@ -74,7 +74,7 @@ class Migration(BaseMigration):
                     "x": 390,
                     "y": 110,
                     "bi_id": 1399253602890530658,
-                    "description": ""
+                    "description": "",
                 },
             ]
         )
@@ -93,7 +93,7 @@ class Migration(BaseMigration):
                     "handlers": [],
                     "vertices": [],
                     "bi_id": 7493433118747194768,
-                    "description": ""
+                    "description": "",
                 },
                 {
                     "_id": ObjectId("607a7efdff3a857a47600ba1"),
@@ -106,7 +106,7 @@ class Migration(BaseMigration):
                     "enable_manual": True,
                     "handlers": [],
                     "vertices": [],
-                    "bi_id": 8862543170371985128
+                    "bi_id": 8862543170371985128,
                 },
                 {
                     "_id": ObjectId("607a7f123d18d4fb3c12032e"),
@@ -120,7 +120,7 @@ class Migration(BaseMigration):
                     "handlers": [],
                     "vertices": [],
                     "bi_id": 5922870540207143342,
-                    "description": ""
+                    "description": "",
                 },
                 {
                     "_id": ObjectId("607a7f22ff3a857a47600ba3"),
@@ -134,7 +134,7 @@ class Migration(BaseMigration):
                     "handlers": [],
                     "vertices": [],
                     "bi_id": 2661405338408447282,
-                    "description": ""
+                    "description": "",
                 },
             ]
         )

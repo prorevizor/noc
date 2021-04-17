@@ -11,11 +11,12 @@ from threading import Lock
 
 # Third-party modules
 from mongoengine.document import Document
-from mongoengine.fields import StringField, BooleanField, ListField
+from mongoengine.fields import StringField, BooleanField, ListField, DateTimeField, LongField
 import cachetools
 
 # NOC modules
 from .slaprofile import SLAProfile
+from noc.wf.models.state import State
 from noc.sa.models.managedobject import ManagedObject
 from noc.main.models.label import Label
 from noc.core.mongo.fields import ForeignKeyField, PlainReferenceField
