@@ -268,7 +268,7 @@ class Rule(object):
                     "smart_text": smart_text,
                 },
             )
-        except IndentationError:
+        except SyntaxError:
             logging.error(
                 f"!!!!!!!!!! The rule '{self.name}' is wrong. You should check format this rule."
             )
