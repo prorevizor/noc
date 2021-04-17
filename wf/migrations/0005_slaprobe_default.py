@@ -136,5 +136,19 @@ class Migration(BaseMigration):
                     "bi_id": 2661405338408447282,
                     "description": "",
                 },
+                {
+                    "_id": ObjectId("607a8d6c671ee0c6812ee21e"),
+                    "workflow": ObjectId("607a7dddff3a857a47600b9b"),
+                    "from_state": ObjectId("607a7e2e3d18d4fb3c12032c"),
+                    "to_state": ObjectId("607a7e25ff3a857a47600b9d"),
+                    "is_active": True,
+                    "event": "missed",
+                    "label": "Missed",
+                    "enable_manual": True,
+                    "handlers": [],
+                    "vertices": [{"x": 390, "y": 230}],
+                    "bi_id": 5981567621944996631,
+                    "description": "",
+                },
             ]
         )
