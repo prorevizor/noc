@@ -21,6 +21,8 @@ from noc.core.model.decorator import on_save, on_delete, is_document
 from noc.main.models.remotesystem import RemoteSystem
 
 
+MATCH_OPS = {"=", "<", ">", "&"}
+
 id_lock = Lock()
 
 
@@ -228,9 +230,8 @@ class Label(Document):
         Returns True if the label is matched
         :return:
         """
-        return self.name[-1] in {"=", "<", ">", "&"}
+        return self.name[-1] in MATCH_OPS
 
-    @property
     def iter_scopes(self) -> Iterable[str]:
         """
         Yields all scopes
@@ -288,7 +289,7 @@ class Label(Document):
         Create all necessary wildcards for a scoped labels
         :return:
         """
-        for scope in self.iter_scopes:
+        for scope in self.iter_scopes():
             # Ensure wildcard
             Label.ensure_label(
                 f"{scope}::*",
@@ -393,12 +394,10 @@ class Label(Document):
         def on_post_save(sender, instance=None, document=None, category=category, *args, **kwargs):
             instance = instance or document
             # Ensure matches
-            Label.ensure_label(f"noc::{category}::{instance.name}::=")
-            Label.ensure_label(f"noc::{category}::{instance.name}::>")
-            Label.ensure_label(f"noc::{category}::{instance.name}::<")
-            Label.ensure_label(f"noc::{category}::{instance.name}::&")
+            for op in MATCH_OPS:
+                Label.ensure_label(f"noc::{category}::{instance.name}::{op}")
 
-        def decorator(m_cls):
+        def inner(m_cls):
             # Install handlers
             if is_document(m_cls):
                 from mongoengine import signals as mongo_signals
@@ -411,4 +410,4 @@ class Label(Document):
 
             return m_cls
 
-        return decorator
+        return inner
