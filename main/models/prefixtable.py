@@ -8,7 +8,6 @@
 # Third-party modules
 from noc.core.translation import ugettext as _
 from django.db import models
-from typing import List, Iterable
 
 # NOC Modules
 from noc.core.model.base import NOCModel
