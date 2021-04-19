@@ -12,6 +12,7 @@ import sys
 import socket
 import fileinput
 
+TOWER_DB_PATH = "/opt/tower/var/tower/db/config.db"
 PG_VERSION = "9.6"
 PG_DEB_PATH = "/etc/postgresql/" + PG_VERSION + "/main/noc.conf"
 NATS_DEB_PATH = "/etc/nats/nats-server.conf"
@@ -107,6 +108,17 @@ def change_ip_everywhere(paths, old_ip, new_ip):
     print("Done changing")
 
 
+def change_inside_tower(old_ip, new_ip):
+    """Change ip inside tower.db on same host"""
+    try:
+        if os.path.isfile(TOWER_DB_PATH):
+            print("Changing address in: ", TOWER_DB_PATH)
+            os.system(f"sqlite3 {TOWER_DB_PATH} \"UPDATE node SET address = '{new_ip}';\"")
+            os.system(f"sqlite3 {TOWER_DB_PATH} \"UPDATE environment SET web_host = '{new_ip}' where web_host = '{old_ip}';\"")
+    except IOError:
+        pass
+
+
 if __name__ == "__main__":
     old_ip_address = get_old_ip()
     print("Old ip was: ", old_ip_address)
@@ -125,4 +137,5 @@ if __name__ == "__main__":
     os.system("systemctl restart mongod")
 
     os.system("systemctl restart noc")
+    change_inside_tower(old_ip_address, my_ip)
     print("That's all")
