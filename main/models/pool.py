@@ -78,3 +78,7 @@ class Pool(Document):
                 delta = 0
             self.reschedule_ts[self.id] = t + dt
         return delta
+
+    @classmethod
+    def iter_lazy_labels(cls, pool: "Pool"):
+        yield f"noc::pool::{pool.name}::="

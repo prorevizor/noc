@@ -60,6 +60,16 @@ class PrefixTable(NOCModel):
         """
         return self.match(other)
 
+    @classmethod
+    def iter_lazy_labels(cls, prefix: str):
+        p = IP.prefix(prefix)
+        for pt in PrefixTablePrefix.objects.filter(afi=p.afi).extra(
+            where=["%s <<= prefix"], params=[prefix]
+        ):
+            yield f"noc::prefixfilter::{pt.table.name}::<"
+            if prefix == pt.prefix:
+                yield f"noc::prefixfilter::{pt.table.name}::="
+
 
 class PrefixTablePrefix(NOCModel):
     class Meta(object):

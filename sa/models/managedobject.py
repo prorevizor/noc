@@ -14,7 +14,7 @@ import re
 import operator
 from threading import Lock
 import datetime
-from typing import Tuple
+from typing import Tuple, Iterable, List
 
 # Third-party modules
 from django.contrib.postgres.fields import ArrayField
@@ -1772,6 +1772,19 @@ class ManagedObject(NOCModel):
         return "events.%s" % pool, 0
 
     @classmethod
+    def iter_effective_labels(cls, intance: "ManagedObject") -> Iterable[List[str]]:
+        yield intance.labels or []
+        yield list(AdministrativeDomain.iter_lazy_labels(intance.administrative_domain))
+        yield list(Pool.iter_lazy_labels(intance.pool))
+        yield list(Profile.iter_lazy_labels(intance.profile))
+        if intance.vendor:
+            yield list(Vendor.iter_lazy_labels(intance.vendor))
+        if intance.platform:
+            yield list(Platform.iter_lazy_labels(intance.platform))
+        if intance.address:
+            yield list(PrefixTable.iter_lazy_labels(intance.address))
+
+    @classmethod
     def can_set_label(cls, label):
         return Label.get_effective_setting(label, "enable_managedobject")
 
@@ -1896,3 +1909,4 @@ from .selectorcache import SelectorCache
 from .objectcapabilities import ObjectCapabilities
 from noc.core.pm.utils import get_objects_metrics
 from noc.vc.models.vcdomain import VCDomain  # noqa
+from noc.main.models.prefixtable import PrefixTable

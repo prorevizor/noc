@@ -20,10 +20,12 @@ from noc.core.bi.decorator import bi_sync
 from noc.core.prettyjson import to_json
 from noc.core.model.decorator import on_delete_check
 from noc.core.profile.loader import loader, GENERIC_PROFILE
+from noc.main.models.label import Label
 
 id_lock = threading.Lock()
 
 
+@Label.match_labels(category="profile")
 @bi_sync
 @on_delete_check(
     check=[
@@ -100,3 +102,7 @@ class Profile(Document):
         if not hasattr(cls, "_generic_profile_id"):
             cls._generic_profile_id = Profile.objects.filter(name=GENERIC_PROFILE).first().id
         return cls._generic_profile_id
+
+    @classmethod
+    def iter_lazy_labels(cls, profile: "Profile"):
+        yield f"noc::profile::{profile.name}::="

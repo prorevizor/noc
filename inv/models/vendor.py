@@ -146,3 +146,7 @@ class Vendor(Document):
                 return vendor
             except NotUniqueError:
                 pass  # Already created by concurrent process, reread
+
+    @classmethod
+    def iter_lazy_labels(cls, vendor: "Vendor"):
+        yield f"noc::vendor::{vendor.name}::="
