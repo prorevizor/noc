@@ -114,7 +114,9 @@ def change_inside_tower(old_ip, new_ip):
         if os.path.isfile(TOWER_DB_PATH):
             print("Changing address in: ", TOWER_DB_PATH)
             os.system(f"sqlite3 {TOWER_DB_PATH} \"UPDATE node SET address = '{new_ip}';\"")
-            os.system(f"sqlite3 {TOWER_DB_PATH} \"UPDATE environment SET web_host = '{new_ip}' where web_host = '{old_ip}';\"")
+            os.system(
+                f"sqlite3 {TOWER_DB_PATH} \"UPDATE environment SET web_host = '{new_ip}' where web_host = '{old_ip}';\""
+            )
     except IOError:
         pass
 
