@@ -6,7 +6,8 @@
 // ---------------------------------------------------------------------
 
 use super::{NtpTimeStamp, UtcDateTime};
-use crate::proto::frame::{FrameError, FrameReader, FrameWriter};
+use crate::error::AgentError;
+use crate::proto::frame::{FrameReader, FrameWriter};
 use bytes::{Buf, BufMut, BytesMut};
 
 /// ## Test-Response structure
@@ -60,7 +61,7 @@ impl FrameReader for TestResponse {
     fn min_size() -> usize {
         41
     }
-    fn parse(s: &mut BytesMut) -> Result<TestResponse, FrameError> {
+    fn parse(s: &mut BytesMut) -> Result<TestResponse, AgentError> {
         let pad_to = s.len();
         // Sequence number, 4 octets
         let seq = s.get_u32();
@@ -106,7 +107,7 @@ impl FrameWriter for TestResponse {
         self.pad_to
     }
     /// Serialize frame to buffer
-    fn write_bytes(&self, s: &mut BytesMut) -> Result<(), FrameError> {
+    fn write_bytes(&self, s: &mut BytesMut) -> Result<(), AgentError> {
         // Sequence number, 4 octets
         s.put_u32(self.seq);
         // Timestamp, 8 octets
