@@ -160,7 +160,8 @@ mod tests {
         let mut buf = BytesMut::from(SETUP_RESPONSE1);
         let expected = get_setup_response();
         let res = SetupResponse::parse(&mut buf);
-        assert_eq!(res, Ok(expected))
+        assert!(res.is_ok());
+        assert_eq!(res.unwrap(), expected);
     }
 
     #[test]

@@ -153,7 +153,8 @@ mod tests {
         let expected = get_server_greeting();
         let res = ServerGreeting::parse(&mut buf);
         assert_eq!(buf.remaining(), 0);
-        assert_eq!(res, Ok(expected))
+        assert!(res.is_ok());
+        assert_eq!(res.unwrap(), expected);
     }
 
     #[test]

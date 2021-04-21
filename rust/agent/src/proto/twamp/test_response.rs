@@ -189,7 +189,8 @@ mod tests {
         let expected = get_test_response();
         let res = TestResponse::parse(&mut buf);
         assert_eq!(buf.remaining(), 0);
-        assert_eq!(res, Ok(expected))
+        assert!(res.is_ok());
+        assert_eq!(res.unwrap(), expected);
     }
 
     #[test]
