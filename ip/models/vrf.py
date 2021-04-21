@@ -35,7 +35,7 @@ from noc.core.datastream.decorator import datastream
 id_lock = Lock()
 
 
-@Label.match_labels("vrf", allowed_op={"="})
+@Label.match_labels("ipvrf", allowed_op={"="})
 @Label.model
 @full_text_search
 @on_init
@@ -258,4 +258,4 @@ class VRF(NOCModel):
 
     @classmethod
     def iter_lazy_labels(cls, vrf: "VRF"):
-        yield f"noc::vrf::{vrf.name}::="
+        yield f"noc::ipvrf::{vrf.name}::="

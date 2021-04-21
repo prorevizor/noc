@@ -775,7 +775,7 @@ class ManagedObjectProfile(NOCModel):
 
     @classmethod
     def iter_lazy_labels(cls, object_profile: "ManagedObjectProfile"):
-        yield f"noc::profile::{object_profile.name}::="
+        yield f"noc::managedobjectprofile::{object_profile.name}::="
 
 
 def apply_discovery_jobs(profile_id, box_changed, periodic_changed):

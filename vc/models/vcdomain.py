@@ -19,7 +19,6 @@ from .vctype import VCType
 from .vcfilter import VCFilter
 
 
-@Label.match_labels("vcdomain", allowed_op={"="})
 @on_save
 @on_delete
 @on_delete_check(
@@ -94,9 +93,9 @@ class VCDomain(NOCModel):
         for x, y in chunks:
             if x > y or y < l_min or x > l_max:
                 continue  # Skip chunk outside of type's range
-            for l in range(max(l_min, x), min(l_max, y) + 1):
-                if not VC.objects.filter(vc_domain=self, l1=l).exists():
-                    return l  # Return first free found
+            for ll in range(max(l_min, x), min(l_max, y) + 1):
+                if not VC.objects.filter(vc_domain=self, l1=ll).exists():
+                    return ll  # Return first free found
         return None  # Nothing found
 
     @classmethod
@@ -105,7 +104,7 @@ class VCDomain(NOCModel):
 
     @classmethod
     def iter_lazy_labels(cls, vcdomain: "VCDomain"):
-        yield f"noc::profile::{vcdomain.name}::="
+        yield f"noc::vcdomain::{vcdomain.name}::="
 
 
 # Avoid circular references

@@ -143,4 +143,4 @@ class TTSystem(Document):
 
     @classmethod
     def iter_lazy_labels(cls, ttsystem: "TTSystem"):
-        yield f"noc::profile::{ttsystem.name}::="
+        yield f"noc::ttsystem::{ttsystem.name}::="
