@@ -20,12 +20,10 @@ from noc.core.bi.decorator import bi_sync
 from noc.core.prettyjson import to_json
 from noc.core.model.decorator import on_delete_check
 from noc.core.profile.loader import loader, GENERIC_PROFILE
-from noc.main.models.label import Label
 
 id_lock = threading.Lock()
 
 
-@Label.match_labels(category="profile")
 @bi_sync
 @on_delete_check(
     check=[

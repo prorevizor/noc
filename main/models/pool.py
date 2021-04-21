@@ -14,12 +14,16 @@ import operator
 from mongoengine.document import Document
 from mongoengine.fields import StringField, IntField, LongField
 import cachetools
+
+# NOC Modules
+from noc.main.models.label import Label
 from noc.core.model.decorator import on_delete_check
 from noc.core.bi.decorator import bi_sync
 
 id_lock = threading.Lock()
 
 
+@Label.match_labels("pool", allowed_op={"="}, enable_managedobject=True)
 @bi_sync
 @on_delete_check(
     check=[

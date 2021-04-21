@@ -1776,13 +1776,18 @@ class ManagedObject(NOCModel):
         yield intance.labels or []
         yield list(AdministrativeDomain.iter_lazy_labels(intance.administrative_domain))
         yield list(Pool.iter_lazy_labels(intance.pool))
-        yield list(Profile.iter_lazy_labels(intance.profile))
+        lazy_profile_labels = list(Profile.iter_lazy_labels(intance.profile))
+        yield Label.ensure_labels(lazy_profile_labels, enable_managedobject=True)
         if intance.vendor:
-            yield list(Vendor.iter_lazy_labels(intance.vendor))
+            lazy_vendor_labels = list(Vendor.iter_lazy_labels(intance.vendor))
+            yield Label.ensure_labels(lazy_vendor_labels, enable_managedobject=True)
         if intance.platform:
-            yield list(Platform.iter_lazy_labels(intance.platform))
+            lazy_platform_labels = list(Platform.iter_lazy_labels(intance.platform))
+            yield Label.ensure_labels(lazy_platform_labels, enable_managedobject=True)
         if intance.address:
-            yield list(PrefixTable.iter_lazy_labels(intance.address))
+            lazy_address_labels = list(PrefixTable.iter_lazy_labels(intance.address))
+            if lazy_address_labels:
+                yield Label.ensure_labels(lazy_address_labels, enable_managedobject=True)
 
     @classmethod
     def can_set_label(cls, label):
