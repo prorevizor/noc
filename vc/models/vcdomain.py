@@ -14,10 +14,12 @@ from noc.core.model.base import NOCModel
 from noc.main.models.style import Style
 from noc.core.model.decorator import on_save, on_delete
 from noc.core.model.decorator import on_delete_check
+from noc.main.models.label import Label
 from .vctype import VCType
 from .vcfilter import VCFilter
 
 
+@Label.match_labels("vcdomain", allowed_op={"="})
 @on_save
 @on_delete
 @on_delete_check(
@@ -100,6 +102,10 @@ class VCDomain(NOCModel):
     @classmethod
     def get_default(cls):
         return VCDomain.objects.get(name="default")
+
+    @classmethod
+    def iter_lazy_labels(cls, vcdomain: "VCDomain"):
+        yield f"noc::profile::{vcdomain.name}::="
 
 
 # Avoid circular references

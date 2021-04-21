@@ -27,6 +27,7 @@ import cachetools
 from noc.core.model.decorator import on_delete_check
 from noc.core.handler import get_handler
 from noc.main.models.remotesystem import RemoteSystem
+from noc.main.models.label import Label
 
 id_lock = Lock()
 logger = logging.getLogger(__name__)
@@ -34,6 +35,7 @@ logger = logging.getLogger(__name__)
 DEFAULT_TTSYSTEM_SHARD = "default"
 
 
+@Label.match_labels("ttsystem", allowed_op={"="})
 @on_delete_check(
     check=[("sa.ManagedObject", "tt_system"), ("sa.ManagedObjectSelector", "filter_tt_system")]
 )
@@ -138,3 +140,7 @@ class TTSystem(Document):
         d = datetime.datetime.now() + datetime.timedelta(seconds=cooldown)
         logger.info("[%s] Setting failure status till %s", self.name, d)
         self._get_collection().update({"_id": self.id}, {"$set": {"failed_till": d}})
+
+    @classmethod
+    def iter_lazy_labels(cls, ttsystem: "TTSystem"):
+        yield f"noc::profile::{ttsystem.name}::="

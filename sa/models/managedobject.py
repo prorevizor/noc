@@ -1776,6 +1776,7 @@ class ManagedObject(NOCModel):
         yield intance.labels or []
         yield list(AdministrativeDomain.iter_lazy_labels(intance.administrative_domain))
         yield list(Pool.iter_lazy_labels(intance.pool))
+        yield list(ManagedObjectProfile.iter_lazy_labels(intance.object_profile))
         lazy_profile_labels = list(Profile.iter_lazy_labels(intance.profile))
         yield Label.ensure_labels(lazy_profile_labels, enable_managedobject=True)
         if intance.vendor:
@@ -1788,6 +1789,12 @@ class ManagedObject(NOCModel):
             lazy_address_labels = list(PrefixTable.iter_lazy_labels(intance.address))
             if lazy_address_labels:
                 yield Label.ensure_labels(lazy_address_labels, enable_managedobject=True)
+        if intance.vrf:
+            yield list(VRF.iter_lazy_labels(intance.vrf))
+        if intance.vc_domain:
+            yield list(VCDomain.iter_lazy_labels(intance.vc_domain))
+        if intance.tt_system:
+            yield list(TTSystem.iter_lazy_labels(intance.tt_system))
 
     @classmethod
     def can_set_label(cls, label):
@@ -1915,3 +1922,4 @@ from .objectcapabilities import ObjectCapabilities
 from noc.core.pm.utils import get_objects_metrics
 from noc.vc.models.vcdomain import VCDomain  # noqa
 from noc.main.models.prefixtable import PrefixTable
+from noc.ip.models.vrf import VRF

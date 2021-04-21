@@ -23,7 +23,7 @@ from noc.core.bi.decorator import bi_sync
 id_lock = threading.Lock()
 
 
-@Label.match_labels("pool", allowed_op={"="}, enable_managedobject=True)
+@Label.match_labels("pool", allowed_op={"="})
 @bi_sync
 @on_delete_check(
     check=[

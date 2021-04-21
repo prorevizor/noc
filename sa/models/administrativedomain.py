@@ -32,7 +32,7 @@ id_lock = Lock()
 _path_cache = cachetools.TTLCache(maxsize=1000, ttl=60)
 
 
-@Label.match_labels("adm_domain", allowed_op={"=", "<"}, enable_managedobject=True)
+@Label.match_labels("adm_domain", allowed_op={"=", "<"})
 @Label.model
 @on_init
 @bi_sync
