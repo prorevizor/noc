@@ -14,7 +14,6 @@ from noc.core.model.base import NOCModel
 from noc.main.models.style import Style
 from noc.core.model.decorator import on_save, on_delete
 from noc.core.model.decorator import on_delete_check
-from noc.main.models.label import Label
 from .vctype import VCType
 from .vcfilter import VCFilter
 
