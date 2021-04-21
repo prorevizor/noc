@@ -5,16 +5,11 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
-
-from collections import defaultdict
-
 # Third-party modules
-from pymongo import InsertOne, UpdateMany, UpdateOne
+from pymongo import InsertOne
 
 # NOC modules
 from noc.core.migration.base import BaseMigration
-from django.contrib.postgres.fields import ArrayField
-from django.db.models import CharField
 
 
 class Migration(BaseMigration):
@@ -30,7 +25,6 @@ class Migration(BaseMigration):
     TAG_COLLETIONS = [("noc.pools", "pool"), ("noc.ttsystem", "ttsystem")]
 
     def migrate(self):
-        labels = defaultdict(set)  # label: settings
         # Create wildcard labels
         bulk = [
             InsertOne(
