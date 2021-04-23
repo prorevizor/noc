@@ -158,14 +158,26 @@ CONNECTION_CHECKLIST = {
         "directions": ["i", "o"],
         "protocols": ["TransEth1G", "TransEth10G"],
     },
-    "Transceiver | SFP28": {"directions": ["i", "o"], "protocols": ["TransEth10G", "TransEth25G"],},
-    "Transceiver | SFP56": {"directions": ["i", "o"], "protocols": ["TransEth50G"],},
-    "Transceiver | QSFP": {"directions": ["i", "o"], "protocols": ["TransEth1G", "TransEth4G"],},
+    "Transceiver | SFP28": {
+        "directions": ["i", "o"],
+        "protocols": ["TransEth10G", "TransEth25G"],
+    },
+    "Transceiver | SFP56": {
+        "directions": ["i", "o"],
+        "protocols": ["TransEth50G"],
+    },
+    "Transceiver | QSFP": {
+        "directions": ["i", "o"],
+        "protocols": ["TransEth1G", "TransEth4G"],
+    },
     "Transceiver | QSFP+": {
         "directions": ["i", "o"],
         "protocols": ["TransEth10G", "TransEth40G", "TransEth100G"],
     },
-    "Transceiver | QSFP14": {"directions": ["i", "o"], "protocols": ["TransEth50G"],},
+    "Transceiver | QSFP14": {
+        "directions": ["i", "o"],
+        "protocols": ["TransEth50G"],
+    },
     "Transceiver | QSFP28": {
         "directions": ["i", "o"],
         "protocols": ["TransEth10G", "TransEth40G", "TransEth50G", "TransEth100G"],
