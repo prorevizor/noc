@@ -19,6 +19,7 @@ import cachetools
 
 # NOC modules
 from noc.core.model.decorator import on_save, on_delete, is_document
+from noc.main.models.label import Label
 
 
 id_lock = Lock()
@@ -26,6 +27,7 @@ id_lock = Lock()
 
 @on_save
 @on_delete
+@Label.match_labels(category="rxfilter")
 class RegexpLabel(Document):
     meta = {
         "collection": "regexlabels",
@@ -62,13 +64,26 @@ class RegexpLabel(Document):
         return Label.objects.filter(name=name).first()
 
     @cachetools.cachedmethod(operator.attrgetter("_rx_compiled_cache"))
-    def get_compiled(self) -> re.compile:
+    def get_compiled(self, name: str) -> re.compile:
         rx = re.compile(self.regexp)
         if self.flag_multiline:
             rx.flags ^= re.MULTILINE
         if self.flag_dotall:
             rx.flags ^= re.DOTALL
         return rx
+
+    def iter_scopes(self) -> Iterable[str]:
+        """
+        Yields all scopes
+        :return:
+        """
+        if self.enable_managedobject_name:
+            yield "managedobject_name"
+
+    # def clean(self):
+    #     rx = Regex.from_native(self.regexp)
+    #     rx.flags ^= re.UNICODE
+    #     self.regexp_compiled = rx
 
     @classmethod
     def get_effective_labels(cls, scope: str, value: str) -> List[str]:
@@ -78,12 +93,14 @@ class RegexpLabel(Document):
         """
         labels = []
         for rx in RegexpLabel.objects.filter(**{f"enable_{scope}": True}):
-            if rx.get_compiled().match(value):
-                labels += rx.labels
+            if rx.get_compiled(rx.name).match(value):
+                labels += rx.labels + [f"noc::rxfilter::{rx.name}::{scope}::="]
         return labels
 
     def on_save(self):
         self._reset_caches()
+        # if hasattr(self, "_changed_fields") and "regexp" in self._changed_fields:
+        #     self.ensure_discovery_jobs()
 
     def _reset_caches(self):
         try:
