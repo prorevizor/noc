@@ -1,8 +1,8 @@
 ---
 stages:
   - Lint
-  - Test
   - Prebuild
+  - Test
   - Build
   - Upload
 
