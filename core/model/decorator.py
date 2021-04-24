@@ -8,7 +8,6 @@
 # NOC modules
 from noc.models import get_model
 from noc.core.comp import smart_text
-from noc.main.models.label import MATCH_OPS
 
 
 def is_document(klass):
@@ -183,6 +182,8 @@ def on_delete_check(check=None, clean=None, delete=None, ignore=None, clean_lazy
             ll.delete()
 
     def iter_lazy_labels(instance):
+        from noc.main.models.label import MATCH_OPS
+
         model = get_model("main.Label")
         category = cfg.get("clean_lazy_labels")
         if not (hasattr(instance, "iter_lazy_labels") or category):
