@@ -2,6 +2,7 @@
 stages:
   - Lint
   - Test
+  - Prebuild
   - Build
   - Upload
 
@@ -356,7 +357,7 @@ build:web:
       - dist/ui/pkg/web.debug
 
 build:rust:
-  stage: Build
+  stage: Prebuild
   image: rust:1.51
   script:
     - set -x
@@ -377,6 +378,7 @@ build:rust:
     paths:
       - build/rust/release/noc-agent
       - build/rust/release/noc-dns-sync
+      - build/rust/release/pyip
     expire_in: 7 days
 
 upload docs:
