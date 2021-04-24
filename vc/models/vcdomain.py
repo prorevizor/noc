@@ -12,12 +12,14 @@ from django.db import models
 # NOC modules
 from noc.core.model.base import NOCModel
 from noc.main.models.style import Style
+from noc.main.models.label import Label
 from noc.core.model.decorator import on_save, on_delete
 from noc.core.model.decorator import on_delete_check
 from .vctype import VCType
 from .vcfilter import VCFilter
 
 
+@Label.match_labels("vcdomain", allowed_op={"="})
 @on_save
 @on_delete
 @on_delete_check(
@@ -30,6 +32,7 @@ from .vcfilter import VCFilter
         ("vc.VCDomainProvisioningConfig", "vc_domain"),
     ],
     ignore=[("inv.MACDB", "vc_domain")],
+    clean_lazy_labels="vcdomain",
 )
 class VCDomain(NOCModel):
     """

@@ -1786,9 +1786,7 @@ class ManagedObject(NOCModel):
             lazy_platform_labels = list(Platform.iter_lazy_labels(intance.platform))
             yield Label.ensure_labels(lazy_platform_labels, enable_managedobject=True)
         if intance.address:
-            lazy_address_labels = list(PrefixTable.iter_lazy_labels(intance.address))
-            if lazy_address_labels:
-                yield Label.ensure_labels(lazy_address_labels, enable_managedobject=True)
+            yield list(PrefixTable.iter_lazy_labels(intance.address))
         if intance.vrf:
             yield list(VRF.iter_lazy_labels(intance.vrf))
         if intance.vc_domain:

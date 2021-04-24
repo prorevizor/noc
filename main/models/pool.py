@@ -32,7 +32,8 @@ id_lock = threading.Lock()
         ("sa.ManagedObject", "fm_pool"),
         ("sa.ManagedObjectSelector", "filter_pool")
         # ("fm.EscalationItem", "administrative_domain")
-    ]
+    ],
+    clean_lazy_labels="pool",
 )
 class Pool(Document):
     meta = {"collection": "noc.pools", "strict": False, "auto_create_index": False}

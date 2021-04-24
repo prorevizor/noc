@@ -39,7 +39,8 @@ id_lock = threading.Lock()
         ("sa.ManagedObject", "platform"),
         ("sa.ManagedObjectSelector", "filter_platform"),
         ("inv.FirmwarePolicy", "platform"),
-    ]
+    ],
+    clean_lazy_labels="platform",
 )
 class Platform(Document):
     meta = {

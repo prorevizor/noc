@@ -49,7 +49,8 @@ _path_cache = cachetools.TTLCache(maxsize=1000, ttl=60)
         ("maintenance.Maintenance", "administrative_domain"),
         ("phone.PhoneNumber", "administrative_domain"),
         ("phone.PhoneRange", "administrative_domain"),
-    ]
+    ],
+    clean_lazy_labels="adm_domain",
 )
 class AdministrativeDomain(NOCModel):
     """

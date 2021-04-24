@@ -51,7 +51,8 @@ id_lock = Lock()
         ("sa.ManagedObject", "vrf"),
         ("sa.ManagedObjectSelector", "filter_vrf"),
         ("vc.VCBindFilter", "vrf"),
-    ]
+    ],
+    clean_lazy_labels="ipvrf",
 )
 class VRF(NOCModel):
     """

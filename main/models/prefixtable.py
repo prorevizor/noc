@@ -22,7 +22,8 @@ from noc.main.models.label import Label
     check=[
         # ("inv.InterfaceClassificationMatch", "prefix_table"),
         ("sa.ManagedObjectSelector", "filter_prefix")
-    ]
+    ],
+    clean_lazy_labels="prefixfilter",
 )
 class PrefixTable(NOCModel):
     class Meta(object):

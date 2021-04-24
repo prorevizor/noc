@@ -122,14 +122,16 @@ class Label(Document):
             self.is_protected = True
 
     def on_save(self):
+        if hasattr(self, "_changed_fields") and "name" in self._changed_fields:
+            raise ValueError("Rename label is not allowed operation")
         if self.is_scoped and not self.is_wildcard and not self.is_matched:
             self._ensure_wildcards()
 
     def on_delete(self):
         if self.is_wildcard and any(Label.objects.filter(name__startswith=self.name[:-1])):
             raise ValueError("Cannot delete wildcard label with matched labels")
-        if self.is_builtin:
-            raise ValueError("Cannot delete builtin label with matched labels")
+        if self.is_builtin and not self.is_matched:
+            raise ValueError("Cannot delete builtin label")
 
     @staticmethod
     def get_wildcards(label: str) -> List[str]:

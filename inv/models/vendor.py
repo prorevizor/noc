@@ -33,7 +33,8 @@ id_lock = threading.Lock()
         ("inv.Firmware", "vendor"),
         ("sa.ManagedObject", "vendor"),
         ("sa.ManagedObjectSelector", "filter_vendor"),
-    ]
+    ],
+    clean_lazy_labels="vendor",
 )
 class Vendor(Document):
     """

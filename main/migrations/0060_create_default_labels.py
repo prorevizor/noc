@@ -19,6 +19,7 @@ class Migration(BaseMigration):
         ("sa_managedobjectprofile", "managedobjectprofile"),
         ("sa_administrativedomain", "adm_domain"),
         ("ip_vrf", "ipvrf"),
+        ("vc_vcdomain", "vcdomain"),
         ("main_prefixtable", "prefixfilter"),
     ]
 
