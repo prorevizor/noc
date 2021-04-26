@@ -51,12 +51,11 @@ class Command(BaseCommand):
             config.read(os.path.join("etc", "address", "%s.defaults" % p))
             config.read(os.path.join("etc", "address", "%s.conf" % p))
             if cf.gis.enable_fias:
-                for p in self.get_parsers():
-                    m = __import__("noc.gis.parsers.address.%s" % p, {}, {}, "*")
-                    for i in dir(m):
-                        a = getattr(m, i)
-                        if inspect.isclass(a) and issubclass(a, AddressParser) and a != AddressParser:
-                            parsers += [a]
+                m = __import__("noc.gis.parsers.address.%s" % p, {}, {}, "*")
+                for i in dir(m):
+                    a = getattr(m, i)
+                    if inspect.isclass(a) and issubclass(a, AddressParser) and a != AddressParser:
+                        parsers += [a]
             else:
                 print("Parser '%s' is not enabled. Skipping.." % p)
         # Initialize parsers
