@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------
 
 # Python modules
-import gzip
+from zipfile import ZipFile
 import os
 
 # Third-party modules
@@ -52,14 +52,14 @@ class AddressParser(object):
         size = int(r.headers["content-length"])
         chunk_size = 4 * 1024 * 1024
         self.info("    .... %d bytes" % size)
-        with open(path, "w") as f:
+        with open(path, "wb") as f:
             for chunk in r.iter_content(chunk_size=chunk_size):
                 if chunk:
                     f.write(chunk)
                     f.flush()
         if auto_deflate:
             o = os.path.splitext(path)[0]
-            with gzip.open(path, "rb") as f:
+            with ZipFile.open(path, "rb") as f:
                 with open(o, "w") as ff:
                     while True:
                         chunk = f.read(chunk_size)

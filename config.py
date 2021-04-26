@@ -271,6 +271,9 @@ class Config(BaseConfig):
         tile_size = IntParameter(default=256, help="Tile size 256x256")
         tilecache_padding = IntParameter(default=0)
 
+        enable_fias = BooleanParameter(default=True)
+        root_address = StringParameter(default="gis/parsers/address")
+
     global_n_instances = IntParameter(default=1)
 
     class grafanads(ConfigSection):

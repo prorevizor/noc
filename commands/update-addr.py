@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------
 # Update address database
 # ---------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
@@ -14,6 +14,7 @@ from configparser import SafeConfigParser
 from noc.core.management.base import BaseCommand, CommandError
 from noc.gis.parsers.address.base import AddressParser
 from noc.core.debug import error_report
+from noc.config import config as cf
 
 
 class Command(BaseCommand):
@@ -30,7 +31,7 @@ class Command(BaseCommand):
     @staticmethod
     def get_parsers():
         parsers = []
-        root = "gis/parsers/address"
+        root = cf.gis.root_address
         for m in os.listdir(root):
             if m in ("__init__.py", "base.py"):
                 continue
@@ -49,12 +50,13 @@ class Command(BaseCommand):
         for p in self.get_parsers():
             config.read(os.path.join("etc", "address", "%s.defaults" % p))
             config.read(os.path.join("etc", "address", "%s.conf" % p))
-            if config.getboolean(p, "enabled"):
-                m = __import__("noc.gis.parsers.address.%s" % p, {}, {}, "*")
-                for l in dir(m):
-                    a = getattr(m, l)
-                    if inspect.isclass(a) and issubclass(a, AddressParser) and a != AddressParser:
-                        parsers += [a]
+            if cf.gis.enable_fias:
+                for p in self.get_parsers():
+                    m = __import__("noc.gis.parsers.address.%s" % p, {}, {}, "*")
+                    for i in dir(m):
+                        a = getattr(m, i)
+                        if inspect.isclass(a) and issubclass(a, AddressParser) and a != AddressParser:
+                            parsers += [a]
             else:
                 print("Parser '%s' is not enabled. Skipping.." % p)
         # Initialize parsers

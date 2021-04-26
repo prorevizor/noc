@@ -51,7 +51,7 @@ class FIASParser(AddressParser):
     def download(self):
         self.download_file(
             self.config.get("oktmo", "download_url"),
-            os.path.join(self.prefix, "oktmo.csv.gz"),
+            os.path.join(self.prefix, "ОКТМО_csv.zip"),
             auto_deflate=True,
         )
         # Check for FIAS files
