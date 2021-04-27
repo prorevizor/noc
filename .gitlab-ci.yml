@@ -9,8 +9,10 @@ stages:
 include:
   - project: "noc/common-jobs"
     ref: stable
-    file: "/templates/upload.yml"
-  - local: "/ansible/.ansible-ci.yml"
+    file:
+      - /templates/upload.yml
+      - /templates/build_rust.yml
+  - local: /ansible/.ansible-ci.yml
 
 workflow:
   rules:
@@ -381,6 +383,19 @@ build:rust:
       - build/rust/release/noc-dns-sync
       - build/rust/release/libip.so
     expire_in: 7 days
+
+Prebuild ip.so:
+  stage: Prebuild
+  extends: .build_rust
+  variables:
+    BUILD_TARGET: pyip
+  only:
+    refs:
+      - merge_requests
+      - master
+    changes:
+      - rust/$BUILD_TARGET/*
+      - rust/$BUILD_TARGET/**/*
 
 upload docs:
   stage: Upload
