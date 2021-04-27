@@ -265,13 +265,6 @@ def tree(field=None):
 
             cls.before_save = before_save
             cls.tree_field = field
-            cls.save_second = cls.save
-
-            def save(self, *args, **kwargs):
-                self.before_save(field=self.tree_field)
-                self.save_second(*args, **kwargs)
-
-            cls.save = save
 
         return cls
 

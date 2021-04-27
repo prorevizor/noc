@@ -15,6 +15,8 @@ from noc.core.translation import ugettext as _
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 import cachetools
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 # NOC modules
 from noc.config import config
@@ -202,3 +204,9 @@ class AdministrativeDomain(NOCModel):
 
 if TYPE_CHECKING:
     from noc.inv.models.networksegment import NetworkSegment  # noqa
+
+
+@receiver(pre_save, sender=AdministrativeDomain)
+def check_cycle_link(sender, instance, **kwargs):
+    if hasattr(instance, "before_save"):
+        instance.before_save(field=instance.tree_field)
