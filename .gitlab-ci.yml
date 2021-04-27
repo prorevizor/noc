@@ -389,13 +389,11 @@ Prebuild ip.so:
   extends: .build_rust
   variables:
     BUILD_TARGET: pyip
-  only:
-    refs:
-      - merge_requests
-      - master
-    changes:
-      - rust/$BUILD_TARGET/*
-      - rust/$BUILD_TARGET/**/*
+  rules:
+    - if: ('$CI_PIPELINE_SOURCE == "merge_request_event"' || '$CI_COMMIT_BRANCH == "master"')
+      changes:
+        - rust/$BUILD_TARGET/*
+        - rust/$BUILD_TARGET/**/*
 
 upload docs:
   stage: Upload
