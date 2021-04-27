@@ -180,6 +180,7 @@ py:test:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
   script:
     # see docker/docker-compose.yml for complete list of migrations
+    - ls -al
     - >
       docker-compose
       -f .docker/docker-compose.yml
