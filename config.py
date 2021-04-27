@@ -396,6 +396,7 @@ class Config(BaseConfig):
         stream_ch_replication_factor = IntParameter(
             default=1, help="Replicaton factor for clickhouse streams"
         )
+        metrics_send_delay = FloatParameter(default=0.25)
 
     listen = StringParameter(default="auto:0")
 
@@ -528,14 +529,6 @@ class Config(BaseConfig):
         # DataStream request limit
         ds_limit = IntParameter(default=1000)
 
-    class pmwriter(ConfigSection):
-        batch_size = IntParameter(default=2500)
-        metrics_buffer = IntParameter(default=50000)
-        read_from = StringParameter(default="pmwriter")
-        write_to = StringParameter(default="influxdb")
-        write_to_port = IntParameter(default=8086)
-        max_delay = FloatParameter(default="1.0")
-
     class proxy(ConfigSection):
         http_proxy = StringParameter(default=os.environ.get("http_proxy"))
         https_proxy = StringParameter(default=os.environ.get("https_proxy"))
@@ -649,6 +642,7 @@ class Config(BaseConfig):
 
     class ui(ConfigSection):
         max_avatar_size = BytesParameter(default="256K")
+        max_rest_limit = IntParameter(default=100)
 
     class datasource(ConfigSection):
         chunk_size = IntParameter(default=1000)

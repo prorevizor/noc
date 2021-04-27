@@ -6,9 +6,10 @@
 // ---------------------------------------------------------------------
 
 pub mod agent;
-pub mod cmd;
+pub mod cli;
 pub mod collectors;
-pub mod nvram;
+pub mod config;
+pub mod error;
 pub mod proto;
 pub mod timing;
 pub mod zk;

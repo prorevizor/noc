@@ -33,6 +33,7 @@ _path_cache = cachetools.TTLCache(maxsize=1000, ttl=60)
 
 
 @tree(field="parent")
+@Label.match_labels("adm_domain", allowed_op={"=", "<"})
 @Label.model
 @on_init
 @bi_sync
@@ -49,7 +50,8 @@ _path_cache = cachetools.TTLCache(maxsize=1000, ttl=60)
         ("maintenance.Maintenance", "administrative_domain"),
         ("phone.PhoneNumber", "administrative_domain"),
         ("phone.PhoneRange", "administrative_domain"),
-    ]
+    ],
+    clean_lazy_labels="adm_domain",
 )
 class AdministrativeDomain(NOCModel):
     """
@@ -188,6 +190,14 @@ class AdministrativeDomain(NOCModel):
     @classmethod
     def can_set_label(cls, label):
         return Label.get_effective_setting(label, setting="enable_administrativedomain")
+
+    @classmethod
+    def iter_lazy_labels(cls, adm_domain: "AdministrativeDomain"):
+        for ad in AdministrativeDomain.objects.filter(id__in=adm_domain.get_path()):
+            if ad == adm_domain:
+                yield f"noc::adm_domain::{ad.name}::="
+                continue
+            yield f"noc::adm_domain::{ad.name}::<"
 
 
 if TYPE_CHECKING:

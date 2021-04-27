@@ -51,7 +51,7 @@
         "asset": {
             "description": ["4x 1G/10G SFP/SFP+"],
             "order_part_no": ["EX-UM-4X4SFP"],
-            "part_no": ["611-044925"]
+            "part_no": ["611-044925", "611-063980"]
         }
     }
 }
