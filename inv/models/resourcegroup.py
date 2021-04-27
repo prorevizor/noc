@@ -140,6 +140,8 @@ class ResourceGroup(Document):
             self.unset_cient_group(self.technology.client_model)
 
     def unset_service_group(self, model_id: str):
+        from django.db import connection
+
         model = get_model(model_id)
         if is_document(model):
             coll = model._get_collection()
@@ -157,6 +159,8 @@ class ResourceGroup(Document):
             cursor.execute(sql, str(self.id))
 
     def unset_cient_group(self, model_id: str):
+        from django.db import connection
+
         model = get_model(model_id)
         if is_document(model):
             coll = model._get_collection()
