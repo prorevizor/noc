@@ -208,5 +208,5 @@ class ResourceGroup(Document):
                 {"$match": {"bool_f": True}},
             ]
         ):
-            rg.append(tg["_id"])
+            rg.append(rg["_id"])
         return r
