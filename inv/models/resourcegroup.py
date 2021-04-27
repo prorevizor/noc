@@ -20,7 +20,7 @@ import cachetools
 from noc.config import config
 from noc.models import get_model, is_document
 from noc.core.mongo.fields import PlainReferenceField
-from noc.core.model.decorator import on_delete_check
+from noc.core.model.decorator import on_delete_check, on_save
 from noc.core.datastream.decorator import datastream
 from noc.core.bi.decorator import bi_sync
 from noc.main.models.remotesystem import RemoteSystem
@@ -33,6 +33,7 @@ id_lock = threading.Lock()
 @Label.model
 @bi_sync
 @datastream
+@on_save
 @on_delete_check(
     check=[
         ("inv.ResourceGroup", "parent"),
@@ -154,9 +155,9 @@ class ResourceGroup(Document):
                 ]
             )
         else:
-            sql = f"UPDATE {model._meta.db_table} SET effective_service_groups=array_remove(effective_service_groups, '%s')"
+            sql = f"UPDATE {model._meta.db_table} SET effective_service_groups=array_remove(effective_service_groups, '{str(self.id)}') WHERE '{str(self.id)}'=ANY (effective_service_groups)"
             cursor = connection.cursor()
-            cursor.execute(sql, str(self.id))
+            cursor.execute(sql)
 
     def unset_cient_group(self, model_id: str):
         from django.db import connection
@@ -173,9 +174,9 @@ class ResourceGroup(Document):
                 ]
             )
         else:
-            sql = f"UPDATE {model._meta.db_table} SET effective_client_groups=array_remove(effective_client_groups, '%s')"
+            sql = f"UPDATE {model._meta.db_table} SET effective_client_groups=array_remove(effective_client_groups, '{str(self.id)}') WHERE '{str(self.id)}'=ANY (effective_service_groups)"
             cursor = connection.cursor()
-            cursor.execute(sql, str(self.id))
+            cursor.execute(sql)
 
     @classmethod
     def get_dynamic_service_groups(cls, labels: List[str], model: str) -> List[str]:
