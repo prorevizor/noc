@@ -12,6 +12,8 @@ Ext.define("NOC.inv.inv.plugins.sensor.SensorPanel", {
     closable: false,
     layout: "fit",
     requires: [
+        "NOC.inv.inv.plugins.sensor.SensorPanel",
+        "NOC.core.StateField",
         "NOC.inv.sensorprofile.LookupField",
         "NOC.pm.measurementunits.LookupField",
         "Ext.ux.form.GridField"
@@ -23,6 +25,10 @@ Ext.define("NOC.inv.inv.plugins.sensor.SensorPanel", {
         me.gridField = Ext.create({
             xtype: "gridfield",
             columns: [
+                {
+                    dataIndex: "local_id",
+                    text: __("Name"),
+                },
                 {
                     dataIndex: "profile",
                     text: __("Profile"),
@@ -42,6 +48,7 @@ Ext.define("NOC.inv.inv.plugins.sensor.SensorPanel", {
                 {
                     dataIndex: "object__label",
                     text: __("Object"),
+                    width: 220,
                 },
                 {
                     dataIndex: "state",
@@ -59,6 +66,7 @@ Ext.define("NOC.inv.inv.plugins.sensor.SensorPanel", {
                 {
                     dataIndex: "snmp_oid",
                     text: __("snmp_oid"),
+                    width: 200,
                 }
             ],
             onCellEdit: function(editor, e) {

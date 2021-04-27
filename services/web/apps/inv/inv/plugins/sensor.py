@@ -17,7 +17,7 @@ class SensorPlugin(InvPlugin):
     name = "sensor"
     js = "NOC.inv.inv.plugins.sensor.SensorPanel"
 
-    def get_data(self, request, o):
+    def get_data(self, request, o: "Sensor"):
         return [
             {
                 "profile__label": s.profile.name,
@@ -33,7 +33,7 @@ class SensorPlugin(InvPlugin):
                 "dashboard_label": None,
                 "protocol": s.protocol,
                 "modbus_register": s.modbus_register,
-                "snmp_oid": None,
+                "snmp_oid": s.snmp_oid or None,
                 "bi_id": str(s.bi_id),
                 "id": str(s.id),
             }

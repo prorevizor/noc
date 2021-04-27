@@ -6,12 +6,13 @@
 # ----------------------------------------------------------------------
 
 # NOC modules
-from noc.lib.app.extdocapplication import ExtDocApplication, view
+from noc.lib.app.extdocapplication import ExtDocApplication
+from noc.lib.app.decorators.state import state_handler
 from noc.inv.models.sensor import Sensor
-from noc.core.comp import smart_text
 from noc.core.translation import ugettext as _
 
 
+@state_handler
 class SensorApplication(ExtDocApplication):
     """
     ResourceGroup application
