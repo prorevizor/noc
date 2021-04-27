@@ -5,6 +5,9 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
+# Third-party modules
+from django.core.exceptions import FieldError
+
 # NOC modules
 from noc.models import get_model
 from noc.core.comp import smart_text
@@ -252,10 +255,11 @@ def tree(field=None):
 
             def before_save(self, field):
                 parent = getattr(self, field, None)
+                seen = {getattr(self, "id", None)}
                 while parent:
-                    if getattr(parent, "id", None) == getattr(self, "id", None):
-                        setattr(self, field, None)
-                        break
+                    if getattr(parent, "id", None) in seen:
+                        raise FieldError("Parent cycle link")
+                    seen.add(getattr(parent, "id", None))
                     parent = getattr(parent, field, None)
 
             cls.before_save = before_save
