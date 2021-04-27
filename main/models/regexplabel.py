@@ -6,19 +6,19 @@
 # ----------------------------------------------------------------------
 
 # Python modules
-from typing import Optional, List, Set, Iterable
+from typing import Optional, List, Iterable
 import re
 import operator
 from threading import Lock
 
 # Third-party modules
 from mongoengine.document import Document
-from mongoengine.fields import StringField, IntField, BooleanField, ListField
-from bson.regex import Regex
+from mongoengine.fields import StringField, BooleanField, ListField
 import cachetools
+# from bson.regex import Regex
 
 # NOC modules
-from noc.core.model.decorator import on_save, on_delete, is_document
+from noc.core.model.decorator import on_save, on_delete
 from noc.main.models.label import Label
 
 
