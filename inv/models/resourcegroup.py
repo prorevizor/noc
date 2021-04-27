@@ -8,6 +8,7 @@
 # Python modules
 import operator
 import threading
+from typing import List
 
 # Third-party modules
 from mongoengine.document import Document
@@ -65,13 +66,23 @@ class ResourceGroup(Document):
     Abstraction to restrict ResourceGroup links
     """
 
-    meta = {"collection": "resourcegroups", "strict": False, "auto_create_index": False}
+    meta = {
+        "collection": "resourcegroups",
+        "strict": False,
+        "auto_create_index": False,
+        "indexes": [
+            "dynamic_service_labels",
+            "dynamic_client_labels",
+        ],
+    }
 
     # Group | Name
     name = StringField()
     technology = PlainReferenceField(Technology)
     parent = PlainReferenceField("inv.ResourceGroup")
     description = StringField()
+    dynamic_service_labels = ListField(StringField())
+    dynamic_client_labels = ListField(StringField())
     # @todo: FM integration
     # Integration with external NRI and TT systems
     # Reference to remote system object has been imported from
@@ -111,3 +122,91 @@ class ResourceGroup(Document):
     @classmethod
     def can_set_label(cls, label):
         return Label.get_effective_setting(label, setting="enable_resourcegroup")
+
+    @classmethod
+    def get_dynamic_service_groups(cls, labels: List[str], model: str):
+        coll = cls._get_collection()
+        r = []
+        for rg in coll.aggregate(
+            [
+                {"$match": {"dynamic_service_labels": {"$in": labels}}},
+                {
+                    "$lookup": {
+                        "from": "technologies",
+                        "localField": "technology",
+                        "foreignField": "_id",
+                        "as": "tech",
+                    }
+                },
+                {
+                    "$match": {
+                        "$or": [
+                            {"tech.service_model": {"$eq": model}},
+                            {"tech.service_model": {"$exists": False}},
+                        ]
+                    }
+                },
+                {
+                    "$project": {
+                        "bool_f": {
+                            "$allElementsTrue": [
+                                {
+                                    "$map": {
+                                        "input": "$dynamic_service_labels",
+                                        "as": "item",
+                                        "in": {"$in": ["$$item", labels]},
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {"$match": {"bool_f": True}},
+            ]
+        ):
+            r.append(rg["_id"])
+        return r
+
+    @classmethod
+    def get_dynamic_client_groups(cls, labels: List[str], model: str):
+        coll = cls._get_collection()
+        r = []
+        for rg in coll.aggregate(
+            [
+                {"$match": {"dynamic_client_labels": {"$in": labels}}},
+                {
+                    "$lookup": {
+                        "from": "technologies",
+                        "localField": "technology",
+                        "foreignField": "_id",
+                        "as": "tech",
+                    }
+                },
+                {
+                    "$match": {
+                        "$or": [
+                            {"tech.client_model": {"$eq": model}},
+                            {"tech.client_model": {"$exists": False}},
+                        ]
+                    }
+                },
+                {
+                    "$project": {
+                        "bool_f": {
+                            "$allElementsTrue": [
+                                {
+                                    "$map": {
+                                        "input": "dynamic_client_labels",
+                                        "as": "item",
+                                        "in": {"$in": ["$$item", labels]},
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {"$match": {"bool_f": True}},
+            ]
+        ):
+            rg.append(tg["_id"])
+        return r
