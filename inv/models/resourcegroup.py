@@ -13,10 +13,12 @@ from typing import List
 # Third-party modules
 from mongoengine.document import Document
 from mongoengine.fields import StringField, LongField, ListField
+from pymongo import UpdateMany
 import cachetools
 
 # NOC modules
 from noc.config import config
+from noc.models import get_model, is_document
 from noc.core.mongo.fields import PlainReferenceField
 from noc.core.model.decorator import on_delete_check
 from noc.core.datastream.decorator import datastream
@@ -123,8 +125,56 @@ class ResourceGroup(Document):
     def can_set_label(cls, label):
         return Label.get_effective_setting(label, setting="enable_resourcegroup")
 
+    def on_save(self):
+        if (
+            hasattr(self, "_changed_fields")
+            and "dynamic_service_labels" in self._changed_fields
+            and self.technology.service_model
+        ):
+            self.unset_service_group(self.technology.service_model)
+        if (
+            hasattr(self, "_changed_fields")
+            and "dynamic_client_labels" in self._changed_fields
+            and self.technology.client_model
+        ):
+            self.unset_cient_group(self.technology.client_model)
+
+    def unset_service_group(self, model_id: str):
+        model = get_model(model_id)
+        if is_document(model):
+            coll = model._get_collection()
+            coll.bulk_write(
+                [
+                    UpdateMany[
+                        {"effective_service_groups": {"$in": [self.id]}},
+                        {"$pull": {"effective_service_groups": {"$in": [self.id]}}},
+                    ]
+                ]
+            )
+        else:
+            sql = f"UPDATE {model._meta.db_table} SET effective_service_groups=array_remove(effective_service_groups, '%s')"
+            cursor = connection.cursor()
+            cursor.execute(sql, str(self.id))
+
+    def unset_cient_group(self, model_id: str):
+        model = get_model(model_id)
+        if is_document(model):
+            coll = model._get_collection()
+            coll.bulk_write(
+                [
+                    UpdateMany[
+                        {"effective_client_groups": {"$in": [self.id]}},
+                        {"$pull": {"effective_client_groups": {"$in": [self.id]}}},
+                    ]
+                ]
+            )
+        else:
+            sql = f"UPDATE {model._meta.db_table} SET effective_client_groups=array_remove(effective_client_groups, '%s')"
+            cursor = connection.cursor()
+            cursor.execute(sql, str(self.id))
+
     @classmethod
-    def get_dynamic_service_groups(cls, labels: List[str], model: str):
+    def get_dynamic_service_groups(cls, labels: List[str], model: str) -> List[str]:
         coll = cls._get_collection()
         r = []
         for rg in coll.aggregate(
@@ -140,10 +190,7 @@ class ResourceGroup(Document):
                 },
                 {
                     "$match": {
-                        "$or": [
-                            {"tech.service_model": {"$eq": model}},
-                            {"tech.service_model": {"$exists": False}},
-                        ]
+                        "tech.service_model": model,
                     }
                 },
                 {
@@ -168,7 +215,7 @@ class ResourceGroup(Document):
         return r
 
     @classmethod
-    def get_dynamic_client_groups(cls, labels: List[str], model: str):
+    def get_dynamic_client_groups(cls, labels: List[str], model: str) -> List[str]:
         coll = cls._get_collection()
         r = []
         for rg in coll.aggregate(
@@ -184,10 +231,7 @@ class ResourceGroup(Document):
                 },
                 {
                     "$match": {
-                        "$or": [
-                            {"tech.client_model": {"$eq": model}},
-                            {"tech.client_model": {"$exists": False}},
-                        ]
+                        "tech.client_model": model,
                     }
                 },
                 {
