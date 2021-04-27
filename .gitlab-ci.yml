@@ -378,7 +378,7 @@ build:rust:
     paths:
       - build/rust/release/noc-agent
       - build/rust/release/noc-dns-sync
-      - build/rust/release/pyip
+      - build/rust/release/libip.so
     expire_in: 7 days
 
 upload docs:
