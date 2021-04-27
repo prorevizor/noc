@@ -359,41 +359,32 @@ build:web:
       - dist/ui/pkg/web
       - dist/ui/pkg/web.debug
 
-build:rust:
-  stage: Prebuild
-  image: rust:1.51
-  script:
-    - set -x
-    - cd rust/
-    - export CARGO_TARGET_DIR=../build/rust
-    - cargo test
-    - cargo build --release
-  tags:
-    - docker
-  only:
-    refs:
-      - merge_requests
-      - master
-    changes:
-      - "rust/**"
-      - "rust/**/*"
-  artifacts:
-    paths:
-      - build/rust/release/noc-agent
-      - build/rust/release/noc-dns-sync
-      - build/rust/release/libip.so
-    expire_in: 7 days
-
 Prebuild ip.so:
   stage: Prebuild
   extends: .build_rust
   variables:
     BUILD_TARGET: pyip
-  rules:
-    - if: ('$CI_PIPELINE_SOURCE == "merge_request_event"' || '$CI_COMMIT_BRANCH == "master"')
-      changes:
-        - rust/$BUILD_TARGET/*
-        - rust/$BUILD_TARGET/**/*
+  artifacts:
+    paths:
+      - build/rust/release/libip.so
+
+Build dnssync:
+  stage: Build
+  extends: .build_rust
+  variables:
+    BUILD_TARGET: dnssync
+  artifacts:
+    paths:
+      - build/rust/release/noc-dns-sync
+
+Build agent:
+  stage: Build
+  extends: .build_rust
+  variables:
+    BUILD_TARGET: agent
+  artifacts:
+    paths:
+      - build/rust/release/noc-agent
 
 upload docs:
   stage: Upload
