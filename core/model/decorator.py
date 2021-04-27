@@ -257,9 +257,10 @@ def tree(field=None):
                 parent = getattr(self, field, None)
                 seen = {getattr(self, "id", None)}
                 while parent:
-                    if getattr(parent, "id", None) in seen:
+                    parent_id = getattr(parent, "id", None)
+                    if parent_id in seen:
                         raise FieldError("Parent cycle link")
-                    seen.add(getattr(parent, "id", None))
+                    seen.add(parent_id)
                     parent = getattr(parent, field, None)
 
             cls.before_save = before_save
