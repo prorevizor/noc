@@ -1,6 +1,6 @@
 [package]
 name = "agent"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["The NOC Project"]
 edition = "2018"
 description = "NOC Agent"
@@ -10,36 +10,86 @@ name = "noc-agent"
 path = "src/main.rs"
 
 [features]
-default = ["dns", "test", "twamp-sender", "twamp-reflector"]
+default = [
+    # Collectors, in sorted order
+    "cpu",
+    "dns",
+    "fs",
+    "memory",
+    "network",
+    "test",
+    "twamp-sender",
+    "twamp-reflector",
+    "uptime",
+    # Config
+    "config-static",
+    "config-zk",
+    "config-file",
+    "config-json",
+    "config-yaml",
+]
+
+#
+# Collectors
+#
+
+# cpu collector
+cpu = ["systemstat"]
 # dns collector
 dns = ["trust-dns-proto"]
+# fs collector
+fs = ["systemstat"]
+# memory collector
+memory = ["systemstat"]
+# network collector
+network = ["systemstat"]
 # test collector
 test = []
 # modbus_serial collector
 # modbus_serial = []
 # twamp-sender collector
-twamp-sender = []
+twamp-sender = ["chrono"]
 # twamp-reflector collector
-twamp-reflector = []
+twamp-reflector = ["chrono"]
+# uptime collector
+uptime = ["systemstat"]
+
+#
+# Config
+#
+
+# Static resolver
+config-static = []
+# ZeroConf resolver
+config-zk = ["trust-dns-proto"]
+# File reader
+config-file = []
+# JSON parser
+config-json = ["serde_json"]
+# YAML parser
+config-yaml = ["serde_yaml"]
 
 [dependencies]
-clap = "2.33"
+clap = { version = "2.33", default-features = false }
 log = "0.4"
 env_logger = "0.8"
-tokio = { version = "1.2", features = ["full"] }
+tokio = { version = "1.5", features = ["full"] }
 bytes = "1.0"
 trust-dns-resolver = "0.20"
 serde = {version = "1.0", features=["derive"]}
-serde_json = "1.0"
 async-trait = "0.1"
 cfg-if = "1.0"
 enum_dispatch = "0.3"
 rand = "0.8"
 lazy_static = "1.4"
-chrono = "0.4"
+thiserror = "1.0"
 # Optional dependencies
+chrono = {version = "0.4", optional = true}
 trust-dns-proto = {version = "0.20", optional = true}
-# Subcrates
+serde_json = {version = "1.0", optional = true}
+serde_yaml = {version = "0.8", optional = true}
+systemstat = {version = "0.1", optional = true}
+# Subcrates for procedural macroses
 agent-derive = {path = "libs/agent-derive"}
 
 [dev-dependencies]
