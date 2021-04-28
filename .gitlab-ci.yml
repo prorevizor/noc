@@ -361,6 +361,7 @@ build:web:
 
 Prebuild ip.so:
   stage: Prebuild
+  image: registry.getnoc.com/infrastructure/build/rust-centos7:master
   extends: .build_rust
   variables:
     BUILD_TARGET: pyip
