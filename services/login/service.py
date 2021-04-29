@@ -100,15 +100,21 @@ class LoginService(FastAPIService):
     async def on_activate(self):
         # expire = config.login.session_ttl
         # start_timestamp = time.time() - expire
-        await self.subscribe_stream(
-            "revokedtokens",
-            0,
-            self.on_revoked_token,
-            # Disable on Liftbridge Bug for subscribe by timestamp
-            # start_timestamp=start_timestamp,
-            # start_position=StartPosition.TIMESTAMP,
-            auto_set_cursor=False,
-        )
+        try:
+            await asyncio.wait_for(
+                self.subscribe_stream(
+                    "revokedtokens",
+                    0,
+                    self.on_revoked_token,
+                    # Disable on Liftbridge Bug for subscribe by timestamp
+                    # start_timestamp=start_timestamp,
+                    # start_position=StartPosition.TIMESTAMP,
+                    auto_set_cursor=False,
+                ),
+                timeout=10,
+            )
+        except asyncio.exceptions.TimeoutError:
+            self.logger.error("Service Liftbridge fell down!")
 
 
 if __name__ == "__main__":
