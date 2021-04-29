@@ -8,7 +8,7 @@
 # NOC modules
 from noc.inv.models.object import Object
 from noc.inv.models.objectmodel import ObjectModel
-from ..models.object import DefaultObjectItem
+from ..models.object import DefaultObjectItem, FormObjectItem
 from ..utils.ref import get_reference, get_reference_label
 from ..utils.rest.document import DocumentResourceAPI
 from ..utils.rest.op import FilterExact, RefFilter
@@ -37,5 +37,12 @@ class ObjectAPI(DocumentResourceAPI[Object]):
             effective_labels=[get_reference_label(ll) for ll in item.effective_labels],
         )
 
+    @classmethod
+    def item_to_form(cls, item: Object) -> FormObjectItem:
+        return FormObjectItem(
+            name=item.name,
+            model=item.model,
+            labels=item.labels,
+        )
 
 router = ObjectAPI().router
