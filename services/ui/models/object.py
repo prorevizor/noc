@@ -33,3 +33,10 @@ class DefaultObjectItem(BaseModel):
     remote_system: Optional[Reference]
     remote_id: Optional[str]
     bi_id: str
+
+
+class FormObjectItem(BaseModel):
+    name: str
+    model: Reference
+    container: Optional[Reference]
+    labels: List[LabelItem]
