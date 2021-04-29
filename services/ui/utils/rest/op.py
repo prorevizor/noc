@@ -45,32 +45,32 @@ class FilterExact(ListOp):
 
 
 class RefFilter(ListOp):
-    def __init__(self, name: str, model: Union[TModel, TDoc]):
+    def __init__(self, name: str, model: Union[TModel, TDoc], optinal: bool = False):
         super().__init__(name)
         self.model = model
 
     def get_transform(self, value):
         def inner_document(qs):
-            if not is_objectid(value):
+            if value and not is_objectid(value):
                 raise HTTPException(
                     status_code=HTTPStatus.UNPROCESSABLE_ENTITY,
                     detail=f"'{value}' is not a valid ObjectId",
                 )
-            vv = self.model.get_by_id(value)
-            if not vv:
+            vv = self.model.get_by_id(value) if value else None
+            if value and not vv:
                 raise HTTPException(
                     status_code=HTTPStatus.NOT_FOUND, detail=f"NotFond {str(self.model)}: {value}"
                 )
             return qs.filter(**{self.name: vv})
 
         def inner_model(qs):
-            if not is_int(value):
+            if value and not is_int(value):
                 raise HTTPException(
                     status_code=HTTPStatus.UNPROCESSABLE_ENTITY,
                     detail=f"'{value}' is not a Integer",
                 )
-            vv = self.model.get_by_id(int(value))
-            if not vv:
+            vv = self.model.get_by_id(int(value)) if value else None
+            if value and not vv:
                 raise HTTPException(
                     status_code=HTTPStatus.NOT_FOUND, detail=f"NotFond {str(self.model)}: {value}"
                 )
