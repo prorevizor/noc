@@ -2,6 +2,7 @@
 
 `block_io` collects block-devices input/output statistics.
 
+
 ## Configuration
 
 | Parameter  | Type             | Default | Description                                                                                 |
@@ -11,6 +12,7 @@
 | `interval` | Integer          |         | Repetition interval in seconds                                                              |
 | `labels`   | Array of Strings |         | List of additional labels. Will be returned along with metrics                              |
 
+
 ## Collected Metrics
 
 | Metric          | Metric Type | Platform | Description        |
@@ -18,6 +20,7 @@
 | `ts`            |             | All      | ISO 8601 Timestamp |
 | `collector`     |             | All      | Collector Id       |
 | `labels`        |             | All      | List of labels     |
+|                 |             |          |                    |
 | `read_ios`      |             | All      |                    |
 | `read_merges`   |             | All      |                    |
 | `read_sectors`  |             | All      |                    |
@@ -35,6 +38,7 @@
 | Label              | Description       |
 | ------------------ | ----------------- |
 | `noc::dev::{name}` | Block device name |
+
 
 ## Compilation Features
 
