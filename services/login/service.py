@@ -101,8 +101,8 @@ class LoginService(FastAPIService):
         # expire = config.login.session_ttl
         # start_timestamp = time.time() - expire
         try:
-            await asyncio.wait_for(
-                self.subscribe_stream(
+            asyncio.wait_for(
+                await self.subscribe_stream(
                     "revokedtokens",
                     0,
                     self.on_revoked_token,
