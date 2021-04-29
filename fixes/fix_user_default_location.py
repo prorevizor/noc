@@ -5,12 +5,10 @@
 # See LICENSE for details
 # ---------------------------------------------------------------------
 
-# Python modules
-from collections import defaultdict
-
 # NOC modules
 from noc.config import config
 from noc.aaa.models.user import User
+
 
 def fix():
     for up in User.objects.filter():
