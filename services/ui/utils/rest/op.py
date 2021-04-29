@@ -6,11 +6,10 @@
 # ----------------------------------------------------------------------
 
 # Python modules
-from abc import ABCMeta, abstractmethod
 from typing import Callable
 
 
-class ListOp(metaclass=ABCMeta):
+class ListOp(object):
     def __init__(self, name: str):
         self.name = name
 
