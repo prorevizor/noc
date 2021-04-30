@@ -14,10 +14,13 @@ from threading import Lock
 # Third-party modules
 from mongoengine.document import Document
 from mongoengine.fields import StringField, BooleanField, ListField
+from pymongo import UpdateMany
 import cachetools
+
 # from bson.regex import Regex
 
 # NOC modules
+from noc.core.mongo.connection import get_db
 from noc.core.model.decorator import on_save, on_delete
 from noc.main.models.label import Label
 
@@ -72,6 +75,11 @@ class RegexpLabel(Document):
             rx.flags ^= re.DOTALL
         return rx
 
+    # def clean(self):
+    #     rx = Regex.from_native(self.regexp)
+    #     rx.flags ^= re.UNICODE
+    #     self.regexp_compiled = rx
+
     def iter_scopes(self) -> Iterable[str]:
         """
         Yields all scopes
@@ -79,11 +87,22 @@ class RegexpLabel(Document):
         """
         if self.enable_managedobject_name:
             yield "managedobject_name"
+        if self.enable_managedobject_address:
+            yield "managedobject_address"
+        if self.enable_managedobject_description:
+            yield "managedobject_description"
+        if self.enable_interface_name:
+            yield "interface_name"
+        if self.enable_interface_description:
+            yield "interface_description"
 
-    # def clean(self):
-    #     rx = Regex.from_native(self.regexp)
-    #     rx.flags ^= re.UNICODE
-    #     self.regexp_compiled = rx
+    # def get_labels(self, scope: str = None) -> List[str]:
+    #     r = self.labels or []
+    #     for scp in self.iter_scopes():
+    #         if (scope and scp != scope) or not getattr(self, f"enable_{scp}", False):
+    #             continue
+    #         r += [f"noc::rxfilter::{self.name}::{scp}::="]
+    #     return r
 
     @classmethod
     def get_effective_labels(cls, scope: str, value: str) -> List[str]:
@@ -94,13 +113,62 @@ class RegexpLabel(Document):
         labels = []
         for rx in RegexpLabel.objects.filter(**{f"enable_{scope}": True}):
             if rx.get_compiled(rx.name).match(value):
-                labels += rx.labels + [f"noc::rxfilter::{rx.name}::{scope}::="]
+                labels += [f"noc::rxfilter::{rx.name}::{scope}::="] + (rx.labels or [])
         return labels
 
     def on_save(self):
-        self._reset_caches()
-        # if hasattr(self, "_changed_fields") and "regexp" in self._changed_fields:
-        #     self.ensure_discovery_jobs()
+        """
+        First - reset scope changes
+        Second - calculate regex changes
+        Third - change labels
+        :return:
+        """
+        if not hasattr(self, "_changed_fields"):
+            return
+        interface_labels, managed_object_labels = [], []
+        for f in self._changed_fields:
+            if not f.startswith("enable"):
+                continue
+            _, scope = f.split("_", 1)
+            if scope.startswith("managedobject"):
+                managed_object_labels += [f"noc::rxfilter::{self.name}::{scope}::="]
+            elif scope.startswith("interface"):
+                interface_labels += [f"noc::rxfilter::{self.name}::{scope}::="]
+        if interface_labels:
+            Label.reset_model_labels("inv.Interface", interface_labels)
+        if managed_object_labels:
+            Label.reset_model_labels("sa.ManagedObject", managed_object_labels)
+        if hasattr(self, "_changed_fields") and "regexp" in self._changed_fields:
+            self._reset_caches()
+            self._refresh_labels()
+
+    def _refresh_labels(self):
+        from django.db import connection
+
+        for scope in self.iter_scopes():
+            labels = [f"noc::rxfilter::{self.name}::{scope}::="] + (self.labels or [])
+            model, field = scope.split("_")
+            if model == "managedobject":
+                sql = f"""
+                UPDATE sa_managedobject
+                SET effective_labels=ARRAY (
+                SELECT DISTINCT e FROM unnest(effective_labels || array{repr(labels)}::varchar[]) AS a(e)
+                )
+                WHERE {field} ~ '{self.regexp}'
+                """
+                print(sql)
+                cursor = connection.cursor()
+                cursor.execute(sql)
+            elif model == "interface":
+                coll = get_db()["noc.interfaces"]
+                coll.bulk_write(
+                    [
+                        UpdateMany[
+                            {field: {"$re": self.regexp}},
+                            {"$addToSet": {"effective_labels": {"$each": labels}}},
+                        ]
+                    ]
+                )
 
     def _reset_caches(self):
         try:
