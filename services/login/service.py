@@ -111,7 +111,7 @@ class LoginService(FastAPIService):
         )
 
     async def on_activate(self):
-        self.loop.create_task(await self.subscribe_lift())
+        self.loop.create_task(self.subscribe_lift())
 
 
 if __name__ == "__main__":
