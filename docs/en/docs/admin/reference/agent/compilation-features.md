@@ -45,6 +45,6 @@ Disabled probes are ignored.
 | `memory`          | {{ yes }} | [`memory`](collectors/memory.md)                   |
 | `network`         | {{ yes }} | [`network`](collectors/network.md)                 |
 | `test`            | {{ yes }} | [`test`](collectors/test.md)                       |
-| `twamp-sender`    | {{ yes }} | [`twamp-sender`](collectors/twamp-sender.md)       |
-| `twamp-reflector` | {{ yes }} | [`twamp-reflector`](collectors/twamp-reflector.md) |
+| `twamp-sender`    | {{ yes }} | [`twamp_sender`](collectors/twamp_sender.md)       |
+| `twamp-reflector` | {{ yes }} | [`twamp_reflector`](collectors/twamp_reflector.md) |
 | `uptime`          | {{ yes }} | [`uptime`](collectors/uptime.md)                   |
