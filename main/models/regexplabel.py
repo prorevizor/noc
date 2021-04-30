@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 
 @on_save
 @on_delete
-@Label.match_labels(category="rxfilter")
+@Label.match_labels(category="rxfilter", allowed_op={"="})
 class RegexpLabel(Document):
     meta = {
         "collection": "regexlabels",
@@ -147,9 +147,11 @@ class RegexpLabel(Document):
         if managed_object_labels:
             Label.reset_model_labels("sa.ManagedObject", managed_object_labels)
         # Refresh regex
-        if hasattr(self, "_changed_fields") and "regexp" in self._changed_fields:
+        if "regexp" in self._changed_fields:
             logger.info("[%s] Regex field change. Refresh labels", self.name)
             self._reset_caches()
+            self._refresh_labels()
+        elif "labels" in self._changed_fields:
             self._refresh_labels()
 
     def _refresh_labels(self):

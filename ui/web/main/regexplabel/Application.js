@@ -9,6 +9,7 @@ console.debug("Defining NOC.main.regexplabel.Application");
 Ext.define("NOC.main.regexplabel.Application", {
     extend: "NOC.core.ModelApplication",
     requires: [
+        "NOC.core.LabelField",
         "NOC.main.regexplabel.Model"
     ],
     model: "NOC.main.regexplabel.Model",
@@ -55,6 +56,15 @@ Ext.define("NOC.main.regexplabel.Application", {
           xtype: "checkbox",
           boxLabel: __("DotALL"),
           allowBlank: true
+        },
+        {
+            name: "labels",
+            xtype: "labelfield",
+            fieldLabel: __("Labels"),
+            allowBlank: true,
+            query: {
+                "enable_managedobject": true
+            },
         },
         {
           xtype: "fieldset",
