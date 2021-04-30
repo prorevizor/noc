@@ -1,7 +1,8 @@
 # twamp_reflector collector
 
-`twamp_reflector` transmit a packet to the Session-Sender in response to each packet it receives.
-
+`twamp_reflector` is the reflector part of TWAMP protocol. Though not producing
+metrics directly, `twamp_reflector` responds to [`twamp_sender`](twamp_sender.md)
+probes.
 
 ## Configuration
 
@@ -13,9 +14,8 @@
 | `labels`   | Array of Strings |         | List of additional labels. Will be returned along with metrics                              |
 |            |                  |         |                                                                                             |
 | `listen`   | String           |         |                                                                                             |
-| `port`     | Integer          |   862   |                                                                                             |
-
+| `port`     | Integer          | `862`   |                                                                                             |
 
 ## Compilation Features
 
-Enable `twamp_reflector` feature during compiling the agent (Enabled by default).
+Enable `twamp-reflector` feature during compiling the agent (Enabled by default).

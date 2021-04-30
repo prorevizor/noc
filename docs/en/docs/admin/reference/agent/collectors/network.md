@@ -13,25 +13,24 @@
 
 ## Collected Metrics
 
-| Metric          | Metric Type | Platform | Description        |
-| --------------- | ----------- | -------- | ------------------ |
-| `ts`            |             | All      | ISO 8601 Timestamp |
-| `collector`     |             | All      | Collector Id       |
-| `labels`        |             | All      | List of labels     |
-|                 |             |          |                    |
-| `rx_bytes`      |             | All      |                    |
-| `tx_bytes`      |             | All      |                    |
-| `rx_packets`    |             | All      |                    |
-| `tx_packets`    |             | All      |                    |
-| `rx_errors`     |             | All      |                    |
-| `tx_errors`     |             | All      |                    |
-
+| Metric       | Metric Type | Platform | Description        |
+| ------------ | ----------- | -------- | ------------------ |
+| `ts`         |             | All      | ISO 8601 Timestamp |
+| `collector`  |             | All      | Collector Id       |
+| `labels`     |             | All      | List of labels     |
+|              |             |          |                    |
+| `rx_bytes`   |             | All      |                    |
+| `tx_bytes`   |             | All      |                    |
+| `rx_packets` |             | All      |                    |
+| `tx_packets` |             | All      |                    |
+| `rx_errors`  |             | All      |                    |
+| `tx_errors`  |             | All      |                    |
 
 `network` collector appends following labels
 
-| Label              | Description         |
-| ------------------ | ------------------- |
-| `noc::dev::{name}` | Network device name |
+| Label                    | Description            |
+| ------------------------ | ---------------------- |
+| `noc::interface::{name}` | Network interface name |
 
 ## Compilation Features
 

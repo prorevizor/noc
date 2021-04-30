@@ -1,7 +1,6 @@
 # uptime collector
 
-`uptime` collects total running time.
-
+`uptime` collects system uptime.
 
 ## Configuration
 
@@ -12,24 +11,15 @@
 | `interval` | Integer          |         | Repetition interval in seconds                                                              |
 | `labels`   | Array of Strings |         | List of additional labels. Will be returned along with metrics                              |
 
-
 ## Collected Metrics
 
-| Metric          | Metric Type | Platform | Description        |
-| --------------- | ----------- | -------- | ------------------ |
-| `ts`            |             | All      | ISO 8601 Timestamp |
-| `collector`     |             | All      | Collector Id       |
-| `labels`        |             | All      | List of labels     |
-|                 |             |          |                    |
-| `uptime`        |             | All      |                    |
-
-
-`uptime` collector appends following labels
-
-| Label              | Description       |
-| ------------------ | ----------------- |
-| `noc::dev::{name}` | Block device name |
-
+| Metric      | Metric Type | Platform | Description               |
+| ----------- | ----------- | -------- | ------------------------- |
+| `ts`        |             | All      | ISO 8601 Timestamp        |
+| `collector` |             | All      | Collector Id              |
+| `labels`    |             | All      | List of labels            |
+|             |             |          |                           |
+| `uptime`    |             | All      | System uptime, in seconds |
 
 ## Compilation Features
 

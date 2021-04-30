@@ -1,7 +1,7 @@
 # test collector
 
-`test` collector is a stub plugin for checking agent availability.
-
+`test` collector is a stub plugin for checking agent configuration.
+Every run completes with success and no metrics are produced.
 
 ## Configuration
 
@@ -11,7 +11,6 @@
 | `type`     | String           |         | Must be `test`                                                                              |
 | `interval` | Integer          |         | Repetition interval in seconds                                                              |
 | `labels`   | Array of Strings |         | List of additional labels. Will be returned along with metrics                              |
-
 
 ## Compilation Features
 

@@ -11,31 +11,28 @@
 | `interval` | Integer          |         | Repetition interval in seconds                                                              |
 | `labels`   | Array of Strings |         | List of additional labels. Will be returned along with metrics                              |
 
-
 ## Collected Metrics
 
-| Metric          | Metric Type | Platform | Description        |
-| --------------- | ----------- | -------- | ------------------ |
-| `ts`            |             | All      | ISO 8601 Timestamp |
-| `collector`     |             | All      | Collector Id       |
-| `labels`        |             | All      | List of labels     |
-|                 |             |          |                    |
-| `files`         |             | All      |                    |
-| `files_total`   |             | All      |                    |
-| `files_avail`   |             | All      |                    |
-| `free`          |             | All      |                    |
-| `avail`         |             | All      |                    |
-| `total`         |             | All      |                    |
+| Metric        | Metric Type | Platform | Description        |
+| ------------- | ----------- | -------- | ------------------ |
+| `ts`          |             | All      | ISO 8601 Timestamp |
+| `collector`   |             | All      | Collector Id       |
+| `labels`      |             | All      | List of labels     |
+|               |             |          |                    |
+| `files`       |             | All      |                    |
+| `files_total` |             | All      |                    |
+| `files_avail` |             | All      |                    |
+| `free`        |             | All      |                    |
+| `avail`       |             | All      |                    |
+| `total`       |             | All      |                    |
 
 `fs` collector appends following labels
 
-| Label              | Description       |
-| ------------------ | ----------------- |
-| `noc::dev::{name}` | FS name           |
-
+| Label                 | Description     |
+| --------------------- | --------------- |
+| `noc::fs::{name}`     | Filesystem name |
+| `noc::fstype::{name}` | Filesystem type |
 
 ## Compilation Features
 
 Enable `fs` feature during compiling the agent (Enabled by default).
-
-

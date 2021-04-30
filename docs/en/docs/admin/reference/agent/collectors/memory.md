@@ -94,14 +94,6 @@
 | `avail_virt`     |             | Windows  |                    |
 | `avail_ext`      |             | Windows  |                    |
 
-
-`memory` collector appends following labels
-
-| Label              | Description        |
-| ------------------ | ------------------ |
-| `noc::dev::{name}` | Memory device name |
-
-
 ## Compilation Features
 
 Enable `memory` feature during compiling the agent (Enabled by default).

@@ -1,7 +1,6 @@
 # cpu collector
 
-`cpu` collects usage statistics.
-
+`cpu` collects CPU usage statistics.
 
 ## Configuration
 
@@ -12,29 +11,27 @@
 | `interval` | Integer          |         | Repetition interval in seconds                                                              |
 | `labels`   | Array of Strings |         | List of additional labels. Will be returned along with metrics                              |
 
-
 ## Collected Metrics
 
-| Metric          | Metric Type | Platform | Description        |
-| --------------- | ----------- | -------- | ------------------ |
-| `ts`            |             | All      | ISO 8601 Timestamp |
-| `collector`     |             | All      | Collector Id       |
-| `labels`        |             | All      | List of labels     |
-|                 |             |          |                    |
-| `user`          |             | All      |                    |
-| `nice`          |             | All      |                    |
-| `system`        |             | All      |                    |
-| `interrupt`     |             | All      |                    |
-| `idle`          |             | All      |                    |
-|                 |             |          |                    |   
-| `iowait`        |             | Linux    |                    |
+| Metric      | Metric Type | Platform | Description        |
+| ----------- | ----------- | -------- | ------------------ |
+| `ts`        |             | All      | ISO 8601 Timestamp |
+| `collector` |             | All      | Collector Id       |
+| `labels`    |             | All      | List of labels     |
+|             |             |          |                    |
+| `user`      |             | All      |                    |
+| `nice`      |             | All      |                    |
+| `system`    |             | All      |                    |
+| `interrupt` |             | All      |                    |
+| `idle`      |             | All      |                    |
+|             |             |          |                    |
+| `iowait`    |             | Linux    |                    |
 
 `cpu` collector appends following labels
 
-| Label              | Description       |
-| ------------------ | ----------------- |
-| `noc::dev::{name}` | Block device name |
-
+| Label              | Description |
+| ------------------ | ----------- |
+| `noc::cpu::{name}` | CPU number  |
 
 ## Compilation Features
 

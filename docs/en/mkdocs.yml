@@ -1517,6 +1517,7 @@ nav:
                   - twamp_reflector: admin/reference/agent/collectors/twamp_reflector.md
                   - twamp_sender: admin/reference/agent/collectors/twamp_sender.md
                   - uptime: admin/reference/agent/collectors/uptime.md
+              - Compilation Features: admin/reference/agent/compilation-features.md
   - Developer's Guide:
       - Overview: dev/index.md
       - Get Started:
