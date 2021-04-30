@@ -8,9 +8,9 @@
 # NOC modules
 from noc.main.models.label import Label
 from ..models.label import DefaultLabelItem, LabelItem, FormLabelItem
-from ..utils.ref import get_reference, get_reference_label
+from ..utils.ref import get_reference
 from ..utils.rest.document import DocumentResourceAPI
-from ..utils.rest.op import FilterExact, RefFilter
+from ..utils.rest.op import FilterExact
 
 
 class LabelAPI(DocumentResourceAPI[Label]):

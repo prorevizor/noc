@@ -65,3 +65,13 @@ class FormServiceItem(BaseModel):
     labels: Optional[List[str]]
     static_service_groups: Optional[List[Reference]]
     static_client_groups: Optional[List[Reference]]
+
+
+class PreviewServiceItem(BaseModel):
+    id: str
+    profile: Reference
+    parent: Optional[Reference]
+    state: Reference
+    state_changed: Optional[datetime.datetime]
+    description: str
+    address: str

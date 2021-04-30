@@ -12,6 +12,7 @@ from noc.sa.models.service import ServiceProfile
 from ..models.service import (
     DefaultServiceItem,
     FormServiceItem,
+    PreviewServiceItem,
 )
 from ..utils.ref import get_reference, get_reference_label, get_reference_rg
 from ..utils.rest.document import DocumentResourceAPI
@@ -80,6 +81,18 @@ class ServiceAPI(DocumentResourceAPI[Service]):
             labels=item.labels,
             static_service_groups=item.static_service_groups,
             static_client_groups=item.static_client_groups,
+        )
+
+    @classmethod
+    def item_to_preview(cls, item: Service) -> PreviewServiceItem:
+        return PreviewServiceItem(
+            id=str(item.id),
+            profile=get_reference(item.profile),
+            state=get_reference(item.state),
+            parent=get_reference(item.parent),
+            description=item.description or "",
+            state_changed=item.state_changed,
+            address=item.address or "",
         )
 
 
