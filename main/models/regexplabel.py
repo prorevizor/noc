@@ -7,9 +7,10 @@
 
 # Python modules
 from typing import Optional, List, Iterable
-import re
-import operator
 from threading import Lock
+import re
+import logging
+import operator
 
 # Third-party modules
 from mongoengine.document import Document
@@ -26,6 +27,7 @@ from noc.main.models.label import Label
 
 
 id_lock = Lock()
+logger = logging.getLogger(__name__)
 
 
 @on_save
@@ -118,17 +120,23 @@ class RegexpLabel(Document):
 
     def on_save(self):
         """
-        First - reset scope changes
-        Second - calculate regex changes
-        Third - change labels
+        Sync field changes to model
+        For scope change:
+          * Remove label from model
+        For Regex change:
+          * Update labels set for regex
+        For labels change:
+          * Sync label for change
         :return:
         """
         if not hasattr(self, "_changed_fields"):
             return
         interface_labels, managed_object_labels = [], []
+        # Sync scope
         for f in self._changed_fields:
             if not f.startswith("enable"):
                 continue
+            logger.info("[%s] Field scope %s changed. Reset effective labels", self.name, f)
             _, scope = f.split("_", 1)
             if scope.startswith("managedobject"):
                 managed_object_labels += [f"noc::rxfilter::{self.name}::{scope}::="]
@@ -138,28 +146,42 @@ class RegexpLabel(Document):
             Label.reset_model_labels("inv.Interface", interface_labels)
         if managed_object_labels:
             Label.reset_model_labels("sa.ManagedObject", managed_object_labels)
+        # Refresh regex
         if hasattr(self, "_changed_fields") and "regexp" in self._changed_fields:
+            logger.info("[%s] Regex field change. Refresh labels", self.name)
             self._reset_caches()
             self._refresh_labels()
 
     def _refresh_labels(self):
+        """
+        Recalculate labels on model
+        :return:
+        """
         from django.db import connection
 
         for scope in self.iter_scopes():
             labels = [f"noc::rxfilter::{self.name}::{scope}::="] + (self.labels or [])
             model, field = scope.split("_")
             if model == "managedobject":
+                # Cleanup current labels
+                logger.info("[%s] Cleanup ManagedObject effective labels: %s", self.name, labels)
+                Label.reset_model_labels("sa.ManagedObject", labels)
+                # Apply new rule
+                logger.info("[%s] Apply new regex '%s' labels", self.name, self.regexp)
                 sql = f"""
                 UPDATE sa_managedobject
                 SET effective_labels=ARRAY (
-                SELECT DISTINCT e FROM unnest(effective_labels || array{repr(labels)}::varchar[]) AS a(e)
+                SELECT DISTINCT e FROM unnest(effective_labels || %s::varchar[]) AS a(e)
                 )
-                WHERE {field} ~ '{self.regexp}'
+                WHERE {field} ~ %s
                 """
-                print(sql)
                 cursor = connection.cursor()
-                cursor.execute(sql)
+                cursor.execute(sql, [labels, self.regexp])
             elif model == "interface":
+                # Cleanup current labels
+                logger.info("[%s] Cleanup Interface effective labels: %s", self.name, labels)
+                Label.reset_model_labels("inv.Interface", labels)
+                # Apply new rule
                 coll = get_db()["noc.interfaces"]
                 coll.bulk_write(
                     [

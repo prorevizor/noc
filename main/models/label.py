@@ -18,7 +18,7 @@ from mongoengine.fields import StringField, IntField, BooleanField, ReferenceFie
 import cachetools
 
 # NOC modules
-from noc.core.model.decorator import on_save, on_delete, is_document
+from noc.core.model.decorator import on_save, on_delete
 from noc.main.models.remotesystem import RemoteSystem
 from noc.models import get_model, is_document
 
@@ -501,8 +501,8 @@ class Label(Document):
             sql = f"""
             UPDATE {model._meta.db_table}
              SET effective_labels=array(
-             SELECT unnest(labels) EXCEPT SELECT unnest(array{repr(labels)})
-             ) WHERE labels && array{repr(labels)}::varchar[]
+             SELECT unnest(effective_labels) EXCEPT SELECT unnest(%s::varchar[])
+             ) WHERE effective_labels && %s::varchar[]
              """
             cursor = connection.cursor()
-            cursor.execute(sql)
+            cursor.execute(sql, [labels, labels])
