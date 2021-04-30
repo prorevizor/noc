@@ -45,4 +45,5 @@ class ObjectAPI(DocumentResourceAPI[Object]):
             labels=item.labels,
         )
 
+
 router = ObjectAPI().router
