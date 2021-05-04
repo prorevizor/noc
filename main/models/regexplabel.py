@@ -70,6 +70,11 @@ class RegexpLabel(Document):
 
     @cachetools.cachedmethod(operator.attrgetter("_rx_compiled_cache"))
     def get_compiled(self, name: str) -> re.compile:
+        """
+        Cached compiled regex. name required for cache key (otherwise key is empty)
+        :param name:
+        :return:
+        """
         rx = re.compile(self.regexp)
         if self.flag_multiline:
             rx.flags ^= re.MULTILINE
@@ -109,8 +114,8 @@ class RegexpLabel(Document):
     @classmethod
     def get_effective_labels(cls, scope: str, value: str) -> List[str]:
         """
-        Выбор регулярных выражение осуществляется по `enable_<scope>`.
-        Метод должен кешировать скомпилированную форму регулярок и сам набор регулярок
+        :param: scope - check `enable_<scope>` for filter enable regex
+        :param: value - string value for check
         """
         labels = []
         for rx in RegexpLabel.objects.filter(**{f"enable_{scope}": True}):
