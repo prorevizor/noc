@@ -8,27 +8,33 @@
 # NOC modules
 from noc.inv.models.object import Object
 from noc.inv.models.objectmodel import ObjectModel
-from ..models.object import DefaultObjectItem, FormObjectItem
+from ..models.object import DefaultObjectItem, FormObjectItem, PointItem
 from ..utils.ref import get_reference, get_reference_label
 from ..utils.rest.document import DocumentResourceAPI
-from ..utils.rest.op import FilterExact, RefFilter
+from ..utils.rest.op import RefFilter, FuncFilter
 
 
 class ObjectAPI(DocumentResourceAPI[Object]):
     prefix = "/api/ui/object"
     model = Object
     list_ops = [
-        FilterExact("id"),
+        FuncFilter("query", function=lambda qs, value: qs.filter(name__regex=value)),
         RefFilter("container", model=Object),
         RefFilter("model", model=ObjectModel),
     ]
 
     @classmethod
     def item_to_default(cls, item: Object) -> DefaultObjectItem:
+        point = None
+        if item.point:
+            x, y = item.point["coordinates"]
+            point = PointItem(x=x, y=y)
         return DefaultObjectItem(
             id=str(item.id),
             name=str(item.name),
             model=get_reference(item.model),
+            layer=get_reference(item.layer),
+            point=point,
             container=get_reference(item.container),
             remote_system=get_reference(item.remote_system),
             remote_id=item.remote_id,

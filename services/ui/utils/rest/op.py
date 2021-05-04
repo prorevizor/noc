@@ -45,7 +45,7 @@ class FilterExact(ListOp):
 
 
 class RefFilter(ListOp):
-    def __init__(self, name: str, model: Union[TModel, TDoc], optinal: bool = False):
+    def __init__(self, name: str, model: Union[TModel, TDoc]):
         super().__init__(name)
         self.model = model
 
@@ -79,3 +79,18 @@ class RefFilter(ListOp):
         if is_document(self.model):
             return inner_document
         return inner_model
+
+
+class FuncFilter(ListOp):
+    def __init__(self, name: str, function: Callable):
+        super().__init__(name)
+        self.function = function
+
+    def get_transform(self, value):
+        def inner(qs):
+            r = self.function(qs, value)
+            if r is not None:
+                return r
+            return qs
+
+        return inner

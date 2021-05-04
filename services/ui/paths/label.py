@@ -10,13 +10,14 @@ from noc.main.models.label import Label
 from ..models.label import DefaultLabelItem, LabelItem, FormLabelItem
 from ..utils.ref import get_reference
 from ..utils.rest.document import DocumentResourceAPI
-from ..utils.rest.op import FilterExact
+from ..utils.rest.op import FilterExact, FuncFilter
 
 
 class LabelAPI(DocumentResourceAPI[Label]):
     prefix = "/api/ui/label"
     model = Label
     list_ops = [
+        FuncFilter("query", function=lambda qs, value: qs.filter(name__regex=value)),
         FilterExact("name"),
     ]
 
