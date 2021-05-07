@@ -373,7 +373,7 @@ class BaseResourceAPI(Generic[T], metaclass=ABCMeta):
                 response_model=List[SummaryItem],
                 tags=self.openapi_tags,
                 name=f"{self.api_name}_list_summary",
-                description=f"Fet summary items by field",
+                description="Get summary items by field",
             )
 
     def setup_write(self):
