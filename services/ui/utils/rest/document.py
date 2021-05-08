@@ -66,7 +66,7 @@ class DocumentResourceAPI(BaseResourceAPI[T]):
             for t in transforms:
                 qs = t(qs)
         return [
-            SummaryItem(id=str(r["_id"]), label="", count=int(r["count"]))
+            SummaryItem(id=str(r["_id"]), label=str(r["_id"]), count=int(r["count"]))
             for r in qs.aggregate([{"$group": {"_id": f"${field}", "count": {"$sum": 1}}}])
         ]
 

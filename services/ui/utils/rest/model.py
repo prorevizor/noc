@@ -11,7 +11,7 @@ from http import HTTPStatus
 
 # Third-party modules
 from fastapi import HTTPException
-from django.db.models import Model, QuerySet, ForeignKey
+from django.db.models import Model, QuerySet, ForeignKey, Count
 from django.core.exceptions import FieldDoesNotExist
 
 # NOC modules
@@ -67,8 +67,8 @@ class ModelResourceAPI(BaseResourceAPI[T]):
             for t in transforms:
                 qs = t(qs)
         return [
-            SummaryItem(id=str(r["_id"]), label="", count=int(r["count"]))
-            for r in qs.objects.values(field).distinct()
+            SummaryItem(id=str(r[field.name]), label=str(r[field.name]), count=int(r["count"]))
+            for r in qs.values(field.name).annotate(count=Count("id"))
         ]
 
     def get_items(
