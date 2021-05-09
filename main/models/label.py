@@ -397,12 +397,20 @@ class Label(Document):
             # Clean up labels
             labels = Label.merge_labels(default_iter_effective_labels(instance))
             instance.labels = labels
+            # Check Match labels
+            match_labels = set()
+            for ml in getattr(instance, "match_rules", []):
+                match_labels |= set(ml["labels"])
             # Validate instance labels
             can_set_label = getattr(sender, "can_set_label", lambda x: False)
             for label in set(instance.labels):
                 if not can_set_label(label):
                     # Check can_set_label method
                     raise ValueError(f"Invalid label: {label}")
+                if label in match_labels:
+                    raise ValueError(
+                        f"Label on MatchRules and Label at the same time is not allowed: {label}"
+                    )
             # Build and clean up effective labels. Filter can_set_labels
             labels_iter = getattr(sender, "iter_effective_labels", default_iter_effective_labels)
             instance.effective_labels = [
@@ -531,7 +539,6 @@ class Label(Document):
             :return:
             """
             # @todo flag for lock classification (ex profile set on hk)
-            # @todo Deny add label to profile if use in instance (for reset loop)
             # @todo Use iter_effective_labels for fix Label.model decorator running after
             profile_model = get_model(profile_model_id)
             if not hasattr(profile_model, "match_rules"):
