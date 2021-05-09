@@ -5,10 +5,15 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
+# Third-party modules
+from fastapi import APIRouter
+
 # NOC modules
 from noc.main.models.remotesystem import RemoteSystem
 from ..models.remotesystem import DefaultRemoteSystemItem, FormRemoteSystemItem
 from ..utils.rest.document import DocumentResourceAPI
+
+router = APIRouter()
 
 
 class RemoteSystemAPI(DocumentResourceAPI[RemoteSystem]):
@@ -77,4 +82,5 @@ class RemoteSystemAPI(DocumentResourceAPI[RemoteSystem]):
         )
 
 
-router = RemoteSystemAPI().router
+# Install endpoints
+RemoteSystemAPI(router)

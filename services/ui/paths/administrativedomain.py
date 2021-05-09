@@ -5,6 +5,9 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
+# Third-party modules
+from fastapi import APIRouter
+
 # NOC modules
 from noc.sa.models.administrativedomain import AdministrativeDomain
 from ..models.administrativedomain import (
@@ -14,6 +17,8 @@ from ..models.administrativedomain import (
 from ..utils.ref import get_reference
 from ..utils.rest.model import ModelResourceAPI
 from ..utils.rest.op import FilterExact, RefFilter, FuncFilter
+
+router = APIRouter()
 
 
 class AdministrativeDomainAPI(ModelResourceAPI[AdministrativeDomain]):
@@ -53,4 +58,5 @@ class AdministrativeDomainAPI(ModelResourceAPI[AdministrativeDomain]):
         )
 
 
-router = AdministrativeDomainAPI().router
+# Install endpoints
+AdministrativeDomainAPI(router)

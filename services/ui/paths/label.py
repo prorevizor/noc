@@ -5,12 +5,17 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
+# Third-party modules
+from fastapi import APIRouter
+
 # NOC modules
 from noc.main.models.label import Label
 from ..models.label import DefaultLabelItem, LabelItem, FormLabelItem
 from ..utils.ref import get_reference
 from ..utils.rest.document import DocumentResourceAPI
 from ..utils.rest.op import FilterExact, FuncFilter
+
+router = APIRouter()
 
 
 class LabelAPI(DocumentResourceAPI[Label]):
@@ -153,4 +158,5 @@ class LabelAPI(DocumentResourceAPI[Label]):
         )
 
 
-router = LabelAPI().router
+# Install endpoints
+LabelAPI(router)

@@ -5,6 +5,9 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
+# Third-party modules
+from fastapi import APIRouter
+
 # NOC modules
 from noc.inv.models.object import Object
 from noc.inv.models.objectmodel import ObjectModel
@@ -12,6 +15,8 @@ from ..models.object import DefaultObjectItem, FormObjectItem, PointItem
 from ..utils.ref import get_reference, get_reference_label
 from ..utils.rest.document import DocumentResourceAPI
 from ..utils.rest.op import RefFilter, FuncFilter
+
+router = APIRouter()
 
 
 class ObjectAPI(DocumentResourceAPI[Object]):
@@ -52,4 +57,5 @@ class ObjectAPI(DocumentResourceAPI[Object]):
         )
 
 
-router = ObjectAPI().router
+# Install endpoints
+ObjectAPI(router)

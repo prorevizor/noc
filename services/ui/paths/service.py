@@ -5,6 +5,9 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
+# Third-party modules
+from fastapi import APIRouter
+
 # NOC modules
 from noc.sa.models.service import Service
 from noc.sa.models.managedobject import ManagedObject
@@ -17,6 +20,8 @@ from ..models.service import (
 from ..utils.ref import get_reference, get_reference_label, get_reference_rg
 from ..utils.rest.document import DocumentResourceAPI
 from ..utils.rest.op import FilterExact, RefFilter
+
+router = APIRouter()
 
 
 class ServiceAPI(DocumentResourceAPI[Service]):
@@ -96,4 +101,5 @@ class ServiceAPI(DocumentResourceAPI[Service]):
         )
 
 
-router = ServiceAPI().router
+# Install router
+ServiceAPI(router)
