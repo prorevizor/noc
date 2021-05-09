@@ -532,7 +532,7 @@ class Label(Document):
             """
             # @todo flag for lock classification (ex profile set on hk)
             # @todo Deny add label to profile if use in instance (for reset loop)
-            # @todo Use iter_effective_labels for fix Label.model decorator eunning after
+            # @todo Use iter_effective_labels for fix Label.model decorator running after
             profile_model = get_model(profile_model_id)
             if not hasattr(profile_model, "match_rules"):
                 # Dynamic classification not suported

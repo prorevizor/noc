@@ -14,8 +14,10 @@ from itertools import chain
 from noc.core.translation import ugettext as _
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
+from django.core.exceptions import ValidationError
 import cachetools
-from typing import Optional
+from typing import Optional, List
+from pydantic import BaseModel
 
 # NOC modules
 from noc.core.model.base import NOCModel
@@ -45,6 +47,23 @@ from noc.main.models.glyph import Glyph
 from noc.core.topology.types import ShapeOverlayPosition, ShapeOverlayForm
 from .authprofile import AuthProfile
 from .capsprofile import CapsProfile
+
+
+class MatchRule(BaseModel):
+    labels: List[str]
+    handler: Optional[str]
+
+
+class MatchRules(BaseModel):
+    rules: List[MatchRule]
+
+
+def match_rules_validate(value):
+    try:
+        MatchRules(rules=value)
+    except Exception as e:
+        raise ValidationError(e)
+    return True
 
 
 m_valid = DictListParameter(
@@ -600,6 +619,16 @@ class ManagedObjectProfile(NOCModel):
     effective_labels = ArrayField(
         models.CharField(max_length=250), blank=True, null=True, default=list
     )
+    # Dynamic Profile Classification
+    dynamic_order = models.IntegerField(_("Dynamic Order"), default=0)
+    match_rules = models.JSONField(
+        _("Match Dynamic Rules"),
+        blank=True,
+        null=True,
+        default=list,
+        # ? Internal validation not worked with JSON Field
+        # validators=[match_rules_validate],
+    )
 
     _id_cache = cachetools.TTLCache(maxsize=100, ttl=60)
     _bi_id_cache = cachetools.TTLCache(maxsize=100, ttl=60)
@@ -747,6 +776,8 @@ class ManagedObjectProfile(NOCModel):
                 self.metrics = m_valid.clean(self.metrics)
             except ValueError as e:
                 raise ValueError(e)
+        if self.match_rules:
+            match_rules_validate(self.match_rules)
         super().save(*args, **kwargs)
 
     @classmethod
