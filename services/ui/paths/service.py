@@ -10,6 +10,7 @@ from fastapi import APIRouter
 
 # NOC modules
 from noc.sa.models.service import Service
+from noc.main.models.label import Label
 from noc.sa.models.managedobject import ManagedObject
 from noc.sa.models.service import ServiceProfile
 from ..models.service import (
@@ -55,8 +56,11 @@ class ServiceAPI(DocumentResourceAPI[Service]):
             address=item.address,
             managed_object=get_reference(item.managed_object),
             nri_port=item.nri_port,
-            labels=[get_reference_label(ii) for ii in item.labels],
-            effective_labels=[get_reference_label(ii) for ii in item.effective_labels],
+            labels=[get_reference_label(ii) for ii in Label.objects.filter(name__in=item.labels)],
+            effective_labels=[
+                get_reference_label(ii)
+                for ii in Label.objects.filter(name__in=item.effective_labels)
+            ],
             static_service_groups=[get_reference_rg(sg) for sg in item.static_service_groups],
             effective_service_groups=[get_reference_rg(sg) for sg in item.effective_service_groups],
             static_client_groups=[get_reference_rg(sg) for sg in item.static_client_groups],

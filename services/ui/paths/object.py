@@ -11,6 +11,7 @@ from fastapi import APIRouter
 # NOC modules
 from noc.inv.models.object import Object
 from noc.inv.models.objectmodel import ObjectModel
+from noc.main.models.label import Label
 from ..models.object import DefaultObjectItem, FormObjectItem, PointItem
 from ..utils.ref import get_reference, get_reference_label
 from ..utils.rest.document import DocumentResourceAPI
@@ -44,8 +45,11 @@ class ObjectAPI(DocumentResourceAPI[Object]):
             remote_system=get_reference(item.remote_system),
             remote_id=item.remote_id,
             bi_id=str(item.bi_id),
-            labels=[get_reference_label(ll) for ll in item.labels],
-            effective_labels=[get_reference_label(ll) for ll in item.effective_labels],
+            labels=[get_reference_label(ll) for ll in Label.objects.filter(name__in=item.labels)],
+            effective_labels=[
+                get_reference_label(ll)
+                for ll in Label.objects.filter(name__in=item.effective_labels)
+            ],
         )
 
     @classmethod
