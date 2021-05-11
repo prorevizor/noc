@@ -14,7 +14,6 @@ from itertools import chain
 from noc.core.translation import ugettext as _
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from django.core.exceptions import ValidationError
 import cachetools
 from typing import Optional, List
 from pydantic import BaseModel
@@ -24,7 +23,7 @@ from noc.core.model.base import NOCModel
 from noc.config import config
 from noc.main.models.style import Style
 from noc.core.stencil import stencil_registry
-from noc.core.model.fields import PickledField, DocumentReferenceField
+from noc.core.model.fields import PickledField, DocumentReferenceField, PydanticField
 from noc.core.model.decorator import on_save, on_init, on_delete_check
 from noc.core.cache.base import cache
 from noc.main.models.pool import Pool
@@ -55,15 +54,7 @@ class MatchRule(BaseModel):
 
 
 class MatchRules(BaseModel):
-    rules: List[MatchRule]
-
-
-def match_rules_validate(value):
-    try:
-        MatchRules(rules=value)
-    except Exception as e:
-        raise ValidationError(e)
-    return True
+    __root__: List[MatchRule]
 
 
 m_valid = DictListParameter(
@@ -621,8 +612,9 @@ class ManagedObjectProfile(NOCModel):
     )
     # Dynamic Profile Classification
     dynamic_order = models.IntegerField(_("Dynamic Order"), default=0)
-    match_rules = models.JSONField(
+    match_rules = PydanticField(
         _("Match Dynamic Rules"),
+        schema=MatchRules,
         blank=True,
         null=True,
         default=list,
@@ -777,7 +769,8 @@ class ManagedObjectProfile(NOCModel):
             except ValueError as e:
                 raise ValueError(e)
         if self.match_rules:
-            match_rules_validate(self.match_rules)
+            # Not calling validate(). Probably on NOCModel
+            MatchRules.parse_obj(self.match_rules)
         super().save(*args, **kwargs)
 
     @classmethod
