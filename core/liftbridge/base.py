@@ -216,7 +216,7 @@ class LiftBridgeClient(object):
             else:
                 # Dirty hack to not block the tread with resolver
                 # Avoid to call parameter's __get__ method
-                addresses = await config.liftbridge.__dict["addresses"].get_async()
+                addresses = await config.liftbridge.__dict__["addresses"].get_async()
                 # Use random broker from seed
                 svc = random.choice(addresses)
                 broker = "%s:%s" % (svc.host, svc.port)
