@@ -10,11 +10,10 @@ from pickle import loads, dumps, HIGHEST_PROTOCOL
 
 # Third-party modules
 import psycopg2
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 from psycopg2.extensions import adapt
 from django.db import models
 from django.core.exceptions import ValidationError as DjangoValidationError
-from django.core.validators import BaseValidator, ValidationError
 from django.db.models.fields.related_descriptors import ForwardManyToOneDescriptor
 from bson import ObjectId
 
