@@ -6,12 +6,13 @@
 # ----------------------------------------------------------------------
 
 # Python modules
-from typing import Any, Optional, TypeVar, List, Dict
+from typing import Any, Optional, TypeVar, List, Dict, Callable
 from http import HTTPStatus
 
 # Third-party modules
 from fastapi import HTTPException
-from django.db.models import Model, QuerySet, ForeignKey
+from django.db.models import Model, QuerySet, ForeignKey, Count
+from django.core.exceptions import FieldDoesNotExist
 
 # NOC modules
 from noc.config import config
@@ -20,6 +21,7 @@ from noc.aaa.models.user import User
 from noc.core.model.fields import DocumentReferenceField
 from noc.core.typing import SupportsGetById
 from .base import BaseResourceAPI
+from ...models.utils import SummaryItem
 
 
 T = TypeVar("T", bound=Model)
@@ -41,13 +43,57 @@ class ModelResourceAPI(BaseResourceAPI[T]):
         """
         return cls.model.objects.all()
 
-    def get_total_items(self, user: User) -> int:
-        return self.queryset(user).count()
+    def get_total_items(self, user: User, transforms: Optional[List[Callable]] = None) -> int:
+        qs = self.queryset(user)
+        if transforms:
+            for t in transforms:
+                qs = t(qs)
+        return qs.count()
+
+    def get_summary_items(
+        self, user: User, field: str, transforms: Optional[List[Callable]] = None
+    ) -> List[SummaryItem]:
+        """
+        Calculate total amount of items, satisfying criteria
+        :param user:
+        :param field:
+        :param transforms:
+        :return:
+        """
+        try:
+            field = self.model._meta.get_field(field)
+        except FieldDoesNotExist:
+            raise HTTPException(
+                status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail=f"Unknown model field: {field}"
+            )
+        qs = self.queryset(user)
+        if transforms:
+            for t in transforms:
+                qs = t(qs)
+        return [
+            SummaryItem(id=str(r[field.name]), label=str(r[field.name]), count=int(r["count"]))
+            for r in qs.values(field.name).annotate(count=Count("id"))
+        ]
 
     def get_items(
-        self, user: User, limit: int = config.ui.max_rest_limit, offset: int = 0
+        self,
+        user: User,
+        sort: List[str],
+        limit: int = config.ui.max_rest_limit,
+        offset: int = 0,
+        transforms: Optional[List[Callable]] = None,
     ) -> List[T]:
-        return self.queryset(user)[offset : offset + limit]
+        # Start from initial restrictions
+        qs = self.queryset(user)
+        # Then apply transformations passed by query
+        if transforms:
+            for t in transforms:
+                qs = t(qs)
+        # Then apply sorting order
+        qs = qs.order_by(*tuple(sort))
+        # Finally, limit to selected frame
+        qs = qs[offset : offset + limit]
+        return qs
 
     def get_item(self, id: str, user: User) -> Optional[T]:
         return self.queryset(user).filter(pk=id).first()

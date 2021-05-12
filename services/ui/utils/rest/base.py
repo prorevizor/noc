@@ -6,7 +6,20 @@
 # ----------------------------------------------------------------------
 
 # Python modules
-from typing import Any, Optional, Callable, Dict, DefaultDict, TypeVar, Generic, List, Iterable
+import typing
+from typing import (
+    Any,
+    Optional,
+    Callable,
+    Dict,
+    DefaultDict,
+    TypeVar,
+    Generic,
+    List,
+    Iterable,
+    Tuple,
+    Union,
+)
 import inspect
 from http import HTTPStatus
 from abc import ABCMeta, abstractmethod
@@ -14,14 +27,15 @@ from collections import defaultdict
 
 # Third-party modules
 from pydantic import BaseModel
-from fastapi import APIRouter, HTTPException, Security, Response
+from fastapi import APIRouter, HTTPException, Security, Response, Depends
 
 # NOC modules
 from noc.config import config
 from noc.aaa.models.user import User
 from noc.core.service.deps.user import get_user_scope
-from ...models.label import LabelItem
+from ...models.utils import LabelItem, SummaryItem
 from ...models.status import StatusResponse
+from .op import ListOp
 
 
 T = TypeVar("T")  # , bound=Model)
@@ -50,16 +64,28 @@ class BaseResourceAPI(Generic[T], metaclass=ABCMeta):
 
     prefix: str
     model: T
+    list_ops: List[ListOp] = []
+    sort_fields: List[Union[str, Tuple[str, str]]] = []
 
-    def __init__(self):
+    def __init__(self, router: APIRouter):
+        def split_sort(x: Union[str, Tuple[str, str]]) -> Tuple[str, str]:
+            if isinstance(x, str):
+                return x, x
+            return x[0], x[1]
+
         if not getattr(self, "prefix", None):
             raise ValueError("prefix is not set")
         if not getattr(self, "model", None):
             raise ValueError("model is not set")
-        self.router = APIRouter()
+        self.router = router
         self.api_name = self.prefix.split("/")[-1]
         self.openapi_tags = ["ui", self.api_name]
         self.cleaners: DefaultDict[str, List[Callable[[Any], Any]]] = defaultdict(list)
+        self.sort_ops: Dict[str, str] = dict(split_sort(x) for x in self.sort_fields)
+        if self.sort_fields:
+            self.default_sort_op = split_sort(self.sort_fields[0])[1]
+        else:
+            self.default_sort_op = "id"
         # Setup endpoints
         for name, fn in inspect.getmembers(self):
             if name.startswith("item_to_"):
@@ -143,7 +169,7 @@ class BaseResourceAPI(Generic[T], metaclass=ABCMeta):
         return form_model
 
     @abstractmethod
-    def get_total_items(self, user: User) -> int:
+    def get_total_items(self, user: User, transforms: Optional[List[Callable]] = None) -> int:
         """
         Calculate total amount of items, satisfying criteria
         :param user:
@@ -151,14 +177,33 @@ class BaseResourceAPI(Generic[T], metaclass=ABCMeta):
         """
 
     @abstractmethod
+    def get_summary_items(
+        self, user: User, field: str, transforms: Optional[List[Callable]] = None
+    ) -> int:
+        """
+        Calculate total amount of items, satisfying criteria
+        :param user:
+        :param field:
+        :param transforms:
+        :return:
+        """
+
+    @abstractmethod
     def get_items(
-        self, user: User, limit: int = config.ui.max_rest_limit, offset: int = 0
+        self,
+        user: User,
+        sort: List[str],
+        limit: int = config.ui.max_rest_limit,
+        offset: int = 0,
+        transforms: Optional[List[Callable]] = None,
     ) -> List[T]:
         """
         Get list of items, satisfying criteria
         :param user:
+        :param sort:
         :param limit:
         :param offset:
+        :param transforms:
         :return:
         """
 
@@ -223,6 +268,14 @@ class BaseResourceAPI(Generic[T], metaclass=ABCMeta):
         """
 
     @property
+    def has_summary(self) -> bool:
+        """
+        Returns True if defined delete_item
+        :return:
+        """
+        return "get_summary_items" not in self.__abstractmethods__
+
+    @property
     def has_delete(self) -> bool:
         """
         Returns True if defined delete_item
@@ -231,15 +284,44 @@ class BaseResourceAPI(Generic[T], metaclass=ABCMeta):
         return "delete_item" not in self.__abstractmethods__
 
     def setup_view(self, view: str) -> None:
+        def get_list_dep() -> Callable:
+            """
+            Generate dependencies for additional operations
+            :return:
+            """
+            args = []
+            body = ["    r = {}"]
+            # Apply list ops as annotations
+            for list_op in self.list_ops:
+                args += [f"{list_op.name}: Optional[str] = None"]
+                body += [
+                    f"    if {list_op.name} is not None:",
+                    f'        r["{list_op.name}"] = {list_op.name}',
+                ]
+            code = [f"def inner({', '.join(args)}) -> dict:"] + body + ["    return r"]
+            r = {"Optional": typing.Optional}
+            exec("\n".join(code), {}, r)
+            return r["inner"]
+
         def inner_list(
             response: Response,
             limit: int = config.ui.max_rest_limit,
             offset: int = 0,
+            sort: Optional[str] = None,
+            ops: dict = Depends(get_list_dep()),
             user: User = Security(get_user_scope, scopes=[self.get_scope_read(view)]),
         ):
-            total = self.get_total_items(user)
+            total = self.get_total_items(
+                user, transforms=[list_ops_map[op].get_transform(v) for op, v in ops.items()]
+            )
             if total:
-                items = self.get_items(user=user, limit=limit, offset=offset)
+                items = self.get_items(
+                    user=user,
+                    limit=limit,
+                    offset=offset,
+                    transforms=[list_ops_map[op].get_transform(v) for op, v in ops.items()],
+                    sort=list(self.iter_sort_items(sort or "")),
+                )
             else:
                 items = []
             # Set headers
@@ -247,6 +329,21 @@ class BaseResourceAPI(Generic[T], metaclass=ABCMeta):
             response.headers[X_NOC_LIMIT] = str(limit)
             response.headers[X_NOC_OFFSET] = str(offset)
             return [fmt(item) for item in items]
+
+        def inner_summary(
+            response: Response,
+            field: str,
+            limit: int = config.ui.max_rest_limit,
+            offset: int = 0,
+            ops: dict = Depends(get_list_dep()),
+            user: User = Security(get_user_scope, scopes=[self.get_scope_read(view)]),
+        ):
+            summary = self.get_summary_items(
+                user,
+                field=field,
+                transforms=[list_ops_map[op].get_transform(v) for op, v in ops.items()],
+            )
+            return summary
 
         def inner_get(
             id: str, user: User = Security(get_user_scope, scopes=[self.get_scope_read(view)])
@@ -272,6 +369,8 @@ class BaseResourceAPI(Generic[T], metaclass=ABCMeta):
         sig = inspect.signature(fmt)
         if sig.return_annotation is BaseModel:
             raise ValueError(f"item_to_{view} has incorrect return type annotation")
+        # Additional operations mappings
+        list_ops_map: Dict[str, ListOp] = {x.name: x for x in self.list_ops}
         # List
         for path in iter_list_paths():
             # List
@@ -294,6 +393,17 @@ class BaseResourceAPI(Generic[T], metaclass=ABCMeta):
                 tags=self.openapi_tags,
                 name=f"{self.api_name}_get_{view}",
                 description=f"Get item with {view} view",
+            )
+        # Summary
+        if self.has_summary:
+            self.router.add_api_route(
+                path=f"{self.prefix}/v/summary",
+                endpoint=inner_summary,
+                methods=GET,
+                response_model=List[SummaryItem],
+                tags=self.openapi_tags,
+                name=f"{self.api_name}_list_summary",
+                description="Get summary items by field",
             )
 
     def setup_write(self):
@@ -365,3 +475,32 @@ class BaseResourceAPI(Generic[T], metaclass=ABCMeta):
             description="delete item",
             response_model=StatusResponse,
         )
+
+    def iter_sort_items(self, expr: str) -> Iterable[str]:
+        """
+        Parse sort expression and convert to the iterable
+        of order_by items
+
+        :param expr:
+        :return:
+        """
+
+        def format_op(s: str) -> str:
+            s_exp = self.sort_ops.get(s)
+            if s_exp:
+                return s_exp
+            raise HTTPException(
+                status_code=HTTPStatus.BAD_REQUEST, detail=f"Invalid sort field: {s}"
+            )
+
+        if not expr:
+            yield self.default_sort_op
+        else:
+            for item in expr.split(","):
+                item = item.strip()
+                if item.startswith("-"):
+                    yield f"-{format_op(item[1:])}"
+                elif item.startswith("+"):
+                    yield format_op(item[1:])
+                else:
+                    yield format_op(item)

@@ -9,10 +9,6 @@ use serde::Serialize;
 
 #[derive(Serialize)]
 pub struct TwampSenderOut {
-    pub ts: String,
-    pub collector: &'static str,
-    pub labels: Vec<String>,
-    //
     pub tx_packets: usize,
     pub rx_packets: usize,
     pub tx_bytes: usize,

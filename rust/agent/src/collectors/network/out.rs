@@ -9,10 +9,6 @@ use serde::Serialize;
 
 #[derive(Serialize)]
 pub struct NetworkOut {
-    pub ts: String,
-    pub collector: &'static str,
-    pub labels: Vec<String>,
-    //
     pub rx_bytes: u64,
     pub tx_bytes: u64,
     pub rx_packets: u64,
