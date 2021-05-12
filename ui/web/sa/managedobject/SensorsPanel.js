@@ -55,39 +55,13 @@ Ext.define("NOC.sa.managedobject.SensorsPanel", {
                     store: me.sensorsStore,
                     columns: [
                         {
-                            text: __("ID"),
-                            dataIndex: "id"
-                        },
-                        {
-                            text: __("Labels"),
-                            dataIndex: "labels",
-                            renderer: NOC.render.LabelField,
-                            editor: "labelfield"
-                        },
-                        {
-                            text: __("IPMI ID"),
-                            dataIndex: "ipmi_id"
-                        },
-                        {
-                            text: __("Label"),
-                            dataIndex: "label"
-                        },
-                        {
-                            text: __("Last Seen"),
-                            dataIndex: "last_seen",
-                            renderer: NOC.render.DateTime,
-                        },
-                        {
                             text: __("Local ID"),
                             dataIndex: "local_id"
                         },
                         {
-                            text: __("Managed Object"),
-                            dataIndex: "managed_object"
-                        },
-                        {
-                            text: __("Modbus Register"),
-                            dataIndex: "modbus_register"
+                            text: __("Description"),
+                            dataIndex: "label",
+                            width: 250
                         },
                         {
                             text: __("Profile"),
@@ -96,28 +70,42 @@ Ext.define("NOC.sa.managedobject.SensorsPanel", {
                             editor: "inv.sensorprofile.LookupField"
                         },
                         {
-                            text: __("Object"),
-                            dataIndex: "object",
-                            renderer: NOC.render.Lookup("object"),
-                        },
-                        {
-                            text: __("Protocol"),
-                            dataIndex: "protocol"
-                        },
-                        {
-                            text: __("SNMP OID"),
-                            dataIndex: "snmp_oid"
-                        },
-                        {
-                            text: __("State"),
-                            dataIndex: "state",
-                            renderer: NOC.render.Lookup("state"),
+                            text: __("Labels"),
+                            dataIndex: "labels",
+                            renderer: NOC.render.LabelField,
+                            editor: "labelfield",
+                            width: 200
                         },
                         {
                             text: __("Units"),
                             dataIndex: "units",
                             renderer: NOC.render.Lookup("units"),
                         },
+                        {
+                            text: __("State"),
+                            dataIndex: "state",
+                            renderer: NOC.render.Lookup("state"),
+                            width: 200
+                        },
+                        {
+                            text: __("Last Seen"),
+                            dataIndex: "last_seen",
+                            renderer: NOC.render.DateTime,
+                            width: 200
+                        },
+                        {
+                            text: __("SNMP OID"),
+                            dataIndex: "snmp_oid",
+                            width: 200
+                        },
+                        {
+                            text: __("IPMI ID"),
+                            dataIndex: "ipmi_id"
+                        },
+                        {
+                            text: __("Modbus Register"),
+                            dataIndex: "modbus_register"
+                        }
                     ],
                     viewConfig: {
                         getRowClass: Ext.bind(me.getRowClass, me),
