@@ -11,7 +11,7 @@ from noc.sa.interfaces.igetinventory import IGetInventory
 
 
 class Script(BaseScript):
-    name = "Ttronics.KUB.get_inventory"
+    name = "Rotek.BT.get_inventory"
     interface = IGetInventory
 
     def get_chassis_sensors(self):
