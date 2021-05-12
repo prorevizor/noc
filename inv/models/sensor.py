@@ -20,6 +20,7 @@ import cachetools
 # NOC modules
 from noc.wf.models.state import State
 from noc.main.models.label import Label
+from noc.main.models.regexplabel import RegexpLabel
 from noc.core.wf.decorator import workflow
 from noc.core.bi.decorator import bi_sync
 from noc.core.mongo.fields import PlainReferenceField, ForeignKeyField
@@ -180,4 +181,6 @@ class Sensor(Document):
 
     @classmethod
     def iter_effective_labels(cls, intance: "Sensor") -> Iterable[List[str]]:
-        yield intance.labels or [] + intance.profile.labels or []
+        yield intance.labels or [] + intance.profile.labels or [] + RegexpLabel.get_effective_labels(
+            "sensor_local_id", intance.local_id
+        )

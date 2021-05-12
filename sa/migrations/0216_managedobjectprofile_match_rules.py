@@ -13,13 +13,14 @@ from noc.core.migration.base import BaseMigration
 
 
 class Migration(BaseMigration):
-
     def migrate(self):
         self.db.add_column(
-            "sa_managedobjectprofile", "dynamic_order", models.IntegerField("Dynamic Order", default=0)
+            "sa_managedobjectprofile",
+            "dynamic_order",
+            models.IntegerField("Dynamic Order", default=0),
         )
         self.db.add_column(
             "sa_managedobjectprofile",
             "match_rules",
-            models.JSONField("Match Dynamic Rules", null=True, blank=True, default=lambda: '[]'),
+            models.JSONField("Match Dynamic Rules", null=True, blank=True, default=lambda: "[]"),
         )

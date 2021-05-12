@@ -400,7 +400,10 @@ class Label(Document):
             # Check Match labels
             match_labels = set()
             for ml in getattr(instance, "match_rules", []):
-                match_labels |= set(ml.get("labels", []))
+                if is_document(instance):
+                    match_labels |= set(ml.labels or [])
+                else:
+                    match_labels |= set(ml.get("labels", []))
             # Validate instance labels
             can_set_label = getattr(sender, "can_set_label", lambda x: False)
             for label in set(instance.labels):
