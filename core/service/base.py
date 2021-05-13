@@ -20,7 +20,6 @@ from typing import (
     Dict,
     List,
     Tuple,
-    Set,
     Callable,
     Any,
     TypeVar,
@@ -686,7 +685,9 @@ class BaseService(object):
                 from noc.main.models.metricstream import MetricStream
 
                 for mss in MetricStream.objects.filter():
-                    if mss.is_active and mss.scope.table_name in set(config.message.enable_metric_scopes):
+                    if mss.is_active and mss.scope.table_name in set(
+                        config.message.enable_metric_scopes
+                    ):
                         self.mx_metrics_scopes[mss.scope.table_name] = mss.to_mx
                 self.mx_metrics_queue = QBuffer(max_size=config.liftbridge.max_message_size)
                 self.loop.create_task(self.publish_metrics(self.mx_metrics_queue))
