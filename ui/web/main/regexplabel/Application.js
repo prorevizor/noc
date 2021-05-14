@@ -62,7 +62,9 @@ Ext.define("NOC.main.regexplabel.Application", {
             xtype: "labelfield",
             fieldLabel: __("Labels"),
             allowBlank: true,
-            query: {},
+            query: {
+                "enable_managedobject": true
+            },
         },
         {
           xtype: "fieldset",
