@@ -18,7 +18,7 @@ from mongoengine.fields import StringField, IntField, BooleanField, ReferenceFie
 import cachetools
 
 # NOC modules
-from noc.core.model.decorator import on_save, on_delete
+from noc.core.model.decorator import on_save, on_delete, delete_label
 from noc.main.models.remotesystem import RemoteSystem
 from noc.models import get_model, is_document
 
@@ -28,6 +28,7 @@ MATCH_OPS = {"=", "<", ">", "&"}
 id_lock = Lock()
 
 
+@delete_label
 @on_save
 @on_delete
 class Label(Document):

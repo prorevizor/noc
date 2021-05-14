@@ -239,3 +239,29 @@ def on_delete_check(check=None, clean=None, delete=None, ignore=None, clean_lazy
     }
     setup = {"is_document": False}
     return decorator
+
+
+def delete_label(models=None):
+    """
+    Class decorator of deleting labels from fields.
+
+    """
+
+    def decorator(cls):
+        def on_delete_label(*args, **kwargs):
+            raise Exception("xxxxxxxxxxxxxxxxxxxx")
+
+        cls.on_delete_label = on_delete_label
+
+        if hasattr(cls, "on_delete_label"):
+            if is_document(cls):
+                from mongoengine import signals as mongo_signals
+
+                mongo_signals.pre_delete.connect(on_delete_label, sender=cls)
+            else:
+                from django.db.models import signals as django_signals
+
+                django_signals.pre_delete.connect(on_delete_label, sender=cls)
+        return cls
+
+    return decorator
