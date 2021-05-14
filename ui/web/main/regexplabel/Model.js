@@ -63,10 +63,6 @@ Ext.define("NOC.main.regexplabel.Model", {
         {
             name: "enable_interface_description",
             type: "boolean"
-        },
-        {
-            name: "enable_sensor_local_id",
-            type: "boolean"
         }
     ]
 });

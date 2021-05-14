@@ -58,8 +58,6 @@ class RegexpLabel(Document):
     # Allow apply for Interface
     enable_interface_name = BooleanField(default=False)
     enable_interface_description = BooleanField(default=False)
-    # Allow apply for Interface
-    enable_sensor_local_id = BooleanField(default=False)
 
     # Caches
     _name_cache = cachetools.TTLCache(maxsize=1000, ttl=60)
@@ -104,8 +102,6 @@ class RegexpLabel(Document):
             yield "interface_name"
         if self.enable_interface_description:
             yield "interface_description"
-        if self.enable_sensor_local_id:
-            yield "sensor_local_id"
 
     # def get_labels(self, scope: str = None) -> List[str]:
     #     r = self.labels or []
@@ -124,7 +120,7 @@ class RegexpLabel(Document):
         labels = []
         for rx in RegexpLabel.objects.filter(**{f"enable_{scope}": True}):
             if rx.get_compiled(rx.name).match(value):
-                labels += [f"noc::rxfilter::{rx.name}::="] + (rx.labels or [])
+                labels += [f"noc::rxfilter::{rx.name}::{scope}::="] + (rx.labels or [])
         return labels
 
     def on_save(self):
@@ -140,7 +136,7 @@ class RegexpLabel(Document):
         """
         if not hasattr(self, "_changed_fields"):
             return
-        interface_labels, managed_object_labels, sensor_labels = [], [], []
+        interface_labels, managed_object_labels = [], []
         # Sync scope
         for f in self._changed_fields:
             if not f.startswith("enable"):
@@ -148,17 +144,13 @@ class RegexpLabel(Document):
             logger.info("[%s] Field scope %s changed. Reset effective labels", self.name, f)
             _, scope = f.split("_", 1)
             if scope.startswith("managedobject"):
-                managed_object_labels += [f"noc::rxfilter::{self.name}::="] + self.labels
+                managed_object_labels += [f"noc::rxfilter::{self.name}::{scope}::="]
             elif scope.startswith("interface"):
-                interface_labels += [f"noc::rxfilter::{self.name}::="] + self.labels
-            elif scope.startswith("sensor"):
-                sensor_labels += [f"noc::rxfilter::{self.name}::="] + self.labels
+                interface_labels += [f"noc::rxfilter::{self.name}::{scope}::="]
         if interface_labels:
             Label.reset_model_labels("inv.Interface", interface_labels)
         if managed_object_labels:
             Label.reset_model_labels("sa.ManagedObject", managed_object_labels)
-        if sensor_labels:
-            Label.reset_model_labels("inv.Sensor", sensor_labels)
         # Refresh regex
         if "regexp" in self._changed_fields:
             logger.info("[%s] Regex field change. Refresh labels", self.name)
@@ -175,8 +167,8 @@ class RegexpLabel(Document):
         from django.db import connection
 
         for scope in self.iter_scopes():
-            labels = [f"noc::rxfilter::{self.name}::="] + (self.labels or [])
-            model, field = scope.split("_", 1)
+            labels = [f"noc::rxfilter::{self.name}::{scope}::="] + (self.labels or [])
+            model, field = scope.split("_")
             if model == "managedobject":
                 # Cleanup current labels
                 logger.info("[%s] Cleanup ManagedObject effective labels: %s", self.name, labels)
@@ -200,24 +192,10 @@ class RegexpLabel(Document):
                 coll = get_db()["noc.interfaces"]
                 coll.bulk_write(
                     [
-                        UpdateMany(
-                            {field: {"$regex": self.regexp}},
+                        UpdateMany[
+                            {field: {"$re": self.regexp}},
                             {"$addToSet": {"effective_labels": {"$each": labels}}},
-                        )
-                    ]
-                )
-            elif model == "sensor":
-                # Cleanup current labels
-                logger.info("[%s] Cleanup sensors effective labels: %s", self.name, labels)
-                Label.reset_model_labels("inv.Sensor", labels)
-                # Apply new rule
-                coll = get_db()["sensors"]
-                coll.bulk_write(
-                    [
-                        UpdateMany(
-                            {field: {"$regex": self.regexp}},
-                            {"$addToSet": {"effective_labels": {"$each": labels}}},
-                        )
+                        ]
                     ]
                 )
 
