@@ -917,15 +917,6 @@ class BaseService(object):
         :param key: Sharding key, None for round-robin distribution
         :return:
         """
-
-        def q_mx(v: Dict[str, Any]) -> Dict[str, Any]:
-            if "date" in v:
-                del v["date"]
-            if "ts" in v:
-                v["ts"] = v["ts"].replace(" ", "T")
-            v["scope"] = table
-            return v
-
         if key is None:
             with self.metrics_key_lock:
                 key = self.metrics_key_seq
