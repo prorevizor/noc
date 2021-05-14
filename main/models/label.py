@@ -28,7 +28,11 @@ MATCH_OPS = {"=", "<", ">", "&"}
 id_lock = Lock()
 
 
-@delete_label
+@delete_label(
+    models=[
+        ("sa.ManagedObject", "labels"),
+    ]
+)
 @on_save
 @on_delete
 class Label(Document):
