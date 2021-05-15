@@ -1791,7 +1791,9 @@ class ManagedObject(NOCModel):
             yield list(PrefixTable.iter_lazy_labels(instance.address))
             yield RegexpLabel.get_effective_labels("managedobject_address", instance.address)
         if instance.description:
-            yield RegexpLabel.get_effective_labels("managedobject_description", instance.description)
+            yield RegexpLabel.get_effective_labels(
+                "managedobject_description", instance.description
+            )
         if instance.vrf:
             yield list(VRF.iter_lazy_labels(instance.vrf))
         if instance.vc_domain:
