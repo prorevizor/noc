@@ -252,11 +252,11 @@ def delete_label(models=None):
             ins_label = kwargs.get("document")
             for model, field in models:
                 for ins in get_model(model).objects.all():
-                    # print(getattr(ins, field), ins_label.name)
                     if hasattr(ins, field) and ins_label.name in getattr(ins, field):
-                        setattr(ins, field, getattr(ins, field).remove(ins_label.name))
+                        labels = getattr(ins, field)
+                        labels.remove(ins_label.name)
+                        setattr(ins, field, labels)
                         ins.save()
-            raise Exception(ins_label.name)
 
         cls.on_delete_label = on_delete_label
 

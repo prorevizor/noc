@@ -30,7 +30,18 @@ id_lock = Lock()
 
 @delete_label(
     models=[
+        ("fm.ActiveAlarm", "labels"),
+        ("fm.ActiveEvent", "labels"),
+        ("fm.ArchivedAlarm", "labels"),
+        ("fm.ArchivedEvent", "labels"),
+        ("fm.FailedEvent", "labels"),
+        ("inv.ForwardingInstance", "labels"),
+        ("inv.Interface", "labels"),
+        ("inv.SubInterface", "labels"),
+        ("maintenance.Maintenance", "labels"),
+        ("maintenance.Maintenance", "labels"),
         ("sa.ManagedObject", "labels"),
+        ("sla.SLAProbe", "labels"),
     ]
 )
 @on_save
