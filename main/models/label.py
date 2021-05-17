@@ -108,6 +108,8 @@ class Label(Document):
     remote_system = ReferenceField(RemoteSystem)
     # Object id in remote system
     remote_id = StringField()
+    # Order
+    display_order = IntField(default=1)
     # Caches
     _name_cache = cachetools.TTLCache(maxsize=1000, ttl=60)
     _setting_cache = cachetools.TTLCache(maxsize=1000, ttl=60)
