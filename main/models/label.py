@@ -560,7 +560,7 @@ class Label(Document):
                         m_Q(match_rules__labels__in=effective_labels)
                         | m_Q(match_rules__handler__exists=True)
                     )
-                )
+                ).order_by("match_rules__dynamic_order")
             else:
                 match_profiles = (
                     profile_model.objects.filter()
