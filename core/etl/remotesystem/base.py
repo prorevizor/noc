@@ -32,6 +32,7 @@ class BaseRemoteSystem(object):
         "project",
         "managedobject",
         "link",
+        "sensor",
         "subscriberprofile",
         "subscriber",
         "serviceprofile",

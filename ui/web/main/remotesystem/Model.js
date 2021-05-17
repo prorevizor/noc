@@ -73,6 +73,10 @@ Ext.define("NOC.main.remotesystem.Model", {
             type: "boolean"
         },
         {
+            name: "enable_sensor",
+            type: "boolean"
+        },
+        {
             name: "enable_service",
             type: "boolean"
         },
