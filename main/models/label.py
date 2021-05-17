@@ -562,13 +562,20 @@ class Label(Document):
                     )
                 )
             else:
-                match_profiles = profile_model.objects.filter(dynamic_order__gt=0).extra(
-                    where=[
-                        "exists (select 1 from jsonb_array_elements(match_rules) as r where r -> 'labels' ?| %s::varchar[])"
-                    ],
-                    params=[effective_labels],
+                match_profiles = (
+                    profile_model.objects.filter()
+                    .extra(
+                        select={
+                            "dynamic_order": "jsonb_array_elements(match_rules) -> 'dynamic_order'"
+                        },
+                        where=[
+                            "exists (select 1 from jsonb_array_elements(match_rules) as r where r -> 'labels' ?| %s::varchar[])"
+                        ],
+                        params=[effective_labels],
+                    )
+                    .order_by(*["dynamic_order"])
                 )
-            for profile in sorted(match_profiles, key=operator.itemgetter("dynamic_order")):
+            for profile in match_profiles:
                 for rule in profile.match_rules:
                     # rule["labels"] worked with documents too
                     if (
