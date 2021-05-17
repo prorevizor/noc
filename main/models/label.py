@@ -555,7 +555,7 @@ class Label(Document):
             effective_labels = instance.effective_labels or []
             if is_document(instance):
                 match_profiles = profile_model.objects(
-                    m_Q(dynamic_order__ne=0)
+                    m_Q(match_rules__dynamic_order__ne=0)
                     & (
                         m_Q(match_rules__labels__in=effective_labels)
                         | m_Q(match_rules__handler__exists=True)
@@ -568,7 +568,7 @@ class Label(Document):
                     ],
                     params=[effective_labels],
                 )
-            for profile in match_profiles.order_by("dynamic_order"):
+            for profile in sorted(match_profiles, key=operator.itemgetter("dynamic_order")):
                 for rule in profile.match_rules:
                     # rule["labels"] worked with documents too
                     if (
