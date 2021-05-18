@@ -342,8 +342,9 @@ class ExtDocApplication(ExtApplication):
                             "fg_color1": f"#{ll.fg_color1:06x}",
                             "bg_color2": f"#{ll.bg_color2:06x}",
                             "fg_color2": f"#{ll.fg_color2:06x}",
+                            "display_order": ll.display_order,
                         }
-                        for ll in Label.objects.filter(name__in=v)
+                        for ll in Label.objects.filter(name__in=v).order_by("display_order")
                     ]
                 elif isinstance(f, ListField):
                     if hasattr(f, "field") and isinstance(f.field, EmbeddedDocumentField):
