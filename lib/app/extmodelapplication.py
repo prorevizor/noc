@@ -388,7 +388,9 @@ class ExtModelApplication(ExtApplication):
                         "fg_color2": f"#{ll.fg_color2:06x}",
                         "display_order": ll.display_order,
                     }
-                    for ll in Label.objects.filter(name__in=getattr(o, f.name, [])).order_by("display_order")
+                    for ll in Label.objects.filter(name__in=getattr(o, f.name, [])).order_by(
+                        "display_order"
+                    )
                 ]
             elif hasattr(f, "document"):
                 # DocumentReferenceField
