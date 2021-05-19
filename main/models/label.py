@@ -33,8 +33,6 @@ id_lock = Lock()
     models=[
         ("fm.ActiveAlarm", "labels"),
         ("fm.ArchivedAlarm", "labels"),
-        ("maintenance.Maintenance", "labels"),
-        ("maintenance.Maintenance", "labels"),
         ("sa.ManagedObject", "labels"),
         ("sla.SLAProbe", "labels"),
     ]
