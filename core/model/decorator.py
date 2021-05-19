@@ -247,16 +247,23 @@ def delete_label(models=None):
 
     """
 
+    def delete_label(model, field, label_name):
+        field__contains = field + "__contains"
+        label = [label_name]
+        for ins in get_model(model).objects.filter(**{field__contains: label}):
+            labels = getattr(ins, field)
+            labels.remove(label_name)
+            setattr(ins, field, labels)
+            ins.save()
+
     def decorator(cls):
         def on_delete_label(*args, **kwargs):
+            from concurrent.futures import ThreadPoolExecutor
+
             ins_label = kwargs.get("document")
-            for model, field in models:
-                for ins in get_model(model).objects.all():
-                    if hasattr(ins, field) and ins_label.name in getattr(ins, field):
-                        labels = getattr(ins, field)
-                        labels.remove(ins_label.name)
-                        setattr(ins, field, labels)
-                        ins.save()
+            args = [(model, field, ins_label.name) for model, field in models]
+            with ThreadPoolExecutor(8) as executor:
+                executor.map(delete_label, args)
 
         cls.on_delete_label = on_delete_label
 
