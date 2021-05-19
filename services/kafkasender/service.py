@@ -69,6 +69,7 @@ class KafkaSenderService(FastAPIService):
             metrics["messages_sent", topic] += 1
             metrics["bytes_sent", topic] += len(data)
         except KafkaError as e:
+            metrics["messages_sent_error", topic] += 1
             self.logger.error("Failed to send to topic %s: %s", topic, e)
 
     async def get_producer(self) -> AIOKafkaProducer:
