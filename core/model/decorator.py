@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
 # Various model decorators
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -243,7 +243,7 @@ def on_delete_check(check=None, clean=None, delete=None, ignore=None, clean_lazy
 
 def delete_label_check(models=None):
     """
-    Class decorator of deleting labels from fields.
+    Class decorator of checking labels from fields.
 
     """
 
