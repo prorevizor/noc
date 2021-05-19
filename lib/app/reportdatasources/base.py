@@ -285,11 +285,11 @@ class ReportModelFilter(object):
 class ReportField:
     name: str
     label: str
-    description: Optional[str]
-    unit: Optional[str]
-    default: Optional[str]
-    metric_name: Optional[str]  # Field name on clickhouse
-    group: bool = field(default=False)
+    description: Optional[str] = ""
+    unit: Optional[str] = None
+    default: Optional[str] = None
+    metric_name: Optional[str] = None  # Field name on clickhouse
+    group: bool = False
 
 
 @dataclass
@@ -402,6 +402,16 @@ class CHTableReportDataSource(ReportDataSource):
     def get_object_filter(self, ids) -> str:
         return f'{self.object_field} IN ({", ".join([str(c) for c in ids])})'
 
+    group_intervals = {
+        "HOUR": "toStartOfHour(toDateTime(any(ts))))",
+        "DAY": "toStartOfDay(toDateTime(any(ts)))",
+        "WEEK": "toStartOfWeek(toDateTime(any(ts)))",
+        "MONTH": "toMonth(toDateTime(any(ts)))",
+    }
+
+    def get_group_interval(self) -> str:
+        return self.group_intervals[self.interval]
+
     def get_custom_conditions(self) -> Dict[str, List[str]]:
         return {
             "q_where": [
@@ -466,6 +476,6 @@ class CHTableReportDataSource(ReportDataSource):
         fields = []
         if self.interval:
             fields += ["ts"]
-        fields += [f.name for f in self.FIELDS]
+        fields += [f.name for f in self.FIELDS if f.name in self.fields]
         for row in self.do_query():
             yield dict(zip(fields, row))
