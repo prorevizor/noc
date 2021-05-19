@@ -241,30 +241,27 @@ def on_delete_check(check=None, clean=None, delete=None, ignore=None, clean_lazy
     return decorator
 
 
-def delete_label(models=None):
+def delete_label_check(models=None):
     """
     Class decorator of deleting labels from fields.
 
     """
 
-    def delete_label(model, field, label_name):
+    def check_label(model, field, label_name):
         field__contains = f"{field}__contains"
         model_ins = get_model(model)
         if is_document(model_ins):
             label = label_name
         else:
             label = [label_name]
-        for ins in model_ins.objects.filter(**{field__contains: label}):
-            labels = getattr(ins, field)
-            labels.remove(label_name)
-            setattr(ins, field, labels)
-            ins.save()
+        return model_ins.objects.filter(**{field__contains: label}).first()
 
     def decorator(cls):
         def on_delete_label(*args, **kwargs):
             ins_label = kwargs.get("document")
             for model, field in models:
-                delete_label(model, field, ins_label.name)
+                if not check_label(model, field, ins_label.name) is None:
+                    raise Exception("This label exists in fields of documents.")
 
         cls.on_delete_label = on_delete_label
 

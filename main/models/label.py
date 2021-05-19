@@ -19,7 +19,7 @@ from mongoengine.fields import StringField, IntField, BooleanField, ReferenceFie
 import cachetools
 
 # NOC modules
-from noc.core.model.decorator import on_save, on_delete, delete_label
+from noc.core.model.decorator import on_save, on_delete, delete_label_check
 from noc.main.models.remotesystem import RemoteSystem
 from noc.models import get_model, is_document
 
@@ -29,7 +29,7 @@ MATCH_OPS = {"=", "<", ">", "&"}
 id_lock = Lock()
 
 
-@delete_label(
+@delete_label_check(
     models=[
         ("fm.ActiveAlarm", "labels"),
         ("fm.ArchivedAlarm", "labels"),
