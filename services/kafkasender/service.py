@@ -66,7 +66,7 @@ class KafkaSenderService(FastAPIService):
         producer = await self.get_producer()
         try:
             await producer.send_and_wait(topic, data, key=key)
-            metrics["messages_sent", topic] += 1
+            metrics["messages_sent_ok", topic] += 1
             metrics["bytes_sent", topic] += len(data)
         except KafkaError as e:
             metrics["messages_sent_error", topic] += 1
