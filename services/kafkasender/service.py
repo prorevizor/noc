@@ -49,7 +49,7 @@ class KafkaSenderService(FastAPIService):
         dst = msg.headers.get(MX_TO)
         if not dst:
             self.logger.debug("[%d] Missed '%s' header. Dropping", msg.offset, MX_TO)
-            metrics["message_drops"] += 1
+            metrics["messages_drops"] += 1
             return
         await self.send_to_kafka(smart_text(dst), msg.value, msg.headers.get(MX_SHARDING_KEY))
         metrics["messages_processed"] += 1
