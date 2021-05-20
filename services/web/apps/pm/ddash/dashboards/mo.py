@@ -14,6 +14,8 @@ import operator
 from .jinja import JinjaDashboard
 from noc.inv.models.interface import Interface
 from noc.inv.models.subinterface import SubInterface
+from noc.inv.models.object import Object
+from noc.inv.models.sensor import Sensor
 from noc.core.text import alnum_key
 from noc.pm.models.metrictype import MetricType
 from noc.sa.models.managedobject import ManagedObject
@@ -181,6 +183,43 @@ class MODashboard(JinjaDashboard):
         object_metrics.extend(sorted(om))
         object_check_metrics.extend(sorted(ocm, key=operator.itemgetter("name")))
 
+        # Sensors
+        sensor_types = defaultdict(list)
+        sensor_enum, sensor_panel = [], []
+        o = Object.get_managed(self.object.id) or []
+        for s in Sensor.objects.filter(object__in=o):
+            s_type = s.profile.name
+            if not s.state.is_productive:
+                s_type = "missed"
+            elif s.local_id.startswith("elmeter"):
+                s_type = "elmeter"
+            elif s.local_id.startswith("ups"):
+                s_type = "ups"
+            if s.munits.enum and s.state.is_productive:
+                sensor_enum += [{"bi_id": s.bi_id, "local_id": s.local_id, "units": s.munits}]
+            if (
+                s.local_id in {"v220_state", "v230_state", "ups_battery_capasity", "pulse"}
+                and s.state.is_productive
+            ):
+                sensor_panel += [
+                    {
+                        "bi_id": s.bi_id,
+                        "local_id": s.local_id,
+                        "units": s.munits,
+                        "profile": s.profile,
+                    }
+                ]
+            sensor_types[s_type] += [
+                {
+                    "label": s.dashboard_label or s.label,
+                    "units": s.munits,
+                    "bi_id": s.bi_id,
+                    "local_id": s.local_id,
+                    "profile": s.profile,
+                    "id": int(str(s.bi_id)[-10:]),
+                }
+            ]
+
         return {
             "port_types": port_types,
             "selected_types": selected_types,
@@ -188,6 +227,9 @@ class MODashboard(JinjaDashboard):
             "object_check_metrics": object_check_metrics,
             "lags": lags,
             "subifaces": subif,
+            "sensor_enum": sensor_enum,
+            "sensor_types": sensor_types,
+            "sensor_panel": sensor_panel,
             "radio_types": radio_types,
             "dom_types": sorted(dom_types, key=lambda x: alnum_key(x["name"])),
         }
@@ -209,6 +251,9 @@ class MODashboard(JinjaDashboard):
             "subifaces": self.object_data["subifaces"],
             "radio_types": self.object_data["radio_types"],
             "dom_types": self.object_data["dom_types"],
+            "sensor_types": self.object_data["sensor_types"],
+            "sensor_enum": self.object_data["sensor_enum"],
+            "sensor_panel": self.object_data["sensor_panel"],
             "bi_id": self.object.bi_id,
             "pool": self.object.pool.name,
             "extra_template": self.extra_template,
