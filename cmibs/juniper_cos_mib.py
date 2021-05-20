@@ -308,6 +308,4 @@ MIB = {
     "JUNIPER-COS-MIB::jnxCosWanQueueOverflowCleared": "1.3.6.1.4.1.2636.4.17.0.6",
 }
 
-DISPLAY_HINTS = {
-
-}
+DISPLAY_HINTS = {}
