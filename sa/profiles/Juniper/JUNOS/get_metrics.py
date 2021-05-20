@@ -72,11 +72,11 @@ class Script(GetMetricsScript):
                 traffic_class = "".join([chr(int(x)) for x in index.split(".")[1:]])
                 ts = self.get_ts()
                 for metric, value in [
-                    (f"Interface | CBQOS | Drops | Out | Delta", discards),
-                    (f"Interface | CBQOS | Octets | Out | Delta", octets),
-                    (f"Interface | CBQOS | Octets | Out", octets),
-                    (f"Interface | CBQOS | Packets | Out | Delta", packets),
-                    (f"Interface | CBQOS | Packets | Out", packets),
+                    ("Interface | CBQOS | Drops | Out | Delta", discards),
+                    ("Interface | CBQOS | Octets | Out | Delta", octets),
+                    ("Interface | CBQOS | Octets | Out", octets),
+                    ("Interface | CBQOS | Packets | Out | Delta", packets),
+                    ("Interface | CBQOS | Packets | Out", packets),
                 ]:
                     scale = 1
                     self.set_metric(
