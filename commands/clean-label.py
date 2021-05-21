@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------
 
 # Third-party modules
-from django.db.models import Func, F
+from django.db import connection
 
 # NOC modules
 from noc.core.management.base import BaseCommand
@@ -16,16 +16,11 @@ from noc.main.models.label import Label
 
 
 models = [
-    #    ("fm.ActiveAlarm", "labels"),
-    #    ("fm.ArchivedAlarm", "labels"),
+    ("fm.ActiveAlarm", "labels"),
+    ("fm.ArchivedAlarm", "labels"),
     ("sa.ManagedObject", "labels"),
-    #    ("sla.SLAProbe", "labels"),
+    ("sla.SLAProbe", "labels"),
 ]
-
-
-class ArrayRemove(Func):
-    function = "array_remove"
-    template = "%(function)s(%(expressions)s, %(expressions)s)"
 
 
 class Command(BaseCommand):
@@ -53,10 +48,15 @@ class Command(BaseCommand):
             label = label_name
             model_ins.objects.filter(**{field__contains: label})
         else:
-            label = [label_name]
-            model_ins.objects.filter(**{field__contains: label}).update(
-                labels=Func(ArrayRemove(F(field), label_name))
-            )
+            label = '{"%s"}' % label_name
+            sql = f"""
+            UPDATE {model_ins._meta.db_table}
+            SET {field}=array_remove({field}, '{label_name}')
+            WHERE {field} @> '{label}'::varchar(250)[]
+            """
+            cursor = connection.cursor()
+            cursor.execute(sql)
+
         self.print(f"finished {model}\n")
 
     def reading_models(self, label):
