@@ -7,6 +7,7 @@
 
 # Third-party modules
 from django.db import connection
+from pymongo import UpdateMany
 
 # NOC modules
 from noc.core.management.base import BaseCommand
@@ -42,12 +43,17 @@ class Command(BaseCommand):
 
     def delete_label(self, model, field, label_name):
         self.print(f"began cleaning {model}...")
-        field__contains = f"{field}__contains"
-        pull = f"pull__{field}"
         model_ins = get_model(model)
         if self.is_document(model_ins):
-            coll = model_ins.objects.filter(**{field__contains: label_name})
-            coll.update(**{pull: label_name})
+            coll = model_ins._get_collection()
+            coll.bulk_write(
+                [
+                    UpdateMany(
+                        {field: {"$in": [label_name]}},
+                        {"$pull": {field: label_name}},
+                    )
+                ]
+            )
         else:
             label = '{"%s"}' % label_name
             sql = f"""
