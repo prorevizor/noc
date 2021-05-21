@@ -343,6 +343,7 @@ class ReportDataSource(object):
         start: Optional[datetime.datetime] = None,
         end: Optional[datetime.datetime] = None,
         interval: Optional[str] = None,
+        max_intervals: Optional[int] = None,
         filters: Optional[List[str]] = None,
         rows: Optional[int] = None,
     ):
@@ -350,12 +351,12 @@ class ReportDataSource(object):
         self.objectids = objectids
         self.allobjectids = allobjectids
         self.filters = filters or []
-        self.interval = interval or self.INTERVALS[0]
+        self.interval = interval
+        self.max_intervals = max_intervals
         self.rows = rows
         if self.TIMEBASED and not start:
             raise ValueError("Timebased Report required start param")
         self.end = end or datetime.datetime.now()
-        print(self.end)
         self.start = start or self.end - datetime.timedelta(days=1)
 
     @classmethod
@@ -410,6 +411,13 @@ class CHTableReportDataSource(ReportDataSource):
     }
 
     def get_group_interval(self) -> str:
+        """
+        If set max_intervals - use variants interval
+        :return:
+        """
+        if self.max_intervals:
+            minutes = ((self.end - self.start).total_seconds() / 60) / self.max_intervals
+            return f"toStartOfInterval(ts, INTERVAL {minutes} minute)"
         return self.group_intervals[self.interval]
 
     def get_custom_conditions(self) -> Dict[str, List[str]]:
