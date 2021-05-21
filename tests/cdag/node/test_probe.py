@@ -352,7 +352,6 @@ def test_probe(unit, data):
     state = {}
     cdag = NodeCDAG("probe", config={"unit": unit}, state=state)
     for ts, value, m_unit, expected, x_state in data:
-        print("@", ts, value, m_unit, expected, x_state)
         cdag.begin()
         assert cdag.is_activated() is False
         cdag.activate("x", value)
@@ -365,7 +364,6 @@ def test_probe(unit, data):
         assert cdag.is_activated() is x_act
         # Check value
         value = cdag.get_value()
-        print(value)
         if expected is None:
             assert value is None
         else:
