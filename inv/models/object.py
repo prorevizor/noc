@@ -237,7 +237,7 @@ class Object(Document):
         return [self.id]
 
     @property
-    def level(self):
+    def level(self) -> int:
         """
         Return level
         :return:
@@ -245,6 +245,10 @@ class Object(Document):
         if not self.container:
             return 0
         return len(self.get_path()) - 1  # self
+
+    @property
+    def has_children(self) -> bool:
+        return bool(Object.objects.filter(container=self.id))
 
     def get_nested_ids(self):
         """

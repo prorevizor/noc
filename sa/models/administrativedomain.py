@@ -187,7 +187,7 @@ class AdministrativeDomain(NOCModel):
         return None
 
     @property
-    def level(self):
+    def level(self) -> int:
         """
         Return level
         :return:
