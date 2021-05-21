@@ -236,6 +236,16 @@ class Object(Document):
             return self.container.get_path() + [self.id]
         return [self.id]
 
+    @property
+    def level(self):
+        """
+        Return level
+        :return:
+        """
+        if not self.container:
+            return 0
+        return len(self.get_path()) - 1  # self
+
     def get_nested_ids(self):
         """
         Return id of this and all nested object
