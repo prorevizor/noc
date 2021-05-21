@@ -43,10 +43,11 @@ class Command(BaseCommand):
     def delete_label(self, model, field, label_name):
         self.print(f"began cleaning {model}...")
         field__contains = f"{field}__contains"
+        pull = f"pull__{field}"
         model_ins = get_model(model)
         if self.is_document(model_ins):
-            label = label_name
-            model_ins.objects.filter(**{field__contains: label})
+            coll = model_ins.objects.filter(**{field__contains: label_name})
+            coll.update(**{pull: label_name})
         else:
             label = '{"%s"}' % label_name
             sql = f"""
