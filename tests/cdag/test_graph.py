@@ -109,7 +109,7 @@ CONST_CONFIG = """
   description: Measured result
   inputs:
   - name: x
-    node: n05        
+    node: n05
 """
 
 

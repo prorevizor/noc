@@ -1,13 +1,12 @@
 # ----------------------------------------------------------------------
 # ConfigCDAGFactory
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
 # Python modules
 from typing import Optional, List, Dict, Any
-from functools import partial
 
 # Third-party modules
 from pydantic import BaseModel
