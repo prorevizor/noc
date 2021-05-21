@@ -9,8 +9,8 @@
 import pytest
 
 # NOC modules
-from noc.core.cdag.graph import CDAG
 from noc.core.cdag.node.window import WindowNode, NS
+from .util import NodeCDAG
 
 
 @pytest.mark.parametrize(
@@ -44,23 +44,18 @@ from noc.core.cdag.node.window import WindowNode, NS
     ],
 )
 def test_window_node(op, config, measures, expected):
-    def cb(x):
-        nonlocal _value
-        _value = x
-
     state = {}
+    cdag = NodeCDAG(op, config=config, state=state)
     for ms, exp in zip(measures, expected):
-        _value = None
-        with CDAG("test", state) as cdag:
-            node = cdag.add_node("n01", op, config=config)
-            node.subscribe(cb)
-            node.activate_input("x", ms)
-        # Pass the state back
-        state = cdag.get_state()
+        cdag.begin()
+        cdag.activate("x", ms)
+        value = cdag.get_value()
         if exp is None:
-            assert _value is exp
+            assert value is exp
         else:
-            assert _value == exp
+            assert value == exp
+        state = cdag.get_changed_state()
+        assert state and "node" in state
 
 
 def get_steps(start, step, n):

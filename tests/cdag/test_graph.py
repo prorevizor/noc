@@ -52,28 +52,77 @@ DOT = r"""digraph {
 
 
 def test_to_dot():
-    with CDAG("test", {}) as cdag:
-        # Apply config
-        factory = YAMLCDAGFactory(cdag, CONFIG)
-        factory.construct()
+    cdag = CDAG("test", {})
+    # Apply config
+    factory = YAMLCDAGFactory(cdag, CONFIG)
+    factory.construct()
     assert cdag.get_dot() == DOT
 
 
 def test_duplicated_node():
-    with CDAG("test", {}) as cdag:
+    cdag = CDAG("test", {})
+    cdag.add_node("n01", "none")
+    with pytest.raises(ValueError):
         cdag.add_node("n01", "none")
-        with pytest.raises(ValueError):
-            cdag.add_node("n01", "none")
 
 
 def test_invalid_node_class():
-    with CDAG("test", {}) as cdag:
-        with pytest.raises(ValueError):
-            cdag.add_node("n01", "none!!!")
+    cdag = CDAG("test", {})
+    with pytest.raises(ValueError):
+        cdag.add_node("n01", "none!!!")
 
 
-def test_get_empty_state():
-    with CDAG("test", {}) as cdag:
-        cdag.add_node("n01", "none")
-    state = cdag.get_state()
-    assert state == {}
+CONST_CONFIG = """
+- name: n01
+  description: Value of 1
+  type: value
+  config:
+    value: 1.0
+- name: n02
+  type: value
+  description: Value of 2
+  config:
+    value: 2.0
+- name: n03
+  type: add
+  description: Add values
+  inputs:
+  - name: x
+    node: n01
+  - name: y
+    node: n02
+- name: n04
+  type: value
+  description: Value of 3
+  config:
+    value: 3.0
+- name: n05
+  type: mul
+  description: Multiply values
+  inputs:
+  - name: x
+    node: n03
+  - name: y
+    node: n04
+- name: measure
+  type: none
+  description: Measured result
+  inputs:
+  - name: x
+    node: n05        
+"""
+
+
+def test_const():
+    cdag = CDAG("test", {})
+    # Apply config
+    factory = YAMLCDAGFactory(cdag, CONST_CONFIG)
+    factory.construct()
+    node = cdag.get_node("measure")
+    assert node.const_inputs
+    assert "x" in node.const_inputs
+    assert node.const_inputs["x"] == 9.0
+    tx = cdag.begin()
+    inputs = tx.get_inputs(node)
+    assert "x" in inputs
+    assert inputs["x"] == 9.0

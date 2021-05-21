@@ -1,12 +1,12 @@
 # ----------------------------------------------------------------------
 # BaseNode
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
 # Python modules
-from typing import Any, Set, Optional, Type, Dict, List, Iterable, Callable, Tuple
+from typing import Any, Set, Optional, Type, Dict, List, Iterable, Tuple
 from enum import Enum
 import inspect
 
@@ -15,6 +15,7 @@ from pydantic import BaseModel
 
 # NOC modules
 from ..typing import ValueType
+from ..tx import Transaction
 
 
 class Category(str, Enum):
@@ -57,12 +58,12 @@ class BaseCDAGNode(object, metaclass=BaseCDAGNodeMetaclass):
         self.description = description
         self.state = self.clean_state(state)
         self.config = self.clean_config(config)
-        self._activated: bool = False
-        self._inputs: Dict[str, Optional[ValueType]] = {i: None for i in self.iter_inputs()}
+        self._inputs = {i for i in self.iter_inputs()}
         self._bound_inputs: Set[str] = set()
-        self._to_activate = len(self._inputs)
-        self._subscribers: List[Callable[[ValueType], None]] = []
-        self._value: Optional[ValueType] = None
+        self._subscribers: List[Tuple[BaseCDAGNode, str]] = []
+        # Pre-calculated inputs
+        self.const_inputs: Dict[str, ValueType] = {}
+        self._const_value: Optional[ValueType] = None
 
     @classmethod
     def construct(
@@ -100,52 +101,54 @@ class BaseCDAGNode(object, metaclass=BaseCDAGNodeMetaclass):
         """
         yield from self.static_inputs
 
-    def is_activated(self) -> bool:
-        """
-        Check if all inputs is met and outputs can be activated
-        :return:
-        """
-        return self._to_activate == 0
-
-    def activate_input(self, name: str, value: ValueType) -> None:
+    def activate(self, tx: Transaction, name: str, value: ValueType) -> None:
         """
         Activate named input with
+        :param tx: Transaction instance
+        :param name: Input name
+        :param value: Input value
+        :return:
+        """
+        if name not in self._inputs:
+            raise KeyError(f"Invalid input: {name}")
+        inputs = tx.get_inputs(self)
+        is_active = inputs[name] is not None
+        inputs[name] = value
+        if is_active or any(True for v in inputs.values() if v is None):
+            return  # Already activated or non-activated inputs
+        # Activate node, calculate value
+        value = self.get_value(**inputs)
+        if hasattr(self, "state_cls"):
+            tx.update_state(self)
+        # Notify all subscribers
+        for s_node, s_name in self._subscribers:
+            s_node.activate(tx, s_name, value)
+
+    def activate_const(self, name: str, value: ValueType) -> None:
+        """
+        Activate const input. Called during construction time.
+
         :param name:
         :param value:
         :return:
         """
         if name not in self._inputs:
-            raise KeyError("Invalid input: %s" % name)
-        if self._inputs[name] is None:
-            self._to_activate -= 1
-        self._inputs[name] = value
-        if self.is_activated():
-            self.on_activate()
+            raise KeyError(f"Invalid const input: {name}")
+        self.const_inputs[name] = value
+        if self.is_const:
+            for node, name in self._subscribers:
+                node.activate_const(name, self._const_value)
 
-    def on_activate(self):
-        """
-        Perform node activation sequence. Fired when:
-
-        * graph.activate() is called
-        * all inputs are activated
-
-        :return:
-        """
-        if self._activated:
-            return
-        self._value = self.get_value(**self._inputs)
-        # Notify all subscribers
-        for cb in self._subscribers:
-            cb(self._value)
-        self._activated = True
-
-    def subscribe(self, callback: Callable[[ValueType], None]) -> None:
+    def subscribe(self, node: "BaseCDAGNode", name: str) -> None:
         """
         Subscribe to activation function
-        :param callback:
+        :param node: Connected node
+        :param name: Connected input name
         :return:
         """
-        self._subscribers += [callback]
+        self._subscribers += [(node, name)]
+        if self.is_const:
+            node.activate_const(name, self._const_value)
 
     def mark_as_bound(self, name: str) -> None:
         if name in self._inputs:
@@ -158,26 +161,6 @@ class BaseCDAGNode(object, metaclass=BaseCDAGNodeMetaclass):
         """
         raise NotImplementedError
 
-    def get_input(self, name: str) -> Optional[ValueType]:
-        """
-        Get activated input value
-        :param name:
-        :return:
-        """
-        return self._inputs[name]
-
-    def get_inputs(self, names: Iterable[str]) -> Tuple[Optional[ValueType], ...]:
-        """
-        Return tuple of input values only when all of them are activated,
-        Return tuple of None otherwise
-        :param names:
-        :return:
-        """
-        r = tuple(self._inputs[name] for name in names)
-        if any(True for v in r if v is None):
-            return tuple(None for _ in range(len(r)))
-        return r
-
     def get_state(self) -> Optional[BaseModel]:
         """
         Get current node state
@@ -186,14 +169,18 @@ class BaseCDAGNode(object, metaclass=BaseCDAGNodeMetaclass):
         return self.state
 
     def iter_subscribers(self) -> Iterable[Tuple["BaseCDAGNode", str]]:
-        for cb in self._subscribers:
-            if (
-                not hasattr(cb, "func")
-                or cb.func.__name__ != "activate_input"
-                or not hasattr(cb.func, "__self__")
-            ):
-                continue  # pragma: no cover
-            r_node = cb.func.__self__
-            if not isinstance(r_node, BaseCDAGNode):
-                continue  # pragma: no cover
-            yield r_node, cb.args[0]
+        for node, name in self._subscribers:
+            yield node, name
+
+    @property
+    def is_const(self) -> bool:
+        """
+        Check if the node is constant value
+        :return:
+        """
+        if self._const_value is not None:
+            return True
+        if len(self.const_inputs) != len(self._inputs):
+            return False
+        self._const_value = self.get_value(**self.const_inputs)
+        return True

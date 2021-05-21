@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
 # Test OpNode
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -9,7 +9,7 @@
 import pytest
 
 # NOC modules
-from noc.core.cdag.graph import CDAG
+from .util import NodeCDAG
 
 
 @pytest.mark.parametrize(
@@ -39,23 +39,14 @@ from noc.core.cdag.graph import CDAG
     ],
 )
 def test_op_node(op, x, y, expected):
-    def cb(x):
-        nonlocal _value
-        _value = x
-
-    _value = None
-    with CDAG("test", {}) as cdag:
-        node = cdag.add_node("n01", op)
-        node.subscribe(cb)
-        assert node
-        assert node.is_activated() is False
-        assert _value is None
-        node.activate_input("x", x)
-        assert node.is_activated() is False
-        assert _value is None
-        node.activate_input("y", y)
-        assert node.is_activated() is True
+    cdag = NodeCDAG(op)
+    assert cdag.is_activated() is False
+    cdag.activate("x", x)
+    assert cdag.is_activated() is False
+    cdag.activate("y", y)
+    assert cdag.is_activated() is True
+    value = cdag.get_value()
     if expected is None:
-        assert _value is None
+        assert value is None
     else:
-        assert _value == expected
+        assert value == expected

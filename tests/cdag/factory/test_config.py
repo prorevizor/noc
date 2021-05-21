@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
 # ConfigFactory tests
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -28,17 +28,17 @@ CONFIG = [
 @pytest.mark.parametrize("config,out_state", [(CONFIG, {"n04": {"value": 3.0}})])
 def test_config_factory(config, out_state):
     # Empty graph with no state
-    with CDAG("test", {}) as cdag:
-        # Apply config
-        factory = ConfigCDAGFactory(cdag, CONFIG)
-        factory.construct()
-        # Check nodes
-        for item in CONFIG:
-            node = cdag[item.name]
-            assert node
-            assert node.node_id == item.name
-            if item.description:
-                assert node.description == item.description
+    cdag = CDAG("test", {})
+    # Apply config
+    factory = ConfigCDAGFactory(cdag, CONFIG)
+    factory.construct()
+    # Check nodes
+    for item in CONFIG:
+        node = cdag[item.name]
+        assert node
+        assert node.node_id == item.name
+        if item.description:
+            assert node.description == item.description
     # Compare final state with expected
     assert cdag.get_state() == out_state
 
@@ -62,10 +62,10 @@ MISSED_CONFIG = [
 
 
 def test_config_missed_node():
-    with CDAG("test", {}) as cdag:
-        # Apply config
-        factory = ConfigCDAGFactory(cdag, MISSED_CONFIG)
-        factory.construct()
+    cdag = CDAG("test", {})
+    # Apply config
+    factory = ConfigCDAGFactory(cdag, MISSED_CONFIG)
+    factory.construct()
     nodes = set(cdag.nodes)
     assert nodes == {"n01", "n02!"}
 
@@ -100,9 +100,9 @@ MATCHERS_CONFIG = [
     ],
 )
 def test_config_matchers(ctx, expected_nodes):
-    with CDAG("test", {}) as cdag:
-        # Apply config
-        factory = ConfigCDAGFactory(cdag, MATCHERS_CONFIG, ctx=ctx)
-        factory.construct()
+    cdag = CDAG("test", {})
+    # Apply config
+    factory = ConfigCDAGFactory(cdag, MATCHERS_CONFIG, ctx=ctx)
+    factory.construct()
     nodes = set(cdag.nodes)
     assert nodes == expected_nodes

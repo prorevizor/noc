@@ -85,7 +85,7 @@ class ConfigCDAGFactory(BaseCDAGFactory):
             if item.inputs:
                 for input in item.inputs:
                     r_node = self.graph[self.expand_input(input.node)]
-                    r_node.subscribe(partial(node.activate_input, input.name))
+                    r_node.subscribe(node, input.name)
                     node.mark_as_bound(input.name)
 
     def expand_input(self, name: str) -> str:

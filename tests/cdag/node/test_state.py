@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
 # Test StateNode
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -9,13 +9,16 @@
 import pytest
 
 # NOC modules
-from noc.core.cdag.graph import CDAG
+from .util import NodeCDAG
 
 
 @pytest.mark.parametrize("value", [1, 1.0, 5])
 def test_state_node(value):
-    with CDAG("test", {}) as cdag:
-        node = cdag.add_node("n01", "state")
-        node.activate_input("x", value)
-    state = node.get_state()
-    assert state.value == value
+    state = {}
+    cdag = NodeCDAG("state", state=state)
+    cdag.activate("x", value)
+    ns = cdag.get_node().get_state()
+    assert ns.value == value
+    state = cdag.get_changed_state()
+    assert state and "node" in state and "value" in state["node"]
+    assert state["node"]["value"] == value

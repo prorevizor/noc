@@ -11,6 +11,7 @@ from typing import Optional, Any, Dict
 # NOC modules
 from .node.base import BaseCDAGNode
 from .node.loader import loader
+from .tx import Transaction
 
 
 class CDAG(object):
@@ -49,21 +50,15 @@ class CDAG(object):
             ctx=ctx,
         )
 
-    def activate(self):
+    def begin(self) -> Transaction:
         """
-        Activate all graph calculations
+        Start new transaction
         :return:
         """
-        for node in self.nodes.values():
-            if node.is_activated():
-                node.on_activate()
+        return Transaction(self)
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        if exc_type is None:
-            self.activate()
+    def get_node(self, name: str) -> Optional[BaseCDAGNode]:
+        return self.nodes.get(name)
 
     def get_state(self) -> Dict[str, Any]:
         """

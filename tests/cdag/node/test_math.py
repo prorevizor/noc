@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
 # Math functions test
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ from math import pi
 import pytest
 
 # NOC modules
-from noc.core.cdag.graph import CDAG
+from .util import NodeCDAG
 
 
 @pytest.mark.parametrize(
@@ -74,20 +74,12 @@ from noc.core.cdag.graph import CDAG
     ],
 )
 def test_math_node(fn, x, expected):
-    def cb(x):
-        nonlocal _value
-        _value = x
-
-    _value = None
-    with CDAG("test", {}) as cdag:
-        node = cdag.add_node("n01", fn)
-        node.subscribe(cb)
-        assert node
-        assert node.is_activated() is False
-        assert _value is None
-        node.activate_input("x", x)
-        assert node.is_activated() is True
+    cdag = NodeCDAG(fn)
+    assert cdag.is_activated() is False
+    cdag.activate("x", x)
+    assert cdag.is_activated() is True
+    value = cdag.get_value()
     if expected is None:
-        assert _value is None
+        assert value is None
     else:
-        assert _value == pytest.approx(expected, rel=1e-4)
+        assert value == pytest.approx(expected, rel=1e-4)

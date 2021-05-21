@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
 # YAMLFactory tests
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -43,9 +43,9 @@ CONFIG = """
 @pytest.mark.parametrize("config,out_state", [(CONFIG, {"n04": {"value": 3.0}})])
 def test_yaml_factory(config, out_state):
     # Empty graph with no state
-    with CDAG("test", {}) as cdag:
-        # Apply config
-        factory = YAMLCDAGFactory(cdag, CONFIG)
-        factory.construct()
+    cdag = CDAG("test", {})
+    # Apply config
+    factory = YAMLCDAGFactory(cdag, CONFIG)
+    factory.construct()
     # Compare final state with expected
     assert cdag.get_state() == out_state

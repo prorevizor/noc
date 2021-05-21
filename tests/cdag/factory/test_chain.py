@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
 # Test factory chain
 # ----------------------------------------------------------------------
-# Copyright (C) 2007-2020 The NOC Project
+# Copyright (C) 2007-2021 The NOC Project
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
@@ -49,11 +49,11 @@ CONFIG3 = """
 )
 def test_factory_chain(configs, out_state):
     # Empty graph with no state
-    with CDAG("test", {}) as cdag:
-        # Apply config
-        for cfg in configs:
-            factory = YAMLCDAGFactory(cdag, cfg)
-            factory.construct()
+    cdag = CDAG("test", {})
+    # Apply config
+    for cfg in configs:
+        factory = YAMLCDAGFactory(cdag, cfg)
+        factory.construct()
     # Compare final state with expected
     assert cdag.get_state() == out_state
 
@@ -101,10 +101,10 @@ NS_CONFIG3 = """
 )
 def test_factory_ns_chain(ctx, configs, out_state):
     # Empty graph with no state
-    with CDAG("test", {}) as cdag:
-        # Apply config
-        for ns, cfg in configs:
-            factory = YAMLCDAGFactory(cdag, cfg, ctx, ns)
-            factory.construct()
+    cdag = CDAG("test", {})
+    # Apply config
+    for ns, cfg in configs:
+        factory = YAMLCDAGFactory(cdag, cfg, ctx, ns)
+        factory.construct()
     # Compare final state with expected
     assert cdag.get_state() == out_state

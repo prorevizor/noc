@@ -9,7 +9,7 @@
 import pytest
 
 # NOC modules
-from noc.core.cdag.graph import CDAG
+from .util import NodeCDAG
 
 
 @pytest.mark.parametrize(
@@ -21,34 +21,22 @@ from noc.core.cdag.graph import CDAG
     ],
 )
 def test_key_node(op, config, x, key, expected):
-    def cb(x):
-        nonlocal _value
-        _value = x
-
-    _value = None
-    with CDAG("test", {}) as cdag:
-        node = cdag.add_node("n01", op, config=config)
-        node.subscribe(cb)
-        node.activate_input("key", key)
-        node.activate_input("x", x)
+    cdag = NodeCDAG(op, config=config)
+    cdag.activate("key", key)
+    cdag.activate("x", x)
+    value = cdag.get_value()
     if expected is None:
-        assert _value is None
+        assert value is None
     else:
-        assert _value == pytest.approx(expected, rel=1e-4)
+        assert value == pytest.approx(expected, rel=1e-4)
 
 
 @pytest.mark.parametrize("config,expected", [({"value": 1}, 1), ({"value": 1.0}, 1.0)])
 def test_value_node(config, expected):
-    def cb(x):
-        nonlocal _value
-        _value = x
-
-    _value = None
-    with CDAG("test", {}) as cdag:
-        node = cdag.add_node("n01", "value", config=config)
-        node.subscribe(cb)
-    assert node.config.value == config["value"]
-    assert _value == expected
+    cdag = NodeCDAG("value", config=config)
+    assert cdag.get_node().config.value == config["value"]
+    assert cdag.get_node().is_const is True
+    assert cdag.get_value() == expected
 
 
 @pytest.mark.parametrize(
@@ -63,13 +51,6 @@ def test_value_node(config, expected):
     ],
 )
 def test_util_node(op, x, expected):
-    def cb(x):
-        nonlocal _value
-        _value = x
-
-    _value = None
-    with CDAG("test", {}) as cdag:
-        node = cdag.add_node("n01", op)
-        node.subscribe(cb)
-        node.activate_input("x", x)
-    assert _value == expected
+    cdag = NodeCDAG(op)
+    cdag.activate("x", x)
+    assert cdag.get_value() == expected
