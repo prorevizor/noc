@@ -57,27 +57,28 @@ class ProbeNode(BaseCDAGNode):
         kwargs = {}
         if fn.has_x:
             kwargs["x"] = x
-        if fn.has_delta or fn.has_time_delta:
-            if self.state.lt is None:
-                # No previous measurement, store state and exit
-                self.set_state(ts, x)
-                return None
-            if ts <= self.state.lt:
-                # Timer stepback, reset state and exit
+        if not (fn.has_delta or fn.has_time_delta):
+            # No state dependency, just conversion
+            self.set_state(None, None)
+            return fn(**kwargs)
+        if self.state.lt is None:
+            # No previous measurement, store state and exit
+            self.set_state(ts, x)
+            return None
+        if ts <= self.state.lt:
+            # Timer stepback, reset state and exit
+            self.set_state(None, None)
+            return None
+        if fn.has_time_delta:
+            kwargs["time_delta"] = (ts - self.state.lt) // NS  # Always positive
+        if fn.has_delta:
+            delta = self.get_delta(x, ts)
+            if delta is None:
+                # Malformed data, skip
                 self.set_state(None, None)
                 return None
-            if fn.has_time_delta:
-                kwargs["time_delta"] = (ts - self.state.lt) // NS  # Always positive
-            if fn.has_delta:
-                delta = self.get_delta(x, ts)
-                if delta is None:
-                    # Malformed data, skip
-                    self.set_state(None, None)
-                    return None
-                kwargs["delta"] = delta
-            self.set_state(ts, x)
-            return fn(**kwargs)
-        self.set_state(None, None)
+            kwargs["delta"] = delta
+        self.set_state(ts, x)
         return fn(**kwargs)
 
     def set_state(self, lt, lv):
