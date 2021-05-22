@@ -6,12 +6,15 @@
 # ----------------------------------------------------------------------
 
 # Python modules
-from typing import Optional
+from typing import Optional, Dict, Callable
+from threading import Lock
+import inspect
 
 # Third-party modules
 from pydantic import BaseModel
 
 # NOC modules
+from noc.core.expr import get_fn
 from .base import BaseCDAGNode, ValueType, Category
 
 MAX31 = 0x7FFFFFFF
@@ -39,28 +42,47 @@ class ProbeNode(BaseCDAGNode):
     config_cls = ProbeNodeConfig
     state_cls = ProbeNodeState
     categories = [Category.UTIL]
+    _conversions: Dict[str, Dict[str, Callable]] = {}
+    _conv_lock = Lock()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.convert = MS_CONVERT[self.config.unit]
+        self.convert = self.get_convert(self.config.unit)
 
     def get_value(self, x: ValueType, ts: int, unit: str) -> Optional[ValueType]:
         # No translation
         if unit == self.config.unit:
             return x
-        # Plain conversion
-        expr, counter_scale = self.convert[unit.lower()]
-        if counter_scale is not None:
-            # Counter
-            return self.from_counter(x, ts, counter_scale)
-        else:
-            # Plain conversion
-            self.reset_state()
-            return expr(x)
+        fn = self.convert[unit]
+        kwargs = {}
+        if fn.has_x:
+            kwargs["x"] = x
+        if fn.has_delta or fn.has_time_delta:
+            if self.state.lt is None:
+                # No previous measurement, store state and exit
+                self.set_state(ts, x)
+                return None
+            if ts <= self.state.lt:
+                # Timer stepback, reset state and exit
+                self.set_state(None, None)
+                return None
+            if fn.has_time_delta:
+                kwargs["time_delta"] = (ts - self.state.lt) // NS  # Always positive
+            if fn.has_delta:
+                delta = self.get_delta(x, ts)
+                if delta is None:
+                    # Malformed data, skip
+                    self.set_state(None, None)
+                    return None
+                kwargs["delta"] = delta
+            self.set_state(ts, x)
+            return fn(**kwargs)
+        self.set_state(None, None)
+        return fn(**kwargs)
 
-    def reset_state(self):
-        self.state.lt = None
-        self.state.lv = None
+    def set_state(self, lt, lv):
+        self.state.lt = lt
+        self.state.lv = lv
 
     @staticmethod
     def get_bound(v: int) -> int:
@@ -75,55 +97,54 @@ class ProbeNode(BaseCDAGNode):
             return MAX32
         return MAX64
 
-    def from_delta(self, value: ValueType, ts: int, scale: int) -> Optional[ValueType]:
+    def get_delta(self, value: ValueType, ts: int) -> Optional[ValueType]:
         """
         Calculate value from delta, gently handling overflows
         :param value:
         :param ts:
-        :param scale:
         """
-        if self.state.lt is None:
-            # Empty state, update and skip round
-            self.state.lt = ts
-            self.state.lv = value
-            return None
-        if ts <= self.state.lt:
-            self.reset_state()
-            return None  # Time stepback
         dv = value - self.state.lv
         if dv >= 0:
             self.state.lt = ts
             self.state.lv = value
-            return scale * dv
+            return dv
         # Counter wrapped, either due to wrap or due to stepback
         bound = self.get_bound(self.state.lv)
         # Wrap distance
         d_wrap = value + (bound - self.state.lv)
         if -dv < d_wrap:
             # Possible counter stepback, skip value
-            self.reset_state()
             return None
         # Counter wrap
         self.state.lt = ts
         self.state.lv = value
-        return d_wrap * scale
+        return d_wrap
 
-    def from_counter(self, value: ValueType, ts: int, scale: int) -> Optional[ValueType]:
-        if self.state.lt is None:
-            # Empty state, update and skip round
-            self.state.lt = ts
-            self.state.lv = value
-            return None
-        dt = ts - self.state.lt
-        v = self.from_delta(value, ts, scale)
-        if v is None:
-            return v
-        return v * NS / dt
+    @classmethod
+    def get_convert(cls, unit: str) -> Dict[str, Callable]:
+        def q(expr: str) -> Callable:
+            fn = get_fn(expr)
+            params = inspect.signature(fn).parameters
+            fn.has_x = "x" in params
+            fn.has_delta = "delta" in params
+            fn.has_time_delta = "time_delta" in params
+            return fn
+
+        # Lock-free positive case
+        if unit in cls._conversions:
+            return cls._conversions[unit]
+        # Not ready, try with lock
+        with cls._conv_lock:
+            # Already prepared by concurrent thread
+            if unit in cls._conversions:
+                return cls._conversions[unit]
+            # Prepare, while concurrent threads are waiting on lock
+            cls._conversions[unit] = {u: q(x) for u, x in MS_CONVERT[unit].items()}
+            return cls._conversions[unit]
 
 
 MS_CONVERT = {
-    # Name -> alias -> (expr, scale)
-    # expr for plain conversion, scale for counters
-    "bit": {"byte": (lambda x: x * 8, None)},
-    "bit/s": {"byte/s": (lambda x: x * 8, None), "bit": (None, 1), "byte": (None, 8)},
+    # Name -> alias -> expr
+    "bit": {"byte": "x * 8"},
+    "bit/s": {"byte/s": "x * 8", "bit": "delta / time_delta", "byte": "delta * 8 / time_delta"},
 }
