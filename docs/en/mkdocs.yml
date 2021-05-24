@@ -406,6 +406,7 @@ nav:
               - Sumavision:
                   - Overview: user/reference/profiles/Sumavision/index.md
                   - Sumavision.EMR: user/reference/profiles/Sumavision/Sumavision.EMR.md
+                  - Sumavision.IPQAM: user/reference/profiles/Sumavision/Sumavision.IPQAM.md
               - Sun:
                   - Overview: user/reference/profiles/Sun/index.md
                   - Sun.iLOM3: user/reference/profiles/Sun/Sun.iLOM3.md
@@ -1503,6 +1504,21 @@ nav:
               - whois: admin/reference/man/whois.md
               - wipe: admin/reference/man/wipe.md
               - workflow: admin/reference/man/workflow.md
+          - noc-agent:
+              - Overview: admin/reference/agent/index.md
+              - Collectors:
+                  - Overview: admin/reference/agent/collectors/index.md
+                  - block_io: admin/reference/agent/collectors/block_io.md
+                  - cpu: admin/reference/agent/collectors/cpu.md
+                  - dns: admin/reference/agent/collectors/dns.md
+                  - fs: admin/reference/agent/collectors/fs.md
+                  - memory: admin/reference/agent/collectors/memory.md
+                  - network: admin/reference/agent/collectors/network.md
+                  - test: admin/reference/agent/collectors/test.md
+                  - twamp_reflector: admin/reference/agent/collectors/twamp_reflector.md
+                  - twamp_sender: admin/reference/agent/collectors/twamp_sender.md
+                  - uptime: admin/reference/agent/collectors/uptime.md
+              - Compilation Features: admin/reference/agent/compilation-features.md
   - Developer's Guide:
       - Overview: dev/index.md
       - Get Started:
@@ -1647,6 +1663,7 @@ nav:
               - container: dev/reference/model-interface/container.md
               - cpu: dev/reference/model-interface/cpu.md
               - dimensions: dev/reference/model-interface/dimensions.md
+              - hwlimits: dev/reference/model-interface/hwlimits.md
               - geopoint: dev/reference/model-interface/geopoint.md
               - length: dev/reference/model-interface/length.md
               - management: dev/reference/model-interface/management.md
@@ -2334,7 +2351,14 @@ theme:
     - navigation.tabs
     - navigation.instant
   palette:
-    scheme: slate
+    - scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
   logo: _static/logo.svg
 extra_css:
   - _static/extra.css

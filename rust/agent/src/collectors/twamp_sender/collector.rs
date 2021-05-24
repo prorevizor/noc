@@ -5,20 +5,20 @@
 // See LICENSE for details
 // ---------------------------------------------------------------------
 
-use super::super::{Collectable, CollectorConfig, Id, Repeatable, Status};
+use super::super::{Collectable, Collector, CollectorConfig, Schedule, Status};
+use super::TwampSenderOut;
 use crate::config::ZkConfigCollector;
 use crate::error::AgentError;
 use crate::proto::connection::Connection;
 use crate::proto::frame::{FrameReader, FrameWriter};
 use crate::proto::pktmodel::{GetPacket, PacketModels};
-use crate::proto::tos::dscp_to_tos;
+use crate::proto::tos::{dscp_to_tos, tos_to_dscp};
 use crate::proto::twamp::{
     AcceptSession, RequestTwSession, ServerGreeting, ServerStart, SetupResponse, StartAck,
     StartSessions, StopSessions, TestRequest, TestResponse, UtcDateTime, ACCEPT_OK, MODE_REFUSED,
     MODE_UNAUTHENTICATED,
 };
 use crate::timing::Timing;
-use agent_derive::{Id, Repeatable};
 use async_trait::async_trait;
 use bytes::{Bytes, BytesMut};
 use chrono::Utc;
@@ -31,10 +31,7 @@ use tokio::{
     time::timeout,
 };
 
-#[derive(Id, Repeatable)]
-pub struct TwampSenderCollector {
-    pub id: String,
-    pub interval: u64,
+pub struct TwampSenderCollectorConfig {
     pub server: String,
     pub port: u16,
     pub n_packets: usize,
@@ -42,14 +39,14 @@ pub struct TwampSenderCollector {
     pub tos: u8,
 }
 
-impl TryFrom<&ZkConfigCollector> for TwampSenderCollector {
+pub type TwampSenderCollector = Collector<TwampSenderCollectorConfig>;
+
+impl TryFrom<&ZkConfigCollector> for TwampSenderCollectorConfig {
     type Error = AgentError;
 
     fn try_from(value: &ZkConfigCollector) -> Result<Self, Self::Error> {
         match &value.config {
             CollectorConfig::TwampSender(config) => Ok(Self {
-                id: value.id.clone(),
-                interval: value.interval,
                 server: config.server.clone(),
                 port: config.port,
                 n_packets: config.n_packets,
@@ -64,23 +61,35 @@ impl TryFrom<&ZkConfigCollector> for TwampSenderCollector {
 
 #[async_trait]
 impl Collectable for TwampSenderCollector {
+    const NAME: &'static str = "twamp_sender";
+    type Output = TwampSenderOut;
+
     async fn collect(&self) -> Result<Status, AgentError> {
         //
-        log::debug!("[{}] Connecting {}:{}", self.id, self.server, self.port);
-        let stream = TcpStream::connect(format!("{}:{}", self.server, self.port)).await?;
-        TestSession::new(stream, self.model)
+        log::debug!(
+            "[{}] Connecting {}:{}",
+            self.get_id(),
+            self.data.server,
+            self.data.port
+        );
+        let stream = TcpStream::connect(format!("{}:{}", self.data.server, self.data.port)).await?;
+        let ts = Self::get_timestamp();
+        let out = TestSession::new(stream, self.data.model)
             .with_id(self.id.clone())
-            .with_tos(self.tos)
-            .with_reflector_addr(self.server.clone())
-            .with_n_packets(self.n_packets)
+            .with_labels(self.get_labels())
+            .with_tos(self.data.tos)
+            .with_reflector_addr(self.data.server.clone())
+            .with_n_packets(self.data.n_packets)
             .run()
             .await?;
+        self.feed(ts, self.labels.clone(), &out).await?;
         Ok(Status::Ok)
     }
 }
 
 struct TestSession {
     id: String,
+    labels: Option<Vec<String>>,
     connection: Connection,
     tos: u8,
     reflector_addr: String,
@@ -93,6 +102,7 @@ impl TestSession {
     pub fn new(stream: TcpStream, model: PacketModels) -> Self {
         TestSession {
             id: String::new(),
+            labels: None,
             connection: Connection::new(stream),
             tos: 0,
             reflector_addr: String::new(),
@@ -103,6 +113,10 @@ impl TestSession {
     }
     pub fn with_id(&mut self, id: String) -> &mut Self {
         self.id = id;
+        self
+    }
+    pub fn with_labels(&mut self, labels: Vec<String>) -> &mut Self {
+        self.labels = Some(labels);
         self
     }
     pub fn with_tos(&mut self, tos: u8) -> &mut Self {
@@ -121,7 +135,7 @@ impl TestSession {
         log::debug!("[{}] Setting reflector port to {}", self.id, port);
         self.reflector_port = port;
     }
-    pub async fn run(&mut self) -> Result<(), AgentError> {
+    pub async fn run(&mut self) -> Result<TwampSenderOut, AgentError> {
         log::debug!("[{}] Connected", self.id);
         // Control messages timeout, 3 seconds by default
         let ctl_timeout = Duration::from_nanos(3_000_000_000);
@@ -132,9 +146,9 @@ impl TestSession {
         self.recv_accept_session(ctl_timeout).await?;
         self.send_start_sessions().await?;
         self.recv_start_ack(ctl_timeout).await?;
-        self.run_test().await?;
+        let out = self.run_test().await?;
         self.send_stop_sessions().await?;
-        Ok(())
+        Ok(out)
     }
     async fn recv_server_greeting(&mut self, t: Duration) -> Result<(), AgentError> {
         log::debug!("[{}] Waiting for Server-Greeting", self.id);
@@ -227,7 +241,7 @@ impl TestSession {
         self.connection.write_frame(&req).await?;
         Ok(())
     }
-    async fn run_test(&mut self) -> Result<(), AgentError> {
+    async fn run_test(&mut self) -> Result<TwampSenderOut, AgentError> {
         log::debug!("[{}] Running test", self.id);
         let socket = UdpSocket::bind("0.0.0.0:0").await?;
         // Test request TTL must be set to 255
@@ -256,9 +270,10 @@ impl TestSession {
             )
         );
         if let (Ok(r_stats), Ok(s_stats)) = (recv_result, sender_result) {
-            TestSession::process_stats(s_stats, r_stats)
+            Ok(self.process_stats(s_stats, r_stats))
+        } else {
+            Err(AgentError::InternalError("result is not ready".to_string()))
         }
-        Ok(())
     }
     async fn run_test_sender(
         id: String,
@@ -514,7 +529,7 @@ impl TestSession {
         }
         format!("{}ns", v)
     }
-    fn process_stats(s_stats: SenderStats, r_stats: ReceiverStats) {
+    fn process_stats(&self, s_stats: SenderStats, r_stats: ReceiverStats) -> TwampSenderOut {
         let total = s_stats.pkt_sent as f64;
         let in_bitrate =
             (r_stats.in_octets as f64 * 8.0 / (r_stats.time_ns as f64 / 1_000_000_000.0)) as u64;
@@ -567,6 +582,41 @@ impl TestSession {
             jitter = Self::humanize_ns(r_stats.rt_timing.jitter_ns),
             loss = (r_stats.rt_loss as f64) * 100.0 / total,
         );
+        // Prepare result
+        let mut labels = self.labels.as_ref().unwrap().clone();
+        labels.push(format!(
+            "noc::dscp::{}",
+            tos_to_dscp(self.tos).unwrap_or("be").to_string()
+        ));
+        TwampSenderOut {
+            tx_packets: s_stats.pkt_sent,
+            rx_packets: r_stats.pkt_received,
+            tx_bytes: s_stats.out_octets,
+            rx_bytes: r_stats.in_octets,
+            duration_ns: s_stats.time_ns,
+            tx_pps: out_pps,
+            rx_pps: in_pps,
+            tx_bitrate: out_bitrate,
+            rx_bitrate: in_bitrate,
+            // Inbound
+            in_min_delay_ns: r_stats.in_timing.min_ns,
+            in_max_delay_ns: r_stats.in_timing.max_ns,
+            in_avg_delay_ns: r_stats.in_timing.avg_ns,
+            in_jitter_ns: r_stats.in_timing.jitter_ns,
+            in_loss: r_stats.in_loss,
+            // Outbound
+            out_min_delay_ns: r_stats.out_timing.min_ns,
+            out_max_delay_ns: r_stats.out_timing.max_ns,
+            out_avg_delay_ns: r_stats.out_timing.avg_ns,
+            out_jitter_ns: r_stats.out_timing.jitter_ns,
+            out_loss: r_stats.out_loss,
+            // Round-trip
+            rt_min_delay_ns: r_stats.rt_timing.min_ns,
+            rt_max_delay_ns: r_stats.rt_timing.max_ns,
+            rt_avg_delay_ns: r_stats.rt_timing.avg_ns,
+            rt_jitter_ns: r_stats.rt_timing.jitter_ns,
+            rt_loss: r_stats.rt_loss,
+        }
     }
 }
 

@@ -10,13 +10,21 @@ from threading import Lock
 import operator
 
 # Third-party modules
-from mongoengine.document import Document
-from mongoengine.fields import StringField, ListField, LongField, BooleanField
+from mongoengine.document import Document, EmbeddedDocument
+from mongoengine.fields import (
+    StringField,
+    ListField,
+    LongField,
+    BooleanField,
+    EmbeddedDocumentField,
+    IntField,
+)
 import cachetools
 
 # NOC modules
 from noc.main.models.style import Style
 from noc.main.models.label import Label
+from noc.pm.models.measurementunits import MeasurementUnits
 from noc.wf.models.workflow import Workflow
 from noc.core.model.decorator import on_delete_check
 from noc.core.bi.decorator import bi_sync
@@ -26,8 +34,17 @@ from noc.core.mongo.fields import PlainReferenceField, ForeignKeyField
 id_lock = Lock()
 
 
-@Label.model
+class MatchRule(EmbeddedDocument):
+    dynamic_order = IntField(default=0)
+    labels = ListField(StringField())
+    handler = StringField()
+
+    def __str__(self):
+        return ", ".join(self.labels)
+
+
 @bi_sync
+@Label.model
 @on_delete_check(check=[("inv.Sensor", "profile")])
 class SensorProfile(Document):
     meta = {"collection": "sensorprofiles", "strict": False, "auto_create_index": False}
@@ -37,6 +54,10 @@ class SensorProfile(Document):
     workflow = PlainReferenceField(Workflow)
     style = ForeignKeyField(Style)
     enable_collect = BooleanField(default=False)
+    units = PlainReferenceField(MeasurementUnits)
+    # Dynamic Profile Classification
+    dynamic_order = IntField(default=0)
+    match_rules = ListField(EmbeddedDocumentField(MatchRule))
     # Labels
     labels = ListField(StringField())
     effective_labels = ListField(StringField())

@@ -10,6 +10,10 @@ pub use config::MemoryConfig;
 
 cfg_if::cfg_if! {
     if #[cfg(feature = "memory")] {
+        mod out;
+        mod platform;
+        pub use out::MemoryOut;
+        pub use platform::PlatformMemoryOut;
         mod collector;
         pub use collector::MemoryCollector;
     } else {

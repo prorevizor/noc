@@ -4,35 +4,18 @@
 // Copyright (C) 2007-2021 The NOC Project
 // See LICENSE for details
 // ---------------------------------------------------------------------
-use super::super::{Collectable, CollectorConfig, Id, Repeatable, Status};
-use crate::config::ZkConfigCollector;
+use super::super::{Collectable, Collector, NoConfig, Status};
+use super::TestOut;
 use crate::error::AgentError;
-use agent_derive::{Id, Repeatable};
 use async_trait::async_trait;
-use std::convert::TryFrom;
 
-#[derive(Id, Repeatable)]
-pub struct TestCollector {
-    pub id: String,
-    pub interval: u64,
-}
-
-impl TryFrom<&ZkConfigCollector> for TestCollector {
-    type Error = AgentError;
-
-    fn try_from(value: &ZkConfigCollector) -> Result<Self, Self::Error> {
-        match &value.config {
-            CollectorConfig::Test(_) => Ok(Self {
-                id: value.id.clone(),
-                interval: value.interval,
-            }),
-            _ => Err(AgentError::ConfigurationError("invalid config".into())),
-        }
-    }
-}
+pub struct ConfigStub;
+pub type TestCollector = Collector<NoConfig<ConfigStub>>;
 
 #[async_trait]
 impl Collectable for TestCollector {
+    const NAME: &'static str = "test";
+    type Output = TestOut;
     async fn collect(&self) -> Result<Status, AgentError> {
         Ok(Status::Ok)
     }

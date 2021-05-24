@@ -15,3 +15,14 @@ from pydantic import BaseModel
 class Reference(BaseModel):
     id: str
     label: Optional[str]
+
+
+class LabelItem(BaseModel):
+    id: str
+    label: str
+
+
+class SummaryItem(BaseModel):
+    id: str
+    label: str
+    count: int

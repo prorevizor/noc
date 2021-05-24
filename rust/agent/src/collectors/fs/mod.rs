@@ -6,7 +6,9 @@
 // ---------------------------------------------------------------------
 
 mod config;
+mod out;
 pub use config::FsConfig;
+pub use out::FsOut;
 
 cfg_if::cfg_if! {
     if #[cfg(feature = "fs")] {

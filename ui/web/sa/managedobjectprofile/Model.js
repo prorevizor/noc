@@ -900,5 +900,9 @@ Ext.define("NOC.sa.managedobjectprofile.Model", {
             name: "labels",
             type: "auto"
         },
+        {
+            name: "match_rules",
+            type: "auto"
+        }
     ]
 });

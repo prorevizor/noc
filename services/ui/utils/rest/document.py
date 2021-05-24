@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------
 
 # Python modules
-from typing import Union, Any, Optional, TypeVar, List, Dict
+from typing import Union, Any, Optional, TypeVar, List, Dict, Callable
 from http import HTTPStatus
 
 # Third-party modules
@@ -22,6 +22,7 @@ from noc.aaa.models.user import User
 from noc.core.mongo.fields import ForeignKeyField, PlainReferenceField
 from noc.core.typing import SupportsGetById
 from .base import BaseResourceAPI
+from ...models.utils import SummaryItem
 
 
 T = TypeVar("T", bound=Document)
@@ -43,13 +44,55 @@ class DocumentResourceAPI(BaseResourceAPI[T]):
         """
         return cls.model.objects.all()
 
-    def get_total_items(self, user: User) -> int:
-        return self.queryset(user).count()
+    def get_total_items(self, user: User, transforms: Optional[List[Callable]] = None) -> int:
+        qs = self.queryset(user)
+        if transforms:
+            for t in transforms:
+                qs = t(qs)
+        return qs.count()
+
+    def get_summary_items(
+        self, user: User, field: str, transforms: Optional[List[Callable]] = None
+    ) -> List[SummaryItem]:
+        """
+        Calculate total amount of items, satisfying criteria
+        :param user:
+        :param field:
+        :param transforms:
+        :return:
+        """
+        if field not in self.model._fields:
+            raise HTTPException(
+                status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail=f"Unknown model field: {field}"
+            )
+        qs = self.queryset(user)
+        if transforms:
+            for t in transforms:
+                qs = t(qs)
+        return [
+            SummaryItem(id=str(r["_id"]), label=str(r["_id"]), count=int(r["count"]))
+            for r in qs.aggregate([{"$group": {"_id": f"${field}", "count": {"$sum": 1}}}])
+        ]
 
     def get_items(
-        self, user: User, limit: int = config.ui.max_rest_limit, offset: int = 0
+        self,
+        user: User,
+        sort: List[str],
+        limit: int = config.ui.max_rest_limit,
+        offset: int = 0,
+        transforms: Optional[List[Callable]] = None,
     ) -> List[T]:
-        return self.queryset(user)[offset : offset + limit]
+        # Start from initial restrictions
+        qs = self.queryset(user)
+        # Then apply transformations passed by query
+        if transforms:
+            for t in transforms:
+                qs = t(qs)
+        # Then apply sorting order
+        qs = qs.order_by(*tuple(sort))
+        # Finally, limit to selected frame
+        qs = qs[offset : offset + limit]
+        return qs
 
     def get_item(self, id: str, user: User) -> Optional[T]:
         return self.queryset(user).filter(pk=id).first()

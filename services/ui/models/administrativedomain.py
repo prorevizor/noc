@@ -13,6 +13,7 @@ from pydantic import BaseModel
 
 # NOC modules
 from .utils import Reference
+from .label import LabelItem
 
 
 class DefaultAdministrativeDomainItem(BaseModel):
@@ -23,11 +24,11 @@ class DefaultAdministrativeDomainItem(BaseModel):
     default_pool: Optional[Reference]
     bioseg_floating_name_template: Optional[Reference]
     bioseg_floating_parent_segment: Optional[Reference]
-    labels: List[str]
-    effective_labels: List[str]
+    labels: List[LabelItem]
+    effective_labels: List[LabelItem]
     remote_system: Optional[Reference]
     remote_id: Optional[str]
-    bi_id: Optional[int]
+    bi_id: Optional[str]
 
 
 class FormAdministrativeDomainItem(BaseModel):

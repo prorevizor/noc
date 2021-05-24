@@ -374,8 +374,8 @@ class ExtModelApplication(ExtApplication):
                     v = stencil_registry.get(o.shape)
                     r[f.name] = v.id
                     r["%s__label" % f.name] = smart_text(v.title)
-            elif f.name == "labels" and isinstance(f, ArrayField):
-                r["labels"] = [
+            elif f.name in {"labels", "effective_labels"} and isinstance(f, ArrayField):
+                r[f.name] = [
                     {
                         "id": ll.name,
                         "is_protected": ll.is_protected,
@@ -387,7 +387,9 @@ class ExtModelApplication(ExtApplication):
                         "bg_color2": f"#{ll.bg_color2:06x}",
                         "fg_color2": f"#{ll.fg_color2:06x}",
                     }
-                    for ll in Label.objects.filter(name__in=getattr(o, f.name, []))
+                    for ll in Label.objects.filter(name__in=getattr(o, f.name, [])).order_by(
+                        "display_order"
+                    )
                 ]
             elif hasattr(f, "document"):
                 # DocumentReferenceField

@@ -32,6 +32,10 @@ Ext.define("NOC.inv.sensorprofile.Model", {
             type: "int"
         },
         {
+            name: "units",
+            type: "string"
+        },
+        {
             name: "enable_collect",
             type: "boolean"
         },
@@ -43,6 +47,10 @@ Ext.define("NOC.inv.sensorprofile.Model", {
             name: "bi_id",
             type: "int",
             persist: true
-        }
+        },
+        {
+            name: "match_rules",
+            type: "auto"
+        },
     ]
 });

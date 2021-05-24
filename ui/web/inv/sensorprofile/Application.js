@@ -10,9 +10,12 @@ Ext.define("NOC.inv.sensorprofile.Application", {
   extend: "NOC.core.ModelApplication",
   requires: [
     "NOC.core.LabelField",
+    "NOC.core.ListFormField",
+    "NOC.main.handler.LookupField",
     "NOC.inv.sensorprofile.Model",
     "NOC.wf.workflow.LookupField",
-    "NOC.main.style.LookupField"
+    "NOC.main.style.LookupField",
+    "NOC.pm.measurementunits.LookupField"
   ],
   model: "NOC.inv.sensorprofile.Model",
   search: true,
@@ -63,6 +66,12 @@ Ext.define("NOC.inv.sensorprofile.Application", {
           allowBlank: true
         },
         {
+          name: "units",
+          xtype: "pm.measurementunits.LookupField",
+          fieldLabel: __("Sensor Measurement Units"),
+          allowBlank: true
+        },
+        {
           name: "enable_collect",
           xtype: "checkbox",
           boxLabel: __("Enable Collect"),
@@ -82,8 +91,40 @@ Ext.define("NOC.inv.sensorprofile.Application", {
           allowBlank: true,
           query: {
             "enable_sensorprofile": true
+          }
           },
-        }
+          {
+            name: "match_rules",
+            xtype: "listform",
+            fieldLabel: __("Match Rules"),
+            items: [
+                {
+                  name: "dynamic_order",
+                  xtype: "numberfield",
+                  fieldLabel: __("Dynamic Order"),
+                  allowBlank: true,
+                  defaultValue: 0,
+                  uiStyle: "small"
+                },
+                {
+                  name: "labels",
+                  xtype: "labelfield",
+                  fieldLabel: __("Match Labels"),
+                  allowBlank: false,
+                  uiStyle: "extra"
+                },
+                {
+                  name: "handler",
+                  xtype: "main.handler.LookupField",
+                  fieldLabel: __("Match Handler"),
+                  allowBlank: true,
+                  uiStyle: "medium",
+                  query: {
+                    "allow_match_rule": true
+                }
+                }
+              ]
+          }
       ]
     });
     me.callParent();

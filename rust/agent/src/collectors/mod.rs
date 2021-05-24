@@ -6,6 +6,7 @@
 // ---------------------------------------------------------------------
 
 pub mod base;
+pub mod block_io;
 pub mod cpu;
 pub mod dns;
 pub mod fs;
@@ -17,5 +18,5 @@ pub mod twamp_reflector;
 pub mod twamp_sender;
 pub mod uptime;
 
-pub use base::{Collectable, Id, Repeatable, Runnable, Status, StubCollector};
+pub use base::{Collectable, Collector, NoConfig, Runnable, Schedule, Status, StubCollector};
 pub use registry::{CollectorConfig, Collectors};
