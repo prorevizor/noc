@@ -15,6 +15,7 @@ from noc.core.management.base import BaseCommand, CommandError
 from noc.gis.parsers.address.base import AddressParser
 from noc.core.debug import error_report
 from noc.config import config as cf
+from noc.core.mongo.connection import connect
 
 
 class Command(BaseCommand):
@@ -44,12 +45,20 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         #
+        connect()
         parsers = []
         # Read config
         config = SafeConfigParser()
+        sections = {
+            "fias": {
+                "enabled": cf.gis.enable_fias,
+                "download_url": cf.gis.fias_download_url,
+                "cache": cf.gis.fias_cache,
+            },
+            "oktmo": {"download_url": cf.gis.oktmo_download_url},
+        }
+        config._sections = sections
         for p in self.get_parsers():
-            config.read(os.path.join("etc", "address", "%s.defaults" % p))
-            config.read(os.path.join("etc", "address", "%s.conf" % p))
             if cf.gis.enable_fias:
                 m = __import__("noc.gis.parsers.address.%s" % p, {}, {}, "*")
                 for i in dir(m):
@@ -63,6 +72,7 @@ class Command(BaseCommand):
         # Download
         if options["download"]:
             for p in parsers:
+                # breakpoint()
                 print("Downloading", p.name)
                 if not p.download():
                     raise CommandError("Failed to download %s" % p.name)

@@ -271,8 +271,15 @@ class Config(BaseConfig):
         tile_size = IntParameter(default=256, help="Tile size 256x256")
         tilecache_padding = IntParameter(default=0)
 
-        enable_fias = BooleanParameter(default=True)
         root_address = StringParameter(default="gis/parsers/address")
+        enable_fias = BooleanParameter(default=True)
+        fias_download_url = StringParameter(
+            default="https://fias-file.nalog.ru/downloads/2021.04.27/fias_dbf.zip"
+        )
+        fias_cache = StringParameter(default="local/cache/fias")
+        oktmo_download_url = StringParameter(
+            default="https://mydata.biz/storage/download/d9a19986ef6747ae9df0598604bf153b/ОКТМО_csv.zip"
+        )
 
     global_n_instances = IntParameter(default=1)
 
