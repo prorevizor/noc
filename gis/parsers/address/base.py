@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------
 
 # Python modules
-from zipfile import ZipFile
+from zipfile import ZipFile, is_zipfile
 import os
 
 # Third-party modules
@@ -14,6 +14,7 @@ import requests
 
 # NOC modules
 from noc.gis.models.division import Division
+from noc.config import config as cf
 
 
 class AddressParser(object):
@@ -58,12 +59,7 @@ class AddressParser(object):
                     f.write(chunk)
                     f.flush()
         if auto_deflate:
-            o = os.path.splitext(path)[0]
-            with ZipFile.open(path, "rb") as f:
-                with open(o, "w") as ff:
-                    while True:
-                        chunk = f.read(chunk_size)
-                        if not chunk:
-                            break
-                        ff.write(chunk)
+            if is_zipfile(path):
+                with ZipFile(path, "r") as f:
+                    f.extractall(path=cf.gis.fias_cache)
             os.unlink(path)

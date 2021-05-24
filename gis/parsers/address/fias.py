@@ -74,7 +74,7 @@ class FIASParser(AddressParser):
             self.oktmo[oktmo] = o
             self.okato[t["okato"]] = o
         # Load CSV
-        path = os.path.join(self.prefix, "oktmo.csv")
+        path = os.path.join(self.prefix, "Oktmo.csv")
         with open(path) as f:
             reader = csv.reader(f, delimiter=";")
             # Skip header
