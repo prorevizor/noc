@@ -199,6 +199,7 @@ def test_case():
     default_units = {n.node_id: n.config.unit for n in probes.values()}
     skip_fields = {"ts", "labels", "_units"}
     for data, expected in SCENARIO:
+        print(data)
         tx = cdag.begin()
         # Activate metrics
         units = data.get("_units") or {}
@@ -222,3 +223,4 @@ def test_case():
             assert result is None
         else:
             assert result == expected
+    raise KeyError
