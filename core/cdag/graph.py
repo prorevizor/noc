@@ -7,7 +7,7 @@
 
 # Python modules
 import itertools
-from typing import Optional, Any, Dict, Tuple, List
+from typing import Optional, Any, Dict, List
 
 # NOC modules
 from .node.base import BaseCDAGNode
