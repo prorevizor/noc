@@ -223,4 +223,3 @@ def test_case():
             assert result is None
         else:
             assert result == expected
-    raise KeyError
