@@ -138,15 +138,6 @@
           ,
           {% include "panel_errors.j2" with context -%}
       {% endif %}
-      {%if sensor_panel %}
-          ,
-        {% from "panel_sensor_stat.j2" import sensors -%}
-        {% set comma = joiner(",") -%}
-        {% for sensor in sensor_panel -%}
-            {{ comma() }}
-            {{sensors(sensor, loop.index)}}
-        {%- endfor %}
-      {% endif %}
 
       ]
     }

@@ -185,7 +185,7 @@ class MODashboard(JinjaDashboard):
 
         # Sensors
         sensor_types = defaultdict(list)
-        sensor_enum, sensor_panel = [], []
+        sensor_enum = []
         o = Object.get_managed(self.object.id) or []
         for s in Sensor.objects.filter(object__in=o):
             s_type = s.profile.name
@@ -197,18 +197,6 @@ class MODashboard(JinjaDashboard):
                 s_type = "ups"
             if s.munits.enum and s.state.is_productive:
                 sensor_enum += [{"bi_id": s.bi_id, "local_id": s.local_id, "units": s.munits}]
-            if (
-                s.local_id in {"v220_state", "v230_state", "ups_battery_capasity", "pulse"}
-                and s.state.is_productive
-            ):
-                sensor_panel += [
-                    {
-                        "bi_id": s.bi_id,
-                        "local_id": s.local_id,
-                        "units": s.munits,
-                        "profile": s.profile,
-                    }
-                ]
             sensor_types[s_type] += [
                 {
                     "label": s.dashboard_label or s.label,
@@ -229,7 +217,6 @@ class MODashboard(JinjaDashboard):
             "subifaces": subif,
             "sensor_enum": sensor_enum,
             "sensor_types": sensor_types,
-            "sensor_panel": sensor_panel,
             "radio_types": radio_types,
             "dom_types": sorted(dom_types, key=lambda x: alnum_key(x["name"])),
         }
@@ -253,7 +240,6 @@ class MODashboard(JinjaDashboard):
             "dom_types": self.object_data["dom_types"],
             "sensor_types": self.object_data["sensor_types"],
             "sensor_enum": self.object_data["sensor_enum"],
-            "sensor_panel": self.object_data["sensor_panel"],
             "bi_id": self.object.bi_id,
             "pool": self.object.pool.name,
             "extra_template": self.extra_template,
