@@ -112,6 +112,15 @@ class BaseCDAGNode(object, metaclass=BaseCDAGNodeMetaclass):
         yield from self.static_inputs
         yield from self._dynamic_inputs
 
+    def iter_unbound_inputs(self) -> Iterable[str]:
+        """
+        Iterate all unbound inputs
+        :return:
+        """
+        for i in self.iter_inputs():
+            if i not in self._bound_inputs:
+                yield i
+
     def activate(self, tx: Transaction, name: str, value: ValueType) -> None:
         """
         Activate named input with
@@ -165,8 +174,9 @@ class BaseCDAGNode(object, metaclass=BaseCDAGNodeMetaclass):
         :return:
         """
         if dynamic:
-            self.add_input(name)
+            node.add_input(name)
         self._subscribers += [(node, name)]
+        node.mark_as_bound(name)
         if self.is_const:
             node.activate_const(name, self._const_value)
 

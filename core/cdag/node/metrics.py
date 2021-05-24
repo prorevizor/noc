@@ -33,18 +33,17 @@ class MetricsNode(BaseCDAGNode):
     name = "metrics"
     categories = [Category.UTIL]
     config_cls = MetricsNodeConfig
+    dot_shape = "folder"
 
     def get_value(self, ts: int, labels: List[str], **kwargs) -> Optional[ValueType]:
+        r = {k: v for k, v in kwargs.items() if v is not None}
+        if not r:
+            return None
         t = time.gmtime(ts / NS)
-        r = {
-            "date": time.strftime("%Y-%m-%d", t),
-            "ts": time.strftime("%Y-%m-%d %H:%M:%S", t),
-        }
+        r["date"] = time.strftime("%Y-%m-%d", t)
+        r["ts"] = time.strftime("%Y-%m-%d %H:%M:%S", t)
         if labels:
             r["labels"] = labels
-        for n, v in kwargs.items():
-            if v is not None:
-                r[n] = v
         if self.config.spool:
             get_service().register_metrics(self.config.scope, [r])
         return r

@@ -5,9 +5,6 @@
 # See LICENSE for details
 # ----------------------------------------------------------------------
 
-# NOC modules
-import time
-
 # Third-party modules
 import pytest
 
@@ -68,7 +65,7 @@ LABELS = ["test"]
 @pytest.mark.parametrize(
     "values,expected",
     [
-        ({}, {"date": TS_DATE, "ts": TS_STR, "labels": LABELS}),
+        ({}, None),
         ({"m1": 1, "m2": 2}, {"date": TS_DATE, "ts": TS_STR, "labels": LABELS, "m1": 1, "m2": 2}),
         ({"m1": 1, "m2": None}, {"date": TS_DATE, "ts": TS_STR, "labels": LABELS, "m1": 1}),
     ],

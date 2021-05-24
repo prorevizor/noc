@@ -63,7 +63,6 @@ class ConfigCDAGFactory(BaseCDAGFactory):
 
     def construct(self) -> None:
         for item in self.config:
-            print(item)
             # Check match
             if not self.is_matched(item.match):
                 continue
@@ -83,7 +82,6 @@ class ConfigCDAGFactory(BaseCDAGFactory):
                 for input in item.inputs:
                     r_node = self.graph[self.expand_input(input.node)]
                     r_node.subscribe(node, input.name, dynamic=input.dynamic)
-                    node.mark_as_bound(input.name)
 
     def expand_input(self, name: str) -> str:
         if "{" in name:
