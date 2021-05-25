@@ -83,8 +83,8 @@ class Script(BaseScript):
                 cmd = self.cli("show interfaces mac-address")
                 for match in self.rx_mac1.finditer(cmd):
                     macs[match.group("port")] = match.group("mac")
-                for l in self.cli("show interfaces vlans").split("\n\n"):
-                    match = self.rx_vlan.search(l)
+                for line in self.cli("show interfaces vlans").split("\n\n"):
+                    match = self.rx_vlan.search(line)
                     if match:
                         if match.group("tagged") != "none":
                             tagged_vlans[match.group("port")] = self.expand_rangelist(
