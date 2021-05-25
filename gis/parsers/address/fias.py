@@ -63,12 +63,14 @@ class FIASParser(AddressParser):
             if dbf_files:
                 copyfile(dbf_files.pop(0), addrobj)
                 table = dbf.Table(filename=addrobj)
-                with table:
-                    for src in dbf_files:
-                        src_table = dbf.Table(filename=src)
-                        with src_table:
-                            for record in src_table:
-                                table.append(record)
+                table.open(dbf.READ_WRITE)
+                for src in dbf_files:
+                    src_table = dbf.Table(filename=src)
+                    with src_table:
+                        print(f"Getting records from {os.path.basename(src_table)} table")
+                        for record in src_table:
+                            table.append(record)
+                table.close()
         # Check for FIAS files
         if not os.path.isfile(os.path.join(self.prefix, "ADDROBJ.DBF")):
             self.error("FIAS database not found")
