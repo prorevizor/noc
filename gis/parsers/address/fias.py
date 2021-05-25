@@ -67,9 +67,10 @@ class FIASParser(AddressParser):
                 for src in dbf_files:
                     src_table = dbf.Table(filename=src)
                     with src_table:
-                        print(f"Getting records from {os.path.basename(src_table)} table")
+                        print(f"Getting records from {os.path.basename(src)} table")
                         for record in src_table:
                             table.append(record)
+                    os.remove(src)
                 table.close()
         # Check for FIAS files
         if not os.path.isfile(os.path.join(self.prefix, "ADDROBJ.DBF")):
@@ -91,7 +92,7 @@ class FIASParser(AddressParser):
             self.oktmo[oktmo] = o
             self.okato[t["okato"]] = o
         # Load CSV
-        path = os.path.join(self.prefix, "Oktmo.csv")
+        path = os.path.join(self.prefix, "oktmo.csv")
         with open(path) as f:
             reader = csv.reader(f, delimiter=";")
             # Skip header
