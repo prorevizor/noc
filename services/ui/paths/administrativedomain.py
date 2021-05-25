@@ -35,7 +35,7 @@ class AdministrativeDomainAPI(ModelResourceAPI[AdministrativeDomain]):
     sort_fields = ["name", "id", ("parent", "parent__name")]
 
     @classmethod
-    def item_to_label(cls, item: AdministrativeDomain):
+    def item_to_label(cls, item: AdministrativeDomain) -> LabelItem:
         return LabelItem(
             id=str(item.id),
             label=str(item.name),
