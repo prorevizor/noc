@@ -10,6 +10,8 @@ import os
 from collections import namedtuple
 import re
 import csv
+import glob
+from shutil import copyfile
 
 # Third-party modules
 import dbf
@@ -54,6 +56,19 @@ class FIASParser(AddressParser):
             os.path.join(self.prefix, "ОКТМО_csv.zip"),
             auto_deflate=True,
         )
+        # Merging DBF files
+        addrobj = os.path.join(self.prefix, "ADDROBJ.DBF")
+        if not os.path.isfile(addrobj):
+            dbf_files = glob.glob(os.path.join(self.prefix, "ADDRO*.DBF"))
+            if dbf_files:
+                copyfile(dbf_files.pop(0), addrobj)
+                table = dbf.Table(filename=addrobj)
+                with table:
+                    for src in dbf_files:
+                        src_table = dbf.Table(filename=src)
+                        with src_table:
+                            for record in src_table:
+                                table.append(record)
         # Check for FIAS files
         if not os.path.isfile(os.path.join(self.prefix, "ADDROBJ.DBF")):
             self.error("FIAS database not found")
