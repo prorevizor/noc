@@ -7,7 +7,7 @@
 
 # NOC modules
 from noc.sa.profiles.Generic.get_metrics import Script as GetMetricsScript, metrics
-from noc.core.script.metrics import scale
+from noc.core.script.metrics import scale, invert0
 from noc.core.validators import is_float, is_int
 
 
@@ -16,9 +16,11 @@ class Script(GetMetricsScript):
 
     SENSOR_OID_SCALE = {
         # V3
+        "1.3.6.1.4.1.27514.103.0.7.0": invert0,
         "1.3.6.1.4.1.27514.103.0.19.0": scale(0.1, 2),
         "1.3.6.1.4.1.27514.103.0.21.0": scale(0.1, 2),
         "1.3.6.1.4.1.27514.103.0.24.0": scale(0.1, 2),
+        "1.3.6.1.4.1.27514.103.0.26.0": scale(0.1, 2),
         "1.3.6.1.4.1.27514.103.0.27.0": scale(0.1, 2),
         "1.3.6.1.4.1.27514.103.0.28.0": scale(0.01, 2),
         "1.3.6.1.4.1.27514.103.0.30.0": scale(0.01, 2),
