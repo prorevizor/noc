@@ -610,7 +610,7 @@ class Script(BaseScript, metaclass=MetricScriptBase):
                         metric=m.metric,
                         labels=m.labels,
                         value=float(value),
-                        scale=self.OID_SCALE.get(m.oid, 1),
+                        scale=self.SENSOR_OID_SCALE.get(m.oid, 1),
                     )
                 except Exception:
                     continue
