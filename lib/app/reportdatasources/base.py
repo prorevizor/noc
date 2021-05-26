@@ -436,9 +436,12 @@ class CHTableReportDataSource(ReportDataSource):
                 f"(date >= toDate({ts_from_date})) AND (ts >= toDateTime({ts_from_date}) AND ts <= toDateTime({ts_to_date})) %s",  # objectids_filter
             ],
         }
-        if self.interval == "HOUR":
-            query_map["q_select"] += ["toStartOfHour(toDateTime(ts)) AS ts"]
-            query_map["q_group"] = ["ts"]
+        ts = self.get_group_interval()
+        query_map["q_select"] += [f"{ts} AS ts"]
+        query_map["q_group"] = ["ts"]
+        # if self.interval == "HOUR":
+        #    query_map["q_select"] += ["toStartOfHour(toDateTime(ts)) AS ts"]
+        #    query_map["q_group"] = ["ts"]
         for f in self.FIELDS:
             if f.name not in self.fields:
                 continue
