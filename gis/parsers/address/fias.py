@@ -73,7 +73,7 @@ class FIASParser(AddressParser):
                     os.remove(src)
                 table.close()
         # Check for FIAS files
-        if not os.path.isfile(os.path.join(self.prefix, "ADDROBJ.DBF")):
+        if not os.path.isfile(addrobj):
             self.error("FIAS database not found")
             self.error("Please download full DBF version")
             self.error("from https://fias.nalog.ru/Updates.aspx")
@@ -92,13 +92,17 @@ class FIASParser(AddressParser):
             self.oktmo[oktmo] = o
             self.okato[t["okato"]] = o
         # Load CSV
-        path = os.path.join(self.prefix, "oktmo.csv")
+        path = os.path.join(self.prefix, "Oktmo.csv")
         with open(path) as f:
             reader = csv.reader(f, delimiter=";")
             # Skip header
             next(reader)
             # Read rest
-            for okato, oktmo, name, parent in reader:
+            for row in reader:
+                oktmo = row[2]
+                name = row[10]
+                okato = None
+                parent = None
                 o = OKTMO(okato=okato, oktmo=oktmo, name=name, parent=parent)
                 self.oktmo[oktmo] = o
                 self.okato[okato] = o
