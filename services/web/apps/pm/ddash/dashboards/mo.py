@@ -188,13 +188,10 @@ class MODashboard(JinjaDashboard):
         sensor_enum = []
         o = Object.get_managed(self.object.id) or []
         for s in Sensor.objects.filter(object__in=o):
+            self.template = "dash_sensor_controller2.j2"
             s_type = s.profile.name
             if not s.state.is_productive:
                 s_type = "missed"
-            elif s.local_id.startswith("elmeter"):
-                s_type = "elmeter"
-            elif s.local_id.startswith("ups"):
-                s_type = "ups"
             if s.munits.enum and s.state.is_productive:
                 sensor_enum += [{"bi_id": s.bi_id, "local_id": s.local_id, "units": s.munits}]
             sensor_types[s_type] += [
