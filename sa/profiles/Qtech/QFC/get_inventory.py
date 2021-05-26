@@ -48,7 +48,7 @@ class Script(BaseScript):
                 "measurement": "Volt AC",
                 "snmp_oid": "1.3.6.1.4.1.27514.102.0.11.0",
             },
-            # V220 state
+            # V230 state
             {
                 "name": "v230_state",
                 "status": 1,
