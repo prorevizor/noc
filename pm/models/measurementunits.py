@@ -68,7 +68,9 @@ class EnumValue(EmbeddedDocument):
         return {"key": self.key, "value": self.value}
 
 
-@on_delete_check(check=[("inv.Sensor", "units"), ("inv.SensorProfile", "units")])
+@on_delete_check(
+    check=[("inv.Sensor", "units"), ("inv.SensorProfile", "units"), ("pm.MetricType", "units")]
+)
 class MeasurementUnits(Document):
     meta = {
         "collection": "measurementunits",
