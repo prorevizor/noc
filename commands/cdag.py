@@ -47,6 +47,9 @@ class Command(BaseCommand):
         senders = {n for n in cdag.nodes.values() if n.name == "metrics"}
         default_units = {n.node_id: n.config.unit for n in probes.values()}
         skip_fields = {"ts", "labels", "_units"}
+        key_fields = set()
+        for s in senders:
+            key_fields |= set(kf for kf in s.iter_unbound_inputs() if kf not in ("ts", "labels"))
         with open(input) as f, open(output, "wb") as fo:
             for line in f:
                 line = line.strip()
@@ -57,7 +60,7 @@ class Command(BaseCommand):
                 units = data.get("_units") or {}
                 ts = data["ts"]
                 for n in data:
-                    if n in skip_fields:
+                    if n in skip_fields or n in key_fields:
                         continue
                     mu = units.get(n) or default_units[n]
                     probe = probes[n]
@@ -66,6 +69,10 @@ class Command(BaseCommand):
                     probe.activate(tx, "unit", mu)
                 # Activate senders
                 for sender in senders:
+                    for kf in key_fields:
+                        k = data.get(kf)
+                        if k is not None:
+                            sender.activate(tx, kf, k)
                     sender.activate(tx, "ts", ts)
                     sender.activate(tx, "labels", data.get("labels") or [])
                 for scope in svc._metrics:

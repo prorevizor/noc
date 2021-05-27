@@ -54,5 +54,9 @@ class MetricScopeCDAGFactory(BaseCDAGFactory):
             config={"scope": self.scope.table_name, "spool": self.spool},
             sticky=self.sticky,
         )
+        # Connect to the probes
         for name, node in probes.items():
             node.subscribe(ms, name, dynamic=True)
+        # Additional key fields
+        for kf in self.scope.key_fields:
+            ms.add_input(kf.field_name)
