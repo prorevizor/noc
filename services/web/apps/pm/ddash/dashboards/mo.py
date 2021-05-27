@@ -188,7 +188,6 @@ class MODashboard(JinjaDashboard):
         sensor_enum = []
         o = Object.get_managed(self.object.id) or []
         for s in Sensor.objects.filter(object__in=o):
-            self.template = "dash_sensor_controller2.j2"
             s_type = s.profile.name
             if not s.state.is_productive:
                 s_type = "missed"
