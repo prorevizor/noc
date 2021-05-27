@@ -88,6 +88,7 @@ class Script(GetMetricsScript):
             self.get_interface_cbqos_metrics_classifier_snmp(metrics)
 
     def get_interface_cbqos_metrics_classifier_snmp(self, metrics):
+        self.logger.debug("Use hwCBQoSClassifierStatisticsTable for collected metrics")
         ifaces = {m.ifindex: m.labels for m in metrics if m.ifindex}
         direction_map = {1: "In", 2: "Out"}
         class_map = {}
@@ -124,6 +125,7 @@ class Script(GetMetricsScript):
                 )
 
     def get_interface_cbqos_metrics_policy_snmp(self, metrics):
+        self.logger.debug("Use hwCBQoSPolicyStatisticsClassifierTable for collected metrics")
         ifaces = {m.ifindex: m.labels for m in metrics if m.ifindex}
         direction_map = {"1": "In", "2": "Out"}
         for index, packets, bytes, discards in self.snmp.get_tables(
@@ -136,6 +138,7 @@ class Script(GetMetricsScript):
             ifindex, ifvlanid1, direction, classifier = index.split(".", 3)
             ifindex = int(ifindex)
             if not ifindex or ifindex not in ifaces:
+                self.logger.info("Interface Vlan %s not collected", ifvlanid1)
                 # Interface vlan
                 continue
             traffic_class = "".join(chr(int(c)) for c in classifier.split(".")[1:])
