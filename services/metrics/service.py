@@ -18,6 +18,7 @@ from noc.core.liftbridge.message import Message
 from noc.pm.models.metricscope import MetricScope
 from noc.core.cdag.node.base import BaseCDAGNode
 from noc.core.cdag.graph import CDAG
+from noc.core.cdag.factory.scope import MetricScopeCDAGFactory
 
 MetricKey = Tuple[str, Tuple[Tuple[str, Any], ...], Tuple[str, ...]]
 
@@ -43,6 +44,8 @@ class MetricsService(FastAPIService):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.scopes: Dict[str, ScopeInfo] = {}
+        self.scope_cdag: Dict[str, CDAG] = {}
+        self.cards: Dict[MetricKey, Card] = {}
         self.graph = CDAG("metrics", state=self.get_state())
 
     async def on_activate(self):
@@ -109,7 +112,66 @@ class MetricsService(FastAPIService):
         )
 
     def get_card(self, k: MetricKey) -> Optional[Card]:
-        raise NotImplementedError
+        """
+        Generate part of computation graph and collect its viable inputs
+        :param k: (scope, ((key field, key value), ...), (key label, ...))
+        :return:
+        """
+        card = self.cards.get(k)
+        if card:
+            return card
+        # Generate new CDAG
+        cdag = self.get_scope_cdag(k)
+        if not cdag:
+            return None
+        # Apply CDAG to a common graph and collect inputs to the card
+        return self.project_cdag(cdag, prefix=str(hash(k)))
+
+    def get_scope_cdag(self, k: MetricKey) -> Optional[CDAG]:
+        """
+        Generate CDAG for a given metric key
+        :param k:
+        :return:
+        """
+        # @todo: Still naive implementation based around the scope
+        # @todo: Must be replaced by profile/based card stack generator
+        scope = k[0]
+        if scope in self.scope_cdag:
+            return self.scope_cdag[scope]
+        # Not found, create new CDAG
+        ms = MetricScope.objects.filter(table_name=k[0]).first()
+        if not ms:
+            return None  # Not found
+        cdag = CDAG(f"scope::{k[0]}", {})
+        factory = MetricScopeCDAGFactory(cdag, scope=ms, sticky=True)
+        factory.construct()
+        self.scope_cdag[k[0]] = cdag
+        return cdag
+
+    def project_cdag(self, src: CDAG, prefix: str) -> Card:
+        """
+        Project `src` to a current graph and return the controlling Card
+        :param src:
+        :return:
+        """
+
+        def unscope(x):
+            return x.rsplit("::", 1)[-1]
+
+        nodes: Dict[str, BaseCDAGNode] = {}
+        # Clone nodes
+        for node_id, node in src.nodes.items():
+            nodes[node_id] = node.clone(self.graph, f"{prefix}::{node_id}")
+        # Subscribe
+        for node_id, o_node in src.nodes.items():
+            node = nodes[node_id]
+            for r_node, name in o_node.iter_subscribers():
+                node.subscribe(nodes[r_node.node_id], name, dynamic=r_node.is_dynamic_input(name))
+        # Return resulting cards
+        return Card(
+            probes={unscope(node.node_id): node for node in nodes.values() if node.name == "probe"},
+            senders=tuple(node for node in nodes.values() if node.name == "metrics"),
+        )
 
     def get_state(self) -> Dict[str, Any]:
         """
