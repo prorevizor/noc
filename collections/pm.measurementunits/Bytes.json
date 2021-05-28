@@ -1,0 +1,19 @@
+{
+    "name": "Bytes",
+    "$collection": "pm.measurementunits",
+    "uuid": "c78335e8-540b-4843-9fde-65baed385c9d",
+    "description": "Bytes x 8",
+    "label": "bytes",
+    "dashboard_label": "bytes",
+    "scale_type": "d",
+    "alt_units": [
+        {
+            "dashboard_label": "bits",
+            "description": "Bits",
+            "from_primary": "x * 8",
+            "label": "bits",
+            "name": "Bits",
+            "to_primary": "x / 8"
+        }
+    ]
+}

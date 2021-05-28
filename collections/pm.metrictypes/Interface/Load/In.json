@@ -7,5 +7,5 @@
     "field_type": "UInt64",
     "description": "Interface input throughput",
     "measure": "bit/s",
-    "units__name": "bit/s"
+    "units__name": "Bit/s"
 }

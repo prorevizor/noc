@@ -1,0 +1,19 @@
+{
+    "name": "InterfaceStatus",
+    "$collection": "pm.measurementunits",
+    "uuid": "75284e4b-3a00-40de-ab36-a210663ed889",
+    "description": "Interface Operational Status",
+    "label": " ",
+    "dashboard_label": " ",
+    "scale_type": "d",
+    "enum": [
+        {
+            "key": "Down",
+            "value": 0
+        },
+        {
+            "key": "Up",
+            "value": 1
+        }
+    ]
+}
