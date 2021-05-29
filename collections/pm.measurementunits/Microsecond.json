@@ -1,5 +1,5 @@
 {
-    "name": "Microsecond",
+    "name": "microSecond",
     "$collection": "pm.measurementunits",
     "uuid": "13d2469b-9acb-4997-8a3e-efd48d2ff674",
     "description": "Time measurement",
@@ -20,7 +20,7 @@
             "description": "Millisecond",
             "from_primary": "x / 1000",
             "label": "ms",
-            "name": "Millisecond",
+            "name": "milliSecond",
             "to_primary": "x * 1000"
         }
     ]

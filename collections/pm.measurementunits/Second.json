@@ -12,7 +12,7 @@
             "description": null,
             "from_primary": "x * 1000",
             "label": "ms",
-            "name": "Millisecond",
+            "name": "milliSecond",
             "to_primary": "x / 1000"
         },
         {
@@ -20,7 +20,7 @@
             "description": null,
             "from_primary": "x * 1000000",
             "label": "μs",
-            "name": "Microsecond",
+            "name": "microSecond",
             "to_primary": "x / 1000000"
         }
     ]

@@ -7,5 +7,5 @@
     "field_type": "UInt32",
     "description": "Measured round trip time for UDP packets in microseconds",
     "measure": "μs",
-    "units__name": "Microsecond"
+    "units__name": "microSecond"
 }
